@@ -1,0 +1,26 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Performance Summary",
+  "description": "Backtest performance summary for the public beta service.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["models"],
+  "properties": {
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_id", "cagr", "mdd", "sharpe", "note"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "cagr": {"type": "number"},
+          "mdd": {"type": "number"},
+          "sharpe": {"type": "number"},
+          "note": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

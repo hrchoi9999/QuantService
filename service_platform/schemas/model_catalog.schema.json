@@ -1,0 +1,27 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Catalog",
+  "description": "Active model catalog for the public beta service.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["models"],
+  "properties": {
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_id", "model_name", "summary", "style", "risk_note", "is_active"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "model_name": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "style": {"type": "string", "minLength": 1},
+          "risk_note": {"type": "string", "minLength": 1},
+          "is_active": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

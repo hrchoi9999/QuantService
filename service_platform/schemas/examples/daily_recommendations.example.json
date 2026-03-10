@@ -1,0 +1,41 @@
+﻿{
+  "as_of_date": "2026-03-10",
+  "generated_at": "2026-03-10T08:10:00Z",
+  "models": [
+    {
+      "model_id": "quality_momentum_kr",
+      "top_picks": [
+        {
+          "rank": 1,
+          "ticker": "005930",
+          "stock_name": "Samsung Electronics",
+          "score": 92.4,
+          "reason_summary": "Strong earnings stability and resilient relative strength versus the market.",
+          "change_type": "maintain"
+        },
+        {
+          "rank": 2,
+          "ticker": "000660",
+          "stock_name": "SK hynix",
+          "score": 90.7,
+          "reason_summary": "Semiconductor cycle recovery and improving estimate revisions support upside.",
+          "change_type": "up"
+        }
+      ]
+    },
+    {
+      "model_id": "value_recovery_kr",
+      "top_picks": [
+        {
+          "rank": 1,
+          "ticker": "035420",
+          "stock_name": "NAVER",
+          "score": 88.1,
+          "reason_summary": "Valuation reset and stabilizing operating trends improve recovery odds.",
+          "change_type": "new"
+        }
+      ]
+    }
+  ],
+  "disclaimer": "This material is for informational purposes only and is not investment advice."
+}

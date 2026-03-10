@@ -1,0 +1,30 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recent Changes",
+  "description": "Recent changes snapshot for the public beta service.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["as_of_date", "changes"],
+  "properties": {
+    "as_of_date": {"type": "string", "format": "date"},
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_id", "ticker", "stock_name", "event", "summary"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "ticker": {"type": "string", "minLength": 1},
+          "stock_name": {"type": "string", "minLength": 1},
+          "event": {
+            "type": "string",
+            "enum": ["new_entry", "exit", "rank_up", "rank_down"]
+          },
+          "summary": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

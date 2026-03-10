@@ -1,0 +1,45 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daily Recommendations",
+  "description": "Daily recommendation snapshot for the public beta service.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["as_of_date", "generated_at", "models", "disclaimer"],
+  "properties": {
+    "as_of_date": {"type": "string", "format": "date"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "disclaimer": {"type": "string", "minLength": 1},
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_id", "top_picks"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "top_picks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["rank", "ticker", "stock_name", "score", "reason_summary", "change_type"],
+              "properties": {
+                "rank": {"type": "integer", "minimum": 1},
+                "ticker": {"type": "string", "minLength": 1},
+                "stock_name": {"type": "string", "minLength": 1},
+                "score": {"type": "number"},
+                "reason_summary": {"type": "string", "minLength": 1},
+                "change_type": {
+                  "type": "string",
+                  "enum": ["new", "maintain", "up", "down", "exit_pending"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

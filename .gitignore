@@ -12,3 +12,5 @@ service_platform/web/public_data/*.json
 !service_platform/web/public_data/README.md
 
 quant_models/
+
+.venv_32_backup/

@@ -1,0 +1,18 @@
+﻿{
+  "models": [
+    {
+      "model_id": "quality_momentum_kr",
+      "cagr": 0.182,
+      "mdd": -0.214,
+      "sharpe": 1.12,
+      "note": "Backtest reflects monthly rebalancing and excludes taxes."
+    },
+    {
+      "model_id": "value_recovery_kr",
+      "cagr": 0.153,
+      "mdd": -0.268,
+      "sharpe": 0.94,
+      "note": "Recovery signals can underperform during low-dispersion market phases."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+﻿{
+  "as_of_date": "2026-03-10",
+  "changes": [
+    {
+      "model_id": "quality_momentum_kr",
+      "ticker": "000660",
+      "stock_name": "SK hynix",
+      "event": "rank_up",
+      "summary": "Moved from rank 4 to rank 2 on stronger price leadership and estimate momentum."
+    },
+    {
+      "model_id": "value_recovery_kr",
+      "ticker": "035420",
+      "stock_name": "NAVER",
+      "event": "new_entry",
+      "summary": "Entered the top selection list after valuation and sentiment both improved."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+﻿{
+  "models": [
+    {
+      "model_id": "quality_momentum_kr",
+      "model_name": "Quality Momentum KR",
+      "summary": "Balances earnings quality with medium-term momentum to surface durable leaders.",
+      "style": "Quality + Momentum",
+      "risk_note": "Short-term volatility can increase when momentum leadership rotates quickly.",
+      "is_active": true
+    },
+    {
+      "model_id": "value_recovery_kr",
+      "model_name": "Value Recovery KR",
+      "summary": "Looks for discounted companies with improving fundamentals and recovering flows.",
+      "style": "Value + Recovery",
+      "risk_note": "Recovery setups can take time to work and may lag in strong momentum markets.",
+      "is_active": true
+    }
+  ]
+}
