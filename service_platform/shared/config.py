@@ -29,13 +29,20 @@ class Settings:
     log_level: str
 
 
+def _get_port() -> int:
+    """Prefer Cloud Run's PORT, then local WEB_PORT."""
+
+    raw_port = os.getenv("PORT") or os.getenv("WEB_PORT") or str(DEFAULT_WEB_PORT)
+    return int(raw_port)
+
+
 def get_settings() -> Settings:
     """Load settings from environment variables with documented defaults."""
 
     return Settings(
         app_env=os.getenv("APP_ENV", "development"),
         web_host=os.getenv("WEB_HOST", DEFAULT_WEB_HOST),
-        web_port=int(os.getenv("WEB_PORT", str(DEFAULT_WEB_PORT))),
+        web_port=_get_port(),
         public_data_dir=Path(os.getenv("PUBLIC_DATA_DIR", str(DEFAULT_PUBLIC_DATA_DIR))),
         feedback_db_path=Path(os.getenv("FEEDBACK_DB_PATH", str(DEFAULT_FEEDBACK_DB_PATH))),
         log_level=os.getenv("LOG_LEVEL", DEFAULT_LOG_LEVEL),

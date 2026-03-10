@@ -13,6 +13,20 @@ configure_logging(settings.log_level)
 app = Flask(__name__)
 
 
+@app.get("/")
+def home() -> tuple[dict[str, str], int]:
+    return (
+        jsonify(
+            {
+                "service": "quantservice-web",
+                "status": "ok",
+                "app_env": settings.app_env,
+            }
+        ),
+        200,
+    )
+
+
 @app.get("/health")
 def health() -> tuple[dict[str, str], int]:
     return jsonify({"status": "ok", "app_env": settings.app_env}), 200
