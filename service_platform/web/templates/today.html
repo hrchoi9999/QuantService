@@ -16,9 +16,14 @@
   <div class="warning-banner">현재는 무료 미리보기 모드입니다. 각 모델의 하위 3개 종목만 표시됩니다.</div>
   <div class="stack-actions">
     <a class="primary-button" href="{{ url_for('login', next=url_for('today')) }}">로그인하고 starter 체험하기</a>
+    <a class="secondary-button" href="{{ url_for('pricing') }}">플랜 보기</a>
   </div>
   {% elif access_context.trial_active %}
   <div class="warning-banner">무료 체험 기간이 적용 중입니다. 로그인한 가입자는 {{ access_context.effective_plan_id }} 권한으로 추천을 볼 수 있습니다.</div>
+  {% else %}
+  <div class="stack-actions">
+    <a class="secondary-button" href="{{ url_for('pricing') }}">플랜 업그레이드 보기</a>
+  </div>
   {% endif %}
 </section>
 

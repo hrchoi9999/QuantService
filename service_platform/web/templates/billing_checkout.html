@@ -1,0 +1,28 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Checkout</p>
+  <h1>LIGHTPAY 결제창으로 이동합니다</h1>
+  <p class="muted">주문번호 {{ ord_no }} 를 생성했습니다. 아래 폼은 즉시 제출되며, 테스트에서는 hidden field 값을 확인할 수 있습니다.</p>
+</section>
+
+<section class="panel">
+  <form id="lightpay-checkout-form" method="post" action="{{ checkout_form.action_url }}">
+    {% for key, value in checkout_form.fields.items() %}
+    <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endfor %}
+    <button class="primary-button" type="submit">결제창 열기</button>
+  </form>
+</section>
+
+<script>
+  window.setTimeout(function () {
+    var form = document.getElementById("lightpay-checkout-form");
+    if (form) {
+      form.submit();
+    }
+  }, 50);
+</script>
+{% endblock %}
+

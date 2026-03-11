@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 
+from service_platform.billing.lightpay import BILLING_PLAN_PRICES
 from service_platform.shared.config import Settings
 from service_platform.web.app import create_app
 
@@ -20,6 +21,7 @@ def build_settings(
     trial_mode: bool = True,
     trial_end_date: str = "2026-06-11",
     allow_higher: bool = True,
+    billing_enabled: bool = False,
 ) -> Settings:
     public_data_dir = tmp_path / "public_data"
     return Settings(
@@ -52,6 +54,14 @@ def build_settings(
         trial_end_date=trial_end_date,
         trial_applies_to="authenticated_only",
         allow_higher_plan_during_trial=allow_higher,
+        billing_enabled=billing_enabled,
+        billing_mode="test",
+        billing_cycle_days=30,
+        billing_currency="KRW",
+        lightpay_mid="test-mid",
+        lightpay_merchant_key="test-merchant-key",
+        lightpay_return_url="http://127.0.0.1:8000/billing/return",
+        lightpay_notify_url="http://127.0.0.1:8000/billing/notify",
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
@@ -144,6 +154,46 @@ def test_theme_preview_page_renders_selected_theme(tmp_path: Path) -> None:
     assert "Dark Wine Premium" not in body
 
 
+def test_pricing_page_shows_billing_disabled_by_default(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, billing_enabled=False)
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/pricing")
+
+    assert response.status_code == 200
+    assert "현재 결제 기능은 비활성화되어 있습니다." in response.get_data(as_text=True)
+    assert (
+        client.post(
+            "/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"}
+        ).status_code
+        == 404
+    )
+
+
+def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, billing_enabled=True, trial_mode=False)
+    seed_snapshot(settings.public_data_dir / "current")
+    app = create_app(settings)
+    client = app.test_client()
+
+    client.post(
+        "/login",
+        data={"email": "member@example.com", "password": "pass1234", "next": "/pricing"},
+        follow_redirects=True,
+    )
+    response = client.post(
+        "/billing/checkout",
+        data={"plan_id": "starter", "pay_method": "CARD"},
+    )
+    body = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "LIGHTPAY 결제창으로 이동합니다" in body
+    assert "lightpay-checkout-form" in body
+    assert str(BILLING_PLAN_PRICES["starter"]) in body
+
+
 def test_error_page_is_rendered_when_snapshots_are_missing(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     app = create_app(settings)
@@ -170,6 +220,7 @@ def test_healthz_and_status_display_snapshot_metadata(tmp_path: Path) -> None:
     assert health_response.get_json()["snapshot_state"] == "healthy"
     assert health_response.get_json()["snapshot_accessible"] is True
     assert health_response.get_json()["last_run_id"] == "test-run"
+    assert health_response.get_json()["billing_enabled"] is False
     assert status_response.status_code == 200
     body = status_response.get_data(as_text=True)
     assert "2026-03-10" in body

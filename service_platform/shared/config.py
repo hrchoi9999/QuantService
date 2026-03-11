@@ -16,11 +16,19 @@ from service_platform.shared.constants import (
     DEFAULT_ANALYTICS_WINDOW_HOURS,
     DEFAULT_APP_DB_PATH,
     DEFAULT_BACKUP_DIR,
+    DEFAULT_BILLING_CURRENCY,
+    DEFAULT_BILLING_CYCLE_DAYS,
+    DEFAULT_BILLING_ENABLED,
+    DEFAULT_BILLING_MODE,
     DEFAULT_FEEDBACK_ADMIN_KEY,
     DEFAULT_FEEDBACK_DB_PATH,
     DEFAULT_FEEDBACK_DUPLICATE_WINDOW_SECONDS,
     DEFAULT_FEEDBACK_MESSAGE_MIN_LENGTH,
     DEFAULT_FEEDBACK_RATE_LIMIT_SECONDS,
+    DEFAULT_LIGHTPAY_MERCHANT_KEY,
+    DEFAULT_LIGHTPAY_MID,
+    DEFAULT_LIGHTPAY_NOTIFY_URL,
+    DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
     DEFAULT_PUBLIC_DATA_DIR,
     DEFAULT_PUBLISH_KEEP_DAYS,
@@ -75,6 +83,14 @@ class Settings:
     trial_end_date: str
     trial_applies_to: str
     allow_higher_plan_during_trial: bool
+    billing_enabled: bool
+    billing_mode: str
+    billing_cycle_days: int
+    billing_currency: str
+    lightpay_mid: str
+    lightpay_merchant_key: str
+    lightpay_return_url: str
+    lightpay_notify_url: str
     s2_holdings_csv: Path
     s2_snapshot_csv: Path
     s2_summary_csv: Path
@@ -144,6 +160,17 @@ def get_settings() -> Settings:
             "ALLOW_HIGHER_PLAN_DURING_TRIAL",
             DEFAULT_ALLOW_HIGHER_PLAN_DURING_TRIAL,
         ),
+        billing_enabled=_get_bool("BILLING_ENABLED", DEFAULT_BILLING_ENABLED),
+        billing_mode=os.getenv("BILLING_MODE", DEFAULT_BILLING_MODE),
+        billing_cycle_days=int(os.getenv("BILLING_CYCLE_DAYS", str(DEFAULT_BILLING_CYCLE_DAYS))),
+        billing_currency=os.getenv("BILLING_CURRENCY", DEFAULT_BILLING_CURRENCY),
+        lightpay_mid=os.getenv("LIGHTPAY_MID", DEFAULT_LIGHTPAY_MID),
+        lightpay_merchant_key=os.getenv(
+            "LIGHTPAY_MERCHANT_KEY",
+            DEFAULT_LIGHTPAY_MERCHANT_KEY,
+        ),
+        lightpay_return_url=os.getenv("LIGHTPAY_RETURN_URL", DEFAULT_LIGHTPAY_RETURN_URL),
+        lightpay_notify_url=os.getenv("LIGHTPAY_NOTIFY_URL", DEFAULT_LIGHTPAY_NOTIFY_URL),
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),
         s2_summary_csv=Path(os.getenv("S2_SUMMARY_CSV", str(DEFAULT_S2_SUMMARY_CSV))),

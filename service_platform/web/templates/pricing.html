@@ -1,0 +1,87 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Pricing</p>
+  <h1>플랜과 결제</h1>
+  <p class="muted">TASK_08 단계에서는 결제 기능을 환경설정으로 완전히 끄거나 켤 수 있습니다. 현재 상태에 맞춰 안전하게 안내합니다.</p>
+  <div class="meta-strip">
+    <span>Billing {% if billing_enabled %}enabled{% else %}disabled{% endif %}</span>
+    <span>Current plan {{ access_context.effective_plan_id }}</span>
+    {% if current_user %}
+    <span>{{ current_user.email }}</span>
+    {% endif %}
+  </div>
+  {% if status %}
+  <div class="warning-banner">{{ billing_messages.get(status, status) }}</div>
+  {% elif not billing_enabled %}
+  <div class="warning-banner">{{ billing_messages.disabled }}</div>
+  {% endif %}
+</section>
+
+<section class="grid two-up">
+  {% for plan in plan_rows %}
+  <article class="panel model-card">
+    <div class="model-head">
+      <h2>{{ plan.name }}</h2>
+      <span class="badge accent">{{ "{:,}".format(plan.amount) }} KRW</span>
+    </div>
+    <p class="muted">{{ plan.pricing_hint }}</p>
+    <p class="muted small">허용 결제수단: {{ plan.allowed_methods | join(', ') }}</p>
+    {% if billing_enabled and current_user %}
+    <form class="feedback-form" method="post" action="{{ url_for('billing_checkout') }}">
+      <input type="hidden" name="plan_id" value="{{ plan.plan_id }}">
+      <label>
+        <span class="label">결제수단</span>
+        <select name="pay_method">
+          {% for method in plan.allowed_methods %}
+          <option value="{{ method }}" {% if selected_method == method %}selected{% endif %}>{{ method }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <button class="primary-button" type="submit">{{ plan.name }} 결제 진행</button>
+    </form>
+    {% elif current_user %}
+    <button class="secondary-button" type="button" disabled>결제 준비 중</button>
+    {% else %}
+    <div class="stack-actions">
+      <a class="primary-button" href="{{ url_for('login', next=url_for('pricing')) }}">로그인 후 이용</a>
+    </div>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+{% if current_orders %}
+<section class="panel">
+  <h2>최근 결제 주문</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Plan</th>
+          <th>Amount</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in current_orders %}
+        <tr>
+          <td>{{ order.ord_no }}</td>
+          <td>{{ order.plan_id }}</td>
+          <td>{{ "{:,}".format(order.amount) }}</td>
+          <td>{{ order.pay_method_requested }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.updated_at | fmt_datetime }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+

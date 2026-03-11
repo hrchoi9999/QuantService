@@ -22,6 +22,7 @@ from service_platform.access.store import (
     LoginValidationError,
     build_today_sections,
 )
+from service_platform.billing import BillingDisabledError, BillingService, LightPayValidationError
 from service_platform.feedback.handlers import (
     build_feedback_redirect,
     build_feedback_submission,
@@ -44,6 +45,12 @@ STATUS_MESSAGES = {
     "granted": "플랜이 적용되었습니다.",
     "revoked": "플랜이 회수되었습니다.",
     "error": "요청을 처리하지 못했습니다. 입력값을 다시 확인해 주세요.",
+}
+
+BILLING_MESSAGES = {
+    "disabled": "현재 결제 기능은 비활성화되어 있습니다.",
+    "login_required": "결제를 진행하려면 먼저 로그인해 주세요.",
+    "invalid": "결제 요청을 처리하지 못했습니다. 결제수단과 플랜을 다시 확인해 주세요.",
 }
 
 
@@ -91,17 +98,25 @@ def create_app(settings: Settings | None = None) -> Flask:
     provider = SnapshotDataProvider(settings)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
+    billing_service = BillingService(settings, access_store)
 
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
+    app.config["BILLING_SERVICE"] = billing_service
 
     def current_access_context() -> AccessContext:
         user_id = session.get("user_id")
         if not isinstance(user_id, int):
             return access_store.get_effective_access(None)
         return access_store.get_effective_access(user_id)
+
+    def current_user_orders() -> list[dict]:
+        user_id = session.get("user_id")
+        if not isinstance(user_id, int):
+            return []
+        return access_store.list_orders_for_user(user_id)
 
     @app.context_processor
     def inject_globals() -> dict[str, object]:
@@ -111,6 +126,8 @@ def create_app(settings: Settings | None = None) -> Flask:
             "current_user": access_context.user,
             "access_context": access_context,
             "status_messages": STATUS_MESSAGES,
+            "billing_enabled": settings.billing_enabled,
+            "billing_messages": BILLING_MESSAGES,
         }
 
     @app.template_filter("fmt_datetime")
@@ -190,6 +207,10 @@ def create_app(settings: Settings | None = None) -> Flask:
             meta["publish_generated_at"] = bundle.generated_at
         safe_record_event(event_name="page_view", page=page, meta=meta)
 
+    def ensure_billing_enabled() -> None:
+        if not settings.billing_enabled:
+            abort(404)
+
     @app.get("/")
     def home() -> Response | tuple[str, int]:
         bundle = load_or_error()
@@ -257,9 +278,95 @@ def create_app(settings: Settings | None = None) -> Flask:
                     "trial_end_date": access_context.trial_end_date,
                     "entitlements": access_context.entitlements,
                     "is_admin": access_context.is_admin,
+                    "recent_orders": current_user_orders(),
                 }
             ),
             200,
+        )
+
+    @app.get("/pricing")
+    def pricing() -> Response:
+        access_context = current_access_context()
+        record_page_view("/pricing")
+        return Response(
+            render_template(
+                "pricing.html",
+                page_title="Pricing",
+                plan_rows=billing_service.list_paid_plans(),
+                billing_enabled=settings.billing_enabled,
+                selected_method=request.args.get("pay_method", "CARD"),
+                status=request.args.get("status", ""),
+                current_orders=current_user_orders(),
+                access_context=access_context,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.post("/billing/checkout")
+    def billing_checkout() -> Response:
+        ensure_billing_enabled()
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            return redirect(url_for("login", next=url_for("pricing"), status="invalid"))
+
+        try:
+            form, ord_no = billing_service.create_checkout(
+                user_id=access_context.user.id,
+                user_email=access_context.user.email,
+                plan_id=request.form.get("plan_id", ""),
+                pay_method=request.form.get("pay_method", ""),
+            )
+        except (BillingDisabledError, LightPayValidationError):
+            return redirect(url_for("pricing", status="invalid"))
+
+        return Response(
+            render_template(
+                "billing_checkout.html",
+                page_title="Billing Checkout",
+                checkout_form=form,
+                ord_no=ord_no,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.route("/billing/return", methods=["GET", "POST"])
+    def billing_return() -> Response:
+        ensure_billing_enabled()
+        payload = {key: value for key, value in request.values.items()}
+        try:
+            result = billing_service.handle_return(payload)
+        except BillingDisabledError:
+            abort(404)
+        return Response(
+            render_template(
+                "billing_result.html",
+                page_title="Billing Result",
+                billing_result=result,
+                source="return",
+            ),
+            mimetype="text/html",
+        )
+
+    @app.post("/billing/notify")
+    def billing_notify() -> tuple[dict[str, object], int]:
+        ensure_billing_enabled()
+        payload = {key: value for key, value in request.form.items()}
+        try:
+            result = billing_service.handle_notify(payload)
+        except BillingDisabledError:
+            abort(404)
+        status_code = 200 if result.status in {"approved", "duplicate", "ignored"} else 400
+        return (
+            jsonify(
+                {
+                    "status": result.status,
+                    "message": result.message,
+                    "ord_no": result.ord_no,
+                    "plan_id": result.plan_id,
+                    "duplicate": result.duplicate,
+                }
+            ),
+            status_code,
         )
 
     @app.get("/today")
@@ -457,6 +564,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                     "age_seconds": status_snapshot.age_seconds,
                     "last_run_id": status_snapshot.last_run_id,
                     "feedback_submissions_24h": metrics_summary["feedback_submissions"],
+                    "billing_enabled": settings.billing_enabled,
                 }
             ),
             200,

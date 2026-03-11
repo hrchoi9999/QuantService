@@ -187,10 +187,44 @@ class AccessStore:
                     FOREIGN KEY(role_id) REFERENCES roles(role_id)
                 );
 
+                CREATE TABLE IF NOT EXISTS orders (
+                    ord_no TEXT PRIMARY KEY,
+                    user_id INTEGER NOT NULL,
+                    plan_id TEXT NOT NULL,
+                    amount INTEGER NOT NULL,
+                    currency TEXT NOT NULL,
+                    pay_method_requested TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    FOREIGN KEY(user_id) REFERENCES users(id)
+                );
+
+                CREATE TABLE IF NOT EXISTS payment_events (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    provider TEXT NOT NULL,
+                    event_type TEXT NOT NULL,
+                    tid TEXT,
+                    ord_no TEXT NOT NULL,
+                    mid TEXT,
+                    result_cd TEXT,
+                    result_msg TEXT,
+                    pm_cd TEXT,
+                    spm_cd TEXT,
+                    goods_amt TEXT,
+                    edi_date TEXT,
+                    raw_payload TEXT NOT NULL,
+                    idempotency_key TEXT NOT NULL UNIQUE,
+                    created_at TEXT NOT NULL
+                );
+
                 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
                 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_status
                 ON subscriptions(user_id, status);
                 CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
+                CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
+                CREATE INDEX IF NOT EXISTS idx_payment_events_ord_no ON payment_events(ord_no);
+                CREATE INDEX IF NOT EXISTS idx_payment_events_tid ON payment_events(tid);
                 """
             )
 
@@ -419,6 +453,188 @@ class AccessStore:
             connection.execute(
                 "INSERT OR IGNORE INTO user_roles(user_id, role_id) VALUES (?, ?)",
                 (user.id, role_id),
+            )
+
+    def create_order(
+        self,
+        *,
+        ord_no: str,
+        user_id: int,
+        plan_id: str,
+        amount: int,
+        currency: str,
+        pay_method_requested: str,
+        status: str = "init",
+    ) -> dict[str, Any]:
+        now = self._now_iso()
+        with self._connect() as connection:
+            connection.execute(
+                """
+                INSERT INTO orders(
+                    ord_no,
+                    user_id,
+                    plan_id,
+                    amount,
+                    currency,
+                    pay_method_requested,
+                    status,
+                    created_at,
+                    updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    ord_no,
+                    user_id,
+                    plan_id,
+                    amount,
+                    currency,
+                    pay_method_requested,
+                    status,
+                    now,
+                    now,
+                ),
+            )
+        order = self.get_order_by_ord_no(ord_no)
+        assert order is not None
+        return order
+
+    def get_order_by_ord_no(self, ord_no: str) -> dict[str, Any] | None:
+        with self._connect() as connection:
+            row = connection.execute(
+                """
+                SELECT ord_no, user_id, plan_id, amount, currency, pay_method_requested,
+                       status, created_at, updated_at
+                FROM orders
+                WHERE ord_no = ?
+                LIMIT 1
+                """,
+                (ord_no,),
+            ).fetchone()
+        return dict(row) if row is not None else None
+
+    def update_order_status(self, *, ord_no: str, status: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "UPDATE orders SET status = ?, updated_at = ? WHERE ord_no = ?",
+                (status, self._now_iso(), ord_no),
+            )
+
+    def list_orders_for_user(self, user_id: int) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT ord_no, user_id, plan_id, amount, currency, pay_method_requested,
+                       status, created_at, updated_at
+                FROM orders
+                WHERE user_id = ?
+                ORDER BY created_at DESC
+                """,
+                (user_id,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def record_payment_event(
+        self,
+        *,
+        provider: str,
+        event_type: str,
+        ord_no: str,
+        tid: str,
+        mid: str,
+        result_cd: str,
+        result_msg: str,
+        pm_cd: str,
+        goods_amt: str,
+        edi_date: str,
+        raw_payload: dict[str, Any],
+        idempotency_key: str,
+        spm_cd: str = "",
+    ) -> bool:
+        try:
+            with self._connect() as connection:
+                connection.execute(
+                    """
+                    INSERT INTO payment_events(
+                        provider,
+                        event_type,
+                        tid,
+                        ord_no,
+                        mid,
+                        result_cd,
+                        result_msg,
+                        pm_cd,
+                        spm_cd,
+                        goods_amt,
+                        edi_date,
+                        raw_payload,
+                        idempotency_key,
+                        created_at
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        provider,
+                        event_type,
+                        tid,
+                        ord_no,
+                        mid,
+                        result_cd,
+                        result_msg,
+                        pm_cd,
+                        spm_cd,
+                        goods_amt,
+                        edi_date,
+                        json.dumps(raw_payload, ensure_ascii=False, sort_keys=True),
+                        idempotency_key,
+                        self._now_iso(),
+                    ),
+                )
+        except sqlite3.IntegrityError:
+            return False
+        return True
+
+    def count_payment_events(self, *, ord_no: str, event_type: str | None = None) -> int:
+        query = "SELECT COUNT(*) FROM payment_events WHERE ord_no = ?"
+        params: list[Any] = [ord_no]
+        if event_type:
+            query += " AND event_type = ?"
+            params.append(event_type)
+        with self._connect() as connection:
+            row = connection.execute(query, tuple(params)).fetchone()
+        return int(row[0]) if row is not None else 0
+
+    def activate_subscription_from_payment(
+        self,
+        *,
+        user_id: int,
+        plan_id: str,
+        started_at: str,
+        expires_at: str,
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                """
+                UPDATE subscriptions
+                SET status = 'canceled', updated_at = ?
+                WHERE user_id = ? AND status IN ('active', 'trial')
+                """,
+                (started_at, user_id),
+            )
+            connection.execute(
+                """
+                INSERT INTO subscriptions(
+                    user_id,
+                    plan_id,
+                    status,
+                    started_at,
+                    expires_at,
+                    source,
+                    updated_at
+                )
+                VALUES (?, ?, 'active', ?, ?, 'billing', ?)
+                """,
+                (user_id, plan_id, started_at, expires_at, started_at),
             )
 
     def get_roles(self, user_id: int) -> tuple[str, ...]:
