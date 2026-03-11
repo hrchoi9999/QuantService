@@ -1,11 +1,11 @@
 ﻿:root {
   color-scheme: light;
-  --bg: #f7efe8;
-  --surface: #fffaf7;
-  --surface-strong: #fff1e8;
-  --ink: #211815;
-  --muted: #705f58;
-  --line: #ead6c9;
+  --bg: #fbfbfa;
+  --surface: #ffffff;
+  --surface-strong: #fff8f7;
+  --ink: #241816;
+  --muted: #746661;
+  --line: #eee2dc;
   --accent: #e62c28;
   --accent-strong: #bf211e;
   --accent-soft: rgba(230, 44, 40, 0.14);
@@ -23,7 +23,7 @@ body {
   min-height: 100vh;
   background:
     radial-gradient(circle at top, rgba(230, 44, 40, 0.16), transparent 28%),
-    linear-gradient(180deg, var(--bg), #f0e3d7);
+    linear-gradient(180deg, var(--bg), #f7f0ec);
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
 }
@@ -77,7 +77,7 @@ textarea {
   padding: 10px 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 250, 247, 0.82);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .content-shell {
@@ -90,7 +90,7 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 24px;
   background: var(--surface);
-  box-shadow: 0 24px 80px rgba(86, 38, 28, 0.08);
+  box-shadow: 0 24px 80px rgba(86, 38, 28, 0.05);
 }
 
 .hero-card {
@@ -221,6 +221,11 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
+}
+
+.theme-grid.single-theme {
+  grid-template-columns: minmax(0, 920px);
+  justify-content: center;
 }
 
 .stack-list {
@@ -474,15 +479,15 @@ th {
 .theme-light-red {
   background:
     radial-gradient(circle at top right, rgba(159, 47, 42, 0.18), transparent 30%),
-    linear-gradient(180deg, #fbf5ef, #f1e6db);
-  border-color: #e9d4c6;
+    linear-gradient(180deg, #ffffff, #f8f1ee);
+  border-color: #efe1db;
   color: #241a17;
 }
 
 .theme-light-red .theme-preview__hero,
 .theme-light-red .theme-preview__panel {
-  background: rgba(255, 250, 247, 0.86);
-  border: 1px solid #ead8cd;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #efe1db;
 }
 
 .theme-light-red .eyebrow {
