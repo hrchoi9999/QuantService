@@ -201,6 +201,14 @@ def create_app(settings: Settings | None = None) -> Flask:
             mimetype="text/html",
         )
 
+    @app.get("/theme-preview")
+    def theme_preview() -> Response:
+        record_page_view("/theme-preview")
+        return Response(
+            render_template("theme_preview.html", page_title="Theme Preview"),
+            mimetype="text/html",
+        )
+
     @app.route("/login", methods=["GET", "POST"])
     def login() -> Response:
         next_url = _safe_next_url(request.values.get("next"))

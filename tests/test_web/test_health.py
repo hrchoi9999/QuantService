@@ -130,6 +130,19 @@ def test_home_and_today_pages_render_snapshot_content(tmp_path: Path) -> None:
     assert "Samsung Electronics" in today_response.get_data(as_text=True)
 
 
+def test_theme_preview_page_renders_both_theme_options(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/theme-preview")
+    body = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "Light Red Research" in body
+    assert "Dark Wine Premium" in body
+
+
 def test_error_page_is_rendered_when_snapshots_are_missing(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     app = create_app(settings)
