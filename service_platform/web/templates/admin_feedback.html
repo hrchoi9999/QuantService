@@ -1,0 +1,64 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>최근 피드백</h1>
+  <div class="meta-strip">
+    <span>최근 100건</span>
+    <span>최근 {{ metrics_summary.window_hours }}시간 피드백 {{ metrics_summary.feedback_submissions }}</span>
+  </div>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>지표 요약</h2>
+    <ul class="message-list">
+      <li>Page Views: {{ metrics_summary.page_views }}</li>
+      <li>Today Views: {{ metrics_summary.today_page_views }}</li>
+      <li>Feedback: {{ metrics_summary.feedback_submissions }}</li>
+    </ul>
+  </article>
+  <article class="panel">
+    <h2>상위 종목 클릭</h2>
+    <ul class="message-list">
+      {% for row in metrics_summary.ticker_clicks %}
+      <li>{{ row.ticker }} · {{ row.count }}</li>
+      {% endfor %}
+      {% if not metrics_summary.ticker_clicks %}
+      <li>아직 클릭 이벤트가 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>Email</th>
+          <th>Page</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in feedback_rows %}
+        <tr>
+          <td>{{ row.created_at }}</td>
+          <td>{{ row.email or '-' }}</td>
+          <td>{{ row.page }}</td>
+          <td>{{ row.message }}</td>
+        </tr>
+        {% endfor %}
+        {% if not feedback_rows %}
+        <tr>
+          <td colspan="4">아직 저장된 피드백이 없습니다.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero danger-hero">
+  <p class="eyebrow">Temporary Issue</p>
+  <h1>현재 데이터 업데이트 중입니다.</h1>
+  <p class="lead">{{ message }}</p>
+  <div class="meta-strip">
+    <span>상태 {{ status_snapshot.state }}</span>
+    <span>기준일 {{ status_snapshot.as_of_date or "Unavailable" }}</span>
+    <span>생성시각 {{ status_snapshot.generated_at | fmt_datetime }}</span>
+  </div>
+  <div class="stack-actions">
+    <a class="primary-button" href="{{ url_for('status') }}">상태 페이지 보기</a>
+    <a class="secondary-button" href="{{ url_for('home') }}">홈으로 이동</a>
+  </div>
+</section>
+
+{% if status_snapshot.errors %}
+<section class="panel error-panel">
+  <h2>확인된 이슈</h2>
+  <ul class="message-list">
+    {% for item in status_snapshot.errors %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}
+

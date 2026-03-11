@@ -1,0 +1,41 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Performance</p>
+  <h1>성과 요약</h1>
+  <div class="meta-strip">
+    <span>기준일 {{ bundle.as_of_date }}</span>
+    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>CAGR</th>
+          <th>MDD</th>
+          <th>Sharpe</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in bundle.performance_summary.models %}
+        <tr>
+          <td>{{ row.model_id }}</td>
+          <td>{{ row.cagr | fmt_percent }}</td>
+          <td>{{ row.mdd | fmt_percent }}</td>
+          <td>{{ "%.2f"|format(row.sharpe) }}</td>
+          <td>{{ row.note }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">과거 성과는 미래 수익을 보장하지 않습니다.</p>
+</section>
+{% endblock %}
+

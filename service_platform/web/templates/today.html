@@ -1,0 +1,61 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Today</p>
+  <h1>오늘의 추천</h1>
+  <div class="meta-strip">
+    <span>기준일 {{ bundle.as_of_date }}</span>
+    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+  </div>
+  {% if bundle.stale %}
+  <div class="warning-banner">최신 current 스냅샷 대신 마지막 정상 데이터를 보여주고 있습니다.</div>
+  {% endif %}
+</section>
+
+{% for model in bundle.daily_recommendations.models %}
+<section class="panel">
+  <div class="section-head">
+    <h2>{{ model.model_id }}</h2>
+    <span class="badge accent">{{ model.top_picks | length }} picks</span>
+  </div>
+  {% if model.top_picks %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Ticker</th>
+          <th>Name</th>
+          <th>Score</th>
+          <th>Change</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pick in model.top_picks %}
+        <tr>
+          <td>{{ pick.rank }}</td>
+          <td>
+            <a class="tracked-link" href="{{ url_for('track_click', ticker=pick.ticker, model_id=model.model_id, page='/today', target=ticker_target_url(pick.ticker)) }}">{{ pick.ticker }}</a>
+          </td>
+          <td>{{ pick.stock_name }}</td>
+          <td>{{ "%.2f"|format(pick.score) }}</td>
+          <td><span class="badge {{ pick.change_type }}">{{ pick.change_type }}</span></td>
+          <td>{{ pick.reason_summary }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">오늘 생성된 추천이 없습니다. 배치 상태를 확인해 주세요.</p>
+  {% endif %}
+</section>
+{% endfor %}
+
+<section class="panel">
+  <h2>면책 문구</h2>
+  <p class="muted">{{ bundle.daily_recommendations.disclaimer }}</p>
+</section>
+{% endblock %}

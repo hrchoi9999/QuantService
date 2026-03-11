@@ -1,0 +1,51 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card">
+  <p class="eyebrow">Daily Snapshot Service</p>
+  <h1>배치가 만든 추천 스냅샷만 안정적으로 보여줍니다.</h1>
+  <p class="lead">실시간 계산 대신 검증된 current 스냅샷을 읽어 오늘의 추천, 최근 변화, 성과 요약을 제공합니다.</p>
+  <div class="meta-strip">
+    <span>기준일 {{ bundle.as_of_date }}</span>
+    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>소스 {{ bundle.source_name }}</span>
+  </div>
+  {% if bundle.stale %}
+  <div class="warning-banner">최신 스냅샷을 불러오지 못해 마지막 정상 데이터를 보여주고 있습니다.</div>
+  {% endif %}
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>모델 카탈로그</h2>
+    <div class="stack-list">
+      {% for model in bundle.model_catalog.models %}
+      <div class="model-card">
+        <div class="model-head">
+          <strong>{{ model.model_name }}</strong>
+          <span class="badge neutral">{{ model.style }}</span>
+        </div>
+        <p>{{ model.summary }}</p>
+        <p class="muted">{{ model.risk_note }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </article>
+
+  <article class="panel">
+    <h2>빠른 이동</h2>
+    <div class="stack-list compact">
+      <a class="action-link" href="{{ url_for('today') }}">오늘의 추천 보기</a>
+      <a class="action-link" href="{{ url_for('changes') }}">최근 변화 보기</a>
+      <a class="action-link" href="{{ url_for('performance') }}">성과 요약 보기</a>
+      <a class="action-link" href="{{ url_for('feedback') }}">베타 의견 보내기</a>
+      <a class="action-link" href="{{ url_for('status') }}">배치 상태 보기</a>
+    </div>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>면책 문구</h2>
+  <p class="muted">{{ bundle.daily_recommendations.disclaimer }}</p>
+</section>
+{% endblock %}

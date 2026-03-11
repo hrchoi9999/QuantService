@@ -1,0 +1,103 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Status</p>
+  <h1>스냅샷 상태</h1>
+  <div class="meta-strip">
+    <span>상태 {{ status_snapshot.state }}</span>
+    <span>기준일 {{ status_snapshot.as_of_date or "Unavailable" }}</span>
+    <span>생성시각 {{ status_snapshot.generated_at | fmt_datetime }}</span>
+  </div>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>요약</h2>
+    <div class="status-grid">
+      <div><span class="label">Source</span><strong>{{ status_snapshot.source_name }}</strong></div>
+      <div><span class="label">Models</span><strong>{{ status_snapshot.model_count }}</strong></div>
+      <div><span class="label">Cache TTL</span><strong>{{ status_snapshot.cache_ttl_seconds }}s</strong></div>
+      <div><span class="label">Snapshot Access</span><strong>{{ status_snapshot.snapshot_accessible }}</strong></div>
+      <div><span class="label">Last Run</span><strong>{{ status_snapshot.last_run_id or '-' }}</strong></div>
+      <div><span class="label">Published Latest</span><strong>{{ status_snapshot.latest_published_label or '-' }}</strong></div>
+      <div><span class="label">Age Seconds</span><strong>{{ status_snapshot.age_seconds if status_snapshot.age_seconds is not none else '-' }}</strong></div>
+      <div><span class="label">Stale Threshold</span><strong>{{ status_snapshot.stale_after_hours }}h</strong></div>
+      <div><span class="label">Refresh</span><strong><a href="{{ url_for('status') }}?refresh=1">Reload now</a></strong></div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <h2>파일</h2>
+    <div class="stack-list compact">
+      {% for file in status_snapshot.files %}
+      <div class="file-row">
+        <span>{{ file.name }}</span>
+        <span>{{ file.size_bytes or "-" }} bytes</span>
+      </div>
+      {% endfor %}
+      {% if not status_snapshot.files %}
+      <p class="muted">표시할 파일 메타정보가 없습니다.</p>
+      {% endif %}
+    </div>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>최근 {{ metrics_summary.window_hours }}시간 운영지표</h2>
+  <div class="status-grid">
+    <div><span class="label">Page Views</span><strong>{{ metrics_summary.page_views }}</strong></div>
+    <div><span class="label">Today Views</span><strong>{{ metrics_summary.today_page_views }}</strong></div>
+    <div><span class="label">Feedback</span><strong>{{ metrics_summary.feedback_submissions }}</strong></div>
+    <div><span class="label">Top Ticker Click</span><strong>{{ metrics_summary.ticker_clicks[0].ticker if metrics_summary.ticker_clicks else '-' }}</strong></div>
+  </div>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>상위 종목 클릭</h2>
+    <ul class="message-list">
+      {% for row in metrics_summary.ticker_clicks %}
+      <li>{{ row.ticker }} · {{ row.count }}</li>
+      {% endfor %}
+      {% if not metrics_summary.ticker_clicks %}
+      <li>아직 클릭 이벤트가 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+
+  <article class="panel">
+    <h2>모델 관심도</h2>
+    <ul class="message-list">
+      {% for row in metrics_summary.model_interest %}
+      <li>{{ row.model_id }} · {{ row.count }}</li>
+      {% endfor %}
+      {% if not metrics_summary.model_interest %}
+      <li>아직 모델 관심 이벤트가 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+</section>
+
+{% if status_snapshot.warnings %}
+<section class="panel warning-panel">
+  <h2>Warnings</h2>
+  <ul class="message-list">
+    {% for item in status_snapshot.warnings %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if status_snapshot.errors %}
+<section class="panel error-panel">
+  <h2>Errors</h2>
+  <ul class="message-list">
+    {% for item in status_snapshot.errors %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

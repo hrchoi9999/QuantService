@@ -8,8 +8,14 @@ __pycache__/
 htmlcov/
 .env
 data/*.db
+data/*.log
+backups/
 service_platform/web/public_data/*.json
 !service_platform/web/public_data/README.md
+service_platform/web/public_data/current/
+service_platform/web/public_data/published/
+service_platform/web/public_data/tmp/
+service_platform/web/public_data/logs/
 
 quant_models/
 

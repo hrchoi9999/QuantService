@@ -1,0 +1,46 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Feedback</p>
+  <h1>베타 의견 보내기</h1>
+  <p class="lead">어떤 화면이 유용했는지, 어떤 정보가 더 필요했는지 알려주시면 무료 베타 개선에 반영합니다.</p>
+  <div class="meta-strip">
+    <span>이메일은 선택 입력</span>
+    <span>의견은 최소 10자</span>
+    <span>동의 체크 필수</span>
+  </div>
+</section>
+
+{% if status == 'success' %}
+<section class="panel success-panel"><p>의견이 정상 접수되었습니다. 감사합니다.</p></section>
+{% elif status == 'invalid' %}
+<section class="panel error-panel"><p>입력값을 다시 확인해 주세요. 이메일 형식과 의견 길이를 점검해 주세요.</p></section>
+{% elif status == 'rate_limited' %}
+<section class="panel warning-panel"><p>너무 빠르게 제출되었습니다. 잠시 후 다시 시도해 주세요.</p></section>
+{% elif status == 'duplicate' %}
+<section class="panel warning-panel"><p>같은 내용의 의견이 최근에 접수되었습니다. 조금 다듬어 다시 보내 주세요.</p></section>
+{% endif %}
+
+<section class="panel">
+  <form class="feedback-form" method="post" action="{{ url_for('submit_feedback') }}">
+    <input type="hidden" name="page" value="{{ request.path }}">
+    <label>
+      <span class="label">이메일 (선택)</span>
+      <input type="email" name="email" placeholder="name@example.com">
+    </label>
+    <label>
+      <span class="label">의견 또는 요청사항</span>
+      <textarea name="message" rows="8" placeholder="어떤 데이터가 더 필요했는지, 어떤 페이지가 부족했는지 적어 주세요." required></textarea>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="consent" required>
+      <span>개인정보 수집·이용 안내를 읽었고, 베타 운영 목적의 저장에 동의합니다.</span>
+    </label>
+    <div class="stack-actions">
+      <button class="primary-button" type="submit">의견 보내기</button>
+      <a class="secondary-button" href="{{ url_for('privacy') }}">개인정보 안내 보기</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

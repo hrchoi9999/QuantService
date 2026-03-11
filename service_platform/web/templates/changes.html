@@ -1,0 +1,32 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Changes</p>
+  <h1>최근 변화</h1>
+  <div class="meta-strip">
+    <span>기준일 {{ bundle.recent_changes.as_of_date }}</span>
+    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+  </div>
+</section>
+
+<section class="panel">
+  {% if bundle.recent_changes.changes %}
+  <div class="stack-list">
+    {% for change in bundle.recent_changes.changes %}
+    <article class="change-card">
+      <div class="change-head">
+        <strong>{{ change.stock_name }}</strong>
+        <span class="badge {{ change.event }}">{{ change.event }}</span>
+      </div>
+      <p class="muted small">{{ change.model_id }} · {{ change.ticker }}</p>
+      <p>{{ change.summary }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">표시할 변화가 없습니다.</p>
+  {% endif %}
+</section>
+{% endblock %}
+

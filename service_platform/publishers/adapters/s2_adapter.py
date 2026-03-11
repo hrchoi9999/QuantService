@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -32,11 +32,19 @@ class S2AdapterInput:
     holdings_csv: Path
     snapshot_csv: Path
     summary_csv: Path
+    asof_date: date | None = None
 
 
 class S2Adapter:
     def __init__(self, adapter_input: S2AdapterInput) -> None:
         self.adapter_input = adapter_input
+
+    def describe_input_sources(self) -> dict[str, str]:
+        return {
+            "holdings_csv": str(self.adapter_input.holdings_csv),
+            "snapshot_csv": str(self.adapter_input.snapshot_csv),
+            "summary_csv": str(self.adapter_input.summary_csv),
+        }
 
     def _read_csv(self, path: Path) -> list[dict[str, str]]:
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
@@ -56,6 +64,8 @@ class S2Adapter:
                     "rebalance_date": datetime.strptime(row["rebalance_date"], "%Y-%m-%d").date(),
                 }
             )
+        if self.adapter_input.asof_date is not None:
+            rows = [row for row in rows if row["rebalance_date"] <= self.adapter_input.asof_date]
         return rows
 
     def _load_snapshot(self) -> dict[str, dict[str, Any]]:
@@ -63,6 +73,11 @@ class S2Adapter:
         for row in self._read_csv(self.adapter_input.snapshot_csv):
             ticker = normalize_ticker(row["ticker"])
             snapshot_date = datetime.strptime(row["snapshot_date"], "%Y-%m-%d").date()
+            if (
+                self.adapter_input.asof_date is not None
+                and snapshot_date > self.adapter_input.asof_date
+            ):
+                continue
             current = latest_by_ticker.get(ticker)
             if current is None or snapshot_date >= current["snapshot_date"]:
                 latest_by_ticker[ticker] = {
@@ -78,6 +93,8 @@ class S2Adapter:
 
     def _current_and_previous_holdings(self) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         holdings = self._load_holdings()
+        if not holdings:
+            raise ValueError("No holdings rows are available for the selected as_of date.")
         dates = sorted({row["rebalance_date"] for row in holdings})
         current_date = dates[-1]
         previous_date = dates[-2] if len(dates) > 1 else None
