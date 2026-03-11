@@ -1,4 +1,4 @@
-﻿.venv/
+.venv/
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -7,8 +7,8 @@ __pycache__/
 .coverage
 htmlcov/
 .env
-data/*.db
-data/*.log
+data/*
+!data/README.md
 backups/
 service_platform/web/public_data/*.json
 !service_platform/web/public_data/README.md
@@ -18,5 +18,7 @@ service_platform/web/public_data/tmp/
 service_platform/web/public_data/logs/
 
 quant_models/
+docs/TASK_*
+tests/fixtures/adapters/
 
 .venv_32_backup/
