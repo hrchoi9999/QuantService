@@ -22,6 +22,7 @@ def build_settings(
     trial_end_date: str = "2026-06-11",
     allow_higher: bool = True,
     billing_enabled: bool = False,
+    notify_allowed_ips: tuple[str, ...] = (),
 ) -> Settings:
     public_data_dir = tmp_path / "public_data"
     return Settings(
@@ -62,6 +63,7 @@ def build_settings(
         lightpay_merchant_key="test-merchant-key",
         lightpay_return_url="http://127.0.0.1:8000/billing/return",
         lightpay_notify_url="http://127.0.0.1:8000/billing/notify",
+        lightpay_notify_allowed_ips=notify_allowed_ips,
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
@@ -160,15 +162,14 @@ def test_pricing_page_shows_billing_disabled_by_default(tmp_path: Path) -> None:
     client = app.test_client()
 
     response = client.get("/pricing")
+    checkout_response = client.post(
+        "/billing/checkout",
+        data={"plan_id": "starter", "pay_method": "CARD"},
+    )
 
     assert response.status_code == 200
     assert "현재 결제 기능은 비활성화되어 있습니다." in response.get_data(as_text=True)
-    assert (
-        client.post(
-            "/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"}
-        ).status_code
-        == 404
-    )
+    assert checkout_response.status_code == 404
 
 
 def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
@@ -192,6 +193,26 @@ def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
     assert "LIGHTPAY 결제창으로 이동합니다" in body
     assert "lightpay-checkout-form" in body
     assert str(BILLING_PLAN_PRICES["starter"]) in body
+
+
+def test_billing_notify_blocks_unlisted_ip(tmp_path: Path) -> None:
+    settings = build_settings(
+        tmp_path,
+        billing_enabled=True,
+        trial_mode=False,
+        notify_allowed_ips=("203.0.113.10",),
+    )
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.post(
+        "/billing/notify",
+        data={"ordNo": "RB-1"},
+        headers={"X-Forwarded-For": "198.51.100.22"},
+    )
+
+    assert response.status_code == 403
+    assert response.get_json()["status"] == "forbidden"
 
 
 def test_error_page_is_rendered_when_snapshots_are_missing(tmp_path: Path) -> None:

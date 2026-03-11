@@ -89,6 +89,19 @@ def _admin_redirect_url(access_key: str | None, *, status: str) -> str:
     return f"{url_for('admin_grant')}?{urlencode(params)}"
 
 
+def _request_ip_address() -> str:
+    forwarded_for = request.headers.get("X-Forwarded-For", "")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+def _is_notify_ip_allowed(settings: Settings) -> bool:
+    if not settings.lightpay_notify_allowed_ips:
+        return True
+    return _request_ip_address() in settings.lightpay_notify_allowed_ips
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -350,6 +363,12 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.post("/billing/notify")
     def billing_notify() -> tuple[dict[str, object], int]:
         ensure_billing_enabled()
+        if not _is_notify_ip_allowed(settings):
+            logger.warning("billing_notify_ip_blocked ip=%s", _request_ip_address())
+            return (
+                jsonify({"status": "forbidden", "message": "notify sender blocked"}),
+                403,
+            )
         payload = {key: value for key, value in request.form.items()}
         try:
             result = billing_service.handle_notify(payload)

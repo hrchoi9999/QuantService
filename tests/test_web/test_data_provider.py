@@ -53,6 +53,7 @@ def build_settings(tmp_path: Path, ttl_seconds: int = 60, stale_after_hours: int
         lightpay_merchant_key="test-merchant-key",
         lightpay_return_url="http://127.0.0.1:8000/billing/return",
         lightpay_notify_url="http://127.0.0.1:8000/billing/notify",
+        lightpay_notify_allowed_ips=(),
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",

@@ -1,4 +1,4 @@
-# QuantService
+﻿# QuantService
 
 QuantService is the collaboration repository for the web service layer of the stock recommendation product.
 
@@ -74,8 +74,19 @@ Ignored by Git:
 Production service:
 - [https://redbot.co.kr](https://redbot.co.kr)
 
-Cloud Run deploy script:
+Prepare or rotate Cloud Run secrets:
+
+```powershell
+.\deploy\gcp_setup_secrets.ps1
+```
+
+Deploy to Cloud Run with Secret Manager bindings:
 
 ```powershell
 .\deploy\cloud_run_deploy.ps1
 ```
+
+Billing-related runtime flags:
+- `BILLING_ENABLED=false` keeps billing routes disabled.
+- `BILLING_MODE=test|prod` switches LightPay endpoints.
+- `LIGHTPAY_NOTIFY_ALLOWED_IPS` can be set to a comma-separated allowlist when the provider shares fixed webhook source IPs.

@@ -27,6 +27,7 @@ from service_platform.shared.constants import (
     DEFAULT_FEEDBACK_RATE_LIMIT_SECONDS,
     DEFAULT_LIGHTPAY_MERCHANT_KEY,
     DEFAULT_LIGHTPAY_MID,
+    DEFAULT_LIGHTPAY_NOTIFY_ALLOWED_IPS,
     DEFAULT_LIGHTPAY_NOTIFY_URL,
     DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
@@ -91,6 +92,7 @@ class Settings:
     lightpay_merchant_key: str
     lightpay_return_url: str
     lightpay_notify_url: str
+    lightpay_notify_allowed_ips: tuple[str, ...]
     s2_holdings_csv: Path
     s2_snapshot_csv: Path
     s2_summary_csv: Path
@@ -106,6 +108,12 @@ def _get_bool(name: str, default: bool) -> bool:
     if raw_value is None:
         return default
     return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _get_csv_tuple(name: str, default: str = "") -> tuple[str, ...]:
+    raw_value = os.getenv(name, default)
+    values = [item.strip() for item in raw_value.split(",") if item.strip()]
+    return tuple(values)
 
 
 def get_settings() -> Settings:
@@ -171,6 +179,10 @@ def get_settings() -> Settings:
         ),
         lightpay_return_url=os.getenv("LIGHTPAY_RETURN_URL", DEFAULT_LIGHTPAY_RETURN_URL),
         lightpay_notify_url=os.getenv("LIGHTPAY_NOTIFY_URL", DEFAULT_LIGHTPAY_NOTIFY_URL),
+        lightpay_notify_allowed_ips=_get_csv_tuple(
+            "LIGHTPAY_NOTIFY_ALLOWED_IPS",
+            DEFAULT_LIGHTPAY_NOTIFY_ALLOWED_IPS,
+        ),
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),
         s2_summary_csv=Path(os.getenv("S2_SUMMARY_CSV", str(DEFAULT_S2_SUMMARY_CSV))),
