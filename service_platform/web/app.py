@@ -1,9 +1,27 @@
 ﻿from __future__ import annotations
 
 from datetime import datetime
+from urllib.parse import urlencode
 
-from flask import Flask, Response, abort, jsonify, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    Response,
+    abort,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
+from service_platform.access.store import (
+    AccessContext,
+    AccessStore,
+    GrantValidationError,
+    LoginValidationError,
+    build_today_sections,
+)
 from service_platform.feedback.handlers import (
     build_feedback_redirect,
     build_feedback_submission,
@@ -19,6 +37,14 @@ from service_platform.shared.config import Settings, get_settings
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
+
+STATUS_MESSAGES = {
+    "invalid": "이메일 또는 비밀번호를 다시 확인해 주세요.",
+    "logged_out": "로그아웃되었습니다.",
+    "granted": "플랜이 적용되었습니다.",
+    "revoked": "플랜이 회수되었습니다.",
+    "error": "요청을 처리하지 못했습니다. 입력값을 다시 확인해 주세요.",
+}
 
 
 def _format_datetime(value: str | None) -> str:
@@ -43,22 +69,48 @@ def _ticker_target_url(ticker: str) -> str:
     return f"https://finance.naver.com/item/main.naver?code={ticker}"
 
 
+def _safe_next_url(candidate: str | None) -> str:
+    if candidate and candidate.startswith("/") and not candidate.startswith("//"):
+        return candidate
+    return url_for("today")
+
+
+def _admin_redirect_url(access_key: str | None, *, status: str) -> str:
+    params = {"status": status}
+    if access_key:
+        params["access_key"] = access_key
+    return f"{url_for('admin_grant')}?{urlencode(params)}"
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
 
     app = Flask(__name__, template_folder="templates", static_folder="static")
+    app.secret_key = settings.session_secret_key
     provider = SnapshotDataProvider(settings)
     feedback_store = FeedbackStore(settings)
+    access_store = AccessStore(settings)
 
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["FEEDBACK_STORE"] = feedback_store
+    app.config["ACCESS_STORE"] = access_store
+
+    def current_access_context() -> AccessContext:
+        user_id = session.get("user_id")
+        if not isinstance(user_id, int):
+            return access_store.get_effective_access(None)
+        return access_store.get_effective_access(user_id)
 
     @app.context_processor
     def inject_globals() -> dict[str, object]:
+        access_context = current_access_context()
         return {
             "service_name": "redbot",
+            "current_user": access_context.user,
+            "access_context": access_context,
+            "status_messages": STATUS_MESSAGES,
         }
 
     @app.template_filter("fmt_datetime")
@@ -132,6 +184,8 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def record_page_view(page: str, bundle=None) -> None:
         meta = {}
+        access_context = current_access_context()
+        meta["effective_plan_id"] = access_context.effective_plan_id
         if bundle and bundle.generated_at:
             meta["publish_generated_at"] = bundle.generated_at
         safe_record_event(event_name="page_view", page=page, meta=meta)
@@ -147,17 +201,75 @@ def create_app(settings: Settings | None = None) -> Flask:
             mimetype="text/html",
         )
 
+    @app.route("/login", methods=["GET", "POST"])
+    def login() -> Response:
+        next_url = _safe_next_url(request.values.get("next"))
+        if request.method == "GET":
+            record_page_view("/login")
+            return Response(
+                render_template(
+                    "login.html",
+                    page_title="Login",
+                    status=request.args.get("status", ""),
+                    next_url=next_url,
+                ),
+                mimetype="text/html",
+            )
+
+        try:
+            user = access_store.authenticate_or_register(
+                email=request.form.get("email", ""),
+                password=request.form.get("password", ""),
+            )
+        except LoginValidationError:
+            return redirect(url_for("login", status="invalid", next=next_url))
+
+        session.clear()
+        session["user_id"] = user.id
+        return redirect(next_url)
+
+    @app.route("/logout", methods=["GET", "POST"])
+    def logout() -> Response:
+        session.clear()
+        return redirect(url_for("login", status="logged_out"))
+
+    @app.get("/me")
+    def me() -> tuple[dict[str, object], int]:
+        access_context = current_access_context()
+        user = access_context.user
+        return (
+            jsonify(
+                {
+                    "authenticated": access_context.authenticated,
+                    "email": user.email if user else None,
+                    "roles": list(access_context.roles),
+                    "base_plan_id": access_context.base_plan_id,
+                    "effective_plan_id": access_context.effective_plan_id,
+                    "trial_active": access_context.trial_active,
+                    "trial_end_date": access_context.trial_end_date,
+                    "entitlements": access_context.entitlements,
+                    "is_admin": access_context.is_admin,
+                }
+            ),
+            200,
+        )
+
     @app.get("/today")
     def today() -> Response | tuple[str, int]:
         bundle = load_or_error()
         if bundle is None:
             return render_snapshot_error()
+        access_context = current_access_context()
+        today_sections = build_today_sections(
+            bundle.daily_recommendations.get("models", []),
+            access_context.entitlements,
+        )
         record_page_view("/today", bundle)
-        for model in bundle.daily_recommendations.get("models", []):
+        for section in today_sections:
             safe_record_event(
                 event_name="model_section_view",
                 page="/today",
-                model_id=model.get("model_id"),
+                model_id=section.get("model_id"),
             )
         return Response(
             render_template(
@@ -165,6 +277,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 page_title="Today",
                 bundle=bundle,
                 ticker_target_url=_ticker_target_url,
+                today_sections=today_sections,
             ),
             mimetype="text/html",
         )
@@ -251,7 +364,8 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/feedback")
     def admin_feedback() -> Response:
-        if not is_admin_request(request, settings):
+        access_context = current_access_context()
+        if not is_admin_request(request, settings, access_context):
             abort(404)
         feedback_rows = safe_list_recent_feedback(limit=100)
         metrics_summary = safe_metrics_summary()
@@ -261,6 +375,42 @@ def create_app(settings: Settings | None = None) -> Flask:
                 page_title="Admin Feedback",
                 feedback_rows=feedback_rows,
                 metrics_summary=metrics_summary,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.route("/admin/grant", methods=["GET", "POST"])
+    def admin_grant() -> Response:
+        access_context = current_access_context()
+        access_key = request.values.get("access_key") or request.args.get("access_key")
+        if not is_admin_request(request, settings, access_context):
+            abort(404)
+
+        if request.method == "POST":
+            action = request.form.get("action", "grant")
+            try:
+                if action == "revoke":
+                    access_store.revoke_plan(email=request.form.get("email", ""))
+                    status = "revoked"
+                else:
+                    access_store.grant_plan(
+                        email=request.form.get("email", ""),
+                        plan_id=request.form.get("plan_id", "free"),
+                        expires_at=request.form.get("expires_at", "").strip() or None,
+                    )
+                    status = "granted"
+            except GrantValidationError:
+                status = "error"
+            return redirect(_admin_redirect_url(access_key, status=status))
+
+        record_page_view("/admin/grant")
+        return Response(
+            render_template(
+                "admin_grant.html",
+                page_title="Admin Grant",
+                status=request.args.get("status", ""),
+                plan_rows=access_store.list_plans(),
+                access_key=access_key or "",
             ),
             mimetype="text/html",
         )

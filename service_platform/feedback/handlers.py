@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Any
 from urllib.parse import urlencode
 
 from flask import Request
@@ -21,7 +22,13 @@ def build_feedback_submission(request: Request) -> FeedbackSubmission:
     )
 
 
-def is_admin_request(request: Request, settings: Settings) -> bool:
+def is_admin_request(
+    request: Request,
+    settings: Settings,
+    access_context: Any | None = None,
+) -> bool:
+    if access_context is not None and getattr(access_context, "is_admin", False):
+        return True
     if not settings.feedback_admin_key:
         return False
     header_key = request.headers.get("X-Admin-Key", "")

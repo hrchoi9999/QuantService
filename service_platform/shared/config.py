@@ -12,7 +12,9 @@ from service_platform.shared.constants import (
     DEFAULT_ALERT_LOG_PATH,
     DEFAULT_ALERT_THROTTLE_SECONDS,
     DEFAULT_ALERT_WEBHOOK_URL,
+    DEFAULT_ALLOW_HIGHER_PLAN_DURING_TRIAL,
     DEFAULT_ANALYTICS_WINDOW_HOURS,
+    DEFAULT_APP_DB_PATH,
     DEFAULT_BACKUP_DIR,
     DEFAULT_FEEDBACK_ADMIN_KEY,
     DEFAULT_FEEDBACK_DB_PATH,
@@ -25,11 +27,16 @@ from service_platform.shared.constants import (
     DEFAULT_S2_HOLDINGS_CSV,
     DEFAULT_S2_SNAPSHOT_CSV,
     DEFAULT_S2_SUMMARY_CSV,
+    DEFAULT_SESSION_SECRET_KEY,
     DEFAULT_SNAPSHOT_CACHE_TTL_SECONDS,
     DEFAULT_SNAPSHOT_GCS_BASE_URL,
     DEFAULT_SNAPSHOT_GCS_BUCKET,
     DEFAULT_SNAPSHOT_SOURCE,
     DEFAULT_SNAPSHOT_STALE_AFTER_HOURS,
+    DEFAULT_TRIAL_APPLIES_TO,
+    DEFAULT_TRIAL_DEFAULT_PLAN,
+    DEFAULT_TRIAL_END_DATE,
+    DEFAULT_TRIAL_MODE,
     DEFAULT_WEB_HOST,
     DEFAULT_WEB_PORT,
 )
@@ -42,9 +49,11 @@ class Settings:
     app_env: str
     web_host: str
     web_port: int
+    session_secret_key: str
     public_data_dir: Path
     publish_root_dir: Path
     feedback_db_path: Path
+    app_db_path: Path
     backup_dir: Path
     alert_log_path: Path
     alert_webhook_url: str
@@ -61,6 +70,11 @@ class Settings:
     feedback_message_min_length: int
     feedback_admin_key: str
     analytics_window_hours: int
+    trial_mode: bool
+    trial_default_plan: str
+    trial_end_date: str
+    trial_applies_to: str
+    allow_higher_plan_during_trial: bool
     s2_holdings_csv: Path
     s2_snapshot_csv: Path
     s2_summary_csv: Path
@@ -71,15 +85,24 @@ def _get_port() -> int:
     return int(raw_port)
 
 
+def _get_bool(name: str, default: bool) -> bool:
+    raw_value = os.getenv(name)
+    if raw_value is None:
+        return default
+    return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+
+
 def get_settings() -> Settings:
     public_data_dir = Path(os.getenv("PUBLIC_DATA_DIR", str(DEFAULT_PUBLIC_DATA_DIR)))
     return Settings(
         app_env=os.getenv("APP_ENV", "development"),
         web_host=os.getenv("WEB_HOST", DEFAULT_WEB_HOST),
         web_port=_get_port(),
+        session_secret_key=os.getenv("SESSION_SECRET_KEY", DEFAULT_SESSION_SECRET_KEY),
         public_data_dir=public_data_dir,
         publish_root_dir=Path(os.getenv("PUBLISH_ROOT_DIR", str(public_data_dir))),
         feedback_db_path=Path(os.getenv("FEEDBACK_DB_PATH", str(DEFAULT_FEEDBACK_DB_PATH))),
+        app_db_path=Path(os.getenv("APP_DB_PATH", str(DEFAULT_APP_DB_PATH))),
         backup_dir=Path(os.getenv("BACKUP_DIR", str(DEFAULT_BACKUP_DIR))),
         alert_log_path=Path(os.getenv("ALERT_LOG_PATH", str(DEFAULT_ALERT_LOG_PATH))),
         alert_webhook_url=os.getenv("ALERT_WEBHOOK_URL", DEFAULT_ALERT_WEBHOOK_URL),
@@ -112,6 +135,14 @@ def get_settings() -> Settings:
         feedback_admin_key=os.getenv("FEEDBACK_ADMIN_KEY", DEFAULT_FEEDBACK_ADMIN_KEY),
         analytics_window_hours=int(
             os.getenv("ANALYTICS_WINDOW_HOURS", str(DEFAULT_ANALYTICS_WINDOW_HOURS))
+        ),
+        trial_mode=_get_bool("TRIAL_MODE", DEFAULT_TRIAL_MODE),
+        trial_default_plan=os.getenv("TRIAL_DEFAULT_PLAN", DEFAULT_TRIAL_DEFAULT_PLAN),
+        trial_end_date=os.getenv("TRIAL_END_DATE", DEFAULT_TRIAL_END_DATE),
+        trial_applies_to=os.getenv("TRIAL_APPLIES_TO", DEFAULT_TRIAL_APPLIES_TO),
+        allow_higher_plan_during_trial=_get_bool(
+            "ALLOW_HIGHER_PLAN_DURING_TRIAL",
+            DEFAULT_ALLOW_HIGHER_PLAN_DURING_TRIAL,
         ),
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),

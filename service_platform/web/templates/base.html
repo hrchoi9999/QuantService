@@ -10,7 +10,10 @@
 <body>
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand" href="{{ url_for('home') }}">redbot</a>
+      <div class="brand-block">
+        <a class="brand" href="{{ url_for('home') }}">redbot</a>
+        <div class="muted small">snapshot-first stock idea service</div>
+      </div>
       <nav class="site-nav" aria-label="Primary">
         <a href="{{ url_for('home') }}">Home</a>
         <a href="{{ url_for('today') }}">Today</a>
@@ -18,8 +21,38 @@
         <a href="{{ url_for('performance') }}">Performance</a>
         <a href="{{ url_for('feedback') }}">Feedback</a>
         <a href="{{ url_for('status') }}">Status</a>
+        {% if current_user %}
+        <a href="{{ url_for('me') }}">Me</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login', next=request.path) }}">Login</a>
+        {% endif %}
+        {% if access_context.is_admin %}
+        <a href="{{ url_for('admin_grant') }}">Admin Grant</a>
+        {% endif %}
       </nav>
     </header>
+
+    <section class="auth-summary panel">
+      <div>
+        <span class="label">Current Access</span>
+        <strong>{{ access_context.effective_plan_id }}</strong>
+        {% if current_user %}
+        <span class="muted">{{ current_user.email }}</span>
+        {% else %}
+        <span class="muted">비로그인 방문자</span>
+        {% endif %}
+      </div>
+      <div class="meta-strip">
+        <span>Base {{ access_context.base_plan_id }}</span>
+        {% if access_context.trial_active %}
+        <span>Trial active{% if access_context.trial_end_date %} until {{ access_context.trial_end_date }}{% endif %}</span>
+        {% endif %}
+        {% if access_context.is_admin %}
+        <span>Admin access</span>
+        {% endif %}
+      </div>
+    </section>
 
     <main class="content-shell">
       {% block content %}{% endblock %}
@@ -32,3 +65,4 @@
   </div>
 </body>
 </html>
+

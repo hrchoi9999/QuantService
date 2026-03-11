@@ -14,15 +14,23 @@ EXAMPLE_FILES = {
 }
 
 
-def build_settings(tmp_path: Path) -> Settings:
+def build_settings(
+    tmp_path: Path,
+    *,
+    trial_mode: bool = True,
+    trial_end_date: str = "2026-06-11",
+    allow_higher: bool = True,
+) -> Settings:
     public_data_dir = tmp_path / "public_data"
     return Settings(
         app_env="test",
         web_host="127.0.0.1",
         web_port=8000,
+        session_secret_key="test-secret",
         public_data_dir=public_data_dir,
         publish_root_dir=public_data_dir,
         feedback_db_path=tmp_path / "feedback.db",
+        app_db_path=tmp_path / "app.db",
         backup_dir=tmp_path / "backups",
         alert_log_path=tmp_path / "alerts.log",
         alert_webhook_url="",
@@ -39,13 +47,39 @@ def build_settings(tmp_path: Path) -> Settings:
         feedback_message_min_length=10,
         feedback_admin_key="secret-key",
         analytics_window_hours=24,
+        trial_mode=trial_mode,
+        trial_default_plan="starter",
+        trial_end_date=trial_end_date,
+        trial_applies_to="authenticated_only",
+        allow_higher_plan_during_trial=allow_higher,
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
     )
 
 
-def seed_snapshot(target_dir: Path) -> None:
+def build_ranked_model(model_id: str, count: int = 12) -> list[dict]:
+    picks = []
+    for score in range(1, count + 1):
+        picks.append(
+            {
+                "rank": score,
+                "ticker": f"{score:06d}",
+                "stock_name": f"Stock {score}",
+                "score": float(score),
+                "reason_summary": f"Reason {score}",
+                "change_type": "maintain",
+            }
+        )
+    return [{"model_id": model_id, "top_picks": picks}]
+
+
+def seed_snapshot(
+    target_dir: Path,
+    *,
+    generated_at: str = "2026-03-11T12:00:00Z",
+    daily_models: list[dict] | None = None,
+) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     for filename, source in EXAMPLE_FILES.items():
         output_name = f"{filename}.json"
@@ -55,7 +89,9 @@ def seed_snapshot(target_dir: Path) -> None:
         )
 
     daily = json.loads(EXAMPLE_FILES["daily_recommendations"].read_text(encoding="utf-8-sig"))
-    daily["generated_at"] = "2026-03-11T12:00:00Z"
+    daily["generated_at"] = generated_at
+    if daily_models is not None:
+        daily["models"] = daily_models
     target_dir.joinpath("daily_recommendations.json").write_text(
         json.dumps(daily, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8-sig",
@@ -64,7 +100,7 @@ def seed_snapshot(target_dir: Path) -> None:
     manifest = {
         "run_id": "test-run",
         "as_of_date": "2026-03-10",
-        "generated_at": "2026-03-11T12:00:00Z",
+        "generated_at": generated_at,
         "models": ["quality_momentum_kr", "value_recovery_kr"],
         "files": {
             "model_catalog.json": {"size_bytes": 100},
@@ -156,6 +192,92 @@ def test_feedback_submission_click_tracking_and_admin_page(tmp_path: Path) -> No
     assert admin_response.status_code == 200
     assert "reader@example.com" in admin_response.get_data(as_text=True)
     assert "005930" in admin_response.get_data(as_text=True)
+
+
+def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=True)
+    seed_snapshot(
+        settings.public_data_dir / "current",
+        daily_models=build_ranked_model("quality_momentum_kr", count=12),
+    )
+    app = create_app(settings)
+    client = app.test_client()
+
+    free_today = client.get("/today")
+    free_body = free_today.get_data(as_text=True)
+
+    assert "000001" in free_body
+    assert "000002" in free_body
+    assert "000003" in free_body
+    assert "000012" not in free_body
+    assert "무료 미리보기 모드" in free_body
+
+    login_response = client.post(
+        "/login",
+        data={
+            "email": "member@example.com",
+            "password": "pass1234",
+            "next": "/today",
+        },
+        follow_redirects=True,
+    )
+    me_response = client.get("/me")
+    body = login_response.get_data(as_text=True)
+
+    assert login_response.status_code == 200
+    assert "000012" in body
+    assert "000011" in body
+    assert "000001" not in body
+    assert me_response.get_json()["authenticated"] is True
+    assert me_response.get_json()["effective_plan_id"] == "starter"
+    assert me_response.get_json()["trial_active"] is True
+
+
+def test_admin_grant_applies_subscription_when_trial_mode_is_off(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    seed_snapshot(
+        settings.public_data_dir / "current",
+        daily_models=build_ranked_model("quality_momentum_kr", count=12),
+    )
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    client.post(
+        "/login",
+        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin/grant"},
+        follow_redirects=True,
+    )
+    grant_response = client.post(
+        "/admin/grant",
+        data={
+            "email": "member@example.com",
+            "plan_id": "pro",
+            "expires_at": "2026-12-31",
+            "action": "grant",
+        },
+        follow_redirects=True,
+    )
+
+    assert grant_response.status_code == 200
+    assert "플랜이 적용되었습니다" in grant_response.get_data(as_text=True)
+
+    member_client = app.test_client()
+    member_client.post(
+        "/login",
+        data={"email": "member@example.com", "password": "memberpass", "next": "/today"},
+        follow_redirects=True,
+    )
+    me_response = member_client.get("/me")
+    today_response = member_client.get("/today")
+    body = today_response.get_data(as_text=True)
+
+    assert me_response.get_json()["effective_plan_id"] == "pro"
+    assert me_response.get_json()["trial_active"] is False
+    assert "000012" in body
+    assert "000001" in body
 
 
 def test_admin_page_is_hidden_without_access_key(tmp_path: Path) -> None:

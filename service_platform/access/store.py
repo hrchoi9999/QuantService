@@ -1,0 +1,591 @@
+﻿from __future__ import annotations
+
+import json
+import re
+import sqlite3
+from contextlib import contextmanager
+from dataclasses import dataclass
+from datetime import date, datetime, timezone
+from typing import Any
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from service_platform.shared.config import Settings
+
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+PLAN_PRIORITY = {"free": 0, "starter": 1, "pro": 2, "premium": 3}
+PLAN_SEEDS = [
+    ("free", "Free", "Preview only", 1),
+    ("starter", "Starter", "Trial tier / top 10 per model", 1),
+    ("pro", "Pro", "Top 20 per model", 1),
+    ("premium", "Premium", "Top 30 per model", 1),
+]
+ENTITLEMENT_SEEDS = [
+    ("models_enabled", "Allowed model identifiers", "list"),
+    ("recommendation_sort_order", "Recommendation sort order", "json"),
+    ("recommendation_n_per_model", "Recommendation count per model", "int"),
+    ("view_history_days", "Historical performance window", "int"),
+    ("view_changes_days", "Recent changes window", "int"),
+    ("export_csv", "CSV export availability", "bool"),
+    ("admin_access", "Administrative grant access", "bool"),
+]
+PLAN_ENTITLEMENT_SEEDS = {
+    "free": {
+        "models_enabled": ["*"],
+        "recommendation_sort_order": "bottom",
+        "recommendation_n_per_model": 3,
+        "view_history_days": 30,
+        "view_changes_days": 7,
+        "export_csv": False,
+        "admin_access": False,
+    },
+    "starter": {
+        "models_enabled": ["*"],
+        "recommendation_sort_order": "top",
+        "recommendation_n_per_model": 10,
+        "view_history_days": 90,
+        "view_changes_days": 14,
+        "export_csv": False,
+        "admin_access": False,
+    },
+    "pro": {
+        "models_enabled": ["*"],
+        "recommendation_sort_order": "top",
+        "recommendation_n_per_model": 20,
+        "view_history_days": 180,
+        "view_changes_days": 30,
+        "export_csv": True,
+        "admin_access": False,
+    },
+    "premium": {
+        "models_enabled": ["*"],
+        "recommendation_sort_order": "top",
+        "recommendation_n_per_model": 30,
+        "view_history_days": 365,
+        "view_changes_days": 60,
+        "export_csv": True,
+        "admin_access": False,
+    },
+}
+PLAN_ORDER_SQL = """
+SELECT plan_id, name, pricing_hint, is_active
+FROM plans
+ORDER BY CASE plan_id
+    WHEN 'free' THEN 1
+    WHEN 'starter' THEN 2
+    WHEN 'pro' THEN 3
+    WHEN 'premium' THEN 4
+    ELSE 99
+END
+"""
+
+
+class LoginValidationError(ValueError):
+    pass
+
+
+class GrantValidationError(ValueError):
+    pass
+
+
+@dataclass(frozen=True)
+class UserRecord:
+    id: int
+    email: str
+    is_active: bool
+    created_at: str
+    last_login_at: str | None
+
+
+@dataclass(frozen=True)
+class AccessContext:
+    authenticated: bool
+    user: UserRecord | None
+    roles: tuple[str, ...]
+    base_plan_id: str
+    effective_plan_id: str
+    entitlements: dict[str, Any]
+    trial_active: bool
+    trial_end_date: str | None
+    is_admin: bool
+
+
+class AccessStore:
+    def __init__(self, settings: Settings) -> None:
+        self.settings = settings
+        self.db_path = settings.app_db_path
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        self._ensure_schema()
+        self._seed_defaults()
+
+    @contextmanager
+    def _connect(self):
+        connection = sqlite3.connect(self.db_path)
+        connection.row_factory = sqlite3.Row
+        try:
+            yield connection
+            connection.commit()
+        finally:
+            connection.close()
+
+    def _ensure_schema(self) -> None:
+        with self._connect() as connection:
+            connection.executescript(
+                """
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    email TEXT NOT NULL UNIQUE,
+                    password_hash TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL,
+                    last_login_at TEXT,
+                    is_active INTEGER NOT NULL DEFAULT 1
+                );
+
+                CREATE TABLE IF NOT EXISTS plans (
+                    plan_id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    pricing_hint TEXT,
+                    is_active INTEGER NOT NULL DEFAULT 1,
+                    created_at TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS subscriptions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    plan_id TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    started_at TEXT NOT NULL,
+                    expires_at TEXT,
+                    source TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    FOREIGN KEY(user_id) REFERENCES users(id)
+                );
+
+                CREATE TABLE IF NOT EXISTS entitlements (
+                    key TEXT PRIMARY KEY,
+                    description TEXT NOT NULL,
+                    value_type TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS plan_entitlements (
+                    plan_id TEXT NOT NULL,
+                    entitlement_key TEXT NOT NULL,
+                    value_json TEXT NOT NULL,
+                    PRIMARY KEY(plan_id, entitlement_key)
+                );
+
+                CREATE TABLE IF NOT EXISTS roles (
+                    role_id TEXT PRIMARY KEY,
+                    description TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS user_roles (
+                    user_id INTEGER NOT NULL,
+                    role_id TEXT NOT NULL,
+                    PRIMARY KEY(user_id, role_id),
+                    FOREIGN KEY(user_id) REFERENCES users(id),
+                    FOREIGN KEY(role_id) REFERENCES roles(role_id)
+                );
+
+                CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+                CREATE INDEX IF NOT EXISTS idx_subscriptions_user_status
+                ON subscriptions(user_id, status);
+                CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
+                """
+            )
+
+    def _seed_defaults(self) -> None:
+        created_at = self._now_iso()
+        with self._connect() as connection:
+            plan_rows = [
+                (plan_id, name, pricing_hint, is_active, created_at)
+                for plan_id, name, pricing_hint, is_active in PLAN_SEEDS
+            ]
+            connection.executemany(
+                """
+                INSERT OR IGNORE INTO plans(plan_id, name, pricing_hint, is_active, created_at)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                plan_rows,
+            )
+            connection.executemany(
+                """
+                INSERT OR IGNORE INTO entitlements(key, description, value_type)
+                VALUES (?, ?, ?)
+                """,
+                ENTITLEMENT_SEEDS,
+            )
+            connection.execute(
+                "INSERT OR IGNORE INTO roles(role_id, description) VALUES ('admin', ?)",
+                ("Administrative access",),
+            )
+            for plan_id, entitlement_map in PLAN_ENTITLEMENT_SEEDS.items():
+                for entitlement_key, value in entitlement_map.items():
+                    connection.execute(
+                        """
+                        INSERT OR REPLACE INTO plan_entitlements(
+                            plan_id,
+                            entitlement_key,
+                            value_json
+                        )
+                        VALUES (?, ?, ?)
+                        """,
+                        (plan_id, entitlement_key, json.dumps(value, ensure_ascii=False)),
+                    )
+
+    def authenticate_or_register(self, email: str, password: str) -> UserRecord:
+        normalized_email = self._normalize_email(email)
+        normalized_password = password.strip()
+        if not EMAIL_RE.match(normalized_email):
+            raise LoginValidationError("이메일 형식을 확인해 주세요.")
+        if len(normalized_password) < 4:
+            raise LoginValidationError("비밀번호는 최소 4자 이상 입력해 주세요.")
+
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM users WHERE email = ? LIMIT 1",
+                (normalized_email,),
+            ).fetchone()
+            now = self._now_iso()
+            if row is None:
+                cursor = connection.execute(
+                    """
+                    INSERT INTO users(email, password_hash, created_at, last_login_at, is_active)
+                    VALUES (?, ?, ?, ?, 1)
+                    """,
+                    (normalized_email, generate_password_hash(normalized_password), now, now),
+                )
+                return UserRecord(
+                    id=int(cursor.lastrowid),
+                    email=normalized_email,
+                    is_active=True,
+                    created_at=now,
+                    last_login_at=now,
+                )
+
+            if not row["is_active"]:
+                raise LoginValidationError("비활성화된 계정입니다.")
+
+            stored_hash = row["password_hash"] or ""
+            if not stored_hash:
+                connection.execute(
+                    "UPDATE users SET password_hash = ?, last_login_at = ? WHERE id = ?",
+                    (generate_password_hash(normalized_password), now, row["id"]),
+                )
+                return UserRecord(
+                    id=row["id"],
+                    email=row["email"],
+                    is_active=bool(row["is_active"]),
+                    created_at=row["created_at"],
+                    last_login_at=now,
+                )
+
+            if not check_password_hash(stored_hash, normalized_password):
+                raise LoginValidationError("이메일 또는 비밀번호를 다시 확인해 주세요.")
+
+            connection.execute(
+                "UPDATE users SET last_login_at = ? WHERE id = ?",
+                (now, row["id"]),
+            )
+            return UserRecord(
+                id=row["id"],
+                email=row["email"],
+                is_active=bool(row["is_active"]),
+                created_at=row["created_at"],
+                last_login_at=now,
+            )
+
+    def get_user_by_id(self, user_id: int | None) -> UserRecord | None:
+        if user_id is None:
+            return None
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT id, email, is_active, created_at, last_login_at FROM users WHERE id = ?",
+                (user_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        return UserRecord(
+            id=row["id"],
+            email=row["email"],
+            is_active=bool(row["is_active"]),
+            created_at=row["created_at"],
+            last_login_at=row["last_login_at"],
+        )
+
+    def get_user_by_email(self, email: str) -> UserRecord | None:
+        normalized_email = self._normalize_email(email)
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT id FROM users WHERE email = ? LIMIT 1",
+                (normalized_email,),
+            ).fetchone()
+        if row is None:
+            return None
+        return self.get_user_by_id(row["id"])
+
+    def list_plans(self) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(PLAN_ORDER_SQL).fetchall()
+        return [dict(row) for row in rows]
+
+    def get_effective_access(
+        self,
+        user_id: int | None,
+        today: date | None = None,
+    ) -> AccessContext:
+        user = self.get_user_by_id(user_id)
+        if user is None or not user.is_active:
+            return self._build_access_context(None, (), "free", "free", today)
+
+        roles = self.get_roles(user.id)
+        base_plan_id = self._get_base_plan_id(user.id)
+        effective_plan_id = self._resolve_effective_plan(base_plan_id, today=today)
+        return self._build_access_context(
+            user,
+            roles,
+            base_plan_id,
+            effective_plan_id,
+            today,
+        )
+
+    def grant_plan(
+        self,
+        *,
+        email: str,
+        plan_id: str,
+        expires_at: str | None = None,
+        source: str = "manual",
+    ) -> dict[str, Any]:
+        normalized_plan = plan_id.strip().lower()
+        if normalized_plan not in PLAN_PRIORITY:
+            raise GrantValidationError("지원하지 않는 plan_id 입니다.")
+        if expires_at:
+            self._parse_date(expires_at)
+
+        user = self._ensure_user(email)
+        now = self._now_iso()
+        with self._connect() as connection:
+            connection.execute(
+                """
+                UPDATE subscriptions
+                SET status = 'canceled', updated_at = ?
+                WHERE user_id = ? AND status IN ('active', 'trial')
+                """,
+                (now, user.id),
+            )
+            if normalized_plan != "free":
+                connection.execute(
+                    """
+                    INSERT INTO subscriptions(
+                        user_id,
+                        plan_id,
+                        status,
+                        started_at,
+                        expires_at,
+                        source,
+                        updated_at
+                    )
+                    VALUES (?, ?, 'active', ?, ?, ?, ?)
+                    """,
+                    (user.id, normalized_plan, now, expires_at, source, now),
+                )
+
+        return {
+            "email": user.email,
+            "plan_id": normalized_plan,
+            "expires_at": expires_at,
+        }
+
+    def revoke_plan(self, *, email: str) -> dict[str, Any]:
+        user = self._ensure_user(email)
+        now = self._now_iso()
+        with self._connect() as connection:
+            connection.execute(
+                """
+                UPDATE subscriptions
+                SET status = 'canceled', updated_at = ?
+                WHERE user_id = ? AND status IN ('active', 'trial')
+                """,
+                (now, user.id),
+            )
+        return {"email": user.email, "plan_id": "free"}
+
+    def assign_role(self, *, email: str, role_id: str = "admin") -> None:
+        if role_id != "admin":
+            raise GrantValidationError("지원하지 않는 role_id 입니다.")
+        user = self._ensure_user(email)
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT OR IGNORE INTO user_roles(user_id, role_id) VALUES (?, ?)",
+                (user.id, role_id),
+            )
+
+    def get_roles(self, user_id: int) -> tuple[str, ...]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT role_id FROM user_roles WHERE user_id = ? ORDER BY role_id ASC",
+                (user_id,),
+            ).fetchall()
+        return tuple(row["role_id"] for row in rows)
+
+    def get_plan_entitlements(self, plan_id: str) -> dict[str, Any]:
+        normalized_plan = plan_id.strip().lower()
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT entitlement_key, value_json FROM plan_entitlements WHERE plan_id = ?",
+                (normalized_plan,),
+            ).fetchall()
+        if not rows:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    """
+                    SELECT entitlement_key, value_json
+                    FROM plan_entitlements
+                    WHERE plan_id = 'free'
+                    """
+                ).fetchall()
+        return {row["entitlement_key"]: json.loads(row["value_json"]) for row in rows}
+
+    def is_trial_active(self, today: date | None = None) -> bool:
+        if not self.settings.trial_mode:
+            return False
+        if self.settings.trial_applies_to != "authenticated_only":
+            return False
+        if not self.settings.trial_end_date:
+            return True
+        comparison_day = today or datetime.now(timezone.utc).date()
+        return comparison_day <= self._parse_date(self.settings.trial_end_date)
+
+    def _build_access_context(
+        self,
+        user: UserRecord | None,
+        roles: tuple[str, ...],
+        base_plan_id: str,
+        effective_plan_id: str,
+        today: date | None,
+    ) -> AccessContext:
+        entitlements = self.get_plan_entitlements(effective_plan_id)
+        trial_active = self.is_trial_active(today=today) if user else False
+        is_admin = "admin" in roles or bool(entitlements.get("admin_access", False))
+        return AccessContext(
+            authenticated=user is not None,
+            user=user,
+            roles=roles,
+            base_plan_id=base_plan_id,
+            effective_plan_id=effective_plan_id,
+            entitlements=entitlements,
+            trial_active=trial_active,
+            trial_end_date=self.settings.trial_end_date or None,
+            is_admin=is_admin,
+        )
+
+    def _resolve_effective_plan(
+        self,
+        base_plan_id: str,
+        today: date | None = None,
+    ) -> str:
+        normalized_base = base_plan_id if base_plan_id in PLAN_PRIORITY else "free"
+        if not self.is_trial_active(today=today):
+            return normalized_base
+        trial_plan = self.settings.trial_default_plan
+        if trial_plan not in PLAN_PRIORITY:
+            trial_plan = "starter"
+        if not self.settings.allow_higher_plan_during_trial:
+            return trial_plan
+        return max(normalized_base, trial_plan, key=lambda item: PLAN_PRIORITY[item])
+
+    def _get_base_plan_id(self, user_id: int) -> str:
+        now = self._now_iso()
+        with self._connect() as connection:
+            row = connection.execute(
+                """
+                SELECT plan_id
+                FROM subscriptions
+                WHERE user_id = ?
+                  AND status IN ('active', 'trial')
+                  AND (expires_at IS NULL OR expires_at >= ?)
+                ORDER BY updated_at DESC, id DESC
+                LIMIT 1
+                """,
+                (user_id, now),
+            ).fetchone()
+        if row is None:
+            return "free"
+        return row["plan_id"]
+
+    def _ensure_user(self, email: str) -> UserRecord:
+        normalized_email = self._normalize_email(email)
+        if not EMAIL_RE.match(normalized_email):
+            raise GrantValidationError("이메일 형식을 확인해 주세요.")
+        existing = self.get_user_by_email(normalized_email)
+        if existing is not None:
+            return existing
+
+        now = self._now_iso()
+        with self._connect() as connection:
+            cursor = connection.execute(
+                """
+                INSERT INTO users(email, password_hash, created_at, is_active)
+                VALUES (?, '', ?, 1)
+                """,
+                (normalized_email, now),
+            )
+            return UserRecord(
+                id=int(cursor.lastrowid),
+                email=normalized_email,
+                is_active=True,
+                created_at=now,
+                last_login_at=None,
+            )
+
+    def _normalize_email(self, email: str) -> str:
+        return email.strip().lower()
+
+    def _now_iso(self) -> str:
+        return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+    def _parse_date(self, value: str) -> date:
+        try:
+            return date.fromisoformat(value)
+        except ValueError as exc:
+            raise GrantValidationError("날짜는 YYYY-MM-DD 형식으로 입력해 주세요.") from exc
+
+
+def build_today_sections(
+    models: list[dict[str, Any]],
+    entitlements: dict[str, Any],
+) -> list[dict[str, Any]]:
+    allowed_models = entitlements.get("models_enabled", ["*"])
+    sort_order = entitlements.get("recommendation_sort_order", "top")
+    per_model = int(entitlements.get("recommendation_n_per_model", 3))
+    reverse = sort_order != "bottom"
+    sections: list[dict[str, Any]] = []
+
+    for model in models:
+        model_id = model.get("model_id", "")
+        if allowed_models != ["*"] and model_id not in allowed_models:
+            continue
+
+        picks = list(model.get("top_picks", []))
+        sorted_picks = sorted(
+            picks,
+            key=lambda item: float(item.get("score") or 0),
+            reverse=reverse,
+        )
+        visible_picks = []
+        for index, pick in enumerate(sorted_picks[:per_model], start=1):
+            visible_pick = dict(pick)
+            visible_pick["rank"] = index
+            visible_picks.append(visible_pick)
+
+        sections.append(
+            {
+                "model_id": model_id,
+                "display_picks": visible_picks,
+                "available_pick_count": len(picks),
+                "display_count": len(visible_picks),
+            }
+        )
+
+    return sections

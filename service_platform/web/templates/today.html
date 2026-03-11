@@ -7,19 +7,28 @@
   <div class="meta-strip">
     <span>기준일 {{ bundle.as_of_date }}</span>
     <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>Plan {{ access_context.effective_plan_id }}</span>
   </div>
   {% if bundle.stale %}
   <div class="warning-banner">최신 current 스냅샷 대신 마지막 정상 데이터를 보여주고 있습니다.</div>
   {% endif %}
+  {% if not access_context.authenticated %}
+  <div class="warning-banner">현재는 무료 미리보기 모드입니다. 각 모델의 하위 3개 종목만 표시됩니다.</div>
+  <div class="stack-actions">
+    <a class="primary-button" href="{{ url_for('login', next=url_for('today')) }}">로그인하고 starter 체험하기</a>
+  </div>
+  {% elif access_context.trial_active %}
+  <div class="warning-banner">무료 체험 기간이 적용 중입니다. 로그인한 가입자는 {{ access_context.effective_plan_id }} 권한으로 추천을 볼 수 있습니다.</div>
+  {% endif %}
 </section>
 
-{% for model in bundle.daily_recommendations.models %}
+{% for model in today_sections %}
 <section class="panel">
   <div class="section-head">
     <h2>{{ model.model_id }}</h2>
-    <span class="badge accent">{{ model.top_picks | length }} picks</span>
+    <span class="badge accent">{{ model.display_count }} / {{ model.available_pick_count }} picks</span>
   </div>
-  {% if model.top_picks %}
+  {% if model.display_picks %}
   <div class="table-wrap">
     <table>
       <thead>
@@ -33,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for pick in model.top_picks %}
+        {% for pick in model.display_picks %}
         <tr>
           <td>{{ pick.rank }}</td>
           <td>
@@ -59,3 +68,4 @@
   <p class="muted">{{ bundle.daily_recommendations.disclaimer }}</p>
 </section>
 {% endblock %}
+

@@ -31,6 +31,13 @@ a {
   color: inherit;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 .page-shell {
   width: min(1180px, calc(100vw - 32px));
   margin: 0 auto;
@@ -101,6 +108,13 @@ a {
   padding: 24px;
 }
 
+.auth-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .eyebrow {
   margin: 0 0 12px;
   color: var(--accent);
@@ -133,7 +147,12 @@ li,
 td,
 th,
 span,
-a {
+a,
+button,
+label,
+input,
+select,
+textarea {
   font-size: 16px;
   line-height: 1.65;
 }
@@ -315,12 +334,56 @@ th {
   border-color: rgba(180, 35, 24, 0.35);
 }
 
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0 0;
+}
+
+.tracked-link {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.feedback-form {
+  display: grid;
+  gap: 16px;
+}
+
+.feedback-form input,
+.feedback-form textarea,
+.feedback-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkbox-row input {
+  width: auto;
+  margin-top: 4px;
+}
+
+.success-panel {
+  border-color: rgba(47, 125, 50, 0.35);
+}
+
 @media (max-width: 820px) {
   .page-shell {
     width: min(100vw - 20px, 1180px);
   }
 
   .site-header,
+  .auth-summary,
   .model-head,
   .change-head,
   .section-head,
@@ -340,45 +403,3 @@ th {
   }
 }
 
-.site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0 0;
-}
-
-.tracked-link {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.feedback-form {
-  display: grid;
-  gap: 16px;
-}
-
-.feedback-form input,
-.feedback-form textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--ink);
-  font: inherit;
-}
-
-.checkbox-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.checkbox-row input {
-  width: auto;
-  margin-top: 4px;
-}
-
-.success-panel {
-  border-color: rgba(47, 125, 50, 0.35);
-}
