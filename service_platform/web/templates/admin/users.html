@@ -1,0 +1,66 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>회원 관리</h1>
+  {% if status %}
+  <div class="warning-banner">{{ status_messages.get(status, "처리 상태를 확인해 주세요.") }}</div>
+  {% endif %}
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="panel">
+  <form class="toolbar-form" method="get" action="{{ url_for('admin_users') }}">
+    {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
+    <input type="search" name="q" value="{{ query }}" placeholder="email search">
+    <button class="secondary-button" type="submit">Search</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Roles</th>
+          <th>Plan</th>
+          <th>Last Login</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in user_rows %}
+        <tr>
+          <td>{{ row.email }}</td>
+          <td>{{ 'active' if row.is_active else 'locked' }}</td>
+          <td>{{ row.roles|join(', ') if row.roles else '-' }}</td>
+          <td>{{ row.effective_plan_id }}{% if row.trial_active %} (trial){% endif %}</td>
+          <td>{{ row.last_login_at|fmt_datetime }}</td>
+          <td>
+            <form class="inline-form" method="post" action="{{ url_for('admin_users') }}">
+              {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="email" value="{{ row.email }}">
+              {% if row.is_active %}
+              <input type="hidden" name="action" value="lock">
+              <button class="secondary-button" type="submit">Lock</button>
+              {% else %}
+              <input type="hidden" name="action" value="unlock">
+              <button class="primary-button" type="submit">Unlock</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        {% if not user_rows %}
+        <tr><td colspan="6">조회된 사용자가 없습니다.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

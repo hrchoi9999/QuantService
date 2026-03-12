@@ -1,0 +1,71 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>Plan Grant</h1>
+  <p class="lead">결제 이전 테스트나 고객 지원을 위해 이메일 기준으로 플랜을 수동 부여하거나 회수합니다.</p>
+  {% if status %}
+  <div class="warning-banner">{{ status_messages.get(status, "처리 상태를 확인해 주세요.") }}</div>
+  {% endif %}
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>Grant / Update</h2>
+    <form class="feedback-form" method="post" action="{{ url_for('admin_grant') }}">
+      {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="action" value="grant">
+      <div>
+        <label class="label" for="grant-email">Email</label>
+        <input id="grant-email" name="email" type="email" placeholder="member@example.com" required>
+      </div>
+      <div>
+        <label class="label" for="plan-id">Plan</label>
+        <select id="plan-id" name="plan_id">
+          {% for plan in plan_rows %}
+          <option value="{{ plan.plan_id }}">{{ plan.plan_id }} - {{ plan.pricing_hint }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="label" for="expires-at">Expires At (optional)</label>
+        <input id="expires-at" name="expires_at" type="date">
+      </div>
+      <button class="primary-button" type="submit">Grant plan</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <h2>Revoke</h2>
+    <form class="feedback-form" method="post" action="{{ url_for('admin_grant') }}">
+      {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="action" value="revoke">
+      <div>
+        <label class="label" for="revoke-email">Email</label>
+        <input id="revoke-email" name="email" type="email" placeholder="member@example.com" required>
+      </div>
+      <button class="secondary-button" type="submit">Revoke to free</button>
+    </form>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>Plan Matrix</h2>
+  <div class="stack-list compact">
+    {% for plan in plan_rows %}
+    <div class="model-card">
+      <div class="model-head">
+        <strong>{{ plan.plan_id }}</strong>
+        <span class="badge neutral">{{ plan.name }}</span>
+      </div>
+      <p class="muted">{{ plan.pricing_hint }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

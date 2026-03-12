@@ -1,0 +1,13 @@
+﻿<nav class="sub-nav panel" aria-label="Admin">
+  <a href="{{ admin_links.dashboard }}">Dashboard</a>
+  <a href="{{ admin_links.users }}">Users</a>
+  <a href="{{ admin_links.grant }}">Grant</a>
+  <a href="{{ admin_links.plans }}">Plans &amp; Entitlements</a>
+  <a href="{{ admin_links.publish }}">Publish &amp; Snapshots</a>
+  <a href="{{ admin_links.feedback }}">Feedback</a>
+  <a href="{{ admin_links.metrics }}">Metrics</a>
+  <a href="{{ admin_links.audit }}">Audit</a>
+  {% if billing_enabled and admin_links.billing %}
+  <a href="{{ admin_links.billing }}">Billing</a>
+  {% endif %}
+</nav>

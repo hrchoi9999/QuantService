@@ -1,0 +1,31 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>Billing Console</h1>
+  <p class="lead">BILLING_ENABLED=true일 때만 보이는 운영 결제 현황입니다.</p>
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="grid three-up">
+  <article class="panel"><h2>Orders</h2><p>{{ order_rows|length }}</p></article>
+  <article class="panel"><h2>Payment Events</h2><p>{{ payment_event_rows|length }}</p></article>
+  <article class="panel"><h2>Subscriptions</h2><p>{{ subscription_rows|length }}</p></article>
+</section>
+
+<section class="panel">
+  <h2>Recent Orders</h2>
+  <div class="table-wrap compact-table">
+    <table>
+      <thead><tr><th>OrdNo</th><th>Plan</th><th>Amount</th><th>Status</th><th>Created</th></tr></thead>
+      <tbody>
+        {% for row in order_rows %}
+        <tr><td>{{ row.ord_no }}</td><td>{{ row.plan_id }}</td><td>{{ row.amount }}</td><td>{{ row.status }}</td><td>{{ row.created_at|fmt_datetime }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

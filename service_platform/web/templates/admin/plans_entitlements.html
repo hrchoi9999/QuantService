@@ -1,0 +1,50 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>Plans &amp; Entitlements</h1>
+  <p class="lead">플랜별 노출 정책과 권한 값을 확인하고 수정합니다.</p>
+  {% if status %}
+  <div class="warning-banner">{{ status_messages.get(status, "처리 상태를 확인해 주세요.") }}</div>
+  {% endif %}
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Entitlement</th>
+          <th>Description</th>
+          <th>Value</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in entitlement_rows %}
+        <tr>
+          <td>{{ row.plan_id }}</td>
+          <td>{{ row.entitlement_key }}</td>
+          <td>{{ row.description }}</td>
+          <td><code>{{ row.value_json }}</code></td>
+          <td>
+            <form class="inline-form wide-inline" method="post" action="{{ url_for('admin_plans_entitlements') }}">
+              {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="plan_id" value="{{ row.plan_id }}">
+              <input type="hidden" name="entitlement_key" value="{{ row.entitlement_key }}">
+              <input name="value_json" value='{{ row.value_json }}'>
+              <button class="primary-button" type="submit">Save</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

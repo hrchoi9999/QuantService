@@ -1,5 +1,6 @@
 ﻿from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sqlite3
@@ -85,6 +86,10 @@ class LoginValidationError(ValueError):
 
 
 class GrantValidationError(ValueError):
+    pass
+
+
+class AdminValidationError(ValueError):
     pass
 
 
@@ -218,6 +223,19 @@ class AccessStore:
                     created_at TEXT NOT NULL
                 );
 
+                CREATE TABLE IF NOT EXISTS audit_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    admin_user_id INTEGER,
+                    action_type TEXT NOT NULL,
+                    target_type TEXT NOT NULL,
+                    target_id TEXT,
+                    payload_summary TEXT NOT NULL,
+                    result TEXT NOT NULL,
+                    ip_hash TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    FOREIGN KEY(admin_user_id) REFERENCES users(id)
+                );
+
                 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
                 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_status
                 ON subscriptions(user_id, status);
@@ -225,6 +243,9 @@ class AccessStore:
                 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
                 CREATE INDEX IF NOT EXISTS idx_payment_events_ord_no ON payment_events(ord_no);
                 CREATE INDEX IF NOT EXISTS idx_payment_events_tid ON payment_events(tid);
+                CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at DESC);
+                CREATE INDEX IF NOT EXISTS idx_audit_logs_admin_user_id
+                ON audit_logs(admin_user_id);
                 """
             )
 
@@ -258,9 +279,7 @@ class AccessStore:
                     connection.execute(
                         """
                         INSERT OR REPLACE INTO plan_entitlements(
-                            plan_id,
-                            entitlement_key,
-                            value_json
+                            plan_id, entitlement_key, value_json
                         )
                         VALUES (?, ?, ?)
                         """,
@@ -358,10 +377,115 @@ class AccessStore:
             return None
         return self.get_user_by_id(row["id"])
 
+    def list_users(self, query: str = "", limit: int = 100) -> list[dict[str, Any]]:
+        normalized_query = query.strip().lower()
+        sql = (
+            "SELECT id, email, is_active, created_at, last_login_at FROM users "
+            "WHERE (? = '' OR lower(email) LIKE ?) "
+            "ORDER BY created_at DESC LIMIT ?"
+        )
+        like_query = f"%{normalized_query}%"
+        with self._connect() as connection:
+            rows = connection.execute(sql, (normalized_query, like_query, limit)).fetchall()
+        users: list[dict[str, Any]] = []
+        for row in rows:
+            user = UserRecord(
+                id=row["id"],
+                email=row["email"],
+                is_active=bool(row["is_active"]),
+                created_at=row["created_at"],
+                last_login_at=row["last_login_at"],
+            )
+            access = self.get_effective_access(user.id)
+            users.append(
+                {
+                    "id": user.id,
+                    "email": user.email,
+                    "is_active": user.is_active,
+                    "created_at": user.created_at,
+                    "last_login_at": user.last_login_at,
+                    "roles": list(access.roles),
+                    "base_plan_id": access.base_plan_id,
+                    "effective_plan_id": access.effective_plan_id,
+                    "trial_active": access.trial_active,
+                    "subscription_status": self.get_subscription_summary(user.id),
+                }
+            )
+        return users
+
+    def set_user_active(self, *, email: str, is_active: bool) -> dict[str, Any]:
+        user = self._ensure_user(email)
+        with self._connect() as connection:
+            connection.execute(
+                "UPDATE users SET is_active = ? WHERE id = ?",
+                (1 if is_active else 0, user.id),
+            )
+        return {"email": user.email, "is_active": is_active}
+
     def list_plans(self) -> list[dict[str, Any]]:
         with self._connect() as connection:
             rows = connection.execute(PLAN_ORDER_SQL).fetchall()
         return [dict(row) for row in rows]
+
+    def list_entitlements(self) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT key, description, value_type FROM entitlements ORDER BY key ASC"
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def list_plan_entitlement_rows(self) -> list[dict[str, Any]]:
+        entitlement_defs = {row["key"]: row for row in self.list_entitlements()}
+        rows: list[dict[str, Any]] = []
+        for plan in self.list_plans():
+            values = self.get_plan_entitlements(plan["plan_id"])
+            for entitlement_key, value in values.items():
+                definition = entitlement_defs.get(entitlement_key, {})
+                rows.append(
+                    {
+                        "plan_id": plan["plan_id"],
+                        "entitlement_key": entitlement_key,
+                        "value": value,
+                        "value_json": json.dumps(value, ensure_ascii=False),
+                        "value_type": definition.get("value_type", "json"),
+                        "description": definition.get("description", ""),
+                    }
+                )
+        return rows
+
+    def update_plan_entitlement(
+        self,
+        *,
+        plan_id: str,
+        entitlement_key: str,
+        value_json: str,
+    ) -> dict[str, Any]:
+        normalized_plan = plan_id.strip().lower()
+        normalized_key = entitlement_key.strip()
+        if normalized_plan not in PLAN_PRIORITY:
+            raise AdminValidationError("지원하지 않는 plan_id 입니다.")
+        entitlement_defs = {row["key"]: row for row in self.list_entitlements()}
+        if normalized_key not in entitlement_defs:
+            raise AdminValidationError("지원하지 않는 entitlement_key 입니다.")
+        try:
+            value = json.loads(value_json)
+        except json.JSONDecodeError as exc:
+            raise AdminValidationError("entitlement 값은 JSON 형식이어야 합니다.") from exc
+        with self._connect() as connection:
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO plan_entitlements(
+                            plan_id, entitlement_key, value_json
+                        )
+                VALUES (?, ?, ?)
+                """,
+                (normalized_plan, normalized_key, json.dumps(value, ensure_ascii=False)),
+            )
+        return {
+            "plan_id": normalized_plan,
+            "entitlement_key": normalized_key,
+            "value": value,
+        }
 
     def get_effective_access(
         self,
@@ -534,6 +658,20 @@ class AccessStore:
             ).fetchall()
         return [dict(row) for row in rows]
 
+    def list_recent_orders(self, limit: int = 50) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT ord_no, user_id, plan_id, amount, currency, pay_method_requested,
+                       status, created_at, updated_at
+                FROM orders
+                ORDER BY created_at DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
     def record_payment_event(
         self,
         *,
@@ -604,6 +742,21 @@ class AccessStore:
             row = connection.execute(query, tuple(params)).fetchone()
         return int(row[0]) if row is not None else 0
 
+    def list_recent_payment_events(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT id, provider, event_type, tid, ord_no, mid, result_cd,
+                       result_msg, pm_cd, spm_cd, goods_amt, edi_date,
+                       idempotency_key, created_at
+                FROM payment_events
+                ORDER BY created_at DESC, id DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
     def activate_subscription_from_payment(
         self,
         *,
@@ -637,6 +790,22 @@ class AccessStore:
                 (user_id, plan_id, started_at, expires_at, started_at),
             )
 
+    def list_recent_subscriptions(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT subscriptions.id, subscriptions.user_id, users.email, subscriptions.plan_id,
+                       subscriptions.status, subscriptions.started_at, subscriptions.expires_at,
+                       subscriptions.source, subscriptions.updated_at
+                FROM subscriptions
+                JOIN users ON users.id = subscriptions.user_id
+                ORDER BY subscriptions.updated_at DESC, subscriptions.id DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
     def get_roles(self, user_id: int) -> tuple[str, ...]:
         with self._connect() as connection:
             rows = connection.execute(
@@ -662,6 +831,117 @@ class AccessStore:
                     """
                 ).fetchall()
         return {row["entitlement_key"]: json.loads(row["value_json"]) for row in rows}
+
+    def list_recent_audit_logs(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT audit_logs.id, audit_logs.admin_user_id, users.email AS admin_email,
+                       audit_logs.action_type, audit_logs.target_type, audit_logs.target_id,
+                       audit_logs.payload_summary, audit_logs.result, audit_logs.created_at
+                FROM audit_logs
+                LEFT JOIN users ON users.id = audit_logs.admin_user_id
+                ORDER BY audit_logs.created_at DESC, audit_logs.id DESC
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def record_audit_log(
+        self,
+        *,
+        admin_user_id: int | None,
+        action_type: str,
+        target_type: str,
+        target_id: str | None,
+        payload_summary: str,
+        result: str,
+        ip_address: str,
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                """
+                INSERT INTO audit_logs(
+                    admin_user_id,
+                    action_type,
+                    target_type,
+                    target_id,
+                    payload_summary,
+                    result,
+                    ip_hash,
+                    created_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    admin_user_id,
+                    action_type,
+                    target_type,
+                    target_id,
+                    payload_summary[:400],
+                    result,
+                    self._hash_text(ip_address or "unknown"),
+                    self._now_iso(),
+                ),
+            )
+
+    def get_dashboard_summary(self) -> dict[str, Any]:
+        now = self._now_iso()
+        with self._connect() as connection:
+            user_count = connection.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+            active_user_count = connection.execute(
+                "SELECT COUNT(*) FROM users WHERE is_active = 1"
+            ).fetchone()[0]
+            admin_count = connection.execute(
+                "SELECT COUNT(DISTINCT user_id) FROM user_roles WHERE role_id = 'admin'"
+            ).fetchone()[0]
+            active_subscription_count = connection.execute(
+                """
+                SELECT COUNT(*)
+                FROM subscriptions
+                WHERE status IN ('active', 'trial')
+                  AND (expires_at IS NULL OR expires_at >= ?)
+                """,
+                (now,),
+            ).fetchone()[0]
+            order_count = connection.execute("SELECT COUNT(*) FROM orders").fetchone()[0]
+            approved_order_count = connection.execute(
+                "SELECT COUNT(*) FROM orders WHERE status = 'approved'"
+            ).fetchone()[0]
+            payment_event_count = connection.execute(
+                "SELECT COUNT(*) FROM payment_events"
+            ).fetchone()[0]
+            latest_audit = connection.execute(
+                "SELECT created_at FROM audit_logs ORDER BY created_at DESC, id DESC LIMIT 1"
+            ).fetchone()
+        return {
+            "user_count": int(user_count),
+            "active_user_count": int(active_user_count),
+            "admin_count": int(admin_count),
+            "active_subscription_count": int(active_subscription_count),
+            "order_count": int(order_count),
+            "approved_order_count": int(approved_order_count),
+            "payment_event_count": int(payment_event_count),
+            "latest_audit_at": latest_audit["created_at"] if latest_audit else None,
+        }
+
+    def get_subscription_summary(self, user_id: int) -> dict[str, Any]:
+        now = self._now_iso()
+        with self._connect() as connection:
+            row = connection.execute(
+                """
+                SELECT id, plan_id, status, started_at, expires_at, source, updated_at
+                FROM subscriptions
+                WHERE user_id = ?
+                  AND status IN ('active', 'trial')
+                  AND (expires_at IS NULL OR expires_at >= ?)
+                ORDER BY updated_at DESC, id DESC
+                LIMIT 1
+                """,
+                (user_id, now),
+            ).fetchone()
+        return dict(row) if row is not None else {}
 
     def is_trial_active(self, today: date | None = None) -> bool:
         if not self.settings.trial_mode:
@@ -766,6 +1046,9 @@ class AccessStore:
             return date.fromisoformat(value)
         except ValueError as exc:
             raise GrantValidationError("날짜는 YYYY-MM-DD 형식으로 입력해 주세요.") from exc
+
+    def _hash_text(self, value: str) -> str:
+        return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
 def build_today_sections(

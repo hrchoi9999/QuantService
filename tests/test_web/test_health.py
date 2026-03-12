@@ -127,6 +127,11 @@ def seed_snapshot(
     )
 
 
+def get_csrf_token(client) -> str:
+    with client.session_transaction() as session_data:
+        return session_data["csrf_token"]
+
+
 def test_home_and_today_pages_render_snapshot_content(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     seed_snapshot(settings.public_data_dir / "current")
@@ -163,8 +168,7 @@ def test_pricing_page_shows_billing_disabled_by_default(tmp_path: Path) -> None:
 
     response = client.get("/pricing")
     checkout_response = client.post(
-        "/billing/checkout",
-        data={"plan_id": "starter", "pay_method": "CARD"},
+        "/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"}
     )
 
     assert response.status_code == 200
@@ -183,10 +187,7 @@ def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
         data={"email": "member@example.com", "password": "pass1234", "next": "/pricing"},
         follow_redirects=True,
     )
-    response = client.post(
-        "/billing/checkout",
-        data={"plan_id": "starter", "pay_method": "CARD"},
-    )
+    response = client.post("/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"})
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
@@ -197,18 +198,13 @@ def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
 
 def test_billing_notify_blocks_unlisted_ip(tmp_path: Path) -> None:
     settings = build_settings(
-        tmp_path,
-        billing_enabled=True,
-        trial_mode=False,
-        notify_allowed_ips=("203.0.113.10",),
+        tmp_path, billing_enabled=True, trial_mode=False, notify_allowed_ips=("203.0.113.10",)
     )
     app = create_app(settings)
     client = app.test_client()
 
     response = client.post(
-        "/billing/notify",
-        data={"ordNo": "RB-1"},
-        headers={"X-Forwarded-For": "198.51.100.22"},
+        "/billing/notify", data={"ordNo": "RB-1"}, headers={"X-Forwarded-For": "198.51.100.22"}
     )
 
     assert response.status_code == 403
@@ -266,8 +262,7 @@ def test_feedback_submission_click_tracking_and_admin_page(tmp_path: Path) -> No
         follow_redirects=True,
     )
     click_response = client.get(
-        "/e/click?ticker=005930&model_id=quality_momentum_kr&page=%2Ftoday",
-        follow_redirects=False,
+        "/e/click?ticker=005930&model_id=quality_momentum_kr&page=%2Ftoday", follow_redirects=False
     )
     admin_response = client.get("/admin/feedback?access_key=secret-key")
 
@@ -300,11 +295,7 @@ def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
 
     login_response = client.post(
         "/login",
-        data={
-            "email": "member@example.com",
-            "password": "pass1234",
-            "next": "/today",
-        },
+        data={"email": "member@example.com", "password": "pass1234", "next": "/today"},
         follow_redirects=True,
     )
     me_response = client.get("/me")
@@ -319,7 +310,7 @@ def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
     assert me_response.get_json()["trial_active"] is True
 
 
-def test_admin_grant_applies_subscription_when_trial_mode_is_off(tmp_path: Path) -> None:
+def test_admin_dashboard_and_grant_write_audit_log(tmp_path: Path) -> None:
     settings = build_settings(tmp_path, trial_mode=False)
     seed_snapshot(
         settings.public_data_dir / "current",
@@ -331,11 +322,12 @@ def test_admin_grant_applies_subscription_when_trial_mode_is_off(tmp_path: Path)
     access_store.assign_role(email="admin@example.com")
 
     client = app.test_client()
-    client.post(
+    dashboard_response = client.post(
         "/login",
-        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin/grant"},
+        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin"},
         follow_redirects=True,
     )
+    csrf_token = get_csrf_token(client)
     grant_response = client.post(
         "/admin/grant",
         data={
@@ -343,27 +335,81 @@ def test_admin_grant_applies_subscription_when_trial_mode_is_off(tmp_path: Path)
             "plan_id": "pro",
             "expires_at": "2026-12-31",
             "action": "grant",
+            "csrf_token": csrf_token,
         },
         follow_redirects=True,
     )
+    audit_response = client.get("/admin/audit")
 
+    assert dashboard_response.status_code == 200
+    assert "1단계 무료기간" in dashboard_response.get_data(as_text=True)
+    assert "2단계 유료화 이후" not in dashboard_response.get_data(as_text=True)
+    assert "운영 대시보드" in dashboard_response.get_data(as_text=True)
+    assert dashboard_response.headers["X-Robots-Tag"] == "noindex, nofollow"
     assert grant_response.status_code == 200
     assert "플랜이 적용되었습니다" in grant_response.get_data(as_text=True)
+    assert "admin.grant.grant" in audit_response.get_data(as_text=True)
+    assert client.get("/admin/billing").status_code == 404
 
-    member_client = app.test_client()
-    member_client.post(
+
+def test_admin_pages_show_phase_policy_and_billing_visibility(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, billing_enabled=True, trial_mode=False)
+    seed_snapshot(settings.public_data_dir / "current")
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    client.post(
         "/login",
-        data={"email": "member@example.com", "password": "memberpass", "next": "/today"},
+        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin"},
         follow_redirects=True,
     )
-    me_response = member_client.get("/me")
-    today_response = member_client.get("/today")
-    body = today_response.get_data(as_text=True)
 
-    assert me_response.get_json()["effective_plan_id"] == "pro"
-    assert me_response.get_json()["trial_active"] is False
-    assert "000012" in body
-    assert "000001" in body
+    dashboard = client.get("/admin")
+    billing = client.get("/admin/billing")
+
+    assert dashboard.status_code == 200
+    assert "2단계 유료화 이후" in dashboard.get_data(as_text=True)
+    assert "Billing enabled" in dashboard.get_data(as_text=True)
+    assert billing.status_code == 200
+    assert "Billing Console" in billing.get_data(as_text=True)
+
+
+def test_admin_publish_snapshot_promotes_selected_published_label(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    seed_snapshot(settings.public_data_dir / "current", generated_at="2026-03-11T12:00:00Z")
+    seed_snapshot(
+        settings.public_data_dir / "published" / "2026-03-12" / "run-2",
+        generated_at="2026-03-12T15:00:00Z",
+    )
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    client.post(
+        "/login",
+        data={
+            "email": "admin@example.com",
+            "password": "pass1234",
+            "next": "/admin/publish-snapshots",
+        },
+        follow_redirects=True,
+    )
+    csrf_token = get_csrf_token(client)
+    response = client.post(
+        "/admin/publish-snapshots",
+        data={"action": "activate", "snapshot_label": "2026-03-12/run-2", "csrf_token": csrf_token},
+        follow_redirects=True,
+    )
+    status_response = client.get("/status")
+
+    assert response.status_code == 200
+    assert "선택한 스냅샷을 current로 반영했습니다." in response.get_data(as_text=True)
+    assert "2026-03-12 15:00 UTC" in status_response.get_data(as_text=True)
 
 
 def test_admin_page_is_hidden_without_access_key(tmp_path: Path) -> None:

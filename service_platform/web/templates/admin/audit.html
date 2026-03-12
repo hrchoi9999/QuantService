@@ -1,0 +1,43 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>Audit Log</h1>
+  <p class="lead">관리자 변경 행위는 모두 이 로그에 남습니다.</p>
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Who</th>
+          <th>Action</th>
+          <th>Target</th>
+          <th>Result</th>
+          <th>Payload</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in audit_rows %}
+        <tr>
+          <td>{{ row.created_at|fmt_datetime }}</td>
+          <td>{{ row.admin_email or row.admin_user_id or '-' }}</td>
+          <td>{{ row.action_type }}</td>
+          <td>{{ row.target_type }} / {{ row.target_id or '-' }}</td>
+          <td>{{ row.result }}</td>
+          <td><code>{{ row.payload_summary }}</code></td>
+        </tr>
+        {% endfor %}
+        {% if not audit_rows %}
+        <tr><td colspan="6">아직 감사 로그가 없습니다.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

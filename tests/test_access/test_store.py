@@ -102,3 +102,35 @@ def test_admin_role_marks_access_context_as_admin(tmp_path: Path) -> None:
 
     assert access.is_admin is True
     assert "admin" in access.roles
+
+
+def test_plan_entitlement_update_changes_matrix(tmp_path: Path) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+
+    store.update_plan_entitlement(
+        plan_id="starter",
+        entitlement_key="recommendation_n_per_model",
+        value_json="15",
+    )
+
+    entitlements = store.get_plan_entitlements("starter")
+    assert entitlements["recommendation_n_per_model"] == 15
+
+
+def test_audit_log_records_admin_actions(tmp_path: Path) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+    admin = store.authenticate_or_register("admin@example.com", "pass1234")
+
+    store.record_audit_log(
+        admin_user_id=admin.id,
+        action_type="admin.test.action",
+        target_type="user",
+        target_id="member@example.com",
+        payload_summary='{"email":"member@example.com"}',
+        result="success",
+        ip_address="127.0.0.1",
+    )
+
+    rows = store.list_recent_audit_logs(limit=5)
+    assert rows[0]["action_type"] == "admin.test.action"
+    assert rows[0]["admin_email"] == "admin@example.com"

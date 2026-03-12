@@ -1,0 +1,100 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin Portal</p>
+  <h1>운영 대시보드</h1>
+  <p class="lead">현재 운영 단계와 스냅샷, 지표, 관리 리스크를 한 화면에서 확인합니다.</p>
+  <div class="meta-strip">
+    <span>{{ policy_state.phase_label }}</span>
+    <span>{{ policy_state.summary }}</span>
+    {% if billing_enabled %}
+    <span>Billing enabled</span>
+    {% else %}
+    <span>Billing disabled</span>
+    {% endif %}
+  </div>
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="grid three-up">
+  <article class="panel stat-card">
+    <span class="label">Snapshot</span>
+    <strong>{{ status_snapshot.state }}</strong>
+    <p class="muted">as_of {{ status_snapshot.as_of_date or '-' }} / run {{ status_snapshot.last_run_id or '-' }}</p>
+  </article>
+  <article class="panel stat-card">
+    <span class="label">Users</span>
+    <strong>{{ dashboard_summary.user_count }}</strong>
+    <p class="muted">active {{ dashboard_summary.active_user_count }} / admin {{ dashboard_summary.admin_count }}</p>
+  </article>
+  <article class="panel stat-card">
+    <span class="label">Subscriptions</span>
+    <strong>{{ dashboard_summary.active_subscription_count }}</strong>
+    <p class="muted">orders {{ dashboard_summary.order_count }} / approved {{ dashboard_summary.approved_order_count }}</p>
+  </article>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>운영 정책</h2>
+    <ul class="message-list">
+      <li>Phase: {{ policy_state.phase_label }}</li>
+      <li>TRIAL_MODE: {{ 'true' if access_context.trial_active or policy_state.phase_code == 'phase_1_trial' else 'false' }}</li>
+      <li>TRIAL_END_DATE: {{ access_context.trial_end_date or '-' }}</li>
+      <li>BILLING_ENABLED: {{ 'true' if billing_enabled else 'false' }}</li>
+      <li>{% if billing_enabled %}결제 관리 메뉴가 활성화됩니다.{% else %}결제 메뉴는 숨김 처리됩니다.{% endif %}</li>
+    </ul>
+  </article>
+  <article class="panel">
+    <h2>최근 24시간 지표</h2>
+    <ul class="message-list">
+      <li>Page Views: {{ metrics_summary.page_views }}</li>
+      <li>Today Views: {{ metrics_summary.today_page_views }}</li>
+      <li>Feedback Submissions: {{ metrics_summary.feedback_submissions }}</li>
+      <li>Payment Events: {{ dashboard_summary.payment_event_count }}</li>
+    </ul>
+  </article>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>최근 스냅샷</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>as_of</th>
+            <th>generated_at</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in published_rows %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.as_of_date or '-' }}</td>
+            <td>{{ row.generated_at|fmt_datetime }}</td>
+          </tr>
+          {% endfor %}
+          {% if not published_rows %}
+          <tr><td colspan="3">published 스냅샷이 없습니다.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  <article class="panel">
+    <h2>최근 감사 로그</h2>
+    <ul class="message-list">
+      {% for row in audit_rows %}
+      <li>{{ row.created_at|fmt_datetime }} · {{ row.action_type }} · {{ row.result }}</li>
+      {% endfor %}
+      {% if not audit_rows %}
+      <li>기록된 감사 로그가 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+</section>
+{% endblock %}

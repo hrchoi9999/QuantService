@@ -553,3 +553,52 @@ th {
     align-items: flex-start;
   }
 }
+
+.sub-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.sub-nav a {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.three-up {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+}
+
+.toolbar-form,
+.inline-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wide-inline input[name="value_json"] {
+  min-width: 20rem;
+}
+
+.compact-table table td,
+.compact-table table th {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .three-up {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-inline input[name="value_json"] {
+    min-width: 100%;
+  }
+}

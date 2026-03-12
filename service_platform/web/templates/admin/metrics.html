@@ -1,0 +1,48 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>운영 지표</h1>
+  <p class="lead">최근 {{ metrics_summary.window_hours }}시간 기준 운영 지표입니다.</p>
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="grid three-up">
+  <article class="panel stat-card"><span class="label">Page Views</span><strong>{{ metrics_summary.page_views }}</strong></article>
+  <article class="panel stat-card"><span class="label">Today Views</span><strong>{{ metrics_summary.today_page_views }}</strong></article>
+  <article class="panel stat-card"><span class="label">Feedback</span><strong>{{ metrics_summary.feedback_submissions }}</strong></article>
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>Top Ticker Clicks</h2>
+    <ul class="message-list">
+      {% for row in metrics_summary.ticker_clicks %}
+      <li>{{ row.ticker }} · {{ row.count }}</li>
+      {% endfor %}
+      {% if not metrics_summary.ticker_clicks %}<li>데이터 없음</li>{% endif %}
+    </ul>
+  </article>
+  <article class="panel">
+    <h2>Model Interest</h2>
+    <ul class="message-list">
+      {% for row in metrics_summary.model_interest %}
+      <li>{{ row.model_id }} · {{ row.count }}</li>
+      {% endfor %}
+      {% if not metrics_summary.model_interest %}<li>데이터 없음</li>{% endif %}
+    </ul>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>Billing Readiness</h2>
+  <ul class="message-list">
+    <li>Billing Enabled: {{ 'true' if billing_enabled else 'false' }}</li>
+    <li>Orders: {{ dashboard_summary.order_count }}</li>
+    <li>Approved Orders: {{ dashboard_summary.approved_order_count }}</li>
+    <li>Payment Events: {{ dashboard_summary.payment_event_count }}</li>
+  </ul>
+</section>
+{% endblock %}

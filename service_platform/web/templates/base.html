@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
   <meta name="description" content="Daily stock recommendation snapshots for Korean investors.">
+  {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
 <body>
@@ -30,7 +31,7 @@
         <a href="{{ url_for('login', next=request.path) }}">Login</a>
         {% endif %}
         {% if access_context.is_admin %}
-        <a href="{{ url_for('admin_grant') }}">Admin Grant</a>
+        <a href="{{ url_for('admin_dashboard') }}">Admin</a>
         {% endif %}
       </nav>
     </header>
@@ -72,4 +73,3 @@
   </div>
 </body>
 </html>
-
