@@ -4,28 +4,41 @@
 <section class="hero-card compact-hero">
   <p class="eyebrow">Member Access</p>
   <h1>로그인</h1>
-  <p class="lead">결제 연동 전 단계이므로 이메일과 비밀번호만으로 간단히 가입/로그인할 수 있습니다.</p>
+  <p class="lead">기존 가입자는 이메일 계정으로 로그인합니다. Gmail, Naver Mail, Kakao Mail 주소도 모두 이메일 계정으로 사용할 수 있습니다.</p>
   {% if status %}
   <div class="warning-banner">{{ status_messages.get(status, "로그인 정보를 다시 확인해 주세요.") }}</div>
   {% endif %}
 </section>
 
-<section class="panel">
-  <form class="feedback-form" method="post" action="{{ url_for('login') }}">
-    <input type="hidden" name="next" value="{{ next_url }}">
-    <div>
-      <label class="label" for="email">Email</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" required>
-    </div>
-    <div>
-      <label class="label" for="password">Password</label>
-      <input id="password" name="password" type="password" placeholder="At least 4 characters" required>
-    </div>
+<section class="grid two-up">
+  <article class="panel">
+    <form class="feedback-form" method="post" action="{{ url_for('login') }}">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <div>
+        <label class="label" for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      </div>
+      <div>
+        <label class="label" for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="At least 8 characters" required>
+      </div>
+      <div class="stack-actions">
+        <button class="primary-button" type="submit">Login</button>
+        <a class="secondary-button" href="{{ next_url }}">돌아가기</a>
+      </div>
+    </form>
+  </article>
+
+  <article class="panel">
+    <h2>회원가입 안내</h2>
+    <ul class="message-list">
+      <li>기본 계정 식별자는 이메일입니다.</li>
+      <li>가입 시 휴대폰 인증을 먼저 완료해야 합니다.</li>
+      <li>Google, Naver, Kakao 계정 연동은 2단계에서 붙일 예정이며 지금은 해당 메일 주소로 가입할 수 있습니다.</li>
+    </ul>
     <div class="stack-actions">
-      <button class="primary-button" type="submit">Login / Sign up</button>
-      <a class="secondary-button" href="{{ next_url }}">돌아가기</a>
+      <a class="primary-button" href="{{ url_for('signup', next=next_url) }}">회원가입</a>
     </div>
-  </form>
+  </article>
 </section>
 {% endblock %}
-

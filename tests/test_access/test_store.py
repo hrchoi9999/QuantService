@@ -52,6 +52,9 @@ def build_settings(
         lightpay_return_url="http://127.0.0.1:8000/billing/return",
         lightpay_notify_url="http://127.0.0.1:8000/billing/notify",
         lightpay_notify_allowed_ips=(),
+        phone_verification_mode="mock",
+        phone_verification_code_ttl_seconds=300,
+        phone_verification_preview_enabled=True,
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
@@ -134,3 +137,18 @@ def test_audit_log_records_admin_actions(tmp_path: Path) -> None:
     rows = store.list_recent_audit_logs(limit=5)
     assert rows[0]["action_type"] == "admin.test.action"
     assert rows[0]["admin_email"] == "admin@example.com"
+
+
+def test_register_local_user_stores_verified_phone_profile(tmp_path: Path) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+
+    user = store.register_local_user(
+        email="member@naver.com",
+        password="pass1234",
+        phone_number="010-1234-5678",
+    )
+    profile = store.get_user_profile(user.id)
+
+    assert profile["auth_provider"] == "local"
+    assert profile["phone_number"] == "01012345678"
+    assert profile["phone_verification_status"] == "verified"

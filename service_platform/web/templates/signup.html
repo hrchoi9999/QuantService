@@ -1,0 +1,74 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Member Access</p>
+  <h1>회원가입</h1>
+  <p class="lead">이메일을 기본 계정으로 사용하고, 가입 전 휴대폰 인증을 완료합니다.</p>
+  {% if status %}
+  <div class="warning-banner">{{ status_messages.get(status, "가입 정보를 다시 확인해 주세요.") }}</div>
+  {% endif %}
+</section>
+
+<section class="grid two-up">
+  <article class="panel">
+    <h2>1. 휴대폰 인증</h2>
+    <form class="feedback-form" method="post" action="{{ url_for('signup') }}">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <input type="hidden" name="action" value="request_code">
+      <div>
+        <label class="label" for="phone-number">휴대폰 번호</label>
+        <input id="phone-number" name="phone_number" type="tel" value="{{ phone_number }}" placeholder="01012345678" required>
+      </div>
+      <button class="secondary-button" type="submit">인증번호 요청</button>
+    </form>
+
+    {% if preview_code %}
+    <div class="info-card">
+      <strong>개발용 인증번호</strong>
+      <p>{{ preview_code }}</p>
+      <p class="muted small">실제 SMS 연동 전까지는 mock 인증번호를 화면에 표시합니다.</p>
+    </div>
+    {% endif %}
+  </article>
+
+  <article class="panel">
+    <h2>2. 계정 생성</h2>
+    <form class="feedback-form" method="post" action="{{ url_for('signup') }}">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <input type="hidden" name="action" value="register">
+      <div>
+        <label class="label" for="signup-email">Email</label>
+        <input id="signup-email" name="email" type="email" placeholder="gmail/naver/kakao mail supported" required>
+      </div>
+      <div>
+        <label class="label" for="signup-password">Password</label>
+        <input id="signup-password" name="password" type="password" placeholder="8자 이상" required>
+      </div>
+      <div>
+        <label class="label" for="signup-password-confirm">Password Confirm</label>
+        <input id="signup-password-confirm" name="password_confirm" type="password" placeholder="비밀번호 재입력" required>
+      </div>
+      <div>
+        <label class="label" for="signup-phone">휴대폰 번호</label>
+        <input id="signup-phone" name="phone_number" type="tel" value="{{ phone_number }}" placeholder="01012345678" required>
+      </div>
+      <div>
+        <label class="label" for="verification-code">인증번호</label>
+        <input id="verification-code" name="verification_code" type="text" inputmode="numeric" maxlength="6" placeholder="6자리 코드" required>
+      </div>
+      <button class="primary-button" type="submit">회원가입 완료</button>
+    </form>
+  </article>
+</section>
+
+<section class="panel">
+  <h2>지원 이메일 계정</h2>
+  <div class="meta-strip">
+    <span>Google / Gmail</span>
+    <span>Naver Mail</span>
+    <span>Kakao Mail</span>
+  </div>
+  <p class="muted">지금은 이메일 계정으로 가입하고, 실제 소셜 OAuth 로그인 연동은 2단계에서 추가합니다.</p>
+</section>
+{% endblock %}

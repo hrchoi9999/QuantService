@@ -31,6 +31,9 @@ from service_platform.shared.constants import (
     DEFAULT_LIGHTPAY_NOTIFY_URL,
     DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
+    DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS,
+    DEFAULT_PHONE_VERIFICATION_MODE,
+    DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
     DEFAULT_PUBLIC_DATA_DIR,
     DEFAULT_PUBLISH_KEEP_DAYS,
     DEFAULT_S2_HOLDINGS_CSV,
@@ -93,6 +96,9 @@ class Settings:
     lightpay_return_url: str
     lightpay_notify_url: str
     lightpay_notify_allowed_ips: tuple[str, ...]
+    phone_verification_mode: str
+    phone_verification_code_ttl_seconds: int
+    phone_verification_preview_enabled: bool
     s2_holdings_csv: Path
     s2_snapshot_csv: Path
     s2_summary_csv: Path
@@ -182,6 +188,20 @@ def get_settings() -> Settings:
         lightpay_notify_allowed_ips=_get_csv_tuple(
             "LIGHTPAY_NOTIFY_ALLOWED_IPS",
             DEFAULT_LIGHTPAY_NOTIFY_ALLOWED_IPS,
+        ),
+        phone_verification_mode=os.getenv(
+            "PHONE_VERIFICATION_MODE",
+            DEFAULT_PHONE_VERIFICATION_MODE,
+        ),
+        phone_verification_code_ttl_seconds=int(
+            os.getenv(
+                "PHONE_VERIFICATION_CODE_TTL_SECONDS",
+                str(DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS),
+            )
+        ),
+        phone_verification_preview_enabled=_get_bool(
+            "PHONE_VERIFICATION_PREVIEW_ENABLED",
+            DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
         ),
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),

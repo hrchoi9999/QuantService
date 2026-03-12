@@ -602,3 +602,11 @@ th {
     min-width: 100%;
   }
 }
+
+.info-card {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+  background: var(--accent-soft);
+}

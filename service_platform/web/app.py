@@ -3,7 +3,7 @@
 import json
 import secrets
 import shutil
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
 from flask import (
@@ -24,6 +24,7 @@ from service_platform.access.store import (
     AdminValidationError,
     GrantValidationError,
     LoginValidationError,
+    RegistrationValidationError,
     build_today_sections,
 )
 from service_platform.admin.auth import get_policy_state, require_admin
@@ -46,6 +47,11 @@ from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoa
 
 STATUS_MESSAGES = {
     "invalid": "이메일 또는 비밀번호를 다시 확인해 주세요.",
+    "signup_success": "회원가입이 완료되었습니다. 로그인해 주세요.",
+    "code_sent": "휴대폰 인증번호를 발급했습니다.",
+    "verify_required": "휴대폰 인증을 먼저 완료해 주세요.",
+    "email_exists": "이미 가입된 이메일입니다. 로그인해 주세요.",
+    "code_invalid": "인증번호를 다시 확인해 주세요.",
     "logged_out": "로그아웃되었습니다.",
     "granted": "플랜이 적용되었습니다.",
     "revoked": "플랜이 회수되었습니다.",
@@ -56,7 +62,6 @@ STATUS_MESSAGES = {
     "unlocked": "사용자 잠금을 해제했습니다.",
     "error": "요청을 처리하지 못했습니다. 입력값을 다시 확인해 주세요.",
 }
-
 BILLING_MESSAGES = {
     "disabled": "현재 결제 기능은 비활성화되어 있습니다.",
     "login_required": "결제를 진행하려면 먼저 로그인해 주세요.",
@@ -145,6 +150,44 @@ def create_app(settings: Settings | None = None) -> Flask:
         provided = request.form.get("csrf_token", "")
         if not expected or not provided or provided != expected:
             abort(400)
+
+    def _normalize_phone_number(phone_number: str) -> str:
+        return "".join(ch for ch in phone_number if ch.isdigit())
+
+    def issue_phone_verification(phone_number: str) -> str:
+        normalized_phone = _normalize_phone_number(phone_number)
+        if len(normalized_phone) < 10 or len(normalized_phone) > 11:
+            raise RegistrationValidationError("휴대폰 번호는 숫자 10~11자리로 입력해 주세요.")
+        verification_code = f"{secrets.randbelow(900000) + 100000:06d}"
+        expires_at = (
+            datetime.utcnow() + timedelta(seconds=settings.phone_verification_code_ttl_seconds)
+        ).isoformat()
+        session["phone_verification"] = {
+            "phone_number": normalized_phone,
+            "code": verification_code,
+            "expires_at": expires_at,
+        }
+        return verification_code
+
+    def is_phone_verification_valid(phone_number: str, verification_code: str) -> bool:
+        payload = session.get("phone_verification") or {}
+        if payload.get("phone_number") != _normalize_phone_number(phone_number):
+            return False
+        if payload.get("code") != verification_code.strip():
+            return False
+        expires_at = payload.get("expires_at")
+        if not expires_at:
+            return False
+        try:
+            expires = datetime.fromisoformat(expires_at)
+        except ValueError:
+            return False
+        if datetime.utcnow() > expires:
+            return False
+        return True
+
+    def clear_phone_verification() -> None:
+        session.pop("phone_verification", None)
 
     def current_access_key() -> str:
         value = request.values.get("access_key") or request.args.get("access_key") or ""
@@ -387,8 +430,9 @@ def create_app(settings: Settings | None = None) -> Flask:
             )
 
         try:
-            user = access_store.authenticate_or_register(
-                email=request.form.get("email", ""), password=request.form.get("password", "")
+            user = access_store.authenticate_local(
+                email=request.form.get("email", ""),
+                password=request.form.get("password", ""),
             )
         except LoginValidationError:
             return redirect(url_for("login", status="invalid", next=next_url))
@@ -397,6 +441,65 @@ def create_app(settings: Settings | None = None) -> Flask:
         session["user_id"] = user.id
         session["csrf_token"] = secrets.token_urlsafe(24)
         return redirect(next_url)
+
+    @app.route("/signup", methods=["GET", "POST"])
+    def signup() -> Response:
+        next_url = _safe_next_url(request.values.get("next") or url_for("today"))
+        if request.method == "GET":
+            record_page_view("/signup")
+            verification_payload = session.get("phone_verification") or {}
+            preview_code = ""
+            if settings.phone_verification_preview_enabled:
+                preview_code = session.get("phone_verification_preview", "")
+            return Response(
+                render_template(
+                    "signup.html",
+                    page_title="Sign Up",
+                    status=request.args.get("status", ""),
+                    next_url=next_url,
+                    phone_number=request.args.get(
+                        "phone",
+                        verification_payload.get("phone_number", ""),
+                    ),
+                    preview_code=preview_code,
+                ),
+                mimetype="text/html",
+            )
+
+        action = request.form.get("action", "register")
+        next_url = _safe_next_url(request.form.get("next"))
+        if action == "request_code":
+            phone_number = request.form.get("phone_number", "")
+            try:
+                verification_code = issue_phone_verification(phone_number)
+                session["phone_verification_preview"] = verification_code
+                status = "code_sent"
+            except RegistrationValidationError:
+                status = "error"
+            return redirect(url_for("signup", status=status, next=next_url, phone=phone_number))
+
+        phone_number = request.form.get("phone_number", "")
+        verification_code = request.form.get("verification_code", "")
+        if not is_phone_verification_valid(phone_number, verification_code):
+            return redirect(
+                url_for("signup", status="code_invalid", next=next_url, phone=phone_number)
+            )
+        if request.form.get("password", "") != request.form.get("password_confirm", ""):
+            return redirect(url_for("signup", status="error", next=next_url, phone=phone_number))
+
+        try:
+            access_store.register_local_user(
+                email=request.form.get("email", ""),
+                password=request.form.get("password", ""),
+                phone_number=phone_number,
+            )
+        except RegistrationValidationError as exc:
+            status = "email_exists" if "이미 가입된 이메일" in str(exc) else "error"
+            return redirect(url_for("signup", status=status, next=next_url, phone=phone_number))
+
+        clear_phone_verification()
+        session.pop("phone_verification_preview", None)
+        return redirect(url_for("login", status="signup_success", next=next_url))
 
     @app.route("/logout", methods=["GET", "POST"])
     def logout() -> Response:
@@ -407,6 +510,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     def me() -> tuple[dict[str, object], int]:
         access_context = current_access_context()
         user = access_context.user
+        profile = access_store.get_user_profile(user.id) if user else {}
         return (
             jsonify(
                 {
@@ -419,6 +523,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     "trial_end_date": access_context.trial_end_date,
                     "entitlements": access_context.entitlements,
                     "is_admin": access_context.is_admin,
+                    "auth_provider": profile.get("auth_provider"),
+                    "phone_number": profile.get("phone_number"),
+                    "phone_verification_status": profile.get("phone_verification_status"),
                     "recent_orders": current_user_orders(),
                 }
             ),

@@ -64,6 +64,9 @@ def build_settings(
         lightpay_return_url="http://127.0.0.1:8000/billing/return",
         lightpay_notify_url="http://127.0.0.1:8000/billing/notify",
         lightpay_notify_allowed_ips=notify_allowed_ips,
+        phone_verification_mode="mock",
+        phone_verification_code_ttl_seconds=300,
+        phone_verification_preview_enabled=True,
         s2_holdings_csv=tmp_path / "holdings.csv",
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
@@ -132,6 +135,11 @@ def get_csrf_token(client) -> str:
         return session_data["csrf_token"]
 
 
+def get_phone_verification_code(client) -> str:
+    with client.session_transaction() as session_data:
+        return session_data["phone_verification"]["code"]
+
+
 def test_home_and_today_pages_render_snapshot_content(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     seed_snapshot(settings.public_data_dir / "current")
@@ -180,6 +188,11 @@ def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
     settings = build_settings(tmp_path, billing_enabled=True, trial_mode=False)
     seed_snapshot(settings.public_data_dir / "current")
     app = create_app(settings)
+    app.config["ACCESS_STORE"].register_local_user(
+        email="member@example.com",
+        password="pass1234",
+        phone_number="01012345678",
+    )
     client = app.test_client()
 
     client.post(
@@ -275,6 +288,48 @@ def test_feedback_submission_click_tracking_and_admin_page(tmp_path: Path) -> No
     assert "005930" in admin_response.get_data(as_text=True)
 
 
+def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=True)
+    seed_snapshot(settings.public_data_dir / "current")
+    app = create_app(settings)
+    client = app.test_client()
+
+    request_code_response = client.post(
+        "/signup",
+        data={"action": "request_code", "phone_number": "010-2222-3333", "next": "/today"},
+        follow_redirects=True,
+    )
+    verification_code = get_phone_verification_code(client)
+    signup_response = client.post(
+        "/signup",
+        data={
+            "action": "register",
+            "email": "member@gmail.com",
+            "password": "pass1234",
+            "password_confirm": "pass1234",
+            "phone_number": "01022223333",
+            "verification_code": verification_code,
+            "next": "/today",
+        },
+        follow_redirects=True,
+    )
+    login_response = client.post(
+        "/login",
+        data={"email": "member@gmail.com", "password": "pass1234", "next": "/today"},
+        follow_redirects=True,
+    )
+    me_response = client.get("/me")
+
+    assert request_code_response.status_code == 200
+    assert "개발용 인증번호" in request_code_response.get_data(as_text=True)
+    assert signup_response.status_code == 200
+    assert "회원가입이 완료되었습니다" in signup_response.get_data(as_text=True)
+    assert "Gmail" in signup_response.get_data(as_text=True)
+    assert login_response.status_code == 200
+    assert me_response.get_json()["phone_verification_status"] == "verified"
+    assert me_response.get_json()["auth_provider"] == "local"
+
+
 def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
     settings = build_settings(tmp_path, trial_mode=True)
     seed_snapshot(
@@ -293,6 +348,11 @@ def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
     assert "000012" not in free_body
     assert "무료 미리보기 모드" in free_body
 
+    app.config["ACCESS_STORE"].register_local_user(
+        email="member@example.com",
+        password="pass1234",
+        phone_number="01012345678",
+    )
     login_response = client.post(
         "/login",
         data={"email": "member@example.com", "password": "pass1234", "next": "/today"},
@@ -308,6 +368,7 @@ def test_login_me_and_today_branch_for_trial_starter(tmp_path: Path) -> None:
     assert me_response.get_json()["authenticated"] is True
     assert me_response.get_json()["effective_plan_id"] == "starter"
     assert me_response.get_json()["trial_active"] is True
+    assert me_response.get_json()["phone_verification_status"] == "verified"
 
 
 def test_admin_dashboard_and_grant_write_audit_log(tmp_path: Path) -> None:

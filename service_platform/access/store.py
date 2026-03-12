@@ -14,6 +14,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from service_platform.shared.config import Settings
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+PHONE_RE = re.compile(r"^\d{10,11}$")
 PLAN_PRIORITY = {"free": 0, "starter": 1, "pro": 2, "premium": 3}
 PLAN_SEEDS = [
     ("free", "Free", "Preview only", 1),
@@ -85,6 +86,10 @@ class LoginValidationError(ValueError):
     pass
 
 
+class RegistrationValidationError(ValueError):
+    pass
+
+
 class GrantValidationError(ValueError):
     pass
 
@@ -144,6 +149,19 @@ class AccessStore:
                     created_at TEXT NOT NULL,
                     last_login_at TEXT,
                     is_active INTEGER NOT NULL DEFAULT 1
+                );
+
+                CREATE TABLE IF NOT EXISTS user_profiles (
+                    user_id INTEGER PRIMARY KEY,
+                    auth_provider TEXT NOT NULL DEFAULT 'local',
+                    display_name TEXT,
+                    phone_number TEXT,
+                    phone_verification_status TEXT NOT NULL DEFAULT 'unverified',
+                    phone_verified_at TEXT,
+                    external_subject TEXT,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    FOREIGN KEY(user_id) REFERENCES users(id)
                 );
 
                 CREATE TABLE IF NOT EXISTS plans (
@@ -237,6 +255,7 @@ class AccessStore:
                 );
 
                 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+                CREATE INDEX IF NOT EXISTS idx_user_profiles_phone ON user_profiles(phone_number);
                 CREATE INDEX IF NOT EXISTS idx_subscriptions_user_status
                 ON subscriptions(user_id, status);
                 CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
@@ -273,6 +292,20 @@ class AccessStore:
             connection.execute(
                 "INSERT OR IGNORE INTO roles(role_id, description) VALUES ('admin', ?)",
                 ("Administrative access",),
+            )
+            connection.execute(
+                """
+                INSERT OR IGNORE INTO user_profiles(
+                    user_id,
+                    auth_provider,
+                    phone_verification_status,
+                    phone_verified_at,
+                    created_at,
+                    updated_at
+                )
+                SELECT id, 'local', 'verified', created_at, created_at, created_at
+                FROM users
+                """
             )
             for plan_id, entitlement_map in PLAN_ENTITLEMENT_SEEDS.items():
                 for entitlement_key, value in entitlement_map.items():
@@ -377,6 +410,116 @@ class AccessStore:
             return None
         return self.get_user_by_id(row["id"])
 
+    def get_user_profile(self, user_id: int) -> dict[str, Any]:
+        self._upsert_user_profile(user_id, verified=True)
+        with self._connect() as connection:
+            row = connection.execute(
+                """
+                SELECT auth_provider, display_name, phone_number,
+                       phone_verification_status, phone_verified_at, external_subject
+                FROM user_profiles
+                WHERE user_id = ?
+                LIMIT 1
+                """,
+                (user_id,),
+            ).fetchone()
+        return dict(row) if row is not None else {}
+
+    def authenticate_local(self, email: str, password: str) -> UserRecord:
+        normalized_email = self._normalize_email(email)
+        normalized_password = password.strip()
+        if not EMAIL_RE.match(normalized_email):
+            raise LoginValidationError("이메일 형식을 확인해 주세요.")
+        if len(normalized_password) < 4:
+            raise LoginValidationError("비밀번호를 다시 확인해 주세요.")
+
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM users WHERE email = ? LIMIT 1",
+                (normalized_email,),
+            ).fetchone()
+            now = self._now_iso()
+            if row is None:
+                raise LoginValidationError(
+                    "가입된 계정을 찾지 못했습니다. 먼저 회원가입을 진행해 주세요."
+                )
+            if not row["is_active"]:
+                raise LoginValidationError("비활성화된 계정입니다.")
+            stored_hash = row["password_hash"] or ""
+            if not stored_hash or not check_password_hash(stored_hash, normalized_password):
+                raise LoginValidationError("이메일 또는 비밀번호를 다시 확인해 주세요.")
+            connection.execute(
+                "UPDATE users SET last_login_at = ? WHERE id = ?",
+                (now, row["id"]),
+            )
+        return UserRecord(
+            id=row["id"],
+            email=row["email"],
+            is_active=bool(row["is_active"]),
+            created_at=row["created_at"],
+            last_login_at=now,
+        )
+
+    def register_local_user(
+        self,
+        *,
+        email: str,
+        password: str,
+        phone_number: str,
+        display_name: str | None = None,
+    ) -> UserRecord:
+        normalized_email = self._normalize_email(email)
+        normalized_password = password.strip()
+        normalized_phone = self._normalize_phone_number(phone_number)
+        if not EMAIL_RE.match(normalized_email):
+            raise RegistrationValidationError("이메일 형식을 확인해 주세요.")
+        if len(normalized_password) < 8:
+            raise RegistrationValidationError("비밀번호는 8자 이상 입력해 주세요.")
+        if self.get_user_by_email(normalized_email) is not None:
+            raise RegistrationValidationError("이미 가입된 이메일입니다. 로그인해 주세요.")
+
+        now = self._now_iso()
+        with self._connect() as connection:
+            cursor = connection.execute(
+                """
+                INSERT INTO users(email, password_hash, created_at, last_login_at, is_active)
+                VALUES (?, ?, ?, ?, 1)
+                """,
+                (normalized_email, generate_password_hash(normalized_password), now, now),
+            )
+            user_id = int(cursor.lastrowid)
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO user_profiles(
+                    user_id,
+                    auth_provider,
+                    display_name,
+                    phone_number,
+                    phone_verification_status,
+                    phone_verified_at,
+                    external_subject,
+                    created_at,
+                    updated_at
+                )
+                VALUES (?, 'local', ?, ?, 'verified', ?, NULL, ?, ?)
+                """,
+                (
+                    user_id,
+                    (display_name or normalized_email.split("@")[0])[:80],
+                    normalized_phone,
+                    now,
+                    now,
+                    now,
+                ),
+            )
+        return UserRecord(
+            id=user_id,
+            email=normalized_email,
+            is_active=True,
+            created_at=now,
+            last_login_at=now,
+        )
+
     def list_users(self, query: str = "", limit: int = 100) -> list[dict[str, Any]]:
         normalized_query = query.strip().lower()
         sql = (
@@ -397,6 +540,7 @@ class AccessStore:
                 last_login_at=row["last_login_at"],
             )
             access = self.get_effective_access(user.id)
+            profile = self.get_user_profile(user.id)
             users.append(
                 {
                     "id": user.id,
@@ -409,6 +553,11 @@ class AccessStore:
                     "effective_plan_id": access.effective_plan_id,
                     "trial_active": access.trial_active,
                     "subscription_status": self.get_subscription_summary(user.id),
+                    "auth_provider": profile.get("auth_provider", "local"),
+                    "phone_number": profile.get("phone_number"),
+                    "phone_verification_status": profile.get(
+                        "phone_verification_status", "verified"
+                    ),
                 }
             )
         return users
@@ -1034,6 +1183,85 @@ class AccessStore:
                 created_at=now,
                 last_login_at=None,
             )
+
+    def _upsert_user_profile(
+        self,
+        user_id: int,
+        *,
+        auth_provider: str = "local",
+        phone_number: str | None = None,
+        verified: bool = False,
+        display_name: str | None = None,
+        external_subject: str | None = None,
+    ) -> None:
+        now = self._now_iso()
+        with self._connect() as connection:
+            row = connection.execute(
+                (
+                    "SELECT user_id, phone_number, phone_verified_at "
+                    "FROM user_profiles WHERE user_id = ?"
+                ),
+                (user_id,),
+            ).fetchone()
+            if row is None:
+                connection.execute(
+                    """
+                    INSERT INTO user_profiles(
+                        user_id,
+                        auth_provider,
+                        display_name,
+                        phone_number,
+                        phone_verification_status,
+                        phone_verified_at,
+                        external_subject,
+                        created_at,
+                        updated_at
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        user_id,
+                        auth_provider,
+                        display_name,
+                        phone_number,
+                        "verified" if verified else "unverified",
+                        now if verified else None,
+                        external_subject,
+                        now,
+                        now,
+                    ),
+                )
+                return
+
+            connection.execute(
+                """
+                UPDATE user_profiles
+                SET auth_provider = COALESCE(NULLIF(?, ''), auth_provider),
+                    display_name = COALESCE(?, display_name),
+                    phone_number = COALESCE(?, phone_number),
+                    phone_verification_status = ?,
+                    phone_verified_at = COALESCE(phone_verified_at, ?),
+                    external_subject = COALESCE(?, external_subject),
+                    updated_at = ?
+                WHERE user_id = ?
+                """,
+                (
+                    auth_provider,
+                    display_name,
+                    phone_number,
+                    "verified" if verified or row["phone_verified_at"] else "unverified",
+                    now if verified else None,
+                    external_subject,
+                    now,
+                    user_id,
+                ),
+            )
+
+    def _normalize_phone_number(self, phone_number: str) -> str:
+        digits_only = "".join(ch for ch in phone_number if ch.isdigit())
+        if not PHONE_RE.match(digits_only):
+            raise RegistrationValidationError("휴대폰 번호는 숫자 10~11자리로 입력해 주세요.")
+        return digits_only
 
     def _normalize_email(self, email: str) -> str:
         return email.strip().lower()
