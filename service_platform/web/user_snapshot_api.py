@@ -1,6 +1,7 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
+import re
 import time
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -18,6 +19,84 @@ USER_SNAPSHOT_FILES = {
     "recent_changes": "user_recent_changes.json",
     "publish_status": "publish_manifest.json",
 }
+
+SERVICE_PROFILE_LABELS = {
+    "stable": "안정형",
+    "balanced": "균형형",
+    "growth": "성장형",
+    "auto": "자동전환형",
+}
+
+SERVICE_PROFILE_SUMMARIES = {
+    "stable": "채권, 달러, 금 중심으로 낙폭 방어와 안정성을 우선하는 보수형 포트폴리오입니다.",
+    "balanced": (
+        "배당주와 ETF를 고르게 담아 수익성과 방어력을 함께 추구하는 균형형 포트폴리오입니다."
+    ),
+    "growth": (
+        "성장 업종과 모멘텀 자산에 집중해 수익 기회를 적극적으로 추구하는 성장형 포트폴리오입니다."
+    ),
+    "auto": (
+        "시장 흐름에 따라 안정형과 성장형 사이의 비중을 탄력적으로 조정하는 자동전환 포트폴리오입니다."
+    ),
+}
+
+SERVICE_PROFILE_TARGET_USERS = {
+    "stable": "변동성을 낮추고 안정적인 자산 배분을 선호하는 투자자",
+    "balanced": "안정성과 수익성의 균형을 원하는 투자자",
+    "growth": "높은 변동성을 감수하고 성장 기회를 추구하는 투자자",
+    "auto": "시장 흐름에 맞춰 자동으로 전략 전환을 원하는 투자자",
+}
+
+SERVICE_PROFILE_MARKET_VIEWS = {
+    "stable": "방어 자산 중심으로 안정성을 우선하는 포지션입니다.",
+    "balanced": "배당·지수·가치 자산을 고르게 담아 균형을 유지하는 포지션입니다.",
+    "growth": "성장·모멘텀 자산 비중을 높여 수익 기회를 적극적으로 추구하는 포지션입니다.",
+    "auto": "시장 국면에 따라 비중을 탄력적으로 조정하는 유연한 포지션입니다.",
+}
+
+SERVICE_PROFILE_RATIONALES = {
+    "stable": [
+        "변동성 완충을 위해 채권과 현금성 자산 비중을 높였습니다.",
+        "달러와 금 자산으로 외부 충격에 대한 방어력을 보강했습니다.",
+        "주식 비중은 낮게 유지해 급격한 하락 구간의 낙폭을 줄이는 데 초점을 맞췄습니다.",
+        "리스크 관리와 안정적인 자산 배분을 우선합니다.",
+    ],
+    "balanced": [
+        "지수 ETF와 배당주를 함께 담아 균형 잡힌 수익 구조를 구성했습니다.",
+        "과도한 쏠림을 피하고 업종 분산을 통해 변동성을 완화했습니다.",
+        "안정성과 성장성의 균형을 맞추는 데 초점을 두었습니다.",
+        "시장 변화에 대응하되 포트폴리오의 중심은 유지합니다.",
+    ],
+    "growth": [
+        "성장 업종과 모멘텀 자산 비중을 높여 수익 기회를 확대했습니다.",
+        "실적 개선과 추세 강도가 높은 자산을 중심으로 편입했습니다.",
+        "단기 변동성은 감수하되 중장기 성과를 우선합니다.",
+        "공격적인 비중 조절로 상승 구간의 탄력을 노립니다.",
+    ],
+    "auto": [
+        "시장 국면 변화에 따라 방어 자산과 성장 자산의 비중을 자동으로 조정합니다.",
+        "과도한 방향성 베팅을 줄이고 상황 대응력을 높였습니다.",
+        "한 가지 스타일에 고정되지 않고 유연하게 자산을 재배치합니다.",
+        "시장 변화에 민감하게 대응하는 동적 포트폴리오입니다.",
+    ],
+}
+
+SERVICE_PROFILE_RISK_LEVELS = {
+    "stable": "낮음",
+    "balanced": "보통",
+    "growth": "높음",
+    "auto": "중간",
+}
+
+SERVICE_PROFILE_CHANGE_REASONS = {
+    "stable": "시장 변동성에 대비해 방어 자산과 완충 자산의 비중을 조정했습니다.",
+    "balanced": "균형 유지를 위해 상대 강도가 높은 자산을 늘리고 약한 자산을 줄였습니다.",
+    "growth": "성과와 추세를 반영해 성장 자산 중심으로 비중을 재조정했습니다.",
+    "auto": "시장 국면 변화에 맞춰 전략 비중을 자동으로 재조정했습니다.",
+}
+
+DEFAULT_DISCLAIMER = "이 자료는 정보 제공을 위한 것이며 투자 권유나 자문이 아닙니다."
+GARBLED_MARKERS = ("??", "챙", "혮", "湲", "�", "ì", "í", "ê", "좎", "쒖")
 
 
 class UserSnapshotLoadError(RuntimeError):
@@ -194,6 +273,7 @@ class UserSnapshotMockApi:
             key: self._load_json(directory / filename)
             for key, filename in USER_SNAPSHOT_FILES.items()
         }
+        payloads = self._sanitize_payloads(payloads)
         self._validate_payloads(payloads)
         bundle = UserSnapshotBundle(
             user_models=payloads["user_models"],
@@ -213,6 +293,218 @@ class UserSnapshotMockApi:
             return json.loads(path.read_text(encoding="utf-8-sig"))
         except json.JSONDecodeError as exc:
             raise UserSnapshotLoadError(f"Invalid JSON in {path.name}: {exc.msg}") from exc
+
+    def _sanitize_payloads(self, payloads: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+        sanitized = deepcopy(payloads)
+        recommendation = sanitized["recommendation_today"]
+        current_market_regime = recommendation.get("current_market_regime")
+
+        for model in sanitized["user_models"].get("models", []):
+            profile = model.get("service_profile")
+            model["user_model_name"] = self._sanitize_model_name(
+                model.get("user_model_name"), profile
+            )
+            model["summary"] = self._sanitize_profile_summary(model.get("summary"), profile)
+            model["target_user_type"] = self._sanitize_target_user_type(
+                model.get("target_user_type"), profile
+            )
+
+        for report in recommendation.get("reports", []):
+            profile = report.get("service_profile")
+            report["user_model_name"] = self._sanitize_model_name(
+                report.get("user_model_name"), profile
+            )
+            report["summary_text"] = self._sanitize_profile_summary(
+                report.get("summary_text"), profile
+            )
+            report["market_view"] = self._sanitize_market_view(
+                report.get("market_view"), profile, current_market_regime
+            )
+            report["risk_level"] = self._sanitize_risk_level(report.get("risk_level"), profile)
+            report["rationale_items"] = self._sanitize_rationales(
+                report.get("rationale_items"), profile
+            )
+            report["disclaimer_text"] = self._sanitize_disclaimer(report.get("disclaimer_text"))
+            for item in report.get("allocation_items", []):
+                item["display_name"] = self._sanitize_display_name(
+                    item.get("display_name"), item.get("asset_group")
+                )
+                item["role_summary"] = self._sanitize_role_summary(
+                    item.get("role_summary"),
+                    item.get("asset_group"),
+                    item.get("source_type"),
+                    item.get("display_name"),
+                )
+            change_log = report.get("change_log") or {}
+            change_log["increased_assets"] = self._sanitize_change_items(
+                change_log.get("increased_assets"), action="비중 확대"
+            )
+            change_log["decreased_assets"] = self._sanitize_change_items(
+                change_log.get("decreased_assets"), action="비중 축소"
+            )
+            change_log["change_reason"] = self._sanitize_change_reason(
+                change_log.get("change_reason"), profile
+            )
+            report["change_log"] = change_log
+
+        for model in sanitized["performance_summary"].get("models", []):
+            profile = model.get("service_profile")
+            model["user_model_name"] = self._sanitize_model_name(
+                model.get("user_model_name"), profile
+            )
+            model["note"] = self._sanitize_profile_summary(model.get("note"), profile)
+
+        for change in sanitized["recent_changes"].get("changes", []):
+            profile = change.get("service_profile")
+            change["user_model_name"] = self._sanitize_model_name(
+                change.get("user_model_name"), profile
+            )
+            change["summary"] = self._sanitize_profile_summary(change.get("summary"), profile)
+            change["increase_items"] = self._sanitize_change_items(
+                change.get("increase_items"), action="비중 확대"
+            )
+            change["decrease_items"] = self._sanitize_change_items(
+                change.get("decrease_items"), action="비중 축소"
+            )
+            change["reason_text"] = self._sanitize_change_reason(change.get("reason_text"), profile)
+
+        return sanitized
+
+    def _sanitize_model_name(self, value: Any, profile: str | None) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return SERVICE_PROFILE_LABELS.get(profile or "", repaired or "전략")
+
+    def _sanitize_profile_summary(self, value: Any, profile: str | None) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return SERVICE_PROFILE_SUMMARIES.get(
+            profile or "", "현재 시장 상황에 맞춘 전략 요약입니다."
+        )
+
+    def _sanitize_target_user_type(self, value: Any, profile: str | None) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return SERVICE_PROFILE_TARGET_USERS.get(profile or "", "이 전략에 적합한 투자자")
+
+    def _sanitize_market_view(
+        self, value: Any, profile: str | None, current_market_regime: str | None
+    ) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        regime_suffix = {
+            "bull": "강세 국면",
+            "bear": "약세 국면",
+            "sideways": "횡보 국면",
+            "neutral": "중립 국면",
+        }.get(current_market_regime or "", None)
+        base = SERVICE_PROFILE_MARKET_VIEWS.get(profile or "", "현재 시장에 대응하는 포지션입니다.")
+        if regime_suffix and regime_suffix not in base:
+            return f"{base} 현재 시장은 {regime_suffix}으로 판단합니다."
+        return base
+
+    def _sanitize_risk_level(self, value: Any, profile: str | None) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return SERVICE_PROFILE_RISK_LEVELS.get(profile or "", "보통")
+
+    def _sanitize_rationales(self, values: Any, profile: str | None) -> list[str]:
+        if isinstance(values, list):
+            repaired_values = [self._repair_text(item) for item in values]
+            if repaired_values and any(
+                item and not self._looks_garbled(item) for item in repaired_values
+            ):
+                return [item for item in repaired_values if item]
+        return list(SERVICE_PROFILE_RATIONALES.get(profile or "", []))
+
+    def _sanitize_disclaimer(self, value: Any) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return DEFAULT_DISCLAIMER
+
+    def _sanitize_display_name(self, value: Any, asset_group: str | None) -> str:
+        repaired = self._repair_text(value)
+        if asset_group == "cash":
+            return "현금/대기자금"
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return repaired or "종목명 미확인"
+
+    def _sanitize_role_summary(
+        self, value: Any, asset_group: str | None, source_type: str | None, display_name: str | None
+    ) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        name = display_name or ""
+        if asset_group == "cash":
+            return "유동성 및 대기 자금"
+        if "금" in name:
+            return "금 자산 분산 투자"
+        if "달러" in name:
+            return "달러 헤지 자산"
+        if "국채" in name or "채" in name:
+            return "채권형 완충 자산"
+        if "인버스" in name:
+            return "하락 방어용 헤지 자산"
+        if source_type == "ETF" or asset_group == "etf":
+            return "ETF 분산 투자"
+        return "핵심 편입 자산"
+
+    def _sanitize_change_items(self, values: Any, action: str) -> list[str]:
+        if not isinstance(values, list):
+            return []
+        sanitized: list[str] = []
+        for item in values:
+            repaired = self._repair_text(item)
+            repaired = re.sub(r"\?\?\s*\?\?", action, repaired)
+            repaired = re.sub(r"\s{2,}", " ", repaired).strip()
+            if not repaired:
+                continue
+            sanitized.append(repaired)
+        return sanitized
+
+    def _sanitize_change_reason(self, value: Any, profile: str | None) -> str:
+        repaired = self._repair_text(value)
+        if repaired and not self._looks_garbled(repaired):
+            return repaired
+        return SERVICE_PROFILE_CHANGE_REASONS.get(
+            profile or "", "시장 변화에 따라 포트폴리오 비중을 재조정했습니다."
+        )
+
+    def _repair_text(self, value: Any) -> str:
+        if not isinstance(value, str):
+            return ""
+        repaired = value.strip()
+        if not repaired:
+            return repaired
+        candidate = self._try_utf8_repair(repaired)
+        if self._text_score(candidate) > self._text_score(repaired):
+            repaired = candidate
+        return repaired
+
+    def _try_utf8_repair(self, value: str) -> str:
+        try:
+            return value.encode("latin-1").decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            return value
+
+    def _looks_garbled(self, value: str) -> bool:
+        if not value:
+            return False
+        return any(marker in value for marker in GARBLED_MARKERS)
+
+    def _text_score(self, value: str) -> int:
+        hangul_count = sum(1 for ch in value if "\uac00" <= ch <= "\ud7a3")
+        ascii_letters = sum(1 for ch in value if ch.isascii() and ch.isalpha())
+        garbled_penalty = sum(value.count(marker) for marker in GARBLED_MARKERS)
+        return (hangul_count * 3) + ascii_letters - (garbled_penalty * 4)
 
     def _validate_payloads(self, payloads: dict[str, dict[str, Any]]) -> None:
         errors: list[str] = []
