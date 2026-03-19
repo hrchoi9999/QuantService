@@ -877,3 +877,28 @@ th {
     flex-wrap: wrap;
   }
 }
+
+
+.brand-with-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(230, 44, 40, 0.18));
+}
+
+.hero-logo-wrap {
+  margin-bottom: 18px;
+}
+
+.hero-logo {
+  width: min(180px, 42vw);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 28px rgba(230, 44, 40, 0.14));
+}
