@@ -89,7 +89,7 @@ class UserSnapshotMockApi:
                     stale_bundle = deepcopy(self._cached_bundle)
                     stale_bundle.stale = True
                     stale_bundle.warnings = list(stale_bundle.warnings) + [
-                        "?? ???? ???? ?? ??? ?? ???? ???? ????."
+                        "최신 스냅샷을 읽지 못해 이전 정상 데이터를 표시합니다."
                     ]
                     stale_bundle.errors = exc.errors
                     return stale_bundle
@@ -133,12 +133,13 @@ class UserSnapshotMockApi:
         state = "healthy"
         if bundle.empty:
             state = "empty"
-            warnings.append("??? ???? ??? ???? ?? ????.")
+            warnings.append("사용 가능한 사용자 스냅샷 데이터가 아직 없습니다.")
         elif bundle.stale or self._is_age_stale(age_seconds):
             state = "stale"
             if self._is_age_stale(age_seconds):
                 warnings.append(
-                    f"??? ?? ??? {self.settings.snapshot_stale_after_hours}?? ???? ???????."
+                    "스냅샷 생성 시각이 "
+                    f"{self.settings.snapshot_stale_after_hours}시간을 넘어 오래되었습니다."
                 )
         return UserSnapshotStatus(
             state=state,

@@ -3,17 +3,17 @@
 {% block content %}
 <section class="hero-card compact-hero">
   <p class="eyebrow">Status</p>
-  <h1>???? ??? ??</h1>
+  <h1>서비스 상태 확인</h1>
   <div class="meta-strip">
-    <span>?? {{ status_snapshot.state }}</span>
-    <span>??? {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
-    <span>???? {{ status_snapshot.generated_at | fmt_datetime }}</span>
+    <span>상태 {{ status_snapshot.state }}</span>
+    <span>기준일 {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
+    <span>생성시각 {{ status_snapshot.generated_at | fmt_datetime }}</span>
   </div>
 </section>
 
 <section class="grid two-up">
   <article class="panel">
-    <h2>??</h2>
+    <h2>스냅샷 상태</h2>
     <div class="status-grid">
       <div><span class="label">Source</span><strong>{{ status_snapshot.source_name }}</strong></div>
       <div><span class="label">Models</span><strong>{{ status_snapshot.model_count }}</strong></div>
@@ -21,12 +21,12 @@
       <div><span class="label">Snapshot Access</span><strong>{{ status_snapshot.snapshot_accessible }}</strong></div>
       <div><span class="label">Age Seconds</span><strong>{{ status_snapshot.age_seconds if status_snapshot.age_seconds is not none else '-' }}</strong></div>
       <div><span class="label">Stale Threshold</span><strong>{{ status_snapshot.stale_after_hours }}h</strong></div>
-      <div><span class="label">Refresh</span><strong><a href="{{ url_for('status') }}?refresh=1">Reload now</a></strong></div>
+      <div><span class="label">Refresh</span><strong><a href="{{ url_for('status') }}?refresh=1">지금 다시 불러오기</a></strong></div>
     </div>
   </article>
 
   <article class="panel">
-    <h2>?? ??</h2>
+    <h2>배포 파일</h2>
     {% if publish_status_payload and publish_status_payload.files %}
     <ul class="message-list compact-list">
       {% for filename in publish_status_payload.files %}
@@ -34,13 +34,13 @@
       {% endfor %}
     </ul>
     {% else %}
-    <p class="muted">??? ?? ????? ????.</p>
+    <p class="muted">표시할 배포 파일 정보가 없습니다.</p>
     {% endif %}
   </article>
 </section>
 
 <section class="panel">
-  <h2>?? {{ metrics_summary.window_hours }}?? ????</h2>
+  <h2>최근 {{ metrics_summary.window_hours }}시간 운영 지표</h2>
   <div class="status-grid">
     <div><span class="label">Page Views</span><strong>{{ metrics_summary.page_views }}</strong></div>
     <div><span class="label">Today Views</span><strong>{{ metrics_summary.today_page_views }}</strong></div>

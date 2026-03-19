@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="Redbot? Quant? ??? ???? ???? ???? ??? ??? ?? ??? ???? ?? ??? ??????.">
+  <meta name="description" content="Redbot은 한국 투자자를 위한 스냅샷 기반 투자 브리핑 서비스입니다.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
@@ -41,23 +41,23 @@
 
     <section class="auth-summary shell-card access-strip">
       <div>
-        <span class="label">Current Access</span>
+        <span class="label">현재 이용 권한</span>
         <strong>{{ access_context.effective_plan_id }}</strong>
         {% if current_user %}
         <span class="muted">{{ current_user.email }}</span>
         {% else %}
-        <span class="muted">???? ???</span>
+        <span class="muted">비로그인 사용자</span>
         {% endif %}
       </div>
       <div class="meta-strip compact-meta">
-        <span>Base {{ access_context.base_plan_id }}</span>
+        <span>기본 {{ access_context.base_plan_id }}</span>
         {% if access_context.trial_active %}
-        <span>Trial active{% if access_context.trial_end_date %} until {{ access_context.trial_end_date }}{% endif %}</span>
+        <span>체험판 이용 중{% if access_context.trial_end_date %} · {{ access_context.trial_end_date }}까지{% endif %}</span>
         {% endif %}
         {% if access_context.is_admin %}
-        <span>Admin access</span>
+        <span>관리자 권한</span>
         {% endif %}
-        <span>{% if billing_enabled %}Billing on{% else %}Billing off{% endif %}</span>
+        <span>{% if billing_enabled %}결제 기능 활성화{% else %}결제 기능 비활성화{% endif %}</span>
       </div>
     </section>
 
@@ -68,8 +68,8 @@
     <footer class="site-footer muted">
       <span>redbot beta</span>
       <div class="footer-links">
-        <a href="{{ url_for('privacy') }}">???? ??</a>
-        <a href="{{ url_for('status') }}">??? ??</a>
+        <a href="{{ url_for('privacy') }}">개인정보 안내</a>
+        <a href="{{ url_for('status') }}">서비스 상태</a>
       </div>
     </footer>
   </div>

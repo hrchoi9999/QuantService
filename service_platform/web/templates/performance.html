@@ -4,17 +4,17 @@
 <section class="hero-card compact-hero hero-stage">
   <div class="hero-main">
     <p class="eyebrow">Performance</p>
-    <h1>??? ?? ??</h1>
-    <p class="lead">??? ???? ??? ???? Redbot ?? 4?? ?? ??? ??? ??? ?????.</p>
+    <h1>전략별 성과 비교</h1>
+    <p class="lead">동일한 사용자 스냅샷 기준으로 Redbot의 네 가지 전략 성과를 한 번에 비교할 수 있습니다.</p>
     <div class="meta-strip">
-      <span>??? {{ bundle.as_of_date or '-' }}</span>
-      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-      <span>?? {{ status_snapshot.state }}</span>
+      <span>기준일 {{ bundle.as_of_date or '-' }}</span>
+      <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>상태 {{ status_snapshot.state }}</span>
     </div>
   </div>
   <aside class="hero-side shell-card">
     <p class="eyebrow">Comparison Scope</p>
-    <p class="muted">?? ??? ?? ?? ??, Quant? ??? ???? ?? ??? ??? ?? ?????.</p>
+    <p class="muted">성과 값은 스냅샷에 포함된 지표를 그대로 사용하며, 웹에서 별도 재계산하지 않습니다.</p>
   </aside>
 </section>
 
@@ -24,7 +24,7 @@
   <article class="feature-card shell-card compact-card">
     <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
     <h2>{{ row.user_model_name }}</h2>
-    <p class="muted small">??? {{ risk_labels.get(row.risk_label, row.risk_label) }}</p>
+    <p class="muted small">위험도 {{ risk_labels.get(row.risk_label, row.risk_label) }}</p>
     <div class="metric-strip three-col compact-metrics">
       <div>
         <span class="label">CAGR</span>
@@ -48,20 +48,20 @@
   <div class="section-heading tight-head">
     <div>
       <p class="eyebrow">Comparison Table</p>
-      <h2>?? ?? ?</h2>
+      <h2>전략 비교표</h2>
     </div>
   </div>
   <div class="table-wrap comparison-table">
     <table>
       <thead>
         <tr>
-          <th>??</th>
-          <th>???</th>
-          <th>???</th>
+          <th>전략명</th>
+          <th>유형</th>
+          <th>위험도</th>
           <th>CAGR</th>
           <th>MDD</th>
           <th>Sharpe</th>
-          <th>??</th>
+          <th>설명</th>
         </tr>
       </thead>
       <tbody>
@@ -95,7 +95,7 @@
       <table>
         <thead>
           <tr>
-            <th>??</th>
+            <th>기간</th>
             <th>CAGR</th>
             <th>MDD</th>
             <th>Sharpe</th>
@@ -118,8 +118,8 @@
 </section>
 {% else %}
 <section class="panel empty-state shell-card">
-  <h2>?? ??? ???? ?? ????.</h2>
-  <p>?? ???? ???? ??? ?? ??? ?? ?? ?????.</p>
+  <h2>성과 비교 데이터가 아직 없습니다.</h2>
+  <p>사용자 스냅샷이 준비되면 전략별 성과 비교가 이 영역에 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

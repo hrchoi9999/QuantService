@@ -4,17 +4,17 @@
 <section class="hero-card compact-hero hero-stage today-stage">
   <div class="hero-main">
     <p class="eyebrow">Today</p>
-    <h1>??? ?? ???</h1>
-    <p class="lead">?? ?? ??? ?? Redbot ??? ?? ??, ?? ??, ?? ?? ??? ??? ??? ???? ?????.</p>
+    <h1>오늘의 추천</h1>
+    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 변경사항을 한 번에 보여드립니다.</p>
     <div class="meta-strip">
-      <span>??? {{ bundle.as_of_date or '-' }}</span>
-      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-      <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
+      <span>기준일 {{ bundle.as_of_date or '-' }}</span>
+      <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>시장 국면 {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</span>
     </div>
     {% if status_snapshot.state == 'stale' %}
-    <div class="warning-banner">?? ???? ?? ???? ?? ??? ?? ???? ???? ????.</div>
+    <div class="warning-banner">최신 스냅샷이 지연되어 직전 정상 추천 데이터를 표시하고 있습니다.</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">?? ?? ???? ?? ????. ?? ??? ??? ???.</div>
+    <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   {% if reports %}
@@ -39,18 +39,18 @@
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
       <div class="report-badges">
-        <span class="badge accent">??? {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
+        <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
         <span class="badge neutral">{{ report.service_profile }}</span>
       </div>
     </div>
 
     <div class="grid two-up report-grid">
       <article class="sub-panel shell-card emphasis-card">
-        <span class="label">?? ??</span>
+        <span class="label">시장 해석</span>
         <p>{{ report.market_view }}</p>
       </article>
       <article class="sub-panel shell-card metric-panel">
-        <span class="label">?? ??</span>
+        <span class="label">핵심 성과</span>
         <div class="metric-strip three-col">
           <div>
             <span class="label">Full CAGR</span>
@@ -71,7 +71,7 @@
     <div class="grid two-up report-grid">
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>?? ?? ??</h3>
+          <h3>현재 편입 구성</h3>
           <span class="badge neutral">{{ report.allocation_items | length }} items</span>
         </div>
         {% if report.allocation_items %}
@@ -79,11 +79,11 @@
           <table>
             <thead>
               <tr>
-                <th>???</th>
-                <th>??</th>
-                <th>??</th>
-                <th>??</th>
-                <th>??</th>
+                <th>자산군</th>
+                <th>종목명</th>
+                <th>목표 비중</th>
+                <th>역할</th>
+                <th>구분</th>
               </tr>
             </thead>
             <tbody>
@@ -100,13 +100,13 @@
           </table>
         </div>
         {% else %}
-        <p class="muted">??? ?? ?? ??? ????.</p>
+        <p class="muted">표시할 편입 구성이 아직 없습니다.</p>
         {% endif %}
       </article>
 
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>? ?? ???????</h3>
+          <h3>핵심 판단 근거</h3>
           <span class="badge neutral">{{ report.rationale_items | length }} notes</span>
         </div>
         {% if report.rationale_items %}
@@ -116,7 +116,7 @@
           {% endfor %}
         </ul>
         {% else %}
-        <p class="muted">?? ??? ?? ????.</p>
+        <p class="muted">표시할 판단 근거가 없습니다.</p>
         {% endif %}
       </article>
     </div>
@@ -124,7 +124,7 @@
     <div class="grid two-up report-grid">
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>??? ??</h3>
+          <h3>기간별 성과</h3>
           <span class="badge neutral">{{ report.performance_summary.period_metrics | length }} periods</span>
         </div>
         {% if report.performance_summary.period_metrics %}
@@ -132,7 +132,7 @@
           <table>
             <thead>
               <tr>
-                <th>??</th>
+                <th>기간</th>
                 <th>CAGR</th>
                 <th>MDD</th>
                 <th>Sharpe</th>
@@ -151,56 +151,56 @@
           </table>
         </div>
         {% else %}
-        <p class="muted">??? ?? ???? ????.</p>
+        <p class="muted">표시할 기간별 성과가 없습니다.</p>
         {% endif %}
       </article>
 
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>?? ??</h3>
+          <h3>이번 변경</h3>
           <span class="badge neutral">allocation changes</span>
         </div>
         <div class="grid two-up nested-grid">
           <div class="sub-panel shell-card change-subpanel increase-panel">
-            <span class="label">?? ??</span>
+            <span class="label">비중 확대</span>
             <ul class="message-list compact-list">
               {% for item in report.change_log.increased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
               {% if not report.change_log.increased_assets %}
-              <li>?? ??</li>
+              <li>해당 없음</li>
               {% endif %}
             </ul>
           </div>
           <div class="sub-panel shell-card change-subpanel decrease-panel">
-            <span class="label">?? ??</span>
+            <span class="label">비중 축소</span>
             <ul class="message-list compact-list">
               {% for item in report.change_log.decreased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
               {% if not report.change_log.decreased_assets %}
-              <li>?? ??</li>
+              <li>해당 없음</li>
               {% endif %}
             </ul>
           </div>
         </div>
         <div class="sub-panel shell-card reason-panel">
-          <span class="label">?? ??</span>
+          <span class="label">변경 이유</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>
     </div>
 
     <div class="sub-panel shell-card disclaimer-panel">
-      <span class="label">?? ??</span>
+      <span class="label">면책 문구</span>
       <p class="muted small">{{ report.disclaimer_text }}</p>
     </div>
   </section>
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card">
-  <h2>?? ??? ?? ???? ????.</h2>
-  <p>?? ???? ???? ??? ?? ???? ? ??? ???? ?????.</p>
+  <h2>오늘의 추천 데이터가 아직 없습니다.</h2>
+  <p>사용자 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

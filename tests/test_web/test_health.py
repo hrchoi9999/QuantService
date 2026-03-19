@@ -361,9 +361,9 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert today_response.status_code == 200
     assert "Samsung Electronics" in today_response.get_data(as_text=True)
     assert performance_response.status_code == 200
-    assert "??? ?? ??" in performance_response.get_data(as_text=True)
+    assert "전략별 성과 비교" in performance_response.get_data(as_text=True)
     assert changes_response.status_code == 200
-    assert "?? ?? ??" in changes_response.get_data(as_text=True)
+    assert "최근 변경 내역" in changes_response.get_data(as_text=True)
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
@@ -403,7 +403,7 @@ def test_error_page_is_rendered_when_user_snapshots_are_missing(tmp_path: Path) 
 
     assert response.status_code == 503
     assert "Temporary Issue" in body
-    assert "?? ??? ??" in body
+    assert "현재 데이터 업데이트 중입니다." in body
 
 
 def test_empty_state_is_rendered_when_reports_are_empty(tmp_path: Path) -> None:
@@ -415,7 +415,7 @@ def test_empty_state_is_rendered_when_reports_are_empty(tmp_path: Path) -> None:
     response = client.get("/today")
 
     assert response.status_code == 200
-    assert "?? ??? ?? ???? ????" in response.get_data(as_text=True)
+    assert "오늘의 추천 데이터가 아직 없습니다." in response.get_data(as_text=True)
 
 
 def test_healthz_and_status_display_snapshot_metadata(tmp_path: Path) -> None:
@@ -542,7 +542,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     me_response = client.get("/me")
 
     assert request_code_response.status_code == 200
-    assert "??? ????" in request_code_response.get_data(as_text=True)
+    assert "개발용 인증번호" in request_code_response.get_data(as_text=True)
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
