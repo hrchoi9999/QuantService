@@ -1906,3 +1906,17 @@ th {
     padding-right: 4px;
   }
 }
+
+
+.model-selector-circle {
+  border-color: rgba(230, 44, 40, 0.28);
+  background: linear-gradient(180deg, #f4d7d2, #f8e5e1);
+}
+
+.model-selector:hover .model-selector-circle,
+.model-selector:focus-visible .model-selector-circle,
+.model-selector.is-selected .model-selector-circle {
+  border-color: rgba(230, 44, 40, 0.6);
+  background: linear-gradient(180deg, #efb6ae, #f3c9c2);
+  box-shadow: 0 8px 18px rgba(230, 44, 40, 0.12);
+}
