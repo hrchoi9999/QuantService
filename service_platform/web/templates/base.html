@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="page-shell">
-    <header class="site-header shell-card">
+    <header class="site-header shell-card public-header">
       <div class="brand-block">
         <a class="brand brand-with-logo" href="{{ url_for('home') }}">
           <img class="brand-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="redbot logo">
@@ -23,9 +23,8 @@
         <a href="{{ url_for('today') }}">Today</a>
         <a href="{{ url_for('performance') }}">Performance</a>
         <a href="{{ url_for('changes') }}">Changes</a>
-        <a href="{{ url_for('feedback') }}">Feedback</a>
         <a href="{{ url_for('status') }}">Status</a>
-        <a href="{{ url_for('theme_preview') }}">Theme Lab</a>
+        <a href="{{ url_for('feedback') }}">Feedback</a>
         {% if current_user %}
         <a href="{{ url_for('me') }}">Me</a>
         <a href="{{ url_for('logout') }}">Logout</a>
@@ -39,37 +38,34 @@
       </nav>
     </header>
 
-    <section class="auth-summary shell-card access-strip">
+    {% if current_user %}
+    <section class="member-ribbon shell-card">
       <div>
-        <span class="label">현재 이용 권한</span>
-        <strong>{{ access_context.effective_plan_id }}</strong>
-        {% if current_user %}
-        <span class="muted">{{ current_user.email }}</span>
-        {% else %}
-        <span class="muted">비로그인 사용자</span>
-        {% endif %}
+        <span class="label">로그인 계정</span>
+        <strong>{{ current_user.email }}</strong>
       </div>
       <div class="meta-strip compact-meta">
-        <span>기본 {{ access_context.base_plan_id }}</span>
+        <span>{{ access_context.effective_plan_id }} 플랜 이용 중</span>
         {% if access_context.trial_active %}
-        <span>체험판 이용 중{% if access_context.trial_end_date %} · {{ access_context.trial_end_date }}까지{% endif %}</span>
+        <span>체험판{% if access_context.trial_end_date %} · {{ access_context.trial_end_date }}까지{% endif %}</span>
         {% endif %}
-        {% if access_context.is_admin %}
-        <span>관리자 권한</span>
-        {% endif %}
-        <span>{% if billing_enabled %}결제 기능 활성화{% else %}결제 기능 비활성화{% endif %}</span>
       </div>
     </section>
+    {% endif %}
 
-    <main class="content-shell">
+    <main class="content-shell public-content-shell">
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer muted">
-      <span>redbot beta</span>
+    <footer class="site-footer muted public-footer">
+      <div>
+        <strong>redbot</strong>
+        <span>투자 판단을 돕는 스냅샷 기반 브리핑</span>
+      </div>
       <div class="footer-links">
         <a href="{{ url_for('privacy') }}">개인정보 안내</a>
         <a href="{{ url_for('status') }}">서비스 상태</a>
+        <a href="{{ url_for('feedback') }}">의견 보내기</a>
       </div>
     </footer>
   </div>

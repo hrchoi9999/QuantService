@@ -1,58 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero">
+<section class="hero-card compact-hero status-hero public-status-hero">
   <p class="eyebrow">Status</p>
   <h1>서비스 상태 확인</h1>
-  <div class="meta-strip">
-    <span>상태 {{ status_snapshot.state }}</span>
-    <span>기준일 {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
-    <span>생성시각 {{ status_snapshot.generated_at | fmt_datetime }}</span>
+  <p class="lead">현재 공개 중인 사용자용 스냅샷이 정상적으로 반영되고 있는지 간단히 확인할 수 있습니다.</p>
+  <div class="hero-badges">
+    <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
+    <span class="badge neutral">기준일 {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
+    <span class="badge neutral">업데이트 {{ status_snapshot.generated_at | fmt_datetime }}</span>
   </div>
 </section>
 
-<section class="grid two-up">
-  <article class="panel">
-    <h2>스냅샷 상태</h2>
-    <div class="status-grid">
-      <div><span class="label">Source</span><strong>{{ status_snapshot.source_name }}</strong></div>
-      <div><span class="label">Models</span><strong>{{ status_snapshot.model_count }}</strong></div>
-      <div><span class="label">Reports</span><strong>{{ status_snapshot.report_count }}</strong></div>
-      <div><span class="label">Snapshot Access</span><strong>{{ status_snapshot.snapshot_accessible }}</strong></div>
-      <div><span class="label">Age Seconds</span><strong>{{ status_snapshot.age_seconds if status_snapshot.age_seconds is not none else '-' }}</strong></div>
-      <div><span class="label">Stale Threshold</span><strong>{{ status_snapshot.stale_after_hours }}h</strong></div>
-      <div><span class="label">Refresh</span><strong><a href="{{ url_for('status') }}?refresh=1">지금 다시 불러오기</a></strong></div>
-    </div>
+<section class="public-status-grid">
+  <article class="panel shell-card public-status-card">
+    <span class="label">서비스 상태</span>
+    <h2>{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</h2>
+    <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 제공되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기반으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
   </article>
-
-  <article class="panel">
-    <h2>배포 파일</h2>
-    {% if publish_status_payload and publish_status_payload.files %}
-    <ul class="message-list compact-list">
-      {% for filename in publish_status_payload.files %}
-      <li>{{ filename }}</li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p class="muted">표시할 배포 파일 정보가 없습니다.</p>
-    {% endif %}
+  <article class="panel shell-card public-status-card">
+    <span class="label">전략 수</span>
+    <h2>{{ status_snapshot.model_count }}</h2>
+    <p class="muted">현재 사용자용 화면에서 제공 중인 전략 수입니다.</p>
   </article>
-</section>
-
-<section class="panel">
-  <h2>최근 {{ metrics_summary.window_hours }}시간 운영 지표</h2>
-  <div class="status-grid">
-    <div><span class="label">Page Views</span><strong>{{ metrics_summary.page_views }}</strong></div>
-    <div><span class="label">Today Views</span><strong>{{ metrics_summary.today_page_views }}</strong></div>
-    <div><span class="label">Feedback</span><strong>{{ metrics_summary.feedback_submissions }}</strong></div>
-    <div><span class="label">Top Ticker Click</span><strong>{{ metrics_summary.ticker_clicks[0].ticker if metrics_summary.ticker_clicks else '-' }}</strong></div>
-  </div>
+  <article class="panel shell-card public-status-card">
+    <span class="label">리포트 수</span>
+    <h2>{{ status_snapshot.report_count }}</h2>
+    <p class="muted">오늘의 추천 화면에서 확인 가능한 전략별 리포트 수입니다.</p>
+  </article>
+  <article class="panel shell-card public-status-card">
+    <span class="label">응답 상태</span>
+    <h2>{% if status_snapshot.snapshot_accessible %}정상{% else %}확인 필요{% endif %}</h2>
+    <p class="muted">공개용 스냅샷 접근 가능 여부만 간단히 표시합니다.</p>
+  </article>
 </section>
 
 {% if status_snapshot.warnings %}
-<section class="panel warning-panel">
-  <h2>Warnings</h2>
-  <ul class="message-list compact-list">
+<section class="panel warning-panel shell-card">
+  <h2>알림</h2>
+  <ul class="message-list compact-list clean-list">
     {% for item in status_snapshot.warnings %}
     <li>{{ item }}</li>
     {% endfor %}
@@ -61,13 +47,18 @@
 {% endif %}
 
 {% if status_snapshot.errors %}
-<section class="panel error-panel">
-  <h2>Errors</h2>
-  <ul class="message-list compact-list">
+<section class="panel error-panel shell-card">
+  <h2>일시적인 오류</h2>
+  <ul class="message-list compact-list clean-list">
     {% for item in status_snapshot.errors %}
     <li>{{ item }}</li>
     {% endfor %}
   </ul>
 </section>
 {% endif %}
+
+<section class="disclosure-box status-note-box">
+  <strong>안내</strong>
+  <p>서비스 상태에 문제가 지속되면 Feedback 페이지를 통해 알려 주세요. 내부 운영 지표와 배포 상세 정보는 공개 화면에 노출하지 않습니다.</p>
+</section>
 {% endblock %}

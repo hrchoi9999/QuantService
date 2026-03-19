@@ -1,45 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero hero-stage">
+<section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
     <p class="eyebrow">Performance</p>
-    <h1>전략별 성과 비교</h1>
-    <p class="lead">동일한 사용자 스냅샷 기준으로 Redbot의 네 가지 전략 성과를 한 번에 비교할 수 있습니다.</p>
-    <div class="meta-strip">
-      <span>기준일 {{ bundle.as_of_date or '-' }}</span>
-      <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
-      <span>상태 {{ status_snapshot.state }}</span>
+    <h1>전략별 성과를 같은 기준으로 비교하세요.</h1>
+    <p class="lead">각 전략의 핵심 지표와 기간별 성과를 비교형 화면으로 정리했습니다. 숫자는 스냅샷 값을 그대로 사용합니다.</p>
+    <div class="hero-badges">
+      <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
+      <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
+      <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
     </div>
   </div>
-  <aside class="hero-side shell-card">
+  <aside class="hero-side shell-card spotlight-panel">
     <p class="eyebrow">Comparison Scope</p>
-    <p class="muted">성과 값은 스냅샷에 포함된 지표를 그대로 사용하며, 웹에서 별도 재계산하지 않습니다.</p>
+    <ul class="message-list compact-list trust-list">
+      <li>전략별 CAGR, MDD, Sharpe를 한 번에 비교합니다.</li>
+      <li>같은 기간 구간에서 차이를 읽기 쉽게 정리합니다.</li>
+      <li>웹에서는 계산을 다시 하지 않고 스냅샷 값만 가공해 표시합니다.</li>
+    </ul>
   </aside>
 </section>
 
 {% if performance_rows %}
-<section class="feature-grid four-up performance-highlight-grid">
+<section class="comparison-matrix">
   {% for row in performance_rows %}
-  <article class="feature-card shell-card compact-card">
-    <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
-    <h2>{{ row.user_model_name }}</h2>
-    <p class="muted small">위험도 {{ risk_labels.get(row.risk_label, row.risk_label) }}</p>
-    <div class="metric-strip three-col compact-metrics">
+  <article class="feature-card shell-card comparison-card">
+    <div class="section-heading tight-head">
       <div>
-        <span class="label">CAGR</span>
-        <strong>{{ row.performance_cards.cagr | fmt_percent }}</strong>
+        <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+        <h2>{{ row.user_model_name }}</h2>
       </div>
-      <div>
-        <span class="label">MDD</span>
-        <strong>{{ row.performance_cards.mdd | fmt_percent }}</strong>
+      <span class="badge accent">위험도 {{ risk_labels.get(row.risk_label, row.risk_label) }}</span>
+    </div>
+    <p class="muted">{{ row.note }}</p>
+    <div class="visual-metric-stack">
+      <div class="visual-metric-row">
+        <div class="visual-metric-head"><span>CAGR</span><strong>{{ row.performance_cards.cagr | fmt_percent }}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill accent-fill" style="width: {{ (((row.performance_cards.cagr or 0) * 220) | round(1)) }}%;"></span></div>
       </div>
-      <div>
-        <span class="label">Sharpe</span>
-        <strong>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</strong>
+      <div class="visual-metric-row">
+        <div class="visual-metric-head"><span>MDD</span><strong>{{ row.performance_cards.mdd | fmt_percent }}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill neutral-fill" style="width: {{ (((row.performance_cards.mdd | abs) * 620) | round(1)) }}%;"></span></div>
+      </div>
+      <div class="visual-metric-row">
+        <div class="visual-metric-head"><span>Sharpe</span><strong>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill dark-fill" style="width: {{ (((row.performance_cards.sharpe or 0) * 45) | round(1)) }}%;"></span></div>
       </div>
     </div>
-    <p class="muted small">{{ row.note }}</p>
   </article>
   {% endfor %}
 </section>
@@ -51,7 +59,7 @@
       <h2>전략 비교표</h2>
     </div>
   </div>
-  <div class="table-wrap comparison-table">
+  <div class="table-wrap comparison-table polished-table">
     <table>
       <thead>
         <tr>
@@ -61,7 +69,6 @@
           <th>CAGR</th>
           <th>MDD</th>
           <th>Sharpe</th>
-          <th>설명</th>
         </tr>
       </thead>
       <tbody>
@@ -73,7 +80,6 @@
           <td>{{ row.performance_cards.cagr | fmt_percent }}</td>
           <td>{{ row.performance_cards.mdd | fmt_percent }}</td>
           <td>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</td>
-          <td>{{ row.note }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -81,9 +87,9 @@
   </div>
 </section>
 
-<section class="grid two-up period-grid">
+<section class="grid two-up period-grid-modern">
   {% for row in performance_rows %}
-  <article class="panel shell-card">
+  <article class="panel shell-card period-panel-modern">
     <div class="section-heading tight-head">
       <div>
         <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
@@ -91,35 +97,25 @@
       </div>
       <span class="badge neutral">{{ row.period_table | length }} periods</span>
     </div>
-    <div class="table-wrap compact-table">
-      <table>
-        <thead>
-          <tr>
-            <th>기간</th>
-            <th>CAGR</th>
-            <th>MDD</th>
-            <th>Sharpe</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in row.period_table %}
-          <tr>
-            <td>{{ item.period }}</td>
-            <td>{{ item.cagr | fmt_percent }}</td>
-            <td>{{ item.mdd | fmt_percent }}</td>
-            <td>{% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="period-metric-grid">
+      {% for item in row.period_table %}
+      <div class="period-metric-card">
+        <span class="badge neutral">{{ item.period }}</span>
+        <div class="period-metric-values">
+          <span>CAGR {{ item.cagr | fmt_percent }}</span>
+          <span>MDD {{ item.mdd | fmt_percent }}</span>
+          <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </article>
   {% endfor %}
 </section>
 {% else %}
-<section class="panel empty-state shell-card">
+<section class="panel empty-state shell-card empty-shell">
   <h2>성과 비교 데이터가 아직 없습니다.</h2>
-  <p>사용자 스냅샷이 준비되면 전략별 성과 비교가 이 영역에 표시됩니다.</p>
+  <p>사용자용 스냅샷이 준비되면 전략별 성과 비교가 이 영역에 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

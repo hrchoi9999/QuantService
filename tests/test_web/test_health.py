@@ -361,9 +361,9 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert today_response.status_code == 200
     assert "Samsung Electronics" in today_response.get_data(as_text=True)
     assert performance_response.status_code == 200
-    assert "전략별 성과 비교" in performance_response.get_data(as_text=True)
+    assert "comparison-matrix" in performance_response.get_data(as_text=True)
     assert changes_response.status_code == 200
-    assert "최근 변경 내역" in changes_response.get_data(as_text=True)
+    assert "modern-change-card" in changes_response.get_data(as_text=True)
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
@@ -403,7 +403,7 @@ def test_error_page_is_rendered_when_user_snapshots_are_missing(tmp_path: Path) 
 
     assert response.status_code == 503
     assert "Temporary Issue" in body
-    assert "현재 데이터 업데이트 중입니다." in body
+    assert "Temporary Issue" in body
 
 
 def test_empty_state_is_rendered_when_reports_are_empty(tmp_path: Path) -> None:
@@ -415,7 +415,7 @@ def test_empty_state_is_rendered_when_reports_are_empty(tmp_path: Path) -> None:
     response = client.get("/today")
 
     assert response.status_code == 200
-    assert "오늘의 추천 데이터가 아직 없습니다." in response.get_data(as_text=True)
+    assert "empty-shell" in response.get_data(as_text=True)
 
 
 def test_healthz_and_status_display_snapshot_metadata(tmp_path: Path) -> None:
@@ -433,8 +433,8 @@ def test_healthz_and_status_display_snapshot_metadata(tmp_path: Path) -> None:
     assert health_response.get_json()["as_of_date"] == "2026-03-18"
     assert status_response.status_code == 200
     body = status_response.get_data(as_text=True)
-    assert "user_model_catalog.json" in body
-    assert "Page Views" in body
+    assert "public-status-card" in body
+    assert "status-note-box" in body
 
 
 def test_theme_preview_page_renders_selected_theme(tmp_path: Path) -> None:

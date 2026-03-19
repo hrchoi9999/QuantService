@@ -1,28 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero hero-stage today-stage">
+<section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
     <p class="eyebrow">Today</p>
     <h1>오늘의 추천</h1>
-    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 변경사항을 한 번에 보여드립니다.</p>
-    <div class="meta-strip">
-      <span>기준일 {{ bundle.as_of_date or '-' }}</span>
-      <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
-      <span>시장 국면 {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</span>
+    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 리서치 브리핑 형태로 정리했습니다.</p>
+    <div class="overview-metrics">
+      <div class="metric-card public-metric-card">
+        <span class="label">기준일</span>
+        <strong>{{ bundle.as_of_date or '-' }}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">시장 국면</span>
+        <strong>{{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">전략 수</span>
+        <strong>{{ reports | length }}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">상태</span>
+        <strong>{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</strong>
+      </div>
     </div>
     {% if status_snapshot.state == 'stale' %}
-    <div class="warning-banner">최신 스냅샷이 지연되어 직전 정상 추천 데이터를 표시하고 있습니다.</div>
+    <div class="warning-banner">최신 추천 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
     {% elif status_snapshot.state == 'empty' %}
     <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   {% if reports %}
-  <aside class="hero-side shell-card quick-nav-card">
+  <aside class="hero-side shell-card quick-nav-card segmented-card">
     <p class="eyebrow">Strategy Lineup</p>
-    <div class="quick-nav-list">
+    <div class="segmented-control">
       {% for report in reports %}
-      <a href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
+      <a class="segment-pill" href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
       {% endfor %}
     </div>
   </aside>
@@ -31,92 +44,106 @@
 
 {% if reports %}
   {% for report in reports %}
-  <section class="panel report-shell shell-card" id="{{ report.service_profile }}">
-    <div class="section-heading report-top">
+  {% set sorted_items = report.allocation_items | sort(attribute='target_weight', reverse=True) %}
+  {% set top_items = sorted_items[:8] %}
+  {% set extra_count = (sorted_items | length) - (top_items | length) %}
+  <section class="panel report-shell shell-card strategy-detail-card" id="{{ report.service_profile }}">
+    <div class="section-heading report-top detail-top">
       <div>
         <p class="eyebrow">{{ profile_labels.get(report.service_profile, report.service_profile) }}</p>
         <h2>{{ report.user_model_name }}</h2>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
-      <div class="report-badges">
+      <div class="report-badges compact-stack">
         <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
-        <span class="badge neutral">{{ report.service_profile }}</span>
+        <span class="badge neutral">생성 {{ bundle.generated_at | fmt_datetime }}</span>
+      </div>
+    </div>
+
+    <div class="metric-strip three-col report-metric-strip">
+      <div class="metric-card public-metric-card emphasis">
+        <span class="label">Full CAGR</span>
+        <strong>{{ report.performance_summary.headline_metrics.full_cagr | fmt_percent }}</strong>
+      </div>
+      <div class="metric-card public-metric-card emphasis">
+        <span class="label">Full MDD</span>
+        <strong>{{ report.performance_summary.headline_metrics.full_mdd | fmt_percent }}</strong>
+      </div>
+      <div class="metric-card public-metric-card emphasis">
+        <span class="label">Full Sharpe</span>
+        <strong>{% if report.performance_summary.headline_metrics.full_sharpe is not none %}{{ '%.2f'|format(report.performance_summary.headline_metrics.full_sharpe) }}{% else %}-{% endif %}</strong>
       </div>
     </div>
 
     <div class="grid two-up report-grid">
-      <article class="sub-panel shell-card emphasis-card">
-        <span class="label">시장 해석</span>
-        <p>{{ report.market_view }}</p>
-      </article>
-      <article class="sub-panel shell-card metric-panel">
-        <span class="label">핵심 성과</span>
-        <div class="metric-strip three-col">
-          <div>
-            <span class="label">Full CAGR</span>
-            <strong>{{ report.performance_summary.headline_metrics.full_cagr | fmt_percent }}</strong>
-          </div>
-          <div>
-            <span class="label">Full MDD</span>
-            <strong>{{ report.performance_summary.headline_metrics.full_mdd | fmt_percent }}</strong>
-          </div>
-          <div>
-            <span class="label">Full Sharpe</span>
-            <strong>{% if report.performance_summary.headline_metrics.full_sharpe is not none %}{{ '%.2f'|format(report.performance_summary.headline_metrics.full_sharpe) }}{% else %}-{% endif %}</strong>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <div class="grid two-up report-grid">
-      <article class="shell-card content-card">
+      <article class="shell-card content-card spotlight-surface">
         <div class="section-heading tight-head">
-          <h3>현재 편입 구성</h3>
-          <span class="badge neutral">{{ report.allocation_items | length }} items</span>
+          <div>
+            <p class="eyebrow">Market View</p>
+            <h3>전략 요약</h3>
+          </div>
         </div>
-        {% if report.allocation_items %}
-        <div class="table-wrap portfolio-table">
-          <table>
-            <thead>
-              <tr>
-                <th>자산군</th>
-                <th>종목명</th>
-                <th>목표 비중</th>
-                <th>역할</th>
-                <th>구분</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for item in report.allocation_items %}
-              <tr>
-                <td>{{ item.asset_group }}</td>
-                <td>{{ item.display_name }}</td>
-                <td>{{ item.target_weight | fmt_percent }}</td>
-                <td>{{ item.role_summary }}</td>
-                <td>{{ item.source_type }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        {% else %}
-        <p class="muted">표시할 편입 구성이 아직 없습니다.</p>
-        {% endif %}
-      </article>
-
-      <article class="shell-card content-card">
-        <div class="section-heading tight-head">
-          <h3>핵심 판단 근거</h3>
-          <span class="badge neutral">{{ report.rationale_items | length }} notes</span>
-        </div>
-        {% if report.rationale_items %}
-        <ul class="message-list rationale-list">
-          {% for item in report.rationale_items %}
+        <p class="lead compact-lead">{{ report.market_view }}</p>
+        <ul class="message-list rationale-list clean-list">
+          {% for item in report.rationale_items[:4] %}
           <li>{{ item }}</li>
           {% endfor %}
         </ul>
-        {% else %}
-        <p class="muted">표시할 판단 근거가 없습니다.</p>
+      </article>
+
+      <article class="shell-card content-card holdings-panel">
+        <div class="section-heading tight-head">
+          <div>
+            <p class="eyebrow">Top Holdings</p>
+            <h3>상위 편입 자산</h3>
+          </div>
+          <span class="badge neutral">{{ top_items | length }} / {{ sorted_items | length }}</span>
+        </div>
+        <div class="holding-list">
+          {% for item in top_items %}
+          <div class="holding-row">
+            <div class="holding-copy">
+              <div class="holding-headline">
+                <strong>{{ item.display_name }}</strong>
+                <span class="badge neutral small-badge">{{ item.asset_group }}</span>
+              </div>
+              <div class="holding-meta">
+                <span>{{ item.role_summary }}</span>
+                <strong>{{ item.target_weight | fmt_percent }}</strong>
+              </div>
+              <div class="holding-bar-track">
+                <span class="holding-bar-fill" style="width: {{ ((item.target_weight or 0) * 100)|round(1) }}%;"></span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% if extra_count > 0 %}
+        <details class="disclosure-box">
+          <summary>전체 편입 보기 (추가 {{ extra_count }}개)</summary>
+          <div class="table-wrap compact-table top-margin-sm">
+            <table>
+              <thead>
+                <tr>
+                  <th>자산군</th>
+                  <th>종목명</th>
+                  <th>목표 비중</th>
+                  <th>역할</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in sorted_items %}
+                <tr>
+                  <td>{{ item.asset_group }}</td>
+                  <td>{{ item.display_name }}</td>
+                  <td>{{ item.target_weight | fmt_percent }}</td>
+                  <td>{{ item.role_summary }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </details>
         {% endif %}
       </article>
     </div>
@@ -124,46 +151,36 @@
     <div class="grid two-up report-grid">
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>기간별 성과</h3>
-          <span class="badge neutral">{{ report.performance_summary.period_metrics | length }} periods</span>
+          <div>
+            <p class="eyebrow">Performance By Period</p>
+            <h3>기간별 성과</h3>
+          </div>
         </div>
-        {% if report.performance_summary.period_metrics %}
-        <div class="table-wrap compact-table">
-          <table>
-            <thead>
-              <tr>
-                <th>기간</th>
-                <th>CAGR</th>
-                <th>MDD</th>
-                <th>Sharpe</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for item in report.performance_summary.period_metrics %}
-              <tr>
-                <td>{{ item.period }}</td>
-                <td>{{ item.cagr | fmt_percent }}</td>
-                <td>{{ item.mdd | fmt_percent }}</td>
-                <td>{% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <div class="period-metric-grid">
+          {% for item in report.performance_summary.period_metrics %}
+          <div class="period-metric-card">
+            <span class="badge neutral">{{ item.period }}</span>
+            <div class="period-metric-values">
+              <span>CAGR {{ item.cagr | fmt_percent }}</span>
+              <span>MDD {{ item.mdd | fmt_percent }}</span>
+              <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
+            </div>
+          </div>
+          {% endfor %}
         </div>
-        {% else %}
-        <p class="muted">표시할 기간별 성과가 없습니다.</p>
-        {% endif %}
       </article>
 
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
-          <h3>이번 변경</h3>
-          <span class="badge neutral">allocation changes</span>
+          <div>
+            <p class="eyebrow">Recent Change</p>
+            <h3>이번 조정</h3>
+          </div>
         </div>
-        <div class="grid two-up nested-grid">
+        <div class="grid two-up nested-grid change-grid-modern">
           <div class="sub-panel shell-card change-subpanel increase-panel">
             <span class="label">비중 확대</span>
-            <ul class="message-list compact-list">
+            <ul class="message-list compact-list clean-list">
               {% for item in report.change_log.increased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
@@ -174,7 +191,7 @@
           </div>
           <div class="sub-panel shell-card change-subpanel decrease-panel">
             <span class="label">비중 축소</span>
-            <ul class="message-list compact-list">
+            <ul class="message-list compact-list clean-list">
               {% for item in report.change_log.decreased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
@@ -184,23 +201,23 @@
             </ul>
           </div>
         </div>
-        <div class="sub-panel shell-card reason-panel">
+        <div class="sub-panel shell-card reason-panel top-margin-sm">
           <span class="label">변경 이유</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>
     </div>
 
-    <div class="sub-panel shell-card disclaimer-panel">
-      <span class="label">면책 문구</span>
-      <p class="muted small">{{ report.disclaimer_text }}</p>
+    <div class="disclosure-box muted">
+      <strong>면책 문구</strong>
+      <p>{{ report.disclaimer_text }}</p>
     </div>
   </section>
   {% endfor %}
 {% else %}
-<section class="panel empty-state shell-card">
+<section class="panel empty-state shell-card empty-shell">
   <h2>오늘의 추천 데이터가 아직 없습니다.</h2>
-  <p>사용자 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
+  <p>사용자용 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

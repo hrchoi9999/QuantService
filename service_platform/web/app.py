@@ -428,6 +428,12 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "decrease": "비중 축소",
                 "hold": "유지",
             },
+            "status_labels": {
+                "healthy": "정상",
+                "stale": "업데이트 지연",
+                "empty": "데이터 준비 중",
+                "error": "일시 오류",
+            },
         }
 
     @app.after_request
