@@ -1944,6 +1944,7 @@ th {
 
 
 .model-selector-circle--balanced img {
-  transform: scale(0.84);
-  transform-origin: center;
+  width: 28px;
+  height: 28px;
+  transform: none;
 }
