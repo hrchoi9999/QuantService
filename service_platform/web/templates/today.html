@@ -3,39 +3,39 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-    <h1>오늘의 추천</h1>
-    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 리서치 브리핑 형태로 정리했습니다.</p>
+    <h1>?ㅻ뒛??異붿쿇</h1>
+    <p class="lead">?쒖옣 援?㈃怨??꾨왂蹂???븷??湲곗??쇰줈 ?ㅻ뒛???먯궛 諛곕텇怨??듭떖 議곗젙 ?댁슜??由ъ꽌移?釉뚮━???뺥깭濡??뺣━?덉뒿?덈떎.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
-        <span class="label">기준일</span>
+        <span class="label">湲곗???/span>
         <strong>{{ bundle.as_of_date or '-' }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">시장 국면</span>
+        <span class="label">?쒖옣 援?㈃</span>
         <strong>{{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">전략 수</span>
+        <span class="label">?꾨왂 ??/span>
         <strong>{{ reports | length }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">상태</span>
+        <span class="label">?곹깭</span>
         <strong>{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</strong>
       </div>
     </div>
     {% if status_snapshot.state == 'stale' %}
-    <div class="warning-banner">최신 추천 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
+    <div class="warning-banner">理쒖떊 異붿쿇 ?ㅻ깄??諛섏쁺??吏?곕릺怨??덉뒿?덈떎. 吏곸쟾 ?뺤긽 ?곗씠?곕? 湲곗??쇰줈 ?쒖떆?⑸땲??</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 뒤 다시 확인해 주세요.</div>
+    <div class="warning-banner">?ㅻ뒛??異붿쿇 ?ㅻ깄?룹씠 ?꾩쭅 以鍮꾨릺吏 ?딆븯?듬땲?? ?좎떆 ???ㅼ떆 ?뺤씤??二쇱꽭??</div>
     {% endif %}
   </div>
   {% if reports %}
   <aside class="hero-side shell-card quick-nav-card segmented-card model-selector-panel">
     <div class="model-selector-grid" id="model-selector-grid">
       {% for report in reports %}
-      <a class="model-selector" href="#{{ report.service_profile }}" data-target-profile="{{ report.service_profile }}" aria-label="{{ report.user_model_name }} 보기">
+      <a class="model-selector" href="#{{ report.service_profile }}" data-target-profile="{{ report.service_profile }}" aria-label="{{ report.user_model_name }}">
         <span class="model-selector-circle">
-          <img src="{{ url_for('static', filename='model_icons/' ~ report.service_profile ~ '.svg') }}" alt="{{ report.user_model_name }} 아이콘">
+          <img src="{{ url_for('static', filename='model_icons/' ~ report.service_profile ~ '.svg') }}" alt="">
         </span>
         <span class="model-selector-label">{{ report.user_model_name }}</span>
       </a>
@@ -60,8 +60,8 @@
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
       <div class="report-badges compact-stack">
-        <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
-        <span class="badge neutral">생성 {{ bundle.generated_at | fmt_datetime }}</span>
+        <span class="badge accent">?꾪뿕??{{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
+        <span class="badge neutral">?앹꽦 {{ bundle.generated_at | fmt_datetime }}</span>
       </div>
     </div>
 
@@ -84,7 +84,7 @@
       <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>전략 요약</h3>
+            <h3>?꾨왂 ?붿빟</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
@@ -98,7 +98,7 @@
       <article class="shell-card content-card holdings-panel strategy-holdings-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>상위 편입 자산</h3>
+            <h3>?곸쐞 ?몄엯 ?먯궛</h3>
           </div>
           <span class="badge neutral">{{ top_items | length }} / {{ sorted_items | length }}</span>
         </div>
@@ -123,15 +123,15 @@
         </div>
         {% if extra_count > 0 %}
         <details class="disclosure-box sticky-disclosure-box">
-          <summary>전체 편입 보기 (추가 {{ extra_count }}개)</summary>
+          <summary>?꾩껜 ?몄엯 蹂닿린 (異붽? {{ extra_count }}媛?</summary>
           <div class="table-wrap compact-table top-margin-sm">
             <table>
               <thead>
                 <tr>
-                  <th>자산군</th>
-                  <th>종목명</th>
-                  <th>목표 비중</th>
-                  <th>역할</th>
+                  <th>?먯궛援?/th>
+                  <th>醫낅ぉ紐?/th>
+                  <th>紐⑺몴 鍮꾩쨷</th>
+                  <th>??븷</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,7 +153,7 @@
       <article class="shell-card content-card strategy-period-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>기간별 성과</h3>
+            <h3>湲곌컙蹂??깃낵</h3>
           </div>
         </div>
         {% if full_period_metrics %}
@@ -161,7 +161,7 @@
         <div class="period-highlight-card">
           <div class="period-highlight-head">
             <span class="badge neutral">{{ full_item.period }}</span>
-            <strong>누적 성과 기준</strong>
+            <strong>?꾩쟻 ?깃낵 湲곗?</strong>
           </div>
           <div class="period-highlight-values">
             <span>CAGR {{ full_item.cagr | fmt_percent }}</span>
@@ -187,50 +187,50 @@
       <article class="shell-card content-card strategy-change-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>이번 조정</h3>
+            <h3>?대쾲 議곗젙</h3>
           </div>
         </div>
         <div class="grid two-up nested-grid change-grid-modern">
           <div class="sub-panel shell-card change-subpanel increase-panel">
-            <span class="label">비중 확대</span>
+            <span class="label">鍮꾩쨷 ?뺣?</span>
             <ul class="message-list compact-list clean-list">
               {% for item in report.change_log.increased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
               {% if not report.change_log.increased_assets %}
-              <li>해당 없음</li>
+              <li>?대떦 ?놁쓬</li>
               {% endif %}
             </ul>
           </div>
           <div class="sub-panel shell-card change-subpanel decrease-panel">
-            <span class="label">비중 축소</span>
+            <span class="label">鍮꾩쨷 異뺤냼</span>
             <ul class="message-list compact-list clean-list">
               {% for item in report.change_log.decreased_assets %}
               <li>{{ item }}</li>
               {% endfor %}
               {% if not report.change_log.decreased_assets %}
-              <li>해당 없음</li>
+              <li>?대떦 ?놁쓬</li>
               {% endif %}
             </ul>
           </div>
         </div>
         <div class="sub-panel shell-card reason-panel top-margin-sm">
-          <span class="label">변경 이유</span>
+          <span class="label">蹂寃??댁쑀</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>
     </div>
 
     <div class="disclosure-box muted">
-      <strong>면책 문구</strong>
+      <strong>硫댁콉 臾멸뎄</strong>
       <p>{{ report.disclaimer_text }}</p>
     </div>
   </section>
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>오늘의 추천 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
+  <h2>?ㅻ뒛??異붿쿇 ?곗씠?곌? ?꾩쭅 ?놁뒿?덈떎.</h2>
+  <p>?ъ슜?먯슜 ?ㅻ깄?룹씠 ?앹꽦?섎㈃ ???섏씠吏??理쒖떊 異붿쿇 ?댁슜???쒖떆?⑸땲??</p>
 </section>
 {% endif %}
 
@@ -240,7 +240,7 @@
     if (!buttons.length) return;
 
     const applySelection = () => {
-      const current = window.location.hash ? window.location.hash.slice(1) : buttons[0].dataset.targetProfile;
+      const current = window.location.hash ? window.location.hash.slice(1) : ''; 
       buttons.forEach((button) => {
         const isSelected = button.dataset.targetProfile === current;
         button.classList.toggle('is-selected', isSelected);
