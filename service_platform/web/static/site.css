@@ -1920,3 +1920,24 @@ th {
   background: linear-gradient(180deg, #efb6ae, #f3c9c2);
   box-shadow: 0 8px 18px rgba(230, 44, 40, 0.12);
 }
+
+
+.model-selector-circle {
+  border: none;
+  background: linear-gradient(180deg, #efc9c3, #f3d8d3);
+  box-shadow: none;
+}
+
+.model-selector-circle img {
+  width: 34px;
+  height: 34px;
+  opacity: 0.92;
+}
+
+.model-selector:hover .model-selector-circle,
+.model-selector:focus-visible .model-selector-circle,
+.model-selector.is-selected .model-selector-circle {
+  border: none;
+  background: linear-gradient(180deg, #efc9c3, #f3d8d3);
+  box-shadow: none;
+}
