@@ -1941,3 +1941,9 @@ th {
   background: linear-gradient(180deg, #efc9c3, #f3d8d3);
   box-shadow: none;
 }
+
+
+.model-selector-circle--balanced img {
+  transform: scale(0.84);
+  transform-origin: center;
+}

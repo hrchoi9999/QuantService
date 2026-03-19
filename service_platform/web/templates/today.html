@@ -34,7 +34,7 @@
     <div class="model-selector-grid" id="model-selector-grid">
       {% for report in reports %}
       <a class="model-selector" href="#{{ report.service_profile }}" data-target-profile="{{ report.service_profile }}" aria-label="{{ report.user_model_name }}">
-        <span class="model-selector-circle">
+        <span class="model-selector-circle model-selector-circle--{{ report.service_profile }}">
           <img src="{{ url_for('static', filename='model_icons/' ~ report.service_profile ~ '.svg') }}" alt="">
         </span>
         <span class="model-selector-label">{{ report.user_model_name }}</span>
