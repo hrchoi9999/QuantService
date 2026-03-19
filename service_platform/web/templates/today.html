@@ -30,10 +30,15 @@
     {% endif %}
   </div>
   {% if reports %}
-  <aside class="hero-side shell-card quick-nav-card segmented-card">
-    <div class="segmented-control balanced-segmented-control">
+  <aside class="hero-side shell-card quick-nav-card segmented-card model-selector-panel">
+    <div class="model-selector-grid" id="model-selector-grid">
       {% for report in reports %}
-      <a class="segment-pill" href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
+      <a class="model-selector" href="#{{ report.service_profile }}" data-target-profile="{{ report.service_profile }}" aria-label="{{ report.user_model_name }} 보기">
+        <span class="model-selector-circle">
+          <img src="{{ url_for('static', filename='model_icons/' ~ report.service_profile ~ '.svg') }}" alt="{{ report.user_model_name }} 아이콘">
+        </span>
+        <span class="model-selector-label">{{ report.user_model_name }}</span>
+      </a>
       {% endfor %}
     </div>
   </aside>
@@ -228,4 +233,29 @@
   <p>사용자용 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
 </section>
 {% endif %}
+
+<script>
+  (() => {
+    const buttons = Array.from(document.querySelectorAll('.model-selector'));
+    if (!buttons.length) return;
+
+    const applySelection = () => {
+      const current = window.location.hash ? window.location.hash.slice(1) : buttons[0].dataset.targetProfile;
+      buttons.forEach((button) => {
+        const isSelected = button.dataset.targetProfile === current;
+        button.classList.toggle('is-selected', isSelected);
+        button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        window.requestAnimationFrame(applySelection);
+      });
+    });
+
+    window.addEventListener('hashchange', applySelection);
+    applySelection();
+  })();
+</script>
 {% endblock %}

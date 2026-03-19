@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="Redbot은 한국 투자자를 위한 스냅샷 기반 투자 브리핑 서비스입니다.">
+  <meta name="description" content="REDBOT은 한국 투자자를 위한 스냅샷 기반 투자 브리핑 서비스입니다.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
@@ -13,27 +13,27 @@
     <header class="site-header shell-card public-header">
       <div class="brand-block">
         <a class="brand brand-with-logo" href="{{ url_for('home') }}">
-          <img class="brand-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="redbot logo">
-          <span>redbot</span>
+          <img class="brand-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="REDBOT logo">
+          <span>REDBOT</span>
         </a>
-        <div class="brand-copy muted">snapshot-first investing briefing for Korean investors</div>
+        <div class="brand-copy muted">한국 투자자를 위한 스냅샷 기반 투자 브리핑</div>
       </div>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('today') }}">Today</a>
-        <a href="{{ url_for('performance') }}">Performance</a>
-        <a href="{{ url_for('changes') }}">Changes</a>
-        <a href="{{ url_for('status') }}">Status</a>
-        <a href="{{ url_for('feedback') }}">Feedback</a>
+      <nav class="site-nav" aria-label="주요 메뉴">
+        <a href="{{ url_for('home') }}">홈</a>
+        <a href="{{ url_for('today') }}">오늘의 추천</a>
+        <a href="{{ url_for('performance') }}">성과</a>
+        <a href="{{ url_for('changes') }}">변경내역</a>
+        <a href="{{ url_for('status') }}">상태</a>
+        <a href="{{ url_for('feedback') }}">의견보내기</a>
         {% if current_user %}
-        <a href="{{ url_for('me') }}">Me</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('me') }}">내 정보</a>
+        <a href="{{ url_for('logout') }}">로그아웃</a>
         {% else %}
-        <a href="{{ url_for('login', next=request.path) }}">Login</a>
-        <a href="{{ url_for('signup', next=request.path) }}">Sign up</a>
+        <a href="{{ url_for('login', next=request.path) }}">로그인</a>
+        <a href="{{ url_for('signup', next=request.path) }}">회원가입</a>
         {% endif %}
         {% if access_context.is_admin %}
-        <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+        <a href="{{ url_for('admin_dashboard') }}">관리자</a>
         {% endif %}
       </nav>
     </header>
@@ -59,7 +59,7 @@
 
     <footer class="site-footer muted public-footer">
       <div>
-        <strong>redbot</strong>
+        <strong>REDBOT</strong>
         <span>투자 판단을 돕는 스냅샷 기반 브리핑</span>
       </div>
       <div class="footer-links">
