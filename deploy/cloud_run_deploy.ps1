@@ -25,7 +25,9 @@ if (-not (Test-Path $gcloud)) {
     throw "gcloud CLI not found at $gcloud"
 }
 
-$tag = "$Region-docker.pkg.dev/$ProjectId/$Repository/${ImageName}:latest"
+$imageTag = Get-Date -Format "yyyyMMdd-HHmmss"
+$tag = "$Region-docker.pkg.dev/$ProjectId/$Repository/${ImageName}:$imageTag"
+$latestTag = "$Region-docker.pkg.dev/$ProjectId/$Repository/${ImageName}:latest"
 
 & $gcloud config configurations activate quantservice | Out-Null
 & $gcloud config set project $ProjectId | Out-Null
@@ -37,6 +39,7 @@ if ($repositories -notcontains $Repository) {
 }
 
 & $gcloud builds submit --tag $tag .
+& $gcloud artifacts docker tags add $tag $latestTag | Out-Null
 
 $projectNumber = & $gcloud projects describe $ProjectId --format="value(projectNumber)"
 $serviceAccount = "$projectNumber-compute@developer.gserviceaccount.com"
