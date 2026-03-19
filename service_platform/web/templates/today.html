@@ -3,8 +3,7 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-    <p class="eyebrow">Today</p>
-    <h1>오늘의 추천</h1>
+        <h1>오늘의 추천</h1>
     <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 리서치 브리핑 형태로 정리했습니다.</p>
     <div class="overview-metrics">
       <div class="metric-card public-metric-card">
@@ -32,8 +31,7 @@
   </div>
   {% if reports %}
   <aside class="hero-side shell-card quick-nav-card segmented-card">
-    <p class="eyebrow">Strategy Lineup</p>
-    <div class="segmented-control">
+        <div class="segmented-control">
       {% for report in reports %}
       <a class="segment-pill" href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
       {% endfor %}
@@ -49,9 +47,9 @@
   {% set extra_count = (sorted_items | length) - (top_items | length) %}
   <section class="panel report-shell shell-card strategy-detail-card" id="{{ report.service_profile }}">
     <div class="section-heading report-top detail-top">
-      <div>
-        <p class="eyebrow">{{ profile_labels.get(report.service_profile, report.service_profile) }}</p>
+      <div class="title-stack">
         <h2>{{ report.user_model_name }}</h2>
+        <p class="muted small">{{ profile_labels.get(report.service_profile, report.service_profile) }}</p>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
       <div class="report-badges compact-stack">
@@ -79,8 +77,7 @@
       <article class="shell-card content-card spotlight-surface">
         <div class="section-heading tight-head">
           <div>
-            <p class="eyebrow">Market View</p>
-            <h3>전략 요약</h3>
+                        <h3>전략 요약</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
@@ -94,8 +91,7 @@
       <article class="shell-card content-card holdings-panel">
         <div class="section-heading tight-head">
           <div>
-            <p class="eyebrow">Top Holdings</p>
-            <h3>상위 편입 자산</h3>
+                        <h3>상위 편입 자산</h3>
           </div>
           <span class="badge neutral">{{ top_items | length }} / {{ sorted_items | length }}</span>
         </div>
@@ -152,8 +148,7 @@
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
           <div>
-            <p class="eyebrow">Performance By Period</p>
-            <h3>기간별 성과</h3>
+                        <h3>기간별 성과</h3>
           </div>
         </div>
         <div class="period-metric-grid">
@@ -173,8 +168,7 @@
       <article class="shell-card content-card">
         <div class="section-heading tight-head">
           <div>
-            <p class="eyebrow">Recent Change</p>
-            <h3>이번 조정</h3>
+                        <h3>이번 조정</h3>
           </div>
         </div>
         <div class="grid two-up nested-grid change-grid-modern">

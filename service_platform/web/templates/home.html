@@ -25,7 +25,7 @@
     {% endif %}
   </div>
   <aside class="hero-side shell-card spotlight-panel">
-    <p class="eyebrow">Today Brief</p>
+    
     <div class="spotlight-grid">
       <div class="spotlight-card">
         <span class="label">전략 수</span>
@@ -47,8 +47,7 @@
 <section class="section-block">
   <div class="section-heading feature-headline">
     <div>
-      <p class="eyebrow">Strategy Lineup</p>
-      <h2>나에게 맞는 전략을 먼저 이해하세요</h2>
+            <h2>나에게 맞는 전략을 먼저 이해하세요</h2>
     </div>
     <a class="text-link" href="{{ url_for('today') }}">전체 추천 보기</a>
   </div>
@@ -58,9 +57,9 @@
     {% set cards = perf.get('performance_cards', {}) %}
     <article class="feature-card shell-card strategy-card">
       <div class="model-head">
-        <div>
-          <p class="eyebrow small-eyebrow">{{ profile_labels.get(model.service_profile, model.service_profile) }}</p>
+        <div class="title-stack">
           <h3>{{ model.user_model_name }}</h3>
+          <p class="muted small">{{ profile_labels.get(model.service_profile, model.service_profile) }}</p>
         </div>
         <span class="badge accent">위험도 {{ risk_labels.get(model.risk_label, model.risk_label) }}</span>
       </div>
@@ -93,7 +92,7 @@
 
 <section class="grid two-up product-story-grid">
   <article class="panel shell-card">
-    <p class="eyebrow">Why Redbot</p>
+    
     <h2>읽기 쉬운 투자 브리핑</h2>
     <div class="product-pillars">
       <div class="feature-note">
@@ -111,7 +110,7 @@
     </div>
   </article>
   <article class="panel shell-card">
-    <p class="eyebrow">Performance Snapshot</p>
+    
     <h2>전략별 핵심 성과</h2>
     <div class="summary-list performance-quick-list">
       {% for row in bundle.performance_summary.models %}

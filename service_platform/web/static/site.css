@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+
 :root {
   color-scheme: light;
   --bg: #fcfcfb;
@@ -39,7 +41,7 @@ body {
     radial-gradient(circle at top, rgba(230, 44, 40, 0.12), transparent 30%),
     linear-gradient(180deg, var(--bg), var(--bg-soft));
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 a {
@@ -89,14 +91,14 @@ textarea {
 
 .brand {
   font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   text-decoration: none;
 }
 
 .brand-copy {
   font-size: 13px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .site-nav {
@@ -1297,4 +1299,45 @@ th {
     width: 100%;
     justify-content: center;
   }
+}
+
+
+.single-title-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.single-title-top h2,
+.single-title-top h3,
+.title-only,
+.section-title-only {
+  margin-bottom: 0;
+}
+
+.single-title-top .title-stack,
+.title-stack {
+  display: grid;
+  gap: 6px;
+}
+
+.title-stack .muted {
+  margin-bottom: 0;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-title-row h2,
+.card-title-row h3 {
+  margin-bottom: 0;
+}
+
+.section-heading .eyebrow:empty {
+  display: none;
 }

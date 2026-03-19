@@ -3,8 +3,7 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
-    <p class="eyebrow">Performance</p>
-    <h1>전략별 성과를 같은 기준으로 비교하세요.</h1>
+        <h1>전략별 성과를 같은 기준으로 비교하세요.</h1>
     <p class="lead">각 전략의 핵심 지표와 기간별 성과를 비교형 화면으로 정리했습니다. 숫자는 스냅샷 값을 그대로 사용합니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
@@ -13,8 +12,7 @@
     </div>
   </div>
   <aside class="hero-side shell-card spotlight-panel">
-    <p class="eyebrow">Comparison Scope</p>
-    <ul class="message-list compact-list trust-list">
+        <ul class="message-list compact-list trust-list">
       <li>전략별 CAGR, MDD, Sharpe를 한 번에 비교합니다.</li>
       <li>같은 기간 구간에서 차이를 읽기 쉽게 정리합니다.</li>
       <li>웹에서는 계산을 다시 하지 않고 스냅샷 값만 가공해 표시합니다.</li>
@@ -27,9 +25,9 @@
   {% for row in performance_rows %}
   <article class="feature-card shell-card comparison-card">
     <div class="section-heading tight-head">
-      <div>
-        <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+      <div class="title-stack">
         <h2>{{ row.user_model_name }}</h2>
+        <p class="muted small">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
       </div>
       <span class="badge accent">위험도 {{ risk_labels.get(row.risk_label, row.risk_label) }}</span>
     </div>
@@ -55,8 +53,7 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <p class="eyebrow">Comparison Table</p>
-      <h2>전략 비교표</h2>
+            <h2>전략 비교표</h2>
     </div>
   </div>
   <div class="table-wrap comparison-table polished-table">
@@ -91,9 +88,9 @@
   {% for row in performance_rows %}
   <article class="panel shell-card period-panel-modern">
     <div class="section-heading tight-head">
-      <div>
-        <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+      <div class="title-stack">
         <h2>{{ row.user_model_name }}</h2>
+        <p class="muted small">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
       </div>
       <span class="badge neutral">{{ row.period_table | length }} periods</span>
     </div>
