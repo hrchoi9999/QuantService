@@ -1,29 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card hero-surface">
-  <p class="eyebrow">Redbot Overview</p>
-  <h1>?? ??? ?? ?? ???, ?? ?? ????? ?????.</h1>
-  <p class="lead">Quant? ??? ???? ???? ??? ???? ??? ??, ?? ??, ?? ?? ??? ? ?? ?????.</p>
-  <div class="meta-strip">
-    <span>??? {{ bundle.as_of_date or '-' }}</span>
-    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-    <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
+<section class="hero-card hero-stage">
+  <div class="hero-main">
+    <p class="eyebrow">Redbot Overview</p>
+    <h1>?? ??? ?? ???, ???? ?? ?? ???? ??????.</h1>
+    <p class="lead">Quant? ??? ???? ???? ??? ???? ??? ??, ?? ??, ?? ??? ??? ??? ? ??? ?????.</p>
+    <div class="meta-strip">
+      <span>??? {{ bundle.as_of_date or '-' }}</span>
+      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
+    </div>
+    {% if status_snapshot.state == 'stale' %}
+    <div class="warning-banner">?? ??? ??? ???? ????? ??? ???? ???? ????.</div>
+    {% elif status_snapshot.state == 'empty' %}
+    <div class="warning-banner">???? ???? ?????? ?? ??? ???? ???? ????.</div>
+    {% endif %}
+    <div class="stack-actions hero-actions">
+      <a class="primary-button" href="{{ url_for('today') }}">?? ?? ??</a>
+      <a class="secondary-button" href="{{ url_for('performance') }}">?? ?? ??</a>
+      <a class="secondary-button" href="{{ url_for('changes') }}">?? ?? ??</a>
+    </div>
   </div>
-  {% if status_snapshot.state == 'stale' %}
-  <div class="warning-banner">?? ???? ???? ????? ??? ???? ???? ????.</div>
-  {% elif status_snapshot.state == 'empty' %}
-  <div class="warning-banner">???? ???? ?????? ??? ??? ???? ?? ???? ????.</div>
-  {% endif %}
-  <div class="stack-actions">
-    <a class="primary-button" href="{{ url_for('today') }}">?? ?? ??</a>
-    <a class="secondary-button" href="{{ url_for('performance') }}">?? ?? ??</a>
-    <a class="secondary-button" href="{{ url_for('changes') }}">?? ?? ??</a>
-  </div>
+  <aside class="hero-side shell-card">
+    <p class="eyebrow">Snapshot Health</p>
+    <div class="hero-side-grid">
+      <div>
+        <span class="label">State</span>
+        <strong>{{ status_snapshot.state }}</strong>
+      </div>
+      <div>
+        <span class="label">Models</span>
+        <strong>{{ bundle.user_models.models | length }}</strong>
+      </div>
+      <div>
+        <span class="label">Reports</span>
+        <strong>{{ bundle.recommendation_today.reports | length }}</strong>
+      </div>
+      <div>
+        <span class="label">Age</span>
+        <strong>{{ status_snapshot.age_seconds if status_snapshot.age_seconds is not none else '-' }}</strong>
+      </div>
+    </div>
+    <a class="text-link" href="{{ url_for('status') }}">?? ??? ??</a>
+  </aside>
 </section>
 
-<section class="panel">
-  <div class="section-head tight-head">
+<section class="section-block">
+  <div class="section-heading">
     <div>
       <p class="eyebrow">Model Cards</p>
       <h2>Redbot ?? ???</h2>
@@ -35,7 +59,7 @@
     {% for model in bundle.user_models.models %}
     {% set perf = performance_by_profile.get(model.service_profile, {}) %}
     {% set cards = perf.get('performance_cards', {}) %}
-    <article class="feature-card">
+    <article class="feature-card shell-card">
       <div class="model-head">
         <div>
           <h3>{{ model.user_model_name }}</h3>
@@ -50,7 +74,7 @@
         <span class="chip">{{ asset }}</span>
         {% endfor %}
       </div>
-      <div class="metric-strip three-col">
+      <div class="metric-strip three-col compact-metrics">
         <div>
           <span class="label">CAGR</span>
           <strong>{{ cards.get('cagr') | fmt_percent }}</strong>
@@ -69,7 +93,7 @@
     {% endfor %}
   </div>
   {% else %}
-  <div class="empty-state">
+  <div class="empty-state shell-card">
     <h3>?? ??? ?? ??? ????.</h3>
     <p>?? ???? ???? ? ?? ??? ???? ?????.</p>
   </div>
@@ -77,47 +101,42 @@
 </section>
 
 <section class="grid two-up">
-  <article class="panel">
+  <article class="panel shell-card insight-panel">
     <p class="eyebrow">Why Redbot</p>
-    <h2>??? ???? ???? ?</h2>
+    <h2>??? ???? ???? ??</h2>
     <div class="stack-list compact">
       <div class="feature-note">
         <strong>??? ?? ??</strong>
-        <p>?? ??, ?? ??, ????? ??? ? ???? ?????.</p>
+        <p>?? ??, ?? ??, ????? ??? ? ?? ??? ?? ? ?? ?????.</p>
       </div>
       <div class="feature-note">
         <strong>??? ?? ???</strong>
-        <p>??? ??? ?? ?? ??, Quant? ?? ??? ?? ?? ????? ?????.</p>
+        <p>???? ?? ??? ?? ???? ??, Quant? ?? ??? ?? ?? ????? ?????.</p>
       </div>
       <div class="feature-note">
         <strong>?? ??? ??</strong>
-        <p>??? ??? ????? ? ??? ??? ??? ?????.</p>
+        <p>??? ??? ????? ??? ? ??? ??????? ??? ??? ?????.</p>
       </div>
     </div>
   </article>
 
-  <article class="panel">
-    <p class="eyebrow">Freshness</p>
-    <h2>??? ???</h2>
-    <div class="metric-strip two-col">
-      <div>
-        <span class="label">??</span>
-        <strong>{{ status_snapshot.state }}</strong>
+  <article class="panel shell-card comparison-panel">
+    <p class="eyebrow">Performance Snapshot</p>
+    <h2>?? ?? ?????</h2>
+    <div class="summary-list">
+      {% for row in bundle.performance_summary.models %}
+      <div class="summary-row">
+        <div>
+          <strong>{{ row.user_model_name }}</strong>
+          <p class="muted small">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+        </div>
+        <div class="summary-metrics">
+          <span>{{ row.performance_cards.cagr | fmt_percent }}</span>
+          <span>{{ row.performance_cards.mdd | fmt_percent }}</span>
+          <span>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</span>
+        </div>
       </div>
-      <div>
-        <span class="label">Age</span>
-        <strong>{{ status_snapshot.age_seconds if status_snapshot.age_seconds is not none else '-' }}</strong>
-      </div>
-    </div>
-    {% if status_snapshot.warnings %}
-    <ul class="message-list compact-list">
-      {% for item in status_snapshot.warnings %}
-      <li>{{ item }}</li>
       {% endfor %}
-    </ul>
-    {% endif %}
-    <div class="stack-actions">
-      <a class="secondary-button" href="{{ url_for('status') }}">?? ??? ??</a>
     </div>
   </article>
 </section>

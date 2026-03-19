@@ -1,25 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero hero-surface">
-  <p class="eyebrow">Performance</p>
-  <h1>??? ?? ??</h1>
-  <p class="lead">??? ???? ??? ???? Redbot ?? 4?? ?? ??? ??? ??? ?????.</p>
-  <div class="meta-strip">
-    <span>??? {{ bundle.as_of_date or '-' }}</span>
-    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-    <span>?? {{ status_snapshot.state }}</span>
+<section class="hero-card compact-hero hero-stage">
+  <div class="hero-main">
+    <p class="eyebrow">Performance</p>
+    <h1>??? ?? ??</h1>
+    <p class="lead">??? ???? ??? ???? Redbot ?? 4?? ?? ??? ??? ??? ?????.</p>
+    <div class="meta-strip">
+      <span>??? {{ bundle.as_of_date or '-' }}</span>
+      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>?? {{ status_snapshot.state }}</span>
+    </div>
   </div>
+  <aside class="hero-side shell-card">
+    <p class="eyebrow">Comparison Scope</p>
+    <p class="muted">?? ??? ?? ?? ??, Quant? ??? ???? ?? ??? ??? ?? ?????.</p>
+  </aside>
 </section>
 
 {% if performance_rows %}
-<section class="feature-grid four-up">
+<section class="feature-grid four-up performance-highlight-grid">
   {% for row in performance_rows %}
-  <article class="panel feature-card compact-card">
+  <article class="feature-card shell-card compact-card">
     <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
     <h2>{{ row.user_model_name }}</h2>
     <p class="muted small">??? {{ risk_labels.get(row.risk_label, row.risk_label) }}</p>
-    <div class="metric-strip three-col">
+    <div class="metric-strip three-col compact-metrics">
       <div>
         <span class="label">CAGR</span>
         <strong>{{ row.performance_cards.cagr | fmt_percent }}</strong>
@@ -38,9 +44,14 @@
   {% endfor %}
 </section>
 
-<section class="panel">
-  <h2>?? ?? ?</h2>
-  <div class="table-wrap">
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <p class="eyebrow">Comparison Table</p>
+      <h2>?? ?? ?</h2>
+    </div>
+  </div>
+  <div class="table-wrap comparison-table">
     <table>
       <thead>
         <tr>
@@ -70,10 +81,10 @@
   </div>
 </section>
 
-<section class="grid two-up">
+<section class="grid two-up period-grid">
   {% for row in performance_rows %}
-  <article class="panel">
-    <div class="section-head tight-head">
+  <article class="panel shell-card">
+    <div class="section-heading tight-head">
       <div>
         <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
         <h2>{{ row.user_model_name }}</h2>
@@ -106,7 +117,7 @@
   {% endfor %}
 </section>
 {% else %}
-<section class="panel empty-state">
+<section class="panel empty-state shell-card">
   <h2>?? ??? ???? ?? ????.</h2>
   <p>?? ???? ???? ??? ?? ??? ?? ?? ?????.</p>
 </section>

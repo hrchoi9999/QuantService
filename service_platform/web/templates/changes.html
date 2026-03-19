@@ -1,31 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero hero-surface">
-  <p class="eyebrow">Changes</p>
-  <h1>?? ?? ??</h1>
-  <p class="lead">?? ?????? ?? ?? ??? ?? ????, ??? ? ????? ??? ??? ?????.</p>
-  <div class="meta-strip">
-    <span>??? {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
-    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-    <span>?? {{ status_snapshot.state }}</span>
+<section class="hero-card compact-hero hero-stage">
+  <div class="hero-main">
+    <p class="eyebrow">Changes</p>
+    <h1>?? ?? ??</h1>
+    <p class="lead">?? ?????? ?? ?? ??? ?? ????, ??? ? ?????? ??? ??? ?????.</p>
+    <div class="meta-strip">
+      <span>??? {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
+      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>?? {{ status_snapshot.state }}</span>
+    </div>
   </div>
+  <aside class="hero-side shell-card">
+    <p class="eyebrow">What Changed</p>
+    <p class="muted">?? ??? ?? ??? ???? ????, ???? ??? ? ?? ?? ???? ?? ?????.</p>
+  </aside>
 </section>
 
 {% if change_rows %}
-<section class="stack-list">
+<section class="changes-feed">
   {% for change in change_rows %}
-  <article class="panel change-card-extended">
-    <div class="section-head tight-head">
+  <article class="panel change-card-extended shell-card">
+    <div class="section-heading tight-head">
       <div>
         <p class="eyebrow">{{ change_type_labels.get(change.change_type, change.change_type) }}</p>
         <h2>{{ change.user_model_name }}</h2>
       </div>
       <span class="badge accent">{{ change_type_labels.get(change.change_type, change.change_type) }}</span>
     </div>
-    <p>{{ change.summary }}</p>
+    <p class="change-summary">{{ change.summary }}</p>
     <div class="grid two-up nested-grid">
-      <div class="sub-panel">
+      <div class="sub-panel shell-card change-subpanel increase-panel">
         <span class="label">?? ??</span>
         <ul class="message-list compact-list">
           {% for item in change.increase_items %}
@@ -36,7 +42,7 @@
           {% endif %}
         </ul>
       </div>
-      <div class="sub-panel">
+      <div class="sub-panel shell-card change-subpanel decrease-panel">
         <span class="label">?? ??</span>
         <ul class="message-list compact-list">
           {% for item in change.decrease_items %}
@@ -48,7 +54,7 @@
         </ul>
       </div>
     </div>
-    <div class="sub-panel reason-panel">
+    <div class="sub-panel shell-card reason-panel">
       <span class="label">?? ??</span>
       <p>{{ change.reason_text }}</p>
     </div>
@@ -56,7 +62,7 @@
   {% endfor %}
 </section>
 {% else %}
-<section class="panel empty-state">
+<section class="panel empty-state shell-card">
   <h2>?? ?? ??? ?? ????.</h2>
   <p>??? ???? ??? ?? ??? ? ??? ?????.</p>
 </section>

@@ -1,43 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero hero-surface">
-  <p class="eyebrow">Today</p>
-  <h1>??? ?? ???</h1>
-  <p class="lead">?? ?? ??? ?? Redbot ??? ?? ??, ??, ?? ?? ??? ??? ? ????.</p>
-  <div class="meta-strip">
-    <span>??? {{ bundle.as_of_date or '-' }}</span>
-    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
-    <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
+<section class="hero-card compact-hero hero-stage today-stage">
+  <div class="hero-main">
+    <p class="eyebrow">Today</p>
+    <h1>??? ?? ???</h1>
+    <p class="lead">?? ?? ??? ?? Redbot ??? ?? ??, ?? ??, ?? ?? ??? ??? ??? ???? ?????.</p>
+    <div class="meta-strip">
+      <span>??? {{ bundle.as_of_date or '-' }}</span>
+      <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+      <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
+    </div>
+    {% if status_snapshot.state == 'stale' %}
+    <div class="warning-banner">?? ???? ?? ???? ?? ??? ?? ???? ???? ????.</div>
+    {% elif status_snapshot.state == 'empty' %}
+    <div class="warning-banner">?? ?? ???? ?? ????. ?? ??? ??? ???.</div>
+    {% endif %}
   </div>
-  {% if status_snapshot.state == 'stale' %}
-  <div class="warning-banner">?? ???? ?? ???? ?? ??? ?? ???? ???? ????.</div>
-  {% elif status_snapshot.state == 'empty' %}
-  <div class="warning-banner">?? ?? ???? ?? ????. ?? ??? ??? ???.</div>
+  {% if reports %}
+  <aside class="hero-side shell-card quick-nav-card">
+    <p class="eyebrow">Strategy Lineup</p>
+    <div class="quick-nav-list">
+      {% for report in reports %}
+      <a href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
+      {% endfor %}
+    </div>
+  </aside>
   {% endif %}
 </section>
 
 {% if reports %}
   {% for report in reports %}
-  <section class="panel report-section" id="{{ report.service_profile }}">
-    <div class="section-head report-head">
+  <section class="panel report-shell shell-card" id="{{ report.service_profile }}">
+    <div class="section-heading report-top">
       <div>
         <p class="eyebrow">{{ profile_labels.get(report.service_profile, report.service_profile) }}</p>
         <h2>{{ report.user_model_name }}</h2>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
-      <div class="stack-list compact align-end">
-        <span class="badge accent">{{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
+      <div class="report-badges">
+        <span class="badge accent">??? {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
         <span class="badge neutral">{{ report.service_profile }}</span>
       </div>
     </div>
 
-    <div class="grid two-up">
-      <article class="sub-panel">
+    <div class="grid two-up report-grid">
+      <article class="sub-panel shell-card emphasis-card">
         <span class="label">?? ??</span>
         <p>{{ report.market_view }}</p>
       </article>
-      <article class="sub-panel">
+      <article class="sub-panel shell-card metric-panel">
         <span class="label">?? ??</span>
         <div class="metric-strip three-col">
           <div>
@@ -56,14 +68,14 @@
       </article>
     </div>
 
-    <div class="grid two-up">
-      <article>
-        <div class="section-head tight-head">
+    <div class="grid two-up report-grid">
+      <article class="shell-card content-card">
+        <div class="section-heading tight-head">
           <h3>?? ?? ??</h3>
           <span class="badge neutral">{{ report.allocation_items | length }} items</span>
         </div>
         {% if report.allocation_items %}
-        <div class="table-wrap">
+        <div class="table-wrap portfolio-table">
           <table>
             <thead>
               <tr>
@@ -92,10 +104,13 @@
         {% endif %}
       </article>
 
-      <article>
-        <h3>? ?? ???????</h3>
+      <article class="shell-card content-card">
+        <div class="section-heading tight-head">
+          <h3>? ?? ???????</h3>
+          <span class="badge neutral">{{ report.rationale_items | length }} notes</span>
+        </div>
         {% if report.rationale_items %}
-        <ul class="message-list compact-list">
+        <ul class="message-list rationale-list">
           {% for item in report.rationale_items %}
           <li>{{ item }}</li>
           {% endfor %}
@@ -106,9 +121,12 @@
       </article>
     </div>
 
-    <div class="grid two-up">
-      <article>
-        <h3>??? ??</h3>
+    <div class="grid two-up report-grid">
+      <article class="shell-card content-card">
+        <div class="section-heading tight-head">
+          <h3>??? ??</h3>
+          <span class="badge neutral">{{ report.performance_summary.period_metrics | length }} periods</span>
+        </div>
         {% if report.performance_summary.period_metrics %}
         <div class="table-wrap compact-table">
           <table>
@@ -137,10 +155,13 @@
         {% endif %}
       </article>
 
-      <article>
-        <h3>?? ??</h3>
+      <article class="shell-card content-card">
+        <div class="section-heading tight-head">
+          <h3>?? ??</h3>
+          <span class="badge neutral">allocation changes</span>
+        </div>
         <div class="grid two-up nested-grid">
-          <div class="sub-panel">
+          <div class="sub-panel shell-card change-subpanel increase-panel">
             <span class="label">?? ??</span>
             <ul class="message-list compact-list">
               {% for item in report.change_log.increased_assets %}
@@ -151,7 +172,7 @@
               {% endif %}
             </ul>
           </div>
-          <div class="sub-panel">
+          <div class="sub-panel shell-card change-subpanel decrease-panel">
             <span class="label">?? ??</span>
             <ul class="message-list compact-list">
               {% for item in report.change_log.decreased_assets %}
@@ -163,23 +184,23 @@
             </ul>
           </div>
         </div>
-        <div class="sub-panel reason-panel">
+        <div class="sub-panel shell-card reason-panel">
           <span class="label">?? ??</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>
     </div>
 
-    <div class="sub-panel disclaimer-panel">
+    <div class="sub-panel shell-card disclaimer-panel">
       <span class="label">?? ??</span>
       <p class="muted small">{{ report.disclaimer_text }}</p>
     </div>
   </section>
   {% endfor %}
 {% else %}
-<section class="panel empty-state">
+<section class="panel empty-state shell-card">
   <h2>?? ??? ?? ???? ????.</h2>
-  <p>??? ???? ??? ?? ???? ? ??? ???? ?????.</p>
+  <p>?? ???? ???? ??? ?? ???? ? ??? ???? ?????.</p>
 </section>
 {% endif %}
 {% endblock %}

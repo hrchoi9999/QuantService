@@ -10,10 +10,10 @@
 </head>
 <body>
   <div class="page-shell">
-    <header class="site-header">
+    <header class="site-header shell-card">
       <div class="brand-block">
         <a class="brand" href="{{ url_for('home') }}">redbot</a>
-        <div class="muted small">snapshot-first investing briefing</div>
+        <div class="brand-copy muted">snapshot-first investing briefing for Korean investors</div>
       </div>
       <nav class="site-nav" aria-label="Primary">
         <a href="{{ url_for('home') }}">Home</a>
@@ -36,7 +36,7 @@
       </nav>
     </header>
 
-    <section class="auth-summary panel">
+    <section class="auth-summary shell-card access-strip">
       <div>
         <span class="label">Current Access</span>
         <strong>{{ access_context.effective_plan_id }}</strong>
@@ -46,7 +46,7 @@
         <span class="muted">???? ???</span>
         {% endif %}
       </div>
-      <div class="meta-strip">
+      <div class="meta-strip compact-meta">
         <span>Base {{ access_context.base_plan_id }}</span>
         {% if access_context.trial_active %}
         <span>Trial active{% if access_context.trial_end_date %} until {{ access_context.trial_end_date }}{% endif %}</span>
@@ -54,11 +54,7 @@
         {% if access_context.is_admin %}
         <span>Admin access</span>
         {% endif %}
-        {% if billing_enabled %}
-        <span>Billing on</span>
-        {% else %}
-        <span>Billing off</span>
-        {% endif %}
+        <span>{% if billing_enabled %}Billing on{% else %}Billing off{% endif %}</span>
       </div>
     </section>
 
@@ -68,7 +64,10 @@
 
     <footer class="site-footer muted">
       <span>redbot beta</span>
-      <a href="{{ url_for('privacy') }}">???? ??</a>
+      <div class="footer-links">
+        <a href="{{ url_for('privacy') }}">???? ??</a>
+        <a href="{{ url_for('status') }}">??? ??</a>
+      </div>
     </footer>
   </div>
 </body>
