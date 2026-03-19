@@ -3,19 +3,19 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage changes-hero">
   <div class="hero-main">
-    <h1>ë¬´ìì´ ì´ë»ê² ë°ëìëì§ ë¹ ë¥´ê² íì¸íì¸ì</h1>
-    <p class="lead">ì§ì  ì¤ëì· ëë¹ ë¹ì¤ íë, ë¹ì¤ ì¶ì, ë³ê²½ ì´ì ë¥¼ ì ëµë³ ì¹´ëë¡ ì ë¦¬íìµëë¤.</p>
+    <h1>무엇이 어떻게 바뀌었는지 빠르게 확인하세요</h1>
+    <p class="lead">직전 스냅샷 대비 비중 확대, 비중 축소, 변경 이유를 전략별 카드로 정리했습니다.</p>
     <div class="hero-badges">
-      <span class="badge neutral">ê¸°ì¤ì¼ {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
-      <span class="badge neutral">ìë°ì´í¸ {{ bundle.generated_at | fmt_datetime }}</span>
+      <span class="badge neutral">기준일 {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
+      <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
       <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
     </div>
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
-      <li>íë ì¢ëª©ê³¼ ì¶ì ì¢ëª©ì íëì ë¹êµí  ì ììµëë¤.</li>
-      <li>ì¢ëª© ì ì¢ëª©ì½ëë ìµê·¼ ì¤ëì· ê¸°ì¤ 6ìë¦¬ ì½ëìëë¤.</li>
-      <li>ë³ê²½ ì´ì ë ì ëµë³ ë¦¬ìì¹ ìì½ ë¬¸êµ¬ë¥¼ ê·¸ëë¡ ë³´ì¬ì¤ëë¤.</li>
+      <li>확대 종목과 축소 종목을 한눈에 비교할 수 있습니다.</li>
+      <li>종목 옆 종목코드는 최근 스냅샷 기준 6자리 코드입니다.</li>
+      <li>변경 이유는 전략별 리서치 요약 문구를 그대로 보여줍니다.</li>
     </ul>
   </aside>
 </section>
@@ -33,40 +33,40 @@
     <p class="change-summary">{{ change.summary }}</p>
     <div class="change-summary-grid">
       <div class="metric-card public-metric-card">
-        <span class="label">íë ì¢ëª© ì</span>
+        <span class="label">확대 종목 수</span>
         <strong>{{ change.increase_items | length }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">ì¶ì ì¢ëª© ì</span>
+        <span class="label">축소 종목 수</span>
         <strong>{{ change.decrease_items | length }}</strong>
       </div>
     </div>
     <div class="grid two-up nested-grid change-grid-modern">
       <div class="sub-panel shell-card change-subpanel increase-panel">
-        <span class="label">ë¹ì¤ íë</span>
+        <span class="label">비중 확대</span>
         <ul class="message-list compact-list clean-list">
           {% for item in change.increase_items %}
           <li class="change-entry change-entry-up"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
           {% endfor %}
           {% if not change.increase_items %}
-          <li>í´ë¹ ìì</li>
+          <li>해당 없음</li>
           {% endif %}
         </ul>
       </div>
       <div class="sub-panel shell-card change-subpanel decrease-panel">
-        <span class="label">ë¹ì¤ ì¶ì</span>
+        <span class="label">비중 축소</span>
         <ul class="message-list compact-list clean-list">
           {% for item in change.decrease_items %}
           <li class="change-entry change-entry-down"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
           {% endfor %}
           {% if not change.decrease_items %}
-          <li>í´ë¹ ìì</li>
+          <li>해당 없음</li>
           {% endif %}
         </ul>
       </div>
     </div>
     <div class="sub-panel shell-card reason-panel">
-      <span class="label">ë³ê²½ ì´ì </span>
+      <span class="label">변경 이유</span>
       <p>{{ change.reason_text }}</p>
     </div>
   </article>
@@ -74,8 +74,8 @@
 </section>
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>ìµê·¼ ë³ê²½ ë°ì´í°ê° ìì§ ììµëë¤.</h2>
-  <p>ì¬ì©ìì© ì¤ëì·ì´ ì¤ë¹ëë©´ ì´ ìì­ì ì ëµë³ ë³ê²½ ë´ì­ì´ íìë©ëë¤.</p>
+  <h2>최근 변경 데이터가 아직 없습니다.</h2>
+  <p>사용자용 스냅샷이 준비되면 이 영역에 전략별 변경 내역이 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}
