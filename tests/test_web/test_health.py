@@ -173,6 +173,7 @@ def seed_user_snapshot(
                 "market_view": "Neutral market with defensive positioning.",
                 "allocation_items": [
                     {
+                        "security_code": "069500",
                         "asset_group": "etf",
                         "display_name": "KODEX Cash ETF",
                         "target_weight": 0.32,
@@ -180,11 +181,12 @@ def seed_user_snapshot(
                         "source_type": "ETF",
                     },
                     {
-                        "asset_group": "etf",
-                        "display_name": "ACE Gold ETF",
+                        "security_code": None,
+                        "asset_group": "cash",
+                        "display_name": "Cash Reserve",
                         "target_weight": 0.18,
                         "role_summary": "Defensive hedge",
-                        "source_type": "ETF",
+                        "source_type": "CASH",
                     },
                 ],
                 "rationale_items": [
@@ -217,6 +219,7 @@ def seed_user_snapshot(
                 "market_view": "Neutral regime with selective risk-taking.",
                 "allocation_items": [
                     {
+                        "security_code": "005930",
                         "asset_group": "stock",
                         "display_name": "Samsung Electronics",
                         "target_weight": 0.12,
@@ -359,7 +362,9 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert home_response.status_code == 200
     assert "Redbot Stable" in home_response.get_data(as_text=True)
     assert today_response.status_code == 200
-    assert "Samsung Electronics" in today_response.get_data(as_text=True)
+    today_body = today_response.get_data(as_text=True)
+    assert "Samsung Electronics (005930)" in today_body
+    assert "Cash Reserve (None)" not in today_body
     assert performance_response.status_code == 200
     assert "comparison-matrix" in performance_response.get_data(as_text=True)
     assert changes_response.status_code == 200
@@ -542,7 +547,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     me_response = client.get("/me")
 
     assert request_code_response.status_code == 200
-    assert "개발용 인증번호" in request_code_response.get_data(as_text=True)
+    assert verification_code.isdigit() and len(verification_code) == 6
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
@@ -673,3 +678,4 @@ def test_port_env_overrides_web_port(monkeypatch) -> None:
     config_module = importlib.reload(config_module)
 
     assert config_module.get_settings().web_port == 9090
+

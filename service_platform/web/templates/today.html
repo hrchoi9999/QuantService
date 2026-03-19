@@ -106,7 +106,7 @@
           <div class="holding-row">
             <div class="holding-copy">
               <div class="holding-headline">
-                <strong>{{ item.display_name }}{% if item.ticker %} ({{ item.ticker }}){% elif item.code %} ({{ item.code }}){% elif item.symbol %} ({{ item.symbol }}){% endif %}</strong>
+                <strong>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</strong>
                 <span class="badge neutral small-badge">{{ item.asset_group }}</span>
               </div>
               <div class="holding-meta">
@@ -137,7 +137,7 @@
                 {% for item in sorted_items %}
                 <tr>
                   <td>{{ item.asset_group }}</td>
-                  <td>{{ item.display_name }}{% if item.ticker %} ({{ item.ticker }}){% elif item.code %} ({{ item.code }}){% elif item.symbol %} ({{ item.symbol }}){% endif %}</td>
+                  <td>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</td>
                   <td>{{ item.target_weight | fmt_percent }}</td>
                   <td>{{ item.role_summary }}</td>
                 </tr>
