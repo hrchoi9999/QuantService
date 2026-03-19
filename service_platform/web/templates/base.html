@@ -1,37 +1,37 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="REDBOT은 한국 투자자를 위한 스냅샷 기반 투자 브리핑 서비스입니다.">
+  <meta name="description" content="REDBOT? ?쒓뎅 ?ъ옄?먮? ?꾪븳 ?ㅻ깄??湲곕컲 ?ъ옄 釉뚮━???쒕퉬?ㅼ엯?덈떎.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
 <body>
   <div class="page-shell">
     <header class="site-header shell-card public-header">
-      <div class="brand-block">
+      <div class="brand-block brand-inline-block">
         <a class="brand brand-with-logo" href="{{ url_for('home') }}">
           <img class="brand-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="REDBOT logo">
         </a>
-        <div class="brand-copy muted">한국 투자자를 위한 스냅샷 기반 투자 브리핑</div>
+        <div class="brand-copy muted">?ㅻ깄??湲곕컲 ?명듃 ?ъ옄 釉뚮━???쒕퉬??/div>
       </div>
-      <nav class="site-nav" aria-label="주요 메뉴">
-        <a href="{{ url_for('home') }}">홈</a>
-        <a href="{{ url_for('today') }}">오늘의 추천</a>
-        <a href="{{ url_for('performance') }}">성과</a>
-        <a href="{{ url_for('changes') }}">변경내역</a>
-        <a href="{{ url_for('status') }}">상태</a>
-        <a href="{{ url_for('feedback') }}">의견보내기</a>
+      <nav class="site-nav" aria-label="二쇱슂 硫붾돱">
+        <a href="{{ url_for('home') }}">??/a>
+        <a href="{{ url_for('today') }}">?ㅻ뒛??異붿쿇</a>
+        <a href="{{ url_for('performance') }}">?깃낵</a>
+        <a href="{{ url_for('changes') }}">蹂寃쎈궡??/a>
+        <a href="{{ url_for('status') }}">?곹깭</a>
+        <a href="{{ url_for('feedback') }}">?섍껄蹂대궡湲?/a>
         {% if current_user %}
-        <a href="{{ url_for('me') }}">내 정보</a>
-        <a href="{{ url_for('logout') }}">로그아웃</a>
+        <a href="{{ url_for('me') }}">?댁젙蹂?/a>
+        <a href="{{ url_for('logout') }}">濡쒓렇?꾩썐</a>
         {% else %}
-        <a href="{{ url_for('login', next=request.path) }}">로그인 / 회원가입</a>
+        <a href="{{ url_for('login', next=request.path) }}">濡쒓렇??/a>
         {% endif %}
         {% if access_context.is_admin %}
-        <a href="{{ url_for('admin_dashboard') }}">관리자</a>
+        <a href="{{ url_for('admin_dashboard') }}">愿由ъ옄</a>
         {% endif %}
       </nav>
     </header>
@@ -39,13 +39,13 @@
     {% if current_user %}
     <section class="member-ribbon shell-card">
       <div>
-        <span class="label">로그인 계정</span>
+        <span class="label">濡쒓렇??怨꾩젙</span>
         <strong>{{ current_user.email }}</strong>
       </div>
       <div class="meta-strip compact-meta">
-        <span>{{ access_context.effective_plan_id }} 플랜 이용 중</span>
+        <span>{{ access_context.effective_plan_id }} ?뚮옖 ?댁슜 以?/span>
         {% if access_context.trial_active %}
-        <span>체험판{% if access_context.trial_end_date %} · {{ access_context.trial_end_date }}까지{% endif %}</span>
+        <span>泥댄뿕以?% if access_context.trial_end_date %} 쨌 {{ access_context.trial_end_date }}源뚯?{% endif %}</span>
         {% endif %}
       </div>
     </section>
@@ -58,14 +58,15 @@
     <footer class="site-footer muted public-footer">
       <div>
         <strong>REDBOT</strong>
-        <span>투자 판단을 돕는 스냅샷 기반 브리핑</span>
+        <span>?ъ옄 ?먮떒???뺣뒗 ?ㅻ깄??湲곕컲 釉뚮━??/span>
       </div>
       <div class="footer-links">
-        <a href="{{ url_for('privacy') }}">개인정보 안내</a>
-        <a href="{{ url_for('status') }}">서비스 상태</a>
-        <a href="{{ url_for('feedback') }}">의견 보내기</a>
+        <a href="{{ url_for('privacy') }}">媛쒖씤?뺣낫 ?덈궡</a>
+        <a href="{{ url_for('status') }}">?쒕퉬???곹깭</a>
+        <a href="{{ url_for('feedback') }}">?섍껄 蹂대궡湲?/a>
       </div>
     </footer>
   </div>
 </body>
 </html>
+
