@@ -1,76 +1,185 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero">
+<section class="hero-card compact-hero hero-surface">
   <p class="eyebrow">Today</p>
-  <h1>오늘의 추천</h1>
+  <h1>??? ?? ???</h1>
+  <p class="lead">?? ?? ??? ?? Redbot ??? ?? ??, ??, ?? ?? ??? ??? ? ????.</p>
   <div class="meta-strip">
-    <span>기준일 {{ bundle.as_of_date }}</span>
-    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
-    <span>Plan {{ access_context.effective_plan_id }}</span>
+    <span>??? {{ bundle.as_of_date or '-' }}</span>
+    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>?? ?? {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '???') }}</span>
   </div>
-  {% if bundle.stale %}
-  <div class="warning-banner">최신 current 스냅샷 대신 마지막 정상 데이터를 보여주고 있습니다.</div>
-  {% endif %}
-  {% if not access_context.authenticated %}
-  <div class="warning-banner">현재는 무료 미리보기 모드입니다. 각 모델의 하위 3개 종목만 표시됩니다.</div>
-  <div class="stack-actions">
-    <a class="primary-button" href="{{ url_for('login', next=url_for('today')) }}">로그인하고 starter 체험하기</a>
-    <a class="secondary-button" href="{{ url_for('pricing') }}">플랜 보기</a>
-  </div>
-  {% elif access_context.trial_active %}
-  <div class="warning-banner">무료 체험 기간이 적용 중입니다. 로그인한 가입자는 {{ access_context.effective_plan_id }} 권한으로 추천을 볼 수 있습니다.</div>
-  {% else %}
-  <div class="stack-actions">
-    <a class="secondary-button" href="{{ url_for('pricing') }}">플랜 업그레이드 보기</a>
-  </div>
+  {% if status_snapshot.state == 'stale' %}
+  <div class="warning-banner">?? ???? ?? ???? ?? ??? ?? ???? ???? ????.</div>
+  {% elif status_snapshot.state == 'empty' %}
+  <div class="warning-banner">?? ?? ???? ?? ????. ?? ??? ??? ???.</div>
   {% endif %}
 </section>
 
-{% for model in today_sections %}
-<section class="panel">
-  <div class="section-head">
-    <h2>{{ model.model_id }}</h2>
-    <span class="badge accent">{{ model.display_count }} / {{ model.available_pick_count }} picks</span>
-  </div>
-  {% if model.display_picks %}
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Ticker</th>
-          <th>Name</th>
-          <th>Score</th>
-          <th>Change</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for pick in model.display_picks %}
-        <tr>
-          <td>{{ pick.rank }}</td>
-          <td>
-            <a class="tracked-link" href="{{ url_for('track_click', ticker=pick.ticker, model_id=model.model_id, page='/today', target=ticker_target_url(pick.ticker)) }}">{{ pick.ticker }}</a>
-          </td>
-          <td>{{ pick.stock_name }}</td>
-          <td>{{ "%.2f"|format(pick.score) }}</td>
-          <td><span class="badge {{ pick.change_type }}">{{ pick.change_type }}</span></td>
-          <td>{{ pick.reason_summary }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <p class="muted">오늘 생성된 추천이 없습니다. 배치 상태를 확인해 주세요.</p>
-  {% endif %}
-</section>
-{% endfor %}
+{% if reports %}
+  {% for report in reports %}
+  <section class="panel report-section" id="{{ report.service_profile }}">
+    <div class="section-head report-head">
+      <div>
+        <p class="eyebrow">{{ profile_labels.get(report.service_profile, report.service_profile) }}</p>
+        <h2>{{ report.user_model_name }}</h2>
+        <p class="lead compact-lead">{{ report.summary_text }}</p>
+      </div>
+      <div class="stack-list compact align-end">
+        <span class="badge accent">{{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
+        <span class="badge neutral">{{ report.service_profile }}</span>
+      </div>
+    </div>
 
-<section class="panel">
-  <h2>면책 문구</h2>
-  <p class="muted">{{ bundle.daily_recommendations.disclaimer }}</p>
+    <div class="grid two-up">
+      <article class="sub-panel">
+        <span class="label">?? ??</span>
+        <p>{{ report.market_view }}</p>
+      </article>
+      <article class="sub-panel">
+        <span class="label">?? ??</span>
+        <div class="metric-strip three-col">
+          <div>
+            <span class="label">Full CAGR</span>
+            <strong>{{ report.performance_summary.headline_metrics.full_cagr | fmt_percent }}</strong>
+          </div>
+          <div>
+            <span class="label">Full MDD</span>
+            <strong>{{ report.performance_summary.headline_metrics.full_mdd | fmt_percent }}</strong>
+          </div>
+          <div>
+            <span class="label">Full Sharpe</span>
+            <strong>{% if report.performance_summary.headline_metrics.full_sharpe is not none %}{{ '%.2f'|format(report.performance_summary.headline_metrics.full_sharpe) }}{% else %}-{% endif %}</strong>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="grid two-up">
+      <article>
+        <div class="section-head tight-head">
+          <h3>?? ?? ??</h3>
+          <span class="badge neutral">{{ report.allocation_items | length }} items</span>
+        </div>
+        {% if report.allocation_items %}
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>???</th>
+                <th>??</th>
+                <th>??</th>
+                <th>??</th>
+                <th>??</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in report.allocation_items %}
+              <tr>
+                <td>{{ item.asset_group }}</td>
+                <td>{{ item.display_name }}</td>
+                <td>{{ item.target_weight | fmt_percent }}</td>
+                <td>{{ item.role_summary }}</td>
+                <td>{{ item.source_type }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="muted">??? ?? ?? ??? ????.</p>
+        {% endif %}
+      </article>
+
+      <article>
+        <h3>? ?? ???????</h3>
+        {% if report.rationale_items %}
+        <ul class="message-list compact-list">
+          {% for item in report.rationale_items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="muted">?? ??? ?? ????.</p>
+        {% endif %}
+      </article>
+    </div>
+
+    <div class="grid two-up">
+      <article>
+        <h3>??? ??</h3>
+        {% if report.performance_summary.period_metrics %}
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>??</th>
+                <th>CAGR</th>
+                <th>MDD</th>
+                <th>Sharpe</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in report.performance_summary.period_metrics %}
+              <tr>
+                <td>{{ item.period }}</td>
+                <td>{{ item.cagr | fmt_percent }}</td>
+                <td>{{ item.mdd | fmt_percent }}</td>
+                <td>{% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="muted">??? ?? ???? ????.</p>
+        {% endif %}
+      </article>
+
+      <article>
+        <h3>?? ??</h3>
+        <div class="grid two-up nested-grid">
+          <div class="sub-panel">
+            <span class="label">?? ??</span>
+            <ul class="message-list compact-list">
+              {% for item in report.change_log.increased_assets %}
+              <li>{{ item }}</li>
+              {% endfor %}
+              {% if not report.change_log.increased_assets %}
+              <li>?? ??</li>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="sub-panel">
+            <span class="label">?? ??</span>
+            <ul class="message-list compact-list">
+              {% for item in report.change_log.decreased_assets %}
+              <li>{{ item }}</li>
+              {% endfor %}
+              {% if not report.change_log.decreased_assets %}
+              <li>?? ??</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <div class="sub-panel reason-panel">
+          <span class="label">?? ??</span>
+          <p>{{ report.change_log.change_reason }}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="sub-panel disclaimer-panel">
+      <span class="label">?? ??</span>
+      <p class="muted small">{{ report.disclaimer_text }}</p>
+    </div>
+  </section>
+  {% endfor %}
+{% else %}
+<section class="panel empty-state">
+  <h2>?? ??? ?? ???? ????.</h2>
+  <p>??? ???? ??? ?? ???? ? ??? ???? ?????.</p>
 </section>
+{% endif %}
 {% endblock %}
-

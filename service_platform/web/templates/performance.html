@@ -1,41 +1,114 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero">
+<section class="hero-card compact-hero hero-surface">
   <p class="eyebrow">Performance</p>
-  <h1>성과 요약</h1>
+  <h1>??? ?? ??</h1>
+  <p class="lead">??? ???? ??? ???? Redbot ?? 4?? ?? ??? ??? ??? ?????.</p>
   <div class="meta-strip">
-    <span>기준일 {{ bundle.as_of_date }}</span>
-    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>??? {{ bundle.as_of_date or '-' }}</span>
+    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>?? {{ status_snapshot.state }}</span>
   </div>
 </section>
 
+{% if performance_rows %}
+<section class="feature-grid four-up">
+  {% for row in performance_rows %}
+  <article class="panel feature-card compact-card">
+    <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+    <h2>{{ row.user_model_name }}</h2>
+    <p class="muted small">??? {{ risk_labels.get(row.risk_label, row.risk_label) }}</p>
+    <div class="metric-strip three-col">
+      <div>
+        <span class="label">CAGR</span>
+        <strong>{{ row.performance_cards.cagr | fmt_percent }}</strong>
+      </div>
+      <div>
+        <span class="label">MDD</span>
+        <strong>{{ row.performance_cards.mdd | fmt_percent }}</strong>
+      </div>
+      <div>
+        <span class="label">Sharpe</span>
+        <strong>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</strong>
+      </div>
+    </div>
+    <p class="muted small">{{ row.note }}</p>
+  </article>
+  {% endfor %}
+</section>
+
 <section class="panel">
+  <h2>?? ?? ?</h2>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Model</th>
+          <th>??</th>
+          <th>???</th>
+          <th>???</th>
           <th>CAGR</th>
           <th>MDD</th>
           <th>Sharpe</th>
-          <th>Note</th>
+          <th>??</th>
         </tr>
       </thead>
       <tbody>
-        {% for row in bundle.performance_summary.models %}
+        {% for row in performance_rows %}
         <tr>
-          <td>{{ row.model_id }}</td>
-          <td>{{ row.cagr | fmt_percent }}</td>
-          <td>{{ row.mdd | fmt_percent }}</td>
-          <td>{{ "%.2f"|format(row.sharpe) }}</td>
+          <td>{{ row.user_model_name }}</td>
+          <td>{{ profile_labels.get(row.service_profile, row.service_profile) }}</td>
+          <td>{{ risk_labels.get(row.risk_label, row.risk_label) }}</td>
+          <td>{{ row.performance_cards.cagr | fmt_percent }}</td>
+          <td>{{ row.performance_cards.mdd | fmt_percent }}</td>
+          <td>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</td>
           <td>{{ row.note }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-  <p class="muted">과거 성과는 미래 수익을 보장하지 않습니다.</p>
 </section>
-{% endblock %}
 
+<section class="grid two-up">
+  {% for row in performance_rows %}
+  <article class="panel">
+    <div class="section-head tight-head">
+      <div>
+        <p class="eyebrow">{{ profile_labels.get(row.service_profile, row.service_profile) }}</p>
+        <h2>{{ row.user_model_name }}</h2>
+      </div>
+      <span class="badge neutral">{{ row.period_table | length }} periods</span>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>??</th>
+            <th>CAGR</th>
+            <th>MDD</th>
+            <th>Sharpe</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in row.period_table %}
+          <tr>
+            <td>{{ item.period }}</td>
+            <td>{{ item.cagr | fmt_percent }}</td>
+            <td>{{ item.mdd | fmt_percent }}</td>
+            <td>{% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<section class="panel empty-state">
+  <h2>?? ??? ???? ?? ????.</h2>
+  <p>?? ???? ???? ??? ?? ??? ?? ?? ?????.</p>
+</section>
+{% endif %}
+{% endblock %}

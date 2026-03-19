@@ -25,7 +25,6 @@ from service_platform.access.store import (
     GrantValidationError,
     LoginValidationError,
     RegistrationValidationError,
-    build_today_sections,
 )
 from service_platform.admin.auth import get_policy_state, require_admin
 from service_platform.billing import BillingDisabledError, BillingService, LightPayValidationError
@@ -44,6 +43,7 @@ from service_platform.shared.constants import CURRENT_DIRNAME, MANIFEST_FILENAME
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
+from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
 
 STATUS_MESSAGES = {
     "invalid": "이메일 또는 비밀번호를 다시 확인해 주세요.",
@@ -116,12 +116,14 @@ def create_app(settings: Settings | None = None) -> Flask:
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.secret_key = settings.session_secret_key
     provider = SnapshotDataProvider(settings)
+    user_snapshot_api = UserSnapshotMockApi(settings)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
     billing_service = BillingService(settings, access_store)
 
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
+    app.config["USER_SNAPSHOT_API"] = user_snapshot_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -274,12 +276,14 @@ def create_app(settings: Settings | None = None) -> Flask:
     def maybe_alert_status(status_snapshot) -> None:
         if status_snapshot.state == "healthy":
             return
+        run_id = getattr(status_snapshot, "last_run_id", None)
+        errors = getattr(status_snapshot, "errors", [])
         send_alert(
             settings,
             title="Snapshot Status Warning",
             message=(
                 f"state={status_snapshot.state} as_of={status_snapshot.as_of_date} "
-                f"run_id={status_snapshot.last_run_id} errors={' | '.join(status_snapshot.errors)}"
+                f"run_id={run_id} errors={' | '.join(errors)}"
             ),
             alert_key=f"snapshot_status_{status_snapshot.state}",
         )
@@ -304,6 +308,25 @@ def create_app(settings: Settings | None = None) -> Flask:
             return provider.load_bundle(force_refresh=False)
         except SnapshotLoadError:
             return None
+
+    def load_user_bundle_or_error():
+        try:
+            return user_snapshot_api.load_bundle(force_refresh=False)
+        except UserSnapshotLoadError:
+            return None
+
+    def render_user_snapshot_error(status_code: int = 503) -> tuple[str, int]:
+        status_snapshot = user_snapshot_api.get_status(force_refresh=False)
+        return (
+            render_template(
+                "error.html",
+                page_title="Snapshot Unavailable",
+                status_snapshot=status_snapshot,
+                metrics_summary=safe_metrics_summary(),
+                message="현재 사용자용 스냅샷을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
+            ),
+            status_code,
+        )
 
     def record_page_view(page: str, bundle=None) -> None:
         meta = {}
@@ -381,6 +404,30 @@ def create_app(settings: Settings | None = None) -> Flask:
             "billing_messages": BILLING_MESSAGES,
             "csrf_token": get_csrf_token(),
             "policy_state": get_policy_state(settings),
+            "profile_labels": {
+                "stable": "???",
+                "balanced": "???",
+                "growth": "???",
+                "auto": "?????",
+            },
+            "risk_labels": {
+                "low": "??",
+                "medium": "??",
+                "high": "??",
+                "adaptive": "???",
+            },
+            "regime_labels": {
+                "bull": "??",
+                "bear": "??",
+                "neutral": "??",
+                "mixed": "??",
+            },
+            "change_type_labels": {
+                "rebalanced": "????",
+                "increase": "?? ??",
+                "decrease": "?? ??",
+                "hold": "??",
+            },
         }
 
     @app.after_request
@@ -397,14 +444,70 @@ def create_app(settings: Settings | None = None) -> Flask:
     def fmt_percent(value: float | int | None) -> str:
         return _format_percent(value)
 
+    @app.get("/api/v1/user-models")
+    def api_user_models() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        return (jsonify(bundle.user_models), 200)
+
+    @app.get("/api/v1/recommendation/today")
+    def api_recommendation_today() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        return (jsonify(bundle.recommendation_today), 200)
+
+    @app.get("/api/v1/recommendation/<service_profile>")
+    def api_recommendation_by_profile(service_profile: str) -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        report_payload = user_snapshot_api.get_recommendation_by_profile(service_profile)
+        if report_payload is None:
+            return ({"status": "not_found", "message": "service profile not found"}, 404)
+        return (jsonify(report_payload), 200)
+
+    @app.get("/api/v1/performance/summary")
+    def api_performance_summary() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        return (jsonify(bundle.performance_summary), 200)
+
+    @app.get("/api/v1/changes/recent")
+    def api_changes_recent() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        return (jsonify(bundle.recent_changes), 200)
+
+    @app.get("/api/v1/publish-status")
+    def api_publish_status() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        return (jsonify(bundle.publish_status), 200)
+
     @app.get("/")
     def home() -> Response | tuple[str, int]:
-        bundle = load_or_error()
+        bundle = load_user_bundle_or_error()
         if bundle is None:
-            return render_snapshot_error()
+            return render_user_snapshot_error()
         record_page_view("/", bundle)
+        performance_by_profile = {
+            row.get("service_profile"): row for row in bundle.performance_summary.get("models", [])
+        }
+        status_snapshot = user_snapshot_api.get_status(force_refresh=False)
         return Response(
-            render_template("home.html", page_title="Home", bundle=bundle), mimetype="text/html"
+            render_template(
+                "home.html",
+                page_title="Home",
+                bundle=bundle,
+                performance_by_profile=performance_by_profile,
+                status_snapshot=status_snapshot,
+            ),
+            mimetype="text/html",
         )
 
     @app.get("/theme-preview")
@@ -620,48 +723,59 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/today")
     def today() -> Response | tuple[str, int]:
-        bundle = load_or_error()
+        bundle = load_user_bundle_or_error()
         if bundle is None:
-            return render_snapshot_error()
-        access_context = current_access_context()
-        today_sections = build_today_sections(
-            bundle.daily_recommendations.get("models", []), access_context.entitlements
-        )
+            return render_user_snapshot_error()
         record_page_view("/today", bundle)
-        for section in today_sections:
+        reports = bundle.recommendation_today.get("reports", [])
+        for report in reports:
             safe_record_event(
-                event_name="model_section_view", page="/today", model_id=section.get("model_id")
+                event_name="model_section_view",
+                page="/today",
+                model_id=report.get("service_profile"),
             )
         return Response(
             render_template(
                 "today.html",
                 page_title="Today",
                 bundle=bundle,
-                ticker_target_url=_ticker_target_url,
-                today_sections=today_sections,
+                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                reports=reports,
             ),
             mimetype="text/html",
         )
 
     @app.get("/changes")
     def changes() -> Response | tuple[str, int]:
-        bundle = load_or_error()
+        bundle = load_user_bundle_or_error()
         if bundle is None:
-            return render_snapshot_error()
+            return render_user_snapshot_error()
         record_page_view("/changes", bundle)
         return Response(
-            render_template("changes.html", page_title="Changes", bundle=bundle),
+            render_template(
+                "changes.html",
+                page_title="Changes",
+                bundle=bundle,
+                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                change_rows=bundle.recent_changes.get("changes", []),
+            ),
             mimetype="text/html",
         )
 
     @app.get("/performance")
     def performance() -> Response | tuple[str, int]:
-        bundle = load_or_error()
+        bundle = load_user_bundle_or_error()
         if bundle is None:
-            return render_snapshot_error()
+            return render_user_snapshot_error()
         record_page_view("/performance", bundle)
         return Response(
-            render_template("performance.html", page_title="Performance", bundle=bundle),
+            render_template(
+                "performance.html",
+                page_title="Performance",
+                bundle=bundle,
+                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                performance_rows=bundle.performance_summary.get("models", []),
+            ),
             mimetype="text/html",
         )
 
@@ -1035,15 +1149,21 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/status")
     def status() -> Response:
         force_refresh = request.args.get("refresh") == "1"
-        status_snapshot = provider.get_status(force_refresh=force_refresh)
+        status_snapshot = user_snapshot_api.get_status(force_refresh=force_refresh)
         maybe_alert_status(status_snapshot)
         metrics_summary = safe_metrics_summary()
+        publish_status_payload = None
+        if status_snapshot.snapshot_accessible:
+            publish_status_payload = user_snapshot_api.get_publish_status(
+                force_refresh=force_refresh
+            )
         return Response(
             render_template(
                 "status.html",
                 page_title="Status",
                 status_snapshot=status_snapshot,
                 metrics_summary=metrics_summary,
+                publish_status_payload=publish_status_payload,
             ),
             mimetype="text/html",
         )
@@ -1051,7 +1171,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/healthz")
     @app.get("/health")
     def healthz() -> tuple[dict[str, object], int]:
-        status_snapshot = provider.get_status(force_refresh=False)
+        status_snapshot = user_snapshot_api.get_status(force_refresh=False)
         maybe_alert_status(status_snapshot)
         metrics_summary = safe_metrics_summary()
         return (
@@ -1064,7 +1184,6 @@ def create_app(settings: Settings | None = None) -> Flask:
                     "as_of_date": status_snapshot.as_of_date,
                     "generated_at": status_snapshot.generated_at,
                     "age_seconds": status_snapshot.age_seconds,
-                    "last_run_id": status_snapshot.last_run_id,
                     "feedback_submissions_24h": metrics_summary["feedback_submissions"],
                     "billing_enabled": settings.billing_enabled,
                 }

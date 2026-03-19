@@ -1,32 +1,64 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<section class="hero-card compact-hero">
+<section class="hero-card compact-hero hero-surface">
   <p class="eyebrow">Changes</p>
-  <h1>최근 변화</h1>
+  <h1>?? ?? ??</h1>
+  <p class="lead">?? ?????? ?? ?? ??? ?? ????, ??? ? ????? ??? ??? ?????.</p>
   <div class="meta-strip">
-    <span>기준일 {{ bundle.recent_changes.as_of_date }}</span>
-    <span>생성시각 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>??? {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
+    <span>???? {{ bundle.generated_at | fmt_datetime }}</span>
+    <span>?? {{ status_snapshot.state }}</span>
   </div>
 </section>
 
-<section class="panel">
-  {% if bundle.recent_changes.changes %}
-  <div class="stack-list">
-    {% for change in bundle.recent_changes.changes %}
-    <article class="change-card">
-      <div class="change-head">
-        <strong>{{ change.stock_name }}</strong>
-        <span class="badge {{ change.event }}">{{ change.event }}</span>
+{% if change_rows %}
+<section class="stack-list">
+  {% for change in change_rows %}
+  <article class="panel change-card-extended">
+    <div class="section-head tight-head">
+      <div>
+        <p class="eyebrow">{{ change_type_labels.get(change.change_type, change.change_type) }}</p>
+        <h2>{{ change.user_model_name }}</h2>
       </div>
-      <p class="muted small">{{ change.model_id }} · {{ change.ticker }}</p>
-      <p>{{ change.summary }}</p>
-    </article>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="muted">표시할 변화가 없습니다.</p>
-  {% endif %}
+      <span class="badge accent">{{ change_type_labels.get(change.change_type, change.change_type) }}</span>
+    </div>
+    <p>{{ change.summary }}</p>
+    <div class="grid two-up nested-grid">
+      <div class="sub-panel">
+        <span class="label">?? ??</span>
+        <ul class="message-list compact-list">
+          {% for item in change.increase_items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+          {% if not change.increase_items %}
+          <li>?? ??</li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="sub-panel">
+        <span class="label">?? ??</span>
+        <ul class="message-list compact-list">
+          {% for item in change.decrease_items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+          {% if not change.decrease_items %}
+          <li>?? ??</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="sub-panel reason-panel">
+      <span class="label">?? ??</span>
+      <p>{{ change.reason_text }}</p>
+    </div>
+  </article>
+  {% endfor %}
 </section>
+{% else %}
+<section class="panel empty-state">
+  <h2>?? ?? ??? ?? ????.</h2>
+  <p>??? ???? ??? ?? ??? ? ??? ?????.</p>
+</section>
+{% endif %}
 {% endblock %}
-

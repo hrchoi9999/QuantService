@@ -63,7 +63,7 @@ def build_settings(tmp_path: Path, ttl_seconds: int = 60, stale_after_hours: int
     )
 
 
-def seed_snapshot(target_dir: Path, generated_at: str = "2026-03-11T12:00:00Z") -> None:
+def seed_snapshot(target_dir: Path, generated_at: str = "2026-03-19T12:00:00Z") -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     for filename, source in EXAMPLE_FILES.items():
         output_name = f"{filename}.json"

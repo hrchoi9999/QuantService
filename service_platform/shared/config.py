@@ -1,4 +1,4 @@
-﻿"""Environment-driven configuration helpers."""
+"""Environment-driven configuration helpers."""
 
 from __future__ import annotations
 
@@ -49,6 +49,7 @@ from service_platform.shared.constants import (
     DEFAULT_TRIAL_DEFAULT_PLAN,
     DEFAULT_TRIAL_END_DATE,
     DEFAULT_TRIAL_MODE,
+    DEFAULT_USER_SNAPSHOT_DIR,
     DEFAULT_WEB_HOST,
     DEFAULT_WEB_PORT,
 )
@@ -102,6 +103,7 @@ class Settings:
     s2_holdings_csv: Path
     s2_snapshot_csv: Path
     s2_summary_csv: Path
+    user_snapshot_dir: Path = DEFAULT_USER_SNAPSHOT_DIR
 
 
 def _get_port() -> int:
@@ -206,4 +208,5 @@ def get_settings() -> Settings:
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),
         s2_summary_csv=Path(os.getenv("S2_SUMMARY_CSV", str(DEFAULT_S2_SUMMARY_CSV))),
+        user_snapshot_dir=Path(os.getenv("USER_SNAPSHOT_DIR", str(DEFAULT_USER_SNAPSHOT_DIR))),
     )

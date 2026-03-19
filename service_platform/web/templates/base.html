@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="Daily stock recommendation snapshots for Korean investors.">
+  <meta name="description" content="Redbot? Quant? ??? ???? ???? ???? ??? ??? ?? ??? ???? ?? ??? ??????.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
@@ -13,14 +13,13 @@
     <header class="site-header">
       <div class="brand-block">
         <a class="brand" href="{{ url_for('home') }}">redbot</a>
-        <div class="muted small">snapshot-first stock idea service</div>
+        <div class="muted small">snapshot-first investing briefing</div>
       </div>
       <nav class="site-nav" aria-label="Primary">
         <a href="{{ url_for('home') }}">Home</a>
         <a href="{{ url_for('today') }}">Today</a>
-        <a href="{{ url_for('pricing') }}">Pricing</a>
-        <a href="{{ url_for('changes') }}">Changes</a>
         <a href="{{ url_for('performance') }}">Performance</a>
+        <a href="{{ url_for('changes') }}">Changes</a>
         <a href="{{ url_for('feedback') }}">Feedback</a>
         <a href="{{ url_for('status') }}">Status</a>
         <a href="{{ url_for('theme_preview') }}">Theme Lab</a>
@@ -28,7 +27,8 @@
         <a href="{{ url_for('me') }}">Me</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         {% else %}
-        <a href="{{ url_for('login', next=request.path) }}">Login</a>`r`n        <a href="{{ url_for('signup', next=request.path) }}">Sign up</a>
+        <a href="{{ url_for('login', next=request.path) }}">Login</a>
+        <a href="{{ url_for('signup', next=request.path) }}">Sign up</a>
         {% endif %}
         {% if access_context.is_admin %}
         <a href="{{ url_for('admin_dashboard') }}">Admin</a>
@@ -43,7 +43,7 @@
         {% if current_user %}
         <span class="muted">{{ current_user.email }}</span>
         {% else %}
-        <span class="muted">비로그인 방문자</span>
+        <span class="muted">???? ???</span>
         {% endif %}
       </div>
       <div class="meta-strip">
@@ -68,9 +68,8 @@
 
     <footer class="site-footer muted">
       <span>redbot beta</span>
-      <a href="{{ url_for('privacy') }}">개인정보 안내</a>
+      <a href="{{ url_for('privacy') }}">???? ??</a>
     </footer>
   </div>
 </body>
 </html>
-
