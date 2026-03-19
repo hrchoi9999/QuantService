@@ -2258,3 +2258,65 @@ body {
     transform: scale(1.1) !important;
   }
 }
+
+
+/* Final soft-orange background pass */
+:root {
+  --bg: #fff7ed;
+  --bg-soft: #fff7ed;
+  --surface: #fffdfb;
+  --surface-soft: #fff7ed;
+  --surface-muted: #fff7ed;
+  --line: #f6eadc;
+  --line-strong: #f0dfca;
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgba(230, 132, 44, 0.08), transparent 32%),
+    linear-gradient(180deg, #fff7ed, #fff7ed) !important;
+}
+
+.shell-card,
+.hero-card,
+.panel,
+.feature-card,
+.sub-panel,
+.feature-note,
+.empty-state,
+.content-card,
+.change-card-extended,
+.summary-row,
+.metric-card.public-metric-card,
+.public-status-card,
+.spotlight-card,
+.visual-metric-row,
+.period-metric-card,
+.disclosure-box,
+.mini-metric-grid > div {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #fff7ed) !important;
+}
+
+.hero-stage,
+.metric-panel,
+.reason-panel,
+.emphasis-card,
+.spotlight-surface,
+.period-highlight-card,
+.full-metric-band,
+.change-subpanel.increase-panel {
+  background: linear-gradient(180deg, rgba(255, 247, 237, 0.98), #fffdfb) !important;
+}
+
+.polished-table table th {
+  background: rgba(255, 247, 237, 0.92) !important;
+}
+
+
+/* Keep header transparent after background overrides */
+.site-header.public-header,
+.public-header {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
