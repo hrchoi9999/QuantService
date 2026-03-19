@@ -3,9 +3,9 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-        <h1>오늘의 추천</h1>
+    <h1>오늘의 추천</h1>
     <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 리서치 브리핑 형태로 정리했습니다.</p>
-    <div class="overview-metrics">
+    <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
         <strong>{{ bundle.as_of_date or '-' }}</strong>
@@ -26,12 +26,12 @@
     {% if status_snapshot.state == 'stale' %}
     <div class="warning-banner">최신 추천 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
+    <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 뒤 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   {% if reports %}
   <aside class="hero-side shell-card quick-nav-card segmented-card">
-        <div class="segmented-control">
+    <div class="segmented-control balanced-segmented-control">
       {% for report in reports %}
       <a class="segment-pill" href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
       {% endfor %}
@@ -45,6 +45,8 @@
   {% set sorted_items = report.allocation_items | sort(attribute='target_weight', reverse=True) %}
   {% set top_items = sorted_items[:8] %}
   {% set extra_count = (sorted_items | length) - (top_items | length) %}
+  {% set full_period_metrics = report.performance_summary.period_metrics | selectattr('period', 'equalto', 'FULL') | list %}
+  {% set other_period_metrics = report.performance_summary.period_metrics | rejectattr('period', 'equalto', 'FULL') | list %}
   <section class="panel report-shell shell-card strategy-detail-card" id="{{ report.service_profile }}">
     <div class="section-heading report-top detail-top">
       <div class="title-stack">
@@ -73,11 +75,11 @@
       </div>
     </div>
 
-    <div class="grid two-up report-grid">
-      <article class="shell-card content-card spotlight-surface">
+    <div class="strategy-layout">
+      <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-                        <h3>전략 요약</h3>
+            <h3>전략 요약</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
@@ -88,10 +90,10 @@
         </ul>
       </article>
 
-      <article class="shell-card content-card holdings-panel">
+      <article class="shell-card content-card holdings-panel strategy-holdings-panel">
         <div class="section-heading tight-head">
           <div>
-                        <h3>상위 편입 자산</h3>
+            <h3>상위 편입 자산</h3>
           </div>
           <span class="badge neutral">{{ top_items | length }} / {{ sorted_items | length }}</span>
         </div>
@@ -115,7 +117,7 @@
           {% endfor %}
         </div>
         {% if extra_count > 0 %}
-        <details class="disclosure-box">
+        <details class="disclosure-box sticky-disclosure-box">
           <summary>전체 편입 보기 (추가 {{ extra_count }}개)</summary>
           <div class="table-wrap compact-table top-margin-sm">
             <table>
@@ -142,17 +144,29 @@
         </details>
         {% endif %}
       </article>
-    </div>
 
-    <div class="grid two-up report-grid">
-      <article class="shell-card content-card">
+      <article class="shell-card content-card strategy-period-panel">
         <div class="section-heading tight-head">
           <div>
-                        <h3>기간별 성과</h3>
+            <h3>기간별 성과</h3>
           </div>
         </div>
-        <div class="period-metric-grid">
-          {% for item in report.performance_summary.period_metrics %}
+        {% if full_period_metrics %}
+        {% set full_item = full_period_metrics[0] %}
+        <div class="period-highlight-card">
+          <div class="period-highlight-head">
+            <span class="badge neutral">{{ full_item.period }}</span>
+            <strong>누적 성과 기준</strong>
+          </div>
+          <div class="period-highlight-values">
+            <span>CAGR {{ full_item.cagr | fmt_percent }}</span>
+            <span>MDD {{ full_item.mdd | fmt_percent }}</span>
+            <span>Sharpe {% if full_item.sharpe is not none %}{{ '%.2f'|format(full_item.sharpe) }}{% else %}-{% endif %}</span>
+          </div>
+        </div>
+        {% endif %}
+        <div class="period-metric-grid compact-period-grid">
+          {% for item in other_period_metrics %}
           <div class="period-metric-card">
             <span class="badge neutral">{{ item.period }}</span>
             <div class="period-metric-values">
@@ -165,10 +179,10 @@
         </div>
       </article>
 
-      <article class="shell-card content-card">
+      <article class="shell-card content-card strategy-change-panel">
         <div class="section-heading tight-head">
           <div>
-                        <h3>이번 조정</h3>
+            <h3>이번 조정</h3>
           </div>
         </div>
         <div class="grid two-up nested-grid change-grid-modern">
