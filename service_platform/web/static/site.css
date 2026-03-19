@@ -2156,3 +2156,52 @@ body {
     height: 22px !important;
   }
 }
+
+
+/* Final hover behavior: icon only */
+.model-selector-label,
+.model-selector:hover .model-selector-label,
+.model-selector:focus-visible .model-selector-label,
+.model-selector.is-selected .model-selector-label {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  transform: none !important;
+}
+
+.model-selector-circle img,
+.model-selector:hover .model-selector-circle img,
+.model-selector:focus-visible .model-selector-circle img,
+.model-selector.is-selected .model-selector-circle img {
+  transition: transform 160ms ease !important;
+}
+
+.model-selector:hover .model-selector-circle img,
+.model-selector:focus-visible .model-selector-circle img,
+.model-selector.is-selected .model-selector-circle img {
+  transform: scale(1.12) !important;
+}
+
+.model-selector-circle--balanced img,
+.model-selector:hover .model-selector-circle--balanced img,
+.model-selector:focus-visible .model-selector-circle--balanced img,
+.model-selector.is-selected .model-selector-circle--balanced img {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+@media (max-width: 820px) {
+  .model-selector-label,
+  .model-selector:hover .model-selector-label,
+  .model-selector:focus-visible .model-selector-label,
+  .model-selector.is-selected .model-selector-label {
+    font-size: 15px !important;
+  }
+
+  .model-selector-circle--balanced img,
+  .model-selector:hover .model-selector-circle--balanced img,
+  .model-selector:focus-visible .model-selector-circle--balanced img,
+  .model-selector.is-selected .model-selector-circle--balanced img {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
