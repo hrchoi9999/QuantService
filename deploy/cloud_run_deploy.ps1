@@ -76,6 +76,8 @@ spec:
           value: 0.0.0.0
         - name: SNAPSHOT_SOURCE
           value: $SnapshotSource
+        - name: USER_SNAPSHOT_DIR
+          value: /app/service_platform/web/public_data/user_current
         - name: BILLING_ENABLED
           value: '$billingEnabledValue'
         - name: BILLING_MODE
