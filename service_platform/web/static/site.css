@@ -1603,3 +1603,144 @@ th {
     height: 34px;
   }
 }
+
+:root {
+  --line: #fff9f7;
+  --line-strong: #fff4f1;
+}
+
+.shell-card,
+.hero-card,
+.panel,
+.feature-card,
+.sub-panel,
+.feature-note,
+.empty-state,
+.content-card,
+.change-card-extended,
+.summary-row,
+.metric-card.public-metric-card,
+.public-status-card,
+.spotlight-card,
+.visual-metric-row,
+.period-metric-card,
+.disclosure-box,
+.action-link,
+.primary-button,
+.secondary-button,
+.feedback-form input,
+.feedback-form textarea,
+.feedback-form select,
+.period-highlight-card,
+.period-highlight-values span,
+.info-card,
+.mini-metric-grid > div {
+  border-color: var(--surface-muted);
+}
+
+.site-header {
+  padding: 12px 20px;
+  min-height: 0;
+}
+
+.public-header {
+  margin-bottom: 12px;
+}
+
+.brand-copy {
+  font-size: 16px;
+}
+
+.site-nav a {
+  color: #1e3558;
+  font-size: 23px;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--accent);
+}
+
+.badge,
+.chip,
+.hero-badges span,
+.meta-strip span,
+.small-badge {
+  border-color: var(--surface-muted);
+}
+
+.model-selector-panel {
+  padding: 10px 12px 8px;
+}
+
+.model-selector-grid {
+  gap: 8px 8px;
+}
+
+.model-selector-circle {
+  width: 68px;
+  height: 68px;
+  box-shadow: none;
+}
+
+.model-selector-circle img {
+  width: 34px;
+  height: 34px;
+}
+
+.model-selector-label {
+  font-size: 15px;
+}
+
+.holding-row:last-child {
+  border-bottom: none;
+}
+
+.full-metric-band {
+  gap: 0;
+  background: linear-gradient(180deg, rgba(230, 44, 40, 0.08), rgba(255, 255, 255, 0.98));
+}
+
+.full-metric-band .full-metric-item {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.merged-period-values {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.merged-period-values span {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.hero-logo-wrap {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .site-header {
+    padding: 10px 16px;
+  }
+
+  .site-nav a {
+    font-size: 18px;
+  }
+
+  .brand-copy {
+    font-size: 14px;
+  }
+
+  .model-selector-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .model-selector-circle img {
+    width: 30px;
+    height: 30px;
+  }
+}

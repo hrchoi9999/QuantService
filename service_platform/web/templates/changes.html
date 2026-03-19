@@ -3,7 +3,7 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage changes-hero">
   <div class="hero-main">
-        <h1>무엇이 달라졌는지 빠르게 확인하세요.</h1>
+    <h1>무엇이 왜 바뀌었는지 빠르게 확인하세요</h1>
     <p class="lead">직전 스냅샷 대비 비중 확대, 비중 축소, 변경 이유를 전략별 카드로 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
@@ -12,10 +12,10 @@
     </div>
   </div>
   <aside class="hero-side shell-card spotlight-panel">
-        <ul class="message-list compact-list trust-list">
-      <li>확대된 자산과 축소된 자산을 분리해 보여줍니다.</li>
-      <li>전략별 조정 방향을 한 카드 안에서 빠르게 읽을 수 있습니다.</li>
-      <li>변경 이유를 별도 노트 영역으로 정리합니다.</li>
+    <ul class="message-list compact-list trust-list">
+      <li>늘어난 자산과 줄어든 자산을 분리해 보여줍니다.</li>
+      <li>전략별 조정 방향을 카드 안에서 빠르게 읽을 수 있습니다.</li>
+      <li>변경 이유를 별도 메모 영역으로 정리합니다.</li>
     </ul>
   </aside>
 </section>
@@ -27,7 +27,6 @@
     <div class="section-heading tight-head detail-top">
       <div class="title-stack">
         <h2>{{ change.user_model_name }}</h2>
-        <p class="muted small">{{ profile_labels.get(change.service_profile, change.service_profile) }}</p>
       </div>
       <span class="badge accent">{{ change_type_labels.get(change.change_type, change.change_type) }}</span>
     </div>

@@ -3,29 +3,25 @@
 {% block content %}
 <section class="hero-card hero-stage home-hero">
   <div class="hero-main hero-copy-block">
-    <div class="hero-logo-wrap">
-      <img class="hero-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="redbot logo">
-    </div>
     <div class="hero-badges">
       <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">시장 국면 {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</span>
     </div>
-    <h1>오늘의 시장 흐름과 전략별 대응을 한 화면에서 확인하세요.</h1>
-    <p class="lead">Redbot은 사용자용 스냅샷을 바탕으로 오늘의 추천, 전략별 차이, 최근 조정 이유를 리서치 브리핑처럼 정리해 보여줍니다.</p>
+    <h1>오늘의 시장 흐름과 전략별 선택을 한 화면에서 확인하세요</h1>
+    <p class="lead">REDBOT은 사용자용 스냅샷을 바탕으로 오늘의 추천, 전략별 차이, 최근 조정 이유를 리서치 브리핑처럼 정리해 보여줍니다.</p>
     <div class="stack-actions hero-actions">
       <a class="primary-button" href="{{ url_for('today') }}">오늘의 추천 보기</a>
-      <a class="secondary-button" href="{{ url_for('performance') }}">전략 비교 보기</a>
-      <a class="secondary-button" href="{{ url_for('changes') }}">변경 내역 보기</a>
+      <a class="secondary-button" href="{{ url_for('performance') }}">성과 비교 보기</a>
+      <a class="secondary-button" href="{{ url_for('changes') }}">변경내역 보기</a>
     </div>
     {% if status_snapshot.state == 'stale' %}
     <div class="warning-banner">최신 스냅샷 반영이 다소 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">사용자용 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
+    <div class="warning-banner">사용자용 스냅샷이 아직 준비되지 않았습니다. 잠시 뒤 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   <aside class="hero-side shell-card spotlight-panel">
-    
     <div class="spotlight-grid">
       <div class="spotlight-card">
         <span class="label">전략 수</span>
@@ -47,7 +43,7 @@
 <section class="section-block">
   <div class="section-heading feature-headline">
     <div>
-            <h2>나에게 맞는 전략을 먼저 이해하세요</h2>
+      <h2>내게 맞는 전략을 빠르게 살펴보세요</h2>
     </div>
     <a class="text-link" href="{{ url_for('today') }}">전체 추천 보기</a>
   </div>
@@ -59,7 +55,6 @@
       <div class="model-head">
         <div class="title-stack">
           <h3>{{ model.user_model_name }}</h3>
-          <p class="muted small">{{ profile_labels.get(model.service_profile, model.service_profile) }}</p>
         </div>
         <span class="badge accent">위험도 {{ risk_labels.get(model.risk_label, model.risk_label) }}</span>
       </div>
@@ -92,7 +87,6 @@
 
 <section class="grid two-up product-story-grid">
   <article class="panel shell-card">
-    
     <h2>읽기 쉬운 투자 브리핑</h2>
     <div class="product-pillars">
       <div class="feature-note">
@@ -105,12 +99,11 @@
       </div>
       <div class="feature-note">
         <strong>변경 이유</strong>
-        <p>단순 비중 변화가 아니라 무엇이 달라졌는지와 왜 달라졌는지를 함께 설명합니다.</p>
+        <p>단순 비중 변화가 아니라 무엇을 늘리고 줄였는지, 왜 바뀌었는지를 함께 설명합니다.</p>
       </div>
     </div>
   </article>
   <article class="panel shell-card">
-    
     <h2>전략별 핵심 성과</h2>
     <div class="summary-list performance-quick-list">
       {% for row in bundle.performance_summary.models %}

@@ -2,7 +2,7 @@
 
 {% block content %}
 <section class="hero-card compact-hero status-hero public-status-hero">
-    <h1>서비스 상태 확인</h1>
+  <h1>서비스 상태 확인</h1>
   <p class="lead">현재 공개 중인 사용자용 스냅샷이 정상적으로 반영되고 있는지 간단히 확인할 수 있습니다.</p>
   <div class="hero-badges">
     <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
@@ -15,7 +15,7 @@
   <article class="panel shell-card public-status-card">
     <span class="label">서비스 상태</span>
     <h2>{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</h2>
-    <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 제공되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기반으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
+    <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 제공되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기준으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
   </article>
   <article class="panel shell-card public-status-card">
     <span class="label">전략 수</span>
@@ -30,7 +30,7 @@
   <article class="panel shell-card public-status-card">
     <span class="label">응답 상태</span>
     <h2>{% if status_snapshot.snapshot_accessible %}정상{% else %}확인 필요{% endif %}</h2>
-    <p class="muted">공개용 스냅샷 접근 가능 여부만 간단히 표시합니다.</p>
+    <p class="muted">공개용 스냅샷 접근 가능 여부만 간단하게 표시합니다.</p>
   </article>
 </section>
 
