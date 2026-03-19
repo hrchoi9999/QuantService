@@ -206,8 +206,22 @@ def seed_user_snapshot(
                     ],
                 },
                 "change_log": {
-                    "increased_assets": ["KODEX Cash ETF (+5.0%)"],
-                    "decreased_assets": ["ACE Gold ETF (-5.0%)"],
+                    "increase_items": [
+                        {
+                            "display_name": "KODEX Cash ETF",
+                            "security_code": "069500",
+                            "delta_weight": 0.05,
+                            "direction": "increase",
+                        }
+                    ],
+                    "decrease_items": [
+                        {
+                            "display_name": "ACE Gold ETF",
+                            "security_code": "132030",
+                            "delta_weight": -0.05,
+                            "direction": "decrease",
+                        }
+                    ],
                     "change_reason": "Risk control tightened after market momentum cooled.",
                 },
                 "disclaimer_text": "This material is for informational purposes only.",
@@ -241,8 +255,22 @@ def seed_user_snapshot(
                     ],
                 },
                 "change_log": {
-                    "increased_assets": ["Samsung Electronics (+1.3%)"],
-                    "decreased_assets": ["Cash (-1.5%)"],
+                    "increase_items": [
+                        {
+                            "display_name": "Samsung Electronics",
+                            "security_code": "005930",
+                            "delta_weight": 0.013,
+                            "direction": "increase",
+                        }
+                    ],
+                    "decrease_items": [
+                        {
+                            "display_name": "Cash Reserve",
+                            "security_code": None,
+                            "delta_weight": -0.015,
+                            "direction": "decrease",
+                        }
+                    ],
                     "change_reason": "Risk appetite improved modestly.",
                 },
                 "disclaimer_text": "This material is for informational purposes only.",
@@ -285,16 +313,44 @@ def seed_user_snapshot(
                 "user_model_name": "Redbot Stable",
                 "change_type": "rebalanced",
                 "summary": "Defensive exposure was increased.",
-                "increase_items": ["KODEX Cash ETF (+5.0%)"],
-                "decrease_items": ["ACE Gold ETF (-5.0%)"],
+                "increase_items": [
+                    {
+                        "display_name": "KODEX Cash ETF",
+                        "security_code": "069500",
+                        "delta_weight": 0.05,
+                        "direction": "increase",
+                    }
+                ],
+                "decrease_items": [
+                    {
+                        "display_name": "ACE Gold ETF",
+                        "security_code": "132030",
+                        "delta_weight": -0.05,
+                        "direction": "decrease",
+                    }
+                ],
                 "reason_text": "The portfolio leaned more defensive after weaker momentum.",
             },
             {
                 "user_model_name": "Redbot Growth",
                 "change_type": "increase",
                 "summary": "Growth exposure was added selectively.",
-                "increase_items": ["Samsung Electronics (+1.3%)"],
-                "decrease_items": ["Cash (-1.3%)"],
+                "increase_items": [
+                    {
+                        "display_name": "Samsung Electronics",
+                        "security_code": "005930",
+                        "delta_weight": 0.013,
+                        "direction": "increase",
+                    }
+                ],
+                "decrease_items": [
+                    {
+                        "display_name": "Cash Reserve",
+                        "security_code": None,
+                        "delta_weight": -0.013,
+                        "direction": "decrease",
+                    }
+                ],
                 "reason_text": "Trend strength improved in selected equities.",
             },
         ]
@@ -368,7 +424,11 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert performance_response.status_code == 200
     assert "comparison-matrix" in performance_response.get_data(as_text=True)
     assert changes_response.status_code == 200
-    assert "modern-change-card" in changes_response.get_data(as_text=True)
+    changes_body = changes_response.get_data(as_text=True)
+    assert "modern-change-card" in changes_body
+    assert "Samsung Electronics (005930)" in changes_body
+    assert "+1.30%" in changes_body
+    assert "Cash Reserve (None)" not in changes_body
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
@@ -678,4 +738,3 @@ def test_port_env_overrides_web_port(monkeypatch) -> None:
     config_module = importlib.reload(config_module)
 
     assert config_module.get_settings().web_port == 9090
-

@@ -36,7 +36,8 @@ SERVICE_PROFILE_SUMMARIES = {
         "성장 업종과 모멘텀 자산에 집중해 수익 기회를 적극적으로 추구하는 성장형 포트폴리오입니다."
     ),
     "auto": (
-        "시장 흐름에 따라 안정형과 성장형 사이의 비중을 탄력적으로 조정하는 자동전환 포트폴리오입니다."
+        "시장 흐름에 따라 안정형과 성장형 사이의 비중을 탄력적으로 조정하는 자동전환 "
+        "포트폴리오입니다."
     ),
 }
 
@@ -336,12 +337,18 @@ class UserSnapshotMockApi:
                     item.get("display_name"),
                 )
             change_log = report.get("change_log") or {}
-            change_log["increased_assets"] = self._sanitize_change_items(
-                change_log.get("increased_assets"), action="비중 확대"
+            increase_items = self._sanitize_change_items(
+                change_log.get("increase_items") or change_log.get("increased_assets"),
+                direction="increase",
             )
-            change_log["decreased_assets"] = self._sanitize_change_items(
-                change_log.get("decreased_assets"), action="비중 축소"
+            decrease_items = self._sanitize_change_items(
+                change_log.get("decrease_items") or change_log.get("decreased_assets"),
+                direction="decrease",
             )
+            change_log["increase_items"] = increase_items
+            change_log["decrease_items"] = decrease_items
+            change_log["increased_assets"] = increase_items
+            change_log["decreased_assets"] = decrease_items
             change_log["change_reason"] = self._sanitize_change_reason(
                 change_log.get("change_reason"), profile
             )
@@ -361,10 +368,12 @@ class UserSnapshotMockApi:
             )
             change["summary"] = self._sanitize_profile_summary(change.get("summary"), profile)
             change["increase_items"] = self._sanitize_change_items(
-                change.get("increase_items"), action="비중 확대"
+                change.get("increase_items") or change.get("increased_assets"),
+                direction="increase",
             )
             change["decrease_items"] = self._sanitize_change_items(
-                change.get("decrease_items"), action="비중 축소"
+                change.get("decrease_items") or change.get("decreased_assets"),
+                direction="decrease",
             )
             change["reason_text"] = self._sanitize_change_reason(change.get("reason_text"), profile)
 
@@ -457,17 +466,42 @@ class UserSnapshotMockApi:
             return "ETF 분산 투자"
         return "핵심 편입 자산"
 
-    def _sanitize_change_items(self, values: Any, action: str) -> list[str]:
+    def _sanitize_change_items(self, values: Any, direction: str) -> list[dict[str, Any]]:
         if not isinstance(values, list):
             return []
-        sanitized: list[str] = []
+        sanitized: list[dict[str, Any]] = []
         for item in values:
+            if isinstance(item, dict):
+                display_name = self._sanitize_display_name(item.get("display_name"), None)
+                security_code = item.get("security_code")
+                if security_code is not None:
+                    security_code = str(security_code)
+                delta_weight = item.get("delta_weight")
+                if not isinstance(delta_weight, (int, float)):
+                    delta_weight = None
+                item_direction = item.get("direction") or direction
+                sanitized.append(
+                    {
+                        "display_name": display_name,
+                        "security_code": security_code,
+                        "delta_weight": delta_weight,
+                        "direction": item_direction,
+                    }
+                )
+                continue
+
             repaired = self._repair_text(item)
-            repaired = re.sub(r"\?\?\s*\?\?", action, repaired)
             repaired = re.sub(r"\s{2,}", " ", repaired).strip()
             if not repaired:
                 continue
-            sanitized.append(repaired)
+            sanitized.append(
+                {
+                    "display_name": repaired,
+                    "security_code": None,
+                    "delta_weight": None,
+                    "direction": direction,
+                }
+            )
         return sanitized
 
     def _sanitize_change_reason(self, value: Any, profile: str | None) -> str:

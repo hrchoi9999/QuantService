@@ -2320,3 +2320,29 @@ body {
   box-shadow: none !important;
   border: none !important;
 }
+
+
+.change-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.change-entry-name {
+  flex: 1 1 auto;
+}
+
+.change-entry-delta {
+  flex: 0 0 auto;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.change-entry-up .change-entry-delta {
+  color: var(--ok);
+}
+
+.change-entry-down .change-entry-delta {
+  color: var(--danger);
+}

@@ -450,6 +450,12 @@ def create_app(settings: Settings | None = None) -> Flask:
     def fmt_percent(value: float | int | None) -> str:
         return _format_percent(value)
 
+    @app.template_filter("fmt_signed_percent")
+    def fmt_signed_percent(value: float | int | None) -> str:
+        if value is None:
+            return "-"
+        return f"{value * 100:+.2f}%"
+
     @app.get("/api/v1/user-models")
     def api_user_models() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()

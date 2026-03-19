@@ -193,10 +193,10 @@
           <div class="sub-panel shell-card change-subpanel increase-panel">
             <span class="label">비중 확대</span>
             <ul class="message-list compact-list clean-list">
-              {% for item in report.change_log.increased_assets %}
-              <li>{{ item }}</li>
+              {% for item in report.change_log.increase_items %}
+              <li class="change-entry change-entry-up"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
               {% endfor %}
-              {% if not report.change_log.increased_assets %}
+              {% if not report.change_log.increase_items %}
               <li>해당 없음</li>
               {% endif %}
             </ul>
@@ -204,10 +204,10 @@
           <div class="sub-panel shell-card change-subpanel decrease-panel">
             <span class="label">비중 축소</span>
             <ul class="message-list compact-list clean-list">
-              {% for item in report.change_log.decreased_assets %}
-              <li>{{ item }}</li>
+              {% for item in report.change_log.decrease_items %}
+              <li class="change-entry change-entry-down"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
               {% endfor %}
-              {% if not report.change_log.decreased_assets %}
+              {% if not report.change_log.decrease_items %}
               <li>해당 없음</li>
               {% endif %}
             </ul>
