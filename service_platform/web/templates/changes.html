@@ -3,19 +3,19 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage changes-hero">
   <div class="hero-main">
-    <h1>??? ??? ????? ??? ?????</h1>
-    <p class="lead">?? ??? ?? ?? ??, ?? ??, ?? ??? ??? ??? ??????.</p>
+    <h1>ë¬´ìì´ ì´ë»ê² ë°ëìëì§ ë¹ ë¥´ê² íì¸íì¸ì</h1>
+    <p class="lead">ì§ì  ì¤ëì· ëë¹ ë¹ì¤ íë, ë¹ì¤ ì¶ì, ë³ê²½ ì´ì ë¥¼ ì ëµë³ ì¹´ëë¡ ì ë¦¬íìµëë¤.</p>
     <div class="hero-badges">
-      <span class="badge neutral">??? {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
-      <span class="badge neutral">???? {{ bundle.generated_at | fmt_datetime }}</span>
+      <span class="badge neutral">ê¸°ì¤ì¼ {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
+      <span class="badge neutral">ìë°ì´í¸ {{ bundle.generated_at | fmt_datetime }}</span>
       <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
     </div>
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
-      <li>?? ??? ?? ??? ??? ??? ? ????.</li>
-      <li>?? ? ????? ?? ??? ?? 6?? ?????.</li>
-      <li>?? ??? ??? ??? ?? ??? ??? ?????.</li>
+      <li>íë ì¢ëª©ê³¼ ì¶ì ì¢ëª©ì íëì ë¹êµí  ì ììµëë¤.</li>
+      <li>ì¢ëª© ì ì¢ëª©ì½ëë ìµê·¼ ì¤ëì· ê¸°ì¤ 6ìë¦¬ ì½ëìëë¤.</li>
+      <li>ë³ê²½ ì´ì ë ì ëµë³ ë¦¬ìì¹ ìì½ ë¬¸êµ¬ë¥¼ ê·¸ëë¡ ë³´ì¬ì¤ëë¤.</li>
     </ul>
   </aside>
 </section>
@@ -33,40 +33,40 @@
     <p class="change-summary">{{ change.summary }}</p>
     <div class="change-summary-grid">
       <div class="metric-card public-metric-card">
-        <span class="label">?? ?? ?</span>
+        <span class="label">íë ì¢ëª© ì</span>
         <strong>{{ change.increase_items | length }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">?? ?? ?</span>
+        <span class="label">ì¶ì ì¢ëª© ì</span>
         <strong>{{ change.decrease_items | length }}</strong>
       </div>
     </div>
     <div class="grid two-up nested-grid change-grid-modern">
       <div class="sub-panel shell-card change-subpanel increase-panel">
-        <span class="label">?? ??</span>
+        <span class="label">ë¹ì¤ íë</span>
         <ul class="message-list compact-list clean-list">
           {% for item in change.increase_items %}
           <li class="change-entry change-entry-up"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
           {% endfor %}
           {% if not change.increase_items %}
-          <li>?? ??</li>
+          <li>í´ë¹ ìì</li>
           {% endif %}
         </ul>
       </div>
       <div class="sub-panel shell-card change-subpanel decrease-panel">
-        <span class="label">?? ??</span>
+        <span class="label">ë¹ì¤ ì¶ì</span>
         <ul class="message-list compact-list clean-list">
           {% for item in change.decrease_items %}
           <li class="change-entry change-entry-down"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
           {% endfor %}
           {% if not change.decrease_items %}
-          <li>?? ??</li>
+          <li>í´ë¹ ìì</li>
           {% endif %}
         </ul>
       </div>
     </div>
     <div class="sub-panel shell-card reason-panel">
-      <span class="label">?? ??</span>
+      <span class="label">ë³ê²½ ì´ì </span>
       <p>{{ change.reason_text }}</p>
     </div>
   </article>
@@ -74,8 +74,8 @@
 </section>
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>?? ?? ???? ?? ????.</h2>
-  <p>???? ???? ???? ? ??? ??? ?? ??? ?????.</p>
+  <h2>ìµê·¼ ë³ê²½ ë°ì´í°ê° ìì§ ììµëë¤.</h2>
+  <p>ì¬ì©ìì© ì¤ëì·ì´ ì¤ë¹ëë©´ ì´ ìì­ì ì ëµë³ ë³ê²½ ë´ì­ì´ íìë©ëë¤.</p>
 </section>
 {% endif %}
 {% endblock %}
