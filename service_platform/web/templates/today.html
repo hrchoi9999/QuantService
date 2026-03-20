@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
@@ -16,7 +16,7 @@
       </div>
       <div class="metric-card public-metric-card">
         <span class="label">전략 수</span>
-        <strong>{{ reports | length }}</strong>
+        <strong>{{ report_views | length }}</strong>
       </div>
       <div class="metric-card public-metric-card">
         <span class="label">상태</span>
@@ -29,10 +29,10 @@
     <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
     {% endif %}
   </div>
-  {% if reports %}
+  {% if report_views %}
   <aside class="hero-side shell-card quick-nav-card segmented-card model-selector-panel">
     <div class="model-selector-grid" id="model-selector-grid">
-      {% for report in reports %}
+      {% for report in report_views %}
       <a class="model-selector" href="#{{ report.service_profile }}" data-target-profile="{{ report.service_profile }}" aria-label="{{ report.user_model_name }}">
         <span class="model-selector-circle model-selector-circle--{{ report.service_profile }}">
           <img src="{{ url_for('static', filename='model_icons/' ~ report.service_profile ~ '.svg') }}" alt="">
@@ -45,13 +45,9 @@
   {% endif %}
 </section>
 
-{% if reports %}
-  {% for report in reports %}
-  {% set sorted_items = report.allocation_items | sort(attribute='target_weight', reverse=True) %}
-  {% set top_items = sorted_items[:8] %}
-  {% set extra_count = (sorted_items | length) - (top_items | length) %}
-  {% set full_period_metrics = report.performance_summary.period_metrics | selectattr('period', 'equalto', 'FULL') | list %}
-  {% set other_period_metrics = report.performance_summary.period_metrics | rejectattr('period', 'equalto', 'FULL') | list %}
+{% if report_views %}
+  {% for report in report_views %}
+  {% set primary = report.period_view.primary %}
   <section class="panel report-shell shell-card strategy-detail-card" id="{{ report.service_profile }}">
     <div class="section-heading report-top detail-top">
       <div class="title-stack">
@@ -66,16 +62,16 @@
 
     <div class="metric-strip three-col report-metric-strip full-metric-band">
       <div class="metric-card public-metric-card emphasis full-metric-item">
-        <span class="label">Full CAGR</span>
-        <strong>{{ report.performance_summary.headline_metrics.full_cagr | fmt_percent }}</strong>
+        <span class="label">{{ (primary.period if primary else '1Y') }} CAGR</span>
+        <strong>{{ (primary.cagr if primary else none) | fmt_percent }}</strong>
       </div>
       <div class="metric-card public-metric-card emphasis full-metric-item">
-        <span class="label">Full MDD</span>
-        <strong>{{ report.performance_summary.headline_metrics.full_mdd | fmt_percent }}</strong>
+        <span class="label">{{ (primary.period if primary else '1Y') }} MDD</span>
+        <strong>{{ (primary.mdd if primary else none) | fmt_percent }}</strong>
       </div>
       <div class="metric-card public-metric-card emphasis full-metric-item">
-        <span class="label">Full Sharpe</span>
-        <strong>{% if report.performance_summary.headline_metrics.full_sharpe is not none %}{{ '%.2f'|format(report.performance_summary.headline_metrics.full_sharpe) }}{% else %}-{% endif %}</strong>
+        <span class="label">{{ (primary.period if primary else '1Y') }} Sharpe</span>
+        <strong>{% if primary and primary.sharpe is not none %}{{ '%.2f'|format(primary.sharpe) }}{% else %}-{% endif %}</strong>
       </div>
     </div>
 
@@ -87,6 +83,12 @@
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
+        {% if report.growth_note %}
+        <div class="sub-panel shell-card note-panel growth-note-panel">
+          <span class="label">성장형 해석</span>
+          <p>{{ report.growth_note }}</p>
+        </div>
+        {% endif %}
         <ul class="message-list rationale-list clean-list">
           {% for item in report.rationale_items[:4] %}
           <li>{{ item }}</li>
@@ -97,32 +99,52 @@
       <article class="shell-card content-card holdings-panel strategy-holdings-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>상위 편입 자산</h3>
+            <h3>포트폴리오 구성</h3>
           </div>
-          <span class="badge neutral">{{ top_items | length }} / {{ sorted_items | length }}</span>
+          <span class="badge neutral">{{ report.allocation_view.all_items | length }}개 자산</span>
         </div>
-        <div class="holding-list">
-          {% for item in top_items %}
-          <div class="holding-row">
-            <div class="holding-copy">
-              <div class="holding-headline">
-                <strong>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</strong>
-                <span class="badge neutral small-badge">{{ item.asset_group }}</span>
+        <div class="sleeve-summary-grid">
+          {% for sleeve in report.allocation_view.sleeves %}
+          <div class="metric-card public-metric-card sleeve-card">
+            <span class="label">{{ sleeve.label }}</span>
+            <strong>{{ sleeve.weight | fmt_percent }}</strong>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="holdings-group-grid">
+          {% for section in report.allocation_view.sections if section["items"] %}
+          <div class="holding-section">
+            <div class="section-heading tight-head holding-section-head">
+              <div>
+                <h4>{{ section["title"] }}</h4>
               </div>
-              <div class="holding-meta">
-                <span>{{ item.role_summary }}</span>
-                <strong>{{ item.target_weight | fmt_percent }}</strong>
+              <span class="badge neutral">{{ section["items"] | length }}개</span>
+            </div>
+            <div class="holding-list">
+              {% for item in section["items"] %}
+              <div class="holding-row">
+                <div class="holding-copy">
+                  <div class="holding-headline">
+                    <strong>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</strong>
+                    <span class="badge neutral small-badge">{{ item.asset_group }}</span>
+                  </div>
+                  <div class="holding-meta">
+                    <span>{{ item.role_summary }}</span>
+                    <strong>{{ item.target_weight | fmt_percent }}</strong>
+                  </div>
+                  <div class="holding-bar-track">
+                    <span class="holding-bar-fill" style="width: {{ ((item.target_weight or 0) * 100)|round(1) }}%;"></span>
+                  </div>
+                </div>
               </div>
-              <div class="holding-bar-track">
-                <span class="holding-bar-fill" style="width: {{ ((item.target_weight or 0) * 100)|round(1) }}%;"></span>
-              </div>
+              {% endfor %}
             </div>
           </div>
           {% endfor %}
         </div>
-        {% if extra_count > 0 %}
+        {% if report.allocation_view.extra_count > 0 %}
         <details class="disclosure-box sticky-disclosure-box">
-          <summary>전체 편입 보기 (추가 {{ extra_count }}개)</summary>
+          <summary>전\ccb4 편입 보기 (추가 {{ report.allocation_view.extra_count }}개)</summary>
           <div class="table-wrap compact-table top-margin-sm">
             <table>
               <thead>
@@ -134,7 +156,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for item in sorted_items %}
+                {% for item in report.allocation_view.all_items %}
                 <tr>
                   <td>{{ item.asset_group }}</td>
                   <td>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</td>
@@ -155,22 +177,21 @@
             <h3>기간별 성과</h3>
           </div>
         </div>
-        {% if full_period_metrics %}
-        {% set full_item = full_period_metrics[0] %}
+        {% if report.period_view.primary %}
         <div class="period-highlight-card">
           <div class="period-highlight-head">
-            <span class="badge neutral">{{ full_item.period }}</span>
-            <strong>누적 성과 기준</strong>
+            <span class="badge neutral">{{ report.period_view.primary.period }}</span>
+            <strong>메인 지표</strong>
           </div>
           <div class="period-highlight-values merged-period-values">
-            <span>CAGR {{ full_item.cagr | fmt_percent }}</span>
-            <span>MDD {{ full_item.mdd | fmt_percent }}</span>
-            <span>Sharpe {% if full_item.sharpe is not none %}{{ '%.2f'|format(full_item.sharpe) }}{% else %}-{% endif %}</span>
+            <span>CAGR {{ report.period_view.primary.cagr | fmt_percent }}</span>
+            <span>MDD {{ report.period_view.primary.mdd | fmt_percent }}</span>
+            <span>Sharpe {% if report.period_view.primary.sharpe is not none %}{{ '%.2f'|format(report.period_view.primary.sharpe) }}{% else %}-{% endif %}</span>
           </div>
         </div>
         {% endif %}
         <div class="period-metric-grid compact-period-grid">
-          {% for item in other_period_metrics %}
+          {% for item in report.period_view.supporting %}
           <div class="period-metric-card">
             <span class="badge neutral">{{ item.period }}</span>
             <div class="period-metric-values">
@@ -181,6 +202,23 @@
           </div>
           {% endfor %}
         </div>
+        {% if report.period_view.reference %}
+        <div class="period-reference-panel top-margin-sm">
+          <span class="label">참고 지표</span>
+          <div class="period-metric-grid compact-period-grid reference-period-grid">
+            {% for item in report.period_view.reference %}
+            <div class="period-metric-card muted-period-card">
+              <span class="badge neutral">{{ item.period }}</span>
+              <div class="period-metric-values">
+                <span>CAGR {{ item.cagr | fmt_percent }}</span>
+                <span>MDD {{ item.mdd | fmt_percent }}</span>
+                <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
       </article>
 
       <article class="shell-card content-card strategy-change-panel">

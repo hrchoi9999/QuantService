@@ -4,7 +4,7 @@
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
     <h1>전략별 성과를 같은 기준으로 비교하세요</h1>
-    <p class="lead">각 전략의 핵심 지표와 기간별 성과를 비교하는 화면입니다. 수치는 스냅샷 값을 그대로 사용하고 화면에서만 읽기 쉽게 정리합니다.</p>
+    <p class="lead">각 전략의 1년 성과를 메인 지표로 두고, 최근 장세를 보여주는 6개월·3개월 지표와 중기 참고 지표를 함께 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -13,9 +13,9 @@
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
-      <li>전략별 CAGR, MDD, Sharpe를 한 번에 비교합니다.</li>
-      <li>같은 기간 구간에서 차이를 읽기 쉽게 정리합니다.</li>
-      <li>이 화면에서는 계산을 다시 하지 않고 스냅샷 값만 가공해 표시합니다.</li>
+      <li>메인 headline은 1년 기준 CAGR, MDD, Sharpe를 사용합니다.</li>
+      <li>6개월과 3개월 지표는 최근 시장 흐름을 빠르게 읽기 위한 보조 지표입니다.</li>
+      <li>5년과 FULL은 참고 지표로만 보여주며, 계산은 Quant snapshot 값을 그대로 사용합니다.</li>
     </ul>
   </aside>
 </section>
@@ -34,21 +34,21 @@
       <div class="title-stack">
         <h2>{{ row.user_model_name }}</h2>
       </div>
-      <span class="badge accent">위험도 {{ risk_labels.get(row.risk_label, row.risk_label) }}</span>
+      <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>
     </div>
     <p class="muted">{{ row.note }}</p>
     <div class="visual-metric-stack">
       <div class="visual-metric-row">
-        <div class="visual-metric-head"><span>CAGR</span><strong>{{ row.performance_cards.cagr | fmt_percent }}</strong></div>
-        <div class="visual-meter"><span class="visual-meter-fill accent-fill" style="width: {{ (((row.performance_cards.cagr or 0) * 220) | round(1)) }}%;"></span></div>
+        <div class="visual-metric-head"><span>{{ row.performance_cards.primary_period or '1Y' }} CAGR</span><strong>{{ row.performance_cards.cagr | fmt_percent }}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill accent-fill" style="width: {{ (((row.performance_cards.cagr or 0) * 32) | round(1)) }}%;"></span></div>
       </div>
       <div class="visual-metric-row">
-        <div class="visual-metric-head"><span>MDD</span><strong>{{ row.performance_cards.mdd | fmt_percent }}</strong></div>
-        <div class="visual-meter"><span class="visual-meter-fill neutral-fill" style="width: {{ (((row.performance_cards.mdd | abs) * 620) | round(1)) }}%;"></span></div>
+        <div class="visual-metric-head"><span>{{ row.performance_cards.primary_period or '1Y' }} MDD</span><strong>{{ row.performance_cards.mdd | fmt_percent }}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill neutral-fill" style="width: {{ (((row.performance_cards.mdd | abs) * 220) | round(1)) }}%;"></span></div>
       </div>
       <div class="visual-metric-row">
-        <div class="visual-metric-head"><span>Sharpe</span><strong>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</strong></div>
-        <div class="visual-meter"><span class="visual-meter-fill dark-fill" style="width: {{ (((row.performance_cards.sharpe or 0) * 45) | round(1)) }}%;"></span></div>
+        <div class="visual-metric-head"><span>{{ row.performance_cards.primary_period or '1Y' }} Sharpe</span><strong>{% if row.performance_cards.sharpe is not none %}{{ '%.2f'|format(row.performance_cards.sharpe) }}{% else %}-{% endif %}</strong></div>
+        <div class="visual-meter"><span class="visual-meter-fill dark-fill" style="width: {{ (((row.performance_cards.sharpe or 0) * 24) | round(1)) }}%;"></span></div>
       </div>
     </div>
   </article>
@@ -58,7 +58,7 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <h2>전략 비교표</h2>
+      <h2>1년 headline 비교</h2>
     </div>
   </div>
   <div class="table-wrap comparison-table polished-table">
@@ -67,9 +67,9 @@
         <tr>
           <th>전략명</th>
           <th>위험도</th>
-          <th>CAGR</th>
-          <th>MDD</th>
-          <th>Sharpe</th>
+          <th>1Y CAGR</th>
+          <th>1Y MDD</th>
+          <th>1Y Sharpe</th>
         </tr>
       </thead>
       <tbody>
@@ -89,15 +89,28 @@
 
 <section class="grid two-up period-grid-modern">
   {% for row in performance_rows %}
-  <article class="panel shell-card period-panel-modern">
+  <article class="panel shell-card period-panel-modern performance-detail-panel">
     <div class="section-heading tight-head">
       <div class="title-stack">
         <h2>{{ row.user_model_name }}</h2>
       </div>
-      <span class="badge neutral">{{ row.period_table | length }}개 기간</span>
+      <span class="badge neutral">{{ row.performance_cards.primary_period or '1Y' }} 기준</span>
     </div>
-    <div class="period-metric-grid">
-      {% for item in row.period_table %}
+    {% if row.period_view.primary %}
+    <div class="period-highlight-card">
+      <div class="period-highlight-head">
+        <span class="badge neutral">{{ row.period_view.primary.period }}</span>
+        <strong>메인 지표</strong>
+      </div>
+      <div class="period-highlight-values merged-period-values">
+        <span>CAGR {{ row.period_view.primary.cagr | fmt_percent }}</span>
+        <span>MDD {{ row.period_view.primary.mdd | fmt_percent }}</span>
+        <span>Sharpe {% if row.period_view.primary.sharpe is not none %}{{ '%.2f'|format(row.period_view.primary.sharpe) }}{% else %}-{% endif %}</span>
+      </div>
+    </div>
+    {% endif %}
+    <div class="period-metric-grid supporting-period-grid">
+      {% for item in row.period_view.supporting %}
       <div class="period-metric-card">
         <span class="badge neutral">{{ item.period }}</span>
         <div class="period-metric-values">
@@ -108,6 +121,23 @@
       </div>
       {% endfor %}
     </div>
+    {% if row.period_view.reference %}
+    <div class="period-reference-panel top-margin-sm">
+      <span class="label">참고 지표</span>
+      <div class="period-metric-grid reference-period-grid">
+        {% for item in row.period_view.reference %}
+        <div class="period-metric-card muted-period-card">
+          <span class="badge neutral">{{ item.period }}</span>
+          <div class="period-metric-values">
+            <span>CAGR {{ item.cagr | fmt_percent }}</span>
+            <span>MDD {{ item.mdd | fmt_percent }}</span>
+            <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
   </article>
   {% endfor %}
 </section>

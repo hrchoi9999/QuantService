@@ -125,139 +125,128 @@ def seed_user_snapshot(
     models = [
         {
             "user_model_id": "user_1",
-            "user_model_name": "안정형",
+            "user_model_name": "???",
             "service_profile": "stable",
-            "summary": "Defensive allocation for preserving capital.",
+            "summary": "??? ??? ???? ??? ??? ?????.",
             "risk_label": "low",
-            "target_user_type": "Investors who value stability first.",
+            "target_user_type": "???? ???? ???",
             "primary_asset_mix": ["bond", "gold", "cash_like"],
             "is_active": True,
         },
         {
             "user_model_id": "user_2",
-            "user_model_name": "균형형",
+            "user_model_name": "???",
             "service_profile": "balanced",
-            "summary": "Balanced allocation between growth and defense.",
+            "summary": "??? ETF? ?? ?? ?? ?????.",
             "risk_label": "medium",
-            "target_user_type": "Investors who want balance.",
-            "primary_asset_mix": ["stock", "equity_etf", "bond_short"],
+            "target_user_type": "???? ???? ?? ?? ???",
+            "primary_asset_mix": ["stock", "equity_etf", "cash_like"],
             "is_active": True,
         },
         {
             "user_model_id": "user_3",
-            "user_model_name": "성장형",
+            "user_model_name": "???",
             "service_profile": "growth",
-            "summary": "Growth-oriented allocation in favorable trends.",
+            "summary": "?? ?? ??? ?? ?? ??? ???? ?????.",
             "risk_label": "high",
-            "target_user_type": "Investors who accept volatility.",
-            "primary_asset_mix": ["momentum_stock", "growth_etf"],
+            "target_user_type": "???? ???? ???",
+            "primary_asset_mix": ["growth_stock", "growth_etf"],
             "is_active": True,
         },
         {
             "user_model_id": "user_4",
-            "user_model_name": "자동전환형",
+            "user_model_name": "?????",
             "service_profile": "auto",
-            "summary": "Adaptive strategy that adjusts by regime.",
+            "summary": "?? ??? ?? ??? ???? ?????.",
             "risk_label": "adaptive",
-            "target_user_type": "Investors who prefer automatic shifts.",
+            "target_user_type": "?? ??? ????? ?? ???",
             "primary_asset_mix": ["multi_asset", "dynamic_allocation"],
             "is_active": True,
         },
     ]
+    shared_periods = [
+        {"period": "3M", "cagr": 0.19, "mdd": -0.08, "sharpe": 1.42},
+        {"period": "6M", "cagr": 0.24, "mdd": -0.09, "sharpe": 1.51},
+        {"period": "1Y", "cagr": 0.32, "mdd": -0.11, "sharpe": 1.73},
+        {"period": "2Y", "cagr": 0.18, "mdd": -0.12, "sharpe": 1.21},
+        {"period": "3Y", "cagr": 0.16, "mdd": -0.12, "sharpe": 1.14},
+        {"period": "5Y", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+        {"period": "FULL", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+    ]
     reports = (
         [
             {
-                "user_model_name": "안정형",
+                "user_model_name": "???",
                 "service_profile": "stable",
-                "summary_text": "Stable strategy summary.",
-                "market_view": "Neutral market with defensive positioning.",
-                "allocation_items": [
-                    {
-                        "security_code": "069500",
-                        "asset_group": "etf",
-                        "display_name": "KODEX Cash ETF",
-                        "target_weight": 0.32,
-                        "role_summary": "Liquidity buffer",
-                        "source_type": "ETF",
-                    },
-                    {
-                        "security_code": None,
-                        "asset_group": "cash",
-                        "display_name": "Cash Reserve",
-                        "target_weight": 0.18,
-                        "role_summary": "Defensive hedge",
-                        "source_type": "CASH",
-                    },
-                ],
-                "rationale_items": [
-                    "Keep risk limited while the market is neutral.",
-                    "Preserve optionality with liquid hedges.",
-                ],
-                "risk_level": "low",
-                "performance_summary": {
-                    "headline_metrics": {
-                        "full_cagr": 0.0443,
-                        "full_mdd": -0.0559,
-                        "full_sharpe": 0.6850,
-                    },
-                    "period_metrics": [
-                        {"period": "1Y", "cagr": 0.0958, "mdd": -0.0541, "sharpe": 0.7946},
-                        {"period": "FULL", "cagr": 0.0443, "mdd": -0.0559, "sharpe": 0.6850},
-                    ],
-                },
-                "change_log": {
-                    "increase_items": [
-                        {
-                            "display_name": "KODEX Cash ETF",
-                            "security_code": "069500",
-                            "delta_weight": 0.05,
-                            "direction": "increase",
-                        }
-                    ],
-                    "decrease_items": [
-                        {
-                            "display_name": "ACE Gold ETF",
-                            "security_code": "132030",
-                            "delta_weight": -0.05,
-                            "direction": "decrease",
-                        }
-                    ],
-                    "change_reason": "Risk control tightened after market momentum cooled.",
-                },
-                "disclaimer_text": "This material is for informational purposes only.",
-            },
-            {
-                "user_model_name": "균형형",
-                "service_profile": "balanced",
-                "summary_text": "Balanced strategy summary.",
-                "market_view": "Neutral regime with selective risk-taking.",
+                "summary_text": "?? ?? ???? ???? ???? ?????.",
+                "market_view": "??",
                 "allocation_items": [
                     {
                         "security_code": "005930",
                         "asset_group": "stock",
-                        "display_name": "Samsung Electronics",
+                        "display_name": "????",
                         "target_weight": 0.12,
-                        "role_summary": "Core quality holding",
+                        "role_summary": "?? ?? ??",
                         "source_type": "stock",
-                    }
+                    },
+                    {
+                        "security_code": "069500",
+                        "asset_group": "etf",
+                        "display_name": "KODEX 200",
+                        "target_weight": 0.28,
+                        "role_summary": "ETF ?? ??",
+                        "source_type": "etf",
+                    },
+                    {
+                        "security_code": None,
+                        "asset_group": "cash",
+                        "display_name": "??/????",
+                        "target_weight": 0.18,
+                        "role_summary": "??? ? ?? ??",
+                        "source_type": "cash",
+                    },
                 ],
-                "rationale_items": ["Blend defense and upside participation."],
-                "risk_level": "medium",
+                "rationale_items": [
+                    "?? ?? ????? ?? ?? ??? ?? ?????.",
+                    "?? ?? ??? ?? ??? ??? ?? ???.",
+                ],
+                "risk_level": "low",
                 "performance_summary": {
                     "headline_metrics": {
-                        "full_cagr": 0.3318,
-                        "full_mdd": -0.1332,
-                        "full_sharpe": 1.8446,
+                        "primary_period": "1Y",
+                        "cagr": 0.12,
+                        "mdd": -0.07,
+                        "sharpe": 1.18,
+                        "trailing_3m": {"period": "3M", "cagr": 0.08, "mdd": -0.05, "sharpe": 1.01},
+                        "trailing_6m": {"period": "6M", "cagr": 0.10, "mdd": -0.06, "sharpe": 1.11},
+                        "trailing_1y": {"period": "1Y", "cagr": 0.12, "mdd": -0.07, "sharpe": 1.18},
+                        "reference_5y": {
+                            "period": "5Y",
+                            "cagr": 0.09,
+                            "mdd": -0.08,
+                            "sharpe": 0.94,
+                        },
+                        "reference_full": {
+                            "period": "FULL",
+                            "cagr": 0.09,
+                            "mdd": -0.08,
+                            "sharpe": 0.94,
+                        },
                     },
                     "period_metrics": [
-                        {"period": "1Y", "cagr": 0.8207, "mdd": -0.1332, "sharpe": 2.3773},
-                        {"period": "FULL", "cagr": 0.3318, "mdd": -0.1332, "sharpe": 1.8446},
+                        {"period": "3M", "cagr": 0.08, "mdd": -0.05, "sharpe": 1.01},
+                        {"period": "6M", "cagr": 0.10, "mdd": -0.06, "sharpe": 1.11},
+                        {"period": "1Y", "cagr": 0.12, "mdd": -0.07, "sharpe": 1.18},
+                        {"period": "2Y", "cagr": 0.10, "mdd": -0.08, "sharpe": 1.02},
+                        {"period": "3Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.97},
+                        {"period": "5Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
+                        {"period": "FULL", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
                     ],
                 },
                 "change_log": {
                     "increase_items": [
                         {
-                            "display_name": "Samsung Electronics",
+                            "display_name": "????",
                             "security_code": "005930",
                             "delta_weight": 0.013,
                             "direction": "increase",
@@ -265,15 +254,290 @@ def seed_user_snapshot(
                     ],
                     "decrease_items": [
                         {
-                            "display_name": "Cash Reserve",
+                            "display_name": "??/????",
+                            "security_code": None,
+                            "delta_weight": -0.010,
+                            "direction": "decrease",
+                        }
+                    ],
+                    "change_reason": "?? ??? ?? ?? ?? ??? ??????.",
+                },
+                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+            },
+            {
+                "user_model_name": "???",
+                "service_profile": "balanced",
+                "summary_text": "??? ETF? ?? ?? ??? ???? ?????.",
+                "market_view": "??",
+                "allocation_items": [
+                    {
+                        "security_code": "005930",
+                        "asset_group": "stock",
+                        "display_name": "????",
+                        "target_weight": 0.16,
+                        "role_summary": "?? ?? ??",
+                        "source_type": "stock",
+                    },
+                    {
+                        "security_code": "000270",
+                        "asset_group": "stock",
+                        "display_name": "??",
+                        "target_weight": 0.14,
+                        "role_summary": "?? ?? ??",
+                        "source_type": "stock",
+                    },
+                    {
+                        "security_code": "069500",
+                        "asset_group": "etf",
+                        "display_name": "KODEX 200",
+                        "target_weight": 0.20,
+                        "role_summary": "ETF ?? ??",
+                        "source_type": "etf",
+                    },
+                    {
+                        "security_code": "192720",
+                        "asset_group": "etf",
+                        "display_name": "?? ???????",
+                        "target_weight": 0.18,
+                        "role_summary": "ETF ?? ??",
+                        "source_type": "etf",
+                    },
+                    {
+                        "security_code": None,
+                        "asset_group": "cash",
+                        "display_name": "??/????",
+                        "target_weight": 0.08,
+                        "role_summary": "??? ? ?? ??",
+                        "source_type": "cash",
+                    },
+                ],
+                "rationale_items": [
+                    "??? ETF? ?? ?? ??? ????.",
+                    "?? ????? ??? ?? ??? ?? ?????.",
+                ],
+                "risk_level": "medium",
+                "performance_summary": {
+                    "headline_metrics": {
+                        "primary_period": "1Y",
+                        "cagr": 0.32,
+                        "mdd": -0.11,
+                        "sharpe": 1.73,
+                        "trailing_3m": {"period": "3M", "cagr": 0.19, "mdd": -0.08, "sharpe": 1.42},
+                        "trailing_6m": {"period": "6M", "cagr": 0.24, "mdd": -0.09, "sharpe": 1.51},
+                        "trailing_1y": {"period": "1Y", "cagr": 0.32, "mdd": -0.11, "sharpe": 1.73},
+                        "reference_5y": {
+                            "period": "5Y",
+                            "cagr": 0.15,
+                            "mdd": -0.12,
+                            "sharpe": 1.08,
+                        },
+                        "reference_full": {
+                            "period": "FULL",
+                            "cagr": 0.15,
+                            "mdd": -0.12,
+                            "sharpe": 1.08,
+                        },
+                    },
+                    "period_metrics": [dict(item) for item in shared_periods],
+                },
+                "change_log": {
+                    "increase_items": [
+                        {
+                            "display_name": "????",
+                            "security_code": "005930",
+                            "delta_weight": 0.013,
+                            "direction": "increase",
+                        }
+                    ],
+                    "decrease_items": [
+                        {
+                            "display_name": "??/????",
                             "security_code": None,
                             "delta_weight": -0.015,
                             "direction": "decrease",
                         }
                     ],
-                    "change_reason": "Risk appetite improved modestly.",
+                    "change_reason": "???? ??? ?? ??????.",
                 },
-                "disclaimer_text": "This material is for informational purposes only.",
+                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+            },
+            {
+                "user_model_name": "???",
+                "service_profile": "growth",
+                "summary_text": "?? ?? ?? sleeve ??? ??? ??? ?????.",
+                "market_view": "??",
+                "allocation_items": [
+                    {
+                        "security_code": "005930",
+                        "asset_group": "stock",
+                        "display_name": "????",
+                        "target_weight": 0.22,
+                        "role_summary": "?? ?? ??",
+                        "source_type": "stock",
+                    },
+                    {
+                        "security_code": "000660",
+                        "asset_group": "stock",
+                        "display_name": "SK????",
+                        "target_weight": 0.18,
+                        "role_summary": "?? ?? sleeve",
+                        "source_type": "stock",
+                    },
+                    {
+                        "security_code": "069500",
+                        "asset_group": "etf",
+                        "display_name": "KODEX 200",
+                        "target_weight": 0.10,
+                        "role_summary": "ETF ?? ??",
+                        "source_type": "etf",
+                    },
+                    {
+                        "security_code": None,
+                        "asset_group": "cash",
+                        "display_name": "??/????",
+                        "target_weight": 0.04,
+                        "role_summary": "??? ? ?? ??",
+                        "source_type": "cash",
+                    },
+                ],
+                "rationale_items": [
+                    "?? 1? ??? ?? ?? ?? sleeve? ?????.",
+                    "?? ??? ?? ??? ???? ??? ?????.",
+                ],
+                "risk_level": "high",
+                "performance_summary": {
+                    "headline_metrics": {
+                        "primary_period": "1Y",
+                        "cagr": 0.51,
+                        "mdd": -0.16,
+                        "sharpe": 2.14,
+                        "trailing_3m": {"period": "3M", "cagr": 0.28, "mdd": -0.10, "sharpe": 1.64},
+                        "trailing_6m": {"period": "6M", "cagr": 0.35, "mdd": -0.13, "sharpe": 1.89},
+                        "trailing_1y": {"period": "1Y", "cagr": 0.51, "mdd": -0.16, "sharpe": 2.14},
+                        "reference_5y": {
+                            "period": "5Y",
+                            "cagr": 0.24,
+                            "mdd": -0.18,
+                            "sharpe": 1.31,
+                        },
+                        "reference_full": {
+                            "period": "FULL",
+                            "cagr": 0.24,
+                            "mdd": -0.18,
+                            "sharpe": 1.31,
+                        },
+                    },
+                    "period_metrics": [
+                        {"period": "3M", "cagr": 0.28, "mdd": -0.10, "sharpe": 1.64},
+                        {"period": "6M", "cagr": 0.35, "mdd": -0.13, "sharpe": 1.89},
+                        {"period": "1Y", "cagr": 0.51, "mdd": -0.16, "sharpe": 2.14},
+                        {"period": "2Y", "cagr": 0.30, "mdd": -0.18, "sharpe": 1.42},
+                        {"period": "3Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                        {"period": "5Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                        {"period": "FULL", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                    ],
+                },
+                "change_log": {
+                    "increase_items": [
+                        {
+                            "display_name": "SK????",
+                            "security_code": "000660",
+                            "delta_weight": 0.021,
+                            "direction": "increase",
+                        }
+                    ],
+                    "decrease_items": [
+                        {
+                            "display_name": "??/????",
+                            "security_code": None,
+                            "delta_weight": -0.012,
+                            "direction": "decrease",
+                        }
+                    ],
+                    "change_reason": "?? 1? ?? ? ?? ?? ?? ?? ??? ??????.",
+                },
+                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+            },
+            {
+                "user_model_name": "?????",
+                "service_profile": "auto",
+                "summary_text": "?? ??? ?? ???? ??? ??? ???? ?????.",
+                "market_view": "??",
+                "allocation_items": [
+                    {
+                        "security_code": "005930",
+                        "asset_group": "stock",
+                        "display_name": "????",
+                        "target_weight": 0.16,
+                        "role_summary": "?? ?? ??",
+                        "source_type": "stock",
+                    },
+                    {
+                        "security_code": "069500",
+                        "asset_group": "etf",
+                        "display_name": "KODEX 200",
+                        "target_weight": 0.20,
+                        "role_summary": "ETF ?? ??",
+                        "source_type": "etf",
+                    },
+                    {
+                        "security_code": None,
+                        "asset_group": "cash",
+                        "display_name": "??/????",
+                        "target_weight": 0.08,
+                        "role_summary": "??? ? ?? ??",
+                        "source_type": "cash",
+                    },
+                ],
+                "rationale_items": [
+                    "?? ????? ???? ??? ?????? ?????.",
+                    "?? ??? ?? ??? ?? ?????.",
+                ],
+                "risk_level": "adaptive",
+                "performance_summary": {
+                    "headline_metrics": {
+                        "primary_period": "1Y",
+                        "cagr": 0.32,
+                        "mdd": -0.11,
+                        "sharpe": 1.73,
+                        "trailing_3m": {"period": "3M", "cagr": 0.19, "mdd": -0.08, "sharpe": 1.42},
+                        "trailing_6m": {"period": "6M", "cagr": 0.24, "mdd": -0.09, "sharpe": 1.51},
+                        "trailing_1y": {"period": "1Y", "cagr": 0.32, "mdd": -0.11, "sharpe": 1.73},
+                        "reference_5y": {
+                            "period": "5Y",
+                            "cagr": 0.15,
+                            "mdd": -0.12,
+                            "sharpe": 1.08,
+                        },
+                        "reference_full": {
+                            "period": "FULL",
+                            "cagr": 0.15,
+                            "mdd": -0.12,
+                            "sharpe": 1.08,
+                        },
+                    },
+                    "period_metrics": [dict(item) for item in shared_periods],
+                },
+                "change_log": {
+                    "increase_items": [
+                        {
+                            "display_name": "????",
+                            "security_code": "005930",
+                            "delta_weight": 0.013,
+                            "direction": "increase",
+                        }
+                    ],
+                    "decrease_items": [
+                        {
+                            "display_name": "??/????",
+                            "security_code": None,
+                            "delta_weight": -0.015,
+                            "direction": "decrease",
+                        }
+                    ],
+                    "change_reason": "?? ?? ???? ???? ??? ??? ??????.",
+                },
+                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
             },
         ]
         if include_reports
@@ -281,67 +545,100 @@ def seed_user_snapshot(
     )
     performance_models = [
         {
-            "user_model_name": model["user_model_name"],
-            "service_profile": model["service_profile"],
-            "risk_label": model["risk_label"],
+            "user_model_name": "???",
+            "service_profile": "stable",
+            "risk_label": "low",
             "performance_cards": {
-                "cagr": 0.317861 + index * 0.02,
-                "mdd": -0.12245 - index * 0.01,
-                "sharpe": 1.918278 - index * 0.03,
+                "primary_period": "1Y",
+                "cagr": 0.12,
+                "mdd": -0.07,
+                "sharpe": 1.18,
             },
             "period_table": [
-                {
-                    "period": "1Y",
-                    "cagr": 0.79 + index * 0.03,
-                    "mdd": -0.12245 - index * 0.01,
-                    "sharpe": 2.58 - index * 0.05,
-                },
-                {
-                    "period": "FULL",
-                    "cagr": 0.317861 + index * 0.02,
-                    "mdd": -0.12245 - index * 0.01,
-                    "sharpe": 1.918278 - index * 0.03,
-                },
+                {"period": "3M", "cagr": 0.08, "mdd": -0.05, "sharpe": 1.01},
+                {"period": "6M", "cagr": 0.10, "mdd": -0.06, "sharpe": 1.11},
+                {"period": "1Y", "cagr": 0.12, "mdd": -0.07, "sharpe": 1.18},
+                {"period": "2Y", "cagr": 0.10, "mdd": -0.08, "sharpe": 1.02},
+                {"period": "3Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.97},
+                {"period": "5Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
+                {"period": "FULL", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
             ],
-            "note": f"{model['user_model_name']} 설명",
-        }
-        for index, model in enumerate(models)
-    ]
-    performance_models[3]["performance_cards"] = dict(performance_models[1]["performance_cards"])
-    performance_models[3]["period_table"] = [
-        dict(item) for item in performance_models[1]["period_table"]
+            "reference_metrics": {
+                "five_year": {"period": "5Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
+                "full": {"period": "FULL", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
+            },
+            "note": "??? ??? ?? ??? ??? ????????.",
+        },
+        {
+            "user_model_name": "???",
+            "service_profile": "balanced",
+            "risk_label": "medium",
+            "performance_cards": {
+                "primary_period": "1Y",
+                "cagr": 0.32,
+                "mdd": -0.11,
+                "sharpe": 1.73,
+            },
+            "period_table": [dict(item) for item in shared_periods],
+            "reference_metrics": {
+                "five_year": {"period": "5Y", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+                "full": {"period": "FULL", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+            },
+            "note": "??? ETF? ?? ?? ?? ????????.",
+        },
+        {
+            "user_model_name": "???",
+            "service_profile": "growth",
+            "risk_label": "high",
+            "performance_cards": {
+                "primary_period": "1Y",
+                "cagr": 0.51,
+                "mdd": -0.16,
+                "sharpe": 2.14,
+            },
+            "period_table": [
+                {"period": "3M", "cagr": 0.28, "mdd": -0.10, "sharpe": 1.64},
+                {"period": "6M", "cagr": 0.35, "mdd": -0.13, "sharpe": 1.89},
+                {"period": "1Y", "cagr": 0.51, "mdd": -0.16, "sharpe": 2.14},
+                {"period": "2Y", "cagr": 0.30, "mdd": -0.18, "sharpe": 1.42},
+                {"period": "3Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                {"period": "5Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                {"period": "FULL", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+            ],
+            "reference_metrics": {
+                "five_year": {"period": "5Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+                "full": {"period": "FULL", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
+            },
+            "note": "?? 1? ??? ? ?? ?? ?? sleeve? ?????.",
+        },
+        {
+            "user_model_name": "?????",
+            "service_profile": "auto",
+            "risk_label": "adaptive",
+            "performance_cards": {
+                "primary_period": "1Y",
+                "cagr": 0.32,
+                "mdd": -0.11,
+                "sharpe": 1.73,
+            },
+            "period_table": [dict(item) for item in shared_periods],
+            "reference_metrics": {
+                "five_year": {"period": "5Y", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+                "full": {"period": "FULL", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
+            },
+            "note": "?? ????? ???? ??? ?????? ?????.",
+        },
     ]
     changes = (
         [
             {
-                "user_model_name": "안정형",
+                "user_model_name": "???",
+                "service_profile": "stable",
                 "change_type": "rebalanced",
-                "summary": "Defensive exposure was increased.",
+                "summary": "?? ?? ??? ?????.",
                 "increase_items": [
                     {
-                        "display_name": "KODEX Cash ETF",
-                        "security_code": "069500",
-                        "delta_weight": 0.05,
-                        "direction": "increase",
-                    }
-                ],
-                "decrease_items": [
-                    {
-                        "display_name": "ACE Gold ETF",
-                        "security_code": "132030",
-                        "delta_weight": -0.05,
-                        "direction": "decrease",
-                    }
-                ],
-                "reason_text": "The portfolio leaned more defensive after weaker momentum.",
-            },
-            {
-                "user_model_name": "성장형",
-                "change_type": "increase",
-                "summary": "Growth exposure was added selectively.",
-                "increase_items": [
-                    {
-                        "display_name": "Samsung Electronics",
+                        "display_name": "????",
                         "security_code": "005930",
                         "delta_weight": 0.013,
                         "direction": "increase",
@@ -349,13 +646,36 @@ def seed_user_snapshot(
                 ],
                 "decrease_items": [
                     {
-                        "display_name": "Cash Reserve",
+                        "display_name": "??/????",
                         "security_code": None,
-                        "delta_weight": -0.013,
+                        "delta_weight": -0.010,
                         "direction": "decrease",
                     }
                 ],
-                "reason_text": "Trend strength improved in selected equities.",
+                "reason_text": "?? ??? ?? ??? ??? ??????.",
+            },
+            {
+                "user_model_name": "???",
+                "service_profile": "growth",
+                "change_type": "increase",
+                "summary": "?? ?? sleeve ??? ???????.",
+                "increase_items": [
+                    {
+                        "display_name": "SK????",
+                        "security_code": "000660",
+                        "delta_weight": 0.021,
+                        "direction": "increase",
+                    }
+                ],
+                "decrease_items": [
+                    {
+                        "display_name": "??/????",
+                        "security_code": None,
+                        "delta_weight": -0.012,
+                        "direction": "decrease",
+                    }
+                ],
+                "reason_text": "?? 1? ?? ? ?? ?? ?? ??? ???????.",
             },
         ]
         if include_reports
@@ -423,23 +743,30 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "안정형" in home_response.get_data(as_text=True)
     assert today_response.status_code == 200
     today_body = today_response.get_data(as_text=True)
-    assert "Samsung Electronics (005930)" in today_body
-    assert "Cash Reserve (None)" not in today_body
+    assert "주식 sleeve 비중" in today_body
+    assert "ETF sleeve 비중" in today_body
+    assert "현금성 비중" in today_body
+    assert "주식 상위 종목" in today_body
+    assert "ETF 상위 종목" in today_body
+    assert "현금성 자산" in today_body
+    assert "(005930)" in today_body
+    assert "현금/대기자금 (None)" not in today_body
+    assert "성장형 해석" in today_body
+
     assert performance_response.status_code == 200
     performance_body = performance_response.get_data(as_text=True)
-    assert "comparison-matrix" in performance_body
+    assert "1년 headline 비교" in performance_body
+    assert "참고 지표" in performance_body
+    assert "1Y" in performance_body and "6M" in performance_body and "3M" in performance_body
     assert "자동전환형" in performance_body
-    expected_auto_note = (
-        "현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 "
-        "포트폴리오를 사용하고 있습니다."
-    )
-    assert expected_auto_note in performance_body
+    assert "포트폴리오를 사용하고 있습니다." in performance_body
+
     assert changes_response.status_code == 200
     changes_body = changes_response.get_data(as_text=True)
     assert "modern-change-card" in changes_body
-    assert "Samsung Electronics (005930)" in changes_body
-    assert "+1.30%" in changes_body
-    assert "Cash Reserve (None)" not in changes_body
+    assert "(000660)" in changes_body
+    assert "+2.10%" in changes_body
+    assert "현금/대기자금 (None)" not in changes_body
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
@@ -466,6 +793,9 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     assert len(performance_response.get_json()["models"]) == 4
     assert changes_response.status_code == 200
     assert changes_response.get_json()["changes"][0]["change_type"] == "rebalanced"
+    assert (
+        changes_response.get_json()["changes"][0]["increase_items"][0]["security_code"] == "005930"
+    )
     assert manifest_response.status_code == 200
     assert manifest_alias_response.status_code == 200
     assert manifest_response.get_json()["channel"] == "user-facing"

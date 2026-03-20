@@ -4,6 +4,7 @@ import json
 import secrets
 import shutil
 from datetime import datetime, timedelta
+from typing import Any
 from urllib.parse import urlencode
 
 from flask import (
@@ -107,6 +108,165 @@ def _is_notify_ip_allowed(settings: Settings) -> bool:
     if not settings.lightpay_notify_allowed_ips:
         return True
     return _request_ip_address() in settings.lightpay_notify_allowed_ips
+
+
+PERIOD_DISPLAY_ORDER = {
+    "1Y": 0,
+    "6M": 1,
+    "3M": 2,
+    "2Y": 3,
+    "3Y": 4,
+    "5Y": 5,
+    "FULL": 6,
+}
+REFERENCE_PERIODS = {"5Y", "FULL"}
+
+
+def _allocation_bucket(item: dict[str, Any]) -> str:
+    asset_group = str(item.get("asset_group") or "").lower()
+    source_type = str(item.get("source_type") or "").lower()
+    security_code = item.get("security_code")
+    display_name = str(item.get("display_name") or "").lower()
+    if (
+        asset_group == "cash"
+        or source_type == "cash"
+        or (
+            security_code in (None, "")
+            and any(token in display_name for token in ("현금", "대기자금", "cash"))
+        )
+    ):
+        return "cash"
+    if asset_group == "stock" or source_type == "stock":
+        return "stock"
+    return "etf"
+
+
+def _build_allocation_view(allocation_items: list[dict[str, Any]]) -> dict[str, Any]:
+    sorted_items = sorted(
+        allocation_items,
+        key=lambda item: float(item.get("target_weight") or 0),
+        reverse=True,
+    )
+    grouped = {"stock": [], "etf": [], "cash": []}
+    sleeve_weights = {"stock": 0.0, "etf": 0.0, "cash": 0.0}
+    for item in sorted_items:
+        bucket = _allocation_bucket(item)
+        grouped[bucket].append(item)
+        sleeve_weights[bucket] += float(item.get("target_weight") or 0)
+    sections = [
+        {
+            "bucket": "stock",
+            "title": "주식 상위 종목",
+            "items": grouped["stock"][:5],
+            "all_items": grouped["stock"],
+        },
+        {
+            "bucket": "etf",
+            "title": "ETF 상위 종목",
+            "items": grouped["etf"][:5],
+            "all_items": grouped["etf"],
+        },
+        {
+            "bucket": "cash",
+            "title": "현금성 자산",
+            "items": grouped["cash"],
+            "all_items": grouped["cash"],
+        },
+    ]
+    displayed_count = sum(len(section["items"]) for section in sections)
+    return {
+        "sleeves": [
+            {"label": "주식 sleeve 비중", "bucket": "stock", "weight": sleeve_weights["stock"]},
+            {"label": "ETF sleeve 비중", "bucket": "etf", "weight": sleeve_weights["etf"]},
+            {"label": "현금성 비중", "bucket": "cash", "weight": sleeve_weights["cash"]},
+        ],
+        "sections": sections,
+        "stock_items": grouped["stock"],
+        "etf_items": grouped["etf"],
+        "cash_items": grouped["cash"],
+        "all_items": sorted_items,
+        "extra_count": max(len(sorted_items) - displayed_count, 0),
+    }
+
+
+def _period_sort_key(item: dict[str, Any]) -> tuple[int, str]:
+    period = str(item.get("period") or "")
+    return (PERIOD_DISPLAY_ORDER.get(period, 99), period)
+
+
+def _build_period_view(
+    period_rows: list[dict[str, Any]],
+    *,
+    primary_period: str | None,
+    reference_metrics: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    ordered_rows = sorted(period_rows, key=_period_sort_key)
+    primary = next(
+        (row for row in ordered_rows if row.get("period") == primary_period),
+        None,
+    )
+    if primary is None and ordered_rows:
+        primary = ordered_rows[0]
+    core_rows = [row for row in ordered_rows if row.get("period") not in REFERENCE_PERIODS]
+    supporting_rows = [
+        row for row in core_rows if row.get("period") != (primary or {}).get("period")
+    ]
+    reference_rows: list[dict[str, Any]] = []
+    ref = reference_metrics or {}
+    for key in ("five_year", "full"):
+        item = ref.get(key)
+        if isinstance(item, dict):
+            reference_rows.append(item)
+    if not reference_rows:
+        reference_rows = [row for row in ordered_rows if row.get("period") in REFERENCE_PERIODS]
+    reference_rows = sorted(reference_rows, key=_period_sort_key)
+    return {
+        "primary": primary,
+        "supporting": supporting_rows,
+        "reference": reference_rows,
+        "ordered": ordered_rows,
+    }
+
+
+def _build_growth_note(service_profile: str, market_regime: str | None) -> str | None:
+    if service_profile != "growth":
+        return None
+    if market_regime not in {"neutral", "risk_on", "bull"}:
+        return None
+    return "?? ?? ???? ????? ?? 1? ??? ? ?? ?? ?? sleeve? " "??? ??? ? ????."
+
+
+def _build_today_report_view(
+    report: dict[str, Any], current_market_regime: str | None
+) -> dict[str, Any]:
+    allocation_view = _build_allocation_view(report.get("allocation_items", []))
+    performance_summary = report.get("performance_summary") or {}
+    headline_metrics = performance_summary.get("headline_metrics") or {}
+    period_rows = performance_summary.get("period_metrics") or []
+    period_view = _build_period_view(
+        period_rows,
+        primary_period=headline_metrics.get("primary_period") or "1Y",
+    )
+    report_view = dict(report)
+    report_view["allocation_view"] = allocation_view
+    report_view["period_view"] = period_view
+    report_view["growth_note"] = _build_growth_note(
+        report.get("service_profile", ""),
+        current_market_regime,
+    )
+    return report_view
+
+
+def _build_performance_row_view(row: dict[str, Any]) -> dict[str, Any]:
+    cards = row.get("performance_cards") or {}
+    period_view = _build_period_view(
+        row.get("period_table") or [],
+        primary_period=cards.get("primary_period") or "1Y",
+        reference_metrics=row.get("reference_metrics") or {},
+    )
+    row_view = dict(row)
+    row_view["period_view"] = period_view
+    return row_view
 
 
 def create_app(settings: Settings | None = None) -> Flask:
@@ -740,8 +900,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return render_user_snapshot_error()
         record_page_view("/today", bundle)
-        reports = bundle.recommendation_today.get("reports", [])
-        for report in reports:
+        current_market_regime = bundle.recommendation_today.get("current_market_regime")
+        report_views = [
+            _build_today_report_view(report, current_market_regime)
+            for report in bundle.recommendation_today.get("reports", [])
+        ]
+        for report in report_views:
             safe_record_event(
                 event_name="model_section_view",
                 page="/today",
@@ -753,7 +917,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 page_title="Today",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
-                reports=reports,
+                report_views=report_views,
             ),
             mimetype="text/html",
         )
@@ -781,7 +945,9 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return render_user_snapshot_error()
         record_page_view("/performance", bundle)
-        performance_rows = bundle.performance_summary.get("models", [])
+        performance_rows = [
+            _build_performance_row_view(row) for row in bundle.performance_summary.get("models", [])
+        ]
         performance_by_profile = {
             row.get("service_profile"): row
             for row in performance_rows

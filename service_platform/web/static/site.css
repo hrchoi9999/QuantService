@@ -2346,3 +2346,52 @@ body {
 .change-entry-down .change-entry-delta {
   color: var(--danger);
 }
+
+
+.sleeve-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.holdings-group-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.holding-section {
+  display: grid;
+  gap: 10px;
+}
+
+.holding-section-head h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.growth-note-panel {
+  margin: 10px 0 14px;
+}
+
+.period-reference-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.muted-period-card {
+  opacity: 0.92;
+}
+
+.performance-detail-panel {
+  display: grid;
+  gap: 14px;
+}
+
+@media (max-width: 960px) {
+  .sleeve-summary-grid,
+  .holdings-group-grid {
+    grid-template-columns: 1fr;
+  }
+}
