@@ -118,14 +118,14 @@ def seed_internal_snapshot(
 def seed_user_snapshot(
     target_dir: Path,
     *,
-    generated_at: str = "2026-03-18T21:42:03",
+    generated_at: str = "2026-03-20T17:21:02",
     include_reports: bool = True,
 ) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     models = [
         {
             "user_model_id": "user_1",
-            "user_model_name": "Redbot Stable",
+            "user_model_name": "안정형",
             "service_profile": "stable",
             "summary": "Defensive allocation for preserving capital.",
             "risk_label": "low",
@@ -135,7 +135,7 @@ def seed_user_snapshot(
         },
         {
             "user_model_id": "user_2",
-            "user_model_name": "Redbot Balanced",
+            "user_model_name": "균형형",
             "service_profile": "balanced",
             "summary": "Balanced allocation between growth and defense.",
             "risk_label": "medium",
@@ -145,7 +145,7 @@ def seed_user_snapshot(
         },
         {
             "user_model_id": "user_3",
-            "user_model_name": "Redbot Growth",
+            "user_model_name": "성장형",
             "service_profile": "growth",
             "summary": "Growth-oriented allocation in favorable trends.",
             "risk_label": "high",
@@ -155,7 +155,7 @@ def seed_user_snapshot(
         },
         {
             "user_model_id": "user_4",
-            "user_model_name": "Redbot Auto",
+            "user_model_name": "자동전환형",
             "service_profile": "auto",
             "summary": "Adaptive strategy that adjusts by regime.",
             "risk_label": "adaptive",
@@ -167,7 +167,7 @@ def seed_user_snapshot(
     reports = (
         [
             {
-                "user_model_name": "Redbot Stable",
+                "user_model_name": "안정형",
                 "service_profile": "stable",
                 "summary_text": "Stable strategy summary.",
                 "market_view": "Neutral market with defensive positioning.",
@@ -227,7 +227,7 @@ def seed_user_snapshot(
                 "disclaimer_text": "This material is for informational purposes only.",
             },
             {
-                "user_model_name": "Redbot Balanced",
+                "user_model_name": "균형형",
                 "service_profile": "balanced",
                 "summary_text": "Balanced strategy summary.",
                 "market_view": "Neutral regime with selective risk-taking.",
@@ -285,32 +285,36 @@ def seed_user_snapshot(
             "service_profile": model["service_profile"],
             "risk_label": model["risk_label"],
             "performance_cards": {
-                "cagr": 0.10 + index * 0.05,
-                "mdd": -0.05 - index * 0.02,
-                "sharpe": 0.7 + index * 0.4,
+                "cagr": 0.317861 + index * 0.02,
+                "mdd": -0.12245 - index * 0.01,
+                "sharpe": 1.918278 - index * 0.03,
             },
             "period_table": [
                 {
                     "period": "1Y",
-                    "cagr": 0.1 + index * 0.05,
-                    "mdd": -0.05,
-                    "sharpe": 0.8 + index * 0.2,
+                    "cagr": 0.79 + index * 0.03,
+                    "mdd": -0.12245 - index * 0.01,
+                    "sharpe": 2.58 - index * 0.05,
                 },
                 {
                     "period": "FULL",
-                    "cagr": 0.11 + index * 0.05,
-                    "mdd": -0.06,
-                    "sharpe": 0.7 + index * 0.2,
+                    "cagr": 0.317861 + index * 0.02,
+                    "mdd": -0.12245 - index * 0.01,
+                    "sharpe": 1.918278 - index * 0.03,
                 },
             ],
-            "note": f"Note for {model['user_model_name']}",
+            "note": f"{model['user_model_name']} 설명",
         }
         for index, model in enumerate(models)
+    ]
+    performance_models[3]["performance_cards"] = dict(performance_models[1]["performance_cards"])
+    performance_models[3]["period_table"] = [
+        dict(item) for item in performance_models[1]["period_table"]
     ]
     changes = (
         [
             {
-                "user_model_name": "Redbot Stable",
+                "user_model_name": "안정형",
                 "change_type": "rebalanced",
                 "summary": "Defensive exposure was increased.",
                 "increase_items": [
@@ -332,7 +336,7 @@ def seed_user_snapshot(
                 "reason_text": "The portfolio leaned more defensive after weaker momentum.",
             },
             {
-                "user_model_name": "Redbot Growth",
+                "user_model_name": "성장형",
                 "change_type": "increase",
                 "summary": "Growth exposure was added selectively.",
                 "increase_items": [
@@ -359,23 +363,23 @@ def seed_user_snapshot(
     )
 
     payloads = {
-        "user_model_catalog.json": {"as_of_date": "2026-03-18", "models": models},
+        "user_model_catalog.json": {"as_of_date": "2026-03-20", "models": models},
         "user_recommendation_report.json": {
-            "as_of_date": "2026-03-18",
+            "as_of_date": "2026-03-20",
             "generated_at": generated_at,
             "current_market_regime": "neutral",
             "reports": reports,
         },
         "user_performance_summary.json": {
-            "as_of_date": "2026-03-18",
+            "as_of_date": "2026-03-20",
             "models": performance_models,
         },
         "user_recent_changes.json": {
-            "as_of_date": "2026-03-18",
+            "as_of_date": "2026-03-20",
             "changes": changes,
         },
         "publish_manifest.json": {
-            "as_of_date": "2026-03-18",
+            "as_of_date": "2026-03-20",
             "generated_at": generated_at,
             "files": [
                 "user_model_catalog.json",
@@ -416,13 +420,20 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     changes_response = client.get("/changes")
 
     assert home_response.status_code == 200
-    assert "Redbot Stable" in home_response.get_data(as_text=True)
+    assert "안정형" in home_response.get_data(as_text=True)
     assert today_response.status_code == 200
     today_body = today_response.get_data(as_text=True)
     assert "Samsung Electronics (005930)" in today_body
     assert "Cash Reserve (None)" not in today_body
     assert performance_response.status_code == 200
-    assert "comparison-matrix" in performance_response.get_data(as_text=True)
+    performance_body = performance_response.get_data(as_text=True)
+    assert "comparison-matrix" in performance_body
+    assert "자동전환형" in performance_body
+    expected_auto_note = (
+        "현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 "
+        "포트폴리오를 사용하고 있습니다."
+    )
+    assert expected_auto_note in performance_body
     assert changes_response.status_code == 200
     changes_body = changes_response.get_data(as_text=True)
     assert "modern-change-card" in changes_body
@@ -443,19 +454,22 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     performance_response = client.get("/api/v1/performance/summary")
     changes_response = client.get("/api/v1/changes/recent")
     manifest_response = client.get("/api/v1/publish-status")
+    manifest_alias_response = client.get("/api/v1/manifest")
 
     assert models_response.status_code == 200
-    assert models_response.get_json()["models"][0]["user_model_name"] == "Redbot Stable"
+    assert models_response.get_json()["models"][0]["user_model_name"] == "안정형"
     assert today_response.status_code == 200
     assert today_response.get_json()["reports"][0]["service_profile"] == "stable"
     assert profile_response.status_code == 200
-    assert profile_response.get_json()["report"]["user_model_name"] == "Redbot Stable"
+    assert profile_response.get_json()["report"]["user_model_name"] == "안정형"
     assert performance_response.status_code == 200
     assert len(performance_response.get_json()["models"]) == 4
     assert changes_response.status_code == 200
     assert changes_response.get_json()["changes"][0]["change_type"] == "rebalanced"
     assert manifest_response.status_code == 200
+    assert manifest_alias_response.status_code == 200
     assert manifest_response.get_json()["channel"] == "user-facing"
+    assert manifest_alias_response.get_json() == manifest_response.get_json()
 
 
 def test_error_page_is_rendered_when_user_snapshots_are_missing(tmp_path: Path) -> None:
@@ -495,7 +509,7 @@ def test_healthz_and_status_display_snapshot_metadata(tmp_path: Path) -> None:
     assert health_response.status_code == 200
     assert health_response.get_json()["snapshot_state"] == "healthy"
     assert health_response.get_json()["snapshot_accessible"] is True
-    assert health_response.get_json()["as_of_date"] == "2026-03-18"
+    assert health_response.get_json()["as_of_date"] == "2026-03-20"
     assert status_response.status_code == 200
     body = status_response.get_data(as_text=True)
     assert "public-status-card" in body
@@ -611,7 +625,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
-    assert "Redbot Stable" in login_response.get_data(as_text=True)
+    assert "안정형" in login_response.get_data(as_text=True)
     assert me_response.get_json()["phone_verification_status"] == "verified"
     assert me_response.get_json()["auth_provider"] == "local"
 

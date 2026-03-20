@@ -495,6 +495,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return (jsonify(bundle.recent_changes), 200)
 
     @app.get("/api/v1/publish-status")
+    @app.get("/api/v1/manifest")
     def api_publish_status() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
@@ -780,13 +781,27 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return render_user_snapshot_error()
         record_page_view("/performance", bundle)
+        performance_rows = bundle.performance_summary.get("models", [])
+        performance_by_profile = {
+            row.get("service_profile"): row
+            for row in performance_rows
+            if row.get("service_profile")
+        }
+        balanced_cards = (performance_by_profile.get("balanced") or {}).get(
+            "performance_cards"
+        ) or {}
+        auto_cards = (performance_by_profile.get("auto") or {}).get("performance_cards") or {}
+        auto_balanced_same = (
+            bool(balanced_cards) and bool(auto_cards) and balanced_cards == auto_cards
+        )
         return Response(
             render_template(
                 "performance.html",
                 page_title="Performance",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
-                performance_rows=bundle.performance_summary.get("models", []),
+                performance_rows=performance_rows,
+                auto_balanced_same=auto_balanced_same,
             ),
             mimetype="text/html",
         )

@@ -20,6 +20,12 @@
   </aside>
 </section>
 
+{% if auto_balanced_same %}
+<section class="panel shell-card info-banner-panel">
+  <p class="muted">현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 포트폴리오를 사용하고 있습니다.</p>
+</section>
+{% endif %}
+
 {% if performance_rows %}
 <section class="comparison-matrix">
   {% for row in performance_rows %}
