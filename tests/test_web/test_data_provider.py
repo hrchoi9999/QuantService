@@ -1,4 +1,5 @@
-﻿import json
+import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 from service_platform.shared.config import Settings
@@ -63,8 +64,13 @@ def build_settings(tmp_path: Path, ttl_seconds: int = 60, stale_after_hours: int
     )
 
 
-def seed_snapshot(target_dir: Path, generated_at: str = "2026-03-19T12:00:00Z") -> None:
+def seed_snapshot(target_dir: Path, generated_at: str | None = None) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
+    if generated_at is None:
+        generated_at = (
+            datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        )
+
     for filename, source in EXAMPLE_FILES.items():
         output_name = f"{filename}.json"
         target_dir.joinpath(output_name).write_text(

@@ -1,4 +1,4 @@
-﻿import importlib
+import importlib
 import json
 from pathlib import Path
 
@@ -125,41 +125,41 @@ def seed_user_snapshot(
     models = [
         {
             "user_model_id": "user_1",
-            "user_model_name": "???",
+            "user_model_name": "안정형",
             "service_profile": "stable",
-            "summary": "??? ??? ???? ??? ??? ?????.",
+            "summary": "채권과 금을 중심으로 방어적인 흐름을 추구하는 전략입니다.",
             "risk_label": "low",
-            "target_user_type": "???? ???? ???",
+            "target_user_type": "안정성을 우선하는 투자자",
             "primary_asset_mix": ["bond", "gold", "cash_like"],
             "is_active": True,
         },
         {
             "user_model_id": "user_2",
-            "user_model_name": "???",
+            "user_model_name": "균형형",
             "service_profile": "balanced",
-            "summary": "??? ETF? ?? ?? ?? ?????.",
+            "summary": "주식과 ETF를 함께 활용해 균형 잡힌 성과를 추구합니다.",
             "risk_label": "medium",
-            "target_user_type": "???? ???? ?? ?? ???",
+            "target_user_type": "성장과 방어를 함께 보고 싶은 투자자",
             "primary_asset_mix": ["stock", "equity_etf", "cash_like"],
             "is_active": True,
         },
         {
             "user_model_id": "user_3",
-            "user_model_name": "???",
+            "user_model_name": "성장형",
             "service_profile": "growth",
-            "summary": "?? ?? ??? ?? ?? ??? ???? ?????.",
+            "summary": "최근 강한 성장 주식 sleeve를 적극적으로 반영하는 전략입니다.",
             "risk_label": "high",
-            "target_user_type": "???? ???? ???",
+            "target_user_type": "수익 기회를 적극적으로 추구하는 투자자",
             "primary_asset_mix": ["growth_stock", "growth_etf"],
             "is_active": True,
         },
         {
             "user_model_id": "user_4",
-            "user_model_name": "?????",
+            "user_model_name": "자동전환형",
             "service_profile": "auto",
-            "summary": "?? ??? ?? ??? ???? ?????.",
+            "summary": "시장 환경에 따라 비중과 자산 구성을 자동으로 조정합니다.",
             "risk_label": "adaptive",
-            "target_user_type": "?? ??? ????? ?? ???",
+            "target_user_type": "국면 변화에 자동 대응하고 싶은 투자자",
             "primary_asset_mix": ["multi_asset", "dynamic_allocation"],
             "is_active": True,
         },
@@ -176,17 +176,17 @@ def seed_user_snapshot(
     reports = (
         [
             {
-                "user_model_name": "???",
+                "user_model_name": "안정형",
                 "service_profile": "stable",
-                "summary_text": "?? ?? ???? ???? ???? ?????.",
-                "market_view": "??",
+                "summary_text": "채권과 금 중심의 방어형 포트폴리오입니다.",
+                "market_view": "중립",
                 "allocation_items": [
                     {
                         "security_code": "005930",
                         "asset_group": "stock",
-                        "display_name": "????",
+                        "display_name": "삼성전자",
                         "target_weight": 0.12,
-                        "role_summary": "?? ?? ??",
+                        "role_summary": "방어 보완 자산",
                         "source_type": "stock",
                     },
                     {
@@ -194,21 +194,21 @@ def seed_user_snapshot(
                         "asset_group": "etf",
                         "display_name": "KODEX 200",
                         "target_weight": 0.28,
-                        "role_summary": "ETF ?? ??",
+                        "role_summary": "ETF 코어 노출",
                         "source_type": "etf",
                     },
                     {
                         "security_code": None,
                         "asset_group": "cash",
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "target_weight": 0.18,
-                        "role_summary": "??? ? ?? ??",
+                        "role_summary": "유동성 및 완충 역할",
                         "source_type": "cash",
                     },
                 ],
                 "rationale_items": [
-                    "?? ?? ????? ?? ?? ??? ?? ?????.",
-                    "?? ?? ??? ?? ??? ??? ?? ???.",
+                    "주식 비중 확대보다 안정 자산 유지가 유리합니다.",
+                    "시장 변동성 구간에서 방어 역할이 중요합니다.",
                 ],
                 "risk_level": "low",
                 "performance_summary": {
@@ -246,7 +246,7 @@ def seed_user_snapshot(
                 "change_log": {
                     "increase_items": [
                         {
-                            "display_name": "????",
+                            "display_name": "삼성전자",
                             "security_code": "005930",
                             "delta_weight": 0.013,
                             "direction": "increase",
@@ -254,36 +254,36 @@ def seed_user_snapshot(
                     ],
                     "decrease_items": [
                         {
-                            "display_name": "??/????",
+                            "display_name": "현금/대기자금",
                             "security_code": None,
                             "delta_weight": -0.010,
                             "direction": "decrease",
                         }
                     ],
-                    "change_reason": "?? ??? ?? ?? ?? ??? ??????.",
+                    "change_reason": "방어 자산을 유지하되 일부 주식 비중을 보강했습니다.",
                 },
-                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
             },
             {
-                "user_model_name": "???",
+                "user_model_name": "균형형",
                 "service_profile": "balanced",
-                "summary_text": "??? ETF? ?? ?? ??? ???? ?????.",
-                "market_view": "??",
+                "summary_text": "국내 주식과 ETF를 함께 담는 균형형 포트폴리오입니다.",
+                "market_view": "중립",
                 "allocation_items": [
                     {
                         "security_code": "005930",
                         "asset_group": "stock",
-                        "display_name": "????",
+                        "display_name": "삼성전자",
                         "target_weight": 0.16,
-                        "role_summary": "?? ?? ??",
+                        "role_summary": "주식 코어 노출",
                         "source_type": "stock",
                     },
                     {
                         "security_code": "000270",
                         "asset_group": "stock",
-                        "display_name": "??",
+                        "display_name": "기아",
                         "target_weight": 0.14,
-                        "role_summary": "?? ?? ??",
+                        "role_summary": "주식 코어 노출",
                         "source_type": "stock",
                     },
                     {
@@ -291,29 +291,29 @@ def seed_user_snapshot(
                         "asset_group": "etf",
                         "display_name": "KODEX 200",
                         "target_weight": 0.20,
-                        "role_summary": "ETF ?? ??",
+                        "role_summary": "ETF 코어 노출",
                         "source_type": "etf",
                     },
                     {
                         "security_code": "192720",
                         "asset_group": "etf",
-                        "display_name": "?? ???????",
+                        "display_name": "파워 고배당저변동성",
                         "target_weight": 0.18,
-                        "role_summary": "ETF ?? ??",
+                        "role_summary": "ETF 분산 노출",
                         "source_type": "etf",
                     },
                     {
                         "security_code": None,
                         "asset_group": "cash",
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "target_weight": 0.08,
-                        "role_summary": "??? ? ?? ??",
+                        "role_summary": "유동성 및 완충 역할",
                         "source_type": "cash",
                     },
                 ],
                 "rationale_items": [
-                    "??? ETF? ?? ?? ??? ????.",
-                    "?? ????? ??? ?? ??? ?? ?????.",
+                    "국내 ETF와 주식을 함께 담아 분산합니다.",
+                    "중립 구간에서 균형 있는 비중 유지가 적절합니다.",
                 ],
                 "risk_level": "medium",
                 "performance_summary": {
@@ -343,7 +343,7 @@ def seed_user_snapshot(
                 "change_log": {
                     "increase_items": [
                         {
-                            "display_name": "????",
+                            "display_name": "삼성전자",
                             "security_code": "005930",
                             "delta_weight": 0.013,
                             "direction": "increase",
@@ -351,36 +351,36 @@ def seed_user_snapshot(
                     ],
                     "decrease_items": [
                         {
-                            "display_name": "??/????",
+                            "display_name": "현금/대기자금",
                             "security_code": None,
                             "delta_weight": -0.015,
                             "direction": "decrease",
                         }
                     ],
-                    "change_reason": "???? ??? ?? ??????.",
+                    "change_reason": "주식과 ETF의 균형 비중을 유지하도록 조정했습니다.",
                 },
-                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
             },
             {
-                "user_model_name": "???",
+                "user_model_name": "성장형",
                 "service_profile": "growth",
-                "summary_text": "?? ?? ?? sleeve ??? ??? ??? ?????.",
-                "market_view": "??",
+                "summary_text": "최근 강한 성장 주식 sleeve를 적극적으로 반영하는 전략입니다.",
+                "market_view": "중립",
                 "allocation_items": [
                     {
                         "security_code": "005930",
                         "asset_group": "stock",
-                        "display_name": "????",
+                        "display_name": "삼성전자",
                         "target_weight": 0.22,
-                        "role_summary": "?? ?? ??",
+                        "role_summary": "주식 코어 노출",
                         "source_type": "stock",
                     },
                     {
                         "security_code": "000660",
                         "asset_group": "stock",
-                        "display_name": "SK????",
+                        "display_name": "SK하이닉스",
                         "target_weight": 0.18,
-                        "role_summary": "?? ?? sleeve",
+                        "role_summary": "성장 주식 sleeve",
                         "source_type": "stock",
                     },
                     {
@@ -388,21 +388,21 @@ def seed_user_snapshot(
                         "asset_group": "etf",
                         "display_name": "KODEX 200",
                         "target_weight": 0.10,
-                        "role_summary": "ETF ?? ??",
+                        "role_summary": "ETF 보완 노출",
                         "source_type": "etf",
                     },
                     {
                         "security_code": None,
                         "asset_group": "cash",
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "target_weight": 0.04,
-                        "role_summary": "??? ? ?? ??",
+                        "role_summary": "유동성 및 완충 역할",
                         "source_type": "cash",
                     },
                 ],
                 "rationale_items": [
-                    "?? 1? ??? ?? ?? ?? sleeve? ?????.",
-                    "?? ??? ?? ??? ???? ??? ?????.",
+                    "최근 1년 성과가 강한 성장 주식 sleeve를 반영합니다.",
+                    "중립 구간에서도 성장 전략의 우위를 유지합니다.",
                 ],
                 "risk_level": "high",
                 "performance_summary": {
@@ -440,7 +440,7 @@ def seed_user_snapshot(
                 "change_log": {
                     "increase_items": [
                         {
-                            "display_name": "SK????",
+                            "display_name": "SK하이닉스",
                             "security_code": "000660",
                             "delta_weight": 0.021,
                             "direction": "increase",
@@ -448,28 +448,28 @@ def seed_user_snapshot(
                     ],
                     "decrease_items": [
                         {
-                            "display_name": "??/????",
+                            "display_name": "현금/대기자금",
                             "security_code": None,
                             "delta_weight": -0.012,
                             "direction": "decrease",
                         }
                     ],
-                    "change_reason": "?? 1? ?? ? ?? ?? ?? ?? ??? ??????.",
+                    "change_reason": "최근 1년 성과 우위가 있는 성장 주식 비중을 확대했습니다.",
                 },
-                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
             },
             {
-                "user_model_name": "?????",
+                "user_model_name": "자동전환형",
                 "service_profile": "auto",
-                "summary_text": "?? ??? ?? ???? ??? ??? ???? ?????.",
-                "market_view": "??",
+                "summary_text": "시장 국면에 따라 비중과 자산 구성을 자동으로 조정합니다.",
+                "market_view": "중립",
                 "allocation_items": [
                     {
                         "security_code": "005930",
                         "asset_group": "stock",
-                        "display_name": "????",
+                        "display_name": "삼성전자",
                         "target_weight": 0.16,
-                        "role_summary": "?? ?? ??",
+                        "role_summary": "주식 코어 노출",
                         "source_type": "stock",
                     },
                     {
@@ -477,21 +477,21 @@ def seed_user_snapshot(
                         "asset_group": "etf",
                         "display_name": "KODEX 200",
                         "target_weight": 0.20,
-                        "role_summary": "ETF ?? ??",
+                        "role_summary": "ETF 코어 노출",
                         "source_type": "etf",
                     },
                     {
                         "security_code": None,
                         "asset_group": "cash",
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "target_weight": 0.08,
-                        "role_summary": "??? ? ?? ??",
+                        "role_summary": "유동성 및 완충 역할",
                         "source_type": "cash",
                     },
                 ],
                 "rationale_items": [
-                    "?? ????? ???? ??? ?????? ?????.",
-                    "?? ??? ?? ??? ?? ?????.",
+                    "시장 변화에 따라 비중을 유연하게 조정합니다.",
+                    "중립 구간에서는 균형형과 유사해질 수 있습니다.",
                 ],
                 "risk_level": "adaptive",
                 "performance_summary": {
@@ -521,7 +521,7 @@ def seed_user_snapshot(
                 "change_log": {
                     "increase_items": [
                         {
-                            "display_name": "????",
+                            "display_name": "삼성전자",
                             "security_code": "005930",
                             "delta_weight": 0.013,
                             "direction": "increase",
@@ -529,15 +529,15 @@ def seed_user_snapshot(
                     ],
                     "decrease_items": [
                         {
-                            "display_name": "??/????",
+                            "display_name": "현금/대기자금",
                             "security_code": None,
                             "delta_weight": -0.015,
                             "direction": "decrease",
                         }
                     ],
-                    "change_reason": "?? ?? ???? ???? ??? ??? ??????.",
+                    "change_reason": "시장 국면 변화에 맞춰 주식과 현금 비중을 조정했습니다.",
                 },
-                "disclaimer_text": "? ??? ?? ??? ?? ??? ?? ??? ????.",
+                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
             },
         ]
         if include_reports
@@ -545,7 +545,7 @@ def seed_user_snapshot(
     )
     performance_models = [
         {
-            "user_model_name": "???",
+            "user_model_name": "안정형",
             "service_profile": "stable",
             "risk_label": "low",
             "performance_cards": {
@@ -567,10 +567,10 @@ def seed_user_snapshot(
                 "five_year": {"period": "5Y", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
                 "full": {"period": "FULL", "cagr": 0.09, "mdd": -0.08, "sharpe": 0.94},
             },
-            "note": "??? ??? ?? ??? ??? ????????.",
+            "note": "안정 자산 중심으로 변동성을 낮춘 전략입니다.",
         },
         {
-            "user_model_name": "???",
+            "user_model_name": "균형형",
             "service_profile": "balanced",
             "risk_label": "medium",
             "performance_cards": {
@@ -584,10 +584,10 @@ def seed_user_snapshot(
                 "five_year": {"period": "5Y", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
                 "full": {"period": "FULL", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
             },
-            "note": "??? ETF? ?? ?? ?? ????????.",
+            "note": "국내 주식과 ETF를 함께 담는 균형형 전략입니다.",
         },
         {
-            "user_model_name": "???",
+            "user_model_name": "성장형",
             "service_profile": "growth",
             "risk_label": "high",
             "performance_cards": {
@@ -609,10 +609,10 @@ def seed_user_snapshot(
                 "five_year": {"period": "5Y", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
                 "full": {"period": "FULL", "cagr": 0.24, "mdd": -0.18, "sharpe": 1.31},
             },
-            "note": "?? 1? ??? ? ?? ?? ?? sleeve? ?????.",
+            "note": "최근 1년 성과가 강한 성장 주식 sleeve를 반영합니다.",
         },
         {
-            "user_model_name": "?????",
+            "user_model_name": "자동전환형",
             "service_profile": "auto",
             "risk_label": "adaptive",
             "performance_cards": {
@@ -626,19 +626,19 @@ def seed_user_snapshot(
                 "five_year": {"period": "5Y", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
                 "full": {"period": "FULL", "cagr": 0.15, "mdd": -0.12, "sharpe": 1.08},
             },
-            "note": "?? ????? ???? ??? ?????? ?????.",
+            "note": "시장 변화에 맞춰 비중을 자동으로 조정하는 전략입니다.",
         },
     ]
     changes = (
         [
             {
-                "user_model_name": "???",
+                "user_model_name": "안정형",
                 "service_profile": "stable",
                 "change_type": "rebalanced",
-                "summary": "?? ?? ??? ?????.",
+                "summary": "방어 자산 중심 비중을 조정했습니다.",
                 "increase_items": [
                     {
-                        "display_name": "????",
+                        "display_name": "삼성전자",
                         "security_code": "005930",
                         "delta_weight": 0.013,
                         "direction": "increase",
@@ -646,22 +646,22 @@ def seed_user_snapshot(
                 ],
                 "decrease_items": [
                     {
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "security_code": None,
                         "delta_weight": -0.010,
                         "direction": "decrease",
                     }
                 ],
-                "reason_text": "?? ??? ?? ??? ??? ??????.",
+                "reason_text": "방어 자산과 주식의 균형을 다시 맞췄습니다.",
             },
             {
-                "user_model_name": "???",
+                "user_model_name": "성장형",
                 "service_profile": "growth",
                 "change_type": "increase",
-                "summary": "?? ?? sleeve ??? ???????.",
+                "summary": "성장 주식 sleeve 비중을 확대했습니다.",
                 "increase_items": [
                     {
-                        "display_name": "SK????",
+                        "display_name": "SK하이닉스",
                         "security_code": "000660",
                         "delta_weight": 0.021,
                         "direction": "increase",
@@ -669,13 +669,13 @@ def seed_user_snapshot(
                 ],
                 "decrease_items": [
                     {
-                        "display_name": "??/????",
+                        "display_name": "현금/대기자금",
                         "security_code": None,
                         "delta_weight": -0.012,
                         "direction": "decrease",
                     }
                 ],
-                "reason_text": "?? 1? ?? ? ?? ?? ?? ??? ???????.",
+                "reason_text": "최근 1년 성과 우위가 있는 성장 주식 비중을 확대했습니다.",
             },
         ]
         if include_reports
@@ -714,18 +714,19 @@ def seed_user_snapshot(
     for filename, payload in payloads.items():
         target_dir.joinpath(filename).write_text(
             json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8-sig",
         )
 
 
-def get_csrf_token(client) -> str:
-    with client.session_transaction() as session_data:
-        return session_data["csrf_token"]
-
-
 def get_phone_verification_code(client) -> str:
-    with client.session_transaction() as session_data:
-        return session_data["phone_verification"]["code"]
+    with client.session_transaction() as session_state:
+        payload = session_state.get("phone_verification") or {}
+        return payload.get("code", "")
+
+
+def get_csrf_token(client) -> str:
+    with client.session_transaction() as session_state:
+        token = session_state.get("csrf_token", "")
+        return token
 
 
 def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
@@ -766,7 +767,6 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "modern-change-card" in changes_body
     assert "(000660)" in changes_body
     assert "현금/대기자금 (None)" not in changes_body
-    assert "?꾧툑/?湲곗옄湲?(None)" not in changes_body
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
