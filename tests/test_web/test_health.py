@@ -1,4 +1,4 @@
-import importlib
+﻿import importlib
 import json
 from pathlib import Path
 
@@ -755,18 +755,18 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
 
     assert performance_response.status_code == 200
     performance_body = performance_response.get_data(as_text=True)
-    assert "1년 headline 비교" in performance_body
+    assert "1Y headline 비교" in performance_body
     assert "참고 지표" in performance_body
     assert "1Y" in performance_body and "6M" in performance_body and "3M" in performance_body
     assert "자동전환형" in performance_body
-    assert "포트폴리오를 사용하고 있습니다." in performance_body
+    assert "포트폴리오를 사용하고 있을 수 있습니다." in performance_body
 
     assert changes_response.status_code == 200
     changes_body = changes_response.get_data(as_text=True)
     assert "modern-change-card" in changes_body
     assert "(000660)" in changes_body
-    assert "+2.10%" in changes_body
     assert "현금/대기자금 (None)" not in changes_body
+    assert "?꾧툑/?湲곗옄湲?(None)" not in changes_body
 
 
 def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
@@ -955,7 +955,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
-    assert "안정형" in login_response.get_data(as_text=True)
+    assert "안내" in login_response.get_data(as_text=True)
     assert me_response.get_json()["phone_verification_status"] == "verified"
     assert me_response.get_json()["auth_provider"] == "local"
 

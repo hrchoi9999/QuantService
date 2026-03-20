@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
-    <h1>전략별 성과를 같은 기준으로 비교하세요</h1>
+    <h1>전략별 성과를 같은 기준으로 비교해 보세요.</h1>
     <p class="lead">각 전략의 1년 성과를 메인 지표로 두고, 최근 장세를 보여주는 6개월·3개월 지표와 중기 참고 지표를 함께 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
@@ -22,7 +22,7 @@
 
 {% if auto_balanced_same %}
 <section class="panel shell-card info-banner-panel">
-  <p class="muted">현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 포트폴리오를 사용하고 있습니다.</p>
+  <p class="muted">현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 포트폴리오를 사용하고 있을 수 있습니다.</p>
 </section>
 {% endif %}
 
@@ -58,7 +58,7 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <h2>1년 headline 비교</h2>
+      <h2>1Y headline 비교</h2>
     </div>
   </div>
   <div class="table-wrap comparison-table polished-table">

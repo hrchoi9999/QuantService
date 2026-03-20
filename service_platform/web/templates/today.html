@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
@@ -144,7 +144,7 @@
         </div>
         {% if report.allocation_view.extra_count > 0 %}
         <details class="disclosure-box sticky-disclosure-box">
-          <summary>전\ccb4 편입 보기 (추가 {{ report.allocation_view.extra_count }}개)</summary>
+          <summary>전체 편입 보기 (추가 {{ report.allocation_view.extra_count }}개)</summary>
           <div class="table-wrap compact-table top-margin-sm">
             <table>
               <thead>
@@ -257,42 +257,12 @@
         </div>
       </article>
     </div>
-
-    <div class="disclosure-box muted">
-      <strong>면책 문구</strong>
-      <p>{{ report.disclaimer_text }}</p>
-    </div>
   </section>
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
   <h2>오늘의 추천 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 생성되면 이 페이지에 최신 추천 내용이 표시됩니다.</p>
+  <p>사용자용 스냅샷이 준비되면 이 화면에 전략별 추천 리포트가 표시됩니다.</p>
 </section>
 {% endif %}
-
-<script>
-  (() => {
-    const buttons = Array.from(document.querySelectorAll('.model-selector'));
-    if (!buttons.length) return;
-
-    const applySelection = () => {
-      const current = window.location.hash ? window.location.hash.slice(1) : '';
-      buttons.forEach((button) => {
-        const isSelected = current && button.dataset.targetProfile === current;
-        button.classList.toggle('is-selected', !!isSelected);
-        button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-      });
-    };
-
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        window.requestAnimationFrame(applySelection);
-      });
-    });
-
-    window.addEventListener('hashchange', applySelection);
-    applySelection();
-  })();
-</script>
 {% endblock %}

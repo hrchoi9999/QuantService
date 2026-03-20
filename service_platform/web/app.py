@@ -233,7 +233,10 @@ def _build_growth_note(service_profile: str, market_regime: str | None) -> str |
         return None
     if market_regime not in {"neutral", "risk_on", "bull"}:
         return None
-    return "?? ?? ???? ????? ?? 1? ??? ? ?? ?? ?? sleeve? " "??? ??? ? ????."
+    return (
+        "중립 또는 위험선호 구간에서는 최근 1년 성과가 더 강한 성장 주식 sleeve가"
+        " 전면에 배치될 수 있습니다."
+    )
 
 
 def _build_today_report_view(

@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero hero-stage changes-hero">
   <div class="hero-main">
-    <h1>무엇이 어떻게 바뀌었는지 빠르게 확인하세요</h1>
+    <h1>무엇이 어떻게 바뀌었는지 빠르게 확인해 보세요.</h1>
     <p class="lead">직전 스냅샷 대비 비중 확대, 비중 축소, 변경 이유를 전략별 카드로 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
@@ -13,8 +13,8 @@
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
-      <li>확대 종목과 축소 종목을 한눈에 비교할 수 있습니다.</li>
-      <li>종목 옆 종목코드는 최근 스냅샷 기준 6자리 코드입니다.</li>
+      <li>확대 종목과 축소 종목을 나눠서 비교해 볼 수 있습니다.</li>
+      <li>종목명 옆 종목코드는 최근 스냅샷 기준 6자리 코드입니다.</li>
       <li>변경 이유는 전략별 리서치 요약 문구를 그대로 보여줍니다.</li>
     </ul>
   </aside>
@@ -75,7 +75,7 @@
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
   <h2>최근 변경 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 준비되면 이 영역에 전략별 변경 내역이 표시됩니다.</p>
+  <p>사용자용 스냅샷이 준비되면 이 영역에 전략별 변경내역이 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

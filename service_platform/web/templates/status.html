@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero status-hero public-status-hero">
   <h1>서비스 상태 확인</h1>
-  <p class="lead">현재 공개 중인 사용자용 스냅샷이 정상적으로 반영되고 있는지 간단히 확인할 수 있습니다.</p>
+  <p class="lead">현재 공개 중인 사용자용 스냅샷이 정상적으로 반영되고 있는지 간단하게 확인할 수 있습니다.</p>
   <div class="hero-badges">
     <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
     <span class="badge neutral">기준일 {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
@@ -15,7 +15,7 @@
   <article class="panel shell-card public-status-card">
     <span class="label">서비스 상태</span>
     <h2>{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</h2>
-    <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 제공되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기준으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
+    <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 반영되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기준으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
   </article>
   <article class="panel shell-card public-status-card">
     <span class="label">전략 수</span>
@@ -58,6 +58,6 @@
 
 <section class="disclosure-box status-note-box">
   <strong>안내</strong>
-  <p>서비스 상태에 문제가 지속되면 Feedback 페이지를 통해 알려 주세요. 내부 운영 지표와 배포 상세 정보는 공개 화면에 노출하지 않습니다.</p>
+  <p>서비스 상태에 문제가 지속되면 Feedback 페이지를 통해 알려 주세요. 이 화면은 운영 지표나 배포 상세 정보를 공개하지 않습니다.</p>
 </section>
 {% endblock %}
