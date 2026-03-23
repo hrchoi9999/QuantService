@@ -2535,10 +2535,10 @@ body {
   border: none;
   background: linear-gradient(
     90deg,
-    #1f5ea8 0%,
-    #2f6fbd 22%,
-    #8b8f9a 50%,
-    #dc5a43 76%,
+    #124f97 0%,
+    #2366b4 22%,
+    #868b96 50%,
+    #df4c33 76%,
     #e62c28 100%
   );
 }
