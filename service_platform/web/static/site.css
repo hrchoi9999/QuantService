@@ -2395,3 +2395,115 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.market-home-panel,
+.market-bridge-panel,
+.status-inline-panel,
+.market-action-panel,
+.market-source-panel,
+.market-component-card,
+.market-metric-group {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), var(--surface));
+}
+
+.market-home-summary-grid,
+.market-bridge-row,
+.market-source-grid,
+.market-header-meta {
+  display: grid;
+  gap: 16px;
+}
+
+.market-home-summary-grid,
+.market-bridge-row,
+.market-header-meta,
+.market-source-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.market-home-summary-main,
+.market-home-signals,
+.market-home-link-block {
+  padding: 18px 20px;
+  border: 1px solid var(--surface-soft);
+  background: var(--surface-soft);
+}
+
+.market-home-signals ul,
+.market-source-panel ul,
+.market-action-panel p {
+  margin-bottom: 0;
+}
+
+.market-panel-head .lead,
+.market-panel-head .compact-lead {
+  margin-bottom: 0;
+}
+
+.market-home-state-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.market-analysis-hero {
+  align-items: start;
+}
+
+.market-card-grid,
+.market-metric-groups {
+  display: grid;
+  gap: 18px;
+}
+
+.market-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.market-component-card {
+  padding: 22px;
+}
+
+.market-component-card h2 {
+  margin: 8px 0 10px;
+}
+
+.market-signal-grid,
+.public-status-grid {
+  align-items: stretch;
+}
+
+.status-inline-panel > .panel,
+.market-signal-grid > .panel,
+.market-metric-groups > .panel {
+  box-shadow: none;
+}
+
+.status-meta-row {
+  margin: 16px 0 0;
+}
+
+.market-source-grid .metric-card,
+.market-header-meta .metric-card,
+.market-home-summary-grid .metric-card,
+.market-bridge-row .metric-card {
+  min-height: 100%;
+}
+
+.market-metric-group table td:last-child,
+.market-metric-group table th:last-child {
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .market-card-grid,
+  .market-signal-grid,
+  .market-source-grid,
+  .market-header-meta,
+  .market-home-summary-grid,
+  .market-bridge-row {
+    grid-template-columns: 1fr;
+  }
+}

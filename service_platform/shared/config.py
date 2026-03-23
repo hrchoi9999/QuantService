@@ -31,6 +31,7 @@ from service_platform.shared.constants import (
     DEFAULT_LIGHTPAY_NOTIFY_URL,
     DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
+    DEFAULT_MARKET_ANALYSIS_DIR,
     DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS,
     DEFAULT_PHONE_VERIFICATION_MODE,
     DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
@@ -104,6 +105,7 @@ class Settings:
     s2_snapshot_csv: Path
     s2_summary_csv: Path
     user_snapshot_dir: Path = DEFAULT_USER_SNAPSHOT_DIR
+    market_analysis_dir: Path = DEFAULT_MARKET_ANALYSIS_DIR
 
 
 def _get_port() -> int:
@@ -209,4 +211,7 @@ def get_settings() -> Settings:
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),
         s2_summary_csv=Path(os.getenv("S2_SUMMARY_CSV", str(DEFAULT_S2_SUMMARY_CSV))),
         user_snapshot_dir=Path(os.getenv("USER_SNAPSHOT_DIR", str(DEFAULT_USER_SNAPSHOT_DIR))),
+        market_analysis_dir=Path(
+            os.getenv("MARKET_ANALYSIS_DIR", str(DEFAULT_MARKET_ANALYSIS_DIR))
+        ),
     )

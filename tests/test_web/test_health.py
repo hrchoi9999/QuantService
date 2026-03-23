@@ -72,6 +72,7 @@ def build_settings(
         s2_snapshot_csv=tmp_path / "snapshot.csv",
         s2_summary_csv=tmp_path / "summary.csv",
         user_snapshot_dir=tmp_path / "user_current",
+        market_analysis_dir=tmp_path / "market_analysis" / "current",
     )
 
 
@@ -760,6 +761,190 @@ def seed_user_snapshot(
         )
 
 
+def seed_market_analysis_snapshot(
+    target_dir: Path,
+    *,
+    asof: str = "2026-03-23T19:00:00+09:00",
+    state_label: str = "중립",
+) -> None:
+    target_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "consumer": "QuantService",
+        "handoff_version": "2026-03-23-p1",
+        "freshness": {
+            "target_update_interval_minutes": 60,
+            "consumer_warning_after_minutes": 90,
+            "consumer_stale_after_minutes": 180,
+        },
+    }
+    home = {
+        "market": "KR",
+        "asof": asof,
+        "hero": {
+            "state_label": state_label,
+            "state_score": 0.2907,
+            "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
+            "change_vs_prev": "중립 -> 중립",
+            "action_hint": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+        },
+        "top_signals": ["20일선 위 종목 비율 낮음", "변동성 확대"],
+    }
+    today = {
+        "market": "KR",
+        "asof": asof,
+        "market_bridge": {
+            "market": "KR",
+            "asof": asof,
+            "state_label": state_label,
+            "state_score": 0.2907,
+            "recommended_tone": "균형 대응",
+            "bridge_text": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+        },
+    }
+    page = {
+        "market": "KR",
+        "asof": asof,
+        "header_state": {
+            "label": state_label,
+            "score": 0.2907,
+            "prev_label": "중립",
+            "change_direction": "unchanged",
+        },
+        "component_cards": [
+            {
+                "key": "trend",
+                "label": "시장 방향",
+                "score": 0.1,
+                "summary": "대형주는 버티지만 추세 확산은 아직 뚜렷하지 않습니다.",
+            },
+            {
+                "key": "breadth",
+                "label": "시장 건강도",
+                "score": 1.9,
+                "summary": "상승 흐름이 개별 종목으로 비교적 넓게 확산되고 있습니다.",
+            },
+            {
+                "key": "risk",
+                "label": "시장 흔들림",
+                "score": -3.0,
+                "summary": "최근 변동성과 낙폭이 커져 방어적 해석이 필요합니다.",
+            },
+            {
+                "key": "defensive_flow",
+                "label": "방어자산 선호도",
+                "score": 1.7,
+                "summary": "방어 ETF 상대강도가 높지 않아 주식 선호가 상대적으로 유지됩니다.",
+            },
+        ],
+        "signal_lists": {
+            "positive_points": ["60일선 위 종목 비율 양호", "코스피 1개월 상승 흐름"],
+            "warning_points": ["20일선 위 종목 비율 낮음", "변동성 확대"],
+            "action_guide": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+        },
+        "metrics": {
+            "kospi_20d_ret": 0.0388,
+            "kospi_60d_ret": 0.1174,
+            "kosdaq_20d_ret": 0.0321,
+            "above_20dma_ratio": 0.4469,
+            "above_60dma_ratio": 0.7045,
+            "adv_dec_ratio": 2.52,
+            "new_high_count": 31.0,
+            "new_low_count": 1.0,
+            "realized_vol_20d": 0.2885,
+            "drawdown_20d": -0.5376,
+            "usdkrw_20d_ret": -0.0134,
+            "rate_cd91_20d_chg": -0.4305,
+            "rate_ktb3y_20d_chg": -0.3340,
+        },
+        "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
+    }
+    api_summary = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/summary?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": {
+            "market": "KR",
+            "asof": asof,
+            "state_label": state_label,
+            "state_score": 0.2907,
+            "summary_line": home["hero"]["summary_line"],
+            "change_vs_prev": "중립 -> 중립",
+            "top_signals": home["top_signals"],
+            "action_hint": home["hero"]["action_hint"],
+        },
+    }
+    api_detail = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/detail?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": {
+            "market": "KR",
+            "asof": asof,
+            "state": page["header_state"],
+            "components": {
+                item["key"]: {
+                    "score": item["score"],
+                    "label": item["label"],
+                    "summary": item["summary"],
+                }
+                for item in page["component_cards"]
+            },
+            "metrics": page["metrics"],
+            "positive_points": page["signal_lists"]["positive_points"],
+            "warning_points": page["signal_lists"]["warning_points"],
+            "action_guide": page["signal_lists"]["action_guide"],
+        },
+    }
+    api_today = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/today-bridge?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": today["market_bridge"],
+    }
+    api_home = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/home?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": home,
+    }
+    api_page = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/page?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": page,
+    }
+
+    files = {
+        "quantservice_market_manifest.json": manifest,
+        "quantservice_market_home.json": home,
+        "quantservice_market_today.json": today,
+        "quantservice_market_page.json": page,
+        "api_v1_market_analysis_home.json": api_home,
+        "api_v1_market_analysis_page.json": api_page,
+        "api_v1_market_analysis_summary.json": api_summary,
+        "api_v1_market_analysis_detail.json": api_detail,
+        "api_v1_market_analysis_today_bridge.json": api_today,
+    }
+    for filename, payload in files.items():
+        target_dir.joinpath(filename).write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8-sig",
+        )
+
+
 def get_phone_verification_code(client) -> str:
     with client.session_transaction() as session_state:
         payload = session_state.get("phone_verification") or {}
@@ -1004,7 +1189,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
-    assert "안내" in login_response.get_data(as_text=True)
+    assert "오늘의 추천" in login_response.get_data(as_text=True)
     assert me_response.get_json()["phone_verification_status"] == "verified"
     assert me_response.get_json()["auth_provider"] == "local"
 
@@ -1131,3 +1316,58 @@ def test_port_env_overrides_web_port(monkeypatch) -> None:
     config_module = importlib.reload(config_module)
 
     assert config_module.get_settings().web_port == 9090
+
+
+def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(settings.market_analysis_dir)
+    app = create_app(settings)
+    client = app.test_client()
+
+    home_response = client.get("/")
+    today_response = client.get("/today")
+    changes_response = client.get("/changes")
+    market_response = client.get("/market-analysis")
+    summary_response = client.get("/api/v1/market-analysis/summary")
+    detail_response = client.get("/api/v1/market-analysis/detail")
+    manifest_response = client.get("/api/v1/market-analysis/manifest")
+
+    home_body = home_response.get_data(as_text=True)
+    today_body = today_response.get_data(as_text=True)
+    changes_body = changes_response.get_data(as_text=True)
+    market_body = market_response.get_data(as_text=True)
+
+    assert home_response.status_code == 200
+    assert today_response.status_code == 200
+    assert changes_response.status_code == 200
+    assert market_response.status_code == 200
+    assert "시장분석" in home_body
+    assert "지금 시장은 이렇게 보고 있습니다" in home_body
+    assert "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다." in today_body
+    assert "서비스 상태 요약" in changes_body
+    assert "시장 흔들림" in market_body
+    assert "긍정 신호" in market_body
+    assert "주의 신호" in market_body
+    assert summary_response.status_code == 200
+    assert summary_response.get_json()["data"]["state_label"] == "중립"
+    assert detail_response.status_code == 200
+    assert detail_response.get_json()["data"]["positive_points"][0] == "60일선 위 종목 비율 양호"
+    assert manifest_response.status_code == 200
+    assert manifest_response.get_json()["consumer"] == "QuantService"
+
+
+def test_market_analysis_fallback_is_graceful_when_handoff_is_missing(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    app = create_app(settings)
+    client = app.test_client()
+
+    market_response = client.get("/market-analysis")
+    summary_response = client.get("/api/v1/market-analysis/summary")
+
+    assert market_response.status_code == 200
+    assert "시장분석 데이터를 불러오지 못했습니다." in market_response.get_data(
+        as_text=True
+    ) or "시장분석 데이터가 아직 준비되지 않았습니다." in market_response.get_data(as_text=True)
+    assert summary_response.status_code == 503

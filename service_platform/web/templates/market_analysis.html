@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero hero-stage market-analysis-hero">
+  <div class="hero-main">
+    <div class="hero-badges">
+      <span class="badge accent">{{ market_page_view.header_state.label }}</span>
+      <span class="badge neutral">기준 시각 {{ market_page_view.asof or '-' }}</span>
+      <span class="badge neutral">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
+    </div>
+    <h1>시장분석</h1>
+    <p class="lead">{{ market_page_view.summary_line }}</p>
+    <div class="market-header-meta">
+      <div class="metric-card public-metric-card">
+        <span class="label">현재 시장상태</span>
+        <strong>{{ market_page_view.header_state.label }}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">상태 점수</span>
+        <strong>{% if market_page_view.header_state.score is not none %}{{ '%.2f'|format(market_page_view.header_state.score) }}{% else %}-{% endif %}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">이전 상태 대비</span>
+        <strong>{{ market_page_view.header_state.prev_label }} · {{ market_page_view.header_state.change_direction_label }}</strong>
+      </div>
+    </div>
+  </div>
+  <aside class="hero-side shell-card spotlight-panel">
+    <ul class="message-list compact-list trust-list">
+      <li>시장 상태와 점수는 QuantMarket이 생성한 최신 handoff 데이터를 그대로 사용합니다.</li>
+      <li>수치는 재계산하지 않고, QuantService는 읽기 쉬운 화면으로만 정리합니다.</li>
+      <li>상태가 지연되면 기존 데이터와 함께 경고 문구를 표시합니다.</li>
+    </ul>
+  </aside>
+</section>
+
+{% if market_status_snapshot.state in ['warning', 'stale'] %}
+<section class="panel shell-card warning-panel">
+  <h2>업데이트 안내</h2>
+  <ul class="message-list compact-list clean-list">
+    {% for item in market_status_snapshot.warnings %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% elif market_status_snapshot.state == 'empty' %}
+<section class="panel shell-card empty-state empty-shell">
+  <h2>시장분석 데이터가 아직 준비되지 않았습니다.</h2>
+  <p>다음 handoff가 반영되면 이 화면에 최신 시장분석이 표시됩니다.</p>
+</section>
+{% elif market_status_snapshot.state == 'error' %}
+<section class="panel shell-card error-panel">
+  <h2>시장분석 데이터를 불러오지 못했습니다.</h2>
+  <ul class="message-list compact-list clean-list">
+    {% for item in market_status_snapshot.errors %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if market_page_view.component_cards %}
+<section class="market-card-grid">
+  {% for item in market_page_view.component_cards %}
+  <article class="panel shell-card market-component-card">
+    <span class="label">{{ item.label }}</span>
+    <h2>{% if item.score is not none %}{{ '%.2f'|format(item.score) }}{% else %}-{% endif %}</h2>
+    <p>{{ item.summary }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+<section class="grid two-up market-signal-grid">
+  <article class="panel shell-card">
+    <h2>긍정 신호</h2>
+    <ul class="message-list compact-list clean-list">
+      {% for item in market_page_view.positive_points %}
+      <li>{{ item }}</li>
+      {% endfor %}
+      {% if not market_page_view.positive_points %}
+      <li>표시할 긍정 신호가 아직 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+  <article class="panel shell-card">
+    <h2>주의 신호</h2>
+    <ul class="message-list compact-list clean-list">
+      {% for item in market_page_view.warning_points %}
+      <li>{{ item }}</li>
+      {% endfor %}
+      {% if not market_page_view.warning_points %}
+      <li>표시할 주의 신호가 아직 없습니다.</li>
+      {% endif %}
+    </ul>
+  </article>
+</section>
+
+<section class="panel shell-card market-action-panel">
+  <h2>대응 가이드</h2>
+  <p class="lead compact-lead">{{ market_page_view.action_guide }}</p>
+</section>
+
+<section class="market-metric-groups">
+  {% for group in market_page_view.metric_groups %}
+  <article class="panel shell-card market-metric-group">
+    <div class="section-heading tight-head">
+      <div>
+        <h2>{{ group.title }}</h2>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>값</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in group["items"] %}
+          <tr>
+            <td>{{ item.label }}</td>
+            <td>{{ item.display }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="panel shell-card market-source-panel">
+  <h2>데이터 출처 및 업데이트 안내</h2>
+  <div class="market-source-grid">
+    {% for row in market_page_view.source_rows %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ row.label }}</span>
+      <strong>{{ row.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import secrets
@@ -44,6 +44,7 @@ from service_platform.shared.constants import CURRENT_DIRNAME, MANIFEST_FILENAME
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
+from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
 
 STATUS_MESSAGES = {
@@ -282,6 +283,111 @@ def _build_performance_row_view(row: dict[str, Any]) -> dict[str, Any]:
     return row_view
 
 
+MARKET_CHANGE_DIRECTION_LABELS = {
+    "up": "개선",
+    "down": "약화",
+    "unchanged": "변화 없음",
+}
+
+MARKET_METRIC_GROUPS = [
+    (
+        "지수/추세",
+        [
+            ("kospi_20d_ret", "KOSPI 20일 수익률", "signed_percent"),
+            ("kospi_60d_ret", "KOSPI 60일 수익률", "signed_percent"),
+            ("kosdaq_20d_ret", "KOSDAQ 20일 수익률", "signed_percent"),
+            ("above_20dma_ratio", "20일선 위 종목 비율", "percent"),
+            ("above_60dma_ratio", "60일선 위 종목 비율", "percent"),
+        ],
+    ),
+    (
+        "내부 breadth",
+        [
+            ("adv_dec_ratio", "상승/하락 비율", "ratio"),
+            ("new_high_count", "신고가 종목 수", "count"),
+            ("new_low_count", "신저가 종목 수", "count"),
+        ],
+    ),
+    (
+        "위험/변동성",
+        [
+            ("realized_vol_20d", "20일 실현 변동성", "percent"),
+            ("drawdown_20d", "20일 최대 낙폭", "signed_percent"),
+        ],
+    ),
+    (
+        "환율/금리",
+        [
+            ("usdkrw_20d_ret", "원달러 20일 변화", "signed_percent"),
+            ("rate_cd91_20d_chg", "CD 91일물 20일 변화", "signed_points"),
+            ("rate_ktb3y_20d_chg", "국고채 3년 20일 변화", "signed_points"),
+        ],
+    ),
+]
+
+
+def _format_market_value(value: float | int | None, value_type: str) -> str:
+    if value is None:
+        return "-"
+    if value_type == "percent":
+        return f"{value * 100:.1f}%"
+    if value_type == "signed_percent":
+        return f"{value * 100:+.1f}%"
+    if value_type == "signed_points":
+        return f"{value:+.2f}%p"
+    if value_type == "count":
+        return f"{int(value):,}"
+    return f"{value:.2f}"
+
+
+def _build_market_metric_groups(metrics: dict[str, Any]) -> list[dict[str, Any]]:
+    groups: list[dict[str, Any]] = []
+    for title, items in MARKET_METRIC_GROUPS:
+        rows = []
+        for key, label, value_type in items:
+            rows.append(
+                {
+                    "key": key,
+                    "label": label,
+                    "value": metrics.get(key),
+                    "display": _format_market_value(metrics.get(key), value_type),
+                }
+            )
+        groups.append({"title": title, "items": rows})
+    return groups
+
+
+def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
+    header_state = page_payload.get("header_state") or {}
+    signal_lists = page_payload.get("signal_lists") or {}
+    return {
+        "asof": page_payload.get("asof"),
+        "summary_line": page_payload.get("summary_line")
+        or "시장분석 데이터가 아직 준비되지 않았습니다.",
+        "header_state": {
+            "label": header_state.get("label") or "데이터 준비 중",
+            "score": header_state.get("score"),
+            "prev_label": header_state.get("prev_label") or "-",
+            "change_direction": header_state.get("change_direction") or "unchanged",
+            "change_direction_label": MARKET_CHANGE_DIRECTION_LABELS.get(
+                header_state.get("change_direction") or "unchanged",
+                "변화 없음",
+            ),
+        },
+        "component_cards": page_payload.get("component_cards") or [],
+        "positive_points": signal_lists.get("positive_points") or [],
+        "warning_points": signal_lists.get("warning_points") or [],
+        "action_guide": signal_lists.get("action_guide") or "-",
+        "metric_groups": _build_market_metric_groups(page_payload.get("metrics") or {}),
+        "source_rows": [
+            {"label": "기준 시각", "value": page_payload.get("asof") or "-"},
+            {"label": "생성 주기", "value": "1시간"},
+            {"label": "생성 주체", "value": "QuantMarket"},
+            {"label": "표시 주체", "value": "QuantService"},
+        ],
+    }
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -290,6 +396,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.secret_key = settings.session_secret_key
     provider = SnapshotDataProvider(settings)
     user_snapshot_api = UserSnapshotMockApi(settings)
+    market_analysis_api = MarketAnalysisMockApi(settings)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
     billing_service = BillingService(settings, access_store)
@@ -297,6 +404,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api
+    app.config["MARKET_ANALYSIS_API"] = market_analysis_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -488,6 +596,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         except UserSnapshotLoadError:
             return None
 
+    def load_market_bundle_or_error():
+        try:
+            return market_analysis_api.load_bundle(force_refresh=False)
+        except MarketAnalysisLoadError:
+            return None
+
     def render_user_snapshot_error(status_code: int = 503) -> tuple[str, int]:
         status_snapshot = user_snapshot_api.get_status(force_refresh=False)
         return (
@@ -603,6 +717,14 @@ def create_app(settings: Settings | None = None) -> Flask:
             },
             "status_labels": {
                 "healthy": "정상",
+                "warning": "주의",
+                "stale": "업데이트 지연",
+                "empty": "데이터 준비 중",
+                "error": "일시 오류",
+            },
+            "market_status_labels": {
+                "healthy": "정상",
+                "warning": "주의",
                 "stale": "업데이트 지연",
                 "empty": "데이터 준비 중",
                 "error": "일시 오류",
@@ -675,16 +797,60 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.publish_status), 200)
 
+    @app.get("/api/v1/market-analysis/home")
+    def api_market_analysis_home() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_home")), 200)
+
+    @app.get("/api/v1/market-analysis/page")
+    def api_market_analysis_page() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_page")), 200)
+
+    @app.get("/api/v1/market-analysis/summary")
+    def api_market_analysis_summary() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_summary")), 200)
+
+    @app.get("/api/v1/market-analysis/detail")
+    def api_market_analysis_detail() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_detail")), 200)
+
+    @app.get("/api/v1/market-analysis/today-bridge")
+    def api_market_analysis_today_bridge() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_today_bridge")), 200)
+
+    @app.get("/api/v1/market-analysis/manifest")
+    def api_market_analysis_manifest() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("manifest")), 200)
+
     @app.get("/")
     def home() -> Response | tuple[str, int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return render_user_snapshot_error()
+        market_bundle = load_market_bundle_or_error()
         record_page_view("/", bundle)
         performance_by_profile = {
             row.get("service_profile"): row for row in bundle.performance_summary.get("models", [])
         }
         status_snapshot = user_snapshot_api.get_status(force_refresh=False)
+        market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
         return Response(
             render_template(
                 "home.html",
@@ -692,6 +858,8 @@ def create_app(settings: Settings | None = None) -> Flask:
                 bundle=bundle,
                 performance_by_profile=performance_by_profile,
                 status_snapshot=status_snapshot,
+                market_home_payload=(market_bundle.home if market_bundle else {}),
+                market_status_snapshot=market_status_snapshot,
             ),
             mimetype="text/html",
         )
@@ -912,6 +1080,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return render_user_snapshot_error()
+        market_bundle = load_market_bundle_or_error()
         record_page_view("/today", bundle)
         current_market_regime = bundle.recommendation_today.get("current_market_regime")
         report_views = [
@@ -931,6 +1100,8 @@ def create_app(settings: Settings | None = None) -> Flask:
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
+                market_today_payload=(market_bundle.today if market_bundle else {}),
+                market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
             ),
             mimetype="text/html",
         )
@@ -941,12 +1112,18 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return render_user_snapshot_error()
         record_page_view("/changes", bundle)
+        user_status_snapshot = user_snapshot_api.get_status(force_refresh=False)
+        maybe_alert_status(user_status_snapshot)
+        publish_status_payload = None
+        if user_status_snapshot.snapshot_accessible:
+            publish_status_payload = user_snapshot_api.get_publish_status(force_refresh=False)
         return Response(
             render_template(
                 "changes.html",
                 page_title="Changes",
                 bundle=bundle,
-                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                status_snapshot=user_status_snapshot,
+                publish_status_payload=publish_status_payload,
                 change_rows=bundle.recent_changes.get("changes", []),
             ),
             mimetype="text/html",
@@ -981,6 +1158,22 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 performance_rows=performance_rows,
                 auto_balanced_same=auto_balanced_same,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/market-analysis")
+    def market_analysis() -> Response:
+        market_bundle = load_market_bundle_or_error()
+        market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
+        page_view = _build_market_page_view((market_bundle.page if market_bundle else {}))
+        record_page_view("/market-analysis")
+        return Response(
+            render_template(
+                "market_analysis.html",
+                page_title="Market Analysis",
+                market_page_view=page_view,
+                market_status_snapshot=market_status_snapshot,
             ),
             mimetype="text/html",
         )
@@ -1392,6 +1585,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     "age_seconds": status_snapshot.age_seconds,
                     "feedback_submissions_24h": metrics_summary["feedback_submissions"],
                     "billing_enabled": settings.billing_enabled,
+                    "market_analysis_state": market_analysis_api.get_status(
+                        force_refresh=False
+                    ).state,
                 }
             ),
             200,

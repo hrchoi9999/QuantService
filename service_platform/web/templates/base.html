@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
@@ -19,13 +19,12 @@
       </div>
       <nav class="site-nav" aria-label="주요 메뉴">
         <a href="{{ url_for('home') }}">홈</a>
+        <a href="{{ url_for('market_analysis') }}">시장분석</a>
         <a href="{{ url_for('today') }}">오늘의 추천</a>
         <a href="{{ url_for('performance') }}">성과</a>
         <a href="{{ url_for('changes') }}">변경내역</a>
-        <a href="{{ url_for('status') }}">상태</a>
         <a href="{{ url_for('feedback') }}">의견보내기</a>
         {% if current_user %}
-        <a href="{{ url_for('me') }}">내정보</a>
         <a href="{{ url_for('logout') }}">로그아웃</a>
         {% else %}
         <a href="{{ url_for('login', next=request.path) }}">로그인</a>
@@ -61,8 +60,8 @@
         <span>투자 판단을 돕는 스냅샷 기반 브리핑</span>
       </div>
       <div class="footer-links">
-        <a href="{{ url_for('privacy') }}">개인정보 안내</a>
-        <a href="{{ url_for('status') }}">서비스 상태</a>
+        <a href="{{ url_for('market_analysis') }}">시장분석</a>
+        <a href="{{ url_for('changes') }}">변경내역</a>
         <a href="{{ url_for('feedback') }}">의견 보내기</a>
       </div>
     </footer>

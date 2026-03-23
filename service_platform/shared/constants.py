@@ -1,4 +1,4 @@
-﻿"""Project-wide constants for the service platform."""
+"""Project-wide constants for the service platform."""
 
 from pathlib import Path
 
@@ -43,6 +43,9 @@ DEFAULT_PHONE_VERIFICATION_MODE = "mock"
 DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS = 300
 DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED = True
 DEFAULT_USER_SNAPSHOT_DIR = Path(r"D:\Quant\service_platform\web\public_data\current")
+DEFAULT_MARKET_ANALYSIS_DIR = (
+    PROJECT_ROOT / "service_platform" / "web" / "public_data" / "market_analysis" / "current"
+)
 CURRENT_DIRNAME = "current"
 PUBLISHED_DIRNAME = "published"
 TMP_DIRNAME = "tmp"
