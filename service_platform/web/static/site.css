@@ -2544,7 +2544,7 @@ body {
 }
 
 .market-state-bar--full .market-state-track {
-  min-height: 15mm;
+  min-height: 20mm;
 }
 
 .market-state-bar--compact .market-state-track {
@@ -2575,14 +2575,14 @@ body {
 .market-state-heading {
   display: block;
   margin-bottom: 4px;
-  font-size: 0.84rem;
+  font-size: calc(0.84rem + 2px);
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
 .market-state-side strong {
   display: block;
-  font-size: 1.1rem;
+  font-size: calc(1.1rem + 2px);
   font-weight: 800;
   line-height: 1.25;
 }
@@ -2636,7 +2636,7 @@ body {
 
 .market-state-ticks span {
   color: var(--muted-strong);
-  font-size: 0.8rem;
+  font-size: calc(0.8rem + 2px);
   font-weight: 700;
   line-height: 1.35;
   text-align: center;
@@ -2798,7 +2798,7 @@ body {
 }
 
 .market-state-bar--compact .market-state-timestamp {
-  font-size: 0.68rem;
+  font-size: calc(0.68rem + 2px);
   top: 8px;
   right: 10px;
 }
@@ -2847,7 +2847,7 @@ body {
 }
 
 .market-analysis-hero .market-state-bar--full .market-state-track {
-  min-height: 15mm;
+  min-height: 20mm;
   padding: 0;
 }
 
@@ -2882,7 +2882,7 @@ body {
 
 .market-analysis-hero .market-state-marker-heading {
   display: block;
-  font-size: 0.84rem;
+  font-size: calc(0.84rem + 2px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: 0.02em;
@@ -2890,7 +2890,7 @@ body {
 
 .market-analysis-hero .market-state-marker-value {
   display: block;
-  font-size: 1.1rem;
+  font-size: calc(1.1rem + 2px);
   font-weight: 800;
   line-height: 1.1;
 }
@@ -2926,11 +2926,11 @@ body {
 }
 
 .market-state-bar--compact .market-state-marker-heading {
-  font-size: 0.76rem;
+  font-size: calc(0.76rem + 2px);
 }
 
 .market-state-bar--compact .market-state-marker-value {
-  font-size: 0.98rem;
+  font-size: calc(0.98rem + 2px);
 }
 
 
@@ -2946,7 +2946,7 @@ body {
 .market-state-timestamp {
   position: static !important;
   color: #7a7268 !important;
-  font-size: 0.84rem;
+  font-size: calc(0.84rem + 2px);
   font-weight: 700;
   line-height: 1.2;
   text-align: right;
@@ -2956,7 +2956,7 @@ body {
 
 .market-state-bar--full .market-state-track,
 .market-state-bar--compact .market-state-track {
-  min-height: 15mm;
+  min-height: 20mm;
   padding: 0;
 }
 
@@ -2991,7 +2991,7 @@ body {
 
 .market-state-marker-heading {
   display: block;
-  font-size: 0.84rem;
+  font-size: calc(0.84rem + 2px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: 0.02em;
@@ -2999,7 +2999,7 @@ body {
 
 .market-state-marker-value {
   display: block;
-  font-size: 1.1rem;
+  font-size: calc(1.1rem + 2px);
   font-weight: 800;
   line-height: 1.1;
 }
