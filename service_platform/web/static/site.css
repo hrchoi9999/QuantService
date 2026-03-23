@@ -191,7 +191,7 @@ textarea {
 
 .quick-nav-card {
   display: grid;
-  gap: 12px;
+  gap: 6px;
 }
 
 .quick-nav-list {
@@ -343,7 +343,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
 }
 
 .tight-head,
@@ -422,7 +422,7 @@ textarea {
 
 .metric-strip {
   display: grid;
-  gap: 12px;
+  gap: 6px;
   margin-top: 16px;
 }
 
@@ -458,7 +458,7 @@ textarea {
 
 .summary-list {
   display: grid;
-  gap: 12px;
+  gap: 6px;
 }
 
 .summary-row {
@@ -552,7 +552,7 @@ th {
 .stack-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 6px;
   margin-top: 20px;
 }
 
@@ -601,7 +601,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
   padding: 12px 4px 0;
 }
 
@@ -721,7 +721,7 @@ th {
 .theme-preview__row {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 12px;
+  gap: 6px;
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid currentColor;
@@ -898,7 +898,7 @@ th {
 .brand-with-logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 
 .brand-logo {
@@ -1037,7 +1037,7 @@ th {
 .mini-metric-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 6px;
   margin: 16px 0 18px;
 }
 
@@ -1065,7 +1065,7 @@ th {
 
 .performance-quick-list {
   display: grid;
-  gap: 12px;
+  gap: 6px;
 }
 
 .modern-summary-row {
@@ -1150,7 +1150,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
 }
 
 .small-badge {
@@ -1196,7 +1196,7 @@ th {
 .period-metric-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+  gap: 6px;
 }
 
 .period-metric-card {
@@ -1242,7 +1242,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
   margin-bottom: 10px;
 }
 
@@ -1360,7 +1360,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
 }
 
 .card-title-row h2,
@@ -1390,7 +1390,7 @@ th {
 .balanced-segmented-control {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 6px;
 }
 
 .balanced-segmented-control .segment-pill {
@@ -1443,7 +1443,7 @@ th {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
 }
 
 .period-highlight-head strong {
@@ -2326,7 +2326,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
 }
 
 .change-entry-name {
@@ -2351,7 +2351,7 @@ body {
 .sleeve-summary-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 6px;
   margin-bottom: 18px;
 }
 
@@ -2544,7 +2544,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: end;
-  gap: 12px;
+  gap: 6px;
 }
 
 .market-state-summary {
