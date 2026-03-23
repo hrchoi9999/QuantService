@@ -2918,6 +2918,17 @@ body {
 }
 
 /* Unified market state bars across public pages */
+.market-home-panel .market-state-marker-label--stacked,
+.market-bridge-panel .market-state-marker-label--stacked {
+  top: 50%;
+  transform: translate(-50%, -46%);
+}
+
+.market-home-panel .market-state-marker-value,
+.market-bridge-panel .market-state-marker-value {
+  font-size: calc(1.1rem + 4px);
+}
+
 .market-state-bar--full .market-state-marker-label--stacked {
   gap: 8px;
 }
