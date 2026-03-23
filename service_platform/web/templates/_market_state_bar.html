@@ -12,14 +12,10 @@
       <strong>{{ market_state_bar.previous_label }} · {{ market_state_bar.change_direction_label }}</strong>
     </div>
     <div class="market-state-marker" style="left: {{ market_state_bar.position_percent }}%;">
-      {% if variant == "full" %}
       <span class="market-state-marker-label market-state-marker-label--stacked">
         <span class="market-state-marker-heading">상태점수</span>
         <span class="market-state-marker-value">{{ market_state_bar.score_text }}</span>
       </span>
-      {% else %}
-      <span class="market-state-marker-label">{{ market_state_bar.score_text }}</span>
-      {% endif %}
     </div>
   </div>
   <div class="market-state-ticks" aria-hidden="true">
