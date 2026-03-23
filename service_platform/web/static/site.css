@@ -2660,6 +2660,23 @@ body {
   margin-bottom: 10px;
 }
 
+
+.market-state-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.market-state-link:hover .market-state-track,
+.market-state-link:focus-visible .market-state-track {
+  filter: brightness(1.03);
+}
+
+.market-state-link:focus-visible {
+  outline: 2px solid rgba(230, 44, 40, 0.35);
+  outline-offset: 4px;
+}
+
 .market-analysis-hero {
   display: block;
 }

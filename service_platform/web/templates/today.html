@@ -56,7 +56,9 @@
   {% if market_today_payload %}
   <div class="market-bridge-row market-bridge-row--stacked">
     <div class="market-bridge-main">
-      {% include "_market_state_bar.html" %}
+      <a class="market-state-link" href="{{ url_for('market_analysis') }}" aria-label="시장분석 페이지로 이동">
+        {% include "_market_state_bar.html" %}
+      </a>
     </div>
     <div class="market-bridge-side">
       <div class="metric-card public-metric-card">

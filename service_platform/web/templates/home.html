@@ -51,7 +51,9 @@
   {% if market_home_payload %}
   <div class="market-home-summary-grid">
     <div class="market-home-bar-row">
-      {% include "_market_state_bar.html" %}
+      <a class="market-state-link" href="{{ url_for('market_analysis') }}" aria-label="시장분석 페이지로 이동">
+        {% include "_market_state_bar.html" %}
+      </a>
     </div>
     <div class="market-home-summary-main">
       <p class="muted">{{ market_home_payload.get('hero', {}).get('action_hint', '-') }}</p>
