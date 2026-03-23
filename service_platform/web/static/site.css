@@ -2559,13 +2559,7 @@ body {
 
 .market-state-side--left {
   left: 96px;
-  right: 66%;
-  text-align: center;
-}
-
-.market-state-side--right {
-  right: 96px;
-  left: 66%;
+  right: 52%;
   text-align: center;
 }
 
@@ -2735,10 +2729,9 @@ body {
     margin-bottom: 2px;
   }
 
-  .market-state-side--left,
-  .market-state-side--right {
+  .market-state-side--left {
     left: 18px;
-    right: 18px;
+    right: 52%;
     text-align: center;
   }
 

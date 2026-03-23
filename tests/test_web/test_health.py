@@ -1351,7 +1351,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "서비스 상태 요약" in changes_body
     assert "시장 흔들림" in market_body
     assert "시장상태" in market_body
-    assert "이전상태 대비" in market_body
+    assert "이전상태 대비" not in market_body
     assert "긍정 신호" in market_body
     assert "주의 신호" in market_body
     assert summary_response.status_code == 200
