@@ -2644,7 +2644,11 @@ body {
   }
 }
 
-.market-analysis-hero {`r`n  grid-template-columns: 1fr;`r`n}`r`n`r`n.market-analysis-hero .hero-main {
+.market-analysis-hero {
+  display: block;
+}
+
+.market-analysis-hero .hero-main {
   display: flex;
   flex-direction: column;
   gap: 18px;
