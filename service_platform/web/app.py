@@ -357,6 +357,114 @@ def _build_market_metric_groups(metrics: dict[str, Any]) -> list[dict[str, Any]]
     return groups
 
 
+MARKET_STATE_TICK_LABELS = [
+    "강하락",
+    "하락",
+    "약보합",
+    "중립",
+    "강보합",
+    "상승",
+    "강상승",
+]
+
+
+def _coerce_market_score(value: Any) -> float | None:
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _market_score_level(score: float | None) -> str:
+    if score is None:
+        return "중립"
+    if score >= 2.0:
+        return "강상승"
+    if score >= 1.0:
+        return "상승"
+    if score >= 0.3:
+        return "강보합"
+    if score > -0.3:
+        return "중립"
+    if score > -1.0:
+        return "약보합"
+    if score > -2.0:
+        return "하락"
+    return "강하락"
+
+
+def _market_score_percent(score: float | None) -> float:
+    if score is None:
+        return 50.0
+    clamped = max(-3.0, min(3.0, score))
+    return round(((clamped + 3.0) / 6.0) * 100.0, 2)
+
+
+def _build_market_state_bar(
+    *,
+    label: str,
+    score: Any,
+    prev_label: str | None,
+    change_direction: str | None,
+    asof: str | None,
+) -> dict[str, Any]:
+    numeric_score = _coerce_market_score(score)
+    return {
+        "label": label or "데이터 준비 중",
+        "score": numeric_score,
+        "score_text": f"{numeric_score:.2f}" if numeric_score is not None else "-",
+        "previous_label": prev_label or "-",
+        "change_direction_label": MARKET_CHANGE_DIRECTION_LABELS.get(
+            change_direction or "unchanged",
+            "변화 없음",
+        ),
+        "level_label": _market_score_level(numeric_score),
+        "position_percent": _market_score_percent(numeric_score),
+        "asof": asof or "-",
+        "ticks": MARKET_STATE_TICK_LABELS,
+    }
+
+
+def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
+    if bundle is None:
+        return _build_market_state_bar(
+            label="데이터 준비 중",
+            score=None,
+            prev_label="-",
+            change_direction="unchanged",
+            asof=None,
+        )
+
+    page = getattr(bundle, "page", {}) or {}
+    home = getattr(bundle, "home", {}) or {}
+    today = getattr(bundle, "today", {}) or {}
+    header_state = page.get("header_state") or {}
+    home_hero = home.get("hero") or {}
+    today_bridge = today.get("market_bridge") or {}
+
+    return _build_market_state_bar(
+        label=(
+            header_state.get("label")
+            or home_hero.get("state_label")
+            or today_bridge.get("state_label")
+            or "데이터 준비 중"
+        ),
+        score=(
+            header_state.get("score")
+            if header_state.get("score") is not None
+            else home_hero.get("state_score", today_bridge.get("state_score"))
+        ),
+        prev_label=header_state.get("prev_label") or home_hero.get("change_vs_prev") or "-",
+        change_direction=header_state.get("change_direction") or "unchanged",
+        asof=page.get("asof")
+        or home.get("asof")
+        or today.get("asof")
+        or getattr(bundle, "asof", None),
+    )
+
+
 def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     header_state = page_payload.get("header_state") or {}
     signal_lists = page_payload.get("signal_lists") or {}
@@ -374,6 +482,13 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
                 "변화 없음",
             ),
         },
+        "state_bar": _build_market_state_bar(
+            label=header_state.get("label") or "데이터 준비 중",
+            score=header_state.get("score"),
+            prev_label=header_state.get("prev_label") or "-",
+            change_direction=header_state.get("change_direction") or "unchanged",
+            asof=page_payload.get("asof"),
+        ),
         "component_cards": page_payload.get("component_cards") or [],
         "positive_points": signal_lists.get("positive_points") or [],
         "warning_points": signal_lists.get("warning_points") or [],
@@ -859,6 +974,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 performance_by_profile=performance_by_profile,
                 status_snapshot=status_snapshot,
                 market_home_payload=(market_bundle.home if market_bundle else {}),
+                market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_status_snapshot,
             ),
             mimetype="text/html",
@@ -1101,6 +1217,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
                 market_today_payload=(market_bundle.today if market_bundle else {}),
+                market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
             ),
             mimetype="text/html",
@@ -1173,6 +1290,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "market_analysis.html",
                 page_title="Market Analysis",
                 market_page_view=page_view,
+                market_state_bar=page_view.get("state_bar"),
                 market_status_snapshot=market_status_snapshot,
             ),
             mimetype="text/html",

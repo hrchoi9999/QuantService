@@ -10,20 +10,9 @@
     </div>
     <h1>시장분석</h1>
     <p class="lead">{{ market_page_view.summary_line }}</p>
-    <div class="market-header-meta">
-      <div class="metric-card public-metric-card">
-        <span class="label">현재 시장상태</span>
-        <strong>{{ market_page_view.header_state.label }}</strong>
-      </div>
-      <div class="metric-card public-metric-card">
-        <span class="label">상태 점수</span>
-        <strong>{% if market_page_view.header_state.score is not none %}{{ '%.2f'|format(market_page_view.header_state.score) }}{% else %}-{% endif %}</strong>
-      </div>
-      <div class="metric-card public-metric-card">
-        <span class="label">이전 상태 대비</span>
-        <strong>{{ market_page_view.header_state.prev_label }} · {{ market_page_view.header_state.change_direction_label }}</strong>
-      </div>
-    </div>
+    {% set market_state_bar = market_state_bar %}
+    {% set variant = "full" %}
+    {% include "_market_state_bar.html" %}
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">

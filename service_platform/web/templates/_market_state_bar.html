@@ -1,0 +1,24 @@
+<div class="market-state-bar market-state-bar--{{ variant|default('full') }}">
+  <div class="market-state-track">
+    <div class="market-state-overlay">
+      <div class="market-state-summary">
+        <span class="market-state-heading">시장상태</span>
+        <strong>{{ market_state_bar.label }}</strong>
+      </div>
+      <div class="market-state-summary">
+        <span class="market-state-heading">상태점수</span>
+        <strong>{{ market_state_bar.score_text }}</strong>
+      </div>
+      <div class="market-state-summary">
+        <span class="market-state-heading">이전상태 대비</span>
+        <strong>{{ market_state_bar.previous_label }} · {{ market_state_bar.change_direction_label }}</strong>
+      </div>
+    </div>
+    <div class="market-state-marker" style="left: {{ market_state_bar.position_percent }}%;"></div>
+  </div>
+  <div class="market-state-ticks" aria-hidden="true">
+    {% for tick in market_state_bar.ticks %}
+    <span>{{ tick }}</span>
+    {% endfor %}
+  </div>
+</div>

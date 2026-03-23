@@ -51,11 +51,8 @@
   {% if market_home_payload %}
   <div class="market-home-summary-grid">
     <div class="market-home-summary-main">
-      <div class="market-home-state-row">
-        <span class="label">현재 시장상태</span>
-        <strong>{{ market_home_payload.get('hero', {}).get('state_label', '-') }}</strong>
-        <span class="muted">점수 {% if market_home_payload.get('hero', {}).get('state_score') is not none %}{{ '%.2f'|format(market_home_payload.get('hero', {}).get('state_score')) }}{% else %}-{% endif %}</span>
-      </div>
+      {% set variant = "compact" %}
+      {% include "_market_state_bar.html" %}
       <p class="muted">{{ market_home_payload.get('hero', {}).get('action_hint', '-') }}</p>
     </div>
     <div class="market-home-signals">

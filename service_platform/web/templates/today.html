@@ -54,16 +54,22 @@
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
   </div>
   {% if market_today_payload %}
-  <div class="market-bridge-row">
-    <div class="metric-card public-metric-card">
-      <span class="label">추천 대응 톤</span>
-      <strong>{{ market_today_payload.get('market_bridge', {}).get('recommended_tone', '-') }}</strong>
+  <div class="market-bridge-row market-bridge-row--stacked">
+    <div class="market-bridge-main">
+      {% set variant = "compact" %}
+      {% include "_market_state_bar.html" %}
     </div>
-    <div class="metric-card public-metric-card">
-      <span class="label">기준 시각</span>
-      <strong>{{ market_today_payload.get('asof', '-') }}</strong>
+    <div class="market-bridge-side">
+      <div class="metric-card public-metric-card">
+        <span class="label">추천 대응 톤</span>
+        <strong>{{ market_today_payload.get('market_bridge', {}).get('recommended_tone', '-') }}</strong>
+      </div>
+      <div class="metric-card public-metric-card">
+        <span class="label">기준 시각</span>
+        <strong>{{ market_today_payload.get('asof', '-') }}</strong>
+      </div>
+      <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
     </div>
-    <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
   </div>
   {% else %}
   <div class="warning-banner">시장분석 브리지 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
