@@ -2600,12 +2600,13 @@ body {
 .market-state-marker-label--stacked {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 8px;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -46%);
+  left: 8mm;
+  transform: translateY(-46%);
+  text-align: left;
 }
 
 .market-state-marker-heading {
@@ -2741,6 +2742,11 @@ body {
 
   .market-state-marker-value {
     font-size: calc(0.98rem + 2px);
+  }
+
+  .market-state-marker-label--stacked {
+    left: 6mm;
+    transform: translateY(-46%);
   }
 
   .market-state-ticks {
