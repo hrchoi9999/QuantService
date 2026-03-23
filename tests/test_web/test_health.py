@@ -1,5 +1,6 @@
 import importlib
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 from service_platform.billing.lightpay import BILLING_PLAN_PRICES
@@ -118,10 +119,14 @@ def seed_internal_snapshot(
 def seed_user_snapshot(
     target_dir: Path,
     *,
-    generated_at: str = "2026-03-20T17:21:02",
+    generated_at: str | None = None,
     include_reports: bool = True,
 ) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
+    if generated_at is None:
+        generated_at = (
+            datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        )
     models = [
         {
             "user_model_id": "user_1",
@@ -682,6 +687,43 @@ def seed_user_snapshot(
         else []
     )
 
+    period_total_returns = {
+        "3M": 0.1496,
+        "6M": 0.2648,
+        "1Y": 0.3212,
+        "2Y": 0.3984,
+        "3Y": 0.5241,
+        "5Y": 0.7820,
+        "FULL": 1.0840,
+    }
+
+    def apply_total_return(metric: dict) -> None:
+        period = metric.get("period")
+        if period:
+            metric["total_return"] = period_total_returns.get(period, metric.get("cagr"))
+
+    for report in reports:
+        headline = report["performance_summary"]["headline_metrics"]
+        headline["total_return"] = period_total_returns.get(
+            headline.get("primary_period"), headline.get("cagr")
+        )
+        for key in ("trailing_3m", "trailing_6m", "trailing_1y", "reference_5y", "reference_full"):
+            if key in headline:
+                apply_total_return(headline[key])
+        for row in report["performance_summary"]["period_metrics"]:
+            apply_total_return(row)
+
+    for row in performance_models:
+        cards = row["performance_cards"]
+        cards["display_metric"] = "cagr"
+        cards["total_return"] = period_total_returns.get(
+            cards.get("primary_period"), cards.get("cagr")
+        )
+        for period_row in row["period_table"]:
+            apply_total_return(period_row)
+        for metric in row["reference_metrics"].values():
+            apply_total_return(metric)
+
     payloads = {
         "user_model_catalog.json": {"as_of_date": "2026-03-20", "models": models},
         "user_recommendation_report.json": {
@@ -714,6 +756,7 @@ def seed_user_snapshot(
     for filename, payload in payloads.items():
         target_dir.joinpath(filename).write_text(
             json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8-sig",
         )
 
 
@@ -759,6 +802,7 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "1Y headline 비교" in performance_body
     assert "참고 지표" in performance_body
     assert "1Y" in performance_body and "6M" in performance_body and "3M" in performance_body
+    assert "Total Return" in performance_body
     assert "자동전환형" in performance_body
     assert "포트폴리오를 사용하고 있을 수 있습니다." in performance_body
 

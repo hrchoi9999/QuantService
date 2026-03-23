@@ -62,8 +62,8 @@
 
     <div class="metric-strip three-col report-metric-strip full-metric-band">
       <div class="metric-card public-metric-card emphasis full-metric-item">
-        <span class="label">{{ (primary.period if primary else '1Y') }} CAGR</span>
-        <strong>{{ (primary.cagr if primary else none) | fmt_percent }}</strong>
+        <span class="label">{{ (primary.headline_label if primary else 'CAGR') }}</span>
+        <strong>{{ (primary.headline_value if primary else none) | fmt_percent }}</strong>
       </div>
       <div class="metric-card public-metric-card emphasis full-metric-item">
         <span class="label">{{ (primary.period if primary else '1Y') }} MDD</span>
@@ -184,7 +184,7 @@
             <strong>메인 지표</strong>
           </div>
           <div class="period-highlight-values merged-period-values">
-            <span>CAGR {{ report.period_view.primary.cagr | fmt_percent }}</span>
+            <span>{{ report.period_view.primary.headline_label }} {{ report.period_view.primary.headline_value | fmt_percent }}</span>
             <span>MDD {{ report.period_view.primary.mdd | fmt_percent }}</span>
             <span>Sharpe {% if report.period_view.primary.sharpe is not none %}{{ '%.2f'|format(report.period_view.primary.sharpe) }}{% else %}-{% endif %}</span>
           </div>
@@ -195,7 +195,7 @@
           <div class="period-metric-card">
             <span class="badge neutral">{{ item.period }}</span>
             <div class="period-metric-values">
-              <span>CAGR {{ item.cagr | fmt_percent }}</span>
+              <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
               <span>MDD {{ item.mdd | fmt_percent }}</span>
               <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
             </div>
@@ -210,7 +210,7 @@
             <div class="period-metric-card muted-period-card">
               <span class="badge neutral">{{ item.period }}</span>
               <div class="period-metric-values">
-                <span>CAGR {{ item.cagr | fmt_percent }}</span>
+                <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
                 <span>MDD {{ item.mdd | fmt_percent }}</span>
                 <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
               </div>

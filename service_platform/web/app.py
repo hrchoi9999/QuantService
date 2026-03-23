@@ -120,6 +120,7 @@ PERIOD_DISPLAY_ORDER = {
     "FULL": 6,
 }
 REFERENCE_PERIODS = {"5Y", "FULL"}
+RETURN_PERIODS = {"3M", "6M"}
 
 
 def _allocation_bucket(item: dict[str, Any]) -> str:
@@ -194,6 +195,19 @@ def _period_sort_key(item: dict[str, Any]) -> tuple[int, str]:
     return (PERIOD_DISPLAY_ORDER.get(period, 99), period)
 
 
+def _build_period_metric_view(item: dict[str, Any]) -> dict[str, Any]:
+    period = str(item.get("period") or "")
+    use_total_return = period in RETURN_PERIODS
+    headline_label = "Total Return" if use_total_return else "CAGR"
+    headline_value = item.get("total_return") if use_total_return else item.get("cagr")
+    if headline_value is None:
+        headline_value = item.get("cagr")
+    metric_view = dict(item)
+    metric_view["headline_label"] = headline_label
+    metric_view["headline_value"] = headline_value
+    return metric_view
+
+
 def _build_period_view(
     period_rows: list[dict[str, Any]],
     *,
@@ -207,24 +221,32 @@ def _build_period_view(
     )
     if primary is None and ordered_rows:
         primary = ordered_rows[0]
+    if primary is not None:
+        primary = _build_period_metric_view(primary)
     core_rows = [row for row in ordered_rows if row.get("period") not in REFERENCE_PERIODS]
     supporting_rows = [
-        row for row in core_rows if row.get("period") != (primary or {}).get("period")
+        _build_period_metric_view(row)
+        for row in core_rows
+        if row.get("period") != (primary or {}).get("period")
     ]
     reference_rows: list[dict[str, Any]] = []
     ref = reference_metrics or {}
     for key in ("five_year", "full"):
         item = ref.get(key)
         if isinstance(item, dict):
-            reference_rows.append(item)
+            reference_rows.append(_build_period_metric_view(item))
     if not reference_rows:
-        reference_rows = [row for row in ordered_rows if row.get("period") in REFERENCE_PERIODS]
+        reference_rows = [
+            _build_period_metric_view(row)
+            for row in ordered_rows
+            if row.get("period") in REFERENCE_PERIODS
+        ]
     reference_rows = sorted(reference_rows, key=_period_sort_key)
     return {
         "primary": primary,
         "supporting": supporting_rows,
         "reference": reference_rows,
-        "ordered": ordered_rows,
+        "ordered": [_build_period_metric_view(row) for row in ordered_rows],
     }
 
 

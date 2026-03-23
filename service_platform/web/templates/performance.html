@@ -4,7 +4,7 @@
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
     <h1>전략별 성과를 같은 기준으로 비교해 보세요.</h1>
-    <p class="lead">각 전략의 1년 성과를 메인 지표로 두고, 최근 장세를 보여주는 6개월·3개월 지표와 중기 참고 지표를 함께 정리했습니다.</p>
+    <p class="lead">1년 성과는 CAGR 중심으로, 6개월·3개월 지표는 total return 중심으로 보여주고 중기 참고 지표를 함께 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -14,7 +14,7 @@
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
       <li>메인 headline은 1년 기준 CAGR, MDD, Sharpe를 사용합니다.</li>
-      <li>6개월과 3개월 지표는 최근 시장 흐름을 빠르게 읽기 위한 보조 지표입니다.</li>
+      <li>6개월과 3개월 지표는 total return, MDD, Sharpe 중심으로 최근 장세를 빠르게 읽기 위한 보조 지표입니다.</li>
       <li>5년과 FULL은 참고 지표로만 보여주며, 계산은 Quant snapshot 값을 그대로 사용합니다.</li>
     </ul>
   </aside>
@@ -103,7 +103,7 @@
         <strong>메인 지표</strong>
       </div>
       <div class="period-highlight-values merged-period-values">
-        <span>CAGR {{ row.period_view.primary.cagr | fmt_percent }}</span>
+        <span>{{ row.period_view.primary.headline_label }} {{ row.period_view.primary.headline_value | fmt_percent }}</span>
         <span>MDD {{ row.period_view.primary.mdd | fmt_percent }}</span>
         <span>Sharpe {% if row.period_view.primary.sharpe is not none %}{{ '%.2f'|format(row.period_view.primary.sharpe) }}{% else %}-{% endif %}</span>
       </div>
@@ -114,7 +114,7 @@
       <div class="period-metric-card">
         <span class="badge neutral">{{ item.period }}</span>
         <div class="period-metric-values">
-          <span>CAGR {{ item.cagr | fmt_percent }}</span>
+          <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
           <span>MDD {{ item.mdd | fmt_percent }}</span>
           <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
         </div>
@@ -129,7 +129,7 @@
         <div class="period-metric-card muted-period-card">
           <span class="badge neutral">{{ item.period }}</span>
           <div class="period-metric-values">
-            <span>CAGR {{ item.cagr | fmt_percent }}</span>
+            <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
             <span>MDD {{ item.mdd | fmt_percent }}</span>
             <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
           </div>
