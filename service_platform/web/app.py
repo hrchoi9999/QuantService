@@ -495,7 +495,6 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         "action_guide": signal_lists.get("action_guide") or "-",
         "metric_groups": _build_market_metric_groups(page_payload.get("metrics") or {}),
         "source_rows": [
-            {"label": "기준 시각", "value": page_payload.get("asof") or "-"},
             {"label": "생성 주기", "value": "1시간"},
             {"label": "생성 주체", "value": "QuantMarket"},
             {"label": "표시 주체", "value": "QuantService"},

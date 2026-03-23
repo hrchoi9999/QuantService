@@ -64,10 +64,6 @@
         <span class="label">추천 대응 톤</span>
         <strong>{{ market_today_payload.get('market_bridge', {}).get('recommended_tone', '-') }}</strong>
       </div>
-      <div class="metric-card public-metric-card">
-        <span class="label">기준 시각</span>
-        <strong>{{ market_today_payload.get('asof', '-') }}</strong>
-      </div>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
     </div>
   </div>

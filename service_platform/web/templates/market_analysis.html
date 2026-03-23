@@ -5,22 +5,28 @@
   <div class="hero-main">
     <div class="hero-badges">
       <span class="badge accent">{{ market_page_view.header_state.label }}</span>
-      <span class="badge neutral">기준 시각 {{ market_page_view.asof or '-' }}</span>
-      <span class="badge neutral">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
+            <span class="badge neutral">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
     </div>
     <h1>시장분석</h1>
     <p class="lead">{{ market_page_view.summary_line }}</p>
     {% set market_state_bar = market_state_bar %}
     {% set variant = "full" %}
     {% include "_market_state_bar.html" %}
+    <div class="market-analysis-note-strip">
+      <div class="feature-note">
+        <strong>시장 상태와 점수</strong>
+        <p>QuantMarket이 생성한 최신 handoff 데이터를 그대로 사용합니다.</p>
+      </div>
+      <div class="feature-note">
+        <strong>표시 방식</strong>
+        <p>수치는 재계산하지 않고, QuantService는 읽기 쉬운 화면으로만 정리합니다.</p>
+      </div>
+      <div class="feature-note">
+        <strong>업데이트 지연 안내</strong>
+        <p>상태가 지연되면 기존 데이터와 함께 경고 문구를 표시합니다.</p>
+      </div>
+    </div>
   </div>
-  <aside class="hero-side shell-card spotlight-panel">
-    <ul class="message-list compact-list trust-list">
-      <li>시장 상태와 점수는 QuantMarket이 생성한 최신 handoff 데이터를 그대로 사용합니다.</li>
-      <li>수치는 재계산하지 않고, QuantService는 읽기 쉬운 화면으로만 정리합니다.</li>
-      <li>상태가 지연되면 기존 데이터와 함께 경고 문구를 표시합니다.</li>
-    </ul>
-  </aside>
 </section>
 
 {% if market_status_snapshot.state in ['warning', 'stale'] %}

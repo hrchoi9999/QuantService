@@ -50,9 +50,11 @@
   </div>
   {% if market_home_payload %}
   <div class="market-home-summary-grid">
-    <div class="market-home-summary-main">
+    <div class="market-home-bar-row">
       {% set variant = "compact" %}
       {% include "_market_state_bar.html" %}
+    </div>
+    <div class="market-home-summary-main">
       <p class="muted">{{ market_home_payload.get('hero', {}).get('action_hint', '-') }}</p>
     </div>
     <div class="market-home-signals">
