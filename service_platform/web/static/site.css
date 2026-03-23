@@ -2857,13 +2857,15 @@ body {
 }
 
 .market-analysis-hero .market-state-side--left {
-  left: 48px;
-  right: 62%;
+  left: 96px;
+  right: 66%;
+  text-align: center;
 }
 
 .market-analysis-hero .market-state-side--right {
-  right: 48px;
-  left: 62%;
+  right: 96px;
+  left: 66%;
+  text-align: center;
 }
 
 .market-analysis-hero .market-state-marker-label--stacked {
@@ -2903,6 +2905,7 @@ body {
   .market-analysis-hero .market-state-side--right {
     left: 18px;
     right: 18px;
+    text-align: center;
   }
 
   .market-analysis-hero .market-state-marker-heading {
