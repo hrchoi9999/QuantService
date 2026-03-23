@@ -796,15 +796,20 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "(005930)" in today_body
     assert "현금/대기자금 (None)" not in today_body
     assert "성장형 해석" in today_body
+    assert "S3 성격의 성장 sleeve" in today_body
+    assert "5Y" not in today_body
+    assert "FULL" not in today_body
 
     assert performance_response.status_code == 200
     performance_body = performance_response.get_data(as_text=True)
     assert "1Y headline 비교" in performance_body
-    assert "참고 지표" in performance_body
-    assert "1Y" in performance_body and "6M" in performance_body and "3M" in performance_body
+    assert "참고 지표" not in performance_body
+    assert all(period in performance_body for period in ["1Y", "2Y", "3Y", "6M", "3M"])
+    assert "5Y" not in performance_body
+    assert "FULL" not in performance_body
     assert "Total Return" in performance_body
     assert "자동전환형" in performance_body
-    assert "포트폴리오를 사용하고 있을 수 있습니다." in performance_body
+    assert "MDD가 같은 값으로 보일 수 있습니다." in performance_body
 
     assert changes_response.status_code == 200
     changes_body = changes_response.get_data(as_text=True)

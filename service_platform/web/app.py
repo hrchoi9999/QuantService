@@ -112,10 +112,10 @@ def _is_notify_ip_allowed(settings: Settings) -> bool:
 
 PERIOD_DISPLAY_ORDER = {
     "1Y": 0,
-    "6M": 1,
-    "3M": 2,
-    "2Y": 3,
-    "3Y": 4,
+    "2Y": 1,
+    "3Y": 2,
+    "6M": 3,
+    "3M": 4,
     "5Y": 5,
     "FULL": 6,
 }
@@ -230,18 +230,6 @@ def _build_period_view(
         if row.get("period") != (primary or {}).get("period")
     ]
     reference_rows: list[dict[str, Any]] = []
-    ref = reference_metrics or {}
-    for key in ("five_year", "full"):
-        item = ref.get(key)
-        if isinstance(item, dict):
-            reference_rows.append(_build_period_metric_view(item))
-    if not reference_rows:
-        reference_rows = [
-            _build_period_metric_view(row)
-            for row in ordered_rows
-            if row.get("period") in REFERENCE_PERIODS
-        ]
-    reference_rows = sorted(reference_rows, key=_period_sort_key)
     return {
         "primary": primary,
         "supporting": supporting_rows,
@@ -256,8 +244,8 @@ def _build_growth_note(service_profile: str, market_regime: str | None) -> str |
     if market_regime not in {"neutral", "risk_on", "bull"}:
         return None
     return (
-        "중립 또는 위험선호 구간에서는 최근 1년 성과가 더 강한 성장 주식 sleeve가"
-        " 전면에 배치될 수 있습니다."
+        "중립 또는 위험선호 구간에서는 최근 1년 CAGR 우위가 있는 성장 주식 모델이 선택되며, "
+        "현재 기준으로는 S3 성격의 성장 sleeve가 전면에 배치되는 것이 정상입니다."
     )
 
 

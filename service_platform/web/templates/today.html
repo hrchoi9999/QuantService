@@ -202,24 +202,7 @@
           </div>
           {% endfor %}
         </div>
-        {% if report.period_view.reference %}
-        <div class="period-reference-panel top-margin-sm">
-          <span class="label">참고 지표</span>
-          <div class="period-metric-grid compact-period-grid reference-period-grid">
-            {% for item in report.period_view.reference %}
-            <div class="period-metric-card muted-period-card">
-              <span class="badge neutral">{{ item.period }}</span>
-              <div class="period-metric-values">
-                <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
-                <span>MDD {{ item.mdd | fmt_percent }}</span>
-                <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        {% endif %}
-      </article>
+              </article>
 
       <article class="shell-card content-card strategy-change-panel">
         <div class="section-heading tight-head">
