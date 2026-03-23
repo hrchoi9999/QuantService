@@ -2543,12 +2543,25 @@ body {
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
   gap: 12px;
 }
 
 .market-state-summary {
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.market-state-summary--left {
+  text-align: left;
+}
+
+.market-state-summary--center {
+  text-align: center;
+}
+
+.market-state-summary--right {
+  text-align: right;
 }
 
 .market-state-heading {
@@ -2584,6 +2597,20 @@ body {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   transform: translateX(-50%);
   z-index: 1;
+}
+
+.market-state-marker-label {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  padding: 2px 6px;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
 }
 
 .market-state-ticks {
@@ -2711,17 +2738,22 @@ body {
 }
 
 .market-state-bar--full .market-state-overlay {
-  padding-top: 16px;
+  padding-top: 12px;
 }
 
 .market-state-bar--compact .market-state-overlay {
-  padding-top: 14px;
+  padding-top: 10px;
 }
 
 .market-state-bar--compact .market-state-timestamp {
   font-size: 0.68rem;
   top: 8px;
   right: 10px;
+}
+
+.market-state-bar--compact .market-state-marker-label {
+  font-size: 0.68rem;
+  top: 4px;
 }
 
 @media (max-width: 900px) {
