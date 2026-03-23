@@ -2511,12 +2511,24 @@ body {
 .market-state-bar {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+}
+
+.market-state-bar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.market-state-bar-spacer {
+  flex: 1 1 auto;
 }
 
 .market-state-track {
   position: relative;
   overflow: hidden;
+  width: 100%;
   border: none;
   background: linear-gradient(
     90deg,
@@ -2530,34 +2542,33 @@ body {
 
 .market-state-bar--full .market-state-track {
   min-height: 15mm;
-  padding: 14px 18px;
+  padding: 0 18px;
 }
 
 .market-state-bar--compact .market-state-track {
   min-height: 10mm;
-  padding: 9px 12px;
+  padding: 0 12px;
 }
 
 .market-state-overlay {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: end;
-  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 3px;
+  min-height: inherit;
+  height: 100%;
 }
 
 .market-state-summary {
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+  align-self: center;
 }
 
 .market-state-summary--left {
   text-align: left;
-}
-
-.market-state-summary--center {
-  text-align: center;
 }
 
 .market-state-summary--right {
@@ -2601,9 +2612,9 @@ body {
 
 .market-state-marker-label {
   position: absolute;
-  top: 6px;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -145%);
   padding: 2px 6px;
   color: #fff;
   font-size: 0.78rem;
@@ -2611,6 +2622,18 @@ body {
   line-height: 1;
   white-space: nowrap;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.market-state-timestamp {
+  color: var(--accent-strong);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.market-state-bar--compact .market-state-timestamp {
+  font-size: 0.72rem;
 }
 
 .market-state-ticks {
@@ -2629,6 +2652,38 @@ body {
 
 .market-state-bar--compact .market-state-ticks span {
   font-size: 0.7rem;
+}
+
+@media (max-width: 900px) {
+  .market-state-bar-head {
+    justify-content: flex-end;
+  }
+
+  .market-state-overlay {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .market-state-summary strong {
+    font-size: 1rem;
+  }
+
+  .market-state-summary--right {
+    text-align: left;
+  }
+
+  .market-state-bar--compact .market-state-summary strong {
+    font-size: 0.88rem;
+  }
+
+  .market-state-marker-label {
+    transform: translate(-50%, -155%);
+  }
+
+  .market-state-ticks {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .market-bridge-row--stacked {
