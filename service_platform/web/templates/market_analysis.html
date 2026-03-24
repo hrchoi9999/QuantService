@@ -10,7 +10,7 @@
     <h1>시장분석</h1>
     <p class="lead">{{ market_page_view.summary_line }}</p>
     {% if market_page_view.ai_briefs.enabled %}
-    <section class="market-ai-briefs" aria-label="시장분석 내용">
+    <section class="market-ai-briefs" aria-label="시장 브리핑 참고">
       <div class="section-heading tight-head">
         <div>
           <h2>{{ market_page_view.ai_briefs.title }}</h2>
@@ -124,8 +124,8 @@
 </section>
 
 <section class="panel shell-card market-action-panel">
-  <h2>대응 가이드</h2>
-  <p class="lead compact-lead">{{ market_page_view.action_guide }}</p>
+  <h2>관찰 메모</h2>
+  <p class="lead compact-lead">{{ market_page_view.observation_note }}</p>
 </section>
 
 <section class="market-metric-groups">
@@ -169,4 +169,18 @@
     {% endfor %}
   </div>
 </section>
+
+{% if market_page_view.notice_block.body %}
+<section class="disclosure-box market-notice-block">
+  <strong>{{ market_page_view.notice_block.title }}</strong>
+  <ul class="message-list compact-list clean-list">
+    {% for item in market_page_view.notice_block.body %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+  {% if market_page_view.notice_block.performance_link_note %}
+  <p class="muted small">{{ market_page_view.notice_block.performance_link_note }}</p>
+  {% endif %}
+</section>
+{% endif %}
 {% endblock %}

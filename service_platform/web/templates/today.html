@@ -54,7 +54,7 @@
   <div class="section-heading tight-head market-panel-head">
     <div>
       <h2>시장분석 브리지</h2>
-      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('bridge_text', '시장분석 데이터가 준비되면 오늘의 모델 정보와 연결된 해석이 표시됩니다.') }}</p>
+      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장분석 데이터가 준비되면 오늘의 모델 정보와 연결된 해석이 표시됩니다.') }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
   </div>
@@ -67,11 +67,21 @@
     </div>
     <div class="market-bridge-side">
       <div class="metric-card public-metric-card">
-        <span class="label">참고 대응 톤</span>
-        <strong>{{ market_today_payload.get('market_bridge', {}).get('recommended_tone', '-') }}</strong>
+        <span class="label">시장 분위기</span>
+        <strong>{{ market_today_payload.get('market_bridge', {}).get('market_tone', '-') }}</strong>
       </div>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
     </div>
+    {% if market_today_payload.get('notice_block', {}).get('body') %}
+    <div class="disclosure-box compact-market-notice">
+      <strong>{{ market_today_payload.get('notice_block', {}).get('title', '안내') }}</strong>
+      <ul class="message-list compact-list clean-list">
+        {% for item in market_today_payload.get('notice_block', {}).get('body', [])[:2] %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
   {% else %}
   <div class="warning-banner">시장분석 브리지 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>

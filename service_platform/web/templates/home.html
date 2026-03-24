@@ -60,7 +60,7 @@
       </a>
     </div>
     <div class="market-home-summary-main">
-      <p class="muted">{{ market_home_payload.get('hero', {}).get('action_hint', '-') }}</p>
+      <p class="muted">{{ market_home_payload.get('hero', {}).get('reference_note', '-') }}</p>
     </div>
     <div class="market-home-signals">
       <span class="label">핵심 신호</span>
@@ -73,6 +73,16 @@
     <div class="market-home-link-block">
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
     </div>
+    {% if market_home_payload.get('notice_block', {}).get('body') %}
+    <div class="disclosure-box compact-market-notice">
+      <strong>{{ market_home_payload.get('notice_block', {}).get('title', '안내') }}</strong>
+      <ul class="message-list compact-list clean-list">
+        {% for item in market_home_payload.get('notice_block', {}).get('body', [])[:2] %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
   {% else %}
   <div class="warning-banner">시장분석 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>

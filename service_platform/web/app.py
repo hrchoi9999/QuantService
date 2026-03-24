@@ -527,7 +527,8 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = "AI의 시장분석"
+    title = str(ai_payload.get("title") or "시장 브리핑 참고").strip() or "시장 브리핑 참고"
+    compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
     for provider in providers:
@@ -540,23 +541,18 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
             continue
         provider_name = provider.get("provider") or "unknown"
         provider_label = provider.get("label") or "AI 요약"
-        title_suffix = ""
-        full_title = str(provider_label)
+        theme_label = str(provider.get("theme_label") or "").strip()
+        full_title = theme_label or str(provider_label)
         sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"
-            title_suffix = "가 읽어주는 시장분위기"
-            full_title = "Gemini 가 읽어주는 시장분위기"
             sort_order = 0
         elif provider_name == "chatgpt":
-            title_suffix = "가 정리한 대응 전략"
-            full_title = "ChatGPT가 정리한 대응 전략"
             sort_order = 1
         cards.append(
             {
                 "provider": provider_name,
                 "label": provider_label,
-                "title_suffix": title_suffix,
                 "full_title": full_title,
                 "sort_order": sort_order,
                 "source": provider.get("source") or "",
@@ -571,13 +567,15 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         "title": title,
         "cards": cards,
         "show_placeholder": show_placeholder,
-        "placeholder": "AI의 시장분석 준비 중",
+        "placeholder": "시장 브리핑 참고 준비 중",
+        "compliance_meta": compliance_meta,
     }
 
 
 def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     header_state = page_payload.get("header_state") or {}
     signal_lists = page_payload.get("signal_lists") or {}
+    notice_block = page_payload.get("notice_block") or {}
     return {
         "asof": page_payload.get("asof"),
         "summary_line": page_payload.get("summary_line")
@@ -603,8 +601,16 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         "component_cards": page_payload.get("component_cards") or [],
         "positive_points": signal_lists.get("positive_points") or [],
         "warning_points": signal_lists.get("warning_points") or [],
-        "action_guide": signal_lists.get("action_guide") or "-",
+        "observation_note": signal_lists.get("observation_note") or "-",
         "metric_groups": _build_market_metric_groups(page_payload.get("metrics") or {}),
+        "notice_block": {
+            "title": notice_block.get("title") or "안내",
+            "body": [
+                str(line).strip() for line in (notice_block.get("body") or []) if str(line).strip()
+            ],
+            "performance_link_note": str(notice_block.get("performance_link_note") or "").strip(),
+        },
+        "compliance_meta": page_payload.get("compliance_meta") or {},
         "source_rows": [
             {"label": "업데이트 주기", "value": "1시간"},
             {"label": "데이터 기준", "value": "국내 주요 시장 지표"},

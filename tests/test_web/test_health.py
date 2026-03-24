@@ -27,6 +27,15 @@ COMPLIANCE_DISCLAIMER = (
     "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 "
     "특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다."
 )
+MARKET_REFERENCE_NOTE = (
+    "지수 흐름은 비교적 우호적이지만 내부 종목 확산과 위험 지표를 함께 " "살펴볼 구간입니다."
+)
+MARKET_NOTICE_BODY = [
+    "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+    ("특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 " "개별 자문이 아닙니다."),
+    ("투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 " "발생할 수 있습니다."),
+]
+MARKET_NOTICE_PERFORMANCE_NOTE = "시장상태 정보는 모델 해석을 돕기 위한 참고자료입니다."
 
 
 def build_settings(
@@ -811,6 +820,17 @@ def seed_market_analysis_snapshot(
     ai_providers: list[dict] | None = None,
 ) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
+    compliance_meta = {
+        "public_same_for_all_users": True,
+        "non_personalized": True,
+        "advisory_action_signal": False,
+        "intended_use": "market_briefing_reference",
+    }
+    notice_block = {
+        "title": "주의사항",
+        "body": MARKET_NOTICE_BODY,
+        "performance_link_note": MARKET_NOTICE_PERFORMANCE_NOTE,
+    }
     manifest = {
         "market": "KR",
         "asof": asof,
@@ -822,6 +842,8 @@ def seed_market_analysis_snapshot(
             "consumer_warning_after_minutes": 90,
             "consumer_stale_after_minutes": 180,
         },
+        "compliance_meta": compliance_meta,
+        "notice_block": notice_block,
     }
     home = {
         "market": "KR",
@@ -831,9 +853,11 @@ def seed_market_analysis_snapshot(
             "state_score": 0.2907,
             "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
             "change_vs_prev": "중립 -> 중립",
-            "action_hint": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+            "reference_note": MARKET_REFERENCE_NOTE,
         },
         "top_signals": ["20일선 위 종목 비율 낮음", "변동성 확대"],
+        "compliance_meta": compliance_meta,
+        "notice_block": notice_block,
     }
     today = {
         "market": "KR",
@@ -843,14 +867,19 @@ def seed_market_analysis_snapshot(
             "asof": asof,
             "state_label": state_label,
             "state_score": 0.2907,
-            "recommended_tone": "균형 대응",
-            "bridge_text": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+            "market_tone": "중립 해석 환경",
+            "reference_text": MARKET_REFERENCE_NOTE,
+            "compliance_meta": compliance_meta,
+            "notice_block": notice_block,
         },
+        "compliance_meta": compliance_meta,
+        "notice_block": notice_block,
     }
     ai_briefs = {
         "enabled": ai_briefs_enabled,
-        "title": "시장분석 내용",
+        "title": "시장 브리핑 참고",
         "layout": "two-column",
+        "compliance_meta": compliance_meta,
         "providers": (
             ai_providers
             if ai_providers is not None
@@ -858,6 +887,7 @@ def seed_market_analysis_snapshot(
                 {
                     "provider": "chatgpt",
                     "label": "ChatGPT",
+                    "theme_label": "시장 해석 참고",
                     "enabled": True,
                     "generated_at": asof,
                     "source": "openai:gpt-4.1-mini",
@@ -870,7 +900,8 @@ def seed_market_analysis_snapshot(
                 },
                 {
                     "provider": "gemini",
-                    "label": "Gemini",
+                    "label": "제미나이",
+                    "theme_label": "시장 분위기",
                     "enabled": True,
                     "generated_at": asof,
                     "source": "gemini:gemini-2.5-flash",
@@ -923,7 +954,7 @@ def seed_market_analysis_snapshot(
         "signal_lists": {
             "positive_points": ["60일선 위 종목 비율 양호", "코스피 1개월 상승 흐름"],
             "warning_points": ["20일선 위 종목 비율 낮음", "변동성 확대"],
-            "action_guide": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
+            "observation_note": MARKET_REFERENCE_NOTE,
         },
         "metrics": {
             "kospi_20d_ret": 0.0388,
@@ -941,6 +972,8 @@ def seed_market_analysis_snapshot(
             "rate_ktb3y_20d_chg": -0.3340,
         },
         "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
+        "compliance_meta": compliance_meta,
+        "notice_block": notice_block,
     }
     api_summary = {
         "api_version": "v1",
@@ -956,7 +989,9 @@ def seed_market_analysis_snapshot(
             "summary_line": home["hero"]["summary_line"],
             "change_vs_prev": "중립 -> 중립",
             "top_signals": home["top_signals"],
-            "action_hint": home["hero"]["action_hint"],
+            "reference_note": home["hero"]["reference_note"],
+            "compliance_meta": compliance_meta,
+            "notice_block": notice_block,
         },
     }
     api_detail = {
@@ -980,7 +1015,9 @@ def seed_market_analysis_snapshot(
             "metrics": page["metrics"],
             "positive_points": page["signal_lists"]["positive_points"],
             "warning_points": page["signal_lists"]["warning_points"],
-            "action_guide": page["signal_lists"]["action_guide"],
+            "observation_note": page["signal_lists"]["observation_note"],
+            "compliance_meta": compliance_meta,
+            "notice_block": notice_block,
         },
     }
     api_today = {
@@ -1469,11 +1506,11 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "공개 규칙 기반 모델 정보" in home_body
     assert "market-state-bar" in home_body
     assert "강상승" in home_body
-    assert "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다." in today_body
+    assert MARKET_REFERENCE_NOTE in today_body
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 흔들림" in market_body
-    assert "AI의 시장분석" in market_body
+    assert "시장 브리핑 참고" in market_body
     assert "ChatGPT" in market_body
     assert "Gemini" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
@@ -1534,6 +1571,7 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
             {
                 "provider": "chatgpt",
                 "label": "ChatGPT",
+                "theme_label": "시장 해석 참고",
                 "enabled": True,
                 "generated_at": "2026-03-23T19:00:00+09:00",
                 "source": "openai:gpt-4.1-mini",
@@ -1560,8 +1598,8 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "AI의 시장분석" in body
-    assert "ChatGPT가 정리한 대응 전략" in body
+    assert "시장 브리핑 참고" in body
+    assert "시장 해석 참고" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
@@ -1602,6 +1640,7 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
             {
                 "provider": "chatgpt",
                 "label": "ChatGPT",
+                "theme_label": "시장 해석 참고",
                 "enabled": False,
                 "generated_at": None,
                 "source": "openai:gpt-4.1-mini",
@@ -1624,8 +1663,8 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "AI의 시장분석" in body
-    assert "AI의 시장분석 준비 중" in body
+    assert "시장 브리핑 참고" in body
+    assert "시장 브리핑 참고 준비 중" in body
 
 
 def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:
