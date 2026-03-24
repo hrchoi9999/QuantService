@@ -490,10 +490,14 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         ][:4]
         if not summary_lines:
             continue
+        provider_name = provider.get("provider") or "unknown"
+        provider_label = provider.get("label") or "AI 요약"
+        if provider_name == "gemini":
+            provider_label = "Gemini"
         cards.append(
             {
-                "provider": provider.get("provider") or "unknown",
-                "label": provider.get("label") or "AI 요약",
+                "provider": provider_name,
+                "label": provider_label,
                 "source": provider.get("source") or "",
                 "generated_at": provider.get("generated_at"),
                 "summary_lines": summary_lines,

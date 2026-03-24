@@ -830,7 +830,7 @@ def seed_market_analysis_snapshot(
                 },
                 {
                     "provider": "gemini",
-                    "label": "제미나이",
+                    "label": "Gemini",
                     "enabled": True,
                     "generated_at": asof,
                     "source": "gemini:gemini-2.5-flash",
@@ -1393,7 +1393,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "시장 흔들림" in market_body
     assert "시장분석 내용" in market_body
     assert "ChatGPT" in market_body
-    assert "제미나이" in market_body
+    assert "Gemini" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
     assert "시장상태" in market_body
     assert "이전상태 대비" not in market_body
@@ -1461,7 +1461,7 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
             },
             {
                 "provider": "gemini",
-                "label": "제미나이",
+                "label": "Gemini",
                 "enabled": False,
                 "generated_at": None,
                 "source": "gemini:gemini-2.5-flash",
@@ -1479,7 +1479,7 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     assert "시장분석 내용" in body
     assert "ChatGPT" in body
     assert "한 줄 요약 1" in body
-    assert "제미나이" not in body
+    assert "Gemini" not in body
 
 
 def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_path: Path) -> None:
@@ -1499,7 +1499,7 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
             },
             {
                 "provider": "gemini",
-                "label": "제미나이",
+                "label": "Gemini",
                 "enabled": False,
                 "generated_at": None,
                 "source": "gemini:gemini-2.5-flash",
