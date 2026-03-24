@@ -73,13 +73,24 @@ BILLING_MESSAGES = {
 
 def _format_datetime(value: str | None) -> str:
     if not value:
-        return "Unavailable"
+        return "-"
     normalized = value.replace("Z", "+00:00")
     try:
         parsed = datetime.fromisoformat(normalized)
     except ValueError:
         return value
-    return parsed.strftime("%Y-%m-%d %H:%M UTC")
+    return parsed.strftime("%Y-%m-%d %H:%M KST")
+
+
+def _format_kst_datetime(value: str | None) -> str:
+    if not value:
+        return "-"
+    normalized = value.replace("Z", "+00:00")
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return value
+    return parsed.strftime("%Y-%m-%d %H:%M KST")
 
 
 def _format_percent(value: float | int | None) -> str:
@@ -423,6 +434,7 @@ def _build_market_state_bar(
         "level_label": _market_score_level(numeric_score),
         "position_percent": _market_score_percent(numeric_score),
         "asof": asof or "-",
+        "asof_display": _format_kst_datetime(asof),
         "ticks": MARKET_STATE_TICK_LABELS,
     }
 
