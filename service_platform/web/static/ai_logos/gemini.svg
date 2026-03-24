@@ -1,12 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-hidden="true">
-  <rect width="64" height="64" rx="16" fill="#F4F0FF"/>
   <defs>
-    <linearGradient id="gem-grad" x1="12" y1="52" x2="52" y2="12" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2563EB"/>
-      <stop offset="0.5" stop-color="#7C3AED"/>
-      <stop offset="1" stop-color="#EC4899"/>
+    <linearGradient id="gemGlow" x1="14" y1="54" x2="50" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1A73E8"/>
+      <stop offset="0.42" stop-color="#7E57FF"/>
+      <stop offset="1" stop-color="#FF4D8D"/>
     </linearGradient>
+    <radialGradient id="gemBg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 16) rotate(41) scale(58 58)">
+      <stop offset="0" stop-color="#F7F4FF"/>
+      <stop offset="1" stop-color="#F0EBFF"/>
+    </radialGradient>
   </defs>
-  <path d="M32 10 L36.8 25.2 L52 30 L36.8 34.8 L32 50 L27.2 34.8 L12 30 L27.2 25.2 Z" fill="url(#gem-grad)"/>
-  <path d="M47 11 L48.8 16.2 L54 18 L48.8 19.8 L47 25 L45.2 19.8 L40 18 L45.2 16.2 Z" fill="url(#gem-grad)" opacity="0.9"/>
+  <rect width="64" height="64" rx="14" fill="url(#gemBg)"/>
+  <path d="M32 8.5 37.9 24.1 53.5 30 37.9 35.9 32 51.5 26.1 35.9 10.5 30 26.1 24.1Z" fill="url(#gemGlow)"/>
+  <path d="M47.5 12.5 49.4 17.6 54.5 19.5 49.4 21.4 47.5 26.5 45.6 21.4 40.5 19.5 45.6 17.6Z" fill="url(#gemGlow)" opacity="0.95"/>
 </svg>

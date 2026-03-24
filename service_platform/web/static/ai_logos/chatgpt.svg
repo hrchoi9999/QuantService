@@ -1,12 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-hidden="true">
-  <rect width="64" height="64" rx="16" fill="#0F172A"/>
-  <g stroke="#ffffff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(32 32)">
-    <path d="M0 -18 C8 -18 14 -12 14 -4 C14 2 10 7 5 9"/>
-    <path d="M15.6 -9 C22.5 -5 25 4 21 11 C18 16 12 19 6 18" transform="rotate(60)"/>
-    <path d="M15.6 -9 C22.5 -5 25 4 21 11 C18 16 12 19 6 18" transform="rotate(120)"/>
-    <path d="M15.6 -9 C22.5 -5 25 4 21 11 C18 16 12 19 6 18" transform="rotate(180)"/>
-    <path d="M15.6 -9 C22.5 -5 25 4 21 11 C18 16 12 19 6 18" transform="rotate(240)"/>
-    <path d="M15.6 -9 C22.5 -5 25 4 21 11 C18 16 12 19 6 18" transform="rotate(300)"/>
+  <rect width="64" height="64" rx="14" fill="#111111"/>
+  <g transform="translate(32 32)">
+    <g fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(0)"/>
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(60)"/>
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(120)"/>
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(180)"/>
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(240)"/>
+      <path d="M0 -18c5.8 0 10.5 4.7 10.5 10.5S5.8 3 0 3c-1.8 0-3.5-.4-5-1.2" transform="rotate(300)"/>
+    </g>
+    <circle cx="0" cy="0" r="5.4" fill="#111111" stroke="#FFFFFF" stroke-width="3.2"/>
   </g>
-  <circle cx="32" cy="32" r="7" fill="#0F172A" stroke="#ffffff" stroke-width="4"/>
 </svg>
