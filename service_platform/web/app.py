@@ -492,17 +492,27 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
             continue
         provider_name = provider.get("provider") or "unknown"
         provider_label = provider.get("label") or "AI 요약"
+        title_suffix = ""
+        sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"
+            title_suffix = "시장 분위기"
+            sort_order = 0
+        elif provider_name == "chatgpt":
+            title_suffix = "대응 전략"
+            sort_order = 1
         cards.append(
             {
                 "provider": provider_name,
                 "label": provider_label,
+                "title_suffix": title_suffix,
+                "sort_order": sort_order,
                 "source": provider.get("source") or "",
                 "generated_at": provider.get("generated_at"),
                 "summary_lines": summary_lines,
             }
         )
+    cards.sort(key=lambda item: (item.get("sort_order", 99), item.get("label", "")))
     show_placeholder = enabled and not cards
     return {
         "enabled": enabled,

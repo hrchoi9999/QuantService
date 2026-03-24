@@ -26,7 +26,7 @@
               src="{{ url_for('static', filename='ai_logos/' + ('gemini.svg' if card.provider == 'gemini' else 'chatgpt.svg')) }}"
               alt="{{ card.label }} 로고"
             >
-            <h3>{{ card.label }}</h3>
+            <h3>{{ card.label }}{% if card.title_suffix %} {{ card.title_suffix }}{% endif %}</h3>
           </div>
           <div class="market-ai-brief-copy">
             {% for line in card.summary_lines %}
