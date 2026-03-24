@@ -20,7 +20,14 @@
       <div class="market-ai-brief-grid">
         {% for card in market_page_view.ai_briefs.cards %}
         <article class="panel shell-card market-ai-brief-card">
-          <h3>{{ card.label }}</h3>
+          <div class="market-ai-brief-header">
+            <img
+              class="market-ai-brief-logo"
+              src="{{ url_for('static', filename='ai_logos/' + ('gemini.svg' if card.provider == 'gemini' else 'chatgpt.svg')) }}"
+              alt="{{ card.label }} 로고"
+            >
+            <h3>{{ card.label }}</h3>
+          </div>
           <div class="market-ai-brief-copy">
             {% for line in card.summary_lines %}
             <p>{{ line }}</p>

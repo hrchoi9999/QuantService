@@ -1394,6 +1394,8 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "시장분석 내용" in market_body
     assert "ChatGPT" in market_body
     assert "Gemini" in market_body
+    assert "ai_logos/chatgpt.svg" in market_body
+    assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
     assert "시장상태" in market_body
     assert "이전상태 대비" not in market_body
