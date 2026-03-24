@@ -411,7 +411,7 @@ class AccessStore:
         return self.get_user_by_id(row["id"])
 
     def get_user_profile(self, user_id: int) -> dict[str, Any]:
-        self._upsert_user_profile(user_id, verified=True)
+        self._ensure_user_profile(user_id)
         with self._connect() as connection:
             row = connection.execute(
                 """
@@ -556,7 +556,7 @@ class AccessStore:
                     "auth_provider": profile.get("auth_provider", "local"),
                     "phone_number": profile.get("phone_number"),
                     "phone_verification_status": profile.get(
-                        "phone_verification_status", "verified"
+                        "phone_verification_status", "unverified"
                     ),
                 }
             )
@@ -1182,6 +1182,33 @@ class AccessStore:
                 is_active=True,
                 created_at=now,
                 last_login_at=None,
+            )
+
+    def _ensure_user_profile(self, user_id: int) -> None:
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT user_id FROM user_profiles WHERE user_id = ?",
+                (user_id,),
+            ).fetchone()
+            if row is not None:
+                return
+            now = self._now_iso()
+            connection.execute(
+                """
+                INSERT INTO user_profiles(
+                    user_id,
+                    auth_provider,
+                    display_name,
+                    phone_number,
+                    phone_verification_status,
+                    phone_verified_at,
+                    external_subject,
+                    created_at,
+                    updated_at
+                )
+                VALUES (?, 'local', NULL, NULL, 'unverified', NULL, NULL, ?, ?)
+                """,
+                (user_id, now, now),
             )
 
     def _upsert_user_profile(

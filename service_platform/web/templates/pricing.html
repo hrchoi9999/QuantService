@@ -31,6 +31,7 @@
     {% if billing_enabled and current_user %}
     <form class="feedback-form" method="post" action="{{ url_for('billing_checkout') }}">
       <input type="hidden" name="plan_id" value="{{ plan.plan_id }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <label>
         <span class="label">결제수단</span>
         <select name="pay_method">

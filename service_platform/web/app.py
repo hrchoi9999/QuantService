@@ -5,7 +5,6 @@ import secrets
 import shutil
 from datetime import datetime, timedelta
 from typing import Any
-from urllib.parse import urlencode
 
 from flask import (
     Flask,
@@ -677,36 +676,29 @@ def create_app(settings: Settings | None = None) -> Flask:
     def clear_phone_verification() -> None:
         session.pop("phone_verification", None)
 
-    def current_access_key() -> str:
-        value = request.values.get("access_key") or request.args.get("access_key") or ""
-        return value.strip()
-
-    def admin_url(endpoint: str, access_key: str) -> str:
-        if access_key:
-            return f"{url_for(endpoint)}?{urlencode({'access_key': access_key})}"
+    def admin_url(endpoint: str) -> str:
         return url_for(endpoint)
 
-    def build_admin_links(access_key: str) -> dict[str, str]:
+    def build_admin_links() -> dict[str, str]:
         links = {
-            "dashboard": admin_url("admin_dashboard", access_key),
-            "users": admin_url("admin_users", access_key),
-            "grant": admin_url("admin_grant", access_key),
-            "plans": admin_url("admin_plans_entitlements", access_key),
-            "publish": admin_url("admin_publish_snapshots", access_key),
-            "feedback": admin_url("admin_feedback", access_key),
-            "metrics": admin_url("admin_metrics", access_key),
-            "audit": admin_url("admin_audit", access_key),
+            "dashboard": admin_url("admin_dashboard"),
+            "users": admin_url("admin_users"),
+            "grant": admin_url("admin_grant"),
+            "plans": admin_url("admin_plans_entitlements"),
+            "publish": admin_url("admin_publish_snapshots"),
+            "feedback": admin_url("admin_feedback"),
+            "metrics": admin_url("admin_metrics"),
+            "audit": admin_url("admin_audit"),
         }
         if settings.billing_enabled:
-            links["billing"] = admin_url("admin_billing", access_key)
+            links["billing"] = admin_url("admin_billing")
         return links
 
-    def require_admin_access() -> tuple[AccessContext, str]:
+    def require_admin_access() -> AccessContext:
         access_context = current_access_context()
-        access_key = current_access_key()
         if not require_admin(request, settings, access_context):
             abort(404)
-        return access_context, access_key
+        return access_context
 
     def audit_admin(
         *,
@@ -1092,6 +1084,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 mimetype="text/html",
             )
 
+        require_csrf()
         try:
             user = access_store.authenticate_local(
                 email=request.form.get("email", ""),
@@ -1129,6 +1122,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 mimetype="text/html",
             )
 
+        require_csrf()
         action = request.form.get("action", "register")
         next_url = _safe_next_url(request.form.get("next"))
         if action == "request_code":
@@ -1216,6 +1210,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.post("/billing/checkout")
     def billing_checkout() -> Response:
         ensure_billing_enabled()
+        require_csrf()
         access_context = current_access_context()
         if not access_context.authenticated or access_context.user is None:
             return redirect(url_for("login", next=url_for("pricing"), status="invalid"))
@@ -1398,6 +1393,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.post("/feedback")
     def submit_feedback() -> Response:
+        require_csrf()
         submission = build_feedback_submission(request)
         try:
             feedback_store.submit_feedback(submission)
@@ -1427,9 +1423,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     def track_click() -> Response:
         ticker = request.args.get("ticker", "")
         model_id = request.args.get("model_id", "")
-        target = request.args.get("target") or _ticker_target_url(ticker)
         if not ticker:
             abort(400)
+        target = _ticker_target_url(ticker)
         safe_record_event(
             event_name="ticker_click",
             page=request.args.get("page", "/today"),
@@ -1441,7 +1437,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin")
     def admin_dashboard() -> Response:
-        access_context, access_key = require_admin_access()
+        access_context = require_admin_access()
         status_snapshot = provider.get_status(force_refresh=False)
         metrics_summary = safe_metrics_summary()
         dashboard_summary = access_store.get_dashboard_summary()
@@ -1450,8 +1446,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/dashboard.html",
                 page_title="Admin Dashboard",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
-                access_key=access_key,
+                admin_links=build_admin_links(),
                 status_snapshot=status_snapshot,
                 metrics_summary=metrics_summary,
                 dashboard_summary=dashboard_summary,
@@ -1465,7 +1460,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.route("/admin/users", methods=["GET", "POST"])
     def admin_users() -> Response:
-        access_context, access_key = require_admin_access()
+        access_context = require_admin_access()
         if request.method == "POST":
             require_csrf()
             action = request.form.get("action", "")
@@ -1497,10 +1492,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                     payload_summary={"email": email},
                     result="error",
                 )
-            params = {"status": status}
-            if access_key:
-                params["access_key"] = access_key
-            return redirect(f"{url_for('admin_users')}?{urlencode(params)}")
+            return redirect(url_for("admin_users", status=status))
 
         query = request.args.get("q", "")
         return Response(
@@ -1508,8 +1500,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/users.html",
                 page_title="Admin Users",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
-                access_key=access_key,
+                admin_links=build_admin_links(),
                 status=request.args.get("status", ""),
                 query=query,
                 user_rows=access_store.list_users(query=query, limit=100),
@@ -1519,7 +1510,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.route("/admin/grant", methods=["GET", "POST"])
     def admin_grant() -> Response:
-        access_context, access_key = require_admin_access()
+        access_context = require_admin_access()
         if request.method == "POST":
             require_csrf()
             action = request.form.get("action", "grant")
@@ -1560,27 +1551,23 @@ def create_app(settings: Settings | None = None) -> Flask:
                     },
                     result="error",
                 )
-            params = {"status": status}
-            if access_key:
-                params["access_key"] = access_key
-            return redirect(f"{url_for('admin_grant')}?{urlencode(params)}")
+            return redirect(url_for("admin_grant", status=status))
 
         return Response(
             render_template(
                 "admin/grant.html",
                 page_title="Admin Grant",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
+                admin_links=build_admin_links(),
                 status=request.args.get("status", ""),
                 plan_rows=access_store.list_plans(),
-                access_key=access_key,
             ),
             mimetype="text/html",
         )
 
     @app.route("/admin/plans-entitlements", methods=["GET", "POST"])
     def admin_plans_entitlements() -> Response:
-        access_context, access_key = require_admin_access()
+        access_context = require_admin_access()
         if request.method == "POST":
             require_csrf()
             try:
@@ -1612,18 +1599,14 @@ def create_app(settings: Settings | None = None) -> Flask:
                     },
                     result="error",
                 )
-            params = {"status": status}
-            if access_key:
-                params["access_key"] = access_key
-            return redirect(f"{url_for('admin_plans_entitlements')}?{urlencode(params)}")
+            return redirect(url_for("admin_plans_entitlements", status=status))
 
         return Response(
             render_template(
                 "admin/plans_entitlements.html",
                 page_title="Plans & Entitlements",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
-                access_key=access_key,
+                admin_links=build_admin_links(),
                 status=request.args.get("status", ""),
                 plan_rows=access_store.list_plans(),
                 entitlement_rows=access_store.list_plan_entitlement_rows(),
@@ -1633,7 +1616,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.route("/admin/publish-snapshots", methods=["GET", "POST"])
     def admin_publish_snapshots() -> Response:
-        access_context, access_key = require_admin_access()
+        access_context = require_admin_access()
         if request.method == "POST":
             require_csrf()
             action = request.form.get("action", "refresh")
@@ -1671,18 +1654,14 @@ def create_app(settings: Settings | None = None) -> Flask:
                     payload_summary={"snapshot_label": request.form.get("snapshot_label", "")},
                     result="error",
                 )
-            params = {"status": status}
-            if access_key:
-                params["access_key"] = access_key
-            return redirect(f"{url_for('admin_publish_snapshots')}?{urlencode(params)}")
+            return redirect(url_for("admin_publish_snapshots", status=status))
 
         return Response(
             render_template(
                 "admin/publish_snapshots.html",
                 page_title="Publish & Snapshots",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
-                access_key=access_key,
+                admin_links=build_admin_links(),
                 status=request.args.get("status", ""),
                 status_snapshot=provider.get_status(force_refresh=False),
                 published_rows=build_published_snapshot_rows(),
@@ -1692,7 +1671,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/feedback")
     def admin_feedback() -> Response:
-        _, access_key = require_admin_access()
+        require_admin_access()
         feedback_rows = safe_list_recent_feedback(limit=100)
         metrics_summary = safe_metrics_summary()
         return Response(
@@ -1700,7 +1679,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/feedback.html",
                 page_title="Admin Feedback",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
+                admin_links=build_admin_links(),
                 feedback_rows=feedback_rows,
                 metrics_summary=metrics_summary,
             ),
@@ -1709,13 +1688,13 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/metrics")
     def admin_metrics() -> Response:
-        _, access_key = require_admin_access()
+        require_admin_access()
         return Response(
             render_template(
                 "admin/metrics.html",
                 page_title="Admin Metrics",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
+                admin_links=build_admin_links(),
                 metrics_summary=safe_metrics_summary(),
                 dashboard_summary=access_store.get_dashboard_summary(),
             ),
@@ -1724,13 +1703,13 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/audit")
     def admin_audit() -> Response:
-        _, access_key = require_admin_access()
+        require_admin_access()
         return Response(
             render_template(
                 "admin/audit.html",
                 page_title="Admin Audit",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
+                admin_links=build_admin_links(),
                 audit_rows=access_store.list_recent_audit_logs(limit=200),
             ),
             mimetype="text/html",
@@ -1738,14 +1717,14 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/billing")
     def admin_billing() -> Response:
-        _, access_key = require_admin_access()
+        require_admin_access()
         ensure_billing_enabled()
         return Response(
             render_template(
                 "admin/billing.html",
                 page_title="Admin Billing",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(access_key),
+                admin_links=build_admin_links(),
                 order_rows=access_store.list_recent_orders(limit=100),
                 payment_event_rows=access_store.list_recent_payment_events(limit=100),
                 subscription_rows=access_store.list_recent_subscriptions(limit=100),

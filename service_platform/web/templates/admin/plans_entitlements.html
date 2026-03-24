@@ -33,8 +33,7 @@
           <td><code>{{ row.value_json }}</code></td>
           <td>
             <form class="inline-form wide-inline" method="post" action="{{ url_for('admin_plans_entitlements') }}">
-              {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
-              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
               <input type="hidden" name="plan_id" value="{{ row.plan_id }}">
               <input type="hidden" name="entitlement_key" value="{{ row.entitlement_key }}">
               <input name="value_json" value='{{ row.value_json }}'>

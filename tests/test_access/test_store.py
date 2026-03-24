@@ -152,3 +152,31 @@ def test_register_local_user_stores_verified_phone_profile(tmp_path: Path) -> No
     assert profile["auth_provider"] == "local"
     assert profile["phone_number"] == "01012345678"
     assert profile["phone_verification_status"] == "verified"
+
+
+def test_get_user_profile_creates_unverified_profile_without_promoting_state(
+    tmp_path: Path,
+) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+
+    user = store.authenticate_or_register("member@example.com", "pass1234")
+    profile = store.get_user_profile(user.id)
+
+    assert profile["auth_provider"] == "local"
+    assert profile["phone_number"] is None
+    assert profile["phone_verification_status"] == "unverified"
+    assert profile["phone_verified_at"] is None
+
+
+def test_get_user_profile_keeps_verified_state_for_existing_profile(tmp_path: Path) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+
+    user = store.register_local_user(
+        email="verified@naver.com",
+        password="pass1234",
+        phone_number="010-9876-5432",
+    )
+    profile = store.get_user_profile(user.id)
+
+    assert profile["phone_verification_status"] == "verified"
+    assert profile["phone_verified_at"] is not None

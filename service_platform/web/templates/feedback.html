@@ -25,6 +25,7 @@
 <section class="panel">
   <form class="feedback-form" method="post" action="{{ url_for('submit_feedback') }}">
     <input type="hidden" name="page" value="{{ request.path }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     <label>
       <span class="label">이메일 (선택)</span>
       <input type="email" name="email" placeholder="name@example.com">

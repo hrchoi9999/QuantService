@@ -13,8 +13,7 @@
 
 <section class="panel">
   <form class="toolbar-form" method="get" action="{{ url_for('admin_users') }}">
-    {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
-    <input type="search" name="q" value="{{ query }}" placeholder="email search">
+        <input type="search" name="q" value="{{ query }}" placeholder="email search">
     <button class="secondary-button" type="submit">Search</button>
   </form>
 </section>
@@ -42,8 +41,7 @@
           <td>{{ row.last_login_at|fmt_datetime }}</td>
           <td>
             <form class="inline-form" method="post" action="{{ url_for('admin_users') }}">
-              {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
-              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
               <input type="hidden" name="email" value="{{ row.email }}">
               {% if row.is_active %}
               <input type="hidden" name="action" value="lock">

@@ -16,6 +16,7 @@
     <form class="feedback-form" method="post" action="{{ url_for('signup') }}">
       <input type="hidden" name="next" value="{{ next_url }}">
       <input type="hidden" name="action" value="request_code">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <div>
         <label class="label" for="phone-number">휴대폰 번호</label>
         <input id="phone-number" name="phone_number" type="tel" value="{{ phone_number }}" placeholder="01012345678" required>
@@ -37,6 +38,7 @@
     <form class="feedback-form" method="post" action="{{ url_for('signup') }}">
       <input type="hidden" name="next" value="{{ next_url }}">
       <input type="hidden" name="action" value="register">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <div>
         <label class="label" for="signup-email">이메일</label>
         <input id="signup-email" name="email" type="email" placeholder="이메일 주소를 입력해 주세요" required>

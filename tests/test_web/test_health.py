@@ -999,6 +999,27 @@ def get_csrf_token(client) -> str:
         return token
 
 
+def prime_csrf(client, path: str) -> str:
+    client.get(path)
+    return get_csrf_token(client)
+
+
+def login_user(
+    client, *, email: str, password: str, next_url: str = "/today", follow_redirects: bool = True
+):
+    csrf_token = prime_csrf(client, f"/login?next={next_url}")
+    return client.post(
+        "/login",
+        data={
+            "email": email,
+            "password": password,
+            "next": next_url,
+            "csrf_token": csrf_token,
+        },
+        follow_redirects=follow_redirects,
+    )
+
+
 def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     seed_user_snapshot(settings.user_snapshot_dir)
@@ -1163,12 +1184,18 @@ def test_enabled_billing_checkout_renders_lightpay_form(tmp_path: Path) -> None:
     )
     client = app.test_client()
 
-    client.post(
-        "/login",
-        data={"email": "member@example.com", "password": "pass1234", "next": "/pricing"},
+    login_user(
+        client,
+        email="member@example.com",
+        password="pass1234",
+        next_url="/pricing",
         follow_redirects=True,
     )
-    response = client.post("/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"})
+    csrf_token = get_csrf_token(client)
+    response = client.post(
+        "/billing/checkout",
+        data={"plan_id": "starter", "pay_method": "CARD", "csrf_token": csrf_token},
+    )
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
@@ -1200,9 +1227,15 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     app = create_app(settings)
     client = app.test_client()
 
+    signup_csrf = prime_csrf(client, "/signup?next=/today")
     request_code_response = client.post(
         "/signup",
-        data={"action": "request_code", "phone_number": "010-2222-3333", "next": "/today"},
+        data={
+            "action": "request_code",
+            "phone_number": "010-2222-3333",
+            "next": "/today",
+            "csrf_token": signup_csrf,
+        },
         follow_redirects=True,
     )
     verification_code = get_phone_verification_code(client)
@@ -1216,12 +1249,15 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
             "phone_number": "01022223333",
             "verification_code": verification_code,
             "next": "/today",
+            "csrf_token": get_csrf_token(client),
         },
         follow_redirects=True,
     )
-    login_response = client.post(
-        "/login",
-        data={"email": "member@gmail.com", "password": "pass1234", "next": "/today"},
+    login_response = login_user(
+        client,
+        email="member@gmail.com",
+        password="pass1234",
+        next_url="/today",
         follow_redirects=True,
     )
     me_response = client.get("/me")
@@ -1245,9 +1281,11 @@ def test_admin_dashboard_and_grant_write_audit_log(tmp_path: Path) -> None:
     access_store.assign_role(email="admin@example.com")
 
     client = app.test_client()
-    dashboard_response = client.post(
-        "/login",
-        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin"},
+    dashboard_response = login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin",
         follow_redirects=True,
     )
     csrf_token = get_csrf_token(client)
@@ -1281,9 +1319,11 @@ def test_admin_pages_show_phase_policy_and_billing_visibility(tmp_path: Path) ->
     access_store.assign_role(email="admin@example.com")
 
     client = app.test_client()
-    client.post(
-        "/login",
-        data={"email": "admin@example.com", "password": "pass1234", "next": "/admin"},
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin",
         follow_redirects=True,
     )
 
@@ -1313,13 +1353,11 @@ def test_admin_publish_snapshot_promotes_selected_internal_snapshot(tmp_path: Pa
     access_store.assign_role(email="admin@example.com")
 
     client = app.test_client()
-    client.post(
-        "/login",
-        data={
-            "email": "admin@example.com",
-            "password": "pass1234",
-            "next": "/admin/publish-snapshots",
-        },
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/publish-snapshots",
         follow_redirects=True,
     )
     csrf_token = get_csrf_token(client)
@@ -1545,3 +1583,95 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     assert response.status_code == 200
     assert "시장분석 내용" in body
     assert "AI의 시장분석 준비 중" in body
+
+
+def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    app = create_app(settings)
+    app.config["ACCESS_STORE"].register_local_user(
+        email="member@example.com",
+        password="pass1234",
+        phone_number="01012345678",
+    )
+    client = app.test_client()
+
+    response = client.post(
+        "/login",
+        data={"email": "member@example.com", "password": "pass1234", "next": "/today"},
+    )
+
+    assert response.status_code == 400
+
+
+def test_signup_and_feedback_reject_missing_csrf_token(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    app = create_app(settings)
+    client = app.test_client()
+
+    signup_response = client.post(
+        "/signup",
+        data={"action": "request_code", "phone_number": "01011112222", "next": "/today"},
+    )
+    feedback_response = client.post(
+        "/feedback",
+        data={
+            "page": "/feedback",
+            "email": "user@example.com",
+            "message": "충분히 긴 테스트 의견입니다.",
+            "consent": "on",
+        },
+    )
+
+    assert signup_response.status_code == 400
+    assert feedback_response.status_code == 400
+
+
+def test_billing_checkout_rejects_missing_csrf_token(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, billing_enabled=True, trial_mode=False)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    app = create_app(settings)
+    app.config["ACCESS_STORE"].register_local_user(
+        email="member@example.com",
+        password="pass1234",
+        phone_number="01012345678",
+    )
+    client = app.test_client()
+
+    login_user(
+        client,
+        email="member@example.com",
+        password="pass1234",
+        next_url="/pricing",
+        follow_redirects=True,
+    )
+    response = client.post("/billing/checkout", data={"plan_id": "starter", "pay_method": "CARD"})
+
+    assert response.status_code == 400
+
+
+def test_admin_query_access_key_is_rejected_and_header_access_is_allowed(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    app = create_app(settings)
+
+    client = app.test_client()
+    query_response = client.get("/admin?access_key=secret-key")
+    header_response = client.get("/admin", headers={"X-Admin-Key": "secret-key"})
+
+    assert query_response.status_code == 404
+    assert header_response.status_code == 200
+
+
+def test_click_tracking_ignores_untrusted_target_url(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get(
+        "/e/click?ticker=005930&target=https://malicious.example/phish",
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert response.headers["Location"] == "https://finance.naver.com/item/main.naver?code=005930"

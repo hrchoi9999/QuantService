@@ -14,9 +14,6 @@
   <article class="panel">
     <h2>Grant / Update</h2>
     <form class="feedback-form" method="post" action="{{ url_for('admin_grant') }}">
-      {% if access_key %}
-      <input type="hidden" name="access_key" value="{{ access_key }}">
-      {% endif %}
       <input type="hidden" name="action" value="grant">
       <div>
         <label class="label" for="grant-email">Email</label>
@@ -41,9 +38,6 @@
   <article class="panel">
     <h2>Revoke</h2>
     <form class="feedback-form" method="post" action="{{ url_for('admin_grant') }}">
-      {% if access_key %}
-      <input type="hidden" name="access_key" value="{{ access_key }}">
-      {% endif %}
       <input type="hidden" name="action" value="revoke">
       <div>
         <label class="label" for="revoke-email">Email</label>

@@ -32,9 +32,7 @@ def is_admin_request(
     if not settings.feedback_admin_key:
         return False
     header_key = request.headers.get("X-Admin-Key", "")
-    query_key = request.args.get("access_key", "")
-    provided = header_key or query_key
-    return provided == settings.feedback_admin_key
+    return header_key == settings.feedback_admin_key
 
 
 def build_feedback_redirect(base_path: str, *, status: str) -> str:

@@ -22,8 +22,7 @@
       <li>Run ID: {{ status_snapshot.last_run_id or '-' }}</li>
     </ul>
     <form class="inline-form" method="post" action="{{ url_for('admin_publish_snapshots') }}">
-      {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
-      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <input type="hidden" name="action" value="refresh">
       <button class="secondary-button" type="submit">Refresh Cache</button>
     </form>
@@ -46,8 +45,7 @@
             <td>{{ row.generated_at|fmt_datetime }}</td>
             <td>
               <form class="inline-form" method="post" action="{{ url_for('admin_publish_snapshots') }}">
-                {% if access_key %}<input type="hidden" name="access_key" value="{{ access_key }}">{% endif %}
-                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <input type="hidden" name="action" value="activate">
                 <input type="hidden" name="snapshot_label" value="{{ row.label }}">
                 <button class="primary-button" type="submit">Promote</button>
