@@ -325,7 +325,10 @@ class UserSnapshotMockApi:
                 profile,
             )
             model["reference_usage_context"] = reference_usage_context
-            model["target_user_type"] = reference_usage_context
+            model.pop("target_user_type", None)
+            compliance_metadata = model.get("compliance_metadata") or {}
+            compliance_metadata["is_personalized_advice"] = False
+            model["compliance_metadata"] = compliance_metadata
 
         for report in recommendation.get("reports", []):
             profile = report.get("service_profile")
@@ -343,6 +346,10 @@ class UserSnapshotMockApi:
                 report.get("rationale_items"), profile
             )
             report["disclaimer_text"] = self._sanitize_disclaimer(report.get("disclaimer_text"))
+            report.pop("target_user_type", None)
+            compliance_metadata = report.get("compliance_metadata") or {}
+            compliance_metadata["is_personalized_advice"] = False
+            report["compliance_metadata"] = compliance_metadata
             for item in report.get("allocation_items", []):
                 item["display_name"] = self._sanitize_display_name(
                     item.get("display_name"), item.get("asset_group")
@@ -377,6 +384,9 @@ class UserSnapshotMockApi:
                 model.get("user_model_name"), profile
             )
             model["note"] = self._sanitize_profile_summary(model.get("note"), profile)
+            compliance_metadata = model.get("compliance_metadata") or {}
+            compliance_metadata["is_personalized_advice"] = False
+            model["compliance_metadata"] = compliance_metadata
 
         for change in sanitized["recent_changes"].get("changes", []):
             profile = change.get("service_profile")
@@ -393,6 +403,9 @@ class UserSnapshotMockApi:
                 direction="decrease",
             )
             change["reason_text"] = self._sanitize_change_reason(change.get("reason_text"), profile)
+            compliance_metadata = change.get("compliance_metadata") or {}
+            compliance_metadata["is_personalized_advice"] = False
+            change["compliance_metadata"] = compliance_metadata
 
         return sanitized
 

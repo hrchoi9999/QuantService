@@ -1,0 +1,10 @@
+{% if notice_blocks %}
+<section class="public-notice-group">
+  {% for block in notice_blocks %}
+  <article class="disclosure-box public-notice-card">
+    <strong>{{ block.title }}</strong>
+    <p>{{ block.body }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}

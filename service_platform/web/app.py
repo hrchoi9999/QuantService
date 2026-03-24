@@ -68,6 +68,42 @@ BILLING_MESSAGES = {
     "login_required": "결제를 진행하려면 먼저 로그인해 주세요.",
     "invalid": "결제 요청을 처리하지 못했습니다. 결제수단과 플랜을 다시 확인해 주세요.",
 }
+PUBLIC_NOTICE_BLOCKS = {
+    "service_nature": {
+        "title": "서비스 성격 안내",
+        "body": (
+            "Redbot은 불특정 다수에게 동일한 공개형 모델 정보와 시장 브리핑을 제공하는 "
+            "서비스입니다."
+        ),
+    },
+    "non_advice": {
+        "title": "개별 상담 불가 안내",
+        "body": (
+            "본 서비스는 특정 이용자의 투자목적, 재산상황, 손실감수성 등을 반영한 "
+            "개별 투자자문을 제공하지 않습니다."
+        ),
+    },
+    "risk": {
+        "title": "투자위험 안내",
+        "body": (
+            "모든 투자에는 원금손실 위험이 있으며, 투자판단과 책임은 이용자 본인에게 " "있습니다."
+        ),
+    },
+    "backtest": {
+        "title": "백테스트 안내",
+        "body": (
+            "표시된 성과지표는 실제 투자계좌 성과가 아닌 백테스트 결과이며, 과거 성과는 "
+            "미래 수익을 보장하지 않습니다."
+        ),
+    },
+    "market_brief": {
+        "title": "시장 브리핑 안내",
+        "body": (
+            "시장 브리핑은 공개된 시장 데이터를 해석한 참고 정보이며, 특정 매매행동을 "
+            "안내하는 자료가 아닙니다."
+        ),
+    },
+}
 
 
 def _format_datetime(value: str | None) -> str:
@@ -126,6 +162,10 @@ def _build_public_model_compliance_note(bundle: Any) -> str:
         if disclaimer:
             return disclaimer
     return default_note
+
+
+def _build_notice_blocks(*keys: str) -> list[dict[str, str]]:
+    return [PUBLIC_NOTICE_BLOCKS[key] for key in keys if key in PUBLIC_NOTICE_BLOCKS]
 
 
 def _is_notify_ip_allowed(settings: Settings) -> bool:
@@ -527,7 +567,7 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = str(ai_payload.get("title") or "시장 브리핑 참고").strip() or "시장 브리핑 참고"
+    title = "시장 해석 브리핑"
     compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
@@ -546,8 +586,10 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"
+            full_title = "시장 데이터 기반 분위기 해석"
             sort_order = 0
         elif provider_name == "chatgpt":
+            full_title = "공개 데이터 기반 해석 요약"
             sort_order = 1
         cards.append(
             {
@@ -567,7 +609,7 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         "title": title,
         "cards": cards,
         "show_placeholder": show_placeholder,
-        "placeholder": "시장 브리핑 참고 준비 중",
+        "placeholder": "시장 해석 브리핑 준비 중",
         "compliance_meta": compliance_meta,
     }
 
@@ -579,7 +621,7 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     return {
         "asof": page_payload.get("asof"),
         "summary_line": page_payload.get("summary_line")
-        or "시장분석 데이터가 아직 준비되지 않았습니다.",
+        or "시장 브리핑 데이터가 아직 준비되지 않았습니다.",
         "header_state": {
             "label": header_state.get("label") or "데이터 준비 중",
             "score": header_state.get("score"),
@@ -982,16 +1024,16 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.user_models), 200)
 
+    @app.get("/api/v1/model-weekly/today")
     @app.get("/api/v1/model-snapshots/today")
-    @app.get("/api/v1/recommendation/today")
     def api_model_snapshots_today() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(user_snapshot_api.get_model_snapshots_today(force_refresh=False)), 200)
 
+    @app.get("/api/v1/model-weekly/<service_profile>")
     @app.get("/api/v1/model-snapshots/<service_profile>")
-    @app.get("/api/v1/recommendation/<service_profile>")
     def api_model_snapshot_by_profile(service_profile: str) -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
@@ -1001,6 +1043,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "not_found", "message": "service profile not found"}, 404)
         return (jsonify(report_payload), 200)
 
+    @app.get("/api/v1/model-performance/summary")
     @app.get("/api/v1/performance/summary")
     def api_performance_summary() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
@@ -1023,6 +1066,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.publish_status), 200)
 
+    @app.get("/api/v1/market-brief/home")
     @app.get("/api/v1/market-analysis/home")
     def api_market_analysis_home() -> tuple[dict[str, object], int]:
         payload = load_market_bundle_or_error()
@@ -1030,6 +1074,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_home")), 200)
 
+    @app.get("/api/v1/market-brief/page")
     @app.get("/api/v1/market-analysis/page")
     def api_market_analysis_page() -> tuple[dict[str, object], int]:
         payload = load_market_bundle_or_error()
@@ -1037,6 +1082,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_page")), 200)
 
+    @app.get("/api/v1/market-brief/summary")
     @app.get("/api/v1/market-analysis/summary")
     def api_market_analysis_summary() -> tuple[dict[str, object], int]:
         payload = load_market_bundle_or_error()
@@ -1044,6 +1090,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_summary")), 200)
 
+    @app.get("/api/v1/market-brief/detail")
     @app.get("/api/v1/market-analysis/detail")
     def api_market_analysis_detail() -> tuple[dict[str, object], int]:
         payload = load_market_bundle_or_error()
@@ -1088,6 +1135,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_status_snapshot,
                 compliance_note=_build_public_model_compliance_note(bundle),
+                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )
@@ -1332,7 +1380,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "today.html",
-                page_title="오늘의 모델 정보",
+                page_title="이번 주 모델 기준안",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
@@ -1340,6 +1388,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
                 compliance_note=_build_public_model_compliance_note(bundle),
+                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )
@@ -1391,11 +1440,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "performance.html",
-                page_title="성과",
+                page_title="성과 설명",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 performance_rows=performance_rows,
                 auto_balanced_same=auto_balanced_same,
+                notice_blocks=_build_notice_blocks("backtest", "risk", "non_advice"),
             ),
             mimetype="text/html",
         )
@@ -1409,10 +1459,11 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "market_analysis.html",
-                page_title="시장분석",
+                page_title="시장 브리핑",
                 market_page_view=page_view,
                 market_state_bar=page_view.get("state_bar"),
                 market_status_snapshot=market_status_snapshot,
+                notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )

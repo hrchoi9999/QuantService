@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
-    <h1>전략별 성과를 같은 기준으로 비교해 보세요.</h1>
-    <p class="lead">1년·2년·3년 지표는 CAGR 중심으로, 6개월·3개월 지표는 total return 중심으로 보여줍니다.</p>
+    <h1>모델 성과를 같은 기준으로 설명합니다.</h1>
+    <p class="lead">성과 수치는 공개 규칙 기반 모델을 과거 데이터에 적용한 백테스트 결과이며, 1년·2년·3년은 CAGR 중심으로, 6개월·3개월은 total return 중심으로 설명합니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -19,6 +19,19 @@
     </ul>
   </aside>
 </section>
+
+<section class="disclosure-box performance-explainer-box">
+  <strong>성과지표 안내</strong>
+  <p>이 화면의 CAGR, MDD, Sharpe 등은 실제 투자계좌 수익률이 아니라 사전에 정의된 모델 규칙을 과거 데이터에 적용한 백테스트 결과입니다.</p>
+  <ul class="message-list compact-list clean-list">
+    <li>기준 기간: 1Y, 2Y, 3Y, 6M, 3M</li>
+    <li>리밸런싱 주기: 주간 기준</li>
+    <li>수수료·슬리피지·비교지수 해석은 공개된 산출 기준과 함께 확인해 주세요.</li>
+    <li>과거 성과는 미래 수익을 보장하지 않습니다.</li>
+  </ul>
+</section>
+
+{% include "_notice_group.html" %}
 
 {% if auto_balanced_same %}
 <section class="panel shell-card info-banner-panel">
@@ -58,7 +71,7 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <h2>1Y headline 비교</h2>
+      <h2>1Y 핵심 지표 비교</h2>
     </div>
   </div>
   <div class="table-wrap comparison-table polished-table">
@@ -126,8 +139,8 @@
 </section>
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>성과 비교 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 준비되면 전략별 성과 비교가 이 영역에 표시됩니다.</p>
+  <h2>성과 설명 데이터가 아직 없습니다.</h2>
+  <p>사용자용 스냅샷이 준비되면 모델별 성과 설명이 이 영역에 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

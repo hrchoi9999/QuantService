@@ -1,1 +1,1 @@
-﻿"""Service platform package for the stock recommendation web service."""
+"""Service platform package for the public model information web service."""

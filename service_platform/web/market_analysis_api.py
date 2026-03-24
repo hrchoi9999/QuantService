@@ -148,10 +148,10 @@ class MarketAnalysisMockApi:
             warnings.append("시장분석 handoff 데이터가 아직 준비되지 않았습니다.")
         elif bundle.stale or self._is_older_than(age_seconds, stale_after):
             state = "stale"
-            warnings.append("시장분석 데이터 업데이트가 지연되고 있습니다.")
+            warnings.append("시장 브리핑 데이터 업데이트가 지연되고 있습니다.")
         elif self._is_older_than(age_seconds, warning_after):
             state = "warning"
-            warnings.append("시장분석 데이터가 기준 주기보다 늦게 갱신되고 있습니다.")
+            warnings.append("시장 브리핑 데이터가 기준 주기보다 늦게 갱신되고 있습니다.")
         return MarketAnalysisStatus(
             state=state,
             asof=bundle.asof,

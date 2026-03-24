@@ -7,10 +7,12 @@
       <span class="badge accent">{{ market_page_view.header_state.label }}</span>
             <span class="badge neutral">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
     </div>
-    <h1>시장분석</h1>
+    <h1>시장 브리핑</h1>
     <p class="lead">{{ market_page_view.summary_line }}</p>
-    {% if market_page_view.ai_briefs.enabled %}
-    <section class="market-ai-briefs" aria-label="시장 브리핑 참고">
+    {% include "_notice_group.html" %}
+
+{% if market_page_view.ai_briefs.enabled %}
+    <section class="market-ai-briefs" aria-label="시장 해석 브리핑">
       <div class="section-heading tight-head">
         <div>
           <h2>{{ market_page_view.ai_briefs.title }}</h2>
@@ -47,11 +49,11 @@
     <div class="market-analysis-note-strip">
       <div class="feature-note">
         <strong>시장 상태와 점수</strong>
-        <p>최신 시장 데이터 기준으로 현재 시장 흐름을 요약합니다.</p>
+        <p>최신 공개 데이터 기준으로 현재 시장 흐름을 관찰용으로 요약합니다.</p>
       </div>
       <div class="feature-note">
         <strong>표시 방식</strong>
-        <p>시장 데이터를 이해하기 쉽게 정리해 보여드립니다.</p>
+        <p>시장 데이터를 이해하기 쉽게 정리한 참고용 브리핑 화면입니다.</p>
       </div>
       <div class="feature-note">
         <strong>일부 지표 안내</strong>
@@ -72,12 +74,12 @@
 </section>
 {% elif market_status_snapshot.state == 'empty' %}
 <section class="panel shell-card empty-state empty-shell">
-  <h2>시장분석 데이터가 아직 준비되지 않았습니다.</h2>
-  <p>최신 시장분석 데이터가 준비되면 이 화면에 반영됩니다.</p>
+  <h2>시장 브리핑 데이터가 아직 준비되지 않았습니다.</h2>
+  <p>최신 시장 브리핑 데이터가 준비되면 이 화면에 반영됩니다.</p>
 </section>
 {% elif market_status_snapshot.state == 'error' %}
 <section class="panel shell-card error-panel">
-  <h2>시장분석 데이터를 불러오지 못했습니다.</h2>
+  <h2>시장 브리핑 데이터를 불러오지 못했습니다.</h2>
   <ul class="message-list compact-list clean-list">
     {% for item in market_status_snapshot.errors %}
     <li>{{ item }}</li>
@@ -124,7 +126,7 @@
 </section>
 
 <section class="panel shell-card market-action-panel">
-  <h2>관찰 메모</h2>
+  <h2>공개 데이터 관찰 메모</h2>
   <p class="lead compact-lead">{{ market_page_view.observation_note }}</p>
 </section>
 

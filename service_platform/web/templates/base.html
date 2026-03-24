@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="REDBOT은 투자자를 위한 스냅샷 기반 투자 브리핑 서비스입니다.">
+  <meta name="description" content="REDBOT은 공개 규칙 기반의 주간 모델 정보와 시장 브리핑을 제공하는 서비스입니다.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 </head>
@@ -15,13 +15,13 @@
         <a class="brand brand-with-logo" href="{{ url_for('home') }}">
           <img class="brand-logo" src="{{ url_for('static', filename='logo_redbot.png') }}" alt="REDBOT logo">
         </a>
-        <div class="brand-copy muted">스냅샷 기반 퀀트 투자 브리핑 서비스</div>
+        <div class="brand-copy muted">공개 규칙 기반 주간 모델 정보 서비스</div>
       </div>
       <nav class="site-nav" aria-label="주요 메뉴">
         <a href="{{ url_for('home') }}">홈</a>
-        <a href="{{ url_for('market_analysis') }}">시장분석</a>
-        <a href="{{ url_for('today') }}">오늘의 모델 정보</a>
-        <a href="{{ url_for('performance') }}">성과</a>
+        <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
+        <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
+        <a href="{{ url_for('performance') }}">성과 설명</a>
         <a href="{{ url_for('changes') }}">변경내역</a>
         <a href="{{ url_for('feedback') }}">의견보내기</a>
         {% if current_user %}
@@ -57,11 +57,11 @@
     <footer class="site-footer muted public-footer">
       <div>
         <strong>REDBOT</strong>
-        <span>투자 판단을 돕는 스냅샷 기반 브리핑</span>
+        <span>공개 규칙 기반 모델 정보와 시장 브리핑</span>
       </div>
       <div class="footer-links">
-        <a href="{{ url_for('market_analysis') }}">시장분석</a>
-        <a href="{{ url_for('changes') }}">변경내역</a>
+        <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
+        <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
         <a href="{{ url_for('feedback') }}">의견 보내기</a>
       </div>
     </footer>

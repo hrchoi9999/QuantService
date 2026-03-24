@@ -1114,7 +1114,7 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "주식 sleeve 비중" in today_body
     assert "ETF sleeve 비중" in today_body
     assert "현금성 비중" in today_body
-    assert "오늘의 모델 정보" in today_body
+    assert "이번 주 모델 기준안" in today_body
     assert "참고 이용자 유형" in today_body
     assert "공개 규칙 기반 모델 정보" in today_body
     assert "주식 상위 종목" in today_body
@@ -1129,7 +1129,7 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
 
     assert performance_response.status_code == 200
     performance_body = performance_response.get_data(as_text=True)
-    assert "1Y headline 비교" in performance_body
+    assert "1Y 핵심 지표 비교" in performance_body
     assert "참고 지표" not in performance_body
     assert all(period in performance_body for period in ["1Y", "2Y", "3Y", "6M", "3M"])
     assert "5Y" not in performance_body
@@ -1153,8 +1153,13 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
 
     models_response = client.get("/api/v1/user-models")
     today_response = client.get("/api/v1/model-snapshots/today")
+    weekly_today_response = client.get("/api/v1/model-weekly/today")
+    legacy_today_response = client.get("/api/v1/recommendation/today")
     profile_response = client.get("/api/v1/model-snapshots/stable")
+    weekly_profile_response = client.get("/api/v1/model-weekly/stable")
+    legacy_profile_response = client.get("/api/v1/recommendation/stable")
     performance_response = client.get("/api/v1/performance/summary")
+    performance_alias_response = client.get("/api/v1/model-performance/summary")
     changes_response = client.get("/api/v1/changes/recent")
     manifest_response = client.get("/api/v1/publish-status")
     manifest_alias_response = client.get("/api/v1/manifest")
@@ -1162,10 +1167,20 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     assert models_response.status_code == 200
     assert models_response.get_json()["models"][0]["user_model_name"] == "안정형"
     assert today_response.status_code == 200
+    assert weekly_today_response.status_code == 200
+    assert legacy_today_response.status_code == 404
     assert today_response.get_json()["reports"][0]["service_profile"] == "stable"
+    assert weekly_today_response.get_json() == today_response.get_json()
+    assert "target_user_type" not in today_response.get_json()["reports"][0]
     assert profile_response.status_code == 200
+    assert weekly_profile_response.status_code == 200
+    assert legacy_profile_response.status_code == 404
     assert profile_response.get_json()["report"]["user_model_name"] == "안정형"
+    assert weekly_profile_response.get_json() == profile_response.get_json()
+    assert "target_user_type" not in profile_response.get_json()["report"]
     assert performance_response.status_code == 200
+    assert performance_alias_response.status_code == 200
+    assert performance_alias_response.get_json() == performance_response.get_json()
     assert len(performance_response.get_json()["models"]) == 4
     assert changes_response.status_code == 200
     assert changes_response.get_json()["changes"][0]["change_type"] == "rebalanced"
@@ -1346,7 +1361,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
-    assert "오늘의 모델 정보" in login_response.get_data(as_text=True)
+    assert "이번 주 모델 기준안" in login_response.get_data(as_text=True)
     assert me_response.get_json()["phone_verification_status"] == "verified"
     assert me_response.get_json()["auth_provider"] == "local"
 
@@ -1501,8 +1516,8 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert today_response.status_code == 200
     assert changes_response.status_code == 200
     assert market_response.status_code == 200
-    assert "시장분석" in home_body
-    assert "지금 시장은 이렇게 보고 있습니다" in home_body
+    assert "시장 브리핑" in home_body
+    assert "지금 시장은 이렇게 해석하고 있습니다" in home_body
     assert "공개 규칙 기반 모델 정보" in home_body
     assert "market-state-bar" in home_body
     assert "강상승" in home_body
@@ -1510,7 +1525,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 흔들림" in market_body
-    assert "시장 브리핑 참고" in market_body
+    assert "시장 해석 브리핑" in market_body
     assert "ChatGPT" in market_body
     assert "Gemini" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
@@ -1556,9 +1571,9 @@ def test_market_analysis_fallback_is_graceful_when_handoff_is_missing(tmp_path: 
     summary_response = client.get("/api/v1/market-analysis/summary")
 
     assert market_response.status_code == 200
-    assert "시장분석 데이터를 불러오지 못했습니다." in market_response.get_data(
+    assert "시장 브리핑 데이터를 불러오지 못했습니다." in market_response.get_data(
         as_text=True
-    ) or "시장분석 데이터가 아직 준비되지 않았습니다." in market_response.get_data(as_text=True)
+    ) or "시장 브리핑 데이터가 아직 준비되지 않았습니다." in market_response.get_data(as_text=True)
     assert summary_response.status_code == 503
 
 
@@ -1598,8 +1613,8 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 브리핑 참고" in body
-    assert "시장 해석 참고" in body
+    assert "시장 해석 브리핑" in body
+    assert "공개 데이터 기반 해석 요약" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
@@ -1663,8 +1678,8 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 브리핑 참고" in body
-    assert "시장 브리핑 참고 준비 중" in body
+    assert "시장 해석 브리핑" in body
+    assert "시장 해석 브리핑 준비 중" in body
 
 
 def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:

@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-    <h1>오늘의 모델 정보</h1>
-    <p class="lead">시장 국면과 모델별 역할을 기준으로 기준일 모델 구성과 핵심 조정 내용을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
+    <h1>이번 주 모델 기준안</h1>
+    <p class="lead">공개 규칙에 따라 산출된 기준일 모델 구성과 변경 기준을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
@@ -26,7 +26,7 @@
     {% if status_snapshot.state == 'stale' %}
     <div class="warning-banner">최신 모델 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">오늘의 모델 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
+    <div class="warning-banner">이번 주 모델 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   {% if report_views %}
@@ -45,6 +45,8 @@
   {% endif %}
 </section>
 
+{% include "_notice_group.html" %}
+
 <section class="disclosure-box compact-compliance-note">
   <strong>안내</strong>
   <p>{{ compliance_note }}</p>
@@ -53,15 +55,15 @@
 <section class="panel shell-card market-bridge-panel">
   <div class="section-heading tight-head market-panel-head">
     <div>
-      <h2>시장분석 브리지</h2>
-      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장분석 데이터가 준비되면 오늘의 모델 정보와 연결된 해석이 표시됩니다.') }}</p>
+      <h2>시장 브리핑</h2>
+      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장 브리핑 데이터가 준비되면 이번 주 모델 기준안과 연결된 해석이 표시됩니다.') }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
   </div>
   {% if market_today_payload %}
   <div class="market-bridge-row market-bridge-row--stacked">
     <div class="market-bridge-main">
-      <a class="market-state-link" href="{{ url_for('market_analysis') }}" aria-label="시장분석 페이지로 이동">
+      <a class="market-state-link" href="{{ url_for('market_analysis') }}" aria-label="시장 브리핑 페이지로 이동">
         {% include "_market_state_bar.html" %}
       </a>
     </div>
@@ -70,7 +72,7 @@
         <span class="label">시장 분위기</span>
         <strong>{{ market_today_payload.get('market_bridge', {}).get('market_tone', '-') }}</strong>
       </div>
-      <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
+      <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
     </div>
     {% if market_today_payload.get('notice_block', {}).get('body') %}
     <div class="disclosure-box compact-market-notice">
@@ -84,7 +86,7 @@
     {% endif %}
   </div>
   {% else %}
-  <div class="warning-banner">시장분석 브리지 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
+  <div class="warning-banner">시장 브리핑 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
   {% endif %}
 </section>
 
@@ -131,7 +133,7 @@
       <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>모델 프로필</h3>
+            <h3>현재 기준 모델</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
@@ -303,7 +305,7 @@
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>오늘의 모델 정보가 아직 없습니다.</h2>
+  <h2>이번 주 모델 기준안이 아직 없습니다.</h2>
   <p>사용자용 스냅샷이 준비되면 이 화면에 모델별 스냅샷 리포트가 표시됩니다.</p>
 </section>
 {% endif %}
