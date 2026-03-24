@@ -2844,43 +2844,105 @@ body {
 
 .strategy-disclosure {
   border: 0;
+  display: grid;
+  gap: 0;
 }
 
 .strategy-disclosure-summary {
   list-style: none;
   cursor: pointer;
+  padding-bottom: 8px;
 }
 
 .strategy-disclosure-summary::-webkit-details-marker {
   display: none;
 }
 
+.strategy-disclosure-summary:focus-visible {
+  outline: 2px solid var(--accent-soft-strong);
+  outline-offset: 6px;
+}
+
+.report-summary-meta {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+
+.strategy-disclosure-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 126px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+  color: var(--accent-strong);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease,
+    transform 160ms ease;
+}
+
+.strategy-disclosure-summary:hover .strategy-disclosure-toggle,
+.strategy-disclosure-summary:focus-visible .strategy-disclosure-toggle {
+  border-color: var(--line-strong);
+  background: var(--accent-soft);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.strategy-disclosure-chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.strategy-disclosure-toggle .when-open {
+  display: none;
+}
+
+.strategy-disclosure[open] .strategy-disclosure-toggle .when-closed {
+  display: none;
+}
+
+.strategy-disclosure[open] .strategy-disclosure-toggle .when-open {
+  display: inline;
+}
+
+.strategy-disclosure[open] .strategy-disclosure-chevron {
+  transform: rotate(225deg);
+}
+
 .strategy-disclosure-body {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
 }
 
 .strategy-disclosure:not([open]) .strategy-disclosure-body {
   display: none;
 }
 
-.strategy-disclosure-summary .title-stack::after {
-  content: "자세히 보기";
-  display: inline-flex;
-  align-items: center;
-  margin-top: 8px;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.strategy-disclosure[open] .strategy-disclosure-summary .title-stack::after {
-  content: "접기";
-}
-
 @media (max-width: 900px) {
   .compact-status-badges {
     justify-content: flex-start;
+  }
+
+  .report-summary-meta {
+    justify-items: start;
+    width: 100%;
+  }
+
+  .strategy-disclosure-toggle {
+    width: 100%;
   }
 }

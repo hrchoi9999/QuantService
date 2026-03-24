@@ -83,9 +83,16 @@
         <h2>{{ report.user_model_name }}</h2>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
-      <div class="report-badges compact-stack">
-        <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
-        <span class="badge neutral">생성 {{ bundle.generated_at | fmt_datetime }}</span>
+      <div class="report-summary-meta">
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">자세히 보기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+        <div class="report-badges compact-stack">
+          <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
+          <span class="badge neutral">생성 {{ bundle.generated_at | fmt_datetime }}</span>
+        </div>
       </div>
     </summary>
 
