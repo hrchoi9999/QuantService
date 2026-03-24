@@ -27,6 +27,19 @@ MARKET_ANALYSIS_FILES = {
 REMOTE_SOURCES = {"remote", "http", "gcs"}
 
 
+def _normalized_asof(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    return text or None
+
+
+def _payload_asof(payload: dict[str, Any]) -> str | None:
+    if not isinstance(payload, dict):
+        return None
+    return _normalized_asof(payload.get("asof"))
+
+
 class MarketAnalysisLoadError(RuntimeError):
     def __init__(self, message: str, *, errors: list[str] | None = None) -> None:
         super().__init__(message)
@@ -213,7 +226,36 @@ class MarketAnalysisMockApi:
                 bundle.api_today_bridge,
             )
         )
+        self._validate_bundle_consistency(bundle)
         return bundle
+
+    def _validate_bundle_consistency(self, bundle: MarketAnalysisBundle) -> None:
+        manifest_asof = _normalized_asof(bundle.manifest.get("asof"))
+        payload_pairs = [
+            ("home", bundle.home),
+            ("today", bundle.today),
+            ("page", bundle.page),
+            ("api_home", bundle.api_home),
+            ("api_page", bundle.api_page),
+            ("api_summary", bundle.api_summary),
+            ("api_detail", bundle.api_detail),
+            ("api_today_bridge", bundle.api_today_bridge),
+        ]
+        mismatches: list[str] = []
+        for key, payload in payload_pairs:
+            payload_asof = _payload_asof(payload)
+            if manifest_asof and payload_asof and payload_asof != manifest_asof:
+                mismatches.append(f"{key}={payload_asof}")
+        if mismatches:
+            details = ", ".join(mismatches)
+            message = (
+                "시장분석 handoff 파일의 기준시각이 서로 다릅니다: "
+                f"manifest={manifest_asof}, {details}"
+            )
+            raise MarketAnalysisLoadError(
+                "Market-analysis handoff files are out of sync.",
+                errors=[message],
+            )
 
     def _get_remote_base_url(self) -> str:
         base_url = self.settings.market_analysis_base_url.strip().rstrip("/")
@@ -267,6 +309,7 @@ class MarketAnalysisMockApi:
                 bundle.api_today_bridge,
             )
         )
+        self._validate_bundle_consistency(bundle)
         return bundle
 
     @staticmethod

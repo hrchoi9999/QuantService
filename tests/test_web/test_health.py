@@ -1484,6 +1484,23 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
 
+def test_market_analysis_loader_rejects_mixed_asof_payloads(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(settings.market_analysis_dir)
+    page_path = settings.market_analysis_dir / "quantservice_market_page.json"
+    payload = json.loads(page_path.read_text(encoding="utf-8-sig"))
+    payload["asof"] = "2026-03-23T18:00:00+09:00"
+    page_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/api/v1/market-analysis/page")
+
+    assert response.status_code == 503
+
+
 def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     seed_user_snapshot(settings.user_snapshot_dir)
