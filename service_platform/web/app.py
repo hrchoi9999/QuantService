@@ -567,7 +567,7 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = "AI의 시장분석"
+    title = str(ai_payload.get("title") or "시장 브리핑 참고").strip()
     compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
@@ -586,10 +586,9 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"
-            full_title = "시장 데이터 기반 분위기 해석"
             sort_order = 0
         elif provider_name == "chatgpt":
-            full_title = "공개 데이터 기반 해석 요약"
+            provider_label = "ChatGPT"
             sort_order = 1
         cards.append(
             {
@@ -609,7 +608,7 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         "title": title,
         "cards": cards,
         "show_placeholder": show_placeholder,
-        "placeholder": "AI의 시장분석 준비 중",
+        "placeholder": f"{title} 준비 중",
         "compliance_meta": compliance_meta,
     }
 
@@ -618,6 +617,18 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     header_state = page_payload.get("header_state") or {}
     signal_lists = page_payload.get("signal_lists") or {}
     notice_block = page_payload.get("notice_block") or {}
+    compliance_meta = page_payload.get("compliance_meta") or {}
+    component_cards = []
+    for item in page_payload.get("component_cards") or []:
+        component_cards.append(
+            {
+                "key": item.get("key"),
+                "label": item.get("label") or "-",
+                "score": item.get("score"),
+                "summary": item.get("summary") or "-",
+                "description": str(item.get("description") or "").strip(),
+            }
+        )
     return {
         "asof": page_payload.get("asof"),
         "summary_line": page_payload.get("summary_line")
@@ -627,6 +638,8 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
             "score": header_state.get("score"),
             "prev_label": header_state.get("prev_label") or "-",
             "change_direction": header_state.get("change_direction") or "unchanged",
+            "description": str(header_state.get("description") or "").strip(),
+            "tooltip": str(header_state.get("tooltip") or "").strip(),
             "change_direction_label": MARKET_CHANGE_DIRECTION_LABELS.get(
                 header_state.get("change_direction") or "unchanged",
                 "변화 없음",
@@ -640,7 +653,7 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
             change_direction=header_state.get("change_direction") or "unchanged",
             asof=page_payload.get("asof"),
         ),
-        "component_cards": page_payload.get("component_cards") or [],
+        "component_cards": component_cards,
         "positive_points": signal_lists.get("positive_points") or [],
         "warning_points": signal_lists.get("warning_points") or [],
         "observation_note": signal_lists.get("observation_note") or "-",
@@ -652,7 +665,9 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
             ],
             "performance_link_note": str(notice_block.get("performance_link_note") or "").strip(),
         },
-        "compliance_meta": page_payload.get("compliance_meta") or {},
+        "compliance_meta": compliance_meta,
+        "show_notice_block": bool(notice_block.get("body"))
+        or bool(compliance_meta.get("disclaimer_required")),
         "source_rows": [
             {"label": "업데이트 주기", "value": "1시간"},
             {"label": "데이터 기준", "value": "국내 주요 시장 지표"},
@@ -1016,6 +1031,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         if value is None:
             return "-"
         return f"{value * 100:+.2f}%"
+
+    @app.template_filter("fmt_sharpe")
+    def fmt_sharpe(value: float | int | None) -> str:
+        if value is None:
+            return "-"
+        return f"{float(value):.2f}"
 
     @app.get("/api/v1/model-catalog")
     def api_user_models() -> tuple[dict[str, object], int]:

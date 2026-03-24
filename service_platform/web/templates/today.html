@@ -55,7 +55,7 @@
 <section class="panel shell-card market-bridge-panel">
   <div class="section-heading tight-head market-panel-head">
     <div>
-      <h2>시장 브리핑</h2>
+      <h2>시장 브리핑 참고</h2>
       <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장 브리핑 데이터가 준비되면 이번 주 모델 기준안과 연결된 해석이 표시됩니다.') }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
@@ -245,7 +245,7 @@
           <div class="period-highlight-values merged-period-values">
             <span>{{ report.period_view.primary.headline_label }} {{ report.period_view.primary.headline_value | fmt_percent }}</span>
             <span>MDD {{ report.period_view.primary.mdd | fmt_percent }}</span>
-            <span>Sharpe {% if report.period_view.primary.sharpe is not none %}{{ '%.2f'|format(report.period_view.primary.sharpe) }}{% else %}-{% endif %}</span>
+            <span>Sharpe {{ report.period_view.primary.sharpe | fmt_sharpe }}</span>
           </div>
         </div>
         {% endif %}
@@ -256,7 +256,7 @@
             <div class="period-metric-values">
               <span>{{ item.headline_label }} {{ item.headline_value | fmt_percent }}</span>
               <span>MDD {{ item.mdd | fmt_percent }}</span>
-              <span>Sharpe {% if item.sharpe is not none %}{{ '%.2f'|format(item.sharpe) }}{% else %}-{% endif %}</span>
+              <span>Sharpe {{ item.sharpe | fmt_sharpe }}</span>
             </div>
           </div>
           {% endfor %}
@@ -310,3 +310,4 @@
 </section>
 {% endif %}
 {% endblock %}
+

@@ -12,7 +12,7 @@
     {% include "_notice_group.html" %}
 
 {% if market_page_view.ai_briefs.enabled %}
-    <section class="market-ai-briefs" aria-label="AI의 시장분석">
+    <section class="market-ai-briefs" aria-label="{{ market_page_view.ai_briefs.title }}">
       <div class="section-heading tight-head">
         <div>
           <h2>{{ market_page_view.ai_briefs.title }}</h2>
@@ -46,6 +46,9 @@
     {% set market_state_bar = market_state_bar %}
     {% set variant = "full" %}
     {% include "_market_state_bar.html" %}
+    {% if market_page_view.header_state.description or market_page_view.header_state.tooltip %}
+    <p class="market-state-help muted small">{{ market_page_view.header_state.description or market_page_view.header_state.tooltip }}</p>
+    {% endif %}
     <div class="market-analysis-note-strip">
       <div class="feature-note">
         <strong>시장 상태와 점수</strong>
@@ -95,6 +98,9 @@
     <span class="label">{{ item.label }}</span>
     <h2>{% if item.score is not none %}{{ '%.2f'|format(item.score) }}{% else %}-{% endif %}</h2>
     <p>{{ item.summary }}</p>
+    {% if item.description %}
+    <p class="muted small market-component-description">{{ item.description }}</p>
+    {% endif %}
   </article>
   {% endfor %}
 </section>
@@ -172,7 +178,7 @@
   </div>
 </section>
 
-{% if market_page_view.notice_block.body %}
+{% if market_page_view.show_notice_block %}
 <section class="disclosure-box market-notice-block">
   <strong>{{ market_page_view.notice_block.title }}</strong>
   <ul class="message-list compact-list clean-list">
