@@ -1783,9 +1783,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     return app
 
 
-app = create_app()
-
-
 if __name__ == "__main__":
+    app = create_app()
     current_settings = app.config["SETTINGS"]
     app.run(host=current_settings.web_host, port=current_settings.web_port)

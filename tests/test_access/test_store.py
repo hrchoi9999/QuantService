@@ -180,3 +180,20 @@ def test_get_user_profile_keeps_verified_state_for_existing_profile(tmp_path: Pa
 
     assert profile["phone_verification_status"] == "verified"
     assert profile["phone_verified_at"] is not None
+
+
+def test_seed_defaults_keeps_existing_users_unverified_when_profile_is_missing(
+    tmp_path: Path,
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    store = AccessStore(settings)
+    user = store.authenticate_or_register("legacy@example.com", "pass1234")
+
+    with store._connect() as connection:
+        connection.execute("DELETE FROM user_profiles WHERE user_id = ?", (user.id,))
+
+    reloaded = AccessStore(settings)
+    profile = reloaded.get_user_profile(user.id)
+
+    assert profile["phone_verification_status"] == "unverified"
+    assert profile["phone_verified_at"] is None

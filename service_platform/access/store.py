@@ -303,7 +303,7 @@ class AccessStore:
                     created_at,
                     updated_at
                 )
-                SELECT id, 'local', 'verified', created_at, created_at, created_at
+                SELECT id, 'local', 'unverified', NULL, created_at, created_at
                 FROM users
                 """
             )

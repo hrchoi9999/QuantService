@@ -1,5 +1,6 @@
 import importlib
 import json
+import sys
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1675,3 +1676,19 @@ def test_click_tracking_ignores_untrusted_target_url(tmp_path: Path) -> None:
 
     assert response.status_code == 302
     assert response.headers["Location"] == "https://finance.naver.com/item/main.naver?code=005930"
+
+
+def test_web_app_module_import_does_not_initialize_app_or_write_db(
+    tmp_path: Path, monkeypatch
+) -> None:
+    app_db = tmp_path / "import-app.db"
+    feedback_db = tmp_path / "import-feedback.db"
+    monkeypatch.setenv("APP_DB_PATH", str(app_db))
+    monkeypatch.setenv("FEEDBACK_DB_PATH", str(feedback_db))
+    sys.modules.pop("service_platform.web.app", None)
+
+    module = importlib.import_module("service_platform.web.app")
+
+    assert hasattr(module, "create_app")
+    assert not app_db.exists()
+    assert not feedback_db.exists()
