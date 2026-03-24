@@ -1515,4 +1515,4 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
 
     assert response.status_code == 200
     assert "시장분석 내용" in body
-    assert "시장분석 내용 준비 중" in body
+    assert "AI의 시장분석 준비 중" in body

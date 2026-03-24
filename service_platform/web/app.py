@@ -479,7 +479,7 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = ai_payload.get("title") or "시장분석 내용"
+    title = "AI의 시장분석"
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
     for provider in providers:
@@ -505,7 +505,7 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         "title": title,
         "cards": cards,
         "show_placeholder": show_placeholder,
-        "placeholder": "시장분석 내용 준비 중",
+        "placeholder": "AI의 시장분석 준비 중",
     }
 
 
