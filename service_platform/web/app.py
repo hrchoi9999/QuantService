@@ -115,6 +115,19 @@ def _request_ip_address() -> str:
     return request.remote_addr or "unknown"
 
 
+def _build_public_model_compliance_note(bundle: Any) -> str:
+    default_note = (
+        "이 화면은 공개 규칙 기반 모델 정보와 과거 성과 스냅샷을 설명하기 위한 참고자료이며 "
+        "특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다."
+    )
+    reports = bundle.recommendation_today.get("reports", []) if bundle else []
+    for report in reports:
+        disclaimer = str(report.get("disclaimer_text") or "").strip()
+        if disclaimer:
+            return disclaimer
+    return default_note
+
+
 def _is_notify_ip_allowed(settings: Settings) -> bool:
     if not settings.lightpay_notify_allowed_ips:
         return True
@@ -292,7 +305,9 @@ def _build_growth_note(service_profile: str, market_regime: str | None) -> str |
 
 
 def _build_today_report_view(
-    report: dict[str, Any], current_market_regime: str | None
+    report: dict[str, Any],
+    current_market_regime: str | None,
+    model_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     allocation_view = _build_allocation_view(report.get("allocation_items", []))
     performance_summary = report.get("performance_summary") or {}
@@ -308,6 +323,12 @@ def _build_today_report_view(
     report_view["growth_note"] = _build_growth_note(
         report.get("service_profile", ""),
         current_market_regime,
+    )
+    report_view["reference_usage_context"] = (model_info or {}).get("reference_usage_context") or (
+        model_info or {}
+    ).get("target_user_type")
+    report_view["compliance_metadata"] = (
+        report.get("compliance_metadata") or (model_info or {}).get("compliance_metadata") or {}
     )
     return report_view
 
@@ -528,8 +549,8 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
             full_title = "Gemini 가 읽어주는 시장분위기"
             sort_order = 0
         elif provider_name == "chatgpt":
-            title_suffix = "가 추천하는 대응 전략"
-            full_title = "ChatGPT가 추천하는 대응 전략"
+            title_suffix = "가 정리한 대응 전략"
+            full_title = "ChatGPT가 정리한 대응 전략"
             sort_order = 1
         cards.append(
             {
@@ -955,19 +976,21 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.user_models), 200)
 
+    @app.get("/api/v1/model-snapshots/today")
     @app.get("/api/v1/recommendation/today")
-    def api_recommendation_today() -> tuple[dict[str, object], int]:
+    def api_model_snapshots_today() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
-        return (jsonify(bundle.recommendation_today), 200)
+        return (jsonify(user_snapshot_api.get_model_snapshots_today(force_refresh=False)), 200)
 
+    @app.get("/api/v1/model-snapshots/<service_profile>")
     @app.get("/api/v1/recommendation/<service_profile>")
-    def api_recommendation_by_profile(service_profile: str) -> tuple[dict[str, object], int]:
+    def api_model_snapshot_by_profile(service_profile: str) -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
-        report_payload = user_snapshot_api.get_recommendation_by_profile(service_profile)
+        report_payload = user_snapshot_api.get_model_snapshot_by_profile(service_profile)
         if report_payload is None:
             return ({"status": "not_found", "message": "service profile not found"}, 404)
         return (jsonify(report_payload), 200)
@@ -1058,6 +1081,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_home_payload=(market_bundle.home if market_bundle else {}),
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_status_snapshot,
+                compliance_note=_build_public_model_compliance_note(bundle),
             ),
             mimetype="text/html",
         )
@@ -1284,8 +1308,13 @@ def create_app(settings: Settings | None = None) -> Flask:
         market_bundle = load_market_bundle_or_error()
         record_page_view("/today", bundle)
         current_market_regime = bundle.recommendation_today.get("current_market_regime")
+        model_lookup = {
+            model.get("service_profile"): model for model in bundle.user_models.get("models", [])
+        }
         report_views = [
-            _build_today_report_view(report, current_market_regime)
+            _build_today_report_view(
+                report, current_market_regime, model_lookup.get(report.get("service_profile"))
+            )
             for report in bundle.recommendation_today.get("reports", [])
         ]
         for report in report_views:
@@ -1297,13 +1326,14 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "today.html",
-                page_title="오늘의 추천",
+                page_title="오늘의 모델 정보",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
                 market_today_payload=(market_bundle.today if market_bundle else {}),
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
+                compliance_note=_build_public_model_compliance_note(bundle),
             ),
             mimetype="text/html",
         )

@@ -14,7 +14,7 @@ from service_platform.shared.config import Settings
 
 USER_SNAPSHOT_FILES = {
     "user_models": "user_model_catalog.json",
-    "recommendation_today": "user_recommendation_report.json",
+    "recommendation_today": "user_model_snapshot_report.json",
     "performance_summary": "user_performance_summary.json",
     "recent_changes": "user_recent_changes.json",
     "publish_status": "publish_manifest.json",
@@ -96,7 +96,10 @@ SERVICE_PROFILE_CHANGE_REASONS = {
     "auto": "시장 국면 변화에 맞춰 전략 비중을 자동으로 재조정했습니다.",
 }
 
-DEFAULT_DISCLAIMER = "이 자료는 정보 제공을 위한 것이며 투자 권유나 자문이 아닙니다."
+DEFAULT_DISCLAIMER = (
+    "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 "
+    "특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다."
+)
 GARBLED_MARKERS = ("??", "챙", "혮", "湲", "�", "ì", "í", "ê", "좎", "쒖")
 
 
@@ -238,10 +241,10 @@ class UserSnapshotMockApi:
     def get_user_models(self, force_refresh: bool = False) -> dict[str, Any]:
         return self.load_bundle(force_refresh=force_refresh).user_models
 
-    def get_recommendation_today(self, force_refresh: bool = False) -> dict[str, Any]:
+    def get_model_snapshots_today(self, force_refresh: bool = False) -> dict[str, Any]:
         return self.load_bundle(force_refresh=force_refresh).recommendation_today
 
-    def get_recommendation_by_profile(
+    def get_model_snapshot_by_profile(
         self, service_profile: str, force_refresh: bool = False
     ) -> dict[str, Any] | None:
         bundle = self.load_bundle(force_refresh=force_refresh)
@@ -256,6 +259,17 @@ class UserSnapshotMockApi:
                     "report": report,
                 }
         return None
+
+    def get_recommendation_today(self, force_refresh: bool = False) -> dict[str, Any]:
+        return self.get_model_snapshots_today(force_refresh=force_refresh)
+
+    def get_recommendation_by_profile(
+        self, service_profile: str, force_refresh: bool = False
+    ) -> dict[str, Any] | None:
+        return self.get_model_snapshot_by_profile(
+            service_profile,
+            force_refresh=force_refresh,
+        )
 
     def get_performance_summary(self, force_refresh: bool = False) -> dict[str, Any]:
         return self.load_bundle(force_refresh=force_refresh).performance_summary
@@ -306,9 +320,12 @@ class UserSnapshotMockApi:
                 model.get("user_model_name"), profile
             )
             model["summary"] = self._sanitize_profile_summary(model.get("summary"), profile)
-            model["target_user_type"] = self._sanitize_target_user_type(
-                model.get("target_user_type"), profile
+            reference_usage_context = self._sanitize_target_user_type(
+                model.get("reference_usage_context") or model.get("target_user_type"),
+                profile,
             )
+            model["reference_usage_context"] = reference_usage_context
+            model["target_user_type"] = reference_usage_context
 
         for report in recommendation.get("reports", []):
             profile = report.get("service_profile")
@@ -545,7 +562,7 @@ class UserSnapshotMockApi:
         if not isinstance(payloads["user_models"].get("models"), list):
             errors.append("user_model_catalog.json: models must be a list")
         if not isinstance(payloads["recommendation_today"].get("reports"), list):
-            errors.append("user_recommendation_report.json: reports must be a list")
+            errors.append("user_model_snapshot_report.json: reports must be a list")
         if not isinstance(payloads["performance_summary"].get("models"), list):
             errors.append("user_performance_summary.json: models must be a list")
         if not isinstance(payloads["recent_changes"].get("changes"), list):
@@ -556,7 +573,7 @@ class UserSnapshotMockApi:
             if key not in payloads["user_models"]:
                 errors.append(f"user_model_catalog.json: missing {key}")
             if key not in payloads["recommendation_today"]:
-                errors.append(f"user_recommendation_report.json: missing {key}")
+                errors.append(f"user_model_snapshot_report.json: missing {key}")
             if key not in payloads["performance_summary"]:
                 errors.append(f"user_performance_summary.json: missing {key}")
             if key not in payloads["recent_changes"]:
@@ -564,7 +581,7 @@ class UserSnapshotMockApi:
             if key not in payloads["publish_status"]:
                 errors.append(f"publish_manifest.json: missing {key}")
         if "generated_at" not in payloads["recommendation_today"]:
-            errors.append("user_recommendation_report.json: missing generated_at")
+            errors.append("user_model_snapshot_report.json: missing generated_at")
         if "generated_at" not in payloads["publish_status"]:
             errors.append("publish_manifest.json: missing generated_at")
         if errors:

@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-    <h1>오늘의 추천</h1>
-    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 핵심만 먼저 보고, 필요한 전략만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
+    <h1>오늘의 모델 정보</h1>
+    <p class="lead">시장 국면과 모델별 역할을 기준으로 기준일 모델 구성과 핵심 조정 내용을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
@@ -15,7 +15,7 @@
         <strong>{{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</strong>
       </div>
       <div class="metric-card public-metric-card">
-        <span class="label">전략 수</span>
+        <span class="label">모델 수</span>
         <strong>{{ report_views | length }}</strong>
       </div>
       <div class="metric-card public-metric-card">
@@ -24,9 +24,9 @@
       </div>
     </div>
     {% if status_snapshot.state == 'stale' %}
-    <div class="warning-banner">최신 추천 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
+    <div class="warning-banner">최신 모델 스냅샷 반영이 지연되고 있습니다. 직전 정상 데이터를 기준으로 표시합니다.</div>
     {% elif status_snapshot.state == 'empty' %}
-    <div class="warning-banner">오늘의 추천 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
+    <div class="warning-banner">오늘의 모델 스냅샷이 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
     {% endif %}
   </div>
   {% if report_views %}
@@ -45,11 +45,16 @@
   {% endif %}
 </section>
 
+<section class="disclosure-box compact-compliance-note">
+  <strong>안내</strong>
+  <p>{{ compliance_note }}</p>
+</section>
+
 <section class="panel shell-card market-bridge-panel">
   <div class="section-heading tight-head market-panel-head">
     <div>
       <h2>시장분석 브리지</h2>
-      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('bridge_text', '시장분석 데이터가 준비되면 오늘의 추천과 연결된 해석이 표시됩니다.') }}</p>
+      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('bridge_text', '시장분석 데이터가 준비되면 오늘의 모델 정보와 연결된 해석이 표시됩니다.') }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
   </div>
@@ -62,7 +67,7 @@
     </div>
     <div class="market-bridge-side">
       <div class="metric-card public-metric-card">
-        <span class="label">추천 대응 톤</span>
+        <span class="label">참고 대응 톤</span>
         <strong>{{ market_today_payload.get('market_bridge', {}).get('recommended_tone', '-') }}</strong>
       </div>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장분석 자세히 보기</a>
@@ -116,10 +121,15 @@
       <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>전략 요약</h3>
+            <h3>모델 프로필</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
+        <div class="sub-panel shell-card note-panel usage-context-panel">
+          <span class="label">참고 이용자 유형</span>
+          <p>{{ report.reference_usage_context or '공개 규칙 기반 모델 정보를 참고하려는 이용자' }}</p>
+        </div>
+
         {% if report.growth_note %}
         <div class="sub-panel shell-card note-panel growth-note-panel">
           <span class="label">성장형 해석</span>
@@ -136,7 +146,7 @@
       <article class="shell-card content-card holdings-panel strategy-holdings-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>포트폴리오 구성</h3>
+            <h3>기준일 모델 구성</h3>
           </div>
           <span class="badge neutral">{{ report.allocation_view.all_items | length }}개 자산</span>
         </div>
@@ -244,7 +254,7 @@
       <article class="shell-card content-card strategy-change-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>이번 조정</h3>
+            <h3>최근 구성 조정</h3>
           </div>
         </div>
         <div class="grid two-up nested-grid change-grid-modern">
@@ -272,7 +282,7 @@
           </div>
         </div>
         <div class="sub-panel shell-card reason-panel top-margin-sm">
-          <span class="label">변경 이유</span>
+          <span class="label">변경 기준</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>
@@ -283,8 +293,8 @@
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>오늘의 추천 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 준비되면 이 화면에 전략별 추천 리포트가 표시됩니다.</p>
+  <h2>오늘의 모델 정보가 아직 없습니다.</h2>
+  <p>사용자용 스냅샷이 준비되면 이 화면에 모델별 스냅샷 리포트가 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

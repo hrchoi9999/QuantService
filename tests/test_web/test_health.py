@@ -19,6 +19,16 @@ EXAMPLE_FILES = {
 }
 
 
+REFERENCE_CONTEXT_STABLE = "변동성보다 안정성과 방어를 우선적으로 참고하려는 이용자"
+REFERENCE_CONTEXT_BALANCED = "중장기 성장성과 분산 구성을 함께 참고하려는 이용자"
+REFERENCE_CONTEXT_GROWTH = "높은 변동성을 감수하더라도 성장 중심 구성을 참고하려는 이용자"
+REFERENCE_CONTEXT_AUTO = "시장 상황에 따라 자동 조정되는 공개 모델 기준안을 참고하려는 이용자"
+COMPLIANCE_DISCLAIMER = (
+    "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 "
+    "특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다."
+)
+
+
 def build_settings(
     tmp_path: Path,
     *,
@@ -138,7 +148,9 @@ def seed_user_snapshot(
             "service_profile": "stable",
             "summary": "채권과 금을 중심으로 방어적인 흐름을 추구하는 전략입니다.",
             "risk_label": "low",
-            "target_user_type": "안정성을 우선하는 투자자",
+            "reference_usage_context": REFERENCE_CONTEXT_STABLE,
+            "target_user_type": REFERENCE_CONTEXT_STABLE,
+            "compliance_metadata": {"is_personalized_advice": False},
             "primary_asset_mix": ["bond", "gold", "cash_like"],
             "is_active": True,
         },
@@ -148,7 +160,9 @@ def seed_user_snapshot(
             "service_profile": "balanced",
             "summary": "주식과 ETF를 함께 활용해 균형 잡힌 성과를 추구합니다.",
             "risk_label": "medium",
-            "target_user_type": "성장과 방어를 함께 보고 싶은 투자자",
+            "reference_usage_context": REFERENCE_CONTEXT_BALANCED,
+            "target_user_type": REFERENCE_CONTEXT_BALANCED,
+            "compliance_metadata": {"is_personalized_advice": False},
             "primary_asset_mix": ["stock", "equity_etf", "cash_like"],
             "is_active": True,
         },
@@ -158,7 +172,9 @@ def seed_user_snapshot(
             "service_profile": "growth",
             "summary": "최근 강한 성장 주식 sleeve를 적극적으로 반영하는 전략입니다.",
             "risk_label": "high",
-            "target_user_type": "수익 기회를 적극적으로 추구하는 투자자",
+            "reference_usage_context": REFERENCE_CONTEXT_GROWTH,
+            "target_user_type": REFERENCE_CONTEXT_GROWTH,
+            "compliance_metadata": {"is_personalized_advice": False},
             "primary_asset_mix": ["growth_stock", "growth_etf"],
             "is_active": True,
         },
@@ -168,7 +184,9 @@ def seed_user_snapshot(
             "service_profile": "auto",
             "summary": "시장 환경에 따라 비중과 자산 구성을 자동으로 조정합니다.",
             "risk_label": "adaptive",
-            "target_user_type": "국면 변화에 자동 대응하고 싶은 투자자",
+            "reference_usage_context": REFERENCE_CONTEXT_AUTO,
+            "target_user_type": REFERENCE_CONTEXT_AUTO,
+            "compliance_metadata": {"is_personalized_advice": False},
             "primary_asset_mix": ["multi_asset", "dynamic_allocation"],
             "is_active": True,
         },
@@ -271,7 +289,12 @@ def seed_user_snapshot(
                     ],
                     "change_reason": "방어 자산을 유지하되 일부 주식 비중을 보강했습니다.",
                 },
-                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
+                "disclaimer_text": COMPLIANCE_DISCLAIMER,
+                "compliance_metadata": {
+                    "is_personalized_advice": False,
+                    "is_one_to_one_advisory": False,
+                    "is_actual_trade_instruction": False,
+                },
             },
             {
                 "user_model_name": "균형형",
@@ -368,7 +391,12 @@ def seed_user_snapshot(
                     ],
                     "change_reason": "주식과 ETF의 균형 비중을 유지하도록 조정했습니다.",
                 },
-                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
+                "disclaimer_text": COMPLIANCE_DISCLAIMER,
+                "compliance_metadata": {
+                    "is_personalized_advice": False,
+                    "is_one_to_one_advisory": False,
+                    "is_actual_trade_instruction": False,
+                },
             },
             {
                 "user_model_name": "성장형",
@@ -465,7 +493,12 @@ def seed_user_snapshot(
                     ],
                     "change_reason": "최근 1년 성과 우위가 있는 성장 주식 비중을 확대했습니다.",
                 },
-                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
+                "disclaimer_text": COMPLIANCE_DISCLAIMER,
+                "compliance_metadata": {
+                    "is_personalized_advice": False,
+                    "is_one_to_one_advisory": False,
+                    "is_actual_trade_instruction": False,
+                },
             },
             {
                 "user_model_name": "자동전환형",
@@ -546,7 +579,12 @@ def seed_user_snapshot(
                     ],
                     "change_reason": "시장 국면 변화에 맞춰 주식과 현금 비중을 조정했습니다.",
                 },
-                "disclaimer_text": "이 자료는 정보 제공 목적이며 투자 자문이 아닙니다.",
+                "disclaimer_text": COMPLIANCE_DISCLAIMER,
+                "compliance_metadata": {
+                    "is_personalized_advice": False,
+                    "is_one_to_one_advisory": False,
+                    "is_actual_trade_instruction": False,
+                },
             },
         ]
         if include_reports
@@ -730,7 +768,7 @@ def seed_user_snapshot(
 
     payloads = {
         "user_model_catalog.json": {"as_of_date": "2026-03-20", "models": models},
-        "user_recommendation_report.json": {
+        "user_model_snapshot_report.json": {
             "as_of_date": "2026-03-20",
             "generated_at": generated_at,
             "current_market_regime": "neutral",
@@ -749,7 +787,7 @@ def seed_user_snapshot(
             "generated_at": generated_at,
             "files": [
                 "user_model_catalog.json",
-                "user_recommendation_report.json",
+                "user_model_snapshot_report.json",
                 "user_performance_summary.json",
                 "user_recent_changes.json",
             ],
@@ -1039,6 +1077,9 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     assert "주식 sleeve 비중" in today_body
     assert "ETF sleeve 비중" in today_body
     assert "현금성 비중" in today_body
+    assert "오늘의 모델 정보" in today_body
+    assert "참고 이용자 유형" in today_body
+    assert "공개 규칙 기반 모델 정보" in today_body
     assert "주식 상위 종목" in today_body
     assert "ETF 상위 종목" in today_body
     assert "현금성 자산" in today_body
@@ -1074,8 +1115,8 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     client = app.test_client()
 
     models_response = client.get("/api/v1/user-models")
-    today_response = client.get("/api/v1/recommendation/today")
-    profile_response = client.get("/api/v1/recommendation/stable")
+    today_response = client.get("/api/v1/model-snapshots/today")
+    profile_response = client.get("/api/v1/model-snapshots/stable")
     performance_response = client.get("/api/v1/performance/summary")
     changes_response = client.get("/api/v1/changes/recent")
     manifest_response = client.get("/api/v1/publish-status")
@@ -1268,7 +1309,7 @@ def test_signup_flow_supports_email_accounts_with_phone_verification(tmp_path: P
     assert signup_response.status_code == 200
     assert "Gmail" in signup_response.get_data(as_text=True)
     assert login_response.status_code == 200
-    assert "오늘의 추천" in login_response.get_data(as_text=True)
+    assert "오늘의 모델 정보" in login_response.get_data(as_text=True)
     assert me_response.get_json()["phone_verification_status"] == "verified"
     assert me_response.get_json()["auth_provider"] == "local"
 
@@ -1425,13 +1466,14 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert market_response.status_code == 200
     assert "시장분석" in home_body
     assert "지금 시장은 이렇게 보고 있습니다" in home_body
+    assert "공개 규칙 기반 모델 정보" in home_body
     assert "market-state-bar" in home_body
     assert "강상승" in home_body
     assert "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다." in today_body
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 흔들림" in market_body
-    assert "시장분석 내용" in market_body
+    assert "AI의 시장분석" in market_body
     assert "ChatGPT" in market_body
     assert "Gemini" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
@@ -1518,8 +1560,8 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장분석 내용" in body
-    assert "ChatGPT가 추천하는 대응 전략" in body
+    assert "AI의 시장분석" in body
+    assert "ChatGPT가 정리한 대응 전략" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
@@ -1582,7 +1624,7 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장분석 내용" in body
+    assert "AI의 시장분석" in body
     assert "AI의 시장분석 준비 중" in body
 
 
