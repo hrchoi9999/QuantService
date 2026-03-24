@@ -1281,6 +1281,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status=request.args.get("status", ""),
                 current_orders=current_user_orders(),
                 access_context=access_context,
+                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )
