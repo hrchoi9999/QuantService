@@ -2820,3 +2820,67 @@ body {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+
+.compact-status-inline {
+  padding: 22px 24px;
+}
+
+.compact-status-head {
+  align-items: start;
+  gap: 14px;
+}
+
+.compact-status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.compact-inline-banner {
+  margin-top: 12px;
+}
+
+.strategy-disclosure {
+  border: 0;
+}
+
+.strategy-disclosure-summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.strategy-disclosure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.strategy-disclosure-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.strategy-disclosure:not([open]) .strategy-disclosure-body {
+  display: none;
+}
+
+.strategy-disclosure-summary .title-stack::after {
+  content: "자세히 보기";
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.strategy-disclosure[open] .strategy-disclosure-summary .title-stack::after {
+  content: "접기";
+}
+
+@media (max-width: 900px) {
+  .compact-status-badges {
+    justify-content: flex-start;
+  }
+}

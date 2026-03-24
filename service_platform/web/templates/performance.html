@@ -13,16 +13,16 @@
   </div>
   <aside class="hero-side shell-card spotlight-panel">
     <ul class="message-list compact-list trust-list">
-      <li>메인 headline은 1년 기준 CAGR, MDD, Sharpe를 사용합니다.</li>
-      <li>6개월과 3개월 지표는 total return, MDD, Sharpe 중심으로 최근 장세를 빠르게 읽기 위한 보조 지표입니다.</li>
-      <li>최근 동일한 급락 구간이 여러 기간에 공통 포함되면 MDD가 같은 값으로 보일 수 있습니다.</li>
+      <li>성과는 동일한 기준으로 정리한 비교용 지표입니다.</li>
+      <li>1년·2년·3년은 CAGR 중심, 6개월·3개월은 total return 중심으로 읽어 주세요.</li>
+      <li>최근 동일한 급락 구간이 여러 기간에 포함되면 MDD가 같은 값으로 보일 수 있습니다.</li>
     </ul>
   </aside>
 </section>
 
 {% if auto_balanced_same %}
 <section class="panel shell-card info-banner-panel">
-  <p class="muted">현재 시장 국면이 중립 구간이라 자동전환형이 균형형과 유사한 포트폴리오를 사용하고 있을 수 있습니다.</p>
+  <p class="muted">현재 시장 국면에서는 자동전환형이 균형형과 유사하게 운용될 수 있습니다.</p>
 </section>
 {% endif %}
 
@@ -34,7 +34,7 @@
       <div class="title-stack">
         <h2>{{ row.user_model_name }}</h2>
       </div>
-      <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>
+      <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>{% if auto_balanced_same and row.service_profile == "auto" %}<span class="badge neutral">현재 균형형과 유사 운용</span>{% endif %}
     </div>
     <p class="muted">{{ row.note }}</p>
     <div class="visual-metric-stack">

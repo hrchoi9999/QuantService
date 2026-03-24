@@ -154,12 +154,43 @@ def _allocation_bucket(item: dict[str, Any]) -> str:
     return "etf"
 
 
-def _build_allocation_view(allocation_items: list[dict[str, Any]]) -> dict[str, Any]:
-    sorted_items = sorted(
-        allocation_items,
+def _normalize_allocation_items(allocation_items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    merged: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for item in allocation_items:
+        weight = float(item.get("target_weight") or 0)
+        if abs(weight) < 1e-9:
+            continue
+        bucket = _allocation_bucket(item)
+        security_code = str(item.get("security_code") or "").strip()
+        display_name = str(item.get("display_name") or "").strip()
+        key = (bucket, security_code, display_name)
+        if bucket == "cash":
+            key = (bucket, "cash", "현금/대기자금")
+        merged_item = merged.get(key)
+        if merged_item is None:
+            merged_item = dict(item)
+            if bucket == "cash":
+                merged_item["display_name"] = "현금/대기자금"
+                merged_item["security_code"] = None
+                merged_item["role_summary"] = merged_item.get("role_summary") or "유동성 관리"
+            merged_item["target_weight"] = weight
+            merged[key] = merged_item
+            continue
+        merged_item["target_weight"] = float(merged_item.get("target_weight") or 0) + weight
+        if not merged_item.get("role_summary") and item.get("role_summary"):
+            merged_item["role_summary"] = item.get("role_summary")
+    normalized = [
+        item for item in merged.values() if abs(float(item.get("target_weight") or 0)) >= 1e-9
+    ]
+    return sorted(
+        normalized,
         key=lambda item: float(item.get("target_weight") or 0),
         reverse=True,
     )
+
+
+def _build_allocation_view(allocation_items: list[dict[str, Any]]) -> dict[str, Any]:
+    sorted_items = _normalize_allocation_items(allocation_items)
     grouped = {"stock": [], "etf": [], "cash": []}
     sleeve_weights = {"stock": 0.0, "etf": 0.0, "cash": 0.0}
     for item in sorted_items:
@@ -304,9 +335,6 @@ MARKET_METRIC_GROUPS = [
     (
         "지수/추세",
         [
-            ("kospi_20d_ret", "KOSPI 20일 수익률", "signed_percent"),
-            ("kospi_60d_ret", "KOSPI 60일 수익률", "signed_percent"),
-            ("kosdaq_20d_ret", "KOSDAQ 20일 수익률", "signed_percent"),
             ("above_20dma_ratio", "20일선 위 종목 비율", "percent"),
             ("above_60dma_ratio", "60일선 위 종목 비율", "percent"),
         ],
@@ -558,9 +586,9 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         "action_guide": signal_lists.get("action_guide") or "-",
         "metric_groups": _build_market_metric_groups(page_payload.get("metrics") or {}),
         "source_rows": [
-            {"label": "생성 주기", "value": "1시간"},
-            {"label": "생성 주체", "value": "QuantMarket"},
-            {"label": "표시 주체", "value": "QuantService"},
+            {"label": "업데이트 주기", "value": "1시간"},
+            {"label": "데이터 기준", "value": "국내 주요 시장 지표"},
+            {"label": "안내", "value": "최신 공개 데이터 기준"},
         ],
     }
 
@@ -1031,7 +1059,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "home.html",
-                page_title="Home",
+                page_title="홈",
                 bundle=bundle,
                 performance_by_profile=performance_by_profile,
                 status_snapshot=status_snapshot,
@@ -1057,7 +1085,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return Response(
                 render_template(
                     "login.html",
-                    page_title="Login",
+                    page_title="로그인",
                     status=request.args.get("status", ""),
                     next_url=next_url,
                 ),
@@ -1089,7 +1117,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return Response(
                 render_template(
                     "signup.html",
-                    page_title="Sign Up",
+                    page_title="회원가입",
                     status=request.args.get("status", ""),
                     next_url=next_url,
                     phone_number=request.args.get(
@@ -1274,7 +1302,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "today.html",
-                page_title="Today",
+                page_title="오늘의 추천",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
@@ -1299,7 +1327,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "changes.html",
-                page_title="Changes",
+                page_title="변경내역",
                 bundle=bundle,
                 status_snapshot=user_status_snapshot,
                 publish_status_payload=publish_status_payload,
@@ -1332,7 +1360,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "performance.html",
-                page_title="Performance",
+                page_title="성과",
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 performance_rows=performance_rows,
@@ -1350,7 +1378,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "market_analysis.html",
-                page_title="Market Analysis",
+                page_title="시장분석",
                 market_page_view=page_view,
                 market_state_bar=page_view.get("state_bar"),
                 market_status_snapshot=market_status_snapshot,
@@ -1363,7 +1391,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         record_page_view("/feedback")
         return Response(
             render_template(
-                "feedback.html", page_title="Feedback", status=request.args.get("status", "")
+                "feedback.html", page_title="의견 보내기", status=request.args.get("status", "")
             ),
             mimetype="text/html",
         )
@@ -1739,7 +1767,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "status.html",
-                page_title="Status",
+                page_title="서비스 상태",
                 status_snapshot=status_snapshot,
                 metrics_summary=metrics_summary,
                 publish_status_payload=publish_status_payload,

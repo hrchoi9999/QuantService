@@ -1390,7 +1390,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "강상승" in home_body
     assert "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다." in today_body
     assert "market-state-bar" in today_body
-    assert "서비스 상태 요약" in changes_body
+    assert "서비스 상태" in changes_body
     assert "시장 흔들림" in market_body
     assert "시장분석 내용" in market_body
     assert "ChatGPT" in market_body

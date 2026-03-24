@@ -4,7 +4,7 @@
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
     <h1>오늘의 추천</h1>
-    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 리서치 브리핑 형태로 정리했습니다.</p>
+    <p class="lead">시장 국면과 전략별 역할을 기준으로 오늘의 자산 배분과 핵심 조정 내용을 핵심만 먼저 보고, 필요한 전략만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
@@ -77,7 +77,8 @@
   {% for report in report_views %}
   {% set primary = report.period_view.primary %}
   <section class="panel report-shell shell-card strategy-detail-card" id="{{ report.service_profile }}">
-    <div class="section-heading report-top detail-top">
+    <details class="strategy-disclosure" {% if loop.first %}open{% endif %}>
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary">
       <div class="title-stack">
         <h2>{{ report.user_model_name }}</h2>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
@@ -86,8 +87,9 @@
         <span class="badge accent">위험도 {{ risk_labels.get(report.risk_level, report.risk_level) }}</span>
         <span class="badge neutral">생성 {{ bundle.generated_at | fmt_datetime }}</span>
       </div>
-    </div>
+    </summary>
 
+    <div class="strategy-disclosure-body">
     <div class="metric-strip three-col report-metric-strip full-metric-band">
       <div class="metric-card public-metric-card emphasis full-metric-item">
         <span class="label">{{ (primary.headline_label if primary else 'CAGR') }}</span>
@@ -268,6 +270,8 @@
         </div>
       </article>
     </div>
+    </div>
+    </details>
   </section>
   {% endfor %}
 {% else %}

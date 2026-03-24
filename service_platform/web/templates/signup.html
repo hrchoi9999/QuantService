@@ -2,7 +2,7 @@
 
 {% block content %}
 <section class="hero-card compact-hero">
-  <p class="eyebrow">Member Access</p>
+  <p class="eyebrow">회원 서비스</p>
   <h1>회원가입</h1>
   <p class="lead">이메일을 기본 계정으로 사용하고, 가입 전 휴대폰 인증을 완료합니다.</p>
   {% if status %}
@@ -38,15 +38,15 @@
       <input type="hidden" name="next" value="{{ next_url }}">
       <input type="hidden" name="action" value="register">
       <div>
-        <label class="label" for="signup-email">Email</label>
-        <input id="signup-email" name="email" type="email" placeholder="gmail/naver/kakao mail supported" required>
+        <label class="label" for="signup-email">이메일</label>
+        <input id="signup-email" name="email" type="email" placeholder="이메일 주소를 입력해 주세요" required>
       </div>
       <div>
-        <label class="label" for="signup-password">Password</label>
+        <label class="label" for="signup-password">비밀번호</label>
         <input id="signup-password" name="password" type="password" placeholder="8자 이상" required>
       </div>
       <div>
-        <label class="label" for="signup-password-confirm">Password Confirm</label>
+        <label class="label" for="signup-password-confirm">비밀번호 확인</label>
         <input id="signup-password-confirm" name="password_confirm" type="password" placeholder="비밀번호 재입력" required>
       </div>
       <div>
@@ -69,6 +69,6 @@
     <span>Naver Mail</span>
     <span>Kakao Mail</span>
   </div>
-  <p class="muted">지금은 이메일 계정으로 가입하고, 실제 소셜 OAuth 로그인 연동은 2단계에서 추가합니다.</p>
+  <p class="muted">현재는 이메일 기반 가입을 지원합니다. 간편 로그인 방식은 추후 지원될 수 있습니다.</p>
 </section>
 {% endblock %}

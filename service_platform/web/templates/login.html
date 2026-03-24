@@ -2,7 +2,7 @@
 
 {% block content %}
 <section class="hero-card compact-hero">
-  <p class="eyebrow">Member Access</p>
+  <p class="eyebrow">회원 서비스</p>
   <h1>로그인</h1>
   <p class="lead">기존 가입자는 이메일 계정으로 로그인합니다. Gmail, Naver Mail, Kakao Mail 주소도 모두 이메일 계정으로 사용할 수 있습니다.</p>
   {% if status %}
@@ -15,15 +15,15 @@
     <form class="feedback-form" method="post" action="{{ url_for('login') }}">
       <input type="hidden" name="next" value="{{ next_url }}">
       <div>
-        <label class="label" for="email">Email</label>
+        <label class="label" for="email">이메일</label>
         <input id="email" name="email" type="email" placeholder="you@example.com" required>
       </div>
       <div>
-        <label class="label" for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="At least 8 characters" required>
+        <label class="label" for="password">비밀번호</label>
+        <input id="password" name="password" type="password" placeholder="비밀번호를 입력해 주세요" required>
       </div>
       <div class="stack-actions">
-        <button class="primary-button" type="submit">Login</button>
+        <button class="primary-button" type="submit">로그인</button>
         <a class="secondary-button" href="{{ next_url }}">돌아가기</a>
       </div>
     </form>
@@ -34,7 +34,7 @@
     <ul class="message-list">
       <li>기본 계정 식별자는 이메일입니다.</li>
       <li>가입 시 휴대폰 인증을 먼저 완료해야 합니다.</li>
-      <li>Google, Naver, Kakao 계정 연동은 2단계에서 붙일 예정이며 지금은 해당 메일 주소로 가입할 수 있습니다.</li>
+      <li>현재는 이메일 기반 가입을 지원하며, 일부 간편 로그인 방식은 추후 지원 예정입니다.</li>
     </ul>
     <div class="stack-actions">
       <a class="primary-button" href="{{ url_for('signup', next=next_url) }}">회원가입</a>
