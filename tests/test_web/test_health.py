@@ -1,5 +1,6 @@
 import importlib
 import json
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -1360,6 +1361,24 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert detail_response.get_json()["data"]["positive_points"][0] == "60일선 위 종목 비율 양호"
     assert manifest_response.status_code == 200
     assert manifest_response.get_json()["consumer"] == "QuantService"
+
+
+def test_market_analysis_can_read_remote_handoff_json(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(settings.market_analysis_dir)
+    remote_settings = replace(
+        settings,
+        market_analysis_source="remote",
+        market_analysis_base_url=settings.market_analysis_dir.as_uri(),
+    )
+    app = create_app(remote_settings)
+    client = app.test_client()
+
+    response = client.get("/api/v1/market-analysis/summary")
+
+    assert response.status_code == 200
+    assert response.get_json()["data"]["state_label"] == "중립"
 
 
 def test_market_analysis_fallback_is_graceful_when_handoff_is_missing(tmp_path: Path) -> None:

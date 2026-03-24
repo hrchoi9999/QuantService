@@ -8,6 +8,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
 from typing import Any
+from urllib.error import URLError
+from urllib.request import urlopen
 
 from service_platform.shared.config import Settings
 
@@ -22,6 +24,7 @@ MARKET_ANALYSIS_FILES = {
     "api_detail": "api_v1_market_analysis_detail.json",
     "api_today_bridge": "api_v1_market_analysis_today_bridge.json",
 }
+REMOTE_SOURCES = {"remote", "http", "gcs"}
 
 
 class MarketAnalysisLoadError(RuntimeError):
@@ -86,7 +89,7 @@ class MarketAnalysisMockApi:
                 return deepcopy(self._cached_bundle)
 
             try:
-                bundle = self._load_from_directory(self.root_dir)
+                bundle = self._load_bundle_with_fallbacks()
             except MarketAnalysisLoadError as exc:
                 if self._cached_bundle is not None:
                     fallback = deepcopy(self._cached_bundle)
@@ -151,7 +154,82 @@ class MarketAnalysisMockApi:
         bundle = self.load_bundle(force_refresh=force_refresh)
         return deepcopy(getattr(bundle, key, {}))
 
-    def _load_from_directory(self, directory: Path) -> MarketAnalysisBundle:
+    def _load_bundle_with_fallbacks(self) -> MarketAnalysisBundle:
+        errors: list[str] = []
+        for loader in self._iter_loaders():
+            try:
+                return loader()
+            except MarketAnalysisLoadError as exc:
+                errors.extend(exc.errors)
+        raise MarketAnalysisLoadError(
+            "Market analysis handoff is temporarily unavailable.",
+            errors=errors,
+        )
+
+    def _iter_loaders(self):
+        use_remote = self.settings.market_analysis_source in REMOTE_SOURCES or bool(
+            self.settings.market_analysis_base_url
+        )
+        if use_remote:
+            yield self._load_from_remote_current
+        yield self._load_from_local_current
+
+    def _load_from_local_current(self) -> MarketAnalysisBundle:
+        return self._load_from_local_directory(self.root_dir, "market-analysis-local")
+
+    def _load_from_remote_current(self) -> MarketAnalysisBundle:
+        base_url = self._get_remote_base_url()
+        warnings: list[str] = []
+        payloads: dict[str, dict[str, Any]] = {}
+        for key, filename in MARKET_ANALYSIS_FILES.items():
+            url = f"{base_url}/{filename}"
+            required = key != "manifest"
+            payload = self._load_json_url(url, required=required)
+            if payload is None:
+                warnings.append(f"{filename} 파일을 원격 source에서 읽지 못했습니다.")
+                payload = {}
+            payloads[key] = payload
+        bundle = MarketAnalysisBundle(
+            home=payloads["home"],
+            today=payloads["today"],
+            page=payloads["page"],
+            manifest=payloads["manifest"],
+            api_home=payloads["api_home"],
+            api_page=payloads["api_page"],
+            api_summary=payloads["api_summary"],
+            api_detail=payloads["api_detail"],
+            api_today_bridge=payloads["api_today_bridge"],
+            source_name="market-analysis-remote",
+            warnings=warnings,
+        )
+        bundle.empty = not any(
+            bool(payload)
+            for payload in (
+                bundle.home,
+                bundle.today,
+                bundle.page,
+                bundle.api_summary,
+                bundle.api_detail,
+                bundle.api_today_bridge,
+            )
+        )
+        return bundle
+
+    def _get_remote_base_url(self) -> str:
+        base_url = self.settings.market_analysis_base_url.strip().rstrip("/")
+        if base_url:
+            return base_url
+        if self.settings.snapshot_gcs_base_url:
+            return self.settings.snapshot_gcs_base_url.rstrip("/") + "/market_analysis/current"
+        if self.settings.snapshot_gcs_bucket:
+            bucket = self.settings.snapshot_gcs_bucket.strip().removeprefix("gs://")
+            return f"https://storage.googleapis.com/{bucket}/market_analysis/current"
+        raise MarketAnalysisLoadError(
+            "Remote market-analysis source is configured without "
+            "MARKET_ANALYSIS_BASE_URL or GCS settings."
+        )
+
+    def _load_from_local_directory(self, directory: Path, source_name: str) -> MarketAnalysisBundle:
         if not directory.exists():
             raise MarketAnalysisLoadError(f"Market analysis directory does not exist: {directory}")
 
@@ -163,7 +241,7 @@ class MarketAnalysisMockApi:
                 warnings.append(f"{filename} 파일이 없습니다.")
                 payloads[key] = {}
                 continue
-            payloads[key] = self._load_json(path)
+            payloads[key] = self._load_json_path(path)
 
         bundle = MarketAnalysisBundle(
             home=payloads["home"],
@@ -175,7 +253,7 @@ class MarketAnalysisMockApi:
             api_summary=payloads["api_summary"],
             api_detail=payloads["api_detail"],
             api_today_bridge=payloads["api_today_bridge"],
-            source_name="market-analysis-local",
+            source_name=source_name,
             warnings=warnings,
         )
         bundle.empty = not any(
@@ -192,11 +270,27 @@ class MarketAnalysisMockApi:
         return bundle
 
     @staticmethod
-    def _load_json(path: Path) -> dict[str, Any]:
+    def _load_json_path(path: Path) -> dict[str, Any]:
         try:
             return json.loads(path.read_text(encoding="utf-8-sig"))
         except json.JSONDecodeError as exc:
             raise MarketAnalysisLoadError(f"Invalid JSON in {path.name}: {exc.msg}") from exc
+
+    @staticmethod
+    def _load_json_url(url: str, *, required: bool = True) -> dict[str, Any] | None:
+        try:
+            with urlopen(url, timeout=5) as response:
+                payload = response.read().decode("utf-8-sig")
+        except URLError as exc:
+            if required:
+                raise MarketAnalysisLoadError(
+                    f"Failed to fetch market-analysis handoff: {url}"
+                ) from exc
+            return None
+        try:
+            return json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise MarketAnalysisLoadError(f"Invalid JSON fetched from {url}: {exc.msg}") from exc
 
     @staticmethod
     def _compute_age_seconds(value: str | None) -> int | None:

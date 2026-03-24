@@ -31,7 +31,9 @@ from service_platform.shared.constants import (
     DEFAULT_LIGHTPAY_NOTIFY_URL,
     DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
+    DEFAULT_MARKET_ANALYSIS_BASE_URL,
     DEFAULT_MARKET_ANALYSIS_DIR,
+    DEFAULT_MARKET_ANALYSIS_SOURCE,
     DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS,
     DEFAULT_PHONE_VERIFICATION_MODE,
     DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
@@ -106,6 +108,8 @@ class Settings:
     s2_summary_csv: Path
     user_snapshot_dir: Path = DEFAULT_USER_SNAPSHOT_DIR
     market_analysis_dir: Path = DEFAULT_MARKET_ANALYSIS_DIR
+    market_analysis_source: str = DEFAULT_MARKET_ANALYSIS_SOURCE
+    market_analysis_base_url: str = DEFAULT_MARKET_ANALYSIS_BASE_URL
 
 
 def _get_port() -> int:
@@ -207,6 +211,16 @@ def get_settings() -> Settings:
             "PHONE_VERIFICATION_PREVIEW_ENABLED",
             DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
         ),
+        market_analysis_source=os.getenv(
+            "MARKET_ANALYSIS_SOURCE",
+            DEFAULT_MARKET_ANALYSIS_SOURCE,
+        )
+        .strip()
+        .lower(),
+        market_analysis_base_url=os.getenv(
+            "MARKET_ANALYSIS_BASE_URL",
+            DEFAULT_MARKET_ANALYSIS_BASE_URL,
+        ).strip(),
         s2_holdings_csv=Path(os.getenv("S2_HOLDINGS_CSV", str(DEFAULT_S2_HOLDINGS_CSV))),
         s2_snapshot_csv=Path(os.getenv("S2_SNAPSHOT_CSV", str(DEFAULT_S2_SNAPSHOT_CSV))),
         s2_summary_csv=Path(os.getenv("S2_SUMMARY_CSV", str(DEFAULT_S2_SUMMARY_CSV))),

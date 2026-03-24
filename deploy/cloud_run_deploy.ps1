@@ -6,6 +6,8 @@
     [string]$ImageName = "web",
     [string]$PublicBaseUrl = "https://redbot.co.kr",
     [string]$SnapshotSource = "local",
+    [string]$MarketAnalysisSource = "local",
+    [string]$MarketAnalysisBaseUrl = "",
     [bool]$BillingEnabled = $false,
     [ValidateSet("test", "prod")]
     [string]$BillingMode = "test",
@@ -78,6 +80,10 @@ spec:
           value: $SnapshotSource
         - name: USER_SNAPSHOT_DIR
           value: /app/service_platform/web/public_data/user_current
+        - name: MARKET_ANALYSIS_SOURCE
+          value: $MarketAnalysisSource
+        - name: MARKET_ANALYSIS_BASE_URL
+          value: $MarketAnalysisBaseUrl
         - name: BILLING_ENABLED
           value: '$billingEnabledValue'
         - name: BILLING_MODE
