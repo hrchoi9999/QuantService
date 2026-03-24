@@ -493,19 +493,23 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         provider_name = provider.get("provider") or "unknown"
         provider_label = provider.get("label") or "AI 요약"
         title_suffix = ""
+        full_title = str(provider_label)
         sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"
-            title_suffix = "시장 분위기"
+            title_suffix = "가 읽어주는 시장분위기"
+            full_title = "Gemini 가 읽어주는 시장분위기"
             sort_order = 0
         elif provider_name == "chatgpt":
-            title_suffix = "대응 전략"
+            title_suffix = "가 추천하는 대응 전략"
+            full_title = "ChatGPT가 추천하는 대응 전략"
             sort_order = 1
         cards.append(
             {
                 "provider": provider_name,
                 "label": provider_label,
                 "title_suffix": title_suffix,
+                "full_title": full_title,
                 "sort_order": sort_order,
                 "source": provider.get("source") or "",
                 "generated_at": provider.get("generated_at"),

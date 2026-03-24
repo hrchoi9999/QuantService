@@ -1479,9 +1479,9 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
 
     assert response.status_code == 200
     assert "시장분석 내용" in body
-    assert "ChatGPT 대응 전략" in body
+    assert "ChatGPT가 추천하는 대응 전략" in body
     assert "한 줄 요약 1" in body
-    assert "Gemini 시장 분위기" not in body
+    assert "Gemini 가 읽어주는 시장분위기" not in body
 
 
 def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_path: Path) -> None:
