@@ -9,7 +9,8 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 from urllib.error import URLError
-from urllib.request import urlopen
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.request import Request, urlopen
 
 from service_platform.shared.config import Settings
 
@@ -194,8 +195,9 @@ class MarketAnalysisMockApi:
         base_url = self._get_remote_base_url()
         warnings: list[str] = []
         payloads: dict[str, dict[str, Any]] = {}
+        request_token = str(int(time.time()))
         for key, filename in MARKET_ANALYSIS_FILES.items():
-            url = f"{base_url}/{filename}"
+            url = self._with_cache_buster(f"{base_url}/{filename}", request_token)
             required = key != "manifest"
             payload = self._load_json_url(url, required=required)
             if payload is None:
@@ -313,6 +315,15 @@ class MarketAnalysisMockApi:
         return bundle
 
     @staticmethod
+    def _with_cache_buster(url: str, token: str) -> str:
+        parts = urlsplit(url)
+        query = dict(parse_qsl(parts.query, keep_blank_values=True))
+        query["ts"] = token
+        return urlunsplit(
+            (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
+        )
+
+    @staticmethod
     def _load_json_path(path: Path) -> dict[str, Any]:
         try:
             return json.loads(path.read_text(encoding="utf-8-sig"))
@@ -321,8 +332,15 @@ class MarketAnalysisMockApi:
 
     @staticmethod
     def _load_json_url(url: str, *, required: bool = True) -> dict[str, Any] | None:
+        request = Request(
+            url,
+            headers={
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+            },
+        )
         try:
-            with urlopen(url, timeout=5) as response:
+            with urlopen(request, timeout=5) as response:
                 payload = response.read().decode("utf-8-sig")
         except URLError as exc:
             if required:

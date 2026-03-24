@@ -7,6 +7,7 @@ from pathlib import Path
 from service_platform.billing.lightpay import BILLING_PLAN_PRICES
 from service_platform.shared.config import Settings
 from service_platform.web.app import create_app
+from service_platform.web.market_analysis_api import MarketAnalysisMockApi
 
 EXAMPLE_DIR = Path(__file__).resolve().parents[2] / "service_platform" / "schemas" / "examples"
 EXAMPLE_FILES = {
@@ -1482,6 +1483,15 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     assert "ChatGPT가 추천하는 대응 전략" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
+
+
+def test_market_analysis_cache_buster_preserves_existing_query_params() -> None:
+    api = MarketAnalysisMockApi(build_settings(Path("D:/QuantService")))
+
+    url = api._with_cache_buster("https://example.com/data.json?foo=bar", "123")
+
+    assert "foo=bar" in url
+    assert "ts=123" in url
 
 
 def test_market_analysis_loader_rejects_mixed_asof_payloads(tmp_path: Path) -> None:
