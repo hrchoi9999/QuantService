@@ -6,8 +6,8 @@
     [string]$ImageName = "web",
     [string]$PublicBaseUrl = "https://redbot.co.kr",
     [string]$SnapshotSource = "local",
-    [string]$MarketAnalysisSource = "local",
-    [string]$MarketAnalysisBaseUrl = "",
+    [string]$MarketAnalysisSource = "remote",
+    [string]$MarketAnalysisBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/market_analysis/current",
     [bool]$BillingEnabled = $false,
     [ValidateSet("test", "prod")]
     [string]$BillingMode = "test",
