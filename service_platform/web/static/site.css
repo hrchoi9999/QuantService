@@ -2688,6 +2688,49 @@ body {
   gap: 14px;
 }
 
+.market-ai-briefs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.market-ai-brief-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.market-ai-brief-card {
+  padding: 20px 22px;
+}
+
+.market-ai-brief-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.market-ai-brief-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.market-ai-brief-copy p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.market-ai-brief-placeholder {
+  padding: 18px 20px;
+  background: var(--surface-soft);
+  color: var(--muted-strong);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 .market-home-summary-grid,
 .market-bridge-row--stacked {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2715,6 +2758,7 @@ body {
 
 @media (max-width: 900px) {
   .market-analysis-note-strip,
+  .market-ai-brief-grid,
   .market-home-summary-grid,
   .market-bridge-row--stacked,
   .market-card-grid,

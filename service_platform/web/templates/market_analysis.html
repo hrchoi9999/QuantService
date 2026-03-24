@@ -9,6 +9,31 @@
     </div>
     <h1>시장분석</h1>
     <p class="lead">{{ market_page_view.summary_line }}</p>
+    {% if market_page_view.ai_briefs.enabled %}
+    <section class="market-ai-briefs" aria-label="시장분석 내용">
+      <div class="section-heading tight-head">
+        <div>
+          <h2>{{ market_page_view.ai_briefs.title }}</h2>
+        </div>
+      </div>
+      {% if market_page_view.ai_briefs.cards %}
+      <div class="market-ai-brief-grid">
+        {% for card in market_page_view.ai_briefs.cards %}
+        <article class="panel shell-card market-ai-brief-card">
+          <h3>{{ card.label }}</h3>
+          <div class="market-ai-brief-copy">
+            {% for line in card.summary_lines %}
+            <p>{{ line }}</p>
+            {% endfor %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% elif market_page_view.ai_briefs.show_placeholder %}
+      <div class="market-ai-brief-placeholder">{{ market_page_view.ai_briefs.placeholder }}</div>
+      {% endif %}
+    </section>
+    {% endif %}
     {% set market_state_bar = market_state_bar %}
     {% set variant = "full" %}
     {% include "_market_state_bar.html" %}

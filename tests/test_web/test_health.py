@@ -767,6 +767,8 @@ def seed_market_analysis_snapshot(
     *,
     asof: str = "2026-03-23T19:00:00+09:00",
     state_label: str = "중립",
+    ai_briefs_enabled: bool = True,
+    ai_providers: list[dict] | None = None,
 ) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     manifest = {
@@ -805,9 +807,47 @@ def seed_market_analysis_snapshot(
             "bridge_text": "신규 비중 확대보다 보유 종목 점검과 관망 비중이 적절합니다.",
         },
     }
+    ai_briefs = {
+        "enabled": ai_briefs_enabled,
+        "title": "시장분석 내용",
+        "layout": "two-column",
+        "providers": (
+            ai_providers
+            if ai_providers is not None
+            else [
+                {
+                    "provider": "chatgpt",
+                    "label": "ChatGPT",
+                    "enabled": True,
+                    "generated_at": asof,
+                    "source": "openai:gpt-4.1-mini",
+                    "summary_lines": [
+                        "추세는 살아 있지만 속도는 과열 구간이 아닙니다.",
+                        "대형주 중심 강세가 유지되지만 확산 폭은 점검이 필요합니다.",
+                        "방어 자산 선호는 낮아져 주식 비중 유지가 가능합니다.",
+                        "신규 추격 매수보다 보유 종목 관리가 유리합니다.",
+                    ],
+                },
+                {
+                    "provider": "gemini",
+                    "label": "제미나이",
+                    "enabled": True,
+                    "generated_at": asof,
+                    "source": "gemini:gemini-2.5-flash",
+                    "summary_lines": [
+                        "시장 건강도는 양호하지만 단기 변동성은 남아 있습니다.",
+                        "중립 이상의 흐름이 유지돼 전략별 선별 대응이 유효합니다.",
+                        "지수보다 개별 강한 종목 중심 접근이 적절합니다.",
+                        "비중 확대는 단계적으로 접근하는 편이 안전합니다.",
+                    ],
+                },
+            ]
+        ),
+    }
     page = {
         "market": "KR",
         "asof": asof,
+        "ai_briefs": ai_briefs,
         "header_state": {
             "label": state_label,
             "score": 0.2907,
@@ -1351,6 +1391,10 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "market-state-bar" in today_body
     assert "서비스 상태 요약" in changes_body
     assert "시장 흔들림" in market_body
+    assert "시장분석 내용" in market_body
+    assert "ChatGPT" in market_body
+    assert "제미나이" in market_body
+    assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
     assert "시장상태" in market_body
     assert "이전상태 대비" not in market_body
     assert "긍정 신호" in market_body
@@ -1395,3 +1439,80 @@ def test_market_analysis_fallback_is_graceful_when_handoff_is_missing(tmp_path: 
         as_text=True
     ) or "시장분석 데이터가 아직 준비되지 않았습니다." in market_response.get_data(as_text=True)
     assert summary_response.status_code == 503
+
+
+def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(
+        settings.market_analysis_dir,
+        ai_providers=[
+            {
+                "provider": "chatgpt",
+                "label": "ChatGPT",
+                "enabled": True,
+                "generated_at": "2026-03-23T19:00:00+09:00",
+                "source": "openai:gpt-4.1-mini",
+                "summary_lines": [
+                    "한 줄 요약 1",
+                    "한 줄 요약 2",
+                    "한 줄 요약 3",
+                ],
+            },
+            {
+                "provider": "gemini",
+                "label": "제미나이",
+                "enabled": False,
+                "generated_at": None,
+                "source": "gemini:gemini-2.5-flash",
+                "summary_lines": [],
+            },
+        ],
+    )
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/market-analysis")
+    body = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "시장분석 내용" in body
+    assert "ChatGPT" in body
+    assert "한 줄 요약 1" in body
+    assert "제미나이" not in body
+
+
+def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(
+        settings.market_analysis_dir,
+        ai_briefs_enabled=True,
+        ai_providers=[
+            {
+                "provider": "chatgpt",
+                "label": "ChatGPT",
+                "enabled": False,
+                "generated_at": None,
+                "source": "openai:gpt-4.1-mini",
+                "summary_lines": [],
+            },
+            {
+                "provider": "gemini",
+                "label": "제미나이",
+                "enabled": False,
+                "generated_at": None,
+                "source": "gemini:gemini-2.5-flash",
+                "summary_lines": [],
+            },
+        ],
+    )
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/market-analysis")
+    body = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "시장분석 내용" in body
+    assert "시장분석 내용 준비 중" in body

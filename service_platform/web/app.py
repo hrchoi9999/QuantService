@@ -477,6 +477,38 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
     )
 
 
+def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
+    enabled = bool(ai_payload.get("enabled"))
+    title = ai_payload.get("title") or "시장분석 내용"
+    providers = ai_payload.get("providers") or []
+    cards: list[dict[str, Any]] = []
+    for provider in providers:
+        if not isinstance(provider, dict) or not provider.get("enabled"):
+            continue
+        summary_lines = [
+            str(line).strip() for line in (provider.get("summary_lines") or []) if str(line).strip()
+        ][:4]
+        if not summary_lines:
+            continue
+        cards.append(
+            {
+                "provider": provider.get("provider") or "unknown",
+                "label": provider.get("label") or "AI 요약",
+                "source": provider.get("source") or "",
+                "generated_at": provider.get("generated_at"),
+                "summary_lines": summary_lines,
+            }
+        )
+    show_placeholder = enabled and not cards
+    return {
+        "enabled": enabled,
+        "title": title,
+        "cards": cards,
+        "show_placeholder": show_placeholder,
+        "placeholder": "시장분석 내용 준비 중",
+    }
+
+
 def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     header_state = page_payload.get("header_state") or {}
     signal_lists = page_payload.get("signal_lists") or {}
@@ -494,6 +526,7 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
                 "변화 없음",
             ),
         },
+        "ai_briefs": _build_market_ai_briefs(page_payload.get("ai_briefs") or {}),
         "state_bar": _build_market_state_bar(
             label=header_state.get("label") or "데이터 준비 중",
             score=header_state.get("score"),
