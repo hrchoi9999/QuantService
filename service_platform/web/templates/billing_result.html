@@ -2,16 +2,16 @@
 
 {% block content %}
 <section class="hero-card compact-hero {% if billing_result.status != 'approved' %}danger-hero{% endif %}">
-  <p class="eyebrow">Billing {{ source }}</p>
+  <p class="eyebrow">결제 결과</p>
   <h1>{{ billing_result.message }}</h1>
   <div class="meta-strip">
-    <span>Status {{ billing_result.status }}</span>
-    {% if billing_result.ord_no %}<span>Order {{ billing_result.ord_no }}</span>{% endif %}
-    {% if billing_result.plan_id %}<span>Plan {{ billing_result.plan_id }}</span>{% endif %}
+    <span>상태 {{ billing_result.status }}</span>
+    {% if billing_result.ord_no %}<span>주문번호 {{ billing_result.ord_no }}</span>{% endif %}
+    {% if billing_result.plan_id %}<span>이용권 {{ billing_result.plan_id }}</span>{% endif %}
   </div>
   <div class="stack-actions">
-    <a class="primary-button" href="{{ url_for('pricing') }}">Pricing으로 돌아가기</a>
-    <a class="secondary-button" href="{{ url_for('today') }}">Today 보기</a>
+    <a class="primary-button" href="{{ url_for('pricing') }}">서비스 이용권 안내로 돌아가기</a>
+    <a class="secondary-button" href="{{ url_for('today') }}">이번 주 모델 기준안 보기</a>
   </div>
 </section>
 {% endblock %}

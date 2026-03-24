@@ -1151,7 +1151,8 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     app = create_app(settings)
     client = app.test_client()
 
-    models_response = client.get("/api/v1/user-models")
+    models_response = client.get("/api/v1/model-catalog")
+    legacy_models_response = client.get("/api/v1/user-models")
     today_response = client.get("/api/v1/model-snapshots/today")
     weekly_today_response = client.get("/api/v1/model-weekly/today")
     legacy_today_response = client.get("/api/v1/recommendation/today")
@@ -1165,6 +1166,7 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     manifest_alias_response = client.get("/api/v1/manifest")
 
     assert models_response.status_code == 200
+    assert legacy_models_response.status_code == 404
     assert models_response.get_json()["models"][0]["user_model_name"] == "안정형"
     assert today_response.status_code == 200
     assert weekly_today_response.status_code == 200
@@ -1263,7 +1265,9 @@ def test_pricing_page_shows_billing_disabled_by_default(tmp_path: Path) -> None:
     )
 
     assert response.status_code == 200
-    assert "Pricing" in response.get_data(as_text=True)
+    body = response.get_data(as_text=True)
+    assert "서비스 이용권 안내" in body
+    assert "개별 투자자문 계약이 아닙니다." in body
     assert checkout_response.status_code == 404
 
 
@@ -1525,7 +1529,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 흔들림" in market_body
-    assert "시장 해석 브리핑" in market_body
+    assert "AI의 시장분석" in market_body
     assert "ChatGPT" in market_body
     assert "Gemini" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
@@ -1613,7 +1617,7 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 해석 브리핑" in body
+    assert "AI의 시장분석" in body
     assert "공개 데이터 기반 해석 요약" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
@@ -1678,8 +1682,8 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 해석 브리핑" in body
-    assert "시장 해석 브리핑 준비 중" in body
+    assert "AI의 시장분석" in body
+    assert "AI의 시장분석 준비 중" in body
 
 
 def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:

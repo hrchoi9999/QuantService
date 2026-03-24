@@ -15,7 +15,7 @@
     <ul class="message-list compact-list trust-list">
       <li>증가 자산과 감소 자산을 나눠서 비교해 볼 수 있습니다.</li>
       <li>종목명 옆 종목코드는 최근 스냅샷 기준 6자리 코드입니다.</li>
-      <li>변경 이유는 전략별 리서치 요약 문구를 그대로 보여줍니다.</li>
+      <li>변경 이유는 모델별 리서치 요약 문구를 그대로 보여줍니다.</li>
     </ul>
   </aside>
 </section>
@@ -28,7 +28,7 @@
     </div>
     <div class="hero-badges compact-meta status-meta-row compact-status-badges">
       <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
-      <span class="badge neutral">전략 {{ status_snapshot.model_count }}</span>
+      <span class="badge neutral">모델 {{ status_snapshot.model_count }}</span>
       <span class="badge neutral">리포트 {{ status_snapshot.report_count }}</span>
       <span class="badge neutral">응답 {% if status_snapshot.snapshot_accessible %}정상{% else %}확인 필요{% endif %}</span>
       <span class="badge neutral">기준일 {{ status_snapshot.as_of_date or '-' }}</span>
@@ -99,7 +99,7 @@
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
   <h2>최근 변경 데이터가 아직 없습니다.</h2>
-  <p>사용자용 스냅샷이 준비되면 이 영역에 전략별 변경내역이 표시됩니다.</p>
+  <p>사용자용 스냅샷이 준비되면 이 영역에 모델별 변경내역이 표시됩니다.</p>
 </section>
 {% endif %}
 {% endblock %}

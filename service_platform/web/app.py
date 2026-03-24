@@ -365,8 +365,8 @@ def _build_today_report_view(
         current_market_regime,
     )
     report_view["reference_usage_context"] = (model_info or {}).get("reference_usage_context") or (
-        model_info or {}
-    ).get("target_user_type")
+        "공개 규칙 기반 모델 정보를 참고하려는 이용자"
+    )
     report_view["compliance_metadata"] = (
         report.get("compliance_metadata") or (model_info or {}).get("compliance_metadata") or {}
     )
@@ -567,7 +567,7 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = "시장 해석 브리핑"
+    title = "AI의 시장분석"
     compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
@@ -609,7 +609,7 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         "title": title,
         "cards": cards,
         "show_placeholder": show_placeholder,
-        "placeholder": "시장 해석 브리핑 준비 중",
+        "placeholder": "AI의 시장분석 준비 중",
         "compliance_meta": compliance_meta,
     }
 
@@ -1017,7 +1017,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return "-"
         return f"{value * 100:+.2f}%"
 
-    @app.get("/api/v1/user-models")
+    @app.get("/api/v1/model-catalog")
     def api_user_models() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
         if bundle is None:
@@ -1274,7 +1274,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "pricing.html",
-                page_title="Pricing",
+                page_title="서비스 이용권 안내",
                 plan_rows=billing_service.list_paid_plans(),
                 billing_enabled=settings.billing_enabled,
                 selected_method=request.args.get("pay_method", "CARD"),
@@ -1304,7 +1304,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "billing_checkout.html",
-                page_title="Billing Checkout",
+                page_title="결제 진행",
                 checkout_form=form,
                 ord_no=ord_no,
             ),
@@ -1322,7 +1322,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "billing_result.html",
-                page_title="Billing Result",
+                page_title="결제 결과",
                 billing_result=result,
                 source="return",
             ),
@@ -1504,7 +1504,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.get("/privacy")
     def privacy() -> Response:
         record_page_view("/privacy")
-        return Response(render_template("privacy.html", page_title="Privacy"), mimetype="text/html")
+        return Response(
+            render_template("privacy.html", page_title="개인정보 안내"), mimetype="text/html"
+        )
 
     @app.get("/e/click")
     def track_click() -> Response:

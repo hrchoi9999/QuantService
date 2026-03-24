@@ -18,9 +18,9 @@
     <p class="muted">{% if status_snapshot.state == 'healthy' %}최신 사용자용 스냅샷이 정상적으로 반영되고 있습니다.{% elif status_snapshot.state == 'stale' %}직전 정상 스냅샷을 기준으로 화면을 제공하고 있습니다.{% elif status_snapshot.state == 'empty' %}사용자용 스냅샷이 아직 준비되지 않았습니다.{% else %}일시적으로 스냅샷을 불러오지 못하고 있습니다.{% endif %}</p>
   </article>
   <article class="panel shell-card public-status-card">
-    <span class="label">전략 수</span>
+    <span class="label">모델 수</span>
     <h2>{{ status_snapshot.model_count }}</h2>
-    <p class="muted">현재 사용자용 화면에서 제공 중인 전략 수입니다.</p>
+    <p class="muted">현재 사용자용 화면에서 제공 중인 모델 수입니다.</p>
   </article>
   <article class="panel shell-card public-status-card">
     <span class="label">리포트 수</span>

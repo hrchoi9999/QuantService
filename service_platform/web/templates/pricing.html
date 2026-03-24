@@ -2,12 +2,12 @@
 
 {% block content %}
 <section class="hero-card compact-hero">
-  <p class="eyebrow">Pricing</p>
-  <h1>플랜과 결제</h1>
-  <p class="muted">TASK_08 단계에서는 결제 기능을 환경설정으로 완전히 끄거나 켤 수 있습니다. 현재 상태에 맞춰 안전하게 안내합니다.</p>
+  <p class="eyebrow">서비스 이용권</p>
+  <h1>서비스 이용권 안내</h1>
+  <p class="muted">공개형 모델 정보와 시장 브리핑 이용 범위를 안내합니다. 결제는 정보 열람 범위 설정용이며, 개별 투자자문 계약이 아닙니다.</p>
   <div class="meta-strip">
-    <span>Billing {% if billing_enabled %}enabled{% else %}disabled{% endif %}</span>
-    <span>Current plan {{ access_context.effective_plan_id }}</span>
+    <span>결제 기능 {% if billing_enabled %}활성{% else %}비활성{% endif %}</span>
+    <span>현재 이용권 {{ access_context.effective_plan_id }}</span>
     {% if current_user %}
     <span>{{ current_user.email }}</span>
     {% endif %}
@@ -19,6 +19,8 @@
   {% endif %}
 </section>
 
+{% include "_notice_group.html" %}
+
 <section class="grid two-up">
   {% for plan in plan_rows %}
   <article class="panel model-card">
@@ -27,6 +29,7 @@
       <span class="badge accent">{{ "{:,}".format(plan.amount) }} KRW</span>
     </div>
     <p class="muted">{{ plan.pricing_hint }}</p>
+    <p class="muted small">이용권은 공개형 모델 정보와 시장 브리핑 열람 범위를 안내하기 위한 구분입니다.</p>
     <p class="muted small">허용 결제수단: {{ plan.allowed_methods | join(', ') }}</p>
     {% if billing_enabled and current_user %}
     <form class="feedback-form" method="post" action="{{ url_for('billing_checkout') }}">
@@ -40,7 +43,7 @@
           {% endfor %}
         </select>
       </label>
-      <button class="primary-button" type="submit">{{ plan.name }} 결제 진행</button>
+      <button class="primary-button" type="submit">{{ plan.name }} 이용권 결제</button>
     </form>
     {% elif current_user %}
     <button class="secondary-button" type="button" disabled>결제 준비 중</button>
@@ -55,17 +58,17 @@
 
 {% if current_orders %}
 <section class="panel">
-  <h2>최근 결제 주문</h2>
+  <h2>최근 결제 내역</h2>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Order</th>
-          <th>Plan</th>
-          <th>Amount</th>
-          <th>Method</th>
-          <th>Status</th>
-          <th>Updated</th>
+          <th>주문번호</th>
+          <th>이용권</th>
+          <th>금액</th>
+          <th>결제수단</th>
+          <th>상태</th>
+          <th>갱신 시각</th>
         </tr>
       </thead>
       <tbody>
