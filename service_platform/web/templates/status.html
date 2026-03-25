@@ -3,7 +3,7 @@
 {% block content %}
 <section class="hero-card compact-hero status-hero public-status-hero">
   <h1>서비스 상태 확인</h1>
-  <p class="lead">현재 공개 중인 모델 스냅샷이 정상적으로 반영되고 있는지 간단하게 확인할 수 있습니다.</p>
+  <p class="lead">현재 공개 중인 퀀트투자 모델 스냅샷이 정상적으로 반영되고 있는지 간단하게 확인할 수 있습니다.</p>
   <div class="hero-badges">
     <span class="badge accent">{{ status_labels.get(status_snapshot.state, status_snapshot.state) }}</span>
     <span class="badge neutral">기준일 {{ status_snapshot.as_of_date or 'Unavailable' }}</span>
@@ -20,7 +20,7 @@
   <article class="panel shell-card public-status-card">
     <span class="label">모델 수</span>
     <h2>{{ status_snapshot.model_count }}</h2>
-    <p class="muted">현재 사용자용 화면에서 제공 중인 모델 수입니다.</p>
+    <p class="muted">현재 사용자용 화면에서 제공 중인 퀀트투자 모델 수입니다.</p>
   </article>
   <article class="panel shell-card public-status-card">
     <span class="label">리포트 수</span>

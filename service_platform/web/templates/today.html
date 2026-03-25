@@ -4,7 +4,7 @@
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
     <h1>이번 주 모델 기준안</h1>
-    <p class="lead">공개 규칙에 따라 산출된 기준일 모델 구성과 변경 기준을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
+    <p class="lead">공개 기준에 따라 산출한 퀀트투자 모델 포트폴리오와 모델 조정 기준을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
@@ -97,7 +97,8 @@
     <details class="strategy-disclosure" {% if loop.first %}open{% endif %}>
     <summary class="section-heading report-top detail-top strategy-disclosure-summary">
       <div class="title-stack">
-        <h2>{{ report.user_model_name }}</h2>
+        <h2>{{ report.quant_model_name or report.user_model_name }}</h2>
+        <p class="muted small">{{ report.model_definition_line }}</p>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
       </div>
       <div class="report-summary-meta">
@@ -133,13 +134,13 @@
       <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>현재 기준 모델</h3>
+            <h3>현재 기준 퀀트투자 모델</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
         <div class="sub-panel shell-card note-panel usage-context-panel">
           <span class="label">참고 이용자 유형</span>
-          <p>{{ report.reference_usage_context or '공개 규칙 기반 모델 정보를 참고하려는 이용자' }}</p>
+          <p>{{ report.reference_usage_context or '공개 기준 기반 퀀트투자 모델 정보를 참고하려는 이용자' }}</p>
         </div>
 
         {% if report.growth_note %}
@@ -158,7 +159,7 @@
       <article class="shell-card content-card holdings-panel strategy-holdings-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>기준일 모델 구성</h3>
+            <h3>이번 주 모델 포트폴리오</h3>
           </div>
           <span class="badge neutral">{{ report.allocation_view.all_items | length }}개 자산</span>
         </div>
@@ -266,7 +267,7 @@
       <article class="shell-card content-card strategy-change-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>최근 구성 조정</h3>
+            <h3>주간 모델 조정</h3>
           </div>
         </div>
         <div class="grid two-up nested-grid change-grid-modern">
@@ -294,7 +295,7 @@
           </div>
         </div>
         <div class="sub-panel shell-card reason-panel top-margin-sm">
-          <span class="label">변경 기준</span>
+          <span class="label">모델 조정 기준</span>
           <p>{{ report.change_log.change_reason }}</p>
         </div>
       </article>

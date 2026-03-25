@@ -8,12 +8,12 @@
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">시장 국면 {{ regime_labels.get(bundle.recommendation_today.current_market_regime, bundle.recommendation_today.current_market_regime or '-') }}</span>
     </div>
-    <h1>공개 규칙 기반의 주간 멀티애셋 모델 브리핑</h1>
-    <p class="lead">REDBOT은 모든 이용자에게 동일한 기준일 모델 기준안, 시장 브리핑, 성과 설명을 제공하는 단방향 공개형 정보 서비스입니다.</p>
+    <h1>다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보를 한 화면에서 확인해 보세요.</h1>
+    <p class="lead">REDBOT은 멀티애셋 데이터 기반 퀀트투자 모델, 시장 브리핑, 모델 변경내역을 같은 기준으로 정리해 제공합니다.</p>
     <div class="stack-actions hero-actions">
-      <a class="primary-button" href="{{ url_for('today') }}">이번 주 기준안 보기</a>
+      <a class="primary-button" href="{{ url_for('today') }}">이번 주 모델 기준안 보기</a>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
-      <a class="secondary-button" href="{{ url_for('performance') }}">성과 설명 보기</a>
+      <a class="secondary-button" href="{{ url_for('performance') }}">모델 성과 설명 보기</a>
     </div>
     {% if status_snapshot.state == 'stale' %}
     <div class="warning-banner">최신 스냅샷 반영이 다소 지연되고 있습니다. 직전 정상 데이터를 기준으로 화면을 제공하고 있습니다.</div>
@@ -37,9 +37,9 @@
       </div>
     </div>
     <ul class="message-list compact-list trust-list">
-      <li>시장 국면에 맞는 모델 라인업을 빠르게 비교할 수 있습니다.</li>
-      <li>각 모델의 성격과 성과 지표를 같은 화면에서 확인할 수 있습니다.</li>
-      <li>직전 스냅샷 대비 구성 변경 기준을 사용자 언어로 확인할 수 있습니다.</li>
+      <li>시장 상황별 퀀트투자 모델 라인업을 같은 기준으로 빠르게 비교할 수 있습니다.</li>
+      <li>멀티애셋 데이터 기반 퀀트투자 모델의 성격과 성과 지표를 함께 확인할 수 있습니다.</li>
+      <li>직전 기준일 대비 모델 포트폴리오 변경 기준을 이해하기 쉬운 문장으로 확인할 수 있습니다.</li>
     </ul>
   </aside>
 </section>
@@ -94,9 +94,9 @@
 <section class="section-block">
   <div class="section-heading feature-headline">
     <div>
-      <h2>모델별 기준안 특징을 빠르게 살펴보세요.</h2>
+      <h2>이번 주 퀀트투자 모델을 빠르게 확인해 보세요.</h2>
     </div>
-    <a class="text-link" href="{{ url_for('today') }}">모델 비교 보기</a>
+    <a class="text-link" href="{{ url_for('today') }}">전체 모델 기준안 보기</a>
   </div>
   <div class="feature-grid four-up">
     {% for model in bundle.user_models.models %}
@@ -105,10 +105,11 @@
     <article class="feature-card shell-card strategy-card">
       <div class="model-head">
         <div class="title-stack">
-          <h3>{{ model.user_model_name }}</h3>
+          <h3>{{ model.user_model_name }} 퀀트투자 모델</h3>
         </div>
         <span class="badge accent">위험도 {{ risk_labels.get(model.risk_label, model.risk_label) }}</span>
       </div>
+      <p class="muted small">{{ {"stable": "공개 기준 기반 퀀트투자 모델", "balanced": "멀티애셋 데이터 기반 퀀트투자 모델", "growth": "모델 포트폴리오를 산출하는 퀀트투자 모델", "auto": "주간 브리핑용 퀀트투자 모델"}.get(model.service_profile, "공개 기준 기반 퀀트투자 모델") }}</p>
       <p class="strategy-summary">{{ model.summary }}</p>
       <p class="muted small">{{ model.reference_usage_context }}</p>
       <div class="chip-row">
@@ -130,7 +131,7 @@
           <strong>{% if cards.get('sharpe') is not none %}{{ '%.2f'|format(cards.get('sharpe')) }}{% else %}-{% endif %}</strong>
         </div>
       </div>
-      <a class="text-link" href="{{ url_for('today') }}#{{ model.service_profile }}">모델 상세 보기</a>
+      <a class="text-link" href="{{ url_for('today') }}#{{ model.service_profile }}">퀀트투자 모델 상세 보기</a>
     </article>
     {% endfor %}
   </div>
@@ -138,11 +139,11 @@
 
 <section class="grid two-up product-story-grid">
   <article class="panel shell-card">
-    <h2>읽기 쉬운 모델 브리핑</h2>
+    <h2>읽기 쉬운 퀀트투자 모델 브리핑</h2>
     <div class="product-pillars">
       <div class="feature-note">
-        <strong>모델 비교</strong>
-        <p>안정형부터 자동전환형까지 각 모델의 성격과 성과를 같은 기준으로 비교합니다.</p>
+        <strong>모델별 구성 차이</strong>
+        <p>안정형부터 자동전환형까지 각 퀀트투자 모델의 성격과 성과를 같은 기준으로 비교합니다.</p>
       </div>
       <div class="feature-note">
         <strong>기준일 모델 기준안</strong>
@@ -155,12 +156,12 @@
     </div>
   </article>
   <article class="panel shell-card">
-    <h2>모델별 핵심 성과</h2>
+    <h2>모델별 핵심 성과 설명</h2>
     <div class="summary-list performance-quick-list">
       {% for row in bundle.performance_summary.models %}
       <div class="summary-row modern-summary-row">
         <div>
-          <strong>{{ row.user_model_name }}</strong>
+          <strong>{{ row.quant_model_name or row.user_model_name }}</strong>
           <p class="muted small">{{ row.note }}</p>
         </div>
         <div class="summary-metrics">

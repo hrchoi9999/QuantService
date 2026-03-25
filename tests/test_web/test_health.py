@@ -1546,7 +1546,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert market_response.status_code == 200
     assert "시장 브리핑" in home_body
     assert "지금 시장은 이렇게 해석하고 있습니다" in home_body
-    assert "공개 규칙 기반 모델 정보" in home_body
+    assert "퀀트투자 모델" in home_body
     assert "market-state-bar" in home_body
     assert "강상승" in home_body
     assert MARKET_REFERENCE_NOTE in today_body

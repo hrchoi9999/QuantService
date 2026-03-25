@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
-    <h1>모델 성과를 같은 기준으로 설명합니다.</h1>
-    <p class="lead">성과 수치는 공개 규칙 기반 모델을 과거 데이터에 적용한 백테스트 결과이며, 1년·2년·3년은 CAGR 중심으로, 6개월·3개월은 total return 중심으로 설명합니다.</p>
+    <h1>공개 기준 기반 퀀트투자 모델의 성과를 같은 기준으로 설명합니다.</h1>
+    <p class="lead">공개 기준 기반 퀀트투자 모델을 과거 데이터에 적용한 백테스트 결과를 설명하며, 1년·2년·3년은 CAGR 중심으로, 6개월·3개월은 total return 중심으로 정리합니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -45,7 +45,7 @@
   <article class="feature-card shell-card comparison-card">
     <div class="section-heading tight-head">
       <div class="title-stack">
-        <h2>{{ row.user_model_name }}</h2>
+        <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
       </div>
       <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>{% if auto_balanced_same and row.service_profile == "auto" %}<span class="badge neutral">현재 균형형과 유사 운용</span>{% endif %}
     </div>
@@ -88,7 +88,7 @@
       <tbody>
         {% for row in performance_rows %}
         <tr>
-          <td>{{ row.user_model_name }}</td>
+          <td>{{ row.quant_model_name or row.user_model_name }}</td>
           <td>{{ risk_labels.get(row.risk_label, row.risk_label) }}</td>
           <td>{{ row.performance_cards.cagr | fmt_percent }}</td>
           <td>{{ row.performance_cards.mdd | fmt_percent }}</td>
@@ -105,7 +105,7 @@
   <article class="panel shell-card period-panel-modern performance-detail-panel">
     <div class="section-heading tight-head">
       <div class="title-stack">
-        <h2>{{ row.user_model_name }}</h2>
+        <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
       </div>
       <span class="badge neutral">{{ row.performance_cards.primary_period or '1Y' }} 기준</span>
     </div>

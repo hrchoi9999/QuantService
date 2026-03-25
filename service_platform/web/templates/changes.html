@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage changes-hero">
   <div class="hero-main">
-    <h1>직전 스냅샷 대비 변경 기준을 확인해 보세요.</h1>
-    <p class="lead">직전 스냅샷 대비 구성 변화와 변경 기준을 모델별 카드로 정리했습니다.</p>
+    <h1>직전 기준일 대비 모델 변경 기준을 확인해 보세요.</h1>
+    <p class="lead">직전 기준일 대비 모델 구성 변화와 모델 조정 기준을 모델별 카드로 정리했습니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -15,7 +15,7 @@
     <ul class="message-list compact-list trust-list">
       <li>증가 자산과 감소 자산을 나눠서 비교해 볼 수 있습니다.</li>
       <li>종목명 옆 종목코드는 최근 스냅샷 기준 6자리 코드입니다.</li>
-      <li>변경 이유는 모델별 리서치 요약 문구를 그대로 보여줍니다.</li>
+      <li>모델 조정 이유는 기준일 스냅샷의 요약 문구를 그대로 보여줍니다.</li>
     </ul>
   </aside>
 </section>
@@ -50,9 +50,9 @@
   <article class="panel change-card-extended shell-card modern-change-card">
     <div class="section-heading tight-head detail-top">
       <div class="title-stack">
-        <h2>{{ change.user_model_name }}</h2>
+        <h2>{{ change.user_model_name }} 퀀트투자 모델</h2>
       </div>
-      <span class="badge accent">{{ change_type_labels.get(change.change_type, change.change_type) }}</span>
+      <span class="badge accent">주간 모델 조정</span>
     </div>
     <p class="change-summary">{{ change.summary }}</p>
     <div class="change-summary-grid">
@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="sub-panel shell-card reason-panel">
-      <span class="label">변경 기준</span>
+      <span class="label">모델 조정 기준</span>
       <p>{{ change.reason_text }}</p>
     </div>
   </article>

@@ -153,7 +153,7 @@ def _request_ip_address() -> str:
 
 def _build_public_model_compliance_note(bundle: Any) -> str:
     default_note = (
-        "이 화면은 공개 규칙 기반 모델 정보와 과거 성과 스냅샷을 설명하기 위한 참고자료이며 "
+        "이 화면은 다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보를 설명하는 참고자료이며 "
         "특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다."
     )
     reports = bundle.recommendation_today.get("reports", []) if bundle else []
@@ -166,6 +166,29 @@ def _build_public_model_compliance_note(bundle: Any) -> str:
 
 def _build_notice_blocks(*keys: str) -> list[dict[str, str]]:
     return [PUBLIC_NOTICE_BLOCKS[key] for key in keys if key in PUBLIC_NOTICE_BLOCKS]
+
+
+MODEL_DEFINITION_LINES = {
+    "stable": "공개 기준 기반 퀀트투자 모델",
+    "balanced": "멀티애셋 데이터 기반 퀀트투자 모델",
+    "growth": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+    "auto": "주간 브리핑용 퀀트투자 모델",
+}
+
+
+def _quant_model_name(label: str | None) -> str:
+    text = str(label or "").strip()
+    if not text:
+        return "퀀트투자 모델"
+    if text.endswith("퀀트투자 모델"):
+        return text
+    return f"{text} 퀀트투자 모델"
+
+
+def _model_definition_line(service_profile: str | None) -> str:
+    return MODEL_DEFINITION_LINES.get(
+        str(service_profile or "").strip(), "공개 기준 기반 퀀트투자 모델"
+    )
 
 
 def _is_notify_ip_allowed(settings: Settings) -> bool:
@@ -360,12 +383,14 @@ def _build_today_report_view(
     report_view = dict(report)
     report_view["allocation_view"] = allocation_view
     report_view["period_view"] = period_view
+    report_view["quant_model_name"] = _quant_model_name(report.get("user_model_name"))
+    report_view["model_definition_line"] = _model_definition_line(report.get("service_profile"))
     report_view["growth_note"] = _build_growth_note(
         report.get("service_profile", ""),
         current_market_regime,
     )
     report_view["reference_usage_context"] = (model_info or {}).get("reference_usage_context") or (
-        "공개 규칙 기반 모델 정보를 참고하려는 이용자"
+        "공개 기준 기반 퀀트투자 모델 정보를 참고하려는 이용자"
     )
     report_view["compliance_metadata"] = (
         report.get("compliance_metadata") or (model_info or {}).get("compliance_metadata") or {}
@@ -382,6 +407,8 @@ def _build_performance_row_view(row: dict[str, Any]) -> dict[str, Any]:
     )
     row_view = dict(row)
     row_view["period_view"] = period_view
+    row_view["quant_model_name"] = _quant_model_name(row.get("user_model_name"))
+    row_view["model_definition_line"] = _model_definition_line(row.get("service_profile"))
     return row_view
 
 
