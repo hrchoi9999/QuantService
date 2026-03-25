@@ -109,7 +109,7 @@ class MarketAnalysisMockApi:
                     fallback = deepcopy(self._cached_bundle)
                     fallback.stale = True
                     fallback.warnings = list(fallback.warnings) + [
-                        "최신 시장분석 handoff를 읽지 못해 마지막 정상 데이터를 표시합니다."
+                        "최신 시장 브리핑 데이터를 읽지 못해 마지막 정상 데이터를 표시합니다."
                     ]
                     fallback.errors = exc.errors
                     return fallback
@@ -145,7 +145,7 @@ class MarketAnalysisMockApi:
         state = "healthy"
         if bundle.empty:
             state = "empty"
-            warnings.append("시장분석 handoff 데이터가 아직 준비되지 않았습니다.")
+            warnings.append("시장 브리핑 데이터가 아직 준비되지 않았습니다.")
         elif bundle.stale or self._is_older_than(age_seconds, stale_after):
             state = "stale"
             warnings.append("시장 브리핑 데이터 업데이트가 지연되고 있습니다.")
@@ -251,7 +251,7 @@ class MarketAnalysisMockApi:
         if mismatches:
             details = ", ".join(mismatches)
             message = (
-                "시장분석 handoff 파일의 기준시각이 서로 다릅니다: "
+                "시장 브리핑 handoff 파일의 기준시각이 서로 다릅니다: "
                 f"manifest={manifest_asof}, {details}"
             )
             raise MarketAnalysisLoadError(
