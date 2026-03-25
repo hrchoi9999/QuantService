@@ -2204,6 +2204,130 @@ def seed_analytics_preview_p2_bundle(
     )
 
 
+def seed_analytics_preview_p3_bundle(
+    bundle_dir: Path, *, web_publish_enabled: bool = False
+) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asof": "2026-03-25",
+        "internal_preview_only": True,
+        "web_publish_enabled": web_publish_enabled,
+        "bundle": "p3",
+        "pages": ["model_quality", "weekly_briefing"],
+        "files": {
+            "model_quality": str(bundle_dir / "model_quality_20260325.json"),
+            "weekly_briefing": str(bundle_dir / "weekly_briefing_20260325.json"),
+        },
+    }
+    model_quality_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "latest_quality": {
+                    "cagr": 0.31,
+                    "mdd": -0.14,
+                    "sharpe": 1.72,
+                    "return_4w": 0.08,
+                    "return_12w": 0.19,
+                    "current_drawdown": -0.02,
+                    "relative_strength_vs_benchmark_4w": 0.01,
+                    "cash_weight_avg_4w": 0.05,
+                    "holdings_count_avg_4w": 20,
+                },
+                "quality_trend_26w": [
+                    {
+                        "week_end": "2026-03-06",
+                        "return_4w": 0.05,
+                        "return_12w": 0.14,
+                        "drawdown_current": -0.03,
+                    },
+                    {
+                        "week_end": "2026-03-13",
+                        "return_4w": 0.07,
+                        "return_12w": 0.17,
+                        "drawdown_current": -0.02,
+                    },
+                    {
+                        "week_end": "2026-03-20",
+                        "return_4w": 0.08,
+                        "return_12w": 0.19,
+                        "drawdown_current": -0.02,
+                    },
+                ],
+                "change_density": {
+                    "new_8w": 7,
+                    "exit_8w": 5,
+                    "increase_8w": 0,
+                    "decrease_8w": 0,
+                },
+            }
+        ],
+    }
+    weekly_briefing_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "summary": {
+                    "return_4w": 0.08,
+                    "return_12w": 0.19,
+                    "current_drawdown": -0.02,
+                    "cash_weight": 0.05,
+                    "new_8w": 7,
+                    "exit_8w": 5,
+                },
+                "briefing_points": [
+                    "최근 4주 성과가 양호합니다.",
+                    "최근 12주 흐름은 우상향입니다.",
+                    "최근 8주 변화 밀도가 높습니다.",
+                ],
+                "top_holdings": [
+                    {
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "asset_type": "STOCK",
+                        "weight": 0.05,
+                        "rank_no": 1,
+                    }
+                ],
+                "one_week_changes": [
+                    {
+                        "week_end": "2026-03-20",
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "change_type": "new",
+                        "delta_weight": 0.05,
+                    }
+                ],
+                "recent_changes_8w": [
+                    {
+                        "week_end": "2026-03-20",
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "change_type": "new",
+                        "delta_weight": 0.05,
+                    }
+                ],
+            }
+        ],
+    }
+    (bundle_dir / "bundle_manifest_20260325.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "model_quality_20260325.json").write_text(
+        json.dumps(model_quality_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "weekly_briefing_20260325.json").write_text(
+        json.dumps(weekly_briefing_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def test_internal_preview_pages_require_admin_and_render_bundle(
     tmp_path: Path, monkeypatch
 ) -> None:
@@ -2279,10 +2403,13 @@ def test_internal_preview_routes_allow_named_admin_in_production(
     )
     preview_dir = tmp_path / "analytics_preview"
     preview_p2_dir = tmp_path / "analytics_preview_p2"
+    preview_p3_dir = tmp_path / "analytics_preview_p3"
     seed_analytics_preview_bundle(preview_dir)
     seed_analytics_preview_p2_bundle(preview_p2_dir)
+    seed_analytics_preview_p3_bundle(preview_p3_dir)
     monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
     monkeypatch.setenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", str(preview_p2_dir))
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P3_BUNDLE_DIR", str(preview_p3_dir))
     app = create_app(settings)
     access_store = app.config["ACCESS_STORE"]
     access_store.authenticate_or_register("hrchoi@koreascf.com", "pass1234")
@@ -2300,16 +2427,21 @@ def test_internal_preview_routes_allow_named_admin_in_production(
     hub_response = client.get("/admin/analytics-preview")
     p1_response = client.get("/admin/analytics-p1/today-model-info")
     p2_response = client.get("/admin/analytics-p2/portfolio-structure")
+    p3_response = client.get("/admin/analytics-p3/model-quality")
 
     assert hub_response.status_code == 200
     hub_body = hub_response.get_data(as_text=True)
     assert "내부 Analytics Preview" in hub_body
     assert "포트폴리오 구조" in hub_body
     assert "보유 종목 이력" in hub_body
+    assert "모델 품질" in hub_body
+    assert "주간 브리핑" in hub_body
     assert p1_response.status_code == 200
     assert "오늘의 모델 정보" in p1_response.get_data(as_text=True)
     assert p2_response.status_code == 200
     assert "포트폴리오 구조" in p2_response.get_data(as_text=True)
+    assert p3_response.status_code == 200
+    assert "모델 품질" in p3_response.get_data(as_text=True)
 
 
 def test_internal_preview_bundle_rejects_publish_enabled_payload(
@@ -2405,6 +2537,76 @@ def test_internal_preview_p2_bundle_rejects_publish_enabled_payload(
     )
 
     response = client.get("/admin/analytics-p2/portfolio-structure")
+
+    assert response.status_code == 503
+    assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)
+
+
+def test_internal_preview_p3_pages_require_admin_and_render_bundle(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p3"
+    seed_analytics_preview_p3_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P3_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    anonymous_client = app.test_client()
+    assert anonymous_client.get("/admin/analytics-p3/model-quality").status_code == 404
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p3/model-quality",
+        follow_redirects=True,
+    )
+
+    quality_response = client.get("/admin/analytics-p3/model-quality")
+    briefing_response = client.get("/admin/analytics-p3/weekly-briefing")
+
+    assert quality_response.status_code == 200
+    quality_body = quality_response.get_data(as_text=True)
+    assert "모델 품질" in quality_body
+    assert "최근 26주 품질 추이" in quality_body
+    assert "최근 변화 밀도" in quality_body
+    assert "Quant S3" in quality_body
+
+    assert briefing_response.status_code == 200
+    briefing_body = briefing_response.get_data(as_text=True)
+    assert "주간 브리핑" in briefing_body
+    assert "브리핑 포인트" in briefing_body
+    assert "상위 보유종목" in briefing_body
+    assert "이번 주 변화" in briefing_body
+    assert "최근 8주 변화" in briefing_body
+
+
+def test_internal_preview_p3_bundle_rejects_publish_enabled_payload(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p3"
+    seed_analytics_preview_p3_bundle(preview_dir, web_publish_enabled=True)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P3_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p3/model-quality",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p3/model-quality")
 
     assert response.status_code == 503
     assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)

@@ -1,0 +1,4 @@
+<nav class="preview-nav shell-card" aria-label="analytics preview p3">
+  <a class="preview-nav__link {% if request.endpoint == 'admin_preview_model_quality' %}is-active{% endif %}" href="{{ preview_links.model_quality }}">모델 품질</a>
+  <a class="preview-nav__link {% if request.endpoint == 'admin_preview_weekly_briefing' %}is-active{% endif %}" href="{{ preview_links.weekly_briefing }}">주간 브리핑</a>
+</nav>

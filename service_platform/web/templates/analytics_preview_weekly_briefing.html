@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>주간 브리핑</h1>
+  <p class="lead">Quant가 작성한 브리핑 포인트와 상위 보유종목, 최근 변화 요약을 함께 보는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p3') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p3_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 요약 bullet, 상위 보유종목, 최근 변화 이력</p>
+    </div>
+  </div>
+
+  <div class="metric-strip preview-briefing-grid compact-grid">
+    {% for card in model.summary_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>브리핑 포인트</h3>
+          <p class="muted small">Quant가 작성한 주간 bullet을 그대로 표시합니다.</p>
+        </div>
+      </div>
+      <ul class="message-list clean-list preview-bullet-list">
+        {% for point in model.briefing_points %}
+        <li>{{ point }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>상위 보유종목</h3>
+          <p class="muted small">종목코드는 문자열 그대로 유지합니다.</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>순번</th>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>유형</th>
+              <th>비중</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.top_holdings %}
+            <tr>
+              <td>{{ row.rank_no }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.asset_type }}</td>
+              <td>{{ row.weight | fmt_percent }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>이번 주 변화</h3>
+          <p class="muted small">최근 1주 change log</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주차</th>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>변화</th>
+              <th>변화 비중</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.one_week_changes %}
+            <tr>
+              <td>{{ row.week_end }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.change_label }}</td>
+              <td>{{ row.delta_weight | fmt_percent }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="5">이번 주 변화가 없습니다.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 8주 변화</h3>
+          <p class="muted small">최근 8주 누적 change log</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주차</th>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>변화</th>
+              <th>변화 비중</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.recent_changes %}
+            <tr>
+              <td>{{ row.week_end }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.change_label }}</td>
+              <td>{{ row.delta_weight | fmt_percent }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="5">최근 8주 변화가 없습니다.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

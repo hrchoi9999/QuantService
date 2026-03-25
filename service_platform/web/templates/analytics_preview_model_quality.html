@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>모델 품질</h1>
+  <p class="lead">최신 품질 지표, 최근 26주 추이, 변화 밀도를 카드와 표 중심으로 확인하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p3') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p3_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 최근 26주 품질 흐름과 변화 밀도</p>
+    </div>
+  </div>
+
+  <div class="metric-strip preview-quality-grid compact-grid">
+    {% for card in model.quality_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value | fmt_sharpe }}{% endif %}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 26주 품질 추이</h3>
+          <p class="muted small">4주 수익률과 12주 수익률을 선형 추이로 확인합니다.</p>
+        </div>
+      </div>
+      <div class="preview-trend-list preview-line-trend-list">
+        {% for row in model.trend_rows[-10:] %}
+        <div class="preview-line-row">
+          <span class="preview-trend-row__date">{{ row.week_end }}</span>
+          <div class="preview-line-row__metrics">
+            <span class="preview-line-chip">4W {{ row.return_4w | fmt_percent }}</span>
+            <span class="preview-line-chip">12W {{ row.return_12w | fmt_percent }}</span>
+            <span class="preview-line-chip">DD {{ row.drawdown_current | fmt_percent }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 변화 밀도</h3>
+          <p class="muted small">신규/제외/비중 확대/비중 축소의 최근 8주 누적 횟수입니다.</p>
+        </div>
+      </div>
+      <div class="metric-strip four-col preview-summary-grid compact-grid">
+        {% for card in model.change_density_cards %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ card.label }}</span>
+          <strong>{{ card.value }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>지표</th>
+              <th>값</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.support_rows %}
+            <tr>
+              <td>{{ row.label }}</td>
+              <td>{% if row.kind == 'percent' %}{{ row.value | fmt_percent }}{% else %}{{ row.value }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

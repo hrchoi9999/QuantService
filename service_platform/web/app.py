@@ -50,6 +50,10 @@ from service_platform.web.analytics_preview_p2_api import (
     AnalyticsPreviewP2Api,
     AnalyticsPreviewP2LoadError,
 )
+from service_platform.web.analytics_preview_p3_api import (
+    AnalyticsPreviewP3Api,
+    AnalyticsPreviewP3LoadError,
+)
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
@@ -1004,6 +1008,92 @@ def _build_preview_holding_lifecycle_view(model: dict[str, Any]) -> dict[str, An
     }
 
 
+def _preview_change_log_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized = []
+    for row in rows or []:
+        change_type = str(row.get("change_type") or "").lower()
+        normalized.append(
+            {
+                "week_end": row.get("week_end") or "-",
+                "ticker": row.get("ticker") or "-",
+                "name": row.get("name") or "종목명 미표시",
+                "change_type": change_type,
+                "change_label": PREVIEW_CHANGE_TYPE_LABELS.get(change_type, change_type or "변화"),
+                "delta_weight": row.get("delta_weight"),
+            }
+        )
+    return normalized
+
+
+def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
+    latest_quality = model.get("latest_quality") or {}
+    change_density = model.get("change_density") or {}
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "quality_cards": [
+            {"label": "CAGR", "value": latest_quality.get("cagr"), "kind": "percent"},
+            {"label": "MDD", "value": latest_quality.get("mdd"), "kind": "percent"},
+            {"label": "Sharpe", "value": latest_quality.get("sharpe"), "kind": "number"},
+            {"label": "최근 4W", "value": latest_quality.get("return_4w"), "kind": "percent"},
+            {"label": "최근 12W", "value": latest_quality.get("return_12w"), "kind": "percent"},
+            {
+                "label": "현재 DD",
+                "value": latest_quality.get("current_drawdown"),
+                "kind": "percent",
+            },
+        ],
+        "trend_rows": list(model.get("quality_trend_26w") or [])[-26:],
+        "change_density_cards": [
+            {"label": "신규 8주", "value": change_density.get("new_8w", 0)},
+            {"label": "제외 8주", "value": change_density.get("exit_8w", 0)},
+            {"label": "비중 확대", "value": change_density.get("increase_8w", 0)},
+            {"label": "비중 축소", "value": change_density.get("decrease_8w", 0)},
+        ],
+        "support_rows": [
+            {
+                "label": "상대강도 4W",
+                "value": latest_quality.get("relative_strength_vs_benchmark_4w"),
+                "kind": "percent",
+            },
+            {
+                "label": "평균 현금성 4W",
+                "value": latest_quality.get("cash_weight_avg_4w"),
+                "kind": "percent",
+            },
+            {
+                "label": "평균 보유 수 4W",
+                "value": latest_quality.get("holdings_count_avg_4w", 0),
+                "kind": "count",
+            },
+        ],
+    }
+
+
+def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]:
+    summary = model.get("summary") or {}
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "summary_cards": [
+            {"label": "최근 4W", "value": summary.get("return_4w"), "kind": "percent"},
+            {"label": "최근 12W", "value": summary.get("return_12w"), "kind": "percent"},
+            {"label": "현재 DD", "value": summary.get("current_drawdown"), "kind": "percent"},
+            {"label": "현금 비중", "value": summary.get("cash_weight"), "kind": "percent"},
+            {"label": "신규 8W", "value": summary.get("new_8w", 0), "kind": "count"},
+            {"label": "제외 8W", "value": summary.get("exit_8w", 0), "kind": "count"},
+        ],
+        "briefing_points": [
+            str(point).strip()
+            for point in (model.get("briefing_points") or [])
+            if str(point).strip()
+        ],
+        "top_holdings": _preview_breakdown_rows(model.get("top_holdings") or [])[:5],
+        "one_week_changes": _preview_change_log_rows(model.get("one_week_changes") or [])[:12],
+        "recent_changes": _preview_change_log_rows(model.get("recent_changes_8w") or [])[:16],
+    }
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -1017,6 +1107,9 @@ def create_app(settings: Settings | None = None) -> Flask:
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
     analytics_preview_p2_api = AnalyticsPreviewP2Api(
+        cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
+    )
+    analytics_preview_p3_api = AnalyticsPreviewP3Api(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
     feedback_store = FeedbackStore(settings)
@@ -1035,6 +1128,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["MARKET_ANALYSIS_API"] = market_analysis_api
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
+    app.config["ANALYTICS_PREVIEW_P3_API"] = analytics_preview_p3_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -1162,6 +1256,15 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def load_analytics_preview_p2_bundle(force_refresh: bool = False):
         return analytics_preview_p2_api.load_bundle(force_refresh=force_refresh)
+
+    def build_analytics_preview_p3_links() -> dict[str, str]:
+        return {
+            "model_quality": url_for("admin_preview_model_quality"),
+            "weekly_briefing": url_for("admin_preview_weekly_briefing"),
+        }
+
+    def load_analytics_preview_p3_bundle(force_refresh: bool = False):
+        return analytics_preview_p3_api.load_bundle(force_refresh=force_refresh)
 
     def audit_admin(
         *,
@@ -2187,7 +2290,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                     {
                         "title": "2차 묶음",
                         "description": (
-                            "포트폴리오 구조와 보유 종목 이력 preview를 함께 " "검토합니다."
+                            "포트폴리오 구조와 보유 종목 이력 preview를 함께 검토합니다."
                         ),
                         "links": [
                             {
@@ -2197,6 +2300,20 @@ def create_app(settings: Settings | None = None) -> Flask:
                             {
                                 "label": "보유 종목 이력",
                                 "href": url_for("admin_preview_holding_lifecycle"),
+                            },
+                        ],
+                    },
+                    {
+                        "title": "3차 묶음",
+                        "description": ("모델 품질과 주간 브리핑 preview를 함께 검토합니다."),
+                        "links": [
+                            {
+                                "label": "모델 품질",
+                                "href": url_for("admin_preview_model_quality"),
+                            },
+                            {
+                                "label": "주간 브리핑",
+                                "href": url_for("admin_preview_weekly_briefing"),
                             },
                         ],
                     },
@@ -2388,6 +2505,83 @@ def create_app(settings: Settings | None = None) -> Flask:
                 page_title="보유 종목 이력 preview",
                 page_robots="noindex, nofollow",
                 preview_links=build_analytics_preview_p2_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p3")
+    def admin_preview_p3_root() -> Response:
+        require_internal_preview_access()
+        return redirect(url_for("admin_preview_model_quality"))
+
+    @app.get("/admin/analytics-p3/model-quality")
+    def admin_preview_model_quality() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p3_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP3LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p3_links(),
+                    preview_title="모델 품질 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_model_quality_view(model)
+            for model in preview_bundle.model_quality.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_model_quality.html",
+                page_title="모델 품질 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p3_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p3/weekly-briefing")
+    def admin_preview_weekly_briefing() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p3_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP3LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p3_links(),
+                    preview_title="주간 브리핑 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_weekly_briefing_view(model)
+            for model in preview_bundle.weekly_briefing.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_weekly_briefing.html",
+                page_title="주간 브리핑 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p3_links(),
                 preview_bundle=preview_bundle,
                 model_views=model_views,
             ),
