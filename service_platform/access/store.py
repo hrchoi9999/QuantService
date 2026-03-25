@@ -728,6 +728,80 @@ class AccessStore:
                 (user.id, role_id),
             )
 
+    def ensure_bootstrap_admin(self, *, email: str, password: str) -> UserRecord | None:
+        normalized_email = self._normalize_email(email)
+        normalized_password = password.strip()
+        if not normalized_email or not normalized_password:
+            return None
+        if not EMAIL_RE.match(normalized_email):
+            raise RegistrationValidationError("이메일 형식을 확인해 주세요.")
+        if len(normalized_password) < 8:
+            raise RegistrationValidationError("비밀번호는 8자 이상이어야 합니다.")
+
+        existing = self.get_user_by_email(normalized_email)
+        now = self._now_iso()
+        password_hash = generate_password_hash(normalized_password)
+        with self._connect() as connection:
+            if existing is None:
+                cursor = connection.execute(
+                    """
+                    INSERT INTO users(email, password_hash, created_at, last_login_at, is_active)
+                    VALUES (?, ?, ?, NULL, 1)
+                    """,
+                    (normalized_email, password_hash, now),
+                )
+                user_id = int(cursor.lastrowid)
+                connection.execute(
+                    """
+                    INSERT INTO user_profiles(
+                        user_id,
+                        auth_provider,
+                        display_name,
+                        phone_number,
+                        phone_verification_status,
+                        phone_verified_at,
+                        external_subject,
+                        created_at,
+                        updated_at
+                    )
+                    VALUES (?, 'local', ?, NULL, 'unverified', NULL, NULL, ?, ?)
+                    """,
+                    (user_id, normalized_email.split("@")[0], now, now),
+                )
+            else:
+                user_id = existing.id
+                connection.execute(
+                    "UPDATE users SET password_hash = ?, is_active = 1 WHERE id = ?",
+                    (password_hash, user_id),
+                )
+                profile_row = connection.execute(
+                    "SELECT user_id FROM user_profiles WHERE user_id = ?",
+                    (user_id,),
+                ).fetchone()
+                if profile_row is None:
+                    connection.execute(
+                        """
+                        INSERT INTO user_profiles(
+                            user_id,
+                            auth_provider,
+                            display_name,
+                            phone_number,
+                            phone_verification_status,
+                            phone_verified_at,
+                            external_subject,
+                            created_at,
+                            updated_at
+                        )
+                        VALUES (?, 'local', ?, NULL, 'unverified', NULL, NULL, ?, ?)
+                        """,
+                        (user_id, normalized_email.split("@")[0], now, now),
+                    )
+            connection.execute(
+                "INSERT OR IGNORE INTO user_roles(user_id, role_id) VALUES (?, 'admin')",
+                (user_id,),
+            )
+        return self.get_user_by_id(user_id)
+
     def create_order(
         self,
         *,

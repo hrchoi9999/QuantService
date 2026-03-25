@@ -198,3 +198,29 @@ def test_seed_defaults_keeps_existing_users_unverified_when_profile_is_missing(
 
     assert profile["phone_verification_status"] == "unverified"
     assert profile["phone_verified_at"] is None
+
+
+def test_ensure_bootstrap_admin_creates_and_updates_login_account(tmp_path: Path) -> None:
+    store = AccessStore(build_settings(tmp_path, trial_mode=False))
+
+    created = store.ensure_bootstrap_admin(
+        email="hrchoi@koreascf.com",
+        password="viva6373!@#",
+    )
+    assert created is not None
+    assert created.email == "hrchoi@koreascf.com"
+
+    authenticated = store.authenticate_local("hrchoi@koreascf.com", "viva6373!@#")
+    access = store.get_effective_access(authenticated.id)
+    profile = store.get_user_profile(authenticated.id)
+
+    assert access.is_admin is True
+    assert profile["phone_verification_status"] == "unverified"
+
+    store.ensure_bootstrap_admin(
+        email="hrchoi@koreascf.com",
+        password="new-secret-123",
+    )
+    reauthenticated = store.authenticate_local("hrchoi@koreascf.com", "new-secret-123")
+
+    assert reauthenticated.email == "hrchoi@koreascf.com"

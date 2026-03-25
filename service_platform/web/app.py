@@ -903,6 +903,12 @@ def create_app(settings: Settings | None = None) -> Flask:
     access_store = AccessStore(settings)
     billing_service = BillingService(settings, access_store)
 
+    if settings.bootstrap_admin_email and settings.bootstrap_admin_password:
+        access_store.ensure_bootstrap_admin(
+            email=settings.bootstrap_admin_email,
+            password=settings.bootstrap_admin_password,
+        )
+
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api

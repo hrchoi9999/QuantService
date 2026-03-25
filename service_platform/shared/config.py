@@ -21,6 +21,8 @@ from service_platform.shared.constants import (
     DEFAULT_BILLING_CYCLE_DAYS,
     DEFAULT_BILLING_ENABLED,
     DEFAULT_BILLING_MODE,
+    DEFAULT_BOOTSTRAP_ADMIN_EMAIL,
+    DEFAULT_BOOTSTRAP_ADMIN_PASSWORD,
     DEFAULT_FEEDBACK_ADMIN_KEY,
     DEFAULT_FEEDBACK_DB_PATH,
     DEFAULT_FEEDBACK_DUPLICATE_WINDOW_SECONDS,
@@ -112,6 +114,8 @@ class Settings:
     market_analysis_dir: Path = DEFAULT_MARKET_ANALYSIS_DIR
     market_analysis_source: str = DEFAULT_MARKET_ANALYSIS_SOURCE
     market_analysis_base_url: str = DEFAULT_MARKET_ANALYSIS_BASE_URL
+    bootstrap_admin_email: str = DEFAULT_BOOTSTRAP_ADMIN_EMAIL
+    bootstrap_admin_password: str = DEFAULT_BOOTSTRAP_ADMIN_PASSWORD
 
 
 def _get_port() -> int:
@@ -233,5 +237,13 @@ def get_settings() -> Settings:
         user_snapshot_dir=Path(os.getenv("USER_SNAPSHOT_DIR", str(DEFAULT_USER_SNAPSHOT_DIR))),
         market_analysis_dir=Path(
             os.getenv("MARKET_ANALYSIS_DIR", str(DEFAULT_MARKET_ANALYSIS_DIR))
+        ),
+        bootstrap_admin_email=os.getenv(
+            "BOOTSTRAP_ADMIN_EMAIL",
+            DEFAULT_BOOTSTRAP_ADMIN_EMAIL,
+        ).strip(),
+        bootstrap_admin_password=os.getenv(
+            "BOOTSTRAP_ADMIN_PASSWORD",
+            DEFAULT_BOOTSTRAP_ADMIN_PASSWORD,
         ),
     )

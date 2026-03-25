@@ -9,6 +9,7 @@
     [string]$MarketAnalysisSource = "remote",
     [string]$MarketAnalysisBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/market_analysis/current",
     [string]$AnalyticsPreviewAllowedEmails = "hrchoi@koreascf.com",
+    [string]$BootstrapAdminEmail = "hrchoi@koreascf.com",
     [bool]$BillingEnabled = $false,
     [ValidateSet("test", "prod")]
     [string]$BillingMode = "test",
@@ -18,7 +19,8 @@
     [string]$SessionSecretName = "redbot-session-secret",
     [string]$FeedbackAdminSecretName = "redbot-feedback-admin-key",
     [string]$LightPayMidSecretName = "redbot-lightpay-mid",
-    [string]$LightPayMerchantKeySecretName = "redbot-lightpay-merchant-key"
+    [string]$LightPayMerchantKeySecretName = "redbot-lightpay-merchant-key",
+    [string]$BootstrapAdminPasswordSecretName = "redbot-bootstrap-admin-password"
 )
 
 $ErrorActionPreference = "Stop"
@@ -87,6 +89,8 @@ spec:
           value: $MarketAnalysisBaseUrl
         - name: ANALYTICS_PREVIEW_ALLOWED_EMAILS
           value: $AnalyticsPreviewAllowedEmails
+        - name: BOOTSTRAP_ADMIN_EMAIL
+          value: $BootstrapAdminEmail
         - name: BILLING_ENABLED
           value: '$billingEnabledValue'
         - name: BILLING_MODE
@@ -120,6 +124,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: $LightPayMerchantKeySecretName
+              key: latest
+        - name: BOOTSTRAP_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: $BootstrapAdminPasswordSecretName
               key: latest
         ports:
         - containerPort: 8080
