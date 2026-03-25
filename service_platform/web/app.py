@@ -168,29 +168,6 @@ def _build_notice_blocks(*keys: str) -> list[dict[str, str]]:
     return [PUBLIC_NOTICE_BLOCKS[key] for key in keys if key in PUBLIC_NOTICE_BLOCKS]
 
 
-MODEL_DEFINITION_LINES = {
-    "stable": "공개 기준 기반 퀀트투자 모델",
-    "balanced": "멀티애셋 데이터 기반 퀀트투자 모델",
-    "growth": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-    "auto": "주간 브리핑용 퀀트투자 모델",
-}
-
-
-def _quant_model_name(label: str | None) -> str:
-    text = str(label or "").strip()
-    if not text:
-        return "퀀트투자 모델"
-    if text.endswith("퀀트투자 모델"):
-        return text
-    return f"{text} 퀀트투자 모델"
-
-
-def _model_definition_line(service_profile: str | None) -> str:
-    return MODEL_DEFINITION_LINES.get(
-        str(service_profile or "").strip(), "공개 기준 기반 퀀트투자 모델"
-    )
-
-
 def _is_notify_ip_allowed(settings: Settings) -> bool:
     if not settings.lightpay_notify_allowed_ips:
         return True
@@ -383,8 +360,15 @@ def _build_today_report_view(
     report_view = dict(report)
     report_view["allocation_view"] = allocation_view
     report_view["period_view"] = period_view
-    report_view["quant_model_name"] = _quant_model_name(report.get("user_model_name"))
-    report_view["model_definition_line"] = _model_definition_line(report.get("service_profile"))
+    report_view["quant_model_name"] = str(
+        report.get("quant_model_name") or report.get("user_model_name") or "퀀트투자 모델"
+    ).strip()
+    report_view["model_definition_line"] = str(
+        report.get("model_definition_line") or "공개 기준 기반 퀀트투자 모델"
+    ).strip()
+    report_view["model_definition_detail"] = str(
+        report.get("model_definition_detail") or report.get("summary_text") or ""
+    ).strip()
     report_view["growth_note"] = _build_growth_note(
         report.get("service_profile", ""),
         current_market_regime,
@@ -407,8 +391,15 @@ def _build_performance_row_view(row: dict[str, Any]) -> dict[str, Any]:
     )
     row_view = dict(row)
     row_view["period_view"] = period_view
-    row_view["quant_model_name"] = _quant_model_name(row.get("user_model_name"))
-    row_view["model_definition_line"] = _model_definition_line(row.get("service_profile"))
+    row_view["quant_model_name"] = str(
+        row.get("quant_model_name") or row.get("user_model_name") or "퀀트투자 모델"
+    ).strip()
+    row_view["model_definition_line"] = str(
+        row.get("model_definition_line") or "공개 기준 기반 퀀트투자 모델"
+    ).strip()
+    row_view["model_definition_detail"] = str(
+        row.get("model_definition_detail") or row.get("note") or ""
+    ).strip()
     return row_view
 
 

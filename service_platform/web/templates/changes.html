@@ -50,9 +50,9 @@
   <article class="panel change-card-extended shell-card modern-change-card">
     <div class="section-heading tight-head detail-top">
       <div class="title-stack">
-        <h2>{{ change.user_model_name }} 퀀트투자 모델</h2>
+        <h2>{{ change.quant_model_name or (change.user_model_name ~ " 퀀트투자 모델") }}</h2>
       </div>
-      <span class="badge accent">주간 모델 조정</span>
+      <span class="badge accent">{{ change.change_badge_label or "주간 모델 조정" }}</span>
     </div>
     <p class="change-summary">{{ change.summary }}</p>
     <div class="change-summary-grid">

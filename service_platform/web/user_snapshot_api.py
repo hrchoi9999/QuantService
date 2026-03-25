@@ -42,10 +42,10 @@ SERVICE_PROFILE_SUMMARIES = {
 }
 
 SERVICE_PROFILE_TARGET_USERS = {
-    "stable": "변동성을 낮추고 안정적인 자산 배분을 선호하는 투자자",
-    "balanced": "안정성과 수익성의 균형을 원하는 투자자",
-    "growth": "높은 변동성을 감수하고 성장 기회를 추구하는 투자자",
-    "auto": "시장 흐름에 맞춰 자동으로 전략 전환을 원하는 투자자",
+    "stable": "변동성을 낮추고 안정적인 자산 배분을 참고하려는 이용자",
+    "balanced": "안정성과 수익성의 균형을 함께 참고하려는 이용자",
+    "growth": "높은 변동성을 감수하더라도 성장 중심 구성을 참고하려는 이용자",
+    "auto": "시장 흐름에 맞춰 자동으로 모델 비중 조정을 참고하려는 이용자",
 }
 
 SERVICE_PROFILE_MARKET_VIEWS = {
@@ -93,7 +93,7 @@ SERVICE_PROFILE_CHANGE_REASONS = {
     "stable": "시장 변동성에 대비해 방어 자산과 완충 자산의 비중을 조정했습니다.",
     "balanced": "균형 유지를 위해 상대 강도가 높은 자산을 늘리고 약한 자산을 줄였습니다.",
     "growth": "성과와 추세를 반영해 성장 자산 중심으로 비중을 재조정했습니다.",
-    "auto": "시장 국면 변화에 맞춰 전략 비중을 자동으로 재조정했습니다.",
+    "auto": "시장 국면 변화에 맞춰 모델 비중을 자동으로 재조정했습니다.",
 }
 
 DEFAULT_DISCLAIMER = (
@@ -413,21 +413,21 @@ class UserSnapshotMockApi:
         repaired = self._repair_text(value)
         if repaired and not self._looks_garbled(repaired):
             return repaired
-        return SERVICE_PROFILE_LABELS.get(profile or "", repaired or "전략")
+        return SERVICE_PROFILE_LABELS.get(profile or "", repaired or "퀀트투자 모델")
 
     def _sanitize_profile_summary(self, value: Any, profile: str | None) -> str:
         repaired = self._repair_text(value)
         if repaired and not self._looks_garbled(repaired):
             return repaired
         return SERVICE_PROFILE_SUMMARIES.get(
-            profile or "", "현재 시장 상황에 맞춘 전략 요약입니다."
+            profile or "", "현재 시장 상황에 맞춘 퀀트투자 모델 요약입니다."
         )
 
     def _sanitize_target_user_type(self, value: Any, profile: str | None) -> str:
         repaired = self._repair_text(value)
         if repaired and not self._looks_garbled(repaired):
             return repaired
-        return SERVICE_PROFILE_TARGET_USERS.get(profile or "", "이 전략에 적합한 투자자")
+        return SERVICE_PROFILE_TARGET_USERS.get(profile or "", "이 모델 정보를 참고하려는 이용자")
 
     def _sanitize_market_view(
         self, value: Any, profile: str | None, current_market_regime: str | None

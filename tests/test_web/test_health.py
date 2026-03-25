@@ -154,6 +154,11 @@ def seed_user_snapshot(
         {
             "user_model_id": "user_1",
             "user_model_name": "안정형",
+            "quant_model_name": "안정형 퀀트투자 모델",
+            "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+            "model_definition_detail": (
+                "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 " "산출합니다."
+            ),
             "service_profile": "stable",
             "summary": "채권과 금을 중심으로 방어적인 흐름을 추구하는 전략입니다.",
             "risk_label": "low",
@@ -166,6 +171,11 @@ def seed_user_snapshot(
         {
             "user_model_id": "user_2",
             "user_model_name": "균형형",
+            "quant_model_name": "균형형 퀀트투자 모델",
+            "model_definition_line": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_definition_detail": (
+                "주식과 ETF를 함께 담아 균형형 모델 포트폴리오를 산출합니다."
+            ),
             "service_profile": "balanced",
             "summary": "주식과 ETF를 함께 활용해 균형 잡힌 성과를 추구합니다.",
             "risk_label": "medium",
@@ -178,6 +188,11 @@ def seed_user_snapshot(
         {
             "user_model_id": "user_3",
             "user_model_name": "성장형",
+            "quant_model_name": "성장형 퀀트투자 모델",
+            "model_definition_line": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_definition_detail": (
+                "최근 강한 성장 주식 sleeve를 반영하는 모델 포트폴리오를 " "산출합니다."
+            ),
             "service_profile": "growth",
             "summary": "최근 강한 성장 주식 sleeve를 적극적으로 반영하는 전략입니다.",
             "risk_label": "high",
@@ -190,6 +205,9 @@ def seed_user_snapshot(
         {
             "user_model_id": "user_4",
             "user_model_name": "자동전환형",
+            "quant_model_name": "자동전환형 퀀트투자 모델",
+            "model_definition_line": "주간 브리핑용 퀀트투자 모델",
+            "model_definition_detail": ("시장 상황에 따라 모델 포트폴리오를 자동으로 조정합니다."),
             "service_profile": "auto",
             "summary": "시장 환경에 따라 비중과 자산 구성을 자동으로 조정합니다.",
             "risk_label": "adaptive",
@@ -213,6 +231,11 @@ def seed_user_snapshot(
         [
             {
                 "user_model_name": "안정형",
+                "quant_model_name": "안정형 퀀트투자 모델",
+                "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+                "model_definition_detail": (
+                    "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 " "산출합니다."
+                ),
                 "service_profile": "stable",
                 "summary_text": "채권과 금 중심의 방어형 포트폴리오입니다.",
                 "market_view": "중립",
@@ -307,6 +330,11 @@ def seed_user_snapshot(
             },
             {
                 "user_model_name": "균형형",
+                "quant_model_name": "균형형 퀀트투자 모델",
+                "model_definition_line": "멀티애셋 데이터 기반 퀀트투자 모델",
+                "model_definition_detail": (
+                    "주식과 ETF를 함께 담아 균형형 모델 포트폴리오를 산출합니다."
+                ),
                 "service_profile": "balanced",
                 "summary_text": "국내 주식과 ETF를 함께 담는 균형형 포트폴리오입니다.",
                 "market_view": "중립",
@@ -409,6 +437,11 @@ def seed_user_snapshot(
             },
             {
                 "user_model_name": "성장형",
+                "quant_model_name": "성장형 퀀트투자 모델",
+                "model_definition_line": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+                "model_definition_detail": (
+                    "최근 강한 성장 주식 sleeve를 반영하는 모델 포트폴리오를 " "산출합니다."
+                ),
                 "service_profile": "growth",
                 "summary_text": "최근 강한 성장 주식 sleeve를 적극적으로 반영하는 전략입니다.",
                 "market_view": "중립",
@@ -511,6 +544,11 @@ def seed_user_snapshot(
             },
             {
                 "user_model_name": "자동전환형",
+                "quant_model_name": "자동전환형 퀀트투자 모델",
+                "model_definition_line": "주간 브리핑용 퀀트투자 모델",
+                "model_definition_detail": (
+                    "시장 상황에 따라 모델 포트폴리오를 자동으로 조정합니다."
+                ),
                 "service_profile": "auto",
                 "summary_text": "시장 국면에 따라 비중과 자산 구성을 자동으로 조정합니다.",
                 "market_view": "중립",
@@ -602,6 +640,11 @@ def seed_user_snapshot(
     performance_models = [
         {
             "user_model_name": "안정형",
+            "quant_model_name": "안정형 퀀트투자 모델",
+            "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+            "model_definition_detail": (
+                "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 " "산출합니다."
+            ),
             "service_profile": "stable",
             "risk_label": "low",
             "performance_cards": {
@@ -627,6 +670,11 @@ def seed_user_snapshot(
         },
         {
             "user_model_name": "균형형",
+            "quant_model_name": "균형형 퀀트투자 모델",
+            "model_definition_line": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_definition_detail": (
+                "주식과 ETF를 함께 담아 균형형 모델 포트폴리오를 산출합니다."
+            ),
             "service_profile": "balanced",
             "risk_label": "medium",
             "performance_cards": {
@@ -644,6 +692,11 @@ def seed_user_snapshot(
         },
         {
             "user_model_name": "성장형",
+            "quant_model_name": "성장형 퀀트투자 모델",
+            "model_definition_line": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_definition_detail": (
+                "최근 강한 성장 주식 sleeve를 반영하는 모델 포트폴리오를 " "산출합니다."
+            ),
             "service_profile": "growth",
             "risk_label": "high",
             "performance_cards": {
@@ -669,6 +722,9 @@ def seed_user_snapshot(
         },
         {
             "user_model_name": "자동전환형",
+            "quant_model_name": "자동전환형 퀀트투자 모델",
+            "model_definition_line": "주간 브리핑용 퀀트투자 모델",
+            "model_definition_detail": ("시장 상황에 따라 모델 포트폴리오를 자동으로 조정합니다."),
             "service_profile": "auto",
             "risk_label": "adaptive",
             "performance_cards": {
@@ -689,8 +745,10 @@ def seed_user_snapshot(
         [
             {
                 "user_model_name": "안정형",
+                "quant_model_name": "안정형 퀀트투자 모델",
                 "service_profile": "stable",
                 "change_type": "rebalanced",
+                "change_badge_label": "주간 모델 조정",
                 "summary": "방어 자산 중심 비중을 조정했습니다.",
                 "increase_items": [
                     {
@@ -712,8 +770,10 @@ def seed_user_snapshot(
             },
             {
                 "user_model_name": "성장형",
+                "quant_model_name": "성장형 퀀트투자 모델",
                 "service_profile": "growth",
                 "change_type": "increase",
+                "change_badge_label": "주간 모델 조정",
                 "summary": "성장 주식 sleeve 비중을 확대했습니다.",
                 "increase_items": [
                     {
@@ -1132,7 +1192,10 @@ def test_user_pages_render_user_snapshot_content(tmp_path: Path) -> None:
     changes_response = client.get("/changes")
 
     assert home_response.status_code == 200
-    assert "안정형" in home_response.get_data(as_text=True)
+    home_body = home_response.get_data(as_text=True)
+    assert "안정형 퀀트투자 모델" in home_body
+    assert "공개 기준 기반 퀀트투자 모델" in home_body
+    assert "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다." in home_body
     assert today_response.status_code == 200
     today_body = today_response.get_data(as_text=True)
     assert "주식 sleeve 비중" in today_body
@@ -1557,6 +1620,10 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "ai_logos/chatgpt.svg" in market_body
     assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
+    assert "안정형 퀀트투자 모델" in changes_body
+    assert "주간 모델 조정" in changes_body
+    assert "안정형 퀀트투자 모델" in changes_body
+    assert "주간 모델 조정" in changes_body
     assert "좋음" in market_body
     assert "보통" in market_body
     assert "나쁨" in market_body

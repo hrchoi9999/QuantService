@@ -100,6 +100,7 @@
         <h2>{{ report.quant_model_name or report.user_model_name }}</h2>
         <p class="muted small">{{ report.model_definition_line }}</p>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
+        {% if report.model_definition_detail %}<p class="muted small">{{ report.model_definition_detail }}</p>{% endif %}
       </div>
       <div class="report-summary-meta">
         <span class="strategy-disclosure-toggle" aria-hidden="true">

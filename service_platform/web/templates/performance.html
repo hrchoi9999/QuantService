@@ -46,10 +46,12 @@
     <div class="section-heading tight-head">
       <div class="title-stack">
         <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
+        <p class="muted small">{{ row.model_definition_line }}</p>
       </div>
       <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>{% if auto_balanced_same and row.service_profile == "auto" %}<span class="badge neutral">현재 균형형과 유사 운용</span>{% endif %}
     </div>
-    <p class="muted">{{ row.note }}</p>
+    <p class="muted small">{{ row.model_definition_line }}</p>
+    {% if row.model_definition_detail %}<p class="muted">{{ row.model_definition_detail }}</p>{% else %}<p class="muted">{{ row.note }}</p>{% endif %}
     <div class="visual-metric-stack">
       <div class="visual-metric-row">
         <div class="visual-metric-head"><span>{{ row.performance_cards.primary_period or '1Y' }} CAGR</span><strong>{{ row.performance_cards.cagr | fmt_percent }}</strong></div>
@@ -106,6 +108,7 @@
     <div class="section-heading tight-head">
       <div class="title-stack">
         <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
+        <p class="muted small">{{ row.model_definition_line }}</p>
       </div>
       <span class="badge neutral">{{ row.performance_cards.primary_period or '1Y' }} 기준</span>
     </div>
