@@ -1105,7 +1105,17 @@ def create_app(settings: Settings | None = None) -> Flask:
     def admin_url(endpoint: str) -> str:
         return url_for(endpoint)
 
-    def build_admin_links() -> dict[str, str]:
+    def can_access_internal_preview(access_context: AccessContext | None = None) -> bool:
+        access_context = access_context or current_access_context()
+        if not access_context.is_admin:
+            return False
+        if settings.app_env != "production":
+            return True
+        allowed_emails = {email.lower() for email in settings.analytics_preview_allowed_emails}
+        current_email = str((access_context.user.email if access_context.user else "")).lower()
+        return current_email in allowed_emails
+
+    def build_admin_links(access_context: AccessContext | None = None) -> dict[str, str]:
         links = {
             "dashboard": admin_url("admin_dashboard"),
             "users": admin_url("admin_users"),
@@ -1116,6 +1126,8 @@ def create_app(settings: Settings | None = None) -> Flask:
             "metrics": admin_url("admin_metrics"),
             "audit": admin_url("admin_audit"),
         }
+        if can_access_internal_preview(access_context):
+            links["analytics_preview"] = admin_url("admin_analytics_preview")
         if settings.billing_enabled:
             links["billing"] = admin_url("admin_billing")
         return links
@@ -1128,11 +1140,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def require_internal_preview_access() -> AccessContext:
         access_context = require_admin_access()
-        if settings.app_env != "production":
-            return access_context
-        allowed_emails = {email.lower() for email in settings.analytics_preview_allowed_emails}
-        current_email = str((access_context.user.email if access_context.user else "")).lower()
-        if current_email not in allowed_emails:
+        if not can_access_internal_preview(access_context):
             abort(404)
         return access_context
 
@@ -1148,8 +1156,8 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def build_analytics_preview_p2_links() -> dict[str, str]:
         return {
-            "portfolio": url_for("admin_preview_portfolio_structure"),
-            "lifecycle": url_for("admin_preview_holding_lifecycle"),
+            "portfolio_structure": url_for("admin_preview_portfolio_structure"),
+            "holding_lifecycle": url_for("admin_preview_holding_lifecycle"),
         }
 
     def load_analytics_preview_p2_bundle(force_refresh: bool = False):
@@ -1928,7 +1936,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/dashboard.html",
                 page_title="Admin Dashboard",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 status_snapshot=status_snapshot,
                 metrics_summary=metrics_summary,
                 dashboard_summary=dashboard_summary,
@@ -1982,7 +1990,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/users.html",
                 page_title="Admin Users",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 status=request.args.get("status", ""),
                 query=query,
                 user_rows=access_store.list_users(query=query, limit=100),
@@ -2040,7 +2048,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/grant.html",
                 page_title="Admin Grant",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 status=request.args.get("status", ""),
                 plan_rows=access_store.list_plans(),
             ),
@@ -2088,7 +2096,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/plans_entitlements.html",
                 page_title="Plans & Entitlements",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 status=request.args.get("status", ""),
                 plan_rows=access_store.list_plans(),
                 entitlement_rows=access_store.list_plan_entitlement_rows(),
@@ -2143,10 +2151,56 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/publish_snapshots.html",
                 page_title="Publish & Snapshots",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 status=request.args.get("status", ""),
                 status_snapshot=provider.get_status(force_refresh=False),
                 published_rows=build_published_snapshot_rows(),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-preview")
+    def admin_analytics_preview() -> Response:
+        access_context = require_internal_preview_access()
+        return Response(
+            render_template(
+                "admin/analytics_preview.html",
+                page_title="Analytics Preview",
+                page_robots="noindex, nofollow",
+                admin_links=build_admin_links(access_context),
+                preview_groups=[
+                    {
+                        "title": "1차 묶음",
+                        "description": (
+                            "오늘의 모델 정보, 모델 변화, 모델 비교 preview를 "
+                            "한 번에 검토합니다."
+                        ),
+                        "links": [
+                            {
+                                "label": "오늘의 모델 정보",
+                                "href": url_for("admin_preview_today_model_info"),
+                            },
+                            {"label": "모델 변화", "href": url_for("admin_preview_model_changes")},
+                            {"label": "모델 비교", "href": url_for("admin_preview_model_compare")},
+                        ],
+                    },
+                    {
+                        "title": "2차 묶음",
+                        "description": (
+                            "포트폴리오 구조와 보유 종목 이력 preview를 함께 " "검토합니다."
+                        ),
+                        "links": [
+                            {
+                                "label": "포트폴리오 구조",
+                                "href": url_for("admin_preview_portfolio_structure"),
+                            },
+                            {
+                                "label": "보유 종목 이력",
+                                "href": url_for("admin_preview_holding_lifecycle"),
+                            },
+                        ],
+                    },
+                ],
             ),
             mimetype="text/html",
         )
@@ -2342,7 +2396,7 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/feedback")
     def admin_feedback() -> Response:
-        require_admin_access()
+        access_context = require_admin_access()
         feedback_rows = safe_list_recent_feedback(limit=100)
         metrics_summary = safe_metrics_summary()
         return Response(
@@ -2350,7 +2404,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "admin/feedback.html",
                 page_title="Admin Feedback",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 feedback_rows=feedback_rows,
                 metrics_summary=metrics_summary,
             ),
@@ -2359,13 +2413,13 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/metrics")
     def admin_metrics() -> Response:
-        require_admin_access()
+        access_context = require_admin_access()
         return Response(
             render_template(
                 "admin/metrics.html",
                 page_title="Admin Metrics",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 metrics_summary=safe_metrics_summary(),
                 dashboard_summary=access_store.get_dashboard_summary(),
             ),
@@ -2374,13 +2428,13 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/audit")
     def admin_audit() -> Response:
-        require_admin_access()
+        access_context = require_admin_access()
         return Response(
             render_template(
                 "admin/audit.html",
                 page_title="Admin Audit",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 audit_rows=access_store.list_recent_audit_logs(limit=200),
             ),
             mimetype="text/html",
@@ -2388,14 +2442,14 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/admin/billing")
     def admin_billing() -> Response:
-        require_admin_access()
+        access_context = require_admin_access()
         ensure_billing_enabled()
         return Response(
             render_template(
                 "admin/billing.html",
                 page_title="Admin Billing",
                 page_robots="noindex, nofollow",
-                admin_links=build_admin_links(),
+                admin_links=build_admin_links(access_context),
                 order_rows=access_store.list_recent_orders(limit=100),
                 payment_event_rows=access_store.list_recent_payment_events(limit=100),
                 subscription_rows=access_store.list_recent_subscriptions(limit=100),

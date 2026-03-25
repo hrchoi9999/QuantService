@@ -2278,8 +2278,11 @@ def test_internal_preview_routes_allow_named_admin_in_production(
         analytics_preview_allowed_emails=("hrchoi@koreascf.com",),
     )
     preview_dir = tmp_path / "analytics_preview"
+    preview_p2_dir = tmp_path / "analytics_preview_p2"
     seed_analytics_preview_bundle(preview_dir)
+    seed_analytics_preview_p2_bundle(preview_p2_dir)
     monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", str(preview_p2_dir))
     app = create_app(settings)
     access_store = app.config["ACCESS_STORE"]
     access_store.authenticate_or_register("hrchoi@koreascf.com", "pass1234")
@@ -2290,14 +2293,23 @@ def test_internal_preview_routes_allow_named_admin_in_production(
         client,
         email="hrchoi@koreascf.com",
         password="pass1234",
-        next_url="/admin/analytics-p1/today-model-info",
+        next_url="/admin/analytics-preview",
         follow_redirects=True,
     )
 
-    response = client.get("/admin/analytics-p1/today-model-info")
+    hub_response = client.get("/admin/analytics-preview")
+    p1_response = client.get("/admin/analytics-p1/today-model-info")
+    p2_response = client.get("/admin/analytics-p2/portfolio-structure")
 
-    assert response.status_code == 200
-    assert "오늘의 모델 정보" in response.get_data(as_text=True)
+    assert hub_response.status_code == 200
+    hub_body = hub_response.get_data(as_text=True)
+    assert "내부 Analytics Preview" in hub_body
+    assert "포트폴리오 구조" in hub_body
+    assert "보유 종목 이력" in hub_body
+    assert p1_response.status_code == 200
+    assert "오늘의 모델 정보" in p1_response.get_data(as_text=True)
+    assert p2_response.status_code == 200
+    assert "포트폴리오 구조" in p2_response.get_data(as_text=True)
 
 
 def test_internal_preview_bundle_rejects_publish_enabled_payload(

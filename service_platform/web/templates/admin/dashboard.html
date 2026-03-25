@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <section class="hero-card compact-hero">
@@ -17,6 +17,18 @@
 </section>
 
 {% include "admin/nav.html" %}
+
+{% if admin_links.analytics_preview %}
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>Analytics Preview</h2>
+      <p class="muted">1차, 2차 내부 preview 페이지를 관리자 포털 안에서 함께 검토합니다.</p>
+    </div>
+    <a class="secondary-button" href="{{ admin_links.analytics_preview }}">preview 모아보기</a>
+  </div>
+</section>
+{% endif %}
 
 <section class="grid three-up">
   <article class="panel stat-card">

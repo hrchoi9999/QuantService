@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin Preview</p>
+  <h1>내부 Analytics Preview</h1>
+  <p class="lead">관리자 확인용 preview 페이지를 묶음별로 검토하는 전용 화면입니다. 실서비스 공개 메뉴에는 노출하지 않습니다.</p>
+</section>
+
+{% include "admin/nav.html" %}
+
+<div class="grid two-up">
+  {% for group in preview_groups %}
+  <section class="panel shell-card preview-panel">
+    <div class="section-heading tight-head">
+      <div>
+        <h2>{{ group.title }}</h2>
+        <p class="muted">{{ group.description }}</p>
+      </div>
+    </div>
+    <div class="preview-nav">
+      {% for link in group.links %}
+      <a class="preview-nav__link" href="{{ link.href }}">{{ link.label }}</a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}
