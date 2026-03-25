@@ -1627,11 +1627,15 @@ body {
   gap: 8px;
 }
 
-.market-component-card-top {
+.market-component-score-row {
   display: flex;
-  justify-content: flex-end;
-  min-height: 28px;
-  margin-bottom: 2px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.market-component-score-row h2 {
+  flex: 0 1 auto;
 }
 
 .market-status-badge {
@@ -1665,7 +1669,7 @@ body {
 }
 
 .market-component-card h2 {
-  margin: 0 0 6px;
+  margin: 0;
 }
 
 .market-component-description {
