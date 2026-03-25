@@ -41,6 +41,7 @@ def build_settings(tmp_path: Path, ttl_seconds: int = 60, stale_after_hours: int
         feedback_message_min_length=10,
         feedback_admin_key="secret-key",
         analytics_window_hours=24,
+        analytics_preview_allowed_emails=(),
         trial_mode=True,
         trial_default_plan="starter",
         trial_end_date="2026-06-11",

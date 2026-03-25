@@ -13,6 +13,7 @@ from service_platform.shared.constants import (
     DEFAULT_ALERT_THROTTLE_SECONDS,
     DEFAULT_ALERT_WEBHOOK_URL,
     DEFAULT_ALLOW_HIGHER_PLAN_DURING_TRIAL,
+    DEFAULT_ANALYTICS_PREVIEW_ALLOWED_EMAILS,
     DEFAULT_ANALYTICS_WINDOW_HOURS,
     DEFAULT_APP_DB_PATH,
     DEFAULT_BACKUP_DIR,
@@ -86,6 +87,7 @@ class Settings:
     feedback_message_min_length: int
     feedback_admin_key: str
     analytics_window_hours: int
+    analytics_preview_allowed_emails: tuple[str, ...]
     trial_mode: bool
     trial_default_plan: str
     trial_end_date: str
@@ -173,6 +175,10 @@ def get_settings() -> Settings:
         feedback_admin_key=os.getenv("FEEDBACK_ADMIN_KEY", DEFAULT_FEEDBACK_ADMIN_KEY),
         analytics_window_hours=int(
             os.getenv("ANALYTICS_WINDOW_HOURS", str(DEFAULT_ANALYTICS_WINDOW_HOURS))
+        ),
+        analytics_preview_allowed_emails=_get_csv_tuple(
+            "ANALYTICS_PREVIEW_ALLOWED_EMAILS",
+            DEFAULT_ANALYTICS_PREVIEW_ALLOWED_EMAILS,
         ),
         trial_mode=_get_bool("TRIAL_MODE", DEFAULT_TRIAL_MODE),
         trial_default_plan=os.getenv("TRIAL_DEFAULT_PLAN", DEFAULT_TRIAL_DEFAULT_PLAN),

@@ -8,6 +8,7 @@
     [string]$SnapshotSource = "local",
     [string]$MarketAnalysisSource = "remote",
     [string]$MarketAnalysisBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/market_analysis/current",
+    [string]$AnalyticsPreviewAllowedEmails = "hrchoi@koreascf.com",
     [bool]$BillingEnabled = $false,
     [ValidateSet("test", "prod")]
     [string]$BillingMode = "test",
@@ -84,6 +85,8 @@ spec:
           value: $MarketAnalysisSource
         - name: MARKET_ANALYSIS_BASE_URL
           value: $MarketAnalysisBaseUrl
+        - name: ANALYTICS_PREVIEW_ALLOWED_EMAILS
+          value: $AnalyticsPreviewAllowedEmails
         - name: BILLING_ENABLED
           value: '$billingEnabledValue'
         - name: BILLING_MODE

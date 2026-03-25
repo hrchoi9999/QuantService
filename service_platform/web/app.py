@@ -1000,9 +1000,14 @@ def create_app(settings: Settings | None = None) -> Flask:
         return access_context
 
     def require_internal_preview_access() -> AccessContext:
-        if settings.app_env == "production":
+        access_context = require_admin_access()
+        if settings.app_env != "production":
+            return access_context
+        allowed_emails = {email.lower() for email in settings.analytics_preview_allowed_emails}
+        current_email = str((access_context.user.email if access_context.user else "")).lower()
+        if current_email not in allowed_emails:
             abort(404)
-        return require_admin_access()
+        return access_context
 
     def build_analytics_preview_links() -> dict[str, str]:
         return {

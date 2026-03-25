@@ -38,6 +38,7 @@ def build_settings(
         feedback_message_min_length=10,
         feedback_admin_key="secret-key",
         analytics_window_hours=24,
+        analytics_preview_allowed_emails=(),
         trial_mode=trial_mode,
         trial_default_plan="starter",
         trial_end_date=trial_end_date,

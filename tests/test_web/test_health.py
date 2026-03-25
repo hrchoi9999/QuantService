@@ -73,6 +73,7 @@ def build_settings(
         feedback_message_min_length=10,
         feedback_admin_key="secret-key",
         analytics_window_hours=24,
+        analytics_preview_allowed_emails=(),
         trial_mode=trial_mode,
         trial_default_plan="starter",
         trial_end_date=trial_end_date,
@@ -2088,17 +2089,61 @@ def test_internal_preview_pages_require_admin_and_render_bundle(
     assert "모델 비교" in compare_response.get_data(as_text=True)
 
 
-def test_internal_preview_routes_are_hidden_in_production(tmp_path: Path, monkeypatch) -> None:
+def test_internal_preview_routes_are_hidden_in_production_without_allowed_admin(
+    tmp_path: Path, monkeypatch
+) -> None:
     settings = replace(build_settings(tmp_path), app_env="production")
     preview_dir = tmp_path / "analytics_preview"
     seed_analytics_preview_bundle(preview_dir)
     monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
     app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
     client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p1/today-model-info",
+        follow_redirects=True,
+    )
 
     response = client.get("/admin/analytics-p1/today-model-info")
 
     assert response.status_code == 404
+
+
+def test_internal_preview_routes_allow_named_admin_in_production(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = replace(
+        build_settings(tmp_path),
+        app_env="production",
+        analytics_preview_allowed_emails=("hrchoi@koreascf.com",),
+    )
+    preview_dir = tmp_path / "analytics_preview"
+    seed_analytics_preview_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("hrchoi@koreascf.com", "pass1234")
+    access_store.assign_role(email="hrchoi@koreascf.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="hrchoi@koreascf.com",
+        password="pass1234",
+        next_url="/admin/analytics-p1/today-model-info",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p1/today-model-info")
+
+    assert response.status_code == 200
+    assert "오늘의 모델 정보" in response.get_data(as_text=True)
 
 
 def test_internal_preview_bundle_rejects_publish_enabled_payload(
