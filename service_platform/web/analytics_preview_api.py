@@ -109,10 +109,17 @@ class AnalyticsPreviewApi:
         default_name: str,
     ) -> Path:
         file_entry = ((manifest.get("files") or {}).get(key) or "").strip()
-        candidate = Path(file_entry) if file_entry else (root_dir / default_name)
+        if not file_entry:
+            return root_dir / default_name
+
+        candidate = Path(file_entry)
+        if self._looks_like_windows_absolute_path(file_entry):
+            candidate = Path(candidate.name)
         if not candidate.is_absolute():
             candidate = root_dir / candidate
-        return candidate
+        if candidate.exists():
+            return candidate
+        return root_dir / default_name
 
     def _load_json(self, path: Path) -> dict[str, Any]:
         try:
@@ -127,6 +134,11 @@ class AnalyticsPreviewApi:
                 f"Invalid preview bundle JSON: {path}",
                 errors=[f"JSON 형식이 올바르지 않습니다: {path} ({exc})"],
             ) from exc
+
+    @staticmethod
+    def _looks_like_windows_absolute_path(value: str) -> bool:
+        return len(value) >= 3 and value[1] == ":" and value[2] in {"\\\\", "/"}
+
 
     def _validate_meta(self, payload_meta: dict[str, Any], label: str) -> None:
         internal_preview_only = bool(payload_meta.get("internal_preview_only"))
