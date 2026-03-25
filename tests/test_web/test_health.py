@@ -2585,6 +2585,144 @@ def test_internal_preview_p3_pages_require_admin_and_render_bundle(
     assert "최근 8주 변화" in briefing_body
 
 
+def seed_admin_market_lab_bundle(
+    bundle_dir: Path, *, visibility: str = "admin_only_pre_publish"
+) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "market": "KR",
+        "asof": "2026-03-25T22:43:02+09:00",
+        "visibility": visibility,
+        "title": "QuantMarket admin market payload manifest",
+        "files": {
+            "timeline": "admin_market_timeline.json",
+            "asset_strength": "admin_market_asset_strength.json",
+            "state_transition": "admin_market_state_transition.json",
+            "model_background": "admin_market_model_background.json",
+            "manifest": "admin_market_manifest.json",
+        },
+    }
+    timeline = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "current_state": {
+            "asof": manifest["asof"],
+            "state_label": "상승",
+            "state_score": 1.11,
+            "state_change_direction": "stronger",
+            "trend_score": 3.0,
+            "breadth_score": 2.28,
+            "risk_score": -3.0,
+            "defensive_flow_score": -0.13,
+            "total_score": 1.11,
+        },
+        "points": [
+            {
+                "asof": manifest["asof"],
+                "state_label": "상승",
+                "state_score": 1.11,
+                "state_change_direction": "stronger",
+                "trend_score": 3.0,
+                "breadth_score": 2.28,
+                "risk_score": -3.0,
+                "defensive_flow_score": -0.13,
+                "total_score": 1.11,
+            }
+        ],
+    }
+    asset_strength = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "current_assets": [
+            {
+                "asset_group": "KOSPI",
+                "ret_20d": 0.12,
+                "strength_score": 2.11,
+                "strength_rank": 1,
+                "strength_label": "강함",
+            },
+            {
+                "asset_group": "GOLD",
+                "ret_20d": -0.03,
+                "strength_score": -0.81,
+                "strength_rank": 6,
+                "strength_label": "약함",
+            },
+        ],
+        "rank_history": [
+            {
+                "asof": manifest["asof"],
+                "asset_group": "KOSPI",
+                "strength_rank": 1,
+                "strength_score": 2.11,
+                "strength_label": "강함",
+            },
+            {
+                "asof": manifest["asof"],
+                "asset_group": "GOLD",
+                "strength_rank": 6,
+                "strength_score": -0.81,
+                "strength_label": "약함",
+            },
+        ],
+    }
+    state_transition = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "current": {
+            "current_state": "상승",
+            "prev_state": "강보합",
+            "duration_hours": 12.7,
+            "transition_count_5d": 4,
+            "transition_count_20d": 4,
+            "stability_score": 0.57,
+        },
+        "recent_changes": [
+            {
+                "asof": manifest["asof"],
+                "state_label": "상승",
+                "prev_state_label": "강보합",
+                "state_change_direction": "stronger",
+                "state_score": 1.11,
+            }
+        ],
+    }
+    model_background = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "state_label": "상승",
+        "state_score": 1.11,
+        "summary_line": "상승 흐름이 우세합니다.",
+        "reference_note": "내부 breadth와 변동성 지표를 함께 봅니다.",
+        "briefing_tone": "위험선호 환경",
+        "model_background_points": ["상승 흐름 우세", "breadth 개선"],
+        "favorable_signals": ["코스피 강세"],
+        "caution_signals": ["달러 강세"],
+        "top_assets": [asset_strength["current_assets"][0]],
+        "bottom_assets": [asset_strength["current_assets"][1]],
+    }
+    (bundle_dir / "admin_market_manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "admin_market_timeline.json").write_text(
+        json.dumps(timeline, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "admin_market_asset_strength.json").write_text(
+        json.dumps(asset_strength, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "admin_market_state_transition.json").write_text(
+        json.dumps(state_transition, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "admin_market_model_background.json").write_text(
+        json.dumps(model_background, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def test_internal_preview_p3_bundle_rejects_publish_enabled_payload(
     tmp_path: Path, monkeypatch
 ) -> None:
@@ -2610,3 +2748,77 @@ def test_internal_preview_p3_bundle_rejects_publish_enabled_payload(
 
     assert response.status_code == 503
     assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)
+
+
+def test_admin_market_briefing_lab_requires_admin_and_renders_bundle(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    bundle_dir = tmp_path / "admin_market_lab"
+    seed_admin_market_lab_bundle(bundle_dir)
+    monkeypatch.setenv("ADMIN_MARKET_LAB_DIR", str(bundle_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+    access_store.authenticate_or_register("member@example.com", "pass1234")
+
+    anonymous_client = app.test_client()
+    assert anonymous_client.get("/admin/market-briefing-lab").status_code == 404
+
+    user_client = app.test_client()
+    login_user(
+        user_client,
+        email="member@example.com",
+        password="pass1234",
+        next_url="/admin/market-briefing-lab",
+        follow_redirects=True,
+    )
+    assert user_client.get("/admin/market-briefing-lab").status_code == 404
+
+    admin_client = app.test_client()
+    login_user(
+        admin_client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/market-briefing-lab",
+        follow_redirects=True,
+    )
+
+    response = admin_client.get("/admin/market-briefing-lab")
+    raw_response = admin_client.get("/admin/market-briefing-lab/raw/timeline")
+
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert "시장 브리핑 Lab" in body
+    assert "현재 시장상태 요약" in body
+    assert "모델 해석 백그라운드" in body
+    assert "자산군 상대강도" in body
+    assert "상태 전이 브리핑" in body
+    assert raw_response.status_code == 200
+    assert raw_response.get_json()["current_state"]["state_label"] == "상승"
+
+
+def test_admin_market_briefing_lab_rejects_invalid_visibility(tmp_path: Path, monkeypatch) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    bundle_dir = tmp_path / "admin_market_lab"
+    seed_admin_market_lab_bundle(bundle_dir, visibility="public")
+    monkeypatch.setenv("ADMIN_MARKET_LAB_DIR", str(bundle_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/market-briefing-lab",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/market-briefing-lab")
+
+    assert response.status_code == 503
+    assert "admin market data unavailable" in response.get_data(as_text=True)

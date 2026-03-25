@@ -42,6 +42,10 @@ from service_platform.shared.config import Settings, get_settings
 from service_platform.shared.constants import CURRENT_DIRNAME, MANIFEST_FILENAME, PUBLISHED_DIRNAME
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
+from service_platform.web.admin_market_lab_api import (
+    AdminMarketLabApi,
+    AdminMarketLabLoadError,
+)
 from service_platform.web.analytics_preview_api import (
     AnalyticsPreviewApi,
     AnalyticsPreviewLoadError,
@@ -1094,6 +1098,98 @@ def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]
     }
 
 
+def _build_admin_market_rank_history(rank_history: list[dict[str, Any]]) -> dict[str, str]:
+    grouped: dict[str, list[str]] = {}
+    for row in rank_history or []:
+        asset_group = str(row.get("asset_group") or "-")
+        grouped.setdefault(asset_group, []).append(str(row.get("strength_rank") or "-"))
+    return {asset_group: " → ".join(values[:6]) for asset_group, values in grouped.items()}
+
+
+def _build_admin_market_lab_view(bundle) -> dict[str, Any]:
+    timeline = bundle.timeline or {}
+    asset_strength = bundle.asset_strength or {}
+    state_transition = bundle.state_transition or {}
+    model_background = bundle.model_background or {}
+    rank_history_map = _build_admin_market_rank_history(asset_strength.get("rank_history") or [])
+    current_assets = []
+    for row in asset_strength.get("current_assets") or []:
+        current_assets.append(
+            {
+                **row,
+                "rank_history_text": rank_history_map.get(str(row.get("asset_group") or "-"), "-"),
+            }
+        )
+    return {
+        "asof": bundle.asof,
+        "source_dir": bundle.source_dir,
+        "manifest": bundle.manifest,
+        "summary": {
+            "state_label": model_background.get("state_label")
+            or (timeline.get("current_state") or {}).get("state_label")
+            or "-",
+            "state_score": (
+                model_background.get("state_score")
+                if model_background.get("state_score") is not None
+                else (timeline.get("current_state") or {}).get("state_score")
+            ),
+            "summary_line": model_background.get("summary_line") or "-",
+            "reference_note": model_background.get("reference_note") or "-",
+            "briefing_tone": model_background.get("briefing_tone") or "-",
+        },
+        "background_points": [
+            str(item).strip()
+            for item in (model_background.get("model_background_points") or [])
+            if str(item).strip()
+        ],
+        "favorable_signals": [
+            str(item).strip()
+            for item in (model_background.get("favorable_signals") or [])
+            if str(item).strip()
+        ],
+        "caution_signals": [
+            str(item).strip()
+            for item in (model_background.get("caution_signals") or [])
+            if str(item).strip()
+        ],
+        "top_assets": list(model_background.get("top_assets") or [])[:3],
+        "bottom_assets": list(model_background.get("bottom_assets") or [])[:3],
+        "timeline": {
+            "current": timeline.get("current_state") or {},
+            "points": list(timeline.get("points") or [])[-12:],
+        },
+        "asset_strength": {
+            "current_assets": current_assets,
+        },
+        "state_transition": {
+            "current": state_transition.get("current") or {},
+            "recent_changes": list(state_transition.get("recent_changes") or [])[:16],
+        },
+        "raw_links": [
+            {
+                "label": "manifest",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="manifest"),
+            },
+            {
+                "label": "timeline",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="timeline"),
+            },
+            {
+                "label": "asset strength",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="asset_strength"),
+            },
+            {
+                "label": "state transition",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="state_transition"),
+            },
+            {
+                "label": "model background",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="model_background"),
+            },
+        ],
+    }
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -1112,6 +1208,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     analytics_preview_p3_api = AnalyticsPreviewP3Api(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
+    admin_market_lab_api = AdminMarketLabApi(cache_ttl_seconds=settings.snapshot_cache_ttl_seconds)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
     billing_service = BillingService(settings, access_store)
@@ -1129,6 +1226,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
     app.config["ANALYTICS_PREVIEW_P3_API"] = analytics_preview_p3_api
+    app.config["ADMIN_MARKET_LAB_API"] = admin_market_lab_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -1222,6 +1320,8 @@ def create_app(settings: Settings | None = None) -> Flask:
         }
         if can_access_internal_preview(access_context):
             links["analytics_preview"] = admin_url("admin_analytics_preview")
+        if can_access_internal_preview(access_context):
+            links["market_briefing_lab"] = admin_url("admin_market_briefing_lab")
         if settings.billing_enabled:
             links["billing"] = admin_url("admin_billing")
         return links
@@ -1265,6 +1365,9 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def load_analytics_preview_p3_bundle(force_refresh: bool = False):
         return analytics_preview_p3_api.load_bundle(force_refresh=force_refresh)
+
+    def load_admin_market_lab_bundle(force_refresh: bool = False):
+        return admin_market_lab_api.load_bundle(force_refresh=force_refresh)
 
     def audit_admin(
         *,
@@ -2587,6 +2690,52 @@ def create_app(settings: Settings | None = None) -> Flask:
             ),
             mimetype="text/html",
         )
+
+    @app.get("/admin/market-briefing-lab")
+    def admin_market_briefing_lab() -> Response:
+        access_context = require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            market_lab_bundle = load_admin_market_lab_bundle(force_refresh=force_refresh)
+        except AdminMarketLabLoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="admin market data unavailable",
+                    page_robots="noindex, nofollow",
+                    preview_title="시장 브리핑 Lab",
+                    message="admin market data unavailable",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        return Response(
+            render_template(
+                "admin_market_briefing_lab.html",
+                page_title="시장 브리핑 Lab",
+                page_robots="noindex, nofollow",
+                admin_links=build_admin_links(access_context),
+                market_lab=_build_admin_market_lab_view(market_lab_bundle),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/market-briefing-lab/raw/<payload_key>")
+    def admin_market_briefing_lab_raw(payload_key: str):
+        require_internal_preview_access()
+        bundle = load_admin_market_lab_bundle(force_refresh=request.args.get("refresh") == "1")
+        payload_map = {
+            "manifest": bundle.manifest,
+            "timeline": bundle.timeline,
+            "asset_strength": bundle.asset_strength,
+            "state_transition": bundle.state_transition,
+            "model_background": bundle.model_background,
+        }
+        payload = payload_map.get(payload_key)
+        if payload is None:
+            abort(404)
+        return jsonify(payload)
 
     @app.get("/admin/feedback")
     def admin_feedback() -> Response:

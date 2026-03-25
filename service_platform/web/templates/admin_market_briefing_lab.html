@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero shell-card preview-hero">
+  <p class="eyebrow">Admin Market Lab</p>
+  <h1>시장 브리핑 Lab</h1>
+  <p class="lead">QuantMarket이 생성한 admin 전용 시장 브리핑 보조 데이터를 관리자 포털 안에서만 검토하는 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준 시각 {{ market_lab.asof|fmt_datetime }}</span>
+    <span>{{ market_lab.manifest.visibility }}</span>
+    <span>source {{ market_lab.source_dir }}</span>
+  </div>
+</section>
+
+{% include "admin/nav.html" %}
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>현재 시장상태 요약</h2>
+      <p class="muted">현재 상태와 모델 해석용 핵심 문장을 함께 확인합니다.</p>
+    </div>
+  </div>
+  <div class="metric-strip preview-quality-grid compact-grid">
+    <div class="metric-card public-metric-card"><span class="label">현재 상태</span><strong>{{ market_lab.summary.state_label }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">state score</span><strong>{{ market_lab.summary.state_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">briefing tone</span><strong>{{ market_lab.summary.briefing_tone }}</strong></div>
+  </div>
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <h3>summary line</h3>
+      <p>{{ market_lab.summary.summary_line }}</p>
+    </article>
+    <article class="shell-card content-card preview-card">
+      <h3>reference note</h3>
+      <p>{{ market_lab.summary.reference_note }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>모델 해석 백그라운드</h2>
+    </div>
+  </div>
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <h3>핵심 포인트</h3>
+      <ul class="message-list clean-list preview-bullet-list">
+        {% for item in market_lab.background_points %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="shell-card content-card preview-card">
+      <h3>신호 요약</h3>
+      <div class="grid two-up preview-two-up">
+        <div>
+          <h4>우호 신호</h4>
+          <ul class="message-list clean-list compact-list">
+            {% for item in market_lab.favorable_signals %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div>
+          <h4>주의 신호</h4>
+          <ul class="message-list clean-list compact-list">
+            {% for item in market_lab.caution_signals %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <h3>상위 자산군</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>자산군</th><th>20D</th><th>score</th><th>rank</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.top_assets %}
+            <tr><td>{{ row.asset_group }}</td><td>{{ row.ret_20d|fmt_percent }}</td><td>{{ row.strength_score|fmt_sharpe }}</td><td>{{ row.strength_rank }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card preview-card">
+      <h3>하위 자산군</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>자산군</th><th>20D</th><th>score</th><th>rank</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.bottom_assets %}
+            <tr><td>{{ row.asset_group }}</td><td>{{ row.ret_20d|fmt_percent }}</td><td>{{ row.strength_score|fmt_sharpe }}</td><td>{{ row.strength_rank }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>상태 타임라인</h2>
+      <p class="muted">최근 시점별 상태와 component score를 순서대로 확인합니다.</p>
+    </div>
+  </div>
+  <div class="metric-strip preview-quality-grid compact-grid">
+    <div class="metric-card public-metric-card"><span class="label">direction</span><strong>{{ market_lab.timeline.current.state_change_direction }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">trend</span><strong>{{ market_lab.timeline.current.trend_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">breadth</span><strong>{{ market_lab.timeline.current.breadth_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">risk</span><strong>{{ market_lab.timeline.current.risk_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">defensive</span><strong>{{ market_lab.timeline.current.defensive_flow_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">total</span><strong>{{ market_lab.timeline.current.total_score|fmt_sharpe }}</strong></div>
+  </div>
+  <div class="table-wrap compact-table">
+    <table>
+      <thead><tr><th>시각</th><th>상태</th><th>방향</th><th>total</th><th>trend</th><th>breadth</th><th>risk</th><th>defensive</th></tr></thead>
+      <tbody>
+        {% for row in market_lab.timeline.points %}
+        <tr>
+          <td>{{ row.asof|fmt_datetime }}</td>
+          <td>{{ row.state_label }}</td>
+          <td>{{ row.state_change_direction }}</td>
+          <td>{{ row.total_score|fmt_sharpe }}</td>
+          <td>{{ row.trend_score|fmt_sharpe }}</td>
+          <td>{{ row.breadth_score|fmt_sharpe }}</td>
+          <td>{{ row.risk_score|fmt_sharpe }}</td>
+          <td>{{ row.defensive_flow_score|fmt_sharpe }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>자산군 상대강도</h2>
+    </div>
+  </div>
+  <div class="table-wrap compact-table">
+    <table>
+      <thead><tr><th>rank</th><th>자산군</th><th>20D</th><th>score</th><th>label</th><th>최근 rank 흐름</th></tr></thead>
+      <tbody>
+        {% for row in market_lab.asset_strength.current_assets %}
+        <tr>
+          <td>{{ row.strength_rank }}</td>
+          <td>{{ row.asset_group }}</td>
+          <td>{{ row.ret_20d|fmt_percent }}</td>
+          <td>{{ row.strength_score|fmt_sharpe }}</td>
+          <td><span class="badge {% if row.strength_label == '강함' %}accent{% elif row.strength_label == '약함' %}down{% else %}neutral{% endif %}">{{ row.strength_label }}</span></td>
+          <td>{{ row.rank_history_text }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>상태 전이 브리핑</h2>
+    </div>
+  </div>
+  <div class="metric-strip four-col preview-summary-grid compact-grid">
+    <div class="metric-card public-metric-card"><span class="label">지속시간(시간)</span><strong>{{ market_lab.state_transition.current.duration_hours|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">전이 5D</span><strong>{{ market_lab.state_transition.current.transition_count_5d }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">전이 20D</span><strong>{{ market_lab.state_transition.current.transition_count_20d }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">stability</span><strong>{{ market_lab.state_transition.current.stability_score|fmt_sharpe }}</strong></div>
+  </div>
+  <div class="table-wrap compact-table">
+    <table>
+      <thead><tr><th>시각</th><th>현재</th><th>이전</th><th>방향</th><th>점수</th></tr></thead>
+      <tbody>
+        {% for row in market_lab.state_transition.recent_changes %}
+        <tr>
+          <td>{{ row.asof|fmt_datetime }}</td>
+          <td>{{ row.state_label }}</td>
+          <td>{{ row.prev_state_label or '-' }}</td>
+          <td>{{ row.state_change_direction }}</td>
+          <td>{{ row.state_score|fmt_sharpe }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>Raw payload</h2>
+      <p class="muted">관리자 확인용 JSON endpoint입니다.</p>
+    </div>
+  </div>
+  <div class="preview-nav">
+    {% for row in market_lab.raw_links %}
+    <a class="preview-nav__link" href="{{ row.href }}">{{ row.label }}</a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
