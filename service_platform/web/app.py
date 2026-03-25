@@ -545,6 +545,13 @@ def _build_market_state_bar(
     }
 
 
+def _strip_reference_suffix(text: str, *, default: str) -> str:
+    value = str(text or "").strip() or default
+    if value.endswith(" 참고"):
+        return value[:-3].strip()
+    return value
+
+
 def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
     if bundle is None:
         return _build_market_state_bar(
@@ -585,7 +592,10 @@ def _build_market_state_bar_from_bundle(bundle: Any | None) -> dict[str, Any]:
 
 def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     enabled = bool(ai_payload.get("enabled"))
-    title = str(ai_payload.get("title") or "시장 브리핑 참고").strip()
+    title = _strip_reference_suffix(
+        str(ai_payload.get("title") or "퀀트투자 모델 브리핑 참고"),
+        default="퀀트투자 모델 브리핑",
+    )
     compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
@@ -600,7 +610,10 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         provider_name = provider.get("provider") or "unknown"
         provider_label = provider.get("label") or "AI 요약"
         theme_label = str(provider.get("theme_label") or "").strip()
-        full_title = theme_label or str(provider_label)
+        full_title = _strip_reference_suffix(
+            theme_label or str(provider_label),
+            default=str(provider_label),
+        )
         sort_order = 90
         if provider_name == "gemini":
             provider_label = "Gemini"

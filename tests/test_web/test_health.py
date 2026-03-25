@@ -1641,7 +1641,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 변동성 점검" in market_body
-    assert "퀀트투자 모델 브리핑 참고" in market_body
+    assert "퀀트투자 모델 브리핑" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
     assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
@@ -1659,8 +1659,8 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "모델 해석상 주의할 신호" in market_body
     assert "이번 주 모델 해석 포인트" in market_body
     assert "이 시장 브리핑은 어디에 쓰이나요?" in market_body
-    assert "모델 해석 참고" in market_body
-    assert "시장 분위기 참고" in market_body
+    assert "모델 해석" in market_body
+    assert "시장 분위기" in market_body
     assert summary_response.status_code == 200
     assert summary_response.get_json()["data"]["state_label"] == "중립"
     assert detail_response.status_code == 200
@@ -1739,8 +1739,8 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "퀀트투자 모델 브리핑 참고" in body
-    assert "모델 해석 참고" in body
+    assert "퀀트투자 모델 브리핑" in body
+    assert "모델 해석" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
@@ -1804,8 +1804,8 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "퀀트투자 모델 브리핑 참고" in body
-    assert "퀀트투자 모델 브리핑 참고 준비 중" in body
+    assert "퀀트투자 모델 브리핑" in body
+    assert "퀀트투자 모델 브리핑 준비 중" in body
 
 
 def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:
