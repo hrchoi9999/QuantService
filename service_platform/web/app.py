@@ -620,6 +620,7 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     compliance_meta = page_payload.get("compliance_meta") or {}
     component_cards = []
     for item in page_payload.get("component_cards") or []:
+        status_badge = item.get("status_badge") or {}
         component_cards.append(
             {
                 "key": item.get("key"),
@@ -627,6 +628,11 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
                 "score": item.get("score"),
                 "summary": item.get("summary") or "-",
                 "description": str(item.get("description") or "").strip(),
+                "status_badge": {
+                    "label": str(status_badge.get("label") or "").strip(),
+                    "tone": str(status_badge.get("tone") or "").strip() or "neutral",
+                    "reason": str(status_badge.get("reason") or "").strip(),
+                },
             }
         )
     return {

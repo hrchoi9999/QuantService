@@ -1621,11 +1621,59 @@ body {
 }
 
 .market-component-card {
+  position: relative;
   padding: 22px;
+  display: grid;
+  gap: 8px;
+}
+
+.market-component-card-top {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 28px;
+  margin-bottom: 2px;
+}
+
+.market-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  min-height: 30px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.market-status-badge--good {
+  background: #dff4ec;
+  color: #17684c;
+}
+
+.market-status-badge--neutral {
+  background: #efe7dd;
+  color: #6f5d4e;
+}
+
+.market-status-badge--bad {
+  background: #f6e0d4;
+  color: #8b4428;
 }
 
 .market-component-card h2 {
-  margin: 8px 0 10px;
+  margin: 0 0 6px;
+}
+
+.market-component-description {
+  margin-top: 2px;
+}
+
+.market-status-badge-reason {
+  margin-top: 2px;
 }
 
 .market-signal-grid,

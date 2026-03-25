@@ -95,11 +95,19 @@
 <section class="market-card-grid">
   {% for item in market_page_view.component_cards %}
   <article class="panel shell-card market-component-card">
+    {% if item.status_badge.label %}
+    <div class="market-component-card-top">
+      <span class="market-status-badge market-status-badge--{{ item.status_badge.tone }}"{% if item.status_badge.reason %} title="{{ item.status_badge.reason }}"{% endif %}>{{ item.status_badge.label }}</span>
+    </div>
+    {% endif %}
     <span class="label">{{ item.label }}</span>
     <h2>{% if item.score is not none %}{{ '%.2f'|format(item.score) }}{% else %}-{% endif %}</h2>
     <p>{{ item.summary }}</p>
     {% if item.description %}
     <p class="muted small market-component-description">{{ item.description }}</p>
+    {% endif %}
+    {% if item.status_badge.reason %}
+    <p class="muted small market-status-badge-reason">{{ item.status_badge.reason }}</p>
     {% endif %}
   </article>
   {% endfor %}

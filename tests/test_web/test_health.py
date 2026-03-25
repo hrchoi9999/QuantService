@@ -931,24 +931,48 @@ def seed_market_analysis_snapshot(
                 "label": "시장 방향",
                 "score": 0.1,
                 "summary": "대형주는 버티지만 추세 확산은 아직 뚜렷하지 않습니다.",
+                "description": "시장 방향은 주요 지수의 추세 강도를 요약한 참고 지표입니다.",
+                "status_badge": {
+                    "label": "보통",
+                    "tone": "neutral",
+                    "reason": "상승 흐름은 이어지지만 추세 확산은 제한적입니다.",
+                },
             },
             {
                 "key": "breadth",
                 "label": "시장 건강도",
                 "score": 1.9,
                 "summary": "상승 흐름이 개별 종목으로 비교적 넓게 확산되고 있습니다.",
+                "description": "시장 건강도는 상승 종목 확산 정도를 참고용으로 보여 줍니다.",
+                "status_badge": {
+                    "label": "좋음",
+                    "tone": "good",
+                    "reason": "상승 흐름이 비교적 넓게 확산되고 있습니다.",
+                },
             },
             {
                 "key": "risk",
                 "label": "시장 흔들림",
                 "score": -3.0,
                 "summary": "최근 변동성과 낙폭이 커져 방어적 해석이 필요합니다.",
+                "description": "시장 흔들림은 최근 변동성과 낙폭을 반영한 경계 수준입니다.",
+                "status_badge": {
+                    "label": "나쁨",
+                    "tone": "bad",
+                    "reason": "변동성 부담이 큰 편입니다.",
+                },
             },
             {
                 "key": "defensive_flow",
                 "label": "방어자산 선호도",
                 "score": 1.7,
                 "summary": "방어 ETF 상대강도가 높지 않아 주식 선호가 상대적으로 유지됩니다.",
+                "description": "방어자산 선호도는 자금 흐름이 방어 쪽으로 치우쳤는지 보여 줍니다.",
+                "status_badge": {
+                    "label": "좋음",
+                    "tone": "good",
+                    "reason": "방어자산 쏠림이 과하지 않습니다.",
+                },
             },
         ],
         "signal_lists": {
@@ -1533,6 +1557,10 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "ai_logos/chatgpt.svg" in market_body
     assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
+    assert "좋음" in market_body
+    assert "보통" in market_body
+    assert "나쁨" in market_body
+    assert "변동성 부담이 큰 편입니다." in market_body
     assert "시장상태" in market_body
     assert "이전상태 대비" not in market_body
     assert "긍정 신호" in market_body
