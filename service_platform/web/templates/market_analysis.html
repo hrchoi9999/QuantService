@@ -7,8 +7,9 @@
       <span class="badge accent">{{ market_page_view.header_state.label }}</span>
             <span class="badge neutral">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
     </div>
-    <h1>시장 브리핑</h1>
-    <p class="lead">{{ market_page_view.summary_line }}</p>
+    <h1>{{ market_page_view.page_title }}</h1>
+    <p class="muted small">{{ market_page_view.service_definition }}</p>
+    <p class="lead">{{ market_page_view.page_subtitle }}</p>
     {% include "_notice_group.html" %}
 
 {% if market_page_view.ai_briefs.enabled %}
@@ -116,7 +117,7 @@
 
 <section class="grid two-up market-signal-grid">
   <article class="panel shell-card">
-    <h2>긍정 신호</h2>
+    <h2>{{ market_page_view.positive_label }}</h2>
     <ul class="message-list compact-list clean-list">
       {% for item in market_page_view.positive_points %}
       <li>{{ item }}</li>
@@ -127,7 +128,7 @@
     </ul>
   </article>
   <article class="panel shell-card">
-    <h2>주의 신호</h2>
+    <h2>{{ market_page_view.warning_label }}</h2>
     <ul class="message-list compact-list clean-list">
       {% for item in market_page_view.warning_points %}
       <li>{{ item }}</li>
@@ -140,9 +141,25 @@
 </section>
 
 <section class="panel shell-card market-action-panel">
-  <h2>공개 데이터 관찰 메모</h2>
+  <h2>{{ market_page_view.observation_title }}</h2>
+  <p class="muted small">{{ market_page_view.observation_description }}</p>
   <p class="lead compact-lead">{{ market_page_view.observation_note }}</p>
 </section>
+
+{% if market_page_view.usage_guide_card.body %}
+<section class="panel shell-card market-usage-guide-panel">
+  <h2>{{ market_page_view.usage_guide_card.title }}</h2>
+  <ul class="message-list compact-list clean-list">
+    {% for item in market_page_view.usage_guide_card.body[:2] %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+  <div class="stack-actions">
+    <a class="secondary-button" href="{{ url_for('today') }}">이번 주 모델 기준안 보기</a>
+    <a class="secondary-button" href="{{ url_for('changes') }}">변경내역 보기</a>
+  </div>
+</section>
+{% endif %}
 
 <section class="market-metric-groups">
   {% for group in market_page_view.metric_groups %}

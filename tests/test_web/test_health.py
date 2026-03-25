@@ -909,6 +909,9 @@ def seed_market_analysis_snapshot(
         "market": "KR",
         "asof": asof,
         "hero": {
+            "title": "시장 브리핑",
+            "subtitle": "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다.",
+            "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
             "state_label": state_label,
             "state_score": 0.2907,
             "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
@@ -928,6 +931,7 @@ def seed_market_analysis_snapshot(
             "state_label": state_label,
             "state_score": 0.2907,
             "market_tone": "중립 해석 환경",
+            "tone_label": "브리핑 톤",
             "reference_text": MARKET_REFERENCE_NOTE,
             "compliance_meta": compliance_meta,
             "notice_block": notice_block,
@@ -937,7 +941,7 @@ def seed_market_analysis_snapshot(
     }
     ai_briefs = {
         "enabled": ai_briefs_enabled,
-        "title": "시장 브리핑 참고",
+        "title": "퀀트투자 모델 브리핑 참고",
         "layout": "two-column",
         "compliance_meta": compliance_meta,
         "providers": (
@@ -947,7 +951,7 @@ def seed_market_analysis_snapshot(
                 {
                     "provider": "chatgpt",
                     "label": "ChatGPT",
-                    "theme_label": "시장 해석 참고",
+                    "theme_label": "모델 해석 참고",
                     "enabled": True,
                     "generated_at": asof,
                     "source": "openai:gpt-4.1-mini",
@@ -961,7 +965,7 @@ def seed_market_analysis_snapshot(
                 {
                     "provider": "gemini",
                     "label": "제미나이",
-                    "theme_label": "시장 분위기",
+                    "theme_label": "시장 분위기 참고",
                     "enabled": True,
                     "generated_at": asof,
                     "source": "gemini:gemini-2.5-flash",
@@ -979,6 +983,12 @@ def seed_market_analysis_snapshot(
         "market": "KR",
         "asof": asof,
         "ai_briefs": ai_briefs,
+        "page_meta": {
+            "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
+            "page_title": "시장 브리핑",
+            "page_subtitle": "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다.",
+        },
+        "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
         "header_state": {
             "label": state_label,
             "score": 0.2907,
@@ -988,7 +998,7 @@ def seed_market_analysis_snapshot(
         "component_cards": [
             {
                 "key": "trend",
-                "label": "시장 방향",
+                "label": "시장 추세 점검",
                 "score": 0.1,
                 "summary": "대형주는 버티지만 추세 확산은 아직 뚜렷하지 않습니다.",
                 "description": "시장 방향은 주요 지수의 추세 강도를 요약한 참고 지표입니다.",
@@ -1000,7 +1010,7 @@ def seed_market_analysis_snapshot(
             },
             {
                 "key": "breadth",
-                "label": "시장 건강도",
+                "label": "시장 확산 점검",
                 "score": 1.9,
                 "summary": "상승 흐름이 개별 종목으로 비교적 넓게 확산되고 있습니다.",
                 "description": "시장 건강도는 상승 종목 확산 정도를 참고용으로 보여 줍니다.",
@@ -1012,7 +1022,7 @@ def seed_market_analysis_snapshot(
             },
             {
                 "key": "risk",
-                "label": "시장 흔들림",
+                "label": "시장 변동성 점검",
                 "score": -3.0,
                 "summary": "최근 변동성과 낙폭이 커져 방어적 해석이 필요합니다.",
                 "description": "시장 흔들림은 최근 변동성과 낙폭을 반영한 경계 수준입니다.",
@@ -1024,7 +1034,7 @@ def seed_market_analysis_snapshot(
             },
             {
                 "key": "defensive_flow",
-                "label": "방어자산 선호도",
+                "label": "방어자산 선호 점검",
                 "score": 1.7,
                 "summary": "방어 ETF 상대강도가 높지 않아 주식 선호가 상대적으로 유지됩니다.",
                 "description": "방어자산 선호도는 자금 흐름이 방어 쪽으로 치우쳤는지 보여 줍니다.",
@@ -1036,6 +1046,12 @@ def seed_market_analysis_snapshot(
             },
         ],
         "signal_lists": {
+            "positive_label": "모델에 우호적인 신호",
+            "warning_label": "모델 해석상 주의할 신호",
+            "observation_title": "이번 주 모델 해석 포인트",
+            "observation_description": (
+                "현재 모델 기준안을 읽을 때 함께 보면 좋은 시장 브리핑 관찰 포인트입니다."
+            ),
             "positive_points": ["60일선 위 종목 비율 양호", "코스피 1개월 상승 흐름"],
             "warning_points": ["20일선 위 종목 비율 낮음", "변동성 확대"],
             "observation_note": MARKET_REFERENCE_NOTE,
@@ -1056,6 +1072,13 @@ def seed_market_analysis_snapshot(
             "rate_ktb3y_20d_chg": -0.3340,
         },
         "summary_line": "추세와 방어심리가 엇갈려 뚜렷한 우세 방향은 아직 제한적입니다.",
+        "usage_guide_card": {
+            "title": "이 시장 브리핑은 어디에 쓰이나요?",
+            "body": [
+                "이번 주 모델 기준안을 읽을 때 함께 참고하는 공개 브리핑입니다.",
+                "시장 상태와 모델 포트폴리오 해석을 같은 기준으로 보는 데 도움이 됩니다.",
+            ],
+        },
         "compliance_meta": compliance_meta,
         "notice_block": notice_block,
     }
@@ -1608,15 +1631,17 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert changes_response.status_code == 200
     assert market_response.status_code == 200
     assert "시장 브리핑" in home_body
-    assert "지금 시장은 이렇게 해석하고 있습니다" in home_body
+    assert "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다." in home_body
+    assert "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스" in home_body
     assert "퀀트투자 모델" in home_body
     assert "market-state-bar" in home_body
     assert "강상승" in home_body
     assert MARKET_REFERENCE_NOTE in today_body
+    assert "브리핑 톤" in today_body
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
-    assert "시장 흔들림" in market_body
-    assert "시장 브리핑 참고" in market_body
+    assert "시장 변동성 점검" in market_body
+    assert "퀀트투자 모델 브리핑 참고" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
     assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
@@ -1630,8 +1655,12 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "변동성 부담이 큰 편입니다." in market_body
     assert "시장상태" in market_body
     assert "이전상태 대비" not in market_body
-    assert "긍정 신호" in market_body
-    assert "주의 신호" in market_body
+    assert "모델에 우호적인 신호" in market_body
+    assert "모델 해석상 주의할 신호" in market_body
+    assert "이번 주 모델 해석 포인트" in market_body
+    assert "이 시장 브리핑은 어디에 쓰이나요?" in market_body
+    assert "모델 해석 참고" in market_body
+    assert "시장 분위기 참고" in market_body
     assert summary_response.status_code == 200
     assert summary_response.get_json()["data"]["state_label"] == "중립"
     assert detail_response.status_code == 200
@@ -1683,7 +1712,7 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
             {
                 "provider": "chatgpt",
                 "label": "ChatGPT",
-                "theme_label": "시장 해석 참고",
+                "theme_label": "모델 해석 참고",
                 "enabled": True,
                 "generated_at": "2026-03-23T19:00:00+09:00",
                 "source": "openai:gpt-4.1-mini",
@@ -1710,8 +1739,8 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 브리핑 참고" in body
-    assert "시장 해석 참고" in body
+    assert "퀀트투자 모델 브리핑 참고" in body
+    assert "모델 해석 참고" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
 
@@ -1752,7 +1781,7 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
             {
                 "provider": "chatgpt",
                 "label": "ChatGPT",
-                "theme_label": "시장 해석 참고",
+                "theme_label": "모델 해석 참고",
                 "enabled": False,
                 "generated_at": None,
                 "source": "openai:gpt-4.1-mini",
@@ -1775,8 +1804,8 @@ def test_market_analysis_ai_briefs_placeholder_is_graceful_when_disabled(tmp_pat
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "시장 브리핑 참고" in body
-    assert "시장 브리핑 참고 준비 중" in body
+    assert "퀀트투자 모델 브리핑 참고" in body
+    assert "퀀트투자 모델 브리핑 참고 준비 중" in body
 
 
 def test_login_rejects_missing_csrf_token(tmp_path: Path) -> None:

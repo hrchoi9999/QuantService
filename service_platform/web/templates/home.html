@@ -49,8 +49,9 @@
 <section class="panel shell-card market-home-panel">
   <div class="section-heading tight-head market-panel-head">
     <div>
-      <h2>지금 시장은 이렇게 해석하고 있습니다</h2>
-      <p class="lead compact-lead">{{ market_home_payload.get('hero', {}).get('summary_line', '시장 브리핑 데이터가 준비되면 이 영역에 요약이 표시됩니다.') }}</p>
+      <h2>{{ market_home_payload.get('hero', {}).get('title', '시장 브리핑') }}</h2>
+      <p class="muted small">{{ market_home_payload.get('hero', {}).get('service_definition', '다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스') }}</p>
+      <p class="lead compact-lead">{{ market_home_payload.get('hero', {}).get('subtitle', market_home_payload.get('hero', {}).get('summary_line', '시장 브리핑 데이터가 준비되면 이 영역에 요약이 표시됩니다.')) }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state) }}</span>
   </div>

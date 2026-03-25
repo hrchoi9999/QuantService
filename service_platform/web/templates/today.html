@@ -69,7 +69,7 @@
     </div>
     <div class="market-bridge-side">
       <div class="metric-card public-metric-card">
-        <span class="label">시장 분위기</span>
+        <span class="label">{{ market_today_payload.get('market_bridge', {}).get('tone_label', '브리핑 톤') }}</span>
         <strong>{{ market_today_payload.get('market_bridge', {}).get('market_tone', '-') }}</strong>
       </div>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>

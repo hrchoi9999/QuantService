@@ -632,9 +632,11 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
+    page_meta = page_payload.get("page_meta") or {}
     header_state = page_payload.get("header_state") or {}
     signal_lists = page_payload.get("signal_lists") or {}
     notice_block = page_payload.get("notice_block") or {}
+    usage_guide_card = page_payload.get("usage_guide_card") or {}
     compliance_meta = page_payload.get("compliance_meta") or {}
     component_cards = []
     for item in page_payload.get("component_cards") or []:
@@ -655,6 +657,17 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         )
     return {
         "asof": page_payload.get("asof"),
+        "page_title": str(page_meta.get("page_title") or "시장 브리핑").strip(),
+        "page_subtitle": str(
+            page_meta.get("page_subtitle")
+            or page_payload.get("summary_line")
+            or "시장 브리핑 데이터가 아직 준비되지 않았습니다."
+        ).strip(),
+        "service_definition": str(
+            page_meta.get("service_definition")
+            or page_payload.get("service_definition")
+            or "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스"
+        ).strip(),
         "summary_line": page_payload.get("summary_line")
         or "시장 브리핑 데이터가 아직 준비되지 않았습니다.",
         "header_state": {
@@ -679,8 +692,29 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         ),
         "component_cards": component_cards,
         "positive_points": signal_lists.get("positive_points") or [],
+        "positive_label": str(signal_lists.get("positive_label") or "모델에 우호적인 신호").strip(),
         "warning_points": signal_lists.get("warning_points") or [],
+        "warning_label": str(
+            signal_lists.get("warning_label") or "모델 해석상 주의할 신호"
+        ).strip(),
+        "observation_title": str(
+            signal_lists.get("observation_title") or "이번 주 모델 해석 포인트"
+        ).strip(),
+        "observation_description": str(
+            signal_lists.get("observation_description")
+            or "시장 브리핑을 모델 해석 참고용으로 읽는 핵심 포인트입니다."
+        ).strip(),
         "observation_note": signal_lists.get("observation_note") or "-",
+        "usage_guide_card": {
+            "title": str(
+                usage_guide_card.get("title") or "이 시장 브리핑은 어디에 쓰이나요?"
+            ).strip(),
+            "body": [
+                str(line).strip()
+                for line in (usage_guide_card.get("body") or [])
+                if str(line).strip()
+            ],
+        },
         "metric_groups": _build_market_metric_groups(page_payload.get("metrics") or {}),
         "notice_block": {
             "title": notice_block.get("title") or "안내",
@@ -1505,7 +1539,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "market_analysis.html",
-                page_title="시장 브리핑",
+                page_title=page_view.get("page_title", "시장 브리핑"),
                 market_page_view=page_view,
                 market_state_bar=page_view.get("state_bar"),
                 market_status_snapshot=market_status_snapshot,
