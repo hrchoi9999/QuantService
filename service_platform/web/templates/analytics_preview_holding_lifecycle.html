@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>보유 종목 이력</h1>
+  <p class="lead">현재 보유 종목의 lifecycle, 장기 보유 이력, 최근 8주 신규/제외 종목을 표 중심으로 확인하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p2') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p2_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 현재 보유와 최근 8주 변화 이력</p>
+    </div>
+  </div>
+
+  <div class="metric-strip four-col preview-summary-grid compact-grid">
+    {% for card in model.summary_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>현재 보유 종목 lifecycle</h3>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>유형</th>
+              <th>처음 편입</th>
+              <th>최근 확인</th>
+              <th>관찰일수</th>
+              <th>최근 비중</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.current_holdings %}
+            <tr>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.asset_type }}</td>
+              <td>{{ row.first_seen_date }}</td>
+              <td>{{ row.last_seen_date }}</td>
+              <td>{{ row.holding_days_observed }}</td>
+              <td>{{ row.latest_weight | fmt_percent }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>현재 보유 highlight</h3>
+          <p class="muted small">관찰일수와 최근 비중 기준 대표 항목</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>유형</th>
+              <th>관찰일수</th>
+              <th>최근 비중</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.highlights %}
+            <tr>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.asset_type }}</td>
+              <td>{{ row.holding_days_observed }}</td>
+              <td>{{ row.latest_weight | fmt_percent }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>장기 보유 종목</h3>
+          <p class="muted small">historical 기준 상위 12개</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>유형</th>
+              <th>관찰일수</th>
+              <th>처음 편입</th>
+              <th>최근 확인</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.longest_holdings %}
+            <tr>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.asset_type }}</td>
+              <td>{{ row.holding_days_observed }}</td>
+              <td>{{ row.first_seen_date }}</td>
+              <td>{{ row.last_seen_date }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <div class="preview-card-stack">
+      <article class="shell-card content-card preview-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h3>최근 신규 편입 8주</h3>
+          </div>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>주차</th>
+                <th>코드</th>
+                <th>종목명</th>
+                <th>변화 비중</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in model.recent_entries %}
+              <tr>
+                <td>{{ row.week_end }}</td>
+                <td>{{ row.ticker }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.delta_weight | fmt_percent }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="4">최근 8주 신규 편입이 없습니다.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="shell-card content-card preview-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h3>최근 제외 8주</h3>
+          </div>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>주차</th>
+                <th>코드</th>
+                <th>종목명</th>
+                <th>변화 비중</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in model.recent_exits %}
+              <tr>
+                <td>{{ row.week_end }}</td>
+                <td>{{ row.ticker }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.delta_weight | fmt_percent }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="4">최근 8주 제외 종목이 없습니다.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

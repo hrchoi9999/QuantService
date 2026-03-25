@@ -46,6 +46,10 @@ from service_platform.web.analytics_preview_api import (
     AnalyticsPreviewApi,
     AnalyticsPreviewLoadError,
 )
+from service_platform.web.analytics_preview_p2_api import (
+    AnalyticsPreviewP2Api,
+    AnalyticsPreviewP2LoadError,
+)
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
@@ -887,6 +891,119 @@ def _build_preview_compare_row(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _preview_breakdown_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized = []
+    for index, row in enumerate(rows or [], start=1):
+        normalized.append(
+            {
+                "rank_no": row.get("rank_no") or index,
+                "ticker": row.get("ticker") or "-",
+                "name": row.get("name") or "종목명 미표시",
+                "asset_type": row.get("asset_type") or "-",
+                "weight": row.get("weight"),
+            }
+        )
+    return normalized
+
+
+def _preview_mix_segments(asset_mix: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        {"label": "주식", "value": asset_mix.get("stock_weight"), "tone": "stock"},
+        {"label": "ETF", "value": asset_mix.get("etf_weight"), "tone": "etf"},
+        {"label": "현금성", "value": asset_mix.get("cash_weight"), "tone": "cash"},
+        {"label": "기타", "value": asset_mix.get("other_weight"), "tone": "other"},
+    ]
+
+
+def _build_preview_portfolio_structure_view(model: dict[str, Any]) -> dict[str, Any]:
+    latest_asset_mix = model.get("latest_asset_mix") or {}
+    concentration = model.get("concentration") or {}
+    quality_context = model.get("quality_context") or {}
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "risk_grade": model.get("risk_grade") or "-",
+        "mix_segments": _preview_mix_segments(latest_asset_mix),
+        "trend_rows": [
+            {
+                "week_end": row.get("week_end") or "-",
+                "segments": _preview_mix_segments(row),
+            }
+            for row in (model.get("asset_mix_trend_26w") or [])[-26:]
+        ],
+        "breakdown_rows": _preview_breakdown_rows(model.get("current_allocation_breakdown") or []),
+        "concentration_cards": [
+            {"label": "Top 1 비중", "value": concentration.get("top1_weight"), "kind": "percent"},
+            {"label": "Top 3 비중", "value": concentration.get("top3_weight"), "kind": "percent"},
+            {"label": "Top 5 비중", "value": concentration.get("top5_weight"), "kind": "percent"},
+            {
+                "label": "현재 보유 수",
+                "value": concentration.get("current_holdings_count", 0),
+                "kind": "count",
+            },
+        ],
+        "quality_cards": [
+            {"label": "최근 4주", "value": quality_context.get("return_4w"), "kind": "percent"},
+            {"label": "최근 12주", "value": quality_context.get("return_12w"), "kind": "percent"},
+            {
+                "label": "평균 현금성(4주)",
+                "value": quality_context.get("cash_weight_avg_4w"),
+                "kind": "percent",
+            },
+            {
+                "label": "평균 보유 수(4주)",
+                "value": quality_context.get("holdings_count_avg_4w", 0),
+                "kind": "count",
+            },
+        ],
+        "asset_mix_reference_only": str(model.get("model_code") or "")
+        in PREVIEW_MODEL_CODES_WITH_FALLBACK_ASSET_MIX,
+    }
+
+
+def _preview_lifecycle_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized = []
+    for row in rows or []:
+        normalized.append(
+            {
+                "ticker": row.get("ticker") or "-",
+                "name": row.get("name") or "종목명 미표시",
+                "asset_type": row.get("asset_type") or "-",
+                "first_seen_date": row.get("first_seen_date") or "-",
+                "last_seen_date": row.get("last_seen_date") or "-",
+                "holding_days_observed": row.get("holding_days_observed", 0),
+                "latest_weight": row.get("latest_weight"),
+                "latest_return_since_entry": row.get("latest_return_since_entry"),
+                "week_end": row.get("week_end") or "-",
+                "delta_weight": row.get("delta_weight"),
+            }
+        )
+    return normalized
+
+
+def _build_preview_holding_lifecycle_view(model: dict[str, Any]) -> dict[str, Any]:
+    current_holdings = _preview_lifecycle_rows(model.get("current_holdings_lifecycle") or [])
+    longest_holdings = _preview_lifecycle_rows(model.get("longest_historical_holdings") or [])
+    recent_entries = _preview_lifecycle_rows(model.get("recent_new_entries_8w") or [])
+    recent_exits = _preview_lifecycle_rows(model.get("recent_exits_8w") or [])
+    highlights = _preview_lifecycle_rows(model.get("current_holding_highlights") or [])
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "summary_cards": [
+            {"label": "현재 보유", "value": len(current_holdings)},
+            {"label": "장기 이력", "value": len(longest_holdings)},
+            {"label": "신규 8주", "value": len(recent_entries)},
+            {"label": "제외 8주", "value": len(recent_exits)},
+        ],
+        "current_holdings": current_holdings,
+        "longest_holdings": longest_holdings[:12],
+        "recent_entries": recent_entries[:12],
+        "recent_exits": recent_exits[:12],
+        "highlights": highlights,
+    }
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -897,6 +1014,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     user_snapshot_api = UserSnapshotMockApi(settings)
     market_analysis_api = MarketAnalysisMockApi(settings)
     analytics_preview_api = AnalyticsPreviewApi(
+        cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
+    )
+    analytics_preview_p2_api = AnalyticsPreviewP2Api(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
     feedback_store = FeedbackStore(settings)
@@ -914,6 +1034,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api
     app.config["MARKET_ANALYSIS_API"] = market_analysis_api
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
+    app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -1024,6 +1145,15 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def load_analytics_preview_bundle(force_refresh: bool = False):
         return analytics_preview_api.load_bundle(force_refresh=force_refresh)
+
+    def build_analytics_preview_p2_links() -> dict[str, str]:
+        return {
+            "portfolio": url_for("admin_preview_portfolio_structure"),
+            "lifecycle": url_for("admin_preview_holding_lifecycle"),
+        }
+
+    def load_analytics_preview_p2_bundle(force_refresh: bool = False):
+        return analytics_preview_p2_api.load_bundle(force_refresh=force_refresh)
 
     def audit_admin(
         *,
@@ -2129,6 +2259,83 @@ def create_app(settings: Settings | None = None) -> Flask:
                 preview_links=build_analytics_preview_links(),
                 preview_bundle=preview_bundle,
                 compare_rows=compare_rows,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p2")
+    def admin_preview_p2_root() -> Response:
+        require_internal_preview_access()
+        return redirect(url_for("admin_preview_portfolio_structure"))
+
+    @app.get("/admin/analytics-p2/portfolio-structure")
+    def admin_preview_portfolio_structure() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p2_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP2LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p2_links(),
+                    preview_title="포트폴리오 구조 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_portfolio_structure_view(model)
+            for model in preview_bundle.portfolio_structure.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_portfolio_structure.html",
+                page_title="포트폴리오 구조 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p2_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p2/holding-lifecycle")
+    def admin_preview_holding_lifecycle() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p2_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP2LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p2_links(),
+                    preview_title="보유 종목 이력 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_holding_lifecycle_view(model)
+            for model in preview_bundle.holding_lifecycle.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_holding_lifecycle.html",
+                page_title="보유 종목 이력 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p2_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
             ),
             mimetype="text/html",
         )

@@ -2050,6 +2050,160 @@ def seed_analytics_preview_bundle(bundle_dir: Path, *, web_publish_enabled: bool
     )
 
 
+def seed_analytics_preview_p2_bundle(
+    bundle_dir: Path, *, web_publish_enabled: bool = False
+) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asof": "2026-03-25",
+        "internal_preview_only": True,
+        "web_publish_enabled": web_publish_enabled,
+        "bundle": "p2",
+        "pages": ["portfolio_structure", "holding_lifecycle"],
+        "files": {
+            "portfolio_structure": str(bundle_dir / "portfolio_structure_20260325.json"),
+            "holding_lifecycle": str(bundle_dir / "holding_lifecycle_20260325.json"),
+        },
+    }
+    portfolio_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "risk_grade": "high",
+                "latest_asset_mix": {
+                    "stock_weight": 0.82,
+                    "etf_weight": 0.12,
+                    "cash_weight": 0.06,
+                    "other_weight": 0.0,
+                },
+                "asset_mix_trend_26w": [
+                    {
+                        "week_end": "2026-02-27",
+                        "stock_weight": 0.78,
+                        "etf_weight": 0.15,
+                        "cash_weight": 0.07,
+                        "other_weight": 0.0,
+                    },
+                    {
+                        "week_end": "2026-03-06",
+                        "stock_weight": 0.80,
+                        "etf_weight": 0.14,
+                        "cash_weight": 0.06,
+                        "other_weight": 0.0,
+                    },
+                    {
+                        "week_end": "2026-03-13",
+                        "stock_weight": 0.81,
+                        "etf_weight": 0.13,
+                        "cash_weight": 0.06,
+                        "other_weight": 0.0,
+                    },
+                    {
+                        "week_end": "2026-03-20",
+                        "stock_weight": 0.82,
+                        "etf_weight": 0.12,
+                        "cash_weight": 0.06,
+                        "other_weight": 0.0,
+                    },
+                ],
+                "current_allocation_breakdown": [
+                    {
+                        "ticker": "095340",
+                        "name": "ISC",
+                        "asset_type": "STOCK",
+                        "weight": 0.05,
+                        "rank_no": 1,
+                    },
+                    {
+                        "ticker": "069500",
+                        "name": "KODEX 200",
+                        "asset_type": "ETF",
+                        "weight": 0.12,
+                        "rank_no": 2,
+                    },
+                ],
+                "concentration": {
+                    "top1_weight": 0.05,
+                    "top3_weight": 0.15,
+                    "top5_weight": 0.25,
+                    "current_holdings_count": 20,
+                },
+                "quality_context": {
+                    "return_4w": 0.08,
+                    "return_12w": 0.19,
+                    "cash_weight_avg_4w": 0.07,
+                    "holdings_count_avg_4w": 20,
+                },
+            }
+        ],
+    }
+    lifecycle_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "current_holdings_lifecycle": [
+                    {
+                        "ticker": "095340",
+                        "name": "ISC",
+                        "asset_type": "STOCK",
+                        "first_seen_date": "2026-01-15",
+                        "last_seen_date": "2026-03-20",
+                        "holding_days_observed": 28,
+                        "latest_weight": 0.05,
+                        "latest_return_since_entry": None,
+                    }
+                ],
+                "longest_historical_holdings": [
+                    {
+                        "ticker": "095340",
+                        "name": "ISC",
+                        "asset_type": "STOCK",
+                        "holding_days_observed": 28,
+                        "first_seen_date": "2026-01-15",
+                        "last_seen_date": "2026-03-20",
+                        "latest_weight": 0.05,
+                    }
+                ],
+                "recent_new_entries_8w": [
+                    {
+                        "week_end": "2026-03-20",
+                        "ticker": "095340",
+                        "name": "ISC",
+                        "delta_weight": 0.05,
+                    }
+                ],
+                "recent_exits_8w": [],
+                "current_holding_highlights": [
+                    {
+                        "ticker": "095340",
+                        "name": "ISC",
+                        "asset_type": "STOCK",
+                        "holding_days_observed": 28,
+                        "latest_weight": 0.05,
+                        "latest_return_since_entry": None,
+                    }
+                ],
+            }
+        ],
+    }
+    (bundle_dir / "bundle_manifest_20260325.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "portfolio_structure_20260325.json").write_text(
+        json.dumps(portfolio_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "holding_lifecycle_20260325.json").write_text(
+        json.dumps(lifecycle_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def test_internal_preview_pages_require_admin_and_render_bundle(
     tmp_path: Path, monkeypatch
 ) -> None:
@@ -2168,6 +2322,77 @@ def test_internal_preview_bundle_rejects_publish_enabled_payload(
     )
 
     response = client.get("/admin/analytics-p1/today-model-info")
+
+    assert response.status_code == 503
+    assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)
+
+
+def test_internal_preview_p2_pages_require_admin_and_render_bundle(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p2"
+    seed_analytics_preview_p2_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    anonymous_client = app.test_client()
+    assert anonymous_client.get("/admin/analytics-p2/portfolio-structure").status_code == 404
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p2/portfolio-structure",
+        follow_redirects=True,
+    )
+
+    portfolio_response = client.get("/admin/analytics-p2/portfolio-structure")
+    lifecycle_response = client.get("/admin/analytics-p2/holding-lifecycle")
+
+    assert portfolio_response.status_code == 200
+    portfolio_body = portfolio_response.get_data(as_text=True)
+    assert "포트폴리오 구조" in portfolio_body
+    assert "최신 자산 구조" in portfolio_body
+    assert "최근 26주 자산 구조 추이" in portfolio_body
+    assert "현재 구성 비중" in portfolio_body
+    assert "Quant S3" in portfolio_body
+
+    assert lifecycle_response.status_code == 200
+    lifecycle_body = lifecycle_response.get_data(as_text=True)
+    assert "보유 종목 이력" in lifecycle_body
+    assert "현재 보유 종목 lifecycle" in lifecycle_body
+    assert "장기 보유 종목" in lifecycle_body
+    assert "최근 신규 편입 8주" in lifecycle_body
+    assert "ISC" in lifecycle_body
+
+
+def test_internal_preview_p2_bundle_rejects_publish_enabled_payload(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p2"
+    seed_analytics_preview_p2_bundle(preview_dir, web_publish_enabled=True)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p2/portfolio-structure",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p2/portfolio-structure")
 
     assert response.status_code == 503
     assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)

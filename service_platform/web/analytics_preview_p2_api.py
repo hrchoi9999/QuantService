@@ -9,55 +9,52 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 
-DEFAULT_ANALYTICS_PREVIEW_BUNDLE_DIR = (
-    Path(__file__).resolve().parent / "internal_preview" / "analytics_p1"
+DEFAULT_ANALYTICS_PREVIEW_P2_BUNDLE_DIR = (
+    Path(__file__).resolve().parent / "internal_preview" / "analytics_p2"
 )
-PREVIEW_BUNDLE_FILES = {
-    "today_model_info": "today_model_info_20260325.json",
-    "model_changes": "model_changes_20260325.json",
-    "model_compare": "model_compare_20260325.json",
+PREVIEW_P2_BUNDLE_FILES = {
+    "portfolio_structure": "portfolio_structure_20260325.json",
+    "holding_lifecycle": "holding_lifecycle_20260325.json",
 }
 
 
-class AnalyticsPreviewLoadError(RuntimeError):
+class AnalyticsPreviewP2LoadError(RuntimeError):
     def __init__(self, message: str, *, errors: list[str] | None = None) -> None:
         super().__init__(message)
         self.errors = errors or [message]
 
 
 @dataclass
-class AnalyticsPreviewBundle:
+class AnalyticsPreviewP2Bundle:
     manifest: dict[str, Any] = field(default_factory=dict)
-    today_model_info: dict[str, Any] = field(default_factory=dict)
-    model_changes: dict[str, Any] = field(default_factory=dict)
-    model_compare: dict[str, Any] = field(default_factory=dict)
-    source_name: str = "analytics-preview-local"
+    portfolio_structure: dict[str, Any] = field(default_factory=dict)
+    holding_lifecycle: dict[str, Any] = field(default_factory=dict)
+    source_name: str = "analytics-preview-p2-local"
     errors: list[str] = field(default_factory=list)
 
     @property
     def asof(self) -> str | None:
         return (
             self.manifest.get("asof")
-            or (self.today_model_info.get("meta") or {}).get("asof")
-            or (self.model_changes.get("meta") or {}).get("asof")
-            or (self.model_compare.get("meta") or {}).get("asof")
+            or (self.portfolio_structure.get("meta") or {}).get("asof")
+            or (self.holding_lifecycle.get("meta") or {}).get("asof")
         )
 
 
-class AnalyticsPreviewApi:
+class AnalyticsPreviewP2Api:
     def __init__(self, *, root_dir: Path | None = None, cache_ttl_seconds: int = 60) -> None:
-        configured_dir = os.getenv("ANALYTICS_PREVIEW_BUNDLE_DIR", "").strip()
+        configured_dir = os.getenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", "").strip()
         self.root_dir = (
             Path(configured_dir)
             if configured_dir
-            else (root_dir or DEFAULT_ANALYTICS_PREVIEW_BUNDLE_DIR)
+            else (root_dir or DEFAULT_ANALYTICS_PREVIEW_P2_BUNDLE_DIR)
         )
         self.cache_ttl_seconds = max(cache_ttl_seconds, 0)
         self._lock = Lock()
-        self._cached_bundle: AnalyticsPreviewBundle | None = None
+        self._cached_bundle: AnalyticsPreviewP2Bundle | None = None
         self._cache_expires_at = 0.0
 
-    def load_bundle(self, force_refresh: bool = False) -> AnalyticsPreviewBundle:
+    def load_bundle(self, force_refresh: bool = False) -> AnalyticsPreviewP2Bundle:
         with self._lock:
             now = time.monotonic()
             if not force_refresh and self._cached_bundle and now < self._cache_expires_at:
@@ -68,14 +65,14 @@ class AnalyticsPreviewApi:
             self._cache_expires_at = now + self.cache_ttl_seconds
             return bundle
 
-    def _load_from_directory(self, root_dir: Path) -> AnalyticsPreviewBundle:
+    def _load_from_directory(self, root_dir: Path) -> AnalyticsPreviewP2Bundle:
         manifest_path = root_dir / "bundle_manifest_20260325.json"
         manifest = self._load_json(manifest_path)
         self._validate_meta(manifest, "bundle_manifest_20260325.json")
 
         payloads: dict[str, dict[str, Any]] = {}
         errors: list[str] = []
-        for key, default_name in PREVIEW_BUNDLE_FILES.items():
+        for key, default_name in PREVIEW_P2_BUNDLE_FILES.items():
             file_path = self._resolve_payload_path(root_dir, manifest, key, default_name)
             payload = self._load_json(file_path)
             self._validate_meta(payload.get("meta") or {}, file_path.name)
@@ -89,16 +86,15 @@ class AnalyticsPreviewApi:
                 )
 
         if errors:
-            raise AnalyticsPreviewLoadError(
+            raise AnalyticsPreviewP2LoadError(
                 "Preview bundle files are out of sync.",
                 errors=errors,
             )
 
-        return AnalyticsPreviewBundle(
+        return AnalyticsPreviewP2Bundle(
             manifest=manifest,
-            today_model_info=payloads["today_model_info"],
-            model_changes=payloads["model_changes"],
-            model_compare=payloads["model_compare"],
+            portfolio_structure=payloads["portfolio_structure"],
+            holding_lifecycle=payloads["holding_lifecycle"],
         )
 
     def _resolve_payload_path(
@@ -125,30 +121,30 @@ class AnalyticsPreviewApi:
         try:
             return json.loads(path.read_text(encoding="utf-8-sig"))
         except FileNotFoundError as exc:
-            raise AnalyticsPreviewLoadError(
+            raise AnalyticsPreviewP2LoadError(
                 f"Preview bundle file not found: {path}",
                 errors=[f"파일을 찾을 수 없습니다: {path}"],
             ) from exc
         except json.JSONDecodeError as exc:
-            raise AnalyticsPreviewLoadError(
+            raise AnalyticsPreviewP2LoadError(
                 f"Invalid preview bundle JSON: {path}",
                 errors=[f"JSON 형식이 올바르지 않습니다: {path} ({exc})"],
             ) from exc
 
     @staticmethod
     def _looks_like_windows_absolute_path(value: str) -> bool:
-        return len(value) >= 3 and value[1] == ":" and value[2] in {"\\\\", "/"}
+        return len(value) >= 3 and value[1] == ":" and value[2] in {"\\", "/"}
 
     def _validate_meta(self, payload_meta: dict[str, Any], label: str) -> None:
         internal_preview_only = bool(payload_meta.get("internal_preview_only"))
         web_publish_enabled = bool(payload_meta.get("web_publish_enabled"))
         if not internal_preview_only:
-            raise AnalyticsPreviewLoadError(
+            raise AnalyticsPreviewP2LoadError(
                 f"{label} is not marked as internal preview only.",
                 errors=[f"{label} 파일은 internal_preview_only=true 여야 합니다."],
             )
         if web_publish_enabled:
-            raise AnalyticsPreviewLoadError(
+            raise AnalyticsPreviewP2LoadError(
                 f"{label} is marked as publish enabled.",
                 errors=[f"{label} 파일은 web_publish_enabled=false 여야 합니다."],
             )

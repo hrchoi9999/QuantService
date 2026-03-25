@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>포트폴리오 구조</h1>
+  <p class="lead">자산 mix, 26주 추이, 현재 구성 비중, 집중도와 품질 맥락을 카드와 표 중심으로 확인하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p2') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p2_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 리스크 등급 {{ model.risk_grade }}</p>
+    </div>
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최신 자산 구조</h3>
+          <p class="muted small">주식, ETF, 현금성, 기타 비중을 stacked bar로 표시합니다.</p>
+        </div>
+      </div>
+      <div class="preview-stackbar" aria-label="{{ model.display_name }} 최신 자산 구조">
+        {% for segment in model.mix_segments %}
+        <div
+          class="preview-stackbar__segment tone-{{ segment.tone }}"
+          style="width: {{ ((segment.value or 0) * 100) | round(2) }}%;"
+        >
+          {% if (segment.value or 0) > 0 %}
+          <span>{{ segment.label }} {{ segment.value | fmt_percent }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="metric-strip four-col compact-grid">
+        {% for segment in model.mix_segments %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ segment.label }}</span>
+          <strong>{{ segment.value | fmt_percent }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+      {% if model.asset_mix_reference_only %}
+      <div class="disclosure-box compact-compliance-note">
+        <strong>해석 참고</strong>
+        <p>S3 계열은 자산 구조보다 1차 묶음의 headline metrics와 상위 보유종목을 함께 보는 편이 적절합니다.</p>
+      </div>
+      {% endif %}
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>집중도와 품질 맥락</h3>
+        </div>
+      </div>
+      <div class="metric-strip four-col preview-summary-grid compact-grid">
+        {% for card in model.concentration_cards %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ card.label }}</span>
+          <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="metric-strip four-col preview-summary-grid compact-grid">
+        {% for card in model.quality_cards %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ card.label }}</span>
+          <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+  </div>
+
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>최근 26주 자산 구조 추이</h3>
+        <p class="muted small">최근 10주만 우선 표시합니다. 색상 비중으로 자산 구조 변화를 확인합니다.</p>
+      </div>
+    </div>
+    <div class="preview-trend-list">
+      {% for row in model.trend_rows[-10:] %}
+      <div class="preview-trend-row">
+        <span class="preview-trend-row__date">{{ row.week_end }}</span>
+        <div class="preview-trend-row__bar">
+          {% for segment in row.segments %}
+          <div
+            class="preview-trend-row__segment tone-{{ segment.tone }}"
+            style="width: {{ ((segment.value or 0) * 100) | round(2) }}%;"
+            title="{{ segment.label }} {{ segment.value | fmt_percent }}"
+          ></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </article>
+
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>현재 구성 비중</h3>
+        <p class="muted small">종목코드는 문자열 그대로 유지합니다.</p>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>순번</th>
+            <th>코드</th>
+            <th>종목명</th>
+            <th>자산유형</th>
+            <th>비중</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in model.breakdown_rows %}
+          <tr>
+            <td>{{ row.rank_no }}</td>
+            <td>{{ row.ticker }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.asset_type }}</td>
+            <td>{{ row.weight | fmt_percent }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+{% endfor %}
+{% endblock %}
