@@ -42,6 +42,10 @@ from service_platform.shared.config import Settings, get_settings
 from service_platform.shared.constants import CURRENT_DIRNAME, MANIFEST_FILENAME, PUBLISHED_DIRNAME
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
+from service_platform.web.analytics_preview_api import (
+    AnalyticsPreviewApi,
+    AnalyticsPreviewLoadError,
+)
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
@@ -747,6 +751,142 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+PREVIEW_CHANGE_TYPE_LABELS = {
+    "new": "신규 편입",
+    "exit": "제외",
+    "increase": "비중 확대",
+    "decrease": "비중 축소",
+}
+
+PREVIEW_CHANGE_TYPE_TONES = {
+    "new": "accent",
+    "increase": "accent",
+    "exit": "neutral",
+    "decrease": "neutral",
+}
+
+PREVIEW_MODEL_CODES_WITH_FALLBACK_ASSET_MIX = {"S3", "S3_CORE2"}
+
+
+def _preview_model_title(model: dict[str, Any]) -> str:
+    return str(model.get("display_name") or model.get("model_code") or "모델")
+
+
+def _preview_asset_mix_rows(asset_mix: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        {"label": "주식 비중", "value": asset_mix.get("stock_weight")},
+        {"label": "ETF 비중", "value": asset_mix.get("etf_weight")},
+        {"label": "현금성 비중", "value": asset_mix.get("cash_weight")},
+    ]
+
+
+def _build_preview_today_model_view(model: dict[str, Any]) -> dict[str, Any]:
+    model_code = str(model.get("model_code") or "")
+    metrics = dict(model.get("headline_metrics") or {})
+    return {
+        "model_code": model_code,
+        "display_name": _preview_model_title(model),
+        "risk_grade": model.get("risk_grade") or "-",
+        "run_id": model.get("run_id") or "-",
+        "backtest_period": model.get("backtest_period") or {},
+        "headline_metrics": [
+            {"label": "CAGR", "value": metrics.get("cagr"), "kind": "percent"},
+            {"label": "MDD", "value": metrics.get("mdd"), "kind": "percent"},
+            {"label": "Sharpe", "value": metrics.get("sharpe"), "kind": "number"},
+            {
+                "label": "현재 드로우다운",
+                "value": metrics.get("current_drawdown"),
+                "kind": "percent",
+            },
+            {"label": "최근 4주", "value": metrics.get("return_4w"), "kind": "percent"},
+            {"label": "최근 12주", "value": metrics.get("return_12w"), "kind": "percent"},
+        ],
+        "asset_mix_rows": _preview_asset_mix_rows(model.get("asset_mix") or {}),
+        "asset_mix_reference_only": model_code in PREVIEW_MODEL_CODES_WITH_FALLBACK_ASSET_MIX,
+        "recent_change_cards": [
+            {
+                "label": "신규 8주",
+                "value": (model.get("recent_change_summary") or {}).get("new_8w", 0),
+            },
+            {
+                "label": "제외 8주",
+                "value": (model.get("recent_change_summary") or {}).get("exit_8w", 0),
+            },
+            {
+                "label": "비중 확대",
+                "value": (model.get("recent_change_summary") or {}).get("increase_8w", 0),
+            },
+            {
+                "label": "비중 축소",
+                "value": (model.get("recent_change_summary") or {}).get("decrease_8w", 0),
+            },
+        ],
+        "top_holdings": list(model.get("top_holdings") or [])[:8],
+        "holding_highlights": list(model.get("holding_highlights") or [])[:5],
+    }
+
+
+def _build_preview_change_model_view(model: dict[str, Any]) -> dict[str, Any]:
+    items = []
+    for item in model.get("items") or []:
+        change_type = str(item.get("change_type") or "").lower()
+        items.append(
+            {
+                "week_end": item.get("week_end") or "-",
+                "ticker": item.get("ticker") or "-",
+                "name": item.get("name") or "종목명 미표시",
+                "asset_type": item.get("asset_type") or "-",
+                "change_type": change_type,
+                "change_label": PREVIEW_CHANGE_TYPE_LABELS.get(change_type, change_type or "변화"),
+                "change_tone": PREVIEW_CHANGE_TYPE_TONES.get(change_type, "neutral"),
+                "weight_prev": item.get("weight_prev"),
+                "weight_curr": item.get("weight_curr"),
+                "delta_weight": item.get("delta_weight"),
+            }
+        )
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "summary_cards": [
+            {"label": "신규 8주", "value": (model.get("summary") or {}).get("new_8w", 0)},
+            {"label": "제외 8주", "value": (model.get("summary") or {}).get("exit_8w", 0)},
+            {"label": "비중 확대", "value": (model.get("summary") or {}).get("increase_8w", 0)},
+            {"label": "비중 축소", "value": (model.get("summary") or {}).get("decrease_8w", 0)},
+        ],
+        "items": items,
+    }
+
+
+def _build_preview_compare_row(row: dict[str, Any]) -> dict[str, Any]:
+    model_code = str(row.get("model_code") or "")
+    return {
+        "model_code": model_code,
+        "display_name": _preview_model_title(row),
+        "risk_grade": row.get("risk_grade") or "-",
+        "cagr": row.get("cagr"),
+        "mdd": row.get("mdd"),
+        "sharpe": row.get("sharpe"),
+        "return_4w": row.get("return_4w"),
+        "return_12w": row.get("return_12w"),
+        "current_drawdown": row.get("current_drawdown"),
+        "relative_strength_vs_benchmark_4w": row.get("relative_strength_vs_benchmark_4w"),
+        "asset_mix_rows": _preview_asset_mix_rows(
+            {
+                "stock_weight": row.get("stock_weight"),
+                "etf_weight": row.get("etf_weight"),
+                "cash_weight": row.get("cash_weight"),
+            }
+        ),
+        "change_cards": [
+            {"label": "신규 8주", "value": row.get("new_8w", 0)},
+            {"label": "제외 8주", "value": row.get("exit_8w", 0)},
+            {"label": "비중 확대", "value": row.get("increase_8w", 0)},
+            {"label": "비중 축소", "value": row.get("decrease_8w", 0)},
+        ],
+        "asset_mix_reference_only": model_code in PREVIEW_MODEL_CODES_WITH_FALLBACK_ASSET_MIX,
+    }
+
+
 def create_app(settings: Settings | None = None) -> Flask:
     settings = settings or get_settings()
     logger = configure_logging(settings.log_level)
@@ -756,6 +896,9 @@ def create_app(settings: Settings | None = None) -> Flask:
     provider = SnapshotDataProvider(settings)
     user_snapshot_api = UserSnapshotMockApi(settings)
     market_analysis_api = MarketAnalysisMockApi(settings)
+    analytics_preview_api = AnalyticsPreviewApi(
+        cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
+    )
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
     billing_service = BillingService(settings, access_store)
@@ -764,6 +907,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api
     app.config["MARKET_ANALYSIS_API"] = market_analysis_api
+    app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
     app.config["BILLING_SERVICE"] = billing_service
@@ -854,6 +998,21 @@ def create_app(settings: Settings | None = None) -> Flask:
         if not require_admin(request, settings, access_context):
             abort(404)
         return access_context
+
+    def require_internal_preview_access() -> AccessContext:
+        if settings.app_env == "production":
+            abort(404)
+        return require_admin_access()
+
+    def build_analytics_preview_links() -> dict[str, str]:
+        return {
+            "today": url_for("admin_preview_today_model_info"),
+            "changes": url_for("admin_preview_model_changes"),
+            "compare": url_for("admin_preview_model_compare"),
+        }
+
+    def load_analytics_preview_bundle(force_refresh: bool = False):
+        return analytics_preview_api.load_bundle(force_refresh=force_refresh)
 
     def audit_admin(
         *,
@@ -1847,6 +2006,118 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status=request.args.get("status", ""),
                 status_snapshot=provider.get_status(force_refresh=False),
                 published_rows=build_published_snapshot_rows(),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p1")
+    def admin_preview_root() -> Response:
+        require_internal_preview_access()
+        return redirect(url_for("admin_preview_today_model_info"))
+
+    @app.get("/admin/analytics-p1/today-model-info")
+    def admin_preview_today_model_info() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewLoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_links(),
+                    preview_title="오늘의 모델 정보 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_today_model_view(model)
+            for model in preview_bundle.today_model_info.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_today.html",
+                page_title="오늘의 모델 정보 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p1/model-changes")
+    def admin_preview_model_changes() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewLoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_links(),
+                    preview_title="모델 변화 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_change_model_view(model)
+            for model in preview_bundle.model_changes.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_changes.html",
+                page_title="모델 변화 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p1/model-compare")
+    def admin_preview_model_compare() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewLoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_links(),
+                    preview_title="모델 비교 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        compare_rows = [
+            _build_preview_compare_row(row) for row in preview_bundle.model_compare.get("rows", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_compare.html",
+                page_title="모델 비교 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_links(),
+                preview_bundle=preview_bundle,
+                compare_rows=compare_rows,
             ),
             mimetype="text/html",
         )

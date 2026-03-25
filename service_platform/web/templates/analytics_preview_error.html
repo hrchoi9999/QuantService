@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>{{ preview_title }}</h1>
+  <p class="lead">{{ message }}</p>
+  {% if errors %}
+  <ul class="message-list clean-list">
+    {% for item in errors %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <div class="stack-actions">
+    <a class="secondary-button" href="{{ url_for('admin_dashboard') }}">관리자 홈으로 이동</a>
+  </div>
+</section>
+{% endblock %}

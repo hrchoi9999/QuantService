@@ -1914,3 +1914,215 @@ def test_web_app_module_import_does_not_initialize_app_or_write_db(
     assert hasattr(module, "create_app")
     assert not app_db.exists()
     assert not feedback_db.exists()
+
+
+def seed_analytics_preview_bundle(bundle_dir: Path, *, web_publish_enabled: bool = False) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asof": "2026-03-25",
+        "internal_preview_only": True,
+        "web_publish_enabled": web_publish_enabled,
+        "bundle": "p1",
+        "pages": ["today_model_info", "model_changes", "model_compare"],
+        "files": {
+            "today_model_info": str(bundle_dir / "today_model_info_20260325.json"),
+            "model_changes": str(bundle_dir / "model_changes_20260325.json"),
+            "model_compare": str(bundle_dir / "model_compare_20260325.json"),
+        },
+    }
+    today_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "risk_grade": "high",
+                "run_id": "RUN-S3",
+                "backtest_period": {"start_date": "2019-01-01", "end_date": "2026-03-25"},
+                "headline_metrics": {
+                    "cagr": 0.31,
+                    "mdd": -0.14,
+                    "sharpe": 1.72,
+                    "current_drawdown": -0.02,
+                    "return_4w": 0.08,
+                    "return_12w": 0.19,
+                },
+                "asset_mix": {
+                    "stock_weight": 1.0,
+                    "etf_weight": 0.0,
+                    "cash_weight": 0.0,
+                },
+                "recent_change_summary": {
+                    "new_8w": 7,
+                    "exit_8w": 5,
+                    "increase_8w": 0,
+                    "decrease_8w": 0,
+                },
+                "top_holdings": [
+                    {
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "asset_type": "STOCK",
+                        "weight": 0.05,
+                    },
+                    {
+                        "ticker": "000660",
+                        "name": "SK하이닉스",
+                        "asset_type": "STOCK",
+                        "weight": 0.05,
+                    },
+                ],
+                "holding_highlights": [
+                    {
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "asset_type": "STOCK",
+                        "holding_days_observed": 63,
+                        "latest_weight": 0.05,
+                        "latest_return_since_entry": None,
+                    }
+                ],
+            }
+        ],
+    }
+    changes_payload = {
+        "meta": dict(manifest),
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "summary": {"new_8w": 7, "exit_8w": 5, "increase_8w": 0, "decrease_8w": 0},
+                "items": [
+                    {
+                        "week_end": "2026-03-20",
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "asset_type": "STOCK",
+                        "change_type": "new",
+                        "weight_prev": 0.0,
+                        "weight_curr": 0.05,
+                        "delta_weight": 0.05,
+                    }
+                ],
+            }
+        ],
+    }
+    compare_payload = {
+        "meta": dict(manifest),
+        "rows": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "risk_grade": "high",
+                "cagr": 0.31,
+                "mdd": -0.14,
+                "sharpe": 1.72,
+                "return_4w": 0.08,
+                "return_12w": 0.19,
+                "current_drawdown": -0.02,
+                "relative_strength_vs_benchmark_4w": 0.01,
+                "stock_weight": 1.0,
+                "etf_weight": 0.0,
+                "cash_weight": 0.0,
+                "new_8w": 7,
+                "exit_8w": 5,
+                "increase_8w": 0,
+                "decrease_8w": 0,
+            }
+        ],
+    }
+    (bundle_dir / "bundle_manifest_20260325.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "today_model_info_20260325.json").write_text(
+        json.dumps(today_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "model_changes_20260325.json").write_text(
+        json.dumps(changes_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "model_compare_20260325.json").write_text(
+        json.dumps(compare_payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_internal_preview_pages_require_admin_and_render_bundle(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview"
+    seed_analytics_preview_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    anonymous_client = app.test_client()
+    assert anonymous_client.get("/admin/analytics-p1/today-model-info").status_code == 404
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p1/today-model-info",
+        follow_redirects=True,
+    )
+
+    today_response = client.get("/admin/analytics-p1/today-model-info")
+    changes_response = client.get("/admin/analytics-p1/model-changes")
+    compare_response = client.get("/admin/analytics-p1/model-compare")
+
+    assert today_response.status_code == 200
+    today_body = today_response.get_data(as_text=True)
+    assert "오늘의 모델 정보" in today_body
+    assert "Quant S3" in today_body
+    assert "상위 보유종목" in today_body
+    assert changes_response.status_code == 200
+    assert "모델 변화" in changes_response.get_data(as_text=True)
+    assert compare_response.status_code == 200
+    assert "모델 비교" in compare_response.get_data(as_text=True)
+
+
+def test_internal_preview_routes_are_hidden_in_production(tmp_path: Path, monkeypatch) -> None:
+    settings = replace(build_settings(tmp_path), app_env="production")
+    preview_dir = tmp_path / "analytics_preview"
+    seed_analytics_preview_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    client = app.test_client()
+
+    response = client.get("/admin/analytics-p1/today-model-info")
+
+    assert response.status_code == 404
+
+
+def test_internal_preview_bundle_rejects_publish_enabled_payload(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview"
+    seed_analytics_preview_bundle(preview_dir, web_publish_enabled=True)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p1/today-model-info",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p1/today-model-info")
+
+    assert response.status_code == 503
+    assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)

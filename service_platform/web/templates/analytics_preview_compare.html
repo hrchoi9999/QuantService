@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>모델 비교</h1>
+  <p class="lead">CAGR, MDD, Sharpe와 최근 4주/12주 성과, 자산 비중, 최근 8주 변화량을 표 중심으로 비교하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>행 수 {{ compare_rows | length }}</span>
+    <span>카드/표 중심 1차 묶음</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_nav.html" %}
+
+<section class="panel shell-card preview-panel">
+  <div class="table-wrap compact-table">
+    <table>
+      <thead>
+        <tr>
+          <th>모델</th>
+          <th>CAGR</th>
+          <th>MDD</th>
+          <th>Sharpe</th>
+          <th>4W</th>
+          <th>12W</th>
+          <th>현재 DD</th>
+          <th>주식</th>
+          <th>ETF</th>
+          <th>현금성</th>
+          <th>신규 8주</th>
+          <th>제외 8주</th>
+          <th>비중 확대</th>
+          <th>비중 축소</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in compare_rows %}
+        <tr>
+          <td>
+            <strong>{{ row.display_name }}</strong>
+            <div class="muted small">{{ row.model_code }}</div>
+          </td>
+          <td>{{ row.cagr | fmt_percent }}</td>
+          <td>{{ row.mdd | fmt_percent }}</td>
+          <td>{{ row.sharpe | fmt_sharpe }}</td>
+          <td>{{ row.return_4w | fmt_percent }}</td>
+          <td>{{ row.return_12w | fmt_percent }}</td>
+          <td>{{ row.current_drawdown | fmt_percent }}</td>
+          {% for asset in row.asset_mix_rows %}
+          <td>{{ asset.value | fmt_percent }}</td>
+          {% endfor %}
+          <td>{{ row.change_cards[0].value }}</td>
+          <td>{{ row.change_cards[1].value }}</td>
+          <td>{{ row.change_cards[2].value }}</td>
+          <td>{{ row.change_cards[3].value }}</td>
+        </tr>
+        {% if row.asset_mix_reference_only %}
+        <tr class="preview-subnote-row">
+          <td colspan="14">{{ row.display_name }}은 1차 preview에서 자산 비중보다 상위 보유종목과 headline metrics를 우선 참고해 주세요.</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+<nav class="preview-nav shell-card" aria-label="analytics preview">
+  <a class="preview-nav__link {% if request.endpoint == 'admin_preview_today_model_info' %}is-active{% endif %}" href="{{ preview_links.today }}">오늘의 모델 정보</a>
+  <a class="preview-nav__link {% if request.endpoint == 'admin_preview_model_changes' %}is-active{% endif %}" href="{{ preview_links.changes }}">모델 변화</a>
+  <a class="preview-nav__link {% if request.endpoint == 'admin_preview_model_compare' %}is-active{% endif %}" href="{{ preview_links.compare }}">모델 비교</a>
+</nav>

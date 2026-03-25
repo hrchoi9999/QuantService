@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>모델 변화</h1>
+  <p class="lead">최근 8주 기준 모델별 신규 편입, 제외, 비중 변화 내역을 내부 검토용으로 먼저 확인하는 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>모델 {{ model_views | length }}개</span>
+    <span>실서비스 미연결</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 최근 8주 변화 요약</p>
+    </div>
+  </div>
+
+  <div class="metric-strip two-col preview-summary-grid compact-grid">
+    {% for card in model.summary_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="table-wrap compact-table">
+    <table>
+      <thead>
+        <tr>
+          <th>주말 기준일</th>
+          <th>변화 유형</th>
+          <th>티커</th>
+          <th>종목명</th>
+          <th>자산유형</th>
+          <th>이전 비중</th>
+          <th>현재 비중</th>
+          <th>변화폭</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in model["items"] %}
+        <tr>
+          <td>{{ item.week_end }}</td>
+          <td><span class="badge {{ item.change_tone }}">{{ item.change_label }}</span></td>
+          <td>{{ item.ticker }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.asset_type }}</td>
+          <td>{{ item.weight_prev | fmt_percent }}</td>
+          <td>{{ item.weight_curr | fmt_percent }}</td>
+          <td>{{ item.delta_weight | fmt_signed_percent }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}
