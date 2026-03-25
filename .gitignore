@@ -22,3 +22,5 @@ docs/
 tests/fixtures/adapters/
 
 .venv_32_backup/
+
+service_platform/web/internal_preview/

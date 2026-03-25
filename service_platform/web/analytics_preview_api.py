@@ -9,8 +9,8 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 
-DEFAULT_ANALYTICS_PREVIEW_BUNDLE_DIR = Path(
-    r"D:\Quant\reports\service_analytics_review\20260325\p1_bundle"
+DEFAULT_ANALYTICS_PREVIEW_BUNDLE_DIR = (
+    Path(__file__).resolve().parent / "internal_preview" / "analytics_p1"
 )
 PREVIEW_BUNDLE_FILES = {
     "today_model_info": "today_model_info_20260325.json",
