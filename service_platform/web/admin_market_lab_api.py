@@ -9,6 +9,9 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 
+DEFAULT_ADMIN_MARKET_CURRENT_DIR = Path(
+    r"D:\QuantMarket\service_platform\web\public_data\handoff\quantservice\admin_market\current"
+)
 DEFAULT_ADMIN_MARKET_LAB_DIR = Path(r"D:\QuantMarket\_tmp\admin_validation\admin_handoff")
 DEFAULT_ADMIN_MARKET_SNAPSHOT_DIR = Path(r"D:\QuantMarket\_tmp\admin_validation\admin_snapshot")
 DEFAULT_INTERNAL_ADMIN_MARKET_LAB_DIR = (
@@ -20,6 +23,11 @@ ADMIN_MARKET_FILES = {
     "state_transition": "admin_market_state_transition.json",
     "model_background": "admin_market_model_background.json",
 }
+ADMIN_MARKET_INTRADAY_FILES = {
+    "summary": "admin_market_intraday_summary.json",
+    "detail": "admin_market_intraday_detail.json",
+}
+ADMIN_MARKET_INTRADAY_MANIFEST = "admin_market_intraday_manifest.json"
 
 
 class AdminMarketLabLoadError(RuntimeError):
@@ -35,6 +43,9 @@ class AdminMarketLabBundle:
     asset_strength: dict[str, Any] = field(default_factory=dict)
     state_transition: dict[str, Any] = field(default_factory=dict)
     model_background: dict[str, Any] = field(default_factory=dict)
+    intraday_manifest: dict[str, Any] = field(default_factory=dict)
+    intraday_summary: dict[str, Any] = field(default_factory=dict)
+    intraday_detail: dict[str, Any] = field(default_factory=dict)
     source_dir: str = ""
     errors: list[str] = field(default_factory=list)
 
@@ -48,6 +59,14 @@ class AdminMarketLabBundle:
             or self.model_background.get("asof")
         )
 
+    @property
+    def intraday_asof(self) -> str | None:
+        return (
+            self.intraday_manifest.get("asof")
+            or self.intraday_summary.get("asof")
+            or self.intraday_detail.get("asof")
+        )
+
 
 class AdminMarketLabApi:
     def __init__(self, *, root_dir: Path | None = None, cache_ttl_seconds: int = 60) -> None:
@@ -58,6 +77,7 @@ class AdminMarketLabApi:
             self.root_candidates = [root_dir]
         else:
             self.root_candidates = [
+                DEFAULT_ADMIN_MARKET_CURRENT_DIR,
                 DEFAULT_ADMIN_MARKET_LAB_DIR,
                 DEFAULT_ADMIN_MARKET_SNAPSHOT_DIR,
                 DEFAULT_INTERNAL_ADMIN_MARKET_LAB_DIR,
@@ -111,6 +131,10 @@ class AdminMarketLabApi:
                     f"manifest 기준시각({manifest_asof})과 다릅니다."
                 )
 
+        intraday_manifest, intraday_summary, intraday_detail = self._load_intraday_optional(
+            root_dir
+        )
+
         if errors:
             raise AdminMarketLabLoadError(
                 "Admin market lab files are out of sync.",
@@ -123,8 +147,43 @@ class AdminMarketLabApi:
             asset_strength=payloads["asset_strength"],
             state_transition=payloads["state_transition"],
             model_background=payloads["model_background"],
+            intraday_manifest=intraday_manifest,
+            intraday_summary=intraday_summary,
+            intraday_detail=intraday_detail,
             source_dir=str(root_dir),
         )
+
+    def _load_intraday_optional(
+        self, root_dir: Path
+    ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+        intraday_manifest_path = root_dir / ADMIN_MARKET_INTRADAY_MANIFEST
+        if not intraday_manifest_path.exists():
+            return {}, {}, {}
+
+        manifest = self._load_json(intraday_manifest_path)
+        self._validate_manifest(manifest, intraday_manifest_path.name)
+
+        payloads: dict[str, dict[str, Any]] = {}
+        errors: list[str] = []
+        for key, default_name in ADMIN_MARKET_INTRADAY_FILES.items():
+            file_path = self._resolve_payload_path(root_dir, manifest, key, default_name)
+            payload = self._load_json(file_path)
+            payloads[key] = payload
+            payload_asof = payload.get("asof")
+            manifest_asof = manifest.get("asof")
+            if payload_asof and manifest_asof and payload_asof != manifest_asof:
+                errors.append(
+                    f"{file_path.name} 기준시각({payload_asof})이 "
+                    f"intraday manifest 기준시각({manifest_asof})과 다릅니다."
+                )
+
+        if errors:
+            raise AdminMarketLabLoadError(
+                "Admin intraday market files are out of sync.",
+                errors=errors,
+            )
+
+        return manifest, payloads.get("summary", {}), payloads.get("detail", {})
 
     def _resolve_payload_path(
         self,

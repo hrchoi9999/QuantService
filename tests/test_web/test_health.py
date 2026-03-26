@@ -2904,7 +2904,10 @@ def test_internal_preview_p5_bundle_rejects_publish_enabled_payload(
 
 
 def seed_admin_market_lab_bundle(
-    bundle_dir: Path, *, visibility: str = "admin_only_pre_publish"
+    bundle_dir: Path,
+    *,
+    visibility: str = "admin_only_pre_publish",
+    include_intraday: bool = True,
 ) -> None:
     bundle_dir.mkdir(parents=True, exist_ok=True)
     manifest = {
@@ -2918,6 +2921,9 @@ def seed_admin_market_lab_bundle(
             "state_transition": "admin_market_state_transition.json",
             "model_background": "admin_market_model_background.json",
             "manifest": "admin_market_manifest.json",
+            "intraday_summary": "admin_market_intraday_summary.json",
+            "intraday_detail": "admin_market_intraday_detail.json",
+            "intraday_manifest": "admin_market_intraday_manifest.json",
         },
     }
     timeline = {
@@ -3019,6 +3025,103 @@ def seed_admin_market_lab_bundle(
         "top_assets": [asset_strength["current_assets"][0]],
         "bottom_assets": [asset_strength["current_assets"][1]],
     }
+    intraday_manifest = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "visibility": visibility,
+        "title": "QuantMarket admin intraday manifest",
+        "files": {
+            "summary": "admin_market_intraday_summary.json",
+            "detail": "admin_market_intraday_detail.json",
+        },
+    }
+    intraday_summary = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "session_status": "live",
+        "reference_close_date": "2026-03-25",
+        "direction_label": "강한 약세",
+        "total_score": -2.34,
+        "summary_line": "프로그램과 주요 투자주체 흐름은 순매도 우위입니다.",
+        "indexes": [
+            {"index_code": "1001", "index_name": "KOSPI", "price": 5453.01, "change_pct": -0.0335},
+            {"index_code": "2001", "index_name": "KOSDAQ", "price": 1135.96, "change_pct": 0.0129},
+        ],
+        "fx": [
+            {
+                "series_code": "USDKRW",
+                "series_name": "USD/KRW",
+                "price": 1506.28,
+                "change_pct": 0.0028,
+            }
+        ],
+        "futures": [
+            {
+                "contract_code": "FUT",
+                "contract_name": "선물(2606)",
+                "price": 809.10,
+                "change_pct": -0.0384,
+                "volume": 161975.0,
+            }
+        ],
+        "flow_signals": [
+            {
+                "signal_code": "PROGRAM_TOTAL_NET",
+                "signal_name": "프로그램 전체 순매수",
+                "metric_value": -16251.0,
+                "metric_unit": "억원",
+                "direction_label": "순매도 우위",
+                "strength_label": "강함",
+            },
+            {
+                "signal_code": "FOREIGNER_NET",
+                "signal_name": "외국인 순매수",
+                "metric_value": -30980.0,
+                "metric_unit": "억원",
+                "direction_label": "순매도 우위",
+                "strength_label": "강함",
+            },
+        ],
+        "signal_overlay": {
+            "futures_overlay": {"relative_label": "현물과 유사", "source": "naver:sise_index:FUT"},
+            "flow_overlay": {"messages": ["프로그램과 주요 투자주체 흐름은 순매도 우위입니다."]},
+        },
+    }
+    intraday_detail = {
+        "market": "KR",
+        "asof": manifest["asof"],
+        "session_status": "live",
+        "reference_close_date": "2026-03-25",
+        "state": {
+            "asof": manifest["asof"],
+            "session_status": "live",
+            "direction_label": "강한 약세",
+            "total_score": -2.34,
+            "summary_line": "외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다.",
+            "reference_close_date": "2026-03-25",
+        },
+        "breadth": [{"universe_code": "KOSPI", "adv_dec_ratio": 0.53, "positive_ratio": 0.33}],
+        "flow_signals": intraday_summary["flow_signals"],
+        "futures": intraday_summary["futures"],
+        "signal_overlay": {
+            "futures_overlay": {
+                "relative_label": "현물과 유사",
+                "source": "naver:sise_index:FUT",
+            },
+            "flow_overlay": {
+                "messages": [
+                    "프로그램과 주요 투자주체 흐름은 순매도 우위입니다.",
+                    "외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다.",
+                ]
+            },
+            "futures_source": "naver:sise_index:FUT",
+            "flow_source": "naver:programDealTrendTime+investorDealTrendTime",
+            "futures_available": True,
+            "flow_available": True,
+        },
+        "description": "장중 참고용 현재 지표 스냅샷입니다.",
+        "notice": "장중 수치는 종가 확정 전 참고 정보입니다.",
+    }
     (bundle_dir / "admin_market_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -3039,6 +3142,19 @@ def seed_admin_market_lab_bundle(
         json.dumps(model_background, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    if include_intraday:
+        (bundle_dir / "admin_market_intraday_manifest.json").write_text(
+            json.dumps(intraday_manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        (bundle_dir / "admin_market_intraday_summary.json").write_text(
+            json.dumps(intraday_summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        (bundle_dir / "admin_market_intraday_detail.json").write_text(
+            json.dumps(intraday_detail, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
 
 def test_internal_preview_p3_bundle_rejects_publish_enabled_payload(
@@ -3105,16 +3221,53 @@ def test_admin_market_briefing_lab_requires_admin_and_renders_bundle(
 
     response = admin_client.get("/admin/market-briefing-lab")
     raw_response = admin_client.get("/admin/market-briefing-lab/raw/timeline")
+    intraday_raw = admin_client.get("/admin/market-briefing-lab/raw/intraday_summary")
 
     assert response.status_code == 200
     body = response.get_data(as_text=True)
     assert "시장 브리핑 Lab" in body
     assert "현재 시장상태 요약" in body
+    assert "장중 현재 지표" in body
+    assert "선물 참고" in body
+    assert "장중 수급 참고" in body
+    assert "현물과 유사" in body
+    assert "프로그램 전체 순매수" in body
     assert "모델 해석 백그라운드" in body
     assert "자산군 상대강도" in body
     assert "상태 전이 브리핑" in body
     assert raw_response.status_code == 200
     assert raw_response.get_json()["current_state"]["state_label"] == "상승"
+    assert intraday_raw.status_code == 200
+    assert intraday_raw.get_json()["session_status"] == "live"
+
+
+def test_admin_market_briefing_lab_gracefully_hides_intraday_when_missing(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    bundle_dir = tmp_path / "admin_market_lab"
+    seed_admin_market_lab_bundle(bundle_dir, include_intraday=False)
+    monkeypatch.setenv("ADMIN_MARKET_LAB_DIR", str(bundle_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/market-briefing-lab",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/market-briefing-lab")
+
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert "현재 시장상태 요약" in body
+    assert "장중 현재 지표" not in body
 
 
 def test_admin_market_briefing_lab_rejects_invalid_visibility(tmp_path: Path, monkeypatch) -> None:

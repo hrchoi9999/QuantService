@@ -38,6 +38,135 @@
   </div>
 </section>
 
+{% if market_lab.intraday.enabled %}
+<section class="panel shell-card admin-market-section">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>장중 현재 지표</h2>
+      <p class="muted">정식 시장 브리핑을 대체하지 않는 장중 참고 지표입니다.</p>
+    </div>
+  </div>
+  <div class="meta-strip compact-meta">
+    <span>기준 시각 {{ market_lab.intraday.asof|fmt_datetime }}</span>
+    <span>세션 {{ market_lab.intraday.session_status }}</span>
+    <span>전일 기준 {{ market_lab.intraday.reference_close_date }}</span>
+  </div>
+  <div class="metric-strip preview-quality-grid compact-grid">
+    <div class="metric-card public-metric-card"><span class="label">장중 방향</span><strong>{{ market_lab.intraday.direction_label }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">total score</span><strong>{{ market_lab.intraday.total_score|fmt_sharpe }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">시장 요약</span><strong>{{ market_lab.summary.state_label }}</strong></div>
+  </div>
+  <article class="shell-card content-card preview-card">
+    <h3>장중 참고 메모</h3>
+    <p>{{ market_lab.intraday.description }}</p>
+    <p class="muted">{{ market_lab.intraday.summary_line }}</p>
+    {% if market_lab.intraday.notice %}
+    <p class="muted">{{ market_lab.intraday.notice }}</p>
+    {% endif %}
+  </article>
+  <div class="grid three-up preview-three-up">
+    <article class="shell-card content-card preview-card">
+      <h3>지수</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>지표</th><th>현재값</th><th>등락률</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.intraday.indexes %}
+            <tr><td>{{ row.label }}</td><td>{{ row.price_text }}</td><td>{{ row.change_text }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card preview-card">
+      <h3>환율</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>지표</th><th>현재값</th><th>등락률</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.intraday.fx_rows %}
+            <tr><td>{{ row.label }}</td><td>{{ row.price_text }}</td><td>{{ row.change_text }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card preview-card">
+      <h3>breadth</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>구간</th><th>adv/dec</th><th>상승비율</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.intraday.breadth_rows %}
+            <tr><td>{{ row.label }}</td><td>{{ row.adv_dec_text }}</td><td>{{ row.positive_ratio_text }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+  <div class="grid two-up preview-two-up">
+    {% if market_lab.intraday.futures_available %}
+    <article class="shell-card content-card preview-card">
+      <h3>선물 참고</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>계약</th><th>현재값</th><th>등락률</th><th>거래량</th><th>해석</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.intraday.futures_rows %}
+            <tr>
+              <td>{{ row.contract_name }}</td>
+              <td>{{ row.price_text }}</td>
+              <td>{{ row.change_text }}</td>
+              <td>{{ row.volume_text }}</td>
+              <td>{{ row.relative_label }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if market_lab.intraday.futures_source %}
+      <p class="muted">source {{ market_lab.intraday.futures_source }}</p>
+      {% endif %}
+    </article>
+    {% endif %}
+    {% if market_lab.intraday.flow_available %}
+    <article class="shell-card content-card preview-card">
+      <h3>장중 수급 참고</h3>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>항목</th><th>값</th><th>방향</th><th>강도</th></tr></thead>
+          <tbody>
+            {% for row in market_lab.intraday.flow_rows %}
+            <tr>
+              <td>{{ row.signal_name }}</td>
+              <td>{{ row.metric_text }}</td>
+              <td>{{ row.direction_label }}</td>
+              <td>{{ row.strength_label }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if market_lab.intraday.flow_source %}
+      <p class="muted">source {{ market_lab.intraday.flow_source }}</p>
+      {% endif %}
+    </article>
+    {% endif %}
+  </div>
+  {% if market_lab.intraday.flow_messages %}
+  <article class="shell-card content-card preview-card">
+    <h3>보조 해석 메모</h3>
+    <ul class="message-list clean-list preview-bullet-list">
+      {% for item in market_lab.intraday.flow_messages %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </article>
+  {% endif %}
+</section>
+{% endif %}
+
 <section class="panel shell-card admin-market-section">
   <div class="section-heading tight-head">
     <div>

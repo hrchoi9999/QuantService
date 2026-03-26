@@ -1304,7 +1304,121 @@ def _build_admin_market_rank_history(rank_history: list[dict[str, Any]]) -> dict
     for row in rank_history or []:
         asset_group = str(row.get("asset_group") or "-")
         grouped.setdefault(asset_group, []).append(str(row.get("strength_rank") or "-"))
-    return {asset_group: " → ".join(values[:6]) for asset_group, values in grouped.items()}
+    return {asset_group: " -> ".join(values[:6]) for asset_group, values in grouped.items()}
+
+
+def _format_admin_market_number(value: Any, *, decimals: int = 0) -> str:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return "-"
+    if decimals <= 0:
+        return f"{numeric:,.0f}"
+    return f"{numeric:,.{decimals}f}"
+
+
+def _format_admin_market_metric_value(value: Any, unit: str | None = None) -> str:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return "-"
+    unit_text = str(unit or "").strip()
+    if unit_text == "억원":
+        return f"{numeric:,.0f}{unit_text}"
+    return f"{numeric:,.2f}{unit_text}" if unit_text else f"{numeric:,.2f}"
+
+
+def _build_admin_intraday_view(bundle) -> dict[str, Any]:
+    summary = bundle.intraday_summary or {}
+    detail = bundle.intraday_detail or {}
+    state = detail.get("state") or {}
+    signal_overlay = detail.get("signal_overlay") or summary.get("signal_overlay") or {}
+    indexes = []
+    for row in summary.get("indexes") or detail.get("indexes") or []:
+        indexes.append(
+            {
+                "label": row.get("index_name") or row.get("index_code") or "-",
+                "price_text": _format_admin_market_number(row.get("price"), decimals=2),
+                "change_text": _format_percent(row.get("change_pct")),
+            }
+        )
+    fx_rows = []
+    for row in summary.get("fx") or detail.get("fx") or []:
+        fx_rows.append(
+            {
+                "label": row.get("series_name") or row.get("series_code") or "-",
+                "price_text": _format_admin_market_number(row.get("price"), decimals=2),
+                "change_text": _format_percent(row.get("change_pct")),
+            }
+        )
+    breadth_rows = []
+    for row in detail.get("breadth") or []:
+        breadth_rows.append(
+            {
+                "label": row.get("universe_code") or "-",
+                "adv_dec_text": _format_admin_market_number(row.get("adv_dec_ratio"), decimals=2),
+                "positive_ratio_text": _format_percent(row.get("positive_ratio")),
+            }
+        )
+    futures_rows = []
+    for row in summary.get("futures") or detail.get("futures") or []:
+        futures_rows.append(
+            {
+                "contract_name": row.get("contract_name") or row.get("contract_code") or "-",
+                "price_text": _format_admin_market_number(row.get("price"), decimals=2),
+                "change_text": _format_percent(row.get("change_pct")),
+                "volume_text": _format_admin_market_number(row.get("volume")),
+                "relative_label": (
+                    (signal_overlay.get("futures_overlay") or {}).get("relative_label") or "-"
+                ),
+            }
+        )
+    flow_rows = []
+    for row in summary.get("flow_signals") or detail.get("flow_signals") or []:
+        flow_rows.append(
+            {
+                "signal_name": row.get("signal_name") or row.get("signal_code") or "-",
+                "metric_text": _format_admin_market_metric_value(
+                    row.get("metric_value"),
+                    row.get("metric_unit"),
+                ),
+                "direction_label": row.get("direction_label") or "-",
+                "strength_label": row.get("strength_label") or "-",
+            }
+        )
+    return {
+        "enabled": bool(summary or detail),
+        "asof": bundle.intraday_asof,
+        "session_status": summary.get("session_status")
+        or detail.get("session_status")
+        or state.get("session_status")
+        or "-",
+        "direction_label": summary.get("direction_label") or state.get("direction_label") or "-",
+        "total_score": (
+            summary.get("total_score")
+            if summary.get("total_score") is not None
+            else state.get("total_score")
+        ),
+        "summary_line": summary.get("summary_line") or state.get("summary_line") or "-",
+        "reference_close_date": summary.get("reference_close_date")
+        or state.get("reference_close_date")
+        or "-",
+        "description": detail.get("description") or "장중 참고용 현재 지표 스냅샷입니다.",
+        "notice": detail.get("notice") or "",
+        "indexes": indexes,
+        "fx_rows": fx_rows,
+        "breadth_rows": breadth_rows,
+        "futures_available": bool(signal_overlay.get("futures_available") or futures_rows),
+        "flow_available": bool(signal_overlay.get("flow_available") or flow_rows),
+        "futures_rows": futures_rows,
+        "futures_overlay": signal_overlay.get("futures_overlay") or {},
+        "flow_rows": flow_rows,
+        "flow_messages": list((signal_overlay.get("flow_overlay") or {}).get("messages") or []),
+        "futures_source": signal_overlay.get("futures_source")
+        or (signal_overlay.get("futures_overlay") or {}).get("source")
+        or "",
+        "flow_source": signal_overlay.get("flow_source") or "",
+    }
 
 
 def _build_admin_market_lab_view(bundle) -> dict[str, Any]:
@@ -1338,6 +1452,7 @@ def _build_admin_market_lab_view(bundle) -> dict[str, Any]:
             "reference_note": model_background.get("reference_note") or "-",
             "briefing_tone": model_background.get("briefing_tone") or "-",
         },
+        "intraday": _build_admin_intraday_view(bundle),
         "background_points": [
             str(item).strip()
             for item in (model_background.get("model_background_points") or [])
@@ -1386,6 +1501,18 @@ def _build_admin_market_lab_view(bundle) -> dict[str, Any]:
             {
                 "label": "model background",
                 "href": url_for("admin_market_briefing_lab_raw", payload_key="model_background"),
+            },
+            {
+                "label": "intraday manifest",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="intraday_manifest"),
+            },
+            {
+                "label": "intraday summary",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="intraday_summary"),
+            },
+            {
+                "label": "intraday detail",
+                "href": url_for("admin_market_briefing_lab_raw", payload_key="intraday_detail"),
             },
         ],
     }
@@ -3134,6 +3261,9 @@ def create_app(settings: Settings | None = None) -> Flask:
             "asset_strength": bundle.asset_strength,
             "state_transition": bundle.state_transition,
             "model_background": bundle.model_background,
+            "intraday_manifest": bundle.intraday_manifest,
+            "intraday_summary": bundle.intraday_summary,
+            "intraday_detail": bundle.intraday_detail,
         }
         payload = payload_map.get(payload_key)
         if payload is None:
