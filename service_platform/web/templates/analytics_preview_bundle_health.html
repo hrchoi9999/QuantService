@@ -45,5 +45,39 @@
       </tbody>
     </table>
   </div>
+
+  {% if file_meta_rows %}
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>파일 메타</h3>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>key</th>
+            <th>path</th>
+            <th>exists</th>
+            <th>size bytes</th>
+            <th>md5</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in file_meta_rows %}
+          <tr>
+            <td>{{ row.key }}</td>
+            <td>{{ row.path }}</td>
+            <td>{{ 'yes' if row.exists else 'no' }}</td>
+            <td>{{ row.size_bytes if row.size_bytes is not none else '-' }}</td>
+            <td>{{ row.md5 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  {% endif %}
 </section>
 {% endblock %}

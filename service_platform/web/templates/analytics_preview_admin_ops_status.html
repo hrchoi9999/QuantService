@@ -36,5 +36,31 @@
       {% endfor %}
     </ul>
   </article>
+
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>빌드 메타</h3>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>값</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in build_rows %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.value }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
 </section>
 {% endblock %}

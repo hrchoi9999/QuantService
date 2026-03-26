@@ -23,6 +23,14 @@
     </div>
   </div>
 
+  {% if model.date_context_rows %}
+  <div class="meta-strip compact-meta preview-section-meta">
+    {% for row in model.date_context_rows %}
+    <span>{{ row.label }} {{ row.value }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="metric-strip preview-briefing-grid compact-grid">
     {% for card in model.summary_cards %}
     <div class="metric-card public-metric-card">

@@ -23,6 +23,14 @@
     </div>
   </div>
 
+  {% if model.date_context_rows %}
+  <div class="meta-strip compact-meta preview-section-meta">
+    {% for row in model.date_context_rows %}
+    <span>{{ row.label }} {{ row.value }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="grid two-up preview-two-up">
     <article class="shell-card content-card preview-card">
       <div class="section-heading tight-head">
@@ -85,6 +93,35 @@
         </div>
       </div>
       {% endfor %}
+    </div>
+  </article>
+
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>세부 bucket 구성</h3>
+        <p class="muted small">세분화 자산 bucket을 표로 함께 확인합니다.</p>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>bucket</th>
+            <th>구분</th>
+            <th>비중</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in model.detail_rows %}
+          <tr>
+            <td>{{ row.bucket }}</td>
+            <td>{{ row.label }}</td>
+            <td>{{ row.value | fmt_percent }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </article>
 </section>

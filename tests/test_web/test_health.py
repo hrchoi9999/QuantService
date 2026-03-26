@@ -2136,6 +2136,11 @@ def seed_analytics_preview_p2_bundle(
                     "cash_weight_avg_4w": 0.07,
                     "holdings_count_avg_4w": 20,
                 },
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "signal_date": "2026-03-21",
+                    "asset_mix_week_end": "2026-03-20",
+                },
             }
         ],
     }
@@ -2187,6 +2192,11 @@ def seed_analytics_preview_p2_bundle(
                         "latest_return_since_entry": None,
                     }
                 ],
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "signal_date": "2026-03-21",
+                    "effective_date": "2026-03-24",
+                },
             }
         ],
     }
@@ -2233,8 +2243,16 @@ def seed_analytics_preview_p3_bundle(
                     "return_12w": 0.19,
                     "current_drawdown": -0.02,
                     "relative_strength_vs_benchmark_4w": 0.01,
+                    "relative_strength_vs_benchmark_12w": 0.03,
+                    "relative_strength_vs_benchmark_52w": 0.09,
                     "cash_weight_avg_4w": 0.05,
                     "holdings_count_avg_4w": 20,
+                    "turnover_1w": 0.04,
+                    "turnover_avg_4w": 0.06,
+                    "top1_weight": 0.11,
+                    "top3_weight": 0.27,
+                    "top5_weight": 0.39,
+                    "holdings_hhi": 0.087,
                 },
                 "quality_trend_26w": [
                     {
@@ -2262,6 +2280,24 @@ def seed_analytics_preview_p3_bundle(
                     "increase_8w": 0,
                     "decrease_8w": 0,
                 },
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "quality_week_end": "2026-03-20",
+                },
+                "quality_checks": [
+                    {
+                        "check_name": "asset_mix_gross_weight",
+                        "status": "ok",
+                        "metric_value": 1.0,
+                        "detail": "합계 100%",
+                    },
+                    {
+                        "check_name": "lifecycle_reentries",
+                        "status": "review",
+                        "metric_value": 2,
+                        "detail": "45일 분리 규칙 확인",
+                    },
+                ],
             }
         ],
     }
@@ -2278,6 +2314,9 @@ def seed_analytics_preview_p3_bundle(
                     "cash_weight": 0.05,
                     "new_8w": 7,
                     "exit_8w": 5,
+                    "relative_strength_vs_benchmark_12w": 0.03,
+                    "turnover_avg_4w": 0.06,
+                    "top5_weight": 0.39,
                 },
                 "briefing_points": [
                     "최근 4주 성과가 양호합니다.",
@@ -2311,6 +2350,10 @@ def seed_analytics_preview_p3_bundle(
                         "delta_weight": 0.05,
                     }
                 ],
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "week_end": "2026-03-20",
+                },
             }
         ],
     }
@@ -2520,6 +2563,7 @@ def test_internal_preview_p2_pages_require_admin_and_render_bundle(
     assert "최신 자산 구조" in portfolio_body
     assert "최근 26주 자산 구조 추이" in portfolio_body
     assert "현재 구성 비중" in portfolio_body
+    assert "자산구조 주차 2026-03-20" in portfolio_body
     assert "Quant S3" in portfolio_body
 
     assert lifecycle_response.status_code == 200
@@ -2528,6 +2572,7 @@ def test_internal_preview_p2_pages_require_admin_and_render_bundle(
     assert "현재 보유 종목 lifecycle" in lifecycle_body
     assert "장기 보유 종목" in lifecycle_body
     assert "최근 신규 편입 8주" in lifecycle_body
+    assert "반영일 2026-03-24" in lifecycle_body
     assert "ISC" in lifecycle_body
 
 
@@ -2590,6 +2635,9 @@ def test_internal_preview_p3_pages_require_admin_and_render_bundle(
     assert "모델 품질" in quality_body
     assert "최근 26주 품질 추이" in quality_body
     assert "최근 변화 밀도" in quality_body
+    assert "상대강도 52W" in quality_body
+    assert "품질 체크" in quality_body
+    assert "재진입 분리" in quality_body
     assert "Quant S3" in quality_body
 
     assert briefing_response.status_code == 200
@@ -2599,6 +2647,8 @@ def test_internal_preview_p3_pages_require_admin_and_render_bundle(
     assert "상위 보유종목" in briefing_body
     assert "이번 주 변화" in briefing_body
     assert "최근 8주 변화" in briefing_body
+    assert "평균 turnover 4W" in briefing_body
+    assert "Top 5 비중" in briefing_body
 
 
 def seed_analytics_preview_p4_bundle(
@@ -2641,6 +2691,10 @@ def seed_analytics_preview_p4_bundle(
                     "change_intensity_label": "medium",
                     "event_count_total": 6,
                     "abs_delta_sum": 0.18,
+                },
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "week_end": "2026-03-20",
                 },
             }
         ],
@@ -2699,6 +2753,10 @@ def seed_analytics_preview_p4_bundle(
                         "outcome_status": "exited",
                     }
                 ],
+                "date_context": {
+                    "asof_date": "2026-03-25",
+                    "week_end": "2026-03-20",
+                },
             }
         ],
     }
@@ -2725,13 +2783,40 @@ def seed_analytics_preview_p5_bundle(
         "internal_preview_only": True,
         "web_publish_enabled": web_publish_enabled,
         "bundle": "p5",
+        "bundle_version": "analytics-preview-v5",
+        "schema_version": "2026-03-26",
+        "built_at_utc": "2026-03-26T02:39:39Z",
+        "build_status": "ok",
+        "file_meta": {
+            "admin_ops_status": {
+                "path": "admin_ops_status_20260325.json",
+                "exists": True,
+                "size_bytes": 1024,
+                "md5": "abc123ops",
+            },
+            "bundle_health": {
+                "path": "bundle_health_20260325.json",
+                "exists": True,
+                "size_bytes": 2048,
+                "md5": "abc123health",
+            },
+        },
         "files": {
             "admin_ops_status": "admin_ops_status_20260325.json",
             "bundle_health": "bundle_health_20260325.json",
         },
     }
     admin_ops_status = {
-        "meta": manifest,
+        "meta": {
+            **manifest,
+            "freshness": {
+                "asof": "2026-03-25",
+                "analytics_db_mtime_utc": "2026-03-26T02:39:39Z",
+                "latest_week_end": "2026-03-27",
+                "latest_change_week_end": "2026-03-27",
+                "latest_quality_week_end": "2026-03-27",
+            },
+        },
         "status": {
             "overall_status": "ok",
             "bundle_count": 5,
@@ -2807,12 +2892,16 @@ def test_internal_preview_p4_routes_render_bundle(tmp_path: Path, monkeypatch) -
     assert "자산 노출 상세" in exposure_body
     assert "최신 자산 노출" in exposure_body
     assert "최근 26주 자산 노출 추이" in exposure_body
+    assert "세부 bucket 구성" in exposure_body
+    assert "stock_equity" in exposure_body
 
     assert impact_response.status_code == 200
     impact_body = impact_response.get_data(as_text=True)
     assert "변화 영향" in impact_body
     assert "최근 26주 변화 강도" in impact_body
     assert "영향 요약" in impact_body
+    assert "비중 확대" in impact_body
+    assert "비중 축소" in impact_body
 
 
 def test_internal_preview_p5_routes_render_bundle(tmp_path: Path, monkeypatch) -> None:
@@ -2841,12 +2930,16 @@ def test_internal_preview_p5_routes_render_bundle(tmp_path: Path, monkeypatch) -
     ops_body = ops_response.get_data(as_text=True)
     assert "Admin 운영 상태" in ops_body
     assert "운영 권고" in ops_body
+    assert "빌드 메타" in ops_body
+    assert "bundle version" in ops_body
 
     assert health_response.status_code == 200
     health_body = health_response.get_data(as_text=True)
     assert "Bundle Health" in health_body
     assert "p4" in health_body
     assert "p5" in health_body
+    assert "파일 메타" in health_body
+    assert "abc123ops" in health_body
 
 
 def test_internal_preview_p4_bundle_rejects_publish_enabled_payload(

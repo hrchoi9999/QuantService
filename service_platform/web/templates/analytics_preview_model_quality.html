@@ -23,6 +23,14 @@
     </div>
   </div>
 
+  {% if model.date_context_rows %}
+  <div class="meta-strip compact-meta preview-section-meta">
+    {% for row in model.date_context_rows %}
+    <span>{{ row.label }} {{ row.value }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="metric-strip preview-quality-grid compact-grid">
     {% for card in model.quality_cards %}
     <div class="metric-card public-metric-card">
@@ -89,6 +97,39 @@
       </div>
     </article>
   </div>
+
+  {% if model.quality_checks %}
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>품질 체크</h3>
+        <p class="muted small">handoff 품질 검증 결과를 그대로 표시합니다.</p>
+      </div>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>상태</th>
+            <th>값</th>
+            <th>세부 설명</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in model.quality_checks %}
+          <tr>
+            <td>{{ row.label }}</td>
+            <td>{{ row.status }}</td>
+            <td>{% if row.metric_value is not none %}{{ row.metric_value }}{% else %}-{% endif %}</td>
+            <td>{{ row.detail }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  {% endif %}
 </section>
 {% endfor %}
 {% endblock %}

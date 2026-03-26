@@ -867,6 +867,7 @@ def _build_preview_change_model_view(model: dict[str, Any]) -> dict[str, Any]:
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "summary_cards": [
             {"label": "신규 8주", "value": (model.get("summary") or {}).get("new_8w", 0)},
             {"label": "제외 8주", "value": (model.get("summary") or {}).get("exit_8w", 0)},
@@ -931,6 +932,69 @@ def _preview_mix_segments(asset_mix: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _preview_date_context_rows(date_context: dict[str, Any] | None) -> list[dict[str, Any]]:
+    date_context = date_context or {}
+    label_map = {
+        "asof_date": "기준일",
+        "signal_date": "신호일",
+        "effective_date": "반영일",
+        "week_end": "주간 종료일",
+        "asset_mix_week_end": "자산구조 주차",
+        "quality_week_end": "품질 기준 주차",
+    }
+    rows: list[dict[str, Any]] = []
+    for key in (
+        "asof_date",
+        "signal_date",
+        "effective_date",
+        "week_end",
+        "asset_mix_week_end",
+        "quality_week_end",
+    ):
+        value = date_context.get(key)
+        if value:
+            rows.append({"label": label_map.get(key, key), "value": value})
+    return rows
+
+
+def _preview_quality_checks_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    label_map = {
+        "asset_mix_gross_weight": "자산구조 합계",
+        "change_log_below_threshold": "변화 threshold",
+        "change_log_null_name": "변화 종목명 누락",
+        "lifecycle_reentries": "재진입 분리",
+        "quality_current_drawdown": "현재 drawdown",
+    }
+    normalized: list[dict[str, Any]] = []
+    for row in rows or []:
+        normalized.append(
+            {
+                "label": label_map.get(
+                    str(row.get("check_name") or ""), row.get("check_name") or "-"
+                ),
+                "status": row.get("status") or "-",
+                "metric_value": row.get("metric_value"),
+                "detail": row.get("detail") or "-",
+            }
+        )
+    return normalized
+
+
+def _preview_file_meta_rows(file_meta: dict[str, Any] | None) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for key, meta in (file_meta or {}).items():
+        rows.append(
+            {
+                "key": key,
+                "path": meta.get("path") or "-",
+                "exists": bool(meta.get("exists")),
+                "size_bytes": meta.get("size_bytes"),
+                "md5": meta.get("md5") or "-",
+            }
+        )
+    return rows
+
+
 def _build_preview_portfolio_structure_view(model: dict[str, Any]) -> dict[str, Any]:
     latest_asset_mix = model.get("latest_asset_mix") or {}
     concentration = model.get("concentration") or {}
@@ -972,6 +1036,7 @@ def _build_preview_portfolio_structure_view(model: dict[str, Any]) -> dict[str, 
                 "kind": "count",
             },
         ],
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "asset_mix_reference_only": str(model.get("model_code") or "")
         in PREVIEW_MODEL_CODES_WITH_FALLBACK_ASSET_MIX,
     }
@@ -1006,6 +1071,7 @@ def _build_preview_holding_lifecycle_view(model: dict[str, Any]) -> dict[str, An
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "summary_cards": [
             {"label": "현재 보유", "value": len(current_holdings)},
             {"label": "장기 이력", "value": len(longest_holdings)},
@@ -1043,6 +1109,7 @@ def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "quality_cards": [
             {"label": "CAGR", "value": latest_quality.get("cagr"), "kind": "percent"},
             {"label": "MDD", "value": latest_quality.get("mdd"), "kind": "percent"},
@@ -1069,6 +1136,16 @@ def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
                 "kind": "percent",
             },
             {
+                "label": "상대강도 12W",
+                "value": latest_quality.get("relative_strength_vs_benchmark_12w"),
+                "kind": "percent",
+            },
+            {
+                "label": "상대강도 52W",
+                "value": latest_quality.get("relative_strength_vs_benchmark_52w"),
+                "kind": "percent",
+            },
+            {
                 "label": "평균 현금성 4W",
                 "value": latest_quality.get("cash_weight_avg_4w"),
                 "kind": "percent",
@@ -1078,7 +1155,38 @@ def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
                 "value": latest_quality.get("holdings_count_avg_4w", 0),
                 "kind": "count",
             },
+            {
+                "label": "주간 turnover",
+                "value": latest_quality.get("turnover_1w"),
+                "kind": "percent",
+            },
+            {
+                "label": "평균 turnover 4W",
+                "value": latest_quality.get("turnover_avg_4w"),
+                "kind": "percent",
+            },
+            {
+                "label": "Top 1 비중",
+                "value": latest_quality.get("top1_weight"),
+                "kind": "percent",
+            },
+            {
+                "label": "Top 3 비중",
+                "value": latest_quality.get("top3_weight"),
+                "kind": "percent",
+            },
+            {
+                "label": "Top 5 비중",
+                "value": latest_quality.get("top5_weight"),
+                "kind": "percent",
+            },
+            {
+                "label": "HHI",
+                "value": latest_quality.get("holdings_hhi"),
+                "kind": "number",
+            },
         ],
+        "quality_checks": _preview_quality_checks_rows(model.get("quality_checks") or []),
     }
 
 
@@ -1087,6 +1195,7 @@ def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "summary_cards": [
             {"label": "최근 4W", "value": summary.get("return_4w"), "kind": "percent"},
             {"label": "최근 12W", "value": summary.get("return_12w"), "kind": "percent"},
@@ -1094,6 +1203,17 @@ def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]
             {"label": "현금 비중", "value": summary.get("cash_weight"), "kind": "percent"},
             {"label": "신규 8W", "value": summary.get("new_8w", 0), "kind": "count"},
             {"label": "제외 8W", "value": summary.get("exit_8w", 0), "kind": "count"},
+            {
+                "label": "상대강도 12W",
+                "value": summary.get("relative_strength_vs_benchmark_12w"),
+                "kind": "percent",
+            },
+            {
+                "label": "평균 turnover 4W",
+                "value": summary.get("turnover_avg_4w"),
+                "kind": "percent",
+            },
+            {"label": "Top 5 비중", "value": summary.get("top5_weight"), "kind": "percent"},
         ],
         "briefing_points": [
             str(point).strip()
@@ -1150,7 +1270,9 @@ def _build_preview_asset_exposure_detail_view(model: dict[str, Any]) -> dict[str
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "asset_segments": _preview_asset_detail_segments(model.get("latest_asset_detail") or []),
+        "detail_rows": _preview_asset_detail_segments(model.get("latest_asset_detail") or []),
         "trend_rows": [
             {
                 "week_end": row.get("week_end") or "-",
@@ -1211,6 +1333,7 @@ def _build_preview_change_impact_view(model: dict[str, Any]) -> dict[str, Any]:
     return {
         "model_code": model.get("model_code") or "-",
         "display_name": _preview_model_title(model),
+        "date_context_rows": _preview_date_context_rows(model.get("date_context")),
         "summary_cards": [
             {
                 "label": "신규 수",
@@ -1231,6 +1354,16 @@ def _build_preview_change_impact_view(model: dict[str, Any]) -> dict[str, Any]:
                 "label": "강도 라벨",
                 "value": latest_change_activity.get("change_intensity_label") or "-",
                 "kind": "text",
+            },
+            {
+                "label": "비중 확대",
+                "value": latest_change_activity.get("increase_count", 0),
+                "kind": "count",
+            },
+            {
+                "label": "비중 축소",
+                "value": latest_change_activity.get("decrease_count", 0),
+                "kind": "count",
             },
         ],
         "impact_cards": [
@@ -1264,6 +1397,7 @@ def _build_preview_change_impact_view(model: dict[str, Any]) -> dict[str, Any]:
 def _build_preview_admin_ops_status_view(bundle) -> dict[str, Any]:
     status = bundle.admin_ops_status.get("status") or {}
     freshness = (bundle.admin_ops_status.get("meta") or {}).get("freshness") or {}
+    manifest = bundle.manifest or {}
     return {
         "status_cards": [
             {"label": "overall", "value": status.get("overall_status") or "-"},
@@ -1272,6 +1406,12 @@ def _build_preview_admin_ops_status_view(bundle) -> dict[str, Any]:
             {"label": "asof", "value": freshness.get("asof") or bundle.asof or "-"},
         ],
         "recommendation": status.get("recommendation") or "-",
+        "build_rows": [
+            {"label": "bundle version", "value": manifest.get("bundle_version") or "-"},
+            {"label": "schema version", "value": manifest.get("schema_version") or "-"},
+            {"label": "built at", "value": manifest.get("built_at_utc") or "-"},
+            {"label": "build status", "value": manifest.get("build_status") or "-"},
+        ],
         "freshness_rows": [
             {"label": "DB mtime", "value": freshness.get("analytics_db_mtime_utc") or "-"},
             {"label": "latest week", "value": freshness.get("latest_week_end") or "-"},
@@ -1295,7 +1435,8 @@ def _build_preview_bundle_health_view(bundle) -> dict[str, Any]:
                 "expected_pages_text": ", ".join(row.get("expected_pages") or []),
             }
             for row in bundle.bundle_health.get("bundles") or []
-        ]
+        ],
+        "file_meta_rows": _preview_file_meta_rows(bundle.manifest.get("file_meta") or {}),
     }
 
 
