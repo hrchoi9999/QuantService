@@ -543,6 +543,17 @@ def _market_score_percent(score: float | None) -> float:
     return round(((clamped + 3.0) / 6.0) * 100.0, 2)
 
 
+MARKET_STATE_LABEL_SCORES = {
+    "강하락": -2.5,
+    "하락": -1.5,
+    "약보합": -0.5,
+    "중립": 0.0,
+    "강보합": 0.5,
+    "상승": 1.5,
+    "강상승": 2.5,
+}
+
+
 def _build_market_state_bar(
     *,
     label: str,
@@ -566,6 +577,73 @@ def _build_market_state_bar(
         "asof": asof or "-",
         "asof_display": _format_kst_datetime(asof),
         "ticks": MARKET_STATE_TICK_LABELS,
+    }
+
+
+def _market_state_score_from_label(label: Any) -> float | None:
+    normalized = str(label or "").strip()
+    if not normalized:
+        return None
+    return MARKET_STATE_LABEL_SCORES.get(normalized)
+
+
+def _build_market_state_label_bar(
+    *,
+    title: str,
+    state_label: Any,
+    asof: str | None,
+) -> dict[str, Any]:
+    normalized_label = str(state_label or "").strip() or "데이터 준비 중"
+    score = _market_state_score_from_label(normalized_label)
+    return {
+        "title": str(title or "시장상태").strip() or "시장상태",
+        "label": normalized_label,
+        "score": score,
+        "position_percent": _market_score_percent(score),
+        "asof_display": _format_kst_datetime(asof),
+    }
+
+
+def _build_market_state_bridge_view(
+    bridge_payload: dict[str, Any] | None,
+    *,
+    fallback_bar: dict[str, Any],
+    asof: str | None,
+) -> dict[str, Any]:
+    payload = bridge_payload or {}
+    enabled = payload.get("enabled") is True
+    medium_term_state_label = (
+        str(
+            payload.get("medium_term_state_label") or fallback_bar.get("label") or "데이터 준비 중"
+        ).strip()
+        or "데이터 준비 중"
+    )
+    intraday_state_label = str(payload.get("intraday_state_label") or "").strip()
+    basis_lines = [
+        str(line).strip() for line in (payload.get("basis_lines") or []) if str(line).strip()
+    ]
+    return {
+        "enabled": enabled,
+        "alignment": str(payload.get("alignment") or "").strip(),
+        "display_label": str(payload.get("display_label") or "").strip(),
+        "bridge_text": str(payload.get("bridge_text") or "").strip(),
+        "basis_lines": basis_lines[:2],
+        "medium_term_bar": _build_market_state_label_bar(
+            title=str(payload.get("medium_term_label") or "정식 시장상태(전일 종가 기준)").strip(),
+            state_label=medium_term_state_label,
+            asof=asof,
+        ),
+        "intraday_bar": (
+            _build_market_state_label_bar(
+                title=str(payload.get("intraday_label") or "오늘 장중 흐름(참고용)").strip(),
+                state_label=intraday_state_label,
+                asof=asof,
+            )
+            if intraday_state_label
+            else None
+        ),
+        "fallback_bar": fallback_bar,
+        "asof_display": fallback_bar.get("asof_display") or _format_kst_datetime(asof),
     }
 
 
@@ -692,6 +770,13 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
                 },
             }
         )
+    state_bar = _build_market_state_bar(
+        label=header_state.get("label") or "데이터 준비 중",
+        score=header_state.get("score"),
+        prev_label=header_state.get("prev_label") or "-",
+        change_direction=header_state.get("change_direction") or "unchanged",
+        asof=page_payload.get("asof"),
+    )
     return {
         "asof": page_payload.get("asof"),
         "page_title": str(page_meta.get("page_title") or "시장 브리핑").strip(),
@@ -720,11 +805,10 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
             ),
         },
         "ai_briefs": _build_market_ai_briefs(page_payload.get("ai_briefs") or {}),
-        "state_bar": _build_market_state_bar(
-            label=header_state.get("label") or "데이터 준비 중",
-            score=header_state.get("score"),
-            prev_label=header_state.get("prev_label") or "-",
-            change_direction=header_state.get("change_direction") or "unchanged",
+        "state_bar": state_bar,
+        "state_intraday_bridge_view": _build_market_state_bridge_view(
+            page_payload.get("state_intraday_bridge"),
+            fallback_bar=state_bar,
             asof=page_payload.get("asof"),
         ),
         "component_cards": component_cards,
@@ -2435,6 +2519,9 @@ def create_app(settings: Settings | None = None) -> Flask:
         }
         status_snapshot = user_snapshot_api.get_status(force_refresh=False)
         market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
+        market_state_bar = _build_market_state_bar_from_bundle(market_bundle)
+        home_payload = market_bundle.home if market_bundle else {}
+        home_hero = home_payload.get("hero") or {}
         return Response(
             render_template(
                 "home.html",
@@ -2442,12 +2529,17 @@ def create_app(settings: Settings | None = None) -> Flask:
                 bundle=bundle,
                 performance_by_profile=performance_by_profile,
                 status_snapshot=status_snapshot,
-                market_home_payload=(market_bundle.home if market_bundle else {}),
+                market_home_payload=home_payload,
                 market_home_extra_view=_build_market_home_extra_view(
                     (market_bundle.asset_strength if market_bundle else {}),
                     (market_bundle.state_transition if market_bundle else {}),
                 ),
-                market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
+                market_state_bar=market_state_bar,
+                market_state_bridge_view=_build_market_state_bridge_view(
+                    home_hero.get("state_intraday_bridge"),
+                    fallback_bar=market_state_bar,
+                    asof=home_payload.get("asof") or getattr(market_bundle, "asof", None),
+                ),
                 market_status_snapshot=market_status_snapshot,
                 compliance_note=_build_public_model_compliance_note(bundle),
                 notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
@@ -2678,6 +2770,9 @@ def create_app(settings: Settings | None = None) -> Flask:
         market_bundle = load_market_bundle_or_error()
         record_page_view("/today", bundle)
         current_market_regime = bundle.recommendation_today.get("current_market_regime")
+        market_state_bar = _build_market_state_bar_from_bundle(market_bundle)
+        today_payload = market_bundle.today if market_bundle else {}
+        today_market_bridge = today_payload.get("market_bridge") or {}
         model_lookup = {
             model.get("service_profile"): model for model in bundle.user_models.get("models", [])
         }
@@ -2700,11 +2795,16 @@ def create_app(settings: Settings | None = None) -> Flask:
                 bundle=bundle,
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
-                market_today_payload=(market_bundle.today if market_bundle else {}),
+                market_today_payload=today_payload,
                 market_today_background_view=_build_market_today_background_view(
                     market_bundle.model_background if market_bundle else {}
                 ),
-                market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
+                market_state_bar=market_state_bar,
+                market_state_bridge_view=_build_market_state_bridge_view(
+                    today_market_bridge.get("state_intraday_bridge"),
+                    fallback_bar=market_state_bar,
+                    asof=today_payload.get("asof") or getattr(market_bundle, "asof", None),
+                ),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
                 compliance_note=_build_public_model_compliance_note(bundle),
                 notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
@@ -2795,6 +2895,7 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_state_transition_view=state_transition_view,
                 market_model_background_view=model_background_view,
                 market_state_bar=page_view.get("state_bar"),
+                market_state_bridge_view=page_view.get("state_intraday_bridge_view"),
                 market_status_snapshot=market_status_snapshot,
                 notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
             ),

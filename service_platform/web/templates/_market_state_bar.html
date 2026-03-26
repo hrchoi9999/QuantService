@@ -1,3 +1,50 @@
+{% set variant = variant | default("full") %}
+{% set bridge = market_state_bridge_view if market_state_bridge_view is defined and market_state_bridge_view else {} %}
+{% if bridge.enabled %}
+<div class="market-state-bar market-state-bar--dual market-state-bar--{{ variant }}{% if bridge.alignment %} market-state-bar--{{ bridge.alignment }}{% endif %}">
+  <div class="market-state-bar-head">
+    <div class="market-state-timestamp">기준 시각 {{ bridge.asof_display }}</div>
+  </div>
+  <div class="market-state-dual-rows">
+    <div class="market-state-dual-row">
+      <div class="market-state-dual-label">{{ bridge.medium_term_bar.title }}</div>
+      <div class="market-state-track market-state-track--balanced">
+        <div class="market-state-pill" style="left: {{ bridge.medium_term_bar.position_percent }}%;">
+          <span>{{ bridge.medium_term_bar.label }}</span>
+        </div>
+      </div>
+    </div>
+    {% if bridge.intraday_bar %}
+    <div class="market-state-dual-row">
+      <div class="market-state-dual-label">{{ bridge.intraday_bar.title }}</div>
+      <div class="market-state-track market-state-track--balanced">
+        <div class="market-state-pill market-state-pill--secondary" style="left: {{ bridge.intraday_bar.position_percent }}%;">
+          <span>{{ bridge.intraday_bar.label }}</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="market-state-ticks" aria-hidden="true">
+    {% for tick in market_state_bar.ticks %}
+    <span>{{ tick }}</span>
+    {% endfor %}
+  </div>
+  {% if bridge.display_label and variant != "bridge" %}
+  <p class="market-state-bridge-label">{{ bridge.display_label }}</p>
+  {% endif %}
+  {% if bridge.bridge_text and variant != "compact" %}
+  <p class="market-state-bridge-text">{{ bridge.bridge_text }}</p>
+  {% endif %}
+  {% if bridge.basis_lines and variant == "full" %}
+  <ul class="message-list compact-list clean-list market-state-basis-lines">
+    {% for item in bridge.basis_lines %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% else %}
 <div class="market-state-bar market-state-bar--full">
   <div class="market-state-bar-head">
     <div class="market-state-timestamp">기준 시각 {{ market_state_bar.asof_display }}</div>
@@ -20,3 +67,4 @@
     {% endfor %}
   </div>
 </div>
+{% endif %}
