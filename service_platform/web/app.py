@@ -771,6 +771,188 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _build_market_timeline_view(payload: dict[str, Any]) -> dict[str, Any]:
+    points = payload.get("points") or []
+    rows = []
+    for row in points[-12:]:
+        score = row.get("total_score")
+        try:
+            score_text = f"{float(score):.2f}"
+        except (TypeError, ValueError):
+            score_text = "-"
+        rows.append(
+            {
+                "asof": row.get("asof"),
+                "asof_display": _format_kst_datetime(row.get("asof")),
+                "state_label": row.get("state_label") or "-",
+                "score": row.get("total_score"),
+                "score_text": score_text,
+                "position_percent": _market_score_percent(
+                    _coerce_market_score(row.get("total_score"))
+                ),
+            }
+        )
+    current_state = payload.get("current_state") or {}
+    return {
+        "enabled": bool(payload and rows),
+        "title": str(payload.get("title") or "상태 타임라인").strip(),
+        "description": str(payload.get("description") or "").strip(),
+        "trend_direction": MARKET_CHANGE_DIRECTION_LABELS.get(
+            str(payload.get("trend_direction") or "unchanged"),
+            "변화 없음",
+        ),
+        "current_state_label": current_state.get("state_label") or "-",
+        "current_score_text": rows[-1]["score_text"] if rows else "-",
+        "rows": rows,
+    }
+
+
+def _build_market_asset_strength_view(payload: dict[str, Any]) -> dict[str, Any]:
+    assets = []
+    for row in payload.get("assets") or []:
+        assets.append(
+            {
+                "asset_group": row.get("asset_group") or "-",
+                "strength_rank": row.get("strength_rank") or "-",
+                "strength_label": row.get("strength_label") or "-",
+                "ret_20d_display": _format_percent(row.get("ret_20d")),
+                "strength_score_display": (
+                    f"{float(row.get('strength_score')):.2f}"
+                    if row.get("strength_score") is not None
+                    else "-"
+                ),
+            }
+        )
+    top_assets = [
+        str(item.get("asset_group") or "-") for item in (payload.get("top_assets") or [])[:2]
+    ]
+    bottom_assets = [
+        str(item.get("asset_group") or "-") for item in (payload.get("bottom_assets") or [])[:2]
+    ]
+    return {
+        "enabled": bool(payload and assets),
+        "title": str(payload.get("title") or "자산군 상대강도").strip(),
+        "description": str(payload.get("description") or "").strip(),
+        "assets": assets,
+        "top_assets_text": ", ".join(top_assets) if top_assets else "-",
+        "bottom_assets_text": ", ".join(bottom_assets) if bottom_assets else "-",
+    }
+
+
+def _build_market_state_transition_view(payload: dict[str, Any]) -> dict[str, Any]:
+    current = payload.get("current") or {}
+    recent_changes = []
+    for row in (payload.get("recent_changes") or [])[:8]:
+        score = row.get("state_score")
+        try:
+            score_text = f"{float(score):.2f}"
+        except (TypeError, ValueError):
+            score_text = "-"
+        recent_changes.append(
+            {
+                "asof_display": _format_kst_datetime(row.get("asof")),
+                "state_label": row.get("state_label") or "-",
+                "prev_state_label": row.get("prev_state_label") or "-",
+                "direction_label": MARKET_CHANGE_DIRECTION_LABELS.get(
+                    str(row.get("state_change_direction") or "unchanged"),
+                    "변화 없음",
+                ),
+                "score_text": score_text,
+            }
+        )
+    duration_hours = current.get("duration_hours")
+    duration_text = f"{float(duration_hours):.1f}시간" if duration_hours is not None else "-"
+    stability_score = current.get("stability_score")
+    stability_text = f"{float(stability_score):.2f}" if stability_score is not None else "-"
+    summary_line = "-"
+    if current.get("current_state") and duration_hours is not None:
+        summary_line = (
+            f"현재 {current.get('current_state')} 상태가 "
+            f"{float(duration_hours):.1f}시간 이어지고 있습니다."
+        )
+    return {
+        "enabled": bool(payload and current),
+        "title": str(payload.get("title") or "상태 전이 요약").strip(),
+        "description": str(payload.get("description") or "").strip(),
+        "summary_line": summary_line,
+        "cards": [
+            {"label": "현재 상태", "value": current.get("current_state") or "-"},
+            {"label": "지속 시간", "value": duration_text},
+            {"label": "최근 5일 전이", "value": f"{current.get('transition_count_5d', 0)}회"},
+            {"label": "안정성 점수", "value": stability_text},
+        ],
+        "recent_changes": recent_changes,
+    }
+
+
+def _build_market_model_background_view(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "enabled": bool(payload),
+        "title": str(payload.get("title") or "모델 해석 백그라운드").strip(),
+        "description": str(payload.get("description") or "").strip(),
+        "briefing_tone": str(payload.get("briefing_tone") or "-").strip(),
+        "summary_line": str(payload.get("summary_line") or "-").strip(),
+        "reference_note": str(payload.get("reference_note") or "-").strip(),
+        "points": [
+            str(item).strip()
+            for item in (payload.get("model_background_points") or [])
+            if str(item).strip()
+        ],
+        "favorable_signals": [
+            str(item).strip()
+            for item in (payload.get("favorable_signals") or [])
+            if str(item).strip()
+        ],
+        "caution_signals": [
+            str(item).strip()
+            for item in (payload.get("caution_signals") or [])
+            if str(item).strip()
+        ],
+    }
+
+
+def _build_market_home_extra_view(
+    asset_strength_payload: dict[str, Any], state_transition_payload: dict[str, Any]
+) -> dict[str, Any]:
+    top_assets = [
+        str(item.get("asset_group") or "-")
+        for item in (asset_strength_payload.get("top_assets") or [])[:2]
+    ]
+    if top_assets:
+        return {
+            "enabled": True,
+            "label": "현재 상대적으로 강한 자산",
+            "value": ", ".join(top_assets),
+            "description": "시장 브리핑의 자산군 상대강도 기준입니다.",
+        }
+    current = state_transition_payload.get("current") or {}
+    duration_hours = current.get("duration_hours")
+    if current.get("current_state") and duration_hours is not None:
+        return {
+            "enabled": True,
+            "label": "현재 상태 지속시간",
+            "value": f"{current.get('current_state')} {float(duration_hours):.1f}시간",
+            "description": "상태 전이 요약 기준으로 현재 시장상태 지속시간을 보여 줍니다.",
+        }
+    return {"enabled": False}
+
+
+def _build_market_today_background_view(model_background_payload: dict[str, Any]) -> dict[str, Any]:
+    points = [
+        str(item).strip()
+        for item in (model_background_payload.get("model_background_points") or [])[:2]
+        if str(item).strip()
+    ]
+    return {
+        "enabled": bool(
+            model_background_payload and (points or model_background_payload.get("briefing_tone"))
+        ),
+        "title": "이번 해석 배경",
+        "briefing_tone": str(model_background_payload.get("briefing_tone") or "-").strip(),
+        "points": points,
+    }
+
+
 PREVIEW_CHANGE_TYPE_LABELS = {
     "new": "신규 편입",
     "exit": "제외",
@@ -2213,6 +2395,34 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("manifest")), 200)
 
+    @app.get("/api/v1/market-analysis/timeline")
+    def api_market_analysis_timeline() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_timeline")), 200)
+
+    @app.get("/api/v1/market-analysis/asset-strength")
+    def api_market_analysis_asset_strength() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_asset_strength")), 200)
+
+    @app.get("/api/v1/market-analysis/state-transition")
+    def api_market_analysis_state_transition() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_state_transition")), 200)
+
+    @app.get("/api/v1/market-analysis/model-background")
+    def api_market_analysis_model_background() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_model_background")), 200)
+
     @app.get("/")
     def home() -> Response | tuple[str, int]:
         bundle = load_user_bundle_or_error()
@@ -2233,6 +2443,10 @@ def create_app(settings: Settings | None = None) -> Flask:
                 performance_by_profile=performance_by_profile,
                 status_snapshot=status_snapshot,
                 market_home_payload=(market_bundle.home if market_bundle else {}),
+                market_home_extra_view=_build_market_home_extra_view(
+                    (market_bundle.asset_strength if market_bundle else {}),
+                    (market_bundle.state_transition if market_bundle else {}),
+                ),
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_status_snapshot,
                 compliance_note=_build_public_model_compliance_note(bundle),
@@ -2487,6 +2701,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                 report_views=report_views,
                 market_today_payload=(market_bundle.today if market_bundle else {}),
+                market_today_background_view=_build_market_today_background_view(
+                    market_bundle.model_background if market_bundle else {}
+                ),
                 market_state_bar=_build_market_state_bar_from_bundle(market_bundle),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
                 compliance_note=_build_public_model_compliance_note(bundle),
@@ -2557,12 +2774,26 @@ def create_app(settings: Settings | None = None) -> Flask:
         market_bundle = load_market_bundle_or_error()
         market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
         page_view = _build_market_page_view((market_bundle.page if market_bundle else {}))
+        timeline_view = _build_market_timeline_view(market_bundle.timeline if market_bundle else {})
+        asset_strength_view = _build_market_asset_strength_view(
+            market_bundle.asset_strength if market_bundle else {}
+        )
+        state_transition_view = _build_market_state_transition_view(
+            market_bundle.state_transition if market_bundle else {}
+        )
+        model_background_view = _build_market_model_background_view(
+            market_bundle.model_background if market_bundle else {}
+        )
         record_page_view("/market-analysis")
         return Response(
             render_template(
                 "market_analysis.html",
                 page_title=page_view.get("page_title", "시장 브리핑"),
                 market_page_view=page_view,
+                market_timeline_view=timeline_view,
+                market_asset_strength_view=asset_strength_view,
+                market_state_transition_view=state_transition_view,
+                market_model_background_view=model_background_view,
                 market_state_bar=page_view.get("state_bar"),
                 market_status_snapshot=market_status_snapshot,
                 notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),

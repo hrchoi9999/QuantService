@@ -65,6 +65,13 @@
     <div class="market-home-summary-main">
       <p class="muted">{{ market_home_payload.get('hero', {}).get('reference_note', '-') }}</p>
     </div>
+    {% if market_home_extra_view.enabled %}
+    <div class="metric-card public-metric-card market-home-extra-card">
+      <span class="label">{{ market_home_extra_view.label }}</span>
+      <strong>{{ market_home_extra_view.value }}</strong>
+      <p class="muted small">{{ market_home_extra_view.description }}</p>
+    </div>
+    {% endif %}
     <div class="market-home-signals">
       <span class="label">핵심 신호</span>
       <ul class="message-list compact-list clean-list">

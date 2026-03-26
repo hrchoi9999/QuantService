@@ -2391,3 +2391,77 @@ body {
   display: grid;
   gap: 18px;
 }
+
+
+.market-home-extra-card,
+.market-bridge-background-card,
+.market-background-panel,
+.market-timeline-panel,
+.market-asset-strength-panel,
+.market-transition-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.market-home-extra-card p,
+.market-bridge-background-card p,
+.market-background-panel p,
+.market-transition-panel p {
+  margin: 0;
+}
+
+.market-home-extra-card strong {
+  font-size: 1.1rem;
+}
+
+.market-timeline-track {
+  display: grid;
+  gap: 10px;
+}
+
+.market-timeline-point {
+  position: relative;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), var(--surface-muted));
+}
+
+.market-timeline-dot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+
+.market-timeline-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+.market-background-points,
+.market-transition-list {
+  margin: 0;
+}
+
+.market-strength-summary-grid {
+  margin-bottom: 14px;
+}
+
+.market-bridge-background-card ul {
+  margin: 0;
+}
+
+@media (max-width: 820px) {
+  .market-timeline-meta {
+    display: grid;
+    justify-content: start;
+    gap: 4px;
+  }
+}

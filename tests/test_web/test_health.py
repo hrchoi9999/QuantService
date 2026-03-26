@@ -897,7 +897,7 @@ def seed_market_analysis_snapshot(
         "asof": asof,
         "generated_by": "QuantMarket",
         "consumer": "QuantService",
-        "handoff_version": "2026-03-23-p1",
+        "handoff_version": "2026-03-24-p2",
         "freshness": {
             "target_update_interval_minutes": 60,
             "consumer_warning_after_minutes": 90,
@@ -905,6 +905,25 @@ def seed_market_analysis_snapshot(
         },
         "compliance_meta": compliance_meta,
         "notice_block": notice_block,
+        "optional_files": {
+            "timeline": "quantservice_market_timeline.json",
+            "asset_strength": "quantservice_market_asset_strength.json",
+            "state_transition": "quantservice_market_state_transition.json",
+            "model_background": "quantservice_market_model_background.json",
+            "api_timeline": "api_v1_market_analysis_timeline.json",
+            "api_asset_strength": "api_v1_market_analysis_asset_strength.json",
+            "api_state_transition": "api_v1_market_analysis_state_transition.json",
+            "api_model_background": "api_v1_market_analysis_model_background.json",
+        },
+        "api_endpoints": {
+            "timeline": "/api/v1/market-analysis/timeline?market=KR",
+            "asset_strength": "/api/v1/market-analysis/asset-strength?market=KR",
+            "state_transition": "/api/v1/market-analysis/state-transition?market=KR",
+            "model_background": "/api/v1/market-analysis/model-background?market=KR",
+        },
+        "data_lineage": {
+            "public_rollout_phase": "market_briefing_enhancement_phase1",
+        },
     }
     home = {
         "market": "KR",
@@ -1152,6 +1171,168 @@ def seed_market_analysis_snapshot(
         "generated_by": "QuantMarket",
         "data": page,
     }
+    timeline = {
+        "market": "KR",
+        "asof": asof,
+        "title": "상태 타임라인",
+        "description": (
+            "최근 시장상태와 핵심 점수 흐름을 시간순으로 정리한 " "공개 브리핑 데이터입니다."
+        ),
+        "current_state": {
+            "asof": asof,
+            "state_label": state_label,
+            "state_score": 0.2907,
+            "trend_score": 0.1,
+            "breadth_score": 1.9,
+            "risk_score": -3.0,
+            "defensive_flow_score": 1.7,
+            "total_score": 0.2907,
+        },
+        "trend_direction": "unchanged",
+        "points": [
+            {
+                "asof": "2026-03-23T15:00:00+09:00",
+                "state_label": "약보합",
+                "state_score": -0.2,
+                "trend_score": -0.1,
+                "breadth_score": 0.8,
+                "risk_score": -2.0,
+                "defensive_flow_score": 1.0,
+                "total_score": -0.2,
+            },
+            {
+                "asof": "2026-03-23T17:00:00+09:00",
+                "state_label": state_label,
+                "state_score": 0.2907,
+                "trend_score": 0.1,
+                "breadth_score": 1.9,
+                "risk_score": -3.0,
+                "defensive_flow_score": 1.7,
+                "total_score": 0.2907,
+            },
+        ],
+    }
+    asset_strength = {
+        "market": "KR",
+        "asof": asof,
+        "title": "자산군 상대강도",
+        "description": (
+            "주요 자산군의 최근 상대 흐름을 비교해 현재 어떤 자산이 "
+            "상대적으로 강한지 보여 줍니다."
+        ),
+        "assets": [
+            {
+                "asset_group": "KOSPI",
+                "ret_20d": 0.0388,
+                "strength_score": 2.10,
+                "strength_rank": 1,
+                "strength_label": "강함",
+            },
+            {
+                "asset_group": "KOSDAQ",
+                "ret_20d": 0.0321,
+                "strength_score": 0.27,
+                "strength_rank": 2,
+                "strength_label": "중립",
+            },
+            {
+                "asset_group": "GOLD",
+                "ret_20d": -0.018,
+                "strength_score": -0.81,
+                "strength_rank": 6,
+                "strength_label": "약함",
+            },
+        ],
+        "top_assets": [
+            {"asset_group": "KOSPI"},
+            {"asset_group": "KOSDAQ"},
+        ],
+        "bottom_assets": [
+            {"asset_group": "GOLD"},
+            {"asset_group": "BOND"},
+        ],
+    }
+    state_transition = {
+        "market": "KR",
+        "asof": asof,
+        "title": "상태 전이 요약",
+        "description": (
+            "현재 상태가 얼마나 이어지고 있는지와 최근 상태 변화 빈도를 "
+            "요약한 공개 브리핑 데이터입니다."
+        ),
+        "current": {
+            "current_state": "상승",
+            "prev_state": "중립",
+            "duration_hours": 31.1,
+            "transition_count_5d": 4,
+            "transition_count_20d": 4,
+            "stability_score": 0.76,
+        },
+        "recent_changes": [
+            {
+                "asof": asof,
+                "state_label": "상승",
+                "prev_state_label": "중립",
+                "state_change_direction": "stronger",
+                "state_score": 0.2907,
+            },
+            {
+                "asof": "2026-03-23T16:00:00+09:00",
+                "state_label": "중립",
+                "prev_state_label": "약보합",
+                "state_change_direction": "unchanged",
+                "state_score": -0.12,
+            },
+        ],
+    }
+    model_background = {
+        "market": "KR",
+        "asof": asof,
+        "title": "모델 해석 백그라운드",
+        "description": "현재 시장브리핑을 모델 기준안과 연결해서 읽기 위한 공개 배경 데이터입니다.",
+        "briefing_tone": "중립 해석 환경",
+        "summary_line": "공개 지표 기준으로 퀀트투자 모델 해석에 참고할 시장 흐름을 요약했습니다.",
+        "reference_note": MARKET_REFERENCE_NOTE,
+        "model_background_points": [
+            "공개 지표 기준으로 퀀트투자 모델 해석에 참고할 시장 흐름을 요약했습니다.",
+            "20일선 위 종목 비율과 변동성 지표를 함께 볼 필요가 있습니다.",
+            "현재 상태 지속 시간은 31.1시간입니다.",
+        ],
+        "favorable_signals": ["60일선 위 종목 비율 양호", "코스피 1개월 상승 흐름"],
+        "caution_signals": ["20일선 위 종목 비율 낮음", "변동성 확대"],
+    }
+    api_timeline = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/timeline?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": timeline,
+    }
+    api_asset_strength = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/asset-strength?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": asset_strength,
+    }
+    api_state_transition = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/state-transition?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": state_transition,
+    }
+    api_model_background = {
+        "api_version": "v1",
+        "endpoint": "/api/v1/market-analysis/model-background?market=KR",
+        "market": "KR",
+        "asof": asof,
+        "generated_by": "QuantMarket",
+        "data": model_background,
+    }
 
     files = {
         "quantservice_market_manifest.json": manifest,
@@ -1163,6 +1344,14 @@ def seed_market_analysis_snapshot(
         "api_v1_market_analysis_summary.json": api_summary,
         "api_v1_market_analysis_detail.json": api_detail,
         "api_v1_market_analysis_today_bridge.json": api_today,
+        "quantservice_market_timeline.json": timeline,
+        "quantservice_market_asset_strength.json": asset_strength,
+        "quantservice_market_state_transition.json": state_transition,
+        "quantservice_market_model_background.json": model_background,
+        "api_v1_market_analysis_timeline.json": api_timeline,
+        "api_v1_market_analysis_asset_strength.json": api_asset_strength,
+        "api_v1_market_analysis_state_transition.json": api_state_transition,
+        "api_v1_market_analysis_model_background.json": api_model_background,
     }
     for filename, payload in files.items():
         target_dir.joinpath(filename).write_text(
@@ -1620,6 +1809,10 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     market_response = client.get("/market-analysis")
     summary_response = client.get("/api/v1/market-analysis/summary")
     detail_response = client.get("/api/v1/market-analysis/detail")
+    timeline_response = client.get("/api/v1/market-analysis/timeline")
+    asset_strength_response = client.get("/api/v1/market-analysis/asset-strength")
+    state_transition_response = client.get("/api/v1/market-analysis/state-transition")
+    model_background_response = client.get("/api/v1/market-analysis/model-background")
     manifest_response = client.get("/api/v1/market-analysis/manifest")
 
     home_body = home_response.get_data(as_text=True)
@@ -1639,10 +1832,16 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "강상승" in home_body
     assert MARKET_REFERENCE_NOTE in today_body
     assert "브리핑 톤" in today_body
+    assert "이번 해석 배경" in today_body
+    assert "20일선 위 종목 비율과 변동성 지표를 함께 볼 필요가 있습니다." in today_body
     assert "market-state-bar" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 변동성 점검" in market_body
     assert "퀀트투자 모델 브리핑" in market_body
+    assert "상태 타임라인" in market_body
+    assert "모델 해석 백그라운드" in market_body
+    assert "자산군 상대강도" in market_body
+    assert "상태 전이 요약" in market_body
     assert "ai_logos/chatgpt.svg" in market_body
     assert "ai_logos/gemini.svg" in market_body
     assert "추세는 살아 있지만 속도는 과열 구간이 아닙니다." in market_body
@@ -1666,6 +1865,14 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert summary_response.get_json()["data"]["state_label"] == "중립"
     assert detail_response.status_code == 200
     assert detail_response.get_json()["data"]["positive_points"][0] == "60일선 위 종목 비율 양호"
+    assert timeline_response.status_code == 200
+    assert timeline_response.get_json()["data"]["title"] == "상태 타임라인"
+    assert asset_strength_response.status_code == 200
+    assert asset_strength_response.get_json()["data"]["top_assets"][0]["asset_group"] == "KOSPI"
+    assert state_transition_response.status_code == 200
+    assert state_transition_response.get_json()["data"]["current"]["duration_hours"] == 31.1
+    assert model_background_response.status_code == 200
+    assert model_background_response.get_json()["data"]["briefing_tone"] == "중립 해석 환경"
     assert manifest_response.status_code == 200
     assert manifest_response.get_json()["consumer"] == "QuantService"
 
@@ -1744,6 +1951,39 @@ def test_market_analysis_ai_briefs_support_partial_provider_payload(tmp_path: Pa
     assert "모델 해석" in body
     assert "한 줄 요약 1" in body
     assert "Gemini 가 읽어주는 시장분위기" not in body
+
+
+def test_market_analysis_optional_sections_hide_gracefully_when_missing(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(settings.market_analysis_dir)
+    for filename in (
+        "quantservice_market_timeline.json",
+        "quantservice_market_asset_strength.json",
+        "quantservice_market_state_transition.json",
+        "quantservice_market_model_background.json",
+        "api_v1_market_analysis_timeline.json",
+        "api_v1_market_analysis_asset_strength.json",
+        "api_v1_market_analysis_state_transition.json",
+        "api_v1_market_analysis_model_background.json",
+    ):
+        target = settings.market_analysis_dir / filename
+        if target.exists():
+            target.unlink()
+    app = create_app(settings)
+    client = app.test_client()
+
+    home_response = client.get("/")
+    today_response = client.get("/today")
+    market_response = client.get("/market-analysis")
+
+    assert home_response.status_code == 200
+    assert today_response.status_code == 200
+    assert market_response.status_code == 200
+    assert "현재 상대적으로 강한 자산" not in home_response.get_data(as_text=True)
+    assert "이번 해석 배경" not in today_response.get_data(as_text=True)
+    assert "상태 타임라인" not in market_response.get_data(as_text=True)
+    assert "자산군 상대강도" not in market_response.get_data(as_text=True)
 
 
 def test_market_analysis_cache_buster_preserves_existing_query_params() -> None:

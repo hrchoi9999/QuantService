@@ -74,6 +74,21 @@
       </div>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
     </div>
+    {% if market_today_background_view.enabled %}
+    <div class="shell-card content-card market-bridge-background-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>{{ market_today_background_view.title }}</h3>
+          <p class="muted small">{{ market_today_background_view.briefing_tone }}</p>
+        </div>
+      </div>
+      <ul class="message-list compact-list clean-list">
+        {% for item in market_today_background_view.points %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
     {% if market_today_payload.get('notice_block', {}).get('body') %}
     <div class="disclosure-box compact-market-notice">
       <strong>{{ market_today_payload.get('notice_block', {}).get('title', '안내') }}</strong>
