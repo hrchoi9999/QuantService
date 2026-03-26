@@ -551,6 +551,12 @@ MARKET_STATE_LABEL_SCORES = {
     "강보합": 0.5,
     "상승": 1.5,
     "강상승": 2.5,
+    "강세": 2.0,
+    "소폭 강세": 0.8,
+    "혼조": 0.0,
+    "약세": -1.2,
+    "강한 약세": -2.4,
+    "전일 기준 참고": 0.0,
 }
 
 
@@ -619,6 +625,8 @@ def _build_market_state_bridge_view(
         or "데이터 준비 중"
     )
     intraday_state_label = str(payload.get("intraday_state_label") or "").strip()
+    if not intraday_state_label and payload.get("enabled") is True:
+        intraday_state_label = "전일 기준 참고"
     basis_lines = [
         str(line).strip() for line in (payload.get("basis_lines") or []) if str(line).strip()
     ]

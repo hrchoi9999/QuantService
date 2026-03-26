@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/home?market=KR",
   "market": "KR",
-  "asof": "2026-03-26T21:00:00+09:00",
+  "asof": "2026-03-26T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "hero": {
       "title": "시장 브리핑",
       "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
@@ -60,7 +60,8 @@
             "foreigner_net": -30980.0,
             "program_total_net": -16251.0
           }
-        }
+        },
+        "intraday_state_label": "강한 약세"
       }
     },
     "top_signals": [
@@ -100,7 +101,8 @@
             "foreigner_net": -30980.0,
             "program_total_net": -16251.0
           }
-        }
+        },
+        "intraday_state_label": "강한 약세"
       }
     },
     "compliance_meta": {
@@ -115,7 +117,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-03-26T21:00:00+09:00",
+      "asof": "2026-03-26T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

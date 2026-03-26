@@ -1,9 +1,9 @@
 {
   "market": "KR",
-  "asof": "2026-03-26T21:00:00+09:00",
+  "asof": "2026-03-26T22:00:00+09:00",
   "market_bridge": {
     "market": "KR",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "state_label": "상승",
     "state_score": 1.0978,
     "market_tone": "위험선호 환경",
@@ -37,7 +37,8 @@
           "foreigner_net": -30980.0,
           "program_total_net": -16251.0
         }
-      }
+      },
+      "intraday_state_label": "강한 약세"
     },
     "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
     "compliance_meta": {
@@ -52,7 +53,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-03-26T21:00:00+09:00",
+      "asof": "2026-03-26T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -79,7 +80,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -123,7 +124,8 @@
           "foreigner_net": -30980.0,
           "program_total_net": -16251.0
         }
-      }
+      },
+      "intraday_state_label": "강한 약세"
     }
   },
   "consumer_slots": {

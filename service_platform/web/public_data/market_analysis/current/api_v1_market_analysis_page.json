@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/page?market=KR",
   "market": "KR",
-  "asof": "2026-03-26T21:00:00+09:00",
+  "asof": "2026-03-26T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-03-26T21:00:00+09:00",
+    "asof": "2026-03-26T22:00:00+09:00",
     "page_meta": {
       "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
       "page_title": "시장 브리핑",
@@ -64,12 +64,13 @@
           "foreigner_net": -30980.0,
           "program_total_net": -16251.0
         }
-      }
+      },
+      "intraday_state_label": "강한 약세"
     },
     "ai_briefs": {
       "enabled": true,
       "market": "KR",
-      "asof": "2026-03-26T21:00:00+09:00",
+      "asof": "2026-03-26T22:00:00+09:00",
       "layout": "two_small_blocks",
       "title": "퀀트투자 모델 브리핑 참고",
       "compliance_meta": {
@@ -84,17 +85,17 @@
           "label": "ChatGPT",
           "theme_label": "모델 해석 참고",
           "viewpoint": {
-            "key": "macro_global",
-            "label": "매크로 관점: 대외 이벤트/위험자산 환경"
+            "key": "micro_breadth",
+            "label": "마이크로 관점: 종목 확산/시장 내부 체력"
           },
           "enabled": true,
-          "generated_at": "2026-03-26T21:06:25+09:00",
+          "generated_at": "2026-03-26T22:05:30+09:00",
           "source": "openai:gpt-4.1-mini",
           "summary_lines": [
-            "국내 증시는 대외 지정학적 리스크와 국제 유가 변동성이 높아진 상황에서 상승 추세 유지에도 불구하고 단기 조정 양상을 보이고 있습니다.",
-            "원달러 강세 및 외국인과 프로그램 매도세가 지속되어 선물 가격이 하락하며 위험자산 투자심리가 약화되고 있습니다.",
-            "20일선 위 종목 비율이 낮아 기술적 회복에는 제약이 있으나 중기 코스피의 상승 흐름과 코스닥의 추세 회복은 여전히 견조한 환경을 시사합니다.",
-            "전체적으로 대외 변수들이 장중 변동성을 확대시키며 조심스러운 접근이 필요함을 나타내고 있습니다."
+            "종목별 확산 지표가 약화되며 20일선 위 종목 비율이 낮아 내부 체력은 다소 약한 상태입니다.",
+            "코스피와 코스닥 모두 장중 약세가 두드러지고 외국인과 프로그램 매도세가 시장 부담을 가중시키고 있습니다.",
+            "중기 상승 추세가 유지되는 가운데 오늘은 변동성 확대와 단기 조정 신호가 함께 나타나 시장의 불확실성이 커진 모습입니다.",
+            "선물 가격 하락과 원달러 강세가 투자 심리에 추가적인 경계감을 조성하며 내부 체력 약화를 반영하고 있습니다."
           ]
         },
         {
@@ -102,17 +103,17 @@
           "label": "제미나이",
           "theme_label": "시장 분위기 참고",
           "viewpoint": {
-            "key": "breadth_vol",
-            "label": "종목 확산과 변동성 체감"
+            "key": "futures_flow",
+            "label": "선물과 수급의 방향성"
           },
           "enabled": true,
-          "generated_at": "2026-03-26T21:06:25+09:00",
+          "generated_at": "2026-03-26T22:05:30+09:00",
           "source": "gemini:gemini-2.5-flash",
           "summary_lines": [
-            "현재 정식 시장상태는 상승 흐름을 유지하나, 장중에는 단기적인 조정 흐름이 나타납니다.",
-            "오늘 코스피와 코스닥은 장중 약세를 보이며, 외국인 순매도와 달러 강세가 시장에 부담을 주고 있습니다.",
-            "선물 또한 약세 흐름을 보이고 있으며, 프로그램 순매도 우위도 관찰되어 하방 압력이 커지는 모습입니다.",
-            "종목 전반으로 상승 흐름이 확산되지 못하고 변동성이 확대되는 점은 주의가 필요한 상황으로 판단됩니다."
+            "현재 시장은 상승 흐름을 유지하고 있지만, 장중에는 단기 조정 흐름이 관찰됩니다.",
+            "코스피와 코스닥이 장중 약세를 보이고 있으며, 외국인 순매도와 달러 강세가 부담을 주고 있습니다.",
+            "선물 시장 역시 약세 전환되었고, 프로그램 순매도 우위로 하방 압력이 커지는 모습입니다.",
+            "종목 전반으로 상승세가 확산되지 못하고 변동성이 확대되는 점은 주시해야 할 부분입니다."
           ]
         }
       ]
@@ -500,7 +501,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-03-26T21:00:00+09:00",
+      "asof": "2026-03-26T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

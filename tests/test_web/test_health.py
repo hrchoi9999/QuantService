@@ -930,7 +930,7 @@ def seed_market_analysis_snapshot(
         "medium_term_label": "정식 시장상태(전일 종가 기준)",
         "medium_term_state_label": "상승",
         "intraday_label": "오늘 장중 흐름(참고용)",
-        "intraday_state_label": "하락",
+        "intraday_state_label": "강한 약세",
         "alignment": "divergent",
         "display_label": "상승 유지, 단기 조정 동반",
         "bridge_text": "정식 시장상태는 상승이지만, 오늘 장중에는 단기 조정 흐름이 나타납니다.",
@@ -1861,6 +1861,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "20일선 위 종목 비율과 변동성 지표를 함께 볼 필요가 있습니다." in today_body
     assert "market-state-bar" in today_body
     assert "정식 시장상태는 상승이지만, 오늘 장중에는 단기 조정 흐름이 나타납니다." in today_body
+    assert "강한 약세" in today_body
     assert "서비스 상태" in changes_body
     assert "시장 변동성 점검" in market_body
     assert "퀀트투자 모델 브리핑" in market_body
@@ -1881,6 +1882,7 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     assert "변동성 부담이 큰 편입니다." in market_body
     assert "정식 시장상태(전일 종가 기준)" in market_body
     assert "오늘 장중 흐름(참고용)" in market_body
+    assert "강한 약세" in market_body
     assert "상승 유지, 단기 조정 동반" in market_body
     assert (
         "장중 흐름 근거: 단기 변동성과 하락 종목 비중이 커지며 참고용 약세 압력이 " "나타났습니다."
@@ -2048,6 +2050,43 @@ def test_market_state_bridge_falls_back_to_single_bar_when_disabled(tmp_path: Pa
     assert "오늘 장중 흐름(참고용)" not in today_body
     assert "시장상태" in market_body
     assert "상태점수" in market_body
+
+
+def test_market_state_bridge_shows_public_fallback_label_when_intraday_label_missing(
+    tmp_path: Path,
+) -> None:
+    settings = build_settings(tmp_path)
+    seed_user_snapshot(settings.user_snapshot_dir)
+    seed_market_analysis_snapshot(settings.market_analysis_dir)
+    for filename, root_path in (
+        ("quantservice_market_home.json", ["hero"]),
+        ("quantservice_market_today.json", ["market_bridge"]),
+        ("quantservice_market_page.json", []),
+    ):
+        target = settings.market_analysis_dir / filename
+        payload = json.loads(target.read_text(encoding="utf-8-sig"))
+        container = payload
+        for key in root_path:
+            container = container[key]
+        bridge = container.get("state_intraday_bridge") or {}
+        bridge.pop("intraday_state_label", None)
+        bridge["enabled"] = True
+        container["state_intraday_bridge"] = bridge
+        target.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+    app = create_app(settings)
+    client = app.test_client()
+
+    home_body = client.get("/").get_data(as_text=True)
+    today_body = client.get("/today").get_data(as_text=True)
+    market_body = client.get("/market-analysis").get_data(as_text=True)
+
+    assert "전일 기준 참고" in home_body
+    assert "전일 기준 참고" in today_body
+    assert "전일 기준 참고" in market_body
 
 
 def test_market_analysis_cache_buster_preserves_existing_query_params() -> None:
