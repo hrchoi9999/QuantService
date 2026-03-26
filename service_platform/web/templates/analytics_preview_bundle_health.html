@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>Bundle Health</h1>
+  <p class="lead">P1~P4 bundle manifest 존재 여부, build 상태, freshness 메타를 한 번에 검토하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p5') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p5_nav.html" %}
+
+<section class="panel shell-card preview-panel">
+  <div class="table-wrap compact-table">
+    <table>
+      <thead>
+        <tr>
+          <th>bundle</th>
+          <th>pages</th>
+          <th>manifest</th>
+          <th>build</th>
+          <th>files ok</th>
+          <th>built at</th>
+          <th>latest week</th>
+          <th>schema</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in bundle_rows %}
+        <tr>
+          <td>{{ row.bundle }}</td>
+          <td>{{ row.expected_pages_text }}</td>
+          <td>{{ 'yes' if row.manifest_exists else 'no' }}</td>
+          <td>{{ row.build_status }}</td>
+          <td>{{ 'yes' if row.files_ok else 'no' }}</td>
+          <td>{{ row.built_at_utc|fmt_datetime }}</td>
+          <td>{{ row.latest_week_end }}</td>
+          <td>{{ row.schema_version }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

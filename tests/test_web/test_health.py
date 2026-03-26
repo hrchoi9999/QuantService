@@ -2404,12 +2404,18 @@ def test_internal_preview_routes_allow_named_admin_in_production(
     preview_dir = tmp_path / "analytics_preview"
     preview_p2_dir = tmp_path / "analytics_preview_p2"
     preview_p3_dir = tmp_path / "analytics_preview_p3"
+    preview_p4_dir = tmp_path / "analytics_preview_p4"
+    preview_p5_dir = tmp_path / "analytics_preview_p5"
     seed_analytics_preview_bundle(preview_dir)
     seed_analytics_preview_p2_bundle(preview_p2_dir)
     seed_analytics_preview_p3_bundle(preview_p3_dir)
+    seed_analytics_preview_p4_bundle(preview_p4_dir)
+    seed_analytics_preview_p5_bundle(preview_p5_dir)
     monkeypatch.setenv("ANALYTICS_PREVIEW_BUNDLE_DIR", str(preview_dir))
     monkeypatch.setenv("ANALYTICS_PREVIEW_P2_BUNDLE_DIR", str(preview_p2_dir))
     monkeypatch.setenv("ANALYTICS_PREVIEW_P3_BUNDLE_DIR", str(preview_p3_dir))
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P4_BUNDLE_DIR", str(preview_p4_dir))
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P5_BUNDLE_DIR", str(preview_p5_dir))
     app = create_app(settings)
     access_store = app.config["ACCESS_STORE"]
     access_store.authenticate_or_register("hrchoi@koreascf.com", "pass1234")
@@ -2428,6 +2434,8 @@ def test_internal_preview_routes_allow_named_admin_in_production(
     p1_response = client.get("/admin/analytics-p1/today-model-info")
     p2_response = client.get("/admin/analytics-p2/portfolio-structure")
     p3_response = client.get("/admin/analytics-p3/model-quality")
+    p4_response = client.get("/admin/analytics-p4/asset-exposure-detail")
+    p5_response = client.get("/admin/analytics-p5/admin-ops-status")
 
     assert hub_response.status_code == 200
     hub_body = hub_response.get_data(as_text=True)
@@ -2436,12 +2444,20 @@ def test_internal_preview_routes_allow_named_admin_in_production(
     assert "보유 종목 이력" in hub_body
     assert "모델 품질" in hub_body
     assert "주간 브리핑" in hub_body
+    assert "자산 노출 상세" in hub_body
+    assert "변화 영향" in hub_body
+    assert "Admin 운영 상태" in hub_body
+    assert "Bundle Health" in hub_body
     assert p1_response.status_code == 200
     assert "오늘의 모델 정보" in p1_response.get_data(as_text=True)
     assert p2_response.status_code == 200
     assert "포트폴리오 구조" in p2_response.get_data(as_text=True)
     assert p3_response.status_code == 200
     assert "모델 품질" in p3_response.get_data(as_text=True)
+    assert p4_response.status_code == 200
+    assert "자산 노출 상세" in p4_response.get_data(as_text=True)
+    assert p5_response.status_code == 200
+    assert "Admin 운영 상태" in p5_response.get_data(as_text=True)
 
 
 def test_internal_preview_bundle_rejects_publish_enabled_payload(
@@ -2583,6 +2599,308 @@ def test_internal_preview_p3_pages_require_admin_and_render_bundle(
     assert "상위 보유종목" in briefing_body
     assert "이번 주 변화" in briefing_body
     assert "최근 8주 변화" in briefing_body
+
+
+def seed_analytics_preview_p4_bundle(
+    bundle_dir: Path, *, web_publish_enabled: bool = False
+) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asof": "2026-03-25",
+        "internal_preview_only": True,
+        "web_publish_enabled": web_publish_enabled,
+        "bundle": "p4",
+        "files": {
+            "asset_exposure_detail": "asset_exposure_detail_20260325.json",
+            "change_impact": "change_impact_20260325.json",
+        },
+    }
+    asset_exposure_detail = {
+        "meta": manifest,
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "latest_asset_detail": [
+                    {"detail_bucket": "stock_equity", "bucket_weight": 0.6},
+                    {"detail_bucket": "etf_bond", "bucket_weight": 0.2},
+                    {"detail_bucket": "cash", "bucket_weight": 0.2},
+                ],
+                "asset_detail_trend_26w": [
+                    {
+                        "week_end": "2026-03-20",
+                        "bucket_weights": {
+                            "stock_equity": 0.6,
+                            "etf_bond": 0.2,
+                            "cash": 0.2,
+                        },
+                    }
+                ],
+                "latest_change_activity": {
+                    "change_intensity_score": 41.2,
+                    "change_intensity_label": "medium",
+                    "event_count_total": 6,
+                    "abs_delta_sum": 0.18,
+                },
+            }
+        ],
+    }
+    change_impact = {
+        "meta": manifest,
+        "models": [
+            {
+                "model_code": "S3",
+                "display_name": "Quant S3",
+                "latest_change_activity": {
+                    "new_count": 2,
+                    "exit_count": 1,
+                    "increase_count": 2,
+                    "decrease_count": 1,
+                    "event_count_total": 6,
+                    "abs_delta_sum": 0.18,
+                    "change_intensity_score": 41.2,
+                    "change_intensity_label": "medium",
+                },
+                "change_activity_trend_26w": [
+                    {
+                        "week_end": "2026-03-20",
+                        "new_count": 2,
+                        "exit_count": 1,
+                        "event_count_total": 6,
+                        "abs_delta_sum": 0.18,
+                        "change_intensity_score": 41.2,
+                    }
+                ],
+                "impact_summary": {
+                    "new_events_8w": 5,
+                    "exit_events_8w": 4,
+                    "avg_new_return_observed_8w": 0.031,
+                    "avg_exit_return_observed_8w": -0.012,
+                },
+                "recent_new_entries_impact_8w": [
+                    {
+                        "event_week_end": "2026-03-20",
+                        "ticker": "005930",
+                        "name": "삼성전자",
+                        "delta_weight": 0.03,
+                        "holding_days_observed": 5,
+                        "return_since_entry_observed": 0.021,
+                        "outcome_status": "active",
+                    }
+                ],
+                "recent_exits_impact_8w": [
+                    {
+                        "event_week_end": "2026-03-13",
+                        "ticker": "000660",
+                        "name": "SK하이닉스",
+                        "delta_weight": -0.02,
+                        "holding_days_observed": 12,
+                        "return_since_entry_observed": -0.011,
+                        "outcome_status": "exited",
+                    }
+                ],
+            }
+        ],
+    }
+    (bundle_dir / "bundle_manifest_20260325.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "asset_exposure_detail_20260325.json").write_text(
+        json.dumps(asset_exposure_detail, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "change_impact_20260325.json").write_text(
+        json.dumps(change_impact, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def seed_analytics_preview_p5_bundle(
+    bundle_dir: Path, *, web_publish_enabled: bool = False
+) -> None:
+    bundle_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "asof": "2026-03-25",
+        "internal_preview_only": True,
+        "web_publish_enabled": web_publish_enabled,
+        "bundle": "p5",
+        "files": {
+            "admin_ops_status": "admin_ops_status_20260325.json",
+            "bundle_health": "bundle_health_20260325.json",
+        },
+    }
+    admin_ops_status = {
+        "meta": manifest,
+        "status": {
+            "overall_status": "ok",
+            "bundle_count": 5,
+            "bundles_ok": 5,
+            "recommendation": "all preview bundles are ready",
+        },
+    }
+    bundle_health = {
+        "meta": manifest,
+        "bundles": [
+            {
+                "bundle": "p4",
+                "expected_pages": ["asset_exposure_detail", "change_impact"],
+                "manifest_exists": True,
+                "build_status": "ok",
+                "files_ok": True,
+                "built_at_utc": "2026-03-26T02:39:31Z",
+                "latest_week_end": "2026-03-27",
+                "schema_version": "2026-03-26",
+                "bundle_version": "analytics-preview-v5",
+            },
+            {
+                "bundle": "p5",
+                "expected_pages": ["admin_ops_status", "bundle_health"],
+                "manifest_exists": True,
+                "build_status": "ok",
+                "files_ok": True,
+                "built_at_utc": "2026-03-26T02:39:39Z",
+                "latest_week_end": "2026-03-27",
+                "schema_version": "2026-03-26",
+                "bundle_version": "analytics-preview-v5",
+            },
+        ],
+    }
+    (bundle_dir / "bundle_manifest_20260325.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "admin_ops_status_20260325.json").write_text(
+        json.dumps(admin_ops_status, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (bundle_dir / "bundle_health_20260325.json").write_text(
+        json.dumps(bundle_health, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_internal_preview_p4_routes_render_bundle(tmp_path: Path, monkeypatch) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p4"
+    seed_analytics_preview_p4_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P4_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p4/asset-exposure-detail",
+        follow_redirects=True,
+    )
+
+    exposure_response = client.get("/admin/analytics-p4/asset-exposure-detail")
+    impact_response = client.get("/admin/analytics-p4/change-impact")
+
+    assert exposure_response.status_code == 200
+    exposure_body = exposure_response.get_data(as_text=True)
+    assert "자산 노출 상세" in exposure_body
+    assert "최신 자산 노출" in exposure_body
+    assert "최근 26주 자산 노출 추이" in exposure_body
+
+    assert impact_response.status_code == 200
+    impact_body = impact_response.get_data(as_text=True)
+    assert "변화 영향" in impact_body
+    assert "최근 26주 변화 강도" in impact_body
+    assert "영향 요약" in impact_body
+
+
+def test_internal_preview_p5_routes_render_bundle(tmp_path: Path, monkeypatch) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p5"
+    seed_analytics_preview_p5_bundle(preview_dir)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P5_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p5/admin-ops-status",
+        follow_redirects=True,
+    )
+
+    ops_response = client.get("/admin/analytics-p5/admin-ops-status")
+    health_response = client.get("/admin/analytics-p5/bundle-health")
+
+    assert ops_response.status_code == 200
+    ops_body = ops_response.get_data(as_text=True)
+    assert "Admin 운영 상태" in ops_body
+    assert "운영 권고" in ops_body
+
+    assert health_response.status_code == 200
+    health_body = health_response.get_data(as_text=True)
+    assert "Bundle Health" in health_body
+    assert "p4" in health_body
+    assert "p5" in health_body
+
+
+def test_internal_preview_p4_bundle_rejects_publish_enabled_payload(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p4"
+    seed_analytics_preview_p4_bundle(preview_dir, web_publish_enabled=True)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P4_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p4/asset-exposure-detail",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p4/asset-exposure-detail")
+
+    assert response.status_code == 503
+    assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)
+
+
+def test_internal_preview_p5_bundle_rejects_publish_enabled_payload(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path, trial_mode=False)
+    preview_dir = tmp_path / "analytics_preview_p5"
+    seed_analytics_preview_p5_bundle(preview_dir, web_publish_enabled=True)
+    monkeypatch.setenv("ANALYTICS_PREVIEW_P5_BUNDLE_DIR", str(preview_dir))
+    app = create_app(settings)
+    access_store = app.config["ACCESS_STORE"]
+    access_store.authenticate_or_register("admin@example.com", "pass1234")
+    access_store.assign_role(email="admin@example.com")
+
+    client = app.test_client()
+    login_user(
+        client,
+        email="admin@example.com",
+        password="pass1234",
+        next_url="/admin/analytics-p5/admin-ops-status",
+        follow_redirects=True,
+    )
+
+    response = client.get("/admin/analytics-p5/admin-ops-status")
+
+    assert response.status_code == 503
+    assert "내부 preview 데이터를 읽지 못했습니다." in response.get_data(as_text=True)
 
 
 def seed_admin_market_lab_bundle(

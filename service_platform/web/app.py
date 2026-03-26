@@ -58,6 +58,14 @@ from service_platform.web.analytics_preview_p3_api import (
     AnalyticsPreviewP3Api,
     AnalyticsPreviewP3LoadError,
 )
+from service_platform.web.analytics_preview_p4_api import (
+    AnalyticsPreviewP4Api,
+    AnalyticsPreviewP4LoadError,
+)
+from service_platform.web.analytics_preview_p5_api import (
+    AnalyticsPreviewP5Api,
+    AnalyticsPreviewP5LoadError,
+)
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
@@ -1098,6 +1106,199 @@ def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]
     }
 
 
+def _preview_asset_detail_segments(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    tone_map = {
+        "stock_equity": "stock",
+        "etf_equity": "etf",
+        "etf_bond": "bond",
+        "etf_fx": "fx",
+        "etf_gold": "gold",
+        "etf_inverse": "inverse",
+        "etf_covered_call": "income",
+        "cash": "cash",
+        "etf_other": "other",
+        "other": "other",
+    }
+    label_map = {
+        "stock_equity": "주식",
+        "etf_equity": "주식 ETF",
+        "etf_bond": "채권 ETF",
+        "etf_fx": "환율 ETF",
+        "etf_gold": "금 ETF",
+        "etf_inverse": "인버스 ETF",
+        "etf_covered_call": "커버드콜 ETF",
+        "cash": "현금성",
+        "etf_other": "기타 ETF",
+        "other": "기타",
+    }
+    normalized = []
+    for row in rows or []:
+        bucket = str(row.get("detail_bucket") or row.get("bucket") or "other")
+        normalized.append(
+            {
+                "bucket": bucket,
+                "label": label_map.get(bucket, bucket),
+                "value": row.get("bucket_weight"),
+                "tone": tone_map.get(bucket, "other"),
+            }
+        )
+    return normalized
+
+
+def _build_preview_asset_exposure_detail_view(model: dict[str, Any]) -> dict[str, Any]:
+    latest_change_activity = model.get("latest_change_activity") or {}
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "asset_segments": _preview_asset_detail_segments(model.get("latest_asset_detail") or []),
+        "trend_rows": [
+            {
+                "week_end": row.get("week_end") or "-",
+                "segments": _preview_asset_detail_segments(
+                    [
+                        {"detail_bucket": key, "bucket_weight": value}
+                        for key, value in (row.get("bucket_weights") or {}).items()
+                    ]
+                ),
+            }
+            for row in (model.get("asset_detail_trend_26w") or [])[-26:]
+        ],
+        "change_cards": [
+            {
+                "label": "강도 점수",
+                "value": latest_change_activity.get("change_intensity_score"),
+                "kind": "number",
+            },
+            {
+                "label": "강도 라벨",
+                "value": latest_change_activity.get("change_intensity_label") or "-",
+                "kind": "text",
+            },
+            {
+                "label": "이벤트 수",
+                "value": latest_change_activity.get("event_count_total", 0),
+                "kind": "count",
+            },
+            {
+                "label": "절대 변화합",
+                "value": latest_change_activity.get("abs_delta_sum"),
+                "kind": "percent",
+            },
+        ],
+    }
+
+
+def _preview_change_impact_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized = []
+    for row in rows or []:
+        normalized.append(
+            {
+                "event_week_end": row.get("event_week_end") or row.get("week_end") or "-",
+                "ticker": row.get("ticker") or "-",
+                "name": row.get("name") or "종목명 미표시",
+                "delta_weight": row.get("delta_weight"),
+                "holding_days_observed": row.get("holding_days_observed"),
+                "return_since_entry_observed": row.get("return_since_entry_observed"),
+                "outcome_status": row.get("outcome_status") or "-",
+            }
+        )
+    return normalized
+
+
+def _build_preview_change_impact_view(model: dict[str, Any]) -> dict[str, Any]:
+    latest_change_activity = model.get("latest_change_activity") or {}
+    impact_summary = model.get("impact_summary") or {}
+    return {
+        "model_code": model.get("model_code") or "-",
+        "display_name": _preview_model_title(model),
+        "summary_cards": [
+            {
+                "label": "신규 수",
+                "value": latest_change_activity.get("new_count", 0),
+                "kind": "count",
+            },
+            {
+                "label": "제외 수",
+                "value": latest_change_activity.get("exit_count", 0),
+                "kind": "count",
+            },
+            {
+                "label": "강도 점수",
+                "value": latest_change_activity.get("change_intensity_score"),
+                "kind": "number",
+            },
+            {
+                "label": "강도 라벨",
+                "value": latest_change_activity.get("change_intensity_label") or "-",
+                "kind": "text",
+            },
+        ],
+        "impact_cards": [
+            {
+                "label": "신규 이벤트 8W",
+                "value": impact_summary.get("new_events_8w", 0),
+                "kind": "count",
+            },
+            {
+                "label": "제외 이벤트 8W",
+                "value": impact_summary.get("exit_events_8w", 0),
+                "kind": "count",
+            },
+            {
+                "label": "신규 관찰수익 평균",
+                "value": impact_summary.get("avg_new_return_observed_8w"),
+                "kind": "percent",
+            },
+            {
+                "label": "제외 관찰수익 평균",
+                "value": impact_summary.get("avg_exit_return_observed_8w"),
+                "kind": "percent",
+            },
+        ],
+        "trend_rows": list(model.get("change_activity_trend_26w") or [])[-26:],
+        "new_entries": _preview_change_impact_rows(model.get("recent_new_entries_impact_8w") or []),
+        "exits": _preview_change_impact_rows(model.get("recent_exits_impact_8w") or []),
+    }
+
+
+def _build_preview_admin_ops_status_view(bundle) -> dict[str, Any]:
+    status = bundle.admin_ops_status.get("status") or {}
+    freshness = (bundle.admin_ops_status.get("meta") or {}).get("freshness") or {}
+    return {
+        "status_cards": [
+            {"label": "overall", "value": status.get("overall_status") or "-"},
+            {"label": "bundle count", "value": status.get("bundle_count", 0)},
+            {"label": "bundles ok", "value": status.get("bundles_ok", 0)},
+            {"label": "asof", "value": freshness.get("asof") or bundle.asof or "-"},
+        ],
+        "recommendation": status.get("recommendation") or "-",
+        "freshness_rows": [
+            {"label": "DB mtime", "value": freshness.get("analytics_db_mtime_utc") or "-"},
+            {"label": "latest week", "value": freshness.get("latest_week_end") or "-"},
+            {
+                "label": "latest change week",
+                "value": freshness.get("latest_change_week_end") or "-",
+            },
+            {
+                "label": "latest quality week",
+                "value": freshness.get("latest_quality_week_end") or "-",
+            },
+        ],
+    }
+
+
+def _build_preview_bundle_health_view(bundle) -> dict[str, Any]:
+    return {
+        "bundle_rows": [
+            {
+                **row,
+                "expected_pages_text": ", ".join(row.get("expected_pages") or []),
+            }
+            for row in bundle.bundle_health.get("bundles") or []
+        ]
+    }
+
+
 def _build_admin_market_rank_history(rank_history: list[dict[str, Any]]) -> dict[str, str]:
     grouped: dict[str, list[str]] = {}
     for row in rank_history or []:
@@ -1208,6 +1409,12 @@ def create_app(settings: Settings | None = None) -> Flask:
     analytics_preview_p3_api = AnalyticsPreviewP3Api(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
+    analytics_preview_p4_api = AnalyticsPreviewP4Api(
+        cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
+    )
+    analytics_preview_p5_api = AnalyticsPreviewP5Api(
+        cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
+    )
     admin_market_lab_api = AdminMarketLabApi(cache_ttl_seconds=settings.snapshot_cache_ttl_seconds)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
@@ -1226,6 +1433,8 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
     app.config["ANALYTICS_PREVIEW_P3_API"] = analytics_preview_p3_api
+    app.config["ANALYTICS_PREVIEW_P4_API"] = analytics_preview_p4_api
+    app.config["ANALYTICS_PREVIEW_P5_API"] = analytics_preview_p5_api
     app.config["ADMIN_MARKET_LAB_API"] = admin_market_lab_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
@@ -1365,6 +1574,24 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def load_analytics_preview_p3_bundle(force_refresh: bool = False):
         return analytics_preview_p3_api.load_bundle(force_refresh=force_refresh)
+
+    def build_analytics_preview_p4_links() -> dict[str, str]:
+        return {
+            "asset_exposure": url_for("admin_preview_asset_exposure_detail"),
+            "change_impact": url_for("admin_preview_change_impact"),
+        }
+
+    def load_analytics_preview_p4_bundle(force_refresh: bool = False):
+        return analytics_preview_p4_api.load_bundle(force_refresh=force_refresh)
+
+    def build_analytics_preview_p5_links() -> dict[str, str]:
+        return {
+            "admin_ops_status": url_for("admin_preview_admin_ops_status"),
+            "bundle_health": url_for("admin_preview_bundle_health"),
+        }
+
+    def load_analytics_preview_p5_bundle(force_refresh: bool = False):
+        return analytics_preview_p5_api.load_bundle(force_refresh=force_refresh)
 
     def load_admin_market_lab_bundle(force_refresh: bool = False):
         return admin_market_lab_api.load_bundle(force_refresh=force_refresh)
@@ -2420,6 +2647,36 @@ def create_app(settings: Settings | None = None) -> Flask:
                             },
                         ],
                     },
+                    {
+                        "title": "4차 묶음",
+                        "description": ("자산 노출 상세와 변화 영향 preview를 함께 검토합니다."),
+                        "links": [
+                            {
+                                "label": "자산 노출 상세",
+                                "href": url_for("admin_preview_asset_exposure_detail"),
+                            },
+                            {
+                                "label": "변화 영향",
+                                "href": url_for("admin_preview_change_impact"),
+                            },
+                        ],
+                    },
+                    {
+                        "title": "5차 묶음",
+                        "description": (
+                            "admin 운영 상태와 bundle health preview를 함께 검토합니다."
+                        ),
+                        "links": [
+                            {
+                                "label": "Admin 운영 상태",
+                                "href": url_for("admin_preview_admin_ops_status"),
+                            },
+                            {
+                                "label": "Bundle Health",
+                                "href": url_for("admin_preview_bundle_health"),
+                            },
+                        ],
+                    },
                 ],
             ),
             mimetype="text/html",
@@ -2687,6 +2944,152 @@ def create_app(settings: Settings | None = None) -> Flask:
                 preview_links=build_analytics_preview_p3_links(),
                 preview_bundle=preview_bundle,
                 model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p4")
+    def admin_preview_p4_root() -> Response:
+        require_internal_preview_access()
+        return redirect(url_for("admin_preview_asset_exposure_detail"))
+
+    @app.get("/admin/analytics-p4/asset-exposure-detail")
+    def admin_preview_asset_exposure_detail() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p4_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP4LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p4_links(),
+                    preview_title="자산 노출 상세 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_asset_exposure_detail_view(model)
+            for model in preview_bundle.asset_exposure_detail.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_asset_exposure_detail.html",
+                page_title="자산 노출 상세 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p4_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p4/change-impact")
+    def admin_preview_change_impact() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p4_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP4LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p4_links(),
+                    preview_title="변화 영향 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        model_views = [
+            _build_preview_change_impact_view(model)
+            for model in preview_bundle.change_impact.get("models", [])
+        ]
+        return Response(
+            render_template(
+                "analytics_preview_change_impact.html",
+                page_title="변화 영향 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p4_links(),
+                preview_bundle=preview_bundle,
+                model_views=model_views,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p5")
+    def admin_preview_p5_root() -> Response:
+        require_internal_preview_access()
+        return redirect(url_for("admin_preview_admin_ops_status"))
+
+    @app.get("/admin/analytics-p5/admin-ops-status")
+    def admin_preview_admin_ops_status() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p5_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP5LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p5_links(),
+                    preview_title="Admin 운영 상태 preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        return Response(
+            render_template(
+                "analytics_preview_admin_ops_status.html",
+                page_title="Admin 운영 상태 preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p5_links(),
+                preview_bundle=preview_bundle,
+                **_build_preview_admin_ops_status_view(preview_bundle),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/analytics-p5/bundle-health")
+    def admin_preview_bundle_health() -> Response:
+        require_internal_preview_access()
+        force_refresh = request.args.get("refresh") == "1"
+        try:
+            preview_bundle = load_analytics_preview_p5_bundle(force_refresh=force_refresh)
+        except AnalyticsPreviewP5LoadError as exc:
+            return Response(
+                render_template(
+                    "analytics_preview_error.html",
+                    page_title="내부 preview 오류",
+                    page_robots="noindex, nofollow",
+                    preview_links=build_analytics_preview_p5_links(),
+                    preview_title="Bundle Health preview",
+                    message="내부 preview 데이터를 읽지 못했습니다.",
+                    errors=exc.errors,
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        return Response(
+            render_template(
+                "analytics_preview_bundle_health.html",
+                page_title="Bundle Health preview",
+                page_robots="noindex, nofollow",
+                preview_links=build_analytics_preview_p5_links(),
+                preview_bundle=preview_bundle,
+                **_build_preview_bundle_health_view(preview_bundle),
             ),
             mimetype="text/html",
         )

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>변화 영향</h1>
+  <p class="lead">최근 변화 빈도, 강도, 신규·제외 이후 관찰값을 표와 카드 중심으로 검토하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p4') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p4_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 변화 빈도와 신규·제외 관찰값</p>
+    </div>
+  </div>
+
+  <div class="metric-strip four-col preview-summary-grid compact-grid">
+    {% for card in model.summary_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 26주 변화 강도</h3>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주차</th>
+              <th>신규</th>
+              <th>제외</th>
+              <th>이벤트 수</th>
+              <th>강도 점수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.trend_rows[-12:] %}
+            <tr>
+              <td>{{ row.week_end }}</td>
+              <td>{{ row.new_count }}</td>
+              <td>{{ row.exit_count }}</td>
+              <td>{{ row.event_count_total }}</td>
+              <td>{{ row.change_intensity_score|fmt_sharpe }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>영향 요약</h3>
+        </div>
+      </div>
+      <div class="metric-strip four-col preview-summary-grid compact-grid">
+        {% for card in model.impact_cards %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ card.label }}</span>
+          <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 신규 편입 영향 8주</h3>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주차</th>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>변화 비중</th>
+              <th>관찰수익</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.new_entries[:12] %}
+            <tr>
+              <td>{{ row.event_week_end }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.delta_weight | fmt_percent }}</td>
+              <td>{% if row.return_since_entry_observed is not none %}{{ row.return_since_entry_observed | fmt_percent }}{% else %}-{% endif %}</td>
+              <td>{{ row.outcome_status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">최근 8주 신규 편입 영향이 없습니다.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최근 제외 영향 8주</h3>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주차</th>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>변화 비중</th>
+              <th>관찰수익</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.exits[:12] %}
+            <tr>
+              <td>{{ row.event_week_end }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.delta_weight | fmt_percent }}</td>
+              <td>{% if row.return_since_entry_observed is not none %}{{ row.return_since_entry_observed | fmt_percent }}{% else %}-{% endif %}</td>
+              <td>{{ row.outcome_status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">최근 8주 제외 영향이 없습니다.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

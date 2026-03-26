@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>자산 노출 상세</h1>
+  <p class="lead">세분화된 자산 노출 bucket, 최근 26주 추이, 변화 강도 지표를 카드와 표 중심으로 검토하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p4') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p4_nav.html" %}
+
+{% for model in model_views %}
+<section class="panel shell-card preview-panel">
+  <div class="section-heading preview-head">
+    <div>
+      <h2>{{ model.display_name }}</h2>
+      <p class="lead compact-lead">{{ model.model_code }} · 세분화된 자산 노출과 변화 강도 흐름</p>
+    </div>
+  </div>
+
+  <div class="grid two-up preview-two-up">
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>최신 자산 노출</h3>
+          <p class="muted small">세분화 bucket 기준 현재 구성입니다.</p>
+        </div>
+      </div>
+      <div class="preview-stackbar" aria-label="{{ model.display_name }} 최신 자산 노출">
+        {% for segment in model.asset_segments %}
+        <div class="preview-stackbar__segment tone-{{ segment.tone }}" style="width: {{ ((segment.value or 0) * 100) | round(2) }}%;">
+          {% if (segment.value or 0) > 0 %}
+          <span>{{ segment.label }} {{ segment.value | fmt_percent }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="metric-strip four-col compact-grid">
+        {% for segment in model.asset_segments %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ segment.label }}</span>
+          <strong>{{ segment.value | fmt_percent }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="shell-card content-card preview-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>변화 강도</h3>
+        </div>
+      </div>
+      <div class="metric-strip four-col preview-summary-grid compact-grid">
+        {% for card in model.change_cards %}
+        <div class="metric-card public-metric-card">
+          <span class="label">{{ card.label }}</span>
+          <strong>{% if card.kind == 'percent' %}{{ card.value | fmt_percent }}{% else %}{{ card.value }}{% endif %}</strong>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+  </div>
+
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>최근 26주 자산 노출 추이</h3>
+        <p class="muted small">최근 10주만 우선 표시합니다.</p>
+      </div>
+    </div>
+    <div class="preview-trend-list">
+      {% for row in model.trend_rows[-10:] %}
+      <div class="preview-trend-row">
+        <span class="preview-trend-row__date">{{ row.week_end }}</span>
+        <div class="preview-trend-row__bar">
+          {% for segment in row.segments %}
+          <div class="preview-trend-row__segment tone-{{ segment.tone }}" style="width: {{ ((segment.value or 0) * 100) | round(2) }}%;" title="{{ segment.label }} {{ segment.value | fmt_percent }}"></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </article>
+</section>
+{% endfor %}
+{% endblock %}

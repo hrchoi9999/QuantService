@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero preview-hero shell-card">
+  <p class="eyebrow">Internal Preview</p>
+  <h1>Admin 운영 상태</h1>
+  <p class="lead">1차~4차 preview bundle의 운영 준비 상태와 freshness 정보를 관리자 관점에서 확인하는 내부 개발용 화면입니다.</p>
+  <div class="meta-strip compact-meta">
+    <span>기준일 {{ preview_bundle.asof or '-' }}</span>
+    <span>bundle {{ preview_bundle.manifest.get('bundle', 'p5') }}</span>
+    <span>internal preview only</span>
+  </div>
+</section>
+
+{% include "_analytics_preview_p5_nav.html" %}
+
+<section class="panel shell-card preview-panel">
+  <div class="metric-strip four-col preview-summary-grid compact-grid">
+    {% for card in status_cards %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>운영 권고</h3>
+      </div>
+    </div>
+    <p>{{ recommendation }}</p>
+    <ul class="message-list clean-list compact-list">
+      {% for row in freshness_rows %}
+      <li>{{ row.label }}: {{ row.value }}</li>
+      {% endfor %}
+    </ul>
+  </article>
+</section>
+{% endblock %}
