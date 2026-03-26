@@ -1,0 +1,88 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/today-bridge?market=KR",
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "state_label": "상승",
+    "state_score": 1.0978,
+    "market_tone": "위험선호 환경",
+    "tone_label": "브리핑 톤",
+    "reference_text": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+    "state_intraday_bridge": {
+      "enabled": true,
+      "medium_term_label": "정식 시장상태(전일 종가 기준)",
+      "medium_term_state_label": "상승",
+      "medium_term_state_score": 1.0978,
+      "intraday_label": "오늘 장중 흐름(참고용)",
+      "alignment": "divergent",
+      "display_label": "상승 유지, 단기 조정 동반",
+      "bridge_text": "정식 시장상태는 상승이지만, 오늘 장중에는 단기 조정 흐름이 나타납니다.",
+      "basis_lines": [
+        "정식 시장상태 근거: 공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
+        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다. 장중 변동성은 경계가 필요한 수준입니다."
+      ],
+      "intraday": {
+        "asof": "2026-03-26T15:42:52+09:00",
+        "session_status": "live",
+        "direction_label": "강한 약세",
+        "total_score": -2.3393,
+        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다. 장중 변동성은 경계가 필요한 수준입니다.",
+        "futures": {
+          "contract_name": "선물(2606)",
+          "change_pct": -0.0384,
+          "price": 809.1
+        },
+        "flow": {
+          "foreigner_net": -30980.0,
+          "program_total_net": -16251.0
+        }
+      }
+    },
+    "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-03-26T19:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "notice_block": {
+      "title": "주의사항",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+    }
+  }
+}

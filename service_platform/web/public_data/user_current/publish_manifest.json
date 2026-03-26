@@ -1,0 +1,13 @@
+{
+  "as_of_date": "2026-03-20",
+  "generated_at": "2026-03-24T18:36:03",
+  "files": [
+    "user_model_catalog.json",
+    "user_model_snapshot_report.json",
+    "user_performance_summary.json",
+    "user_recent_changes.json"
+  ],
+  "channel": "user-facing",
+  "version": "v2",
+  "compliance_note": "public_model_snapshot_only"
+}

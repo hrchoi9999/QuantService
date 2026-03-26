@@ -1,0 +1,107 @@
+{
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "consumer": "QuantService",
+  "handoff_version": "2026-03-24-p2",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "notice_block": {
+    "title": "주의사항",
+    "body": [
+      "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+      "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+      "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+    ],
+    "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+  },
+  "freshness": {
+    "target_update_interval_minutes": 60,
+    "consumer_warning_after_minutes": 90,
+    "consumer_stale_after_minutes": 180
+  },
+  "source_db_path": "D:\\QuantMarket\\data\\db\\market_analysis.db",
+  "source_snapshot_dir": "D:\\QuantMarket\\service_platform\\web\\public_data\\current",
+  "handoff_dir": "D:\\QuantMarket\\service_platform\\web\\public_data\\handoff\\quantservice\\current",
+  "files": {
+    "home": "quantservice_market_home.json",
+    "today": "quantservice_market_today.json",
+    "page": "quantservice_market_page.json",
+    "manifest": "quantservice_market_manifest.json",
+    "api_home": "api_v1_market_analysis_home.json",
+    "api_page": "api_v1_market_analysis_page.json",
+    "api_summary": "api_v1_market_analysis_summary.json",
+    "api_detail": "api_v1_market_analysis_detail.json",
+    "api_today_bridge": "api_v1_market_analysis_today_bridge.json"
+  },
+  "optional_files": {
+    "timeline": "quantservice_market_timeline.json",
+    "asset_strength": "quantservice_market_asset_strength.json",
+    "state_transition": "quantservice_market_state_transition.json",
+    "model_background": "quantservice_market_model_background.json",
+    "api_timeline": "api_v1_market_analysis_timeline.json",
+    "api_asset_strength": "api_v1_market_analysis_asset_strength.json",
+    "api_state_transition": "api_v1_market_analysis_state_transition.json",
+    "api_model_background": "api_v1_market_analysis_model_background.json"
+  },
+  "slot_files": {
+    "main_home.hero_market_status": "quantservice_market_home.json#hero",
+    "main_home.top_signals": "quantservice_market_home.json#top_signals",
+    "today_recommendation.market_bridge": "quantservice_market_today.json#market_bridge",
+    "market_analysis.header_state": "quantservice_market_page.json#header_state",
+    "market_analysis.ai_brief_blocks": "quantservice_market_page.json#ai_briefs",
+    "market_analysis.component_cards": "quantservice_market_page.json#component_cards",
+    "market_analysis.signal_lists": "quantservice_market_page.json#signal_lists"
+  },
+  "api_endpoints": {
+    "summary": "/api/v1/market-analysis/summary?market=KR",
+    "detail": "/api/v1/market-analysis/detail?market=KR",
+    "today_bridge": "/api/v1/market-analysis/today-bridge?market=KR",
+    "manifest": "/api/v1/market-analysis/manifest?market=KR",
+    "home": "/api/v1/market-analysis/home?market=KR",
+    "page": "/api/v1/market-analysis/page?market=KR",
+    "timeline": "/api/v1/market-analysis/timeline?market=KR",
+    "asset_strength": "/api/v1/market-analysis/asset-strength?market=KR",
+    "state_transition": "/api/v1/market-analysis/state-transition?market=KR",
+    "model_background": "/api/v1/market-analysis/model-background?market=KR"
+  },
+  "upload_policy": {
+    "manifest_written_last": true,
+    "utf8_json": true,
+    "atomic_current_replace_target": true
+  },
+  "data_lineage": {
+    "producer": "QuantMarket",
+    "consumer": "QuantService",
+    "public_rollout_phase": "market_briefing_enhancement_phase1"
+  },
+  "notes": [
+    "QuantService can read these handoff artifacts from local sync or a remote current URL with the same filenames.",
+    "QuantService remains the UI layer; QuantMarket remains the producer of market-analysis data.",
+    "QuantMarket publishes current payload files first and updates quantservice_market_manifest.json last.",
+    "optional_files are phase1 public enhancement payloads and should gracefully fallback when absent."
+  ],
+  "branding_copy": {
+    "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
+    "page_title": "시장 브리핑",
+    "page_subtitle": "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다.",
+    "signal_positive_label": "모델에 우호적인 신호",
+    "signal_warning_label": "모델 해석상 주의할 신호",
+    "observation_title": "이번 주 모델 해석 포인트",
+    "bridge_tone_label": "브리핑 톤"
+  }
+}

@@ -19,11 +19,29 @@ MARKET_ANALYSIS_FILES = {
     "today": "quantservice_market_today.json",
     "page": "quantservice_market_page.json",
     "manifest": "quantservice_market_manifest.json",
+    "timeline": "quantservice_market_timeline.json",
+    "asset_strength": "quantservice_market_asset_strength.json",
+    "state_transition": "quantservice_market_state_transition.json",
+    "model_background": "quantservice_market_model_background.json",
     "api_home": "api_v1_market_analysis_home.json",
     "api_page": "api_v1_market_analysis_page.json",
     "api_summary": "api_v1_market_analysis_summary.json",
     "api_detail": "api_v1_market_analysis_detail.json",
     "api_today_bridge": "api_v1_market_analysis_today_bridge.json",
+    "api_timeline": "api_v1_market_analysis_timeline.json",
+    "api_asset_strength": "api_v1_market_analysis_asset_strength.json",
+    "api_state_transition": "api_v1_market_analysis_state_transition.json",
+    "api_model_background": "api_v1_market_analysis_model_background.json",
+}
+OPTIONAL_MARKET_ANALYSIS_KEYS = {
+    "timeline",
+    "asset_strength",
+    "state_transition",
+    "model_background",
+    "api_timeline",
+    "api_asset_strength",
+    "api_state_transition",
+    "api_model_background",
 }
 REMOTE_SOURCES = {"remote", "http", "gcs"}
 
@@ -53,11 +71,19 @@ class MarketAnalysisBundle:
     today: dict[str, Any] = field(default_factory=dict)
     page: dict[str, Any] = field(default_factory=dict)
     manifest: dict[str, Any] = field(default_factory=dict)
+    timeline: dict[str, Any] = field(default_factory=dict)
+    asset_strength: dict[str, Any] = field(default_factory=dict)
+    state_transition: dict[str, Any] = field(default_factory=dict)
+    model_background: dict[str, Any] = field(default_factory=dict)
     api_home: dict[str, Any] = field(default_factory=dict)
     api_page: dict[str, Any] = field(default_factory=dict)
     api_summary: dict[str, Any] = field(default_factory=dict)
     api_detail: dict[str, Any] = field(default_factory=dict)
     api_today_bridge: dict[str, Any] = field(default_factory=dict)
+    api_timeline: dict[str, Any] = field(default_factory=dict)
+    api_asset_strength: dict[str, Any] = field(default_factory=dict)
+    api_state_transition: dict[str, Any] = field(default_factory=dict)
+    api_model_background: dict[str, Any] = field(default_factory=dict)
     source_name: str = "market-analysis-local"
     stale: bool = False
     empty: bool = False
@@ -71,6 +97,10 @@ class MarketAnalysisBundle:
             or self.page.get("asof")
             or self.home.get("asof")
             or self.today.get("asof")
+            or self.timeline.get("asof")
+            or self.asset_strength.get("asof")
+            or self.state_transition.get("asof")
+            or self.model_background.get("asof")
         )
 
 
@@ -198,10 +228,11 @@ class MarketAnalysisMockApi:
         request_token = str(int(time.time()))
         for key, filename in MARKET_ANALYSIS_FILES.items():
             url = self._with_cache_buster(f"{base_url}/{filename}", request_token)
-            required = key != "manifest"
+            required = key not in OPTIONAL_MARKET_ANALYSIS_KEYS and key != "manifest"
             payload = self._load_json_url(url, required=required)
             if payload is None:
-                warnings.append(f"{filename} 파일을 원격 source에서 읽지 못했습니다.")
+                if key not in OPTIONAL_MARKET_ANALYSIS_KEYS:
+                    warnings.append(f"{filename} 파일을 원격 source에서 읽지 못했습니다.")
                 payload = {}
             payloads[key] = payload
         bundle = MarketAnalysisBundle(
@@ -209,11 +240,19 @@ class MarketAnalysisMockApi:
             today=payloads["today"],
             page=payloads["page"],
             manifest=payloads["manifest"],
+            timeline=payloads["timeline"],
+            asset_strength=payloads["asset_strength"],
+            state_transition=payloads["state_transition"],
+            model_background=payloads["model_background"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
             api_detail=payloads["api_detail"],
             api_today_bridge=payloads["api_today_bridge"],
+            api_timeline=payloads["api_timeline"],
+            api_asset_strength=payloads["api_asset_strength"],
+            api_state_transition=payloads["api_state_transition"],
+            api_model_background=payloads["api_model_background"],
             source_name="market-analysis-remote",
             warnings=warnings,
         )
@@ -239,9 +278,17 @@ class MarketAnalysisMockApi:
             ("page", bundle.page),
             ("api_home", bundle.api_home),
             ("api_page", bundle.api_page),
+            ("timeline", bundle.timeline),
+            ("asset_strength", bundle.asset_strength),
+            ("state_transition", bundle.state_transition),
+            ("model_background", bundle.model_background),
             ("api_summary", bundle.api_summary),
             ("api_detail", bundle.api_detail),
             ("api_today_bridge", bundle.api_today_bridge),
+            ("api_timeline", bundle.api_timeline),
+            ("api_asset_strength", bundle.api_asset_strength),
+            ("api_state_transition", bundle.api_state_transition),
+            ("api_model_background", bundle.api_model_background),
         ]
         mismatches: list[str] = []
         for key, payload in payload_pairs:
@@ -282,7 +329,8 @@ class MarketAnalysisMockApi:
         for key, filename in MARKET_ANALYSIS_FILES.items():
             path = directory / filename
             if not path.exists():
-                warnings.append(f"{filename} 파일이 없습니다.")
+                if key not in OPTIONAL_MARKET_ANALYSIS_KEYS:
+                    warnings.append(f"{filename} 파일이 없습니다.")
                 payloads[key] = {}
                 continue
             payloads[key] = self._load_json_path(path)
@@ -292,11 +340,19 @@ class MarketAnalysisMockApi:
             today=payloads["today"],
             page=payloads["page"],
             manifest=payloads["manifest"],
+            timeline=payloads["timeline"],
+            asset_strength=payloads["asset_strength"],
+            state_transition=payloads["state_transition"],
+            model_background=payloads["model_background"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
             api_detail=payloads["api_detail"],
             api_today_bridge=payloads["api_today_bridge"],
+            api_timeline=payloads["api_timeline"],
+            api_asset_strength=payloads["api_asset_strength"],
+            api_state_transition=payloads["api_state_transition"],
+            api_model_background=payloads["api_model_background"],
             source_name=source_name,
             warnings=warnings,
         )

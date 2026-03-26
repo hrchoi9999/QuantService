@@ -1,0 +1,357 @@
+{
+  "as_of_date": "2026-03-20",
+  "models": [
+    {
+      "user_model_name": "안정형",
+      "service_profile": "stable",
+      "risk_label": "low",
+      "performance_cards": {
+        "primary_period": "1Y",
+        "display_metric": "cagr",
+        "cagr": 0.622546,
+        "total_return": 0.622546,
+        "mdd": -0.12245,
+        "sharpe": 2.582301
+      },
+      "period_table": [
+        {
+          "period": "3M",
+          "total_return": 0.149552,
+          "cagr": 0.74628,
+          "mdd": -0.12245,
+          "sharpe": 2.12932
+        },
+        {
+          "period": "6M",
+          "total_return": 0.310611,
+          "cagr": 0.717702,
+          "mdd": -0.12245,
+          "sharpe": 2.514501
+        },
+        {
+          "period": "1Y",
+          "total_return": 0.622546,
+          "cagr": 0.622546,
+          "mdd": -0.12245,
+          "sharpe": 2.582301
+        },
+        {
+          "period": "2Y",
+          "total_return": 0.782201,
+          "cagr": 0.334991,
+          "mdd": -0.12245,
+          "sharpe": 1.927903
+        },
+        {
+          "period": "3Y",
+          "total_return": 0.841555,
+          "cagr": 0.257315,
+          "mdd": -0.12245,
+          "sharpe": 1.713394
+        },
+        {
+          "period": "5Y",
+          "total_return": 0.841555,
+          "cagr": 0.257315,
+          "mdd": -0.12245,
+          "sharpe": 1.713394
+        },
+        {
+          "period": "FULL",
+          "total_return": 0.841555,
+          "cagr": 0.257315,
+          "mdd": -0.12245,
+          "sharpe": 1.713394
+        }
+      ],
+      "reference_metrics": {
+        "five_year": {
+          "period": "5Y",
+          "total_return": 0.841555,
+          "cagr": 0.257315,
+          "mdd": -0.12245,
+          "sharpe": 1.713394
+        },
+        "full": {
+          "period": "FULL",
+          "total_return": 0.841555,
+          "cagr": 0.257315,
+          "mdd": -0.12245,
+          "sharpe": 1.713394
+        }
+      },
+      "note": "채권, 달러, 금 중심의 방어형 자산배분 포트폴리오",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "균형형",
+      "service_profile": "balanced",
+      "risk_label": "medium",
+      "performance_cards": {
+        "primary_period": "1Y",
+        "display_metric": "cagr",
+        "cagr": 0.675826,
+        "total_return": 0.675826,
+        "mdd": -0.13316,
+        "sharpe": 2.523104
+      },
+      "period_table": [
+        {
+          "period": "3M",
+          "total_return": 0.164796,
+          "cagr": 0.84077,
+          "mdd": -0.13316,
+          "sharpe": 2.121267
+        },
+        {
+          "period": "6M",
+          "total_return": 0.332693,
+          "cagr": 0.776069,
+          "mdd": -0.13316,
+          "sharpe": 2.421941
+        },
+        {
+          "period": "1Y",
+          "total_return": 0.675826,
+          "cagr": 0.675826,
+          "mdd": -0.13316,
+          "sharpe": 2.523104
+        },
+        {
+          "period": "2Y",
+          "total_return": 0.85366,
+          "cagr": 0.361492,
+          "mdd": -0.13316,
+          "sharpe": 1.898018
+        },
+        {
+          "period": "3Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        {
+          "period": "5Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        {
+          "period": "FULL",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        }
+      ],
+      "reference_metrics": {
+        "five_year": {
+          "period": "5Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        "full": {
+          "period": "FULL",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        }
+      },
+      "note": "주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "성장형",
+      "service_profile": "growth",
+      "risk_label": "high",
+      "performance_cards": {
+        "primary_period": "1Y",
+        "display_metric": "cagr",
+        "cagr": 1.355819,
+        "total_return": 1.355819,
+        "mdd": -0.142547,
+        "sharpe": 3.406951
+      },
+      "period_table": [
+        {
+          "period": "3M",
+          "total_return": 0.23194,
+          "cagr": 1.303344,
+          "mdd": -0.142547,
+          "sharpe": 2.36453
+        },
+        {
+          "period": "6M",
+          "total_return": 0.733342,
+          "cagr": 2.004475,
+          "mdd": -0.142547,
+          "sharpe": 3.760946
+        },
+        {
+          "period": "1Y",
+          "total_return": 1.355819,
+          "cagr": 1.355819,
+          "mdd": -0.142547,
+          "sharpe": 3.406951
+        },
+        {
+          "period": "2Y",
+          "total_return": 2.055461,
+          "cagr": 0.747988,
+          "mdd": -0.142547,
+          "sharpe": 2.606501
+        },
+        {
+          "period": "3Y",
+          "total_return": 2.938393,
+          "cagr": 0.672032,
+          "mdd": -0.142547,
+          "sharpe": 2.54015
+        },
+        {
+          "period": "5Y",
+          "total_return": 2.938393,
+          "cagr": 0.672032,
+          "mdd": -0.142547,
+          "sharpe": 2.54015
+        },
+        {
+          "period": "FULL",
+          "total_return": 2.938393,
+          "cagr": 0.672032,
+          "mdd": -0.142547,
+          "sharpe": 2.54015
+        }
+      ],
+      "reference_metrics": {
+        "five_year": {
+          "period": "5Y",
+          "total_return": 2.938393,
+          "cagr": 0.672032,
+          "mdd": -0.142547,
+          "sharpe": 2.54015
+        },
+        "full": {
+          "period": "FULL",
+          "total_return": 2.938393,
+          "cagr": 0.672032,
+          "mdd": -0.142547,
+          "sharpe": 2.54015
+        }
+      },
+      "note": "상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "자동전환형",
+      "service_profile": "auto",
+      "risk_label": "adaptive",
+      "performance_cards": {
+        "primary_period": "1Y",
+        "display_metric": "cagr",
+        "cagr": 0.675826,
+        "total_return": 0.675826,
+        "mdd": -0.13316,
+        "sharpe": 2.523104
+      },
+      "period_table": [
+        {
+          "period": "3M",
+          "total_return": 0.164796,
+          "cagr": 0.84077,
+          "mdd": -0.13316,
+          "sharpe": 2.121267
+        },
+        {
+          "period": "6M",
+          "total_return": 0.332693,
+          "cagr": 0.776069,
+          "mdd": -0.13316,
+          "sharpe": 2.421941
+        },
+        {
+          "period": "1Y",
+          "total_return": 0.675826,
+          "cagr": 0.675826,
+          "mdd": -0.13316,
+          "sharpe": 2.523104
+        },
+        {
+          "period": "2Y",
+          "total_return": 0.85366,
+          "cagr": 0.361492,
+          "mdd": -0.13316,
+          "sharpe": 1.898018
+        },
+        {
+          "period": "3Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        {
+          "period": "5Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        {
+          "period": "FULL",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        }
+      ],
+      "reference_metrics": {
+        "five_year": {
+          "period": "5Y",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        },
+        "full": {
+          "period": "FULL",
+          "total_return": 0.871859,
+          "cagr": 0.265035,
+          "mdd": -0.13316,
+          "sharpe": 1.621924
+        }
+      },
+      "note": "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/timeline?market=KR",
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "title": "상태 타임라인",
+    "description": "최근 시장상태와 핵심 점수 흐름을 시간순으로 정리한 공개 브리핑 데이터입니다.",
+    "current_state": {
+      "asof": "2026-03-26T19:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.0978,
+      "trend_score": 3.0,
+      "breadth_score": 2.2896,
+      "risk_score": -3.0,
+      "defensive_flow_score": -0.2608,
+      "total_score": 1.0978
+    },
+    "trend_direction": "unchanged",
+    "points": [
+      {
+        "asof": "2026-03-25T14:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T15:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T15:12:41+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T16:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T17:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T18:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T19:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T20:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T21:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T22:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0283,
+        "trend_score": 3.0,
+        "breadth_score": 1.9932,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1308,
+        "total_score": 1.0283
+      },
+      {
+        "asof": "2026-03-25T22:43:02+09:00",
+        "state_label": "상승",
+        "state_score": 1.1162,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1381,
+        "total_score": 1.1162
+      },
+      {
+        "asof": "2026-03-25T23:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.1162,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.1381,
+        "total_score": 1.1162
+      },
+      {
+        "asof": "2026-03-26T10:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T11:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T12:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T13:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T14:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T15:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T16:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T17:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T17:06:37+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T18:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T18:31:51+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      },
+      {
+        "asof": "2026-03-26T19:00:00+09:00",
+        "state_label": "상승",
+        "state_score": 1.0978,
+        "trend_score": 3.0,
+        "breadth_score": 2.2896,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.2608,
+        "total_score": 1.0978
+      }
+    ]
+  }
+}

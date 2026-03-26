@@ -18,7 +18,9 @@ service_platform/web/public_data/tmp/
 service_platform/web/public_data/logs/
 
 quant_models/
-docs/
+docs/*
+!docs/threads/
+!docs/threads/**
 tests/fixtures/adapters/
 
 .venv_32_backup/

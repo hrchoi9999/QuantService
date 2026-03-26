@@ -1,0 +1,82 @@
+{
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "title": "자산군 상대강도",
+  "description": "주요 자산군의 최근 상대 흐름을 비교해 현재 어떤 자산이 상대적으로 강한지 보여 줍니다.",
+  "assets": [
+    {
+      "asset_group": "KOSPI",
+      "ret_20d": 1.1268885558419406,
+      "strength_score": 2.0965,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asset_group": "KOSDAQ",
+      "ret_20d": 0.36755519380602086,
+      "strength_score": 0.2738,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asset_group": "USDKRW",
+      "ret_20d": 0.11873136475922741,
+      "strength_score": -0.3234,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asset_group": "INVERSE",
+      "ret_20d": 0.004901960784313708,
+      "strength_score": -0.5966,
+      "strength_rank": 4,
+      "strength_label": "약함"
+    },
+    {
+      "asset_group": "BOND",
+      "ret_20d": -0.009466785338619665,
+      "strength_score": -0.6311,
+      "strength_rank": 5,
+      "strength_label": "약함"
+    },
+    {
+      "asset_group": "GOLD",
+      "ret_20d": -0.08777383066903488,
+      "strength_score": -0.8191,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    }
+  ],
+  "top_assets": [
+    {
+      "asset_group": "KOSPI",
+      "ret_20d": 1.1268885558419406,
+      "strength_score": 2.0965,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asset_group": "KOSDAQ",
+      "ret_20d": 0.36755519380602086,
+      "strength_score": 0.2738,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    }
+  ],
+  "bottom_assets": [
+    {
+      "asset_group": "GOLD",
+      "ret_20d": -0.08777383066903488,
+      "strength_score": -0.8191,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asset_group": "BOND",
+      "ret_20d": -0.009466785338619665,
+      "strength_score": -0.6311,
+      "strength_rank": 5,
+      "strength_label": "약함"
+    }
+  ]
+}

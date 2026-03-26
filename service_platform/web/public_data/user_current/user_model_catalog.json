@@ -1,0 +1,92 @@
+{
+  "as_of_date": "2026-03-20",
+  "models": [
+    {
+      "user_model_id": "user_1",
+      "user_model_name": "안정형",
+      "service_profile": "stable",
+      "summary": "채권, 달러, 금 중심의 방어형 자산배분 포트폴리오",
+      "risk_label": "low",
+      "reference_usage_context": "변동성보다 안정성과 방어를 우선적으로 참고하려는 이용자",
+      "primary_asset_mix": [
+        "bond",
+        "fx_usd",
+        "commodity_gold",
+        "cash_like"
+      ],
+      "is_active": true,
+      "compliance_metadata": {
+        "content_class": "public_model_catalog",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_information"
+      }
+    },
+    {
+      "user_model_id": "user_2",
+      "user_model_name": "균형형",
+      "service_profile": "balanced",
+      "summary": "주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오",
+      "risk_label": "medium",
+      "reference_usage_context": "중장기 성장성과 분산 구성을 함께 참고하려는 이용자",
+      "primary_asset_mix": [
+        "stock",
+        "equity_etf",
+        "bond_short",
+        "dividend",
+        "low_vol"
+      ],
+      "is_active": true,
+      "compliance_metadata": {
+        "content_class": "public_model_catalog",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_information"
+      }
+    },
+    {
+      "user_model_id": "user_3",
+      "user_model_name": "성장형",
+      "service_profile": "growth",
+      "summary": "상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오",
+      "risk_label": "high",
+      "reference_usage_context": "높은 변동성을 감수하더라도 성장 중심 구성을 참고하려는 이용자",
+      "primary_asset_mix": [
+        "momentum_stock",
+        "equity_growth_etf",
+        "sector_momentum"
+      ],
+      "is_active": true,
+      "compliance_metadata": {
+        "content_class": "public_model_catalog",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_information"
+      }
+    },
+    {
+      "user_model_id": "user_4",
+      "user_model_name": "자동전환형",
+      "service_profile": "auto",
+      "summary": "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오",
+      "risk_label": "adaptive",
+      "reference_usage_context": "시장 상황에 따라 자동 조정되는 공개 모델 기준안을 참고하려는 이용자",
+      "primary_asset_mix": [
+        "multi_asset",
+        "regime_switching",
+        "dynamic_allocation"
+      ],
+      "is_active": true,
+      "compliance_metadata": {
+        "content_class": "public_model_catalog",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_information"
+      }
+    }
+  ]
+}

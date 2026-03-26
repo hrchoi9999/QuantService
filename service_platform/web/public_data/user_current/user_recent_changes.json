@@ -1,0 +1,313 @@
+{
+  "as_of_date": "2026-03-20",
+  "changes": [
+    {
+      "user_model_name": "안정형",
+      "change_type": "rebalanced",
+      "summary": "채권, 달러, 금 중심의 방어형 자산배분 포트폴리오",
+      "increase_items": [
+        {
+          "display_name": "파워 고배당저변동성",
+          "security_code": "192720",
+          "delta_weight": 0.022336,
+          "direction": "increase"
+        },
+        {
+          "display_name": "한국카본",
+          "security_code": "017960",
+          "delta_weight": 0.01,
+          "direction": "increase"
+        },
+        {
+          "display_name": "에스에프에이",
+          "security_code": "056190",
+          "delta_weight": 0.01,
+          "direction": "increase"
+        },
+        {
+          "display_name": "팬오션",
+          "security_code": "028670",
+          "delta_weight": 0.01,
+          "direction": "increase"
+        },
+        {
+          "display_name": "한화",
+          "security_code": "000880",
+          "delta_weight": 0.01,
+          "direction": "increase"
+        }
+      ],
+      "decrease_items": [
+        {
+          "display_name": "KODEX CD금리액티브(합성)",
+          "security_code": "459580",
+          "delta_weight": -0.017869,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "현금/대기자금",
+          "security_code": null,
+          "delta_weight": -0.012236,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "SK스퀘어",
+          "security_code": "402340",
+          "delta_weight": -0.01,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "효성중공업",
+          "security_code": "298040",
+          "delta_weight": -0.01,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "한미약품",
+          "security_code": "128940",
+          "delta_weight": -0.01,
+          "direction": "decrease"
+        }
+      ],
+      "reason_text": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다.",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "균형형",
+      "change_type": "rebalanced",
+      "summary": "주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오",
+      "increase_items": [
+        {
+          "display_name": "파워 고배당저변동성",
+          "security_code": "192720",
+          "delta_weight": 0.019145,
+          "direction": "increase"
+        },
+        {
+          "display_name": "현대지에프홀딩스",
+          "security_code": "005440",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "대신증권",
+          "security_code": "003540",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "팬오션",
+          "security_code": "028670",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "한전기술",
+          "security_code": "052690",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        }
+      ],
+      "decrease_items": [
+        {
+          "display_name": "KODEX CD금리액티브(합성)",
+          "security_code": "459580",
+          "delta_weight": -0.015316,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "삼성물산",
+          "security_code": "028260",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "SK스퀘어",
+          "security_code": "402340",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "효성중공업",
+          "security_code": "298040",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "한미약품",
+          "security_code": "128940",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        }
+      ],
+      "reason_text": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다.",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "성장형",
+      "change_type": "rebalanced",
+      "summary": "상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오",
+      "increase_items": [
+        {
+          "display_name": "하림지주",
+          "security_code": "003380",
+          "delta_weight": 0.025,
+          "direction": "increase"
+        },
+        {
+          "display_name": "유진로봇",
+          "security_code": "056080",
+          "delta_weight": 0.025,
+          "direction": "increase"
+        },
+        {
+          "display_name": "파두",
+          "security_code": "440110",
+          "delta_weight": 0.025,
+          "direction": "increase"
+        },
+        {
+          "display_name": "이녹스첨단소재",
+          "security_code": "272290",
+          "delta_weight": 0.025,
+          "direction": "increase"
+        },
+        {
+          "display_name": "인텔리안테크",
+          "security_code": "189300",
+          "delta_weight": 0.025,
+          "direction": "increase"
+        }
+      ],
+      "decrease_items": [
+        {
+          "display_name": "인벤티지랩",
+          "security_code": "389470",
+          "delta_weight": -0.025,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "로킷헬스케어",
+          "security_code": "376900",
+          "delta_weight": -0.025,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "온코닉테라퓨틱스",
+          "security_code": "476060",
+          "delta_weight": -0.025,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "미래에셋생명",
+          "security_code": "085620",
+          "delta_weight": -0.025,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "로보스타",
+          "security_code": "090360",
+          "delta_weight": -0.025,
+          "direction": "decrease"
+        }
+      ],
+      "reason_text": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다.",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    },
+    {
+      "user_model_name": "자동전환형",
+      "change_type": "rebalanced",
+      "summary": "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오",
+      "increase_items": [
+        {
+          "display_name": "파워 고배당저변동성",
+          "security_code": "192720",
+          "delta_weight": 0.019145,
+          "direction": "increase"
+        },
+        {
+          "display_name": "현대지에프홀딩스",
+          "security_code": "005440",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "대신증권",
+          "security_code": "003540",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "팬오션",
+          "security_code": "028670",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "한전기술",
+          "security_code": "052690",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        }
+      ],
+      "decrease_items": [
+        {
+          "display_name": "KODEX CD금리액티브(합성)",
+          "security_code": "459580",
+          "delta_weight": -0.015316,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "삼성물산",
+          "security_code": "028260",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "SK스퀘어",
+          "security_code": "402340",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "효성중공업",
+          "security_code": "298040",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "한미약품",
+          "security_code": "128940",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        }
+      ],
+      "reason_text": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다.",
+      "compliance_metadata": {
+        "content_class": "public_model_snapshot",
+        "is_personalized_advice": false,
+        "is_one_to_one_advisory": false,
+        "is_actual_trade_instruction": false,
+        "data_basis": "rule_based_public_model_output"
+      }
+    }
+  ]
+}

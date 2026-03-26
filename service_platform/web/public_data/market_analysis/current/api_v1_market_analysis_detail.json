@@ -1,0 +1,467 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/detail?market=KR",
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "state": {
+      "label": "상승",
+      "score": 1.0978,
+      "prev_label": "상승",
+      "change_direction": "unchanged",
+      "description": "상태점수는 여러 시장 신호를 합쳐 현재 장세가 퀀트투자 모델 해석에 어떤 배경을 만드는지 보여 주는 합성 점수입니다.",
+      "tooltip": "상태점수는 여러 시장 신호를 합쳐 현재 장세가 퀀트투자 모델 해석에 어떤 배경을 만드는지 보여 주는 합성 점수입니다."
+    },
+    "descriptions": {
+      "state_score": "상태점수는 여러 시장 신호를 합쳐 현재 장세가 퀀트투자 모델 해석에 어떤 배경을 만드는지 보여 주는 합성 점수입니다.",
+      "breadth": "breadth는 지수 몇 개가 아니라 시장 안쪽 종목들이 얼마나 넓게 따라오는지를 뜻하며, 모델 해석의 내부 확산 근거로 쓰입니다.",
+      "components": {
+        "trend": "시장 추세 점검은 코스피·코스닥의 최근 흐름이 퀀트투자 모델 해석에 우호적인지 보여 주는 지표입니다.",
+        "breadth": "시장 확산 점검은 일부 대형주만 오르는지, 많은 종목이 함께 움직이는지를 통해 모델 해석의 내부 체력을 보여 줍니다.",
+        "risk": "시장 변동성 점검은 최근 변동성과 낙폭을 반영해 모델 해석 시 경계 수준을 보여 주는 지표입니다.",
+        "defensive_flow": "방어자산 선호 점검은 달러·채권·금 같은 안전자산 선호가 모델 포트폴리오 해석 배경에 어떤 영향을 주는지 보여 줍니다."
+      }
+    },
+    "page_meta": {
+      "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
+      "page_title": "시장 브리핑",
+      "page_subtitle": "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다."
+    },
+    "state_intraday_bridge": {
+      "enabled": true,
+      "medium_term_label": "정식 시장상태(전일 종가 기준)",
+      "medium_term_state_label": "상승",
+      "medium_term_state_score": 1.0978,
+      "intraday_label": "오늘 장중 흐름(참고용)",
+      "alignment": "divergent",
+      "display_label": "상승 유지, 단기 조정 동반",
+      "bridge_text": "정식 시장상태는 상승이지만, 오늘 장중에는 단기 조정 흐름이 나타납니다.",
+      "basis_lines": [
+        "정식 시장상태 근거: 공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
+        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다. 장중 변동성은 경계가 필요한 수준입니다."
+      ],
+      "intraday": {
+        "asof": "2026-03-26T15:42:52+09:00",
+        "session_status": "live",
+        "direction_label": "강한 약세",
+        "total_score": -2.3393,
+        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 외국인 순매도가 큰 편이라 장중 부담 요인으로 읽힙니다. 장중 변동성은 경계가 필요한 수준입니다.",
+        "futures": {
+          "contract_name": "선물(2606)",
+          "change_pct": -0.0384,
+          "price": 809.1
+        },
+        "flow": {
+          "foreigner_net": -30980.0,
+          "program_total_net": -16251.0
+        }
+      }
+    },
+    "components": {
+      "trend": {
+        "score": 3.0,
+        "label": "시장 추세 점검",
+        "summary": "코스피와 코스닥의 중기 수익률 흐름이 모두 우호적입니다.",
+        "description": "시장 추세 점검은 코스피·코스닥의 최근 흐름이 퀀트투자 모델 해석에 우호적인지 보여 주는 지표입니다.",
+        "status_badge": {
+          "label": "좋음",
+          "tone": "good",
+          "reason": "상승 방향 신호가 우세합니다."
+        }
+      },
+      "breadth": {
+        "score": 2.2896,
+        "label": "시장 확산 점검",
+        "summary": "상승 흐름이 개별 종목으로 비교적 넓게 확산되고 있습니다.",
+        "description": "시장 확산 점검은 일부 대형주만 오르는지, 많은 종목이 함께 움직이는지를 통해 모델 해석의 내부 체력을 보여 줍니다.",
+        "status_badge": {
+          "label": "좋음",
+          "tone": "good",
+          "reason": "상승 흐름이 종목 전반으로 비교적 퍼집니다."
+        }
+      },
+      "risk": {
+        "score": -3.0,
+        "label": "시장 변동성 점검",
+        "summary": "최근 변동성과 낙폭이 커져 방어적 해석이 필요합니다.",
+        "description": "시장 변동성 점검은 최근 변동성과 낙폭을 반영해 모델 해석 시 경계 수준을 보여 주는 지표입니다.",
+        "status_badge": {
+          "label": "나쁨",
+          "tone": "bad",
+          "reason": "변동성 부담이 큰 편입니다."
+        }
+      },
+      "defensive_flow": {
+        "score": -0.2608,
+        "label": "방어자산 선호 점검",
+        "summary": "방어자산 선호도는 중립권입니다.",
+        "description": "방어자산 선호 점검은 달러·채권·금 같은 안전자산 선호가 모델 포트폴리오 해석 배경에 어떤 영향을 주는지 보여 줍니다.",
+        "status_badge": {
+          "label": "보통",
+          "tone": "neutral",
+          "reason": "방어 심리는 중립권입니다."
+        }
+      }
+    },
+    "metrics": {
+      "kospi_1d_ret": 0.015896887298420648,
+      "kospi_20d_ret": 1.1268885558419406,
+      "kospi_60d_ret": 1.3048243304483251,
+      "kosdaq_20d_ret": 0.36755519380602086,
+      "kosdaq_60d_ret": 0.46057444114891677,
+      "above_20dma_ratio": 0.47474747474747475,
+      "above_60dma_ratio": 0.6641414141414141,
+      "adv_dec_ratio": 4.768115942028985,
+      "new_high_count": 20.0,
+      "new_low_count": 0.0,
+      "breadth_universe_count": 396,
+      "realized_vol_20d": 0.3539918437205869,
+      "drawdown_5d": 0.0,
+      "drawdown_20d": -0.04773306371004038,
+      "usdkrw_20d_ret": 0.11873136475922741,
+      "bond_20d_ret": -0.009466785338619665,
+      "gold_20d_ret": -0.08777383066903488,
+      "inverse_20d_ret": 0.004901960784313708,
+      "rate_cd91_20d_chg": -0.4304999999999999,
+      "rate_ktb3y_20d_chg": -0.3340000000000001,
+      "regime_3m_score": 0.501262626262626,
+      "proxy_flags": {
+        "breadth": false,
+        "defensive_flow": false
+      }
+    },
+    "metric_definitions": {
+      "kospi_20d_ret": {
+        "label": "코스피 20거래일 수익률",
+        "semantic_type": "period_return_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 20거래일 동안 코스피 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "display_label_recommended": "코스피 1개월 수익률",
+        "display_percent_value": true,
+        "default_visible": false,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "kospi_60d_ret": {
+        "label": "코스피 60거래일 수익률",
+        "semantic_type": "period_return_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 60거래일 동안 코스피 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "display_label_recommended": "코스피 3개월 수익률",
+        "display_percent_value": true,
+        "default_visible": false,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "kosdaq_20d_ret": {
+        "label": "코스닥 20거래일 수익률",
+        "semantic_type": "period_return_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 20거래일 동안 코스닥 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "display_label_recommended": "코스닥 1개월 수익률",
+        "display_percent_value": true,
+        "default_visible": false,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "above_20dma_ratio": {
+        "label": "20일선 위 종목 비율",
+        "semantic_type": "breadth_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "전체 대상 종목 중 현재가가 20일 이동평균선 위에 있는 종목 비율입니다.",
+        "display_label_recommended": "20일선 위 종목 비율",
+        "display_percent_value": true,
+        "default_visible": true
+      },
+      "above_60dma_ratio": {
+        "label": "60일선 위 종목 비율",
+        "semantic_type": "breadth_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "전체 대상 종목 중 현재가가 60일 이동평균선 위에 있는 종목 비율입니다.",
+        "display_label_recommended": "60일선 위 종목 비율",
+        "display_percent_value": true,
+        "default_visible": true
+      },
+      "adv_dec_ratio": {
+        "label": "상승/하락 종목 비율",
+        "semantic_type": "breadth_ratio",
+        "unit": "ratio",
+        "display_unit": "ratio",
+        "description": "오른 종목 수와 내린 종목 수의 비율로, 시장 내부 확산력을 보여 줍니다.",
+        "display_label_recommended": "상승/하락 종목 비율",
+        "display_percent_value": false,
+        "default_visible": true
+      },
+      "realized_vol_20d": {
+        "label": "20거래일 실현변동성",
+        "semantic_type": "volatility_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 20거래일 가격 흔들림의 크기를 요약한 값입니다.",
+        "display_label_recommended": "최근 20일 변동성",
+        "display_percent_value": true,
+        "default_visible": true
+      },
+      "drawdown_20d": {
+        "label": "20거래일 낙폭",
+        "semantic_type": "drawdown_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 20거래일 안에서 고점 대비 현재 낙폭이 얼마나 되는지 보여 줍니다.",
+        "display_label_recommended": "최근 20일 낙폭",
+        "display_percent_value": true,
+        "default_visible": true
+      },
+      "usdkrw_20d_ret": {
+        "label": "원달러 20거래일 변화율",
+        "semantic_type": "period_return_ratio",
+        "unit": "ratio",
+        "display_unit": "percent",
+        "description": "최근 20거래일 동안 원달러 환율이 얼마나 변했는지 나타냅니다.",
+        "display_label_recommended": "원달러 1개월 변화율",
+        "display_percent_value": true,
+        "default_visible": true
+      },
+      "rate_cd91_20d_chg": {
+        "label": "CD91 20거래일 변화폭",
+        "semantic_type": "rate_change",
+        "unit": "percentage_point",
+        "display_unit": "bp",
+        "description": "최근 20거래일 동안 CD91 금리가 얼마나 움직였는지 보여 줍니다.",
+        "display_label_recommended": "CD91 20일 변화폭",
+        "display_percent_value": false,
+        "default_visible": true
+      },
+      "rate_ktb3y_20d_chg": {
+        "label": "국고채3년 20거래일 변화폭",
+        "semantic_type": "rate_change",
+        "unit": "percentage_point",
+        "display_unit": "bp",
+        "description": "최근 20거래일 동안 국고채 3년 금리가 얼마나 움직였는지 보여 줍니다.",
+        "display_label_recommended": "국고채3년 20일 변화폭",
+        "display_percent_value": false,
+        "default_visible": true
+      }
+    },
+    "display_metrics": {
+      "kospi_20d_ret": {
+        "label": "코스피 1개월 수익률",
+        "raw_value": 1.1268885558419406,
+        "semantic_type": "period_return_ratio",
+        "description": "최근 20거래일 동안 코스피 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "default_visible": false,
+        "display_unit": "percent",
+        "display_value": 112.69,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "kospi_60d_ret": {
+        "label": "코스피 3개월 수익률",
+        "raw_value": 1.3048243304483251,
+        "semantic_type": "period_return_ratio",
+        "description": "최근 60거래일 동안 코스피 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "default_visible": false,
+        "display_unit": "percent",
+        "display_value": 130.48,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "kosdaq_20d_ret": {
+        "label": "코스닥 1개월 수익률",
+        "raw_value": 0.36755519380602086,
+        "semantic_type": "period_return_ratio",
+        "description": "최근 20거래일 동안 코스닥 종가가 얼마나 변했는지 나타내는 기간 수익률입니다.",
+        "default_visible": false,
+        "display_unit": "percent",
+        "display_value": 36.76,
+        "visibility_note": "현재 데이터 소스 정합성 확인 전까지는 사용자 화면 기본 노출보다 내부 검증용으로 쓰는 것을 권장합니다."
+      },
+      "above_20dma_ratio": {
+        "label": "20일선 위 종목 비율",
+        "raw_value": 0.47474747474747475,
+        "semantic_type": "breadth_ratio",
+        "description": "전체 대상 종목 중 현재가가 20일 이동평균선 위에 있는 종목 비율입니다.",
+        "default_visible": true,
+        "display_unit": "percent",
+        "display_value": 47.47
+      },
+      "above_60dma_ratio": {
+        "label": "60일선 위 종목 비율",
+        "raw_value": 0.6641414141414141,
+        "semantic_type": "breadth_ratio",
+        "description": "전체 대상 종목 중 현재가가 60일 이동평균선 위에 있는 종목 비율입니다.",
+        "default_visible": true,
+        "display_unit": "percent",
+        "display_value": 66.41
+      },
+      "adv_dec_ratio": {
+        "label": "상승/하락 종목 비율",
+        "raw_value": 4.768115942028985,
+        "semantic_type": "breadth_ratio",
+        "description": "오른 종목 수와 내린 종목 수의 비율로, 시장 내부 확산력을 보여 줍니다.",
+        "default_visible": true,
+        "display_unit": "ratio",
+        "display_value": 4.7681
+      },
+      "realized_vol_20d": {
+        "label": "최근 20일 변동성",
+        "raw_value": 0.3539918437205869,
+        "semantic_type": "volatility_ratio",
+        "description": "최근 20거래일 가격 흔들림의 크기를 요약한 값입니다.",
+        "default_visible": true,
+        "display_unit": "percent",
+        "display_value": 35.4
+      },
+      "drawdown_20d": {
+        "label": "최근 20일 낙폭",
+        "raw_value": -0.04773306371004038,
+        "semantic_type": "drawdown_ratio",
+        "description": "최근 20거래일 안에서 고점 대비 현재 낙폭이 얼마나 되는지 보여 줍니다.",
+        "default_visible": true,
+        "display_unit": "percent",
+        "display_value": -4.77
+      },
+      "usdkrw_20d_ret": {
+        "label": "원달러 1개월 변화율",
+        "raw_value": 0.11873136475922741,
+        "semantic_type": "period_return_ratio",
+        "description": "최근 20거래일 동안 원달러 환율이 얼마나 변했는지 나타냅니다.",
+        "default_visible": true,
+        "display_unit": "percent",
+        "display_value": 11.87
+      },
+      "rate_cd91_20d_chg": {
+        "label": "CD91 20일 변화폭",
+        "raw_value": -0.4304999999999999,
+        "semantic_type": "rate_change",
+        "description": "최근 20거래일 동안 CD91 금리가 얼마나 움직였는지 보여 줍니다.",
+        "default_visible": true,
+        "display_unit": "bp",
+        "display_value": -43.0
+      },
+      "rate_ktb3y_20d_chg": {
+        "label": "국고채3년 20일 변화폭",
+        "raw_value": -0.3340000000000001,
+        "semantic_type": "rate_change",
+        "description": "최근 20거래일 동안 국고채 3년 금리가 얼마나 움직였는지 보여 줍니다.",
+        "default_visible": true,
+        "display_unit": "bp",
+        "display_value": -33.4
+      }
+    },
+    "data_sources": {
+      "official_market": "QuantMarket market_analysis.db",
+      "quant_readonly": {
+        "price_db": "D:\\Quant\\data\\db\\price.db",
+        "regime_db": "D:\\Quant\\data\\db\\regime.db",
+        "representative_assets": {
+          "bond": {
+            "ticker": "114260",
+            "name": "KODEX 국고채3년",
+            "group_key": "bond_short",
+            "liquidity_20d_value": 3668919299.25
+          },
+          "gold": {
+            "ticker": "411060",
+            "name": "ACE KRX금현물",
+            "group_key": "commodity_gold",
+            "liquidity_20d_value": 104264299056.5
+          },
+          "inverse": {
+            "ticker": "114800",
+            "name": "KODEX 인버스",
+            "group_key": "hedge_inverse_kr",
+            "liquidity_20d_value": 601493499523.45
+          }
+        }
+      }
+    },
+    "positive_points": [
+      "코스피 1개월 상승 흐름",
+      "60일선 위 종목 비율 양호",
+      "코스닥 추세 회복"
+    ],
+    "warning_points": [
+      "20일선 위 종목 비율 낮음",
+      "변동성 확대",
+      "달러 강세"
+    ],
+    "signal_labels": {
+      "positive": "모델에 우호적인 신호",
+      "warning": "모델 해석상 주의할 신호"
+    },
+    "observation_title": "이번 주 모델 해석 포인트",
+    "observation_description": "현재 시장 상태를 기준으로 퀀트투자 모델을 읽을 때 참고할 핵심 포인트입니다.",
+    "observation_note": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+    "model_reference_points": {
+      "title": "이번 주 모델 해석 포인트",
+      "description": "현재 시장 상태를 기준으로 퀀트투자 모델을 읽을 때 참고할 핵심 포인트입니다.",
+      "body": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다."
+    },
+    "usage_guide_card": {
+      "title": "이 시장 브리핑은 어디에 쓰이나요?",
+      "body": [
+        "이 브리핑은 멀티애셋 데이터 기반 퀀트투자 모델을 해석하기 위한 공개 기준 데이터입니다.",
+        "이번 주 모델 기준안과 변경내역은 이 시장 상태를 참고해 함께 읽을 수 있습니다."
+      ],
+      "links": [
+        {
+          "label": "이번 주 모델 기준안 보기",
+          "target_menu": "이번 주 모델 기준안"
+        },
+        {
+          "label": "변경내역 보기",
+          "target_menu": "변경내역"
+        }
+      ]
+    },
+    "ai_note": {
+      "enabled": false,
+      "summary": null
+    },
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-03-26T19:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "notice_block": {
+      "title": "주의사항",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+    }
+  }
+}

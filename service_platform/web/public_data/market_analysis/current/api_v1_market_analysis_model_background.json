@@ -1,0 +1,99 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/model-background?market=KR",
+  "market": "KR",
+  "asof": "2026-03-26T19:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-03-26T19:00:00+09:00",
+    "title": "모델 해석 백그라운드",
+    "description": "현재 시장브리핑을 모델 기준안과 연결해서 읽기 위한 공개 배경 데이터입니다.",
+    "state_label": "상승",
+    "state_score": 1.0978,
+    "briefing_tone": "위험선호 환경",
+    "summary_line": "공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
+    "reference_note": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+    "model_background_points": [
+      "공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
+      "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+      "현재 상태 지속 시간은 33.0시간입니다."
+    ],
+    "favorable_signals": [
+      "코스피 1개월 상승 흐름",
+      "60일선 위 종목 비율 양호",
+      "코스닥 추세 회복"
+    ],
+    "caution_signals": [
+      "20일선 위 종목 비율 낮음",
+      "변동성 확대",
+      "달러 강세"
+    ],
+    "top_assets": [
+      {
+        "asset_group": "KOSPI",
+        "ret_20d": 1.1268885558419406,
+        "strength_score": 2.0965,
+        "strength_rank": 1,
+        "strength_label": "강함"
+      },
+      {
+        "asset_group": "KOSDAQ",
+        "ret_20d": 0.36755519380602086,
+        "strength_score": 0.2738,
+        "strength_rank": 2,
+        "strength_label": "중립"
+      }
+    ],
+    "bottom_assets": [
+      {
+        "asset_group": "GOLD",
+        "ret_20d": -0.08777383066903488,
+        "strength_score": -0.8191,
+        "strength_rank": 6,
+        "strength_label": "약함"
+      },
+      {
+        "asset_group": "BOND",
+        "ret_20d": -0.009466785338619665,
+        "strength_score": -0.6311,
+        "strength_rank": 5,
+        "strength_label": "약함"
+      }
+    ],
+    "state_transition": {
+      "current_state": "상승",
+      "prev_state": "상승",
+      "duration_hours": 33.0,
+      "transition_count_5d": 4,
+      "transition_count_20d": 4,
+      "stability_score": 0.76
+    },
+    "latest_timeline_point": {
+      "asof": "2026-03-26T19:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.0978,
+      "trend_score": 3.0,
+      "breadth_score": 2.2896,
+      "risk_score": -3.0,
+      "defensive_flow_score": -0.2608,
+      "total_score": 1.0978
+    }
+  }
+}
