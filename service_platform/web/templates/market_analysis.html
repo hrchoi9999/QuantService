@@ -51,6 +51,10 @@
     {% if market_page_view.header_state.description or market_page_view.header_state.tooltip %}
     <p class="market-state-help muted small">{{ market_page_view.header_state.description or market_page_view.header_state.tooltip }}</p>
     {% endif %}
+    {% if market_next_day_preview_view.show_default %}
+    {% set variant = "full" %}
+    {% include "_market_next_day_preview.html" %}
+    {% endif %}
     <div class="market-analysis-note-strip">
       <div class="feature-note">
         <strong>시장 상태와 점수</strong>

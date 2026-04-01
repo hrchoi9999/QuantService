@@ -1,6 +1,6 @@
-{
+﻿{
   "market": "KR",
-  "asof": "2026-03-26T22:00:00+09:00",
+  "asof": "2026-04-01T17:00:00+09:00",
   "generated_by": "QuantMarket",
   "consumer": "QuantService",
   "handoff_version": "2026-03-24-p2",
@@ -16,7 +16,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-03-26T22:00:00+09:00",
+    "asof": "2026-04-01T17:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -56,7 +56,10 @@
     "api_timeline": "api_v1_market_analysis_timeline.json",
     "api_asset_strength": "api_v1_market_analysis_asset_strength.json",
     "api_state_transition": "api_v1_market_analysis_state_transition.json",
-    "api_model_background": "api_v1_market_analysis_model_background.json"
+    "api_model_background": "api_v1_market_analysis_model_background.json",
+    "next_day_preview": "quantservice_market_next_day_preview.json",
+    "next_day_preview_manifest": "market_next_day_preview_manifest.json",
+    "api_next_day_preview": "api_v1_market_analysis_next_day_preview.json"
   },
   "slot_files": {
     "main_home.hero_market_status": "quantservice_market_home.json#hero",
@@ -77,7 +80,8 @@
     "timeline": "/api/v1/market-analysis/timeline?market=KR",
     "asset_strength": "/api/v1/market-analysis/asset-strength?market=KR",
     "state_transition": "/api/v1/market-analysis/state-transition?market=KR",
-    "model_background": "/api/v1/market-analysis/model-background?market=KR"
+    "model_background": "/api/v1/market-analysis/model-background?market=KR",
+    "next_day_preview": "/api/v1/market-analysis/next-day-preview?market=KR"
   },
   "upload_policy": {
     "manifest_written_last": true,

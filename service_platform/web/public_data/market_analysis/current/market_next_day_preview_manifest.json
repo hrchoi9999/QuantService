@@ -1,0 +1,10 @@
+﻿{
+  "market": "KR",
+  "asof": "2026-04-01T17:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "consumer": "QuantService",
+  "content_hash": "market-next-day-preview-20260401",
+  "active_now": true,
+  "active_window": "2026-04-01 18:00 KST ~ 2026-04-02 09:00 KST",
+  "reference_session": "2026-04-02 장초반 참고"
+}

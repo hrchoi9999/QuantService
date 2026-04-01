@@ -23,6 +23,8 @@ MARKET_ANALYSIS_FILES = {
     "asset_strength": "quantservice_market_asset_strength.json",
     "state_transition": "quantservice_market_state_transition.json",
     "model_background": "quantservice_market_model_background.json",
+    "next_day_preview": "quantservice_market_next_day_preview.json",
+    "next_day_preview_manifest": "market_next_day_preview_manifest.json",
     "api_home": "api_v1_market_analysis_home.json",
     "api_page": "api_v1_market_analysis_page.json",
     "api_summary": "api_v1_market_analysis_summary.json",
@@ -32,6 +34,7 @@ MARKET_ANALYSIS_FILES = {
     "api_asset_strength": "api_v1_market_analysis_asset_strength.json",
     "api_state_transition": "api_v1_market_analysis_state_transition.json",
     "api_model_background": "api_v1_market_analysis_model_background.json",
+    "api_next_day_preview": "api_v1_market_analysis_next_day_preview.json",
 }
 OPTIONAL_MARKET_ANALYSIS_KEYS = {
     "timeline",
@@ -42,6 +45,9 @@ OPTIONAL_MARKET_ANALYSIS_KEYS = {
     "api_asset_strength",
     "api_state_transition",
     "api_model_background",
+    "next_day_preview",
+    "next_day_preview_manifest",
+    "api_next_day_preview",
 }
 REMOTE_SOURCES = {"remote", "http", "gcs"}
 
@@ -75,6 +81,8 @@ class MarketAnalysisBundle:
     asset_strength: dict[str, Any] = field(default_factory=dict)
     state_transition: dict[str, Any] = field(default_factory=dict)
     model_background: dict[str, Any] = field(default_factory=dict)
+    next_day_preview: dict[str, Any] = field(default_factory=dict)
+    next_day_preview_manifest: dict[str, Any] = field(default_factory=dict)
     api_home: dict[str, Any] = field(default_factory=dict)
     api_page: dict[str, Any] = field(default_factory=dict)
     api_summary: dict[str, Any] = field(default_factory=dict)
@@ -84,6 +92,7 @@ class MarketAnalysisBundle:
     api_asset_strength: dict[str, Any] = field(default_factory=dict)
     api_state_transition: dict[str, Any] = field(default_factory=dict)
     api_model_background: dict[str, Any] = field(default_factory=dict)
+    api_next_day_preview: dict[str, Any] = field(default_factory=dict)
     source_name: str = "market-analysis-local"
     stale: bool = False
     empty: bool = False
@@ -101,6 +110,7 @@ class MarketAnalysisBundle:
             or self.asset_strength.get("asof")
             or self.state_transition.get("asof")
             or self.model_background.get("asof")
+            or self.next_day_preview.get("asof")
         )
 
 
@@ -244,6 +254,8 @@ class MarketAnalysisMockApi:
             asset_strength=payloads["asset_strength"],
             state_transition=payloads["state_transition"],
             model_background=payloads["model_background"],
+            next_day_preview=payloads["next_day_preview"],
+            next_day_preview_manifest=payloads["next_day_preview_manifest"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
@@ -253,6 +265,7 @@ class MarketAnalysisMockApi:
             api_asset_strength=payloads["api_asset_strength"],
             api_state_transition=payloads["api_state_transition"],
             api_model_background=payloads["api_model_background"],
+            api_next_day_preview=payloads["api_next_day_preview"],
             source_name="market-analysis-remote",
             warnings=warnings,
         )
@@ -344,6 +357,8 @@ class MarketAnalysisMockApi:
             asset_strength=payloads["asset_strength"],
             state_transition=payloads["state_transition"],
             model_background=payloads["model_background"],
+            next_day_preview=payloads["next_day_preview"],
+            next_day_preview_manifest=payloads["next_day_preview_manifest"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
@@ -353,6 +368,7 @@ class MarketAnalysisMockApi:
             api_asset_strength=payloads["api_asset_strength"],
             api_state_transition=payloads["api_state_transition"],
             api_model_background=payloads["api_model_background"],
+            api_next_day_preview=payloads["api_next_day_preview"],
             source_name=source_name,
             warnings=warnings,
         )

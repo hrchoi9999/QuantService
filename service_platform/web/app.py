@@ -101,6 +101,9 @@ T_SERIES_BUCKET_LABELS = {
     "historical_stage2": "historical stage2",
 }
 T_SERIES_ASSET_SCOPE_LABELS = {"stock": "Stock", "etf": "ETF"}
+DEFAULT_NEXT_DAY_PREVIEW_NOTICE = (
+    "이 내용은 내일 시장을 참고용으로 정리한 공개 브리핑이며, 특정 매매행동을 안내하지 않습니다."
+)
 PUBLIC_NOTICE_BLOCKS = {
     "service_nature": {
         "title": "서비스 성격 안내",
@@ -1051,6 +1054,61 @@ def _build_market_today_background_view(model_background_payload: dict[str, Any]
         "title": "이번 해석 배경",
         "briefing_tone": str(model_background_payload.get("briefing_tone") or "-").strip(),
         "points": points,
+    }
+
+
+def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, Any]:
+    preview_payload = payload or {}
+    supporting_points = [
+        str(item).strip()
+        for item in (preview_payload.get("supporting_points") or [])
+        if str(item).strip()
+    ][:2]
+    risk_points = [
+        str(item).strip()
+        for item in (preview_payload.get("risk_points") or [])
+        if str(item).strip()
+    ][:2]
+    preview_label = str(preview_payload.get("preview_label") or "").strip()
+    headline_line = str(preview_payload.get("headline_line") or "").strip()
+    summary_line = str(preview_payload.get("summary_line") or "").strip()
+    short_notice = str(
+        (preview_payload.get("notice_block") or {}).get("short_notice")
+        or DEFAULT_NEXT_DAY_PREVIEW_NOTICE
+    ).strip()
+    home_line = preview_label or headline_line or summary_line
+    today_line = summary_line or headline_line or preview_label
+    weekly_point = (
+        supporting_points[0]
+        if supporting_points
+        else (summary_line or headline_line or preview_label)
+    )
+    return {
+        "enabled": bool(preview_payload),
+        "show_default": bool(preview_payload) and preview_payload.get("active_now") is True,
+        "active_now": preview_payload.get("active_now") is True,
+        "title": "내일 시장 전망 참고",
+        "display_title": str(preview_payload.get("display_title") or "내일 시장 전망 참고").strip(),
+        "display_subtitle": str(preview_payload.get("display_subtitle") or "").strip(),
+        "preview_label": preview_label,
+        "preview_score": preview_payload.get("preview_score"),
+        "headline_line": headline_line,
+        "summary_line": summary_line,
+        "supporting_points": supporting_points,
+        "risk_points": risk_points,
+        "short_notice": short_notice,
+        "active_window": str(preview_payload.get("active_window") or "").strip(),
+        "reference_session": str(preview_payload.get("reference_session") or "").strip(),
+        "market_flow_label": str(preview_payload.get("market_flow_label") or "").strip(),
+        "market_flow_reference_note": str(
+            preview_payload.get("market_flow_reference_note") or ""
+        ).strip(),
+        "material_change_flag": preview_payload.get("material_change_flag") is True,
+        "is_muted": preview_payload.get("material_change_flag") is False,
+        "content_hash": str(preview_payload.get("content_hash") or "").strip(),
+        "home_line": home_line,
+        "today_line": today_line,
+        "weekly_point": weekly_point,
     }
 
 
@@ -2532,6 +2590,13 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_model_background")), 200)
 
+    @app.get("/api/v1/market-analysis/next-day-preview")
+    def api_market_analysis_next_day_preview() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_next_day_preview")), 200)
+
     @app.get("/api/v1/discovery/t-series")
     def api_tseries_models() -> tuple[dict[str, object], int]:
         try:
@@ -2595,6 +2660,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     asof=home_payload.get("asof") or getattr(market_bundle, "asof", None),
                 ),
                 market_status_snapshot=market_status_snapshot,
+                market_next_day_preview_view=_build_market_next_day_preview_view(
+                    market_bundle.next_day_preview if market_bundle else {}
+                ),
                 tseries_overview=tseries_overview,
                 tseries_bucket_labels=T_SERIES_BUCKET_LABELS,
                 tseries_asset_scope_labels=T_SERIES_ASSET_SCOPE_LABELS,
@@ -2863,6 +2931,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     asof=today_payload.get("asof") or getattr(market_bundle, "asof", None),
                 ),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
+                market_next_day_preview_view=_build_market_next_day_preview_view(
+                    market_bundle.next_day_preview if market_bundle else {}
+                ),
                 compliance_note=_build_public_model_compliance_note(bundle),
                 notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
@@ -2954,6 +3025,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_state_bar=page_view.get("state_bar"),
                 market_state_bridge_view=page_view.get("state_intraday_bridge_view"),
                 market_status_snapshot=market_status_snapshot,
+                market_next_day_preview_view=_build_market_next_day_preview_view(
+                    market_bundle.next_day_preview if market_bundle else {}
+                ),
                 notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
             ),
             mimetype="text/html",

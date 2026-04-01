@@ -112,6 +112,10 @@
     </div>
     <div class="market-home-summary-main">
       <p class="muted">{{ market_home_payload.get('hero', {}).get('reference_note', '-') }}</p>
+      {% if market_next_day_preview_view.show_default %}
+      {% set variant = "home" %}
+      {% include "_market_next_day_preview.html" %}
+      {% endif %}
     </div>
     {% if market_home_extra_view.enabled %}
     <div class="metric-card public-metric-card market-home-extra-card">

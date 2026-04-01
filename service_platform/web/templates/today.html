@@ -89,7 +89,14 @@
         <li>{{ item }}</li>
         {% endfor %}
       </ul>
+      {% if market_next_day_preview_view.show_default %}
+      {% set variant = "weekly" %}
+      {% include "_market_next_day_preview.html" %}
+      {% endif %}
     </div>
+    {% elif market_next_day_preview_view.show_default %}
+    {% set variant = "weekly" %}
+    {% include "_market_next_day_preview.html" %}
     {% endif %}
     {% if market_today_payload.get('notice_block', {}).get('body') %}
     <div class="disclosure-box compact-market-notice">
@@ -100,6 +107,10 @@
         {% endfor %}
       </ul>
     </div>
+    {% endif %}
+    {% if market_next_day_preview_view.show_default %}
+    {% set variant = "today" %}
+    {% include "_market_next_day_preview.html" %}
     {% endif %}
   </div>
   {% else %}

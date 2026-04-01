@@ -1864,6 +1864,12 @@ body {
   line-height: 1.4;
 }
 
+.market-state-dual-description {
+  margin: -2px 0 0;
+  color: var(--muted-strong);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
 .market-state-pill {
   position: absolute;
   top: 50%;
@@ -2519,6 +2525,83 @@ body {
   padding: 10px 14px;
   border: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(255,255,255,0.96), var(--surface-muted));
+}
+
+.market-next-day-card,
+.market-next-day-inline-card,
+.market-next-day-mini-card {
+  display: grid;
+  gap: 10px;
+}
+
+.market-next-day-card {
+  margin-top: 16px;
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  background: linear-gradient(180deg, rgba(245, 248, 251, 0.98), rgba(255, 255, 255, 0.96));
+}
+
+.market-next-day-card--muted,
+.market-next-day-inline-card--muted,
+.market-next-day-mini-card--muted,
+.market-next-day-inline--muted {
+  opacity: 0.88;
+}
+
+.market-next-day-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.market-next-day-inline strong,
+.market-next-day-inline-card strong,
+.market-next-day-mini-card strong {
+  color: var(--text);
+}
+
+.market-next-day-inline-card,
+.market-next-day-mini-card {
+  border: 1px solid var(--surface-soft);
+  background: rgba(246, 248, 250, 0.95);
+}
+
+.market-next-day-inline-card p,
+.market-next-day-mini-card p,
+.market-next-day-notice,
+.market-next-day-risk-block ul {
+  margin: 0;
+}
+
+.market-next-day-list {
+  margin-bottom: 0;
+}
+
+.market-next-day-risk-block {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(179, 74, 47, 0.12);
+  background: rgba(255, 246, 242, 0.9);
+}
+
+@media (max-width: 720px) {
+  .market-next-day-inline {
+    display: grid;
+    gap: 4px;
+  }
+
+  .market-next-day-inline span:last-child,
+  .market-next-day-inline-card p,
+  .market-next-day-mini-card p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 .market-timeline-dot {
