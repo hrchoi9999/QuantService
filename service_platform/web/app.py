@@ -104,6 +104,16 @@ T_SERIES_ASSET_SCOPE_LABELS = {"stock": "Stock", "etf": "ETF"}
 DEFAULT_NEXT_DAY_PREVIEW_NOTICE = (
     "이 내용은 내일 시장을 참고용으로 정리한 공개 브리핑이며, 특정 매매행동을 안내하지 않습니다."
 )
+NEXT_DAY_PREVIEW_ASSET_LABELS = {
+    "KOSPI200_NIGHT_FUT": "코스피200 야간선물",
+    "KOREA_PROXY_EWY": "한국 관련 야간 프록시",
+    "SP500_FUT": "S&P500 선물",
+    "NASDAQ100_FUT": "나스닥100 선물",
+    "USDKRW": "원달러",
+    "WTI": "WTI",
+    "US10Y": "미국 10년 금리",
+}
+
 PUBLIC_NOTICE_BLOCKS = {
     "service_nature": {
         "title": "서비스 성격 안내",
@@ -1057,6 +1067,84 @@ def _build_market_today_background_view(model_background_payload: dict[str, Any]
     }
 
 
+def _coerce_change_pct(value: Any) -> float | None:
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _build_market_next_day_asset_view(asset: dict[str, Any]) -> dict[str, Any]:
+    code = str(asset.get("asset_code") or "").strip()
+    change_pct = _coerce_change_pct(asset.get("change_pct"))
+    if change_pct is None:
+        change_display = "-"
+        direction_label = "보합"
+        tone = "neutral"
+    else:
+        change_display = f"{change_pct * 100:+.2f}%"
+        if abs(change_pct) < 0.0005:
+            direction_label = "보합"
+            tone = "neutral"
+        elif change_pct > 0:
+            direction_label = "상승"
+            tone = "good"
+        else:
+            direction_label = "하락"
+            tone = "caution"
+    return {
+        "asset_code": code,
+        "asset_name": NEXT_DAY_PREVIEW_ASSET_LABELS.get(
+            code,
+            str(asset.get("asset_name") or code or "야간 자산").strip() or "야간 자산",
+        ),
+        "change_display": change_display,
+        "direction_label": direction_label,
+        "tone": tone,
+        "is_fallback": bool(asset.get("is_fallback")),
+    }
+
+
+def _build_market_next_day_assets_view(assets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized_assets = [asset for asset in assets if isinstance(asset, dict)]
+    asset_by_code = {}
+    for asset in normalized_assets:
+        code = str(asset.get("asset_code") or "").strip()
+        if code and code not in asset_by_code:
+            asset_by_code[code] = asset
+
+    selected: list[dict[str, Any]] = []
+    used_codes: set[str] = set()
+
+    korea_asset = asset_by_code.get("KOSPI200_NIGHT_FUT")
+    if korea_asset is None:
+        korea_asset = asset_by_code.get("KOREA_PROXY_EWY")
+    if korea_asset is not None:
+        code = str(korea_asset.get("asset_code") or "").strip()
+        selected.append(_build_market_next_day_asset_view(korea_asset))
+        used_codes.add(code)
+
+    for code in ("SP500_FUT", "USDKRW"):
+        asset = asset_by_code.get(code)
+        if asset is None or code in used_codes:
+            continue
+        selected.append(_build_market_next_day_asset_view(asset))
+        used_codes.add(code)
+
+    for asset in normalized_assets:
+        code = str(asset.get("asset_code") or "").strip()
+        if not code or code in used_codes:
+            continue
+        selected.append(_build_market_next_day_asset_view(asset))
+        used_codes.add(code)
+        if len(selected) >= 3:
+            break
+
+    return selected[:3]
+
+
 def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, Any]:
     preview_payload = payload or {}
     supporting_points = [
@@ -1076,6 +1164,13 @@ def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, An
         (preview_payload.get("notice_block") or {}).get("short_notice")
         or DEFAULT_NEXT_DAY_PREVIEW_NOTICE
     ).strip()
+    key_assets = _build_market_next_day_assets_view(preview_payload.get("overnight_assets") or [])
+    compact_assets = key_assets[:2]
+    compact_asset_line = ", ".join(
+        f"{item['asset_name']} {item['change_display']}"
+        for item in compact_assets
+        if item.get("change_display")
+    )
     home_line = preview_label or headline_line or summary_line
     today_line = summary_line or headline_line or preview_label
     weekly_point = (
@@ -1109,6 +1204,9 @@ def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, An
         "home_line": home_line,
         "today_line": today_line,
         "weekly_point": weekly_point,
+        "key_assets": key_assets,
+        "compact_assets": compact_assets,
+        "compact_asset_line": compact_asset_line,
     }
 
 

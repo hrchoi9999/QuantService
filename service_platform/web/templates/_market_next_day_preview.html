@@ -19,6 +19,20 @@
   {% if market_next_day_preview_view.summary_line %}
   <p class="muted">{{ market_next_day_preview_view.summary_line }}</p>
   {% endif %}
+  {% if market_next_day_preview_view.key_assets %}
+  <div class="market-next-day-assets">
+    <span class="label">야간 핵심 자산</span>
+    <div class="market-next-day-asset-grid">
+      {% for item in market_next_day_preview_view.key_assets %}
+      <div class="market-next-day-asset-pill market-next-day-asset-pill--{{ item.tone }}">
+        <strong>{{ item.asset_name }}</strong>
+        <span>{{ item.change_display }}</span>
+        <em>{{ item.direction_label }}</em>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
   {% if market_next_day_preview_view.supporting_points %}
   <ul class="message-list compact-list clean-list market-next-day-list">
     {% for item in market_next_day_preview_view.supporting_points %}
@@ -45,6 +59,9 @@
   {% if market_next_day_preview_view.home_line and market_next_day_preview_view.home_line != market_next_day_preview_view.preview_label %}
   <span>{{ market_next_day_preview_view.home_line }}</span>
   {% endif %}
+  {% if market_next_day_preview_view.compact_asset_line %}
+  <span class="market-next-day-inline-assets">야간 핵심 자산: {{ market_next_day_preview_view.compact_asset_line }}</span>
+  {% endif %}
 </div>
 {% elif variant == "today" %}
 <div class="shell-card content-card market-next-day-inline-card{% if market_next_day_preview_view.is_muted %} market-next-day-inline-card--muted{% endif %}">
@@ -52,6 +69,9 @@
   <strong>{{ market_next_day_preview_view.preview_label or market_next_day_preview_view.today_line }}</strong>
   {% if market_next_day_preview_view.today_line and market_next_day_preview_view.today_line != market_next_day_preview_view.preview_label %}
   <p>{{ market_next_day_preview_view.today_line }}</p>
+  {% endif %}
+  {% if market_next_day_preview_view.compact_asset_line %}
+  <p class="market-next-day-inline-assets">야간 핵심 자산: {{ market_next_day_preview_view.compact_asset_line }}</p>
   {% endif %}
 </div>
 {% elif variant == "weekly" %}
@@ -62,6 +82,9 @@
   <p>{{ market_next_day_preview_view.summary_line }}</p>
   {% elif market_next_day_preview_view.weekly_point and market_next_day_preview_view.weekly_point != market_next_day_preview_view.preview_label %}
   <p>{{ market_next_day_preview_view.weekly_point }}</p>
+  {% endif %}
+  {% if market_next_day_preview_view.compact_asset_line %}
+  <p class="market-next-day-inline-assets">야간 핵심 자산: {{ market_next_day_preview_view.compact_asset_line }}</p>
   {% endif %}
 </div>
 {% endif %}

@@ -2580,6 +2580,52 @@ body {
   margin-bottom: 0;
 }
 
+.market-next-day-assets {
+  display: grid;
+  gap: 8px;
+}
+
+.market-next-day-asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.market-next-day-asset-pill {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--surface-soft);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.market-next-day-asset-pill strong,
+.market-next-day-asset-pill span,
+.market-next-day-asset-pill em {
+  margin: 0;
+}
+
+.market-next-day-asset-pill em {
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.market-next-day-asset-pill--good {
+  border-color: rgba(36, 122, 73, 0.2);
+  background: rgba(242, 250, 245, 0.98);
+}
+
+.market-next-day-asset-pill--caution {
+  border-color: rgba(179, 74, 47, 0.2);
+  background: rgba(255, 246, 242, 0.95);
+}
+
+.market-next-day-inline-assets {
+  display: inline;
+  color: var(--text-muted);
+}
+
 .market-next-day-risk-block {
   display: grid;
   gap: 6px;
