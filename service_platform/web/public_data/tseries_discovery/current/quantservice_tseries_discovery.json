@@ -1,0 +1,280 @@
+{
+  "source_name": "handoff:tseries_discovery_current",
+  "warnings": [],
+  "errors": [],
+  "as_of_date": "2026-04-01",
+  "generated_at": "2026-04-01T11:51:51",
+  "channel": "tseries-discovery",
+  "schema_version": "v1",
+  "models": [
+    {
+      "model_code": "T-STOCK-V01",
+      "asof_date": "2026-03-26",
+      "meta": {
+        "display_name": "T-STOCK-V01",
+        "display_name_en": "transition-based discovery model",
+        "display_name_ko": "전이형 발굴 모델",
+        "service_model_code": "T_STOCK_DISCOVERY",
+        "service_family": "discovery",
+        "service_role": "watchlist",
+        "asset_scope": "stock",
+        "version": "V01",
+        "version_label": "V01",
+        "stage_structure": "two_stage",
+        "status": "active",
+        "notes": "Stock transition-based discovery model operational V1.",
+        "display_order": 1
+      },
+      "profile": {
+        "profile_code": "operating_v2",
+        "threshold_summary": "stage1 0.520 / confirmed 0.525 / near 0.520",
+        "risk_filter_version": "stock_risk_filter_v1",
+        "threshold_values": {
+          "stage1_threshold": 0.52,
+          "stage2_confirmed_threshold": 0.525,
+          "stage2_near_threshold": 0.52
+        },
+        "notes": "Stock operating profile recalibrated after 2017 backfill: stage1 0.52, stage2 confirmed 0.525, stage2 near 0.52."
+      },
+      "run": {
+        "refresh_kind": "shadow_refresh",
+        "status": "success",
+        "started_at": "2026-03-31 16:44:37",
+        "finished_at": "2026-03-31 16:44:37",
+        "notes": "Synced stock operational watchlist, labels, and shadow tracking from local outputs."
+      },
+      "bucket_counts": {
+        "confirmed": 6,
+        "near": 3,
+        "observe": 1
+      },
+      "top_by_bucket": {
+        "confirmed": [
+          {
+            "ticker": "047040",
+            "name": "대우건설",
+            "market": "KOSPI",
+            "theme_bucket": "construction_materials",
+            "theme_name_kr": "건설/소재",
+            "stage1_prob": 0.5225413887008845,
+            "stage2_prob": 0.543302648987533,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "420770",
+            "name": "기가비스",
+            "market": "KOSDAQ",
+            "theme_bucket": "semiconductor_tech",
+            "theme_name_kr": "반도체/전자부품",
+            "stage1_prob": 0.5225186291094959,
+            "stage2_prob": 0.5403429362388631,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "043260",
+            "name": "성호전자",
+            "market": "KOSDAQ",
+            "theme_bucket": "semiconductor_tech",
+            "theme_name_kr": "반도체/전자부품",
+            "stage1_prob": 0.520734113188271,
+            "stage2_prob": 0.5338330151500879,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "038500",
+            "name": "삼표시멘트",
+            "market": "KOSDAQ",
+            "theme_bucket": "construction_materials",
+            "theme_name_kr": "건설/소재",
+            "stage1_prob": 0.525321732292861,
+            "stage2_prob": 0.5331064009653733,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "187660",
+            "name": "현대ADM",
+            "market": "KOSDAQ",
+            "theme_bucket": "biotech_healthcare",
+            "theme_name_kr": "바이오/헬스케어",
+            "stage1_prob": 0.5246369036421171,
+            "stage2_prob": 0.532313932914681,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "048410",
+            "name": "현대바이오",
+            "market": "KOSDAQ",
+            "theme_bucket": "biotech_healthcare",
+            "theme_name_kr": "바이오/헬스케어",
+            "stage1_prob": 0.5326958797889336,
+            "stage2_prob": 0.5274395802261937,
+            "is_s2_overlap": 0
+          }
+        ],
+        "near": [
+          {
+            "ticker": "006910",
+            "name": "보성파워텍",
+            "market": "KOSDAQ",
+            "theme_bucket": "energy_utility_infra",
+            "theme_name_kr": "에너지/전력/인프라",
+            "stage1_prob": 0.5223432959729295,
+            "stage2_prob": 0.5241883246635636,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "171090",
+            "name": "선익시스템",
+            "market": "KOSDAQ",
+            "theme_bucket": "semiconductor_tech",
+            "theme_name_kr": "반도체/전자부품",
+            "stage1_prob": 0.5214615907698738,
+            "stage2_prob": 0.5220502540497237,
+            "is_s2_overlap": 0
+          },
+          {
+            "ticker": "009830",
+            "name": "한화솔루션",
+            "market": "KOSPI",
+            "theme_bucket": "energy_utility_infra",
+            "theme_name_kr": "에너지/전력/인프라",
+            "stage1_prob": 0.5273594240626948,
+            "stage2_prob": 0.5217292572414803,
+            "is_s2_overlap": 0
+          }
+        ],
+        "observe": [
+          {
+            "ticker": "458870",
+            "name": "씨어스테크놀로지",
+            "market": "KOSDAQ",
+            "theme_bucket": "medtech_platform",
+            "theme_name_kr": "의료기기/플랫폼",
+            "stage1_prob": 0.5418617579311396,
+            "stage2_prob": NaN,
+            "is_s2_overlap": 0
+          }
+        ]
+      },
+      "shadow_summary": {
+        "confirmed": {
+          "obs_n": 1946,
+          "t10_hit_rate": 70.70914696813976,
+          "t3_hit_rate": 21.83967112024666,
+          "avg_stage1_prob": null,
+          "avg_stage2_prob": null
+        },
+        "near": {
+          "obs_n": 536,
+          "t10_hit_rate": 71.0820895522388,
+          "t3_hit_rate": 17.723880597014926,
+          "avg_stage1_prob": null,
+          "avg_stage2_prob": null
+        },
+        "observe": {
+          "obs_n": 11213,
+          "t10_hit_rate": 6.7332560420939975,
+          "t3_hit_rate": 1.4536698474984393,
+          "avg_stage1_prob": null,
+          "avg_stage2_prob": null
+        }
+      }
+    },
+    {
+      "model_code": "T-ETF-V01",
+      "asof_date": "2026-03-31",
+      "meta": {
+        "display_name": "T-ETF-V01",
+        "display_name_en": "transition-based discovery model",
+        "display_name_ko": "전이형 발굴 모델",
+        "service_model_code": "T_ETF_DISCOVERY",
+        "service_family": "discovery",
+        "service_role": "watchlist",
+        "asset_scope": "etf",
+        "version": "V01",
+        "version_label": "V01",
+        "stage_structure": "two_stage",
+        "status": "active",
+        "notes": "ETF transition-based discovery model operational V1.",
+        "display_order": 2
+      },
+      "profile": {
+        "profile_code": "operational_pit_v1",
+        "threshold_summary": "confirmed 0.650 / near 0.600",
+        "risk_filter_version": "etf_pit_risk_filter_v2",
+        "threshold_values": {
+          "stage1_threshold": null,
+          "stage2_confirmed_threshold": 0.65,
+          "stage2_near_threshold": 0.6
+        },
+        "notes": "ETF PIT operational profile: stage1 momentum_trend top_ratio 0.08, stage2 vol_trend_compact with confirmed 0.65 and near 0.60. Inverse/leverage allowed, liquidity floor 20d avg trading value >= 20 billion KRW."
+      },
+      "run": {
+        "refresh_kind": "shadow_refresh",
+        "status": "success",
+        "started_at": "2026-03-31 16:44:42",
+        "finished_at": "2026-03-31 16:44:42",
+        "notes": "Synced ETF PIT operational watchlist and shadow tracking from local outputs."
+      },
+      "bucket_counts": {
+        "confirmed": 1,
+        "near": 2,
+        "observe": 0
+      },
+      "top_by_bucket": {
+        "confirmed": [
+          {
+            "ticker": "114800",
+            "name": "KODEX 인버스",
+            "market": null,
+            "theme_bucket": "other",
+            "theme_name_kr": null,
+            "stage1_prob": 0.6248340260156026,
+            "stage2_prob": 0.7724305272869904,
+            "is_s2_overlap": null
+          }
+        ],
+        "near": [
+          {
+            "ticker": "462010",
+            "name": "TIGER 2차전지소재Fn",
+            "market": null,
+            "theme_bucket": "energy_materials",
+            "theme_name_kr": null,
+            "stage1_prob": 0.5715288674439678,
+            "stage2_prob": 0.6276418701732265,
+            "is_s2_overlap": null
+          },
+          {
+            "ticker": "305540",
+            "name": "TIGER 2차전지테마",
+            "market": null,
+            "theme_bucket": "energy_materials",
+            "theme_name_kr": null,
+            "stage1_prob": 0.5829969273147662,
+            "stage2_prob": 0.6020834512991283,
+            "is_s2_overlap": null
+          }
+        ],
+        "observe": []
+      },
+      "shadow_summary": {
+        "confirmed": {
+          "obs_n": 69,
+          "t10_hit_rate": NaN,
+          "t3_hit_rate": 17.391304347826082,
+          "avg_stage1_prob": 0.6263709327692489,
+          "avg_stage2_prob": null
+        },
+        "near": {
+          "obs_n": 698,
+          "t10_hit_rate": 7.02005730659025,
+          "t3_hit_rate": NaN,
+          "avg_stage1_prob": 0.6269014836735692,
+          "avg_stage2_prob": null
+        },
+        "observe": {}
+      }
+    }
+  ]
+}

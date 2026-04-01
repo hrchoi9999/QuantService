@@ -68,6 +68,7 @@ from service_platform.web.analytics_preview_p5_api import (
 )
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
+from service_platform.web.tseries_api import TSeriesLoadError, TSeriesOperationalApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
 
 STATUS_MESSAGES = {
@@ -92,6 +93,14 @@ BILLING_MESSAGES = {
     "login_required": "결제를 진행하려면 먼저 로그인해 주세요.",
     "invalid": "결제 요청을 처리하지 못했습니다. 결제수단과 플랜을 다시 확인해 주세요.",
 }
+T_SERIES_BUCKET_LABELS = {
+    "confirmed": "confirmed",
+    "near": "near",
+    "observe": "observe",
+    "historical_stage1": "historical stage1",
+    "historical_stage2": "historical stage2",
+}
+T_SERIES_ASSET_SCOPE_LABELS = {"stock": "Stock", "etf": "ETF"}
 PUBLIC_NOTICE_BLOCKS = {
     "service_nature": {
         "title": "서비스 성격 안내",
@@ -1942,6 +1951,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     provider = SnapshotDataProvider(settings)
     user_snapshot_api = UserSnapshotMockApi(settings)
     market_analysis_api = MarketAnalysisMockApi(settings)
+    tseries_api = TSeriesOperationalApi(settings)
     analytics_preview_api = AnalyticsPreviewApi(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
@@ -1972,6 +1982,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api
     app.config["MARKET_ANALYSIS_API"] = market_analysis_api
+    app.config["TSERIES_API"] = tseries_api
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
     app.config["ANALYTICS_PREVIEW_P3_API"] = analytics_preview_p3_api
@@ -2235,6 +2246,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         try:
             return market_analysis_api.load_bundle(force_refresh=False)
         except MarketAnalysisLoadError:
+            return None
+
+    def load_tseries_overview_or_none(force_refresh: bool = False):
+        try:
+            return tseries_api.load_overview(force_refresh=force_refresh)
+        except TSeriesLoadError:
             return None
 
     def render_user_snapshot_error(status_code: int = 503) -> tuple[str, int]:
@@ -2515,6 +2532,34 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_model_background")), 200)
 
+    @app.get("/api/v1/discovery/t-series")
+    def api_tseries_models() -> tuple[dict[str, object], int]:
+        try:
+            overview = tseries_api.load_overview(force_refresh=False)
+        except TSeriesLoadError:
+            return ({"status": "error", "message": "t-series unavailable"}, 503)
+        return (
+            jsonify(
+                {
+                    "models": tseries_api.list_model_summaries(force_refresh=False),
+                    "source_name": overview.source_name,
+                    "warnings": overview.warnings,
+                    "errors": overview.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/api/v1/discovery/t-series/<model_code>")
+    def api_tseries_model_detail(model_code: str) -> tuple[dict[str, object], int]:
+        try:
+            snapshot = tseries_api.get_snapshot(model_code, force_refresh=False)
+        except TSeriesLoadError:
+            return ({"status": "not_found", "message": "t-series model not found"}, 404)
+        if snapshot is None:
+            return ({"status": "not_found", "message": "t-series model not found"}, 404)
+        return (jsonify(snapshot), 200)
+
     @app.get("/")
     def home() -> Response | tuple[str, int]:
         bundle = load_user_bundle_or_error()
@@ -2530,6 +2575,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         market_state_bar = _build_market_state_bar_from_bundle(market_bundle)
         home_payload = market_bundle.home if market_bundle else {}
         home_hero = home_payload.get("hero") or {}
+        tseries_overview = load_tseries_overview_or_none(force_refresh=False)
         return Response(
             render_template(
                 "home.html",
@@ -2549,6 +2595,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     asof=home_payload.get("asof") or getattr(market_bundle, "asof", None),
                 ),
                 market_status_snapshot=market_status_snapshot,
+                tseries_overview=tseries_overview,
+                tseries_bucket_labels=T_SERIES_BUCKET_LABELS,
+                tseries_asset_scope_labels=T_SERIES_ASSET_SCOPE_LABELS,
                 compliance_note=_build_public_model_compliance_note(bundle),
                 notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
@@ -2906,6 +2955,40 @@ def create_app(settings: Settings | None = None) -> Flask:
                 market_state_bridge_view=page_view.get("state_intraday_bridge_view"),
                 market_status_snapshot=market_status_snapshot,
                 notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/discovery")
+    def discovery() -> Response | tuple[str, int]:
+        try:
+            overview = tseries_api.load_overview(force_refresh=False)
+        except TSeriesLoadError:
+            return (
+                render_template(
+                    "error.html",
+                    page_title="T-series Discovery Unavailable",
+                    status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                    metrics_summary=safe_metrics_summary(),
+                    message=(
+                        "현재 T-series discovery 데이터를 불러오지 못했습니다. "
+                        "잠시 후 다시 시도해 주세요."
+                    ),
+                ),
+                503,
+            )
+        record_page_view("/discovery")
+        return Response(
+            render_template(
+                "discovery.html",
+                page_title="T-series Discovery",
+                discovery_models=overview.models,
+                discovery_warnings=overview.warnings,
+                discovery_errors=overview.errors,
+                discovery_source_name=overview.source_name,
+                tseries_bucket_labels=T_SERIES_BUCKET_LABELS,
+                tseries_asset_scope_labels=T_SERIES_ASSET_SCOPE_LABELS,
+                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )

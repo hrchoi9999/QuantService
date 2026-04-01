@@ -23,6 +23,7 @@
         <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
         <a href="{{ url_for('performance') }}">성과 설명</a>
         <a href="{{ url_for('changes') }}">변경내역</a>
+        <a href="{{ url_for('discovery') }}">T-series Discovery</a>
         <a href="{{ url_for('feedback') }}">의견보내기</a>
         {% if current_user %}
         <a href="{{ url_for('logout') }}">로그아웃</a>
@@ -62,6 +63,7 @@
       <div class="footer-links">
         <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
         <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
+        <a href="{{ url_for('discovery') }}">T-series Discovery</a>
         <a href="{{ url_for('feedback') }}">의견 보내기</a>
       </div>
     </footer>

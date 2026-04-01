@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set initial_model_code = discovery_models[0].model_code if discovery_models else '' %}
+<section class="hero-card hero-stage home-hero">
+  <div class="hero-main hero-copy-block">
+    <div class="hero-badges">
+      <span class="badge accent">T-series Discovery</span>
+      <span class="badge neutral">source {{ discovery_source_name }}</span>
+    </div>
+    <h1>전이형 발굴 모델 후보군을 Stock / ETF 탭으로 확인해 보세요.</h1>
+    <p class="lead">T-series is a transition-based discovery model. It is designed to identify potential upgrade candidates, not to replace the existing ranking models.</p>
+    <p class="muted">T-series는 전이형 발굴 모델이며, 기존 랭킹형 종목선정 모델을 대체하기보다 상위 그룹 승격 가능성이 있는 후보를 탐지하기 위한 모델입니다.</p>
+    {% if discovery_warnings %}
+    <div class="warning-banner">{{ discovery_warnings[0] }}</div>
+    {% endif %}
+  </div>
+  <aside class="hero-side shell-card spotlight-panel segmented-card">
+    <div class="spotlight-grid">
+      <div class="spotlight-card">
+        <span class="label">모델 수</span>
+        <strong>{{ discovery_models | length }}</strong>
+      </div>
+      <div class="spotlight-card">
+        <span class="label">모델 성격</span>
+        <strong>read-only watchlist</strong>
+      </div>
+    </div>
+    <div class="disclosure-box compact-compliance-note">
+      <strong>안내</strong>
+      <p>기존 S-series는 <strong>cross-sectional ranking model / 랭킹형 종목선정 모델</strong>로 유지되며, T-series는 별도 discovery 영역에서만 read-only로 노출됩니다.</p>
+    </div>
+  </aside>
+</section>
+
+{% include "_notice_group.html" %}
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>T-series Discovery</h2>
+      <p class="muted small">Stock / ETF 전용 탭에서 confirmed / near / observe 후보군을 각각 확인합니다.</p>
+    </div>
+  </div>
+  <div class="balanced-segmented-control discovery-tablist" role="tablist" aria-label="T-series asset scope tabs">
+    {% for model in discovery_models %}
+    <button
+      type="button"
+      class="segment-pill discovery-tab{% if loop.first %} is-active{% endif %}"
+      id="tab-{{ model.model_code }}"
+      role="tab"
+      aria-controls="panel-{{ model.model_code }}"
+      aria-selected="{{ 'true' if loop.first else 'false' }}"
+      data-discovery-tab-target="panel-{{ model.model_code }}"
+    >
+      {{ tseries_asset_scope_labels.get(model.meta.asset_scope, model.meta.asset_scope) }}
+    </button>
+    {% endfor %}
+  </div>
+</section>
+
+{% for model in discovery_models %}
+<section
+  id="panel-{{ model.model_code }}"
+  class="panel shell-card discovery-panel{% if not loop.first %} is-hidden{% endif %}"
+  role="tabpanel"
+  aria-labelledby="tab-{{ model.model_code }}"
+  {% if not loop.first %}hidden{% endif %}
+>
+  <div class="section-heading feature-headline">
+    <div>
+      <h2>{{ tseries_asset_scope_labels.get(model.meta.asset_scope, model.meta.asset_scope) }}</h2>
+      <p class="muted small">{{ model.model_code }} · {{ model.meta.display_name_en }} · {{ model.meta.display_name_ko }}</p>
+    </div>
+    <span class="badge neutral">latest {{ model.asof_date }}</span>
+  </div>
+
+  <div class="feature-grid four-up">
+    <article class="feature-card shell-card">
+      <span class="label">display name</span>
+      <strong>{{ model.meta.display_name }}</strong>
+      <p class="muted small">{{ model.meta.asset_scope }}</p>
+    </article>
+    <article class="feature-card shell-card">
+      <span class="label">version</span>
+      <strong>{{ model.meta.version }}</strong>
+      <p class="muted small">profile {{ model.profile.profile_code or '-' }}</p>
+    </article>
+    <article class="feature-card shell-card">
+      <span class="label">threshold summary</span>
+      <strong>{{ model.profile.threshold_summary }}</strong>
+      <p class="muted small">risk filter {{ model.profile.risk_filter_version or '-' }}</p>
+    </article>
+    <article class="feature-card shell-card">
+      <span class="label">model type</span>
+      <strong>{{ model.meta.display_name_en }}</strong>
+      <p class="muted small">전이형 발굴 모델 / transition-based discovery model</p>
+    </article>
+  </div>
+
+  <div class="feature-grid three-up">
+    {% for bucket in ['confirmed', 'near', 'observe'] %}
+    <article class="feature-card shell-card">
+      <div class="model-head">
+        <div class="title-stack">
+          <h3>{{ tseries_bucket_labels.get(bucket, bucket) }}</h3>
+          <p class="muted small">{{ model.meta.bucket_explanations.get(bucket, '') }}</p>
+        </div>
+        <span class="badge accent">{{ model.bucket_counts.get(bucket, 0) }}</span>
+      </div>
+      {% if model.top_by_bucket.get(bucket) %}
+      <div class="discovery-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ticker</th>
+              <th>name</th>
+              <th>market</th>
+              <th>theme bucket</th>
+              <th>theme name</th>
+              <th>stage1</th>
+              <th>stage2</th>
+              {% if model.meta.asset_scope == 'stock' %}<th>S2 overlap</th>{% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.top_by_bucket.get(bucket, []) %}
+            <tr>
+              <td>{{ row.ticker or '-' }}</td>
+              <td>{{ row.name or '-' }}</td>
+              <td>{{ row.market or '-' }}</td>
+              <td>{{ row.theme_bucket or '-' }}</td>
+              <td>{{ row.theme_name_kr or '-' }}</td>
+              <td>{{ row.stage1_prob | fmt_percent if row.stage1_prob is not none else '-' }}</td>
+              <td>{{ row.stage2_prob | fmt_percent if row.stage2_prob is not none else '-' }}</td>
+              {% if model.meta.asset_scope == 'stock' %}
+              <td>{% if row.is_s2_overlap is none %}-{% else %}{{ 'yes' if row.is_s2_overlap else 'no' }}{% endif %}</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="warning-banner">현재 후보가 없습니다.</div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+
+  <section class="panel shell-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>shadow tracking summary</h3>
+        <p class="muted small">latest asof 기준 obs / t10 / t3 / average probabilities</p>
+      </div>
+    </div>
+    {% if model.shadow_summary %}
+    <div class="discovery-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>bucket</th>
+            <th>obs_n</th>
+            <th>t10_hit_rate</th>
+            <th>t3_hit_rate</th>
+            <th>avg_stage1_prob</th>
+            <th>avg_stage2_prob</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bucket in ['confirmed', 'near', 'observe'] %}
+          {% set row = model.shadow_summary.get(bucket) %}
+          <tr>
+            <td>{{ tseries_bucket_labels.get(bucket, bucket) }}</td>
+            <td>{{ row.obs_n if row else '-' }}</td>
+            <td>{% if row and row.t10_hit_rate is not none %}{{ '%.1f%%'|format(row.t10_hit_rate) }}{% else %}-{% endif %}</td>
+            <td>{% if row and row.t3_hit_rate is not none %}{{ '%.1f%%'|format(row.t3_hit_rate) }}{% else %}-{% endif %}</td>
+            <td>{% if row and row.avg_stage1_prob is not none %}{{ row.avg_stage1_prob | fmt_percent }}{% else %}-{% endif %}</td>
+            <td>{% if row and row.avg_stage2_prob is not none %}{{ row.avg_stage2_prob | fmt_percent }}{% else %}-{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="warning-banner">shadow summary가 아직 준비되지 않았습니다.</div>
+    {% endif %}
+  </section>
+</section>
+{% endfor %}
+
+<script>
+  (() => {
+    const buttons = Array.from(document.querySelectorAll('[data-discovery-tab-target]'));
+    const panels = Array.from(document.querySelectorAll('.discovery-panel'));
+    if (!buttons.length || !panels.length) return;
+
+    function activate(targetId) {
+      buttons.forEach((button) => {
+        const active = button.dataset.discoveryTabTarget === targetId;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach((panel) => {
+        const active = panel.id === targetId;
+        panel.classList.toggle('is-hidden', !active);
+        panel.hidden = !active;
+      });
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => activate(button.dataset.discoveryTabTarget));
+    });
+
+    activate('{{ initial_model_code and ('panel-' ~ initial_model_code) or '' }}');
+  })();
+</script>
+{% endblock %}

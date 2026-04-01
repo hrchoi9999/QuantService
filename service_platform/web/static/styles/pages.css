@@ -2559,3 +2559,34 @@ body {
     gap: 4px;
   }
 }
+
+
+
+.discovery-tab {
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.discovery-tab.is-active {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.discovery-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.discovery-panel.is-hidden {
+  display: none;
+}
+
+.discovery-table-wrap {
+  overflow-x: auto;
+}
+
+.discovery-table-wrap table {
+  width: 100%;
+}
