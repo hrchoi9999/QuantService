@@ -38,9 +38,9 @@ T_SERIES_MODEL_CODE_ALIASES = {model_code: model_code for model_code in T_SERIES
     for model_code, config in T_SERIES_MODEL_REGISTRY.items()
 }
 T_SERIES_BUCKET_EXPLANATIONS = {
-    "confirmed": "high-priority discovery candidates",
-    "near": "second-priority candidates",
-    "observe": "monitoring candidates",
+    "confirmed": "우선 검토 후보",
+    "near": "다음 순위 후보",
+    "observe": "관찰 후보",
 }
 T_SERIES_DEFAULT_DISCLAIMER_EN = (
     "T-series is a transition-based discovery model. It is designed to identify potential "
@@ -217,6 +217,7 @@ class TSeriesOperationalApi:
         shadow_summary_payload = self._normalize_shadow_summary_payload(
             payload.get("shadow_summary") or {}
         )
+        performance_summary_payload = payload.get("performance_summary") or {}
         bucket_counts_payload = payload.get("bucket_counts") or {}
 
         top_by_bucket = {
@@ -308,7 +309,7 @@ class TSeriesOperationalApi:
             },
             "profile": {
                 "profile_code": profile_payload.get("profile_code"),
-                "threshold_summary": threshold_summary or "threshold values not published",
+                "threshold_summary": threshold_summary or "임계값 미공개",
                 "risk_filter_version": profile_payload.get("risk_filter_version"),
                 "threshold_values": {
                     "stage1_threshold": (profile_payload.get("threshold_values") or {}).get(
@@ -333,6 +334,7 @@ class TSeriesOperationalApi:
             "bucket_counts": bucket_counts,
             "top_by_bucket": top_by_bucket,
             "shadow_summary": shadow_summary,
+            "performance_summary": self._normalize_performance_summary(performance_summary_payload),
         }
 
     @staticmethod
@@ -356,6 +358,58 @@ class TSeriesOperationalApi:
             "t3_hit_rate": row.get("t3_hit_rate"),
             "avg_stage1_prob": row.get("avg_stage1_prob"),
             "avg_stage2_prob": row.get("avg_stage2_prob"),
+        }
+
+    @staticmethod
+    def _normalize_performance_row(row: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "period": row.get("period"),
+            "start_date": row.get("start_date"),
+            "end_date": row.get("end_date"),
+            "total_return": row.get("total_return"),
+            "cagr": row.get("cagr"),
+            "mdd": row.get("mdd"),
+            "sharpe": row.get("sharpe"),
+        }
+
+    def _normalize_performance_summary(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            return {
+                "headline_metrics": {},
+                "period_metrics": [],
+                "performance_subject_name": None,
+                "performance_subject_type": None,
+                "portfolio_generation_basis": None,
+            }
+        period_metrics = [
+            self._normalize_performance_row(row)
+            for row in (payload.get("period_metrics") or [])
+            if isinstance(row, dict)
+        ]
+        headline = (
+            payload.get("headline_metrics")
+            if isinstance(payload.get("headline_metrics"), dict)
+            else {}
+        )
+        return {
+            "headline_metrics": {
+                "primary_period": headline.get("primary_period"),
+                "display_metric": headline.get("display_metric"),
+                "cagr": headline.get("cagr"),
+                "total_return": headline.get("total_return"),
+                "mdd": headline.get("mdd"),
+                "sharpe": headline.get("sharpe"),
+                "trailing_3m": headline.get("trailing_3m"),
+                "trailing_6m": headline.get("trailing_6m"),
+                "trailing_1y": headline.get("trailing_1y"),
+                "reference_5y": headline.get("reference_5y"),
+                "reference_full": headline.get("reference_full"),
+                "last_realized_date": headline.get("last_realized_date"),
+            },
+            "period_metrics": period_metrics,
+            "performance_subject_name": payload.get("performance_subject_name"),
+            "performance_subject_type": payload.get("performance_subject_type"),
+            "portfolio_generation_basis": payload.get("portfolio_generation_basis"),
         }
 
     @staticmethod
@@ -388,17 +442,17 @@ class TSeriesOperationalApi:
         confirmed = values.get("stage2_confirmed_threshold")
         near = values.get("stage2_near_threshold")
         if stage1 is not None:
-            parts.append(f"stage1 {float(stage1):.3f}")
+            parts.append(f"1단계 {float(stage1):.3f}")
         if confirmed is not None:
-            parts.append(f"confirmed {float(confirmed):.3f}")
+            parts.append(f"우선 후보 {float(confirmed):.3f}")
         if near is not None:
-            parts.append(f"near {float(near):.3f}")
-        return " / ".join(parts) if parts else "threshold values not published"
+            parts.append(f"근접 후보 {float(near):.3f}")
+        return " / ".join(parts) if parts else "임계값 미공개"
 
     @staticmethod
     def _public_display_name(model_code: str) -> str:
         config = T_SERIES_MODEL_REGISTRY[model_code]
-        asset_scope_label = "Stock" if config["asset_scope"] == "stock" else "ETF"
+        asset_scope_label = "주식" if config["asset_scope"] == "stock" else "ETF"
         return f"{config['display_name_ko']} · {asset_scope_label}"
 
     def _build_model_summary(self, snapshot: dict[str, Any]) -> dict[str, Any]:

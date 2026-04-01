@@ -3,7 +3,7 @@
   "warnings": [],
   "errors": [],
   "as_of_date": "2026-04-01",
-  "generated_at": "2026-04-01T11:51:51",
+  "generated_at": "2026-04-01T13:53:42",
   "channel": "tseries-discovery",
   "schema_version": "v1",
   "models": [
@@ -178,6 +178,130 @@
           "avg_stage1_prob": null,
           "avg_stage2_prob": null
         }
+      },
+      "performance_summary": {
+        "headline_metrics": {
+          "primary_period": "1Y",
+          "display_metric": "cagr",
+          "cagr": 3.555962,
+          "total_return": 3.666034,
+          "mdd": -0.099276,
+          "sharpe": 2.731952,
+          "trailing_3m": {
+            "period": "3M",
+            "start_date": "2025-08-20",
+            "end_date": "2025-11-26",
+            "total_return": 1.261786,
+            "cagr": 19.943805,
+            "mdd": 0.0,
+            "sharpe": 6.011654
+          },
+          "trailing_6m": {
+            "period": "6M",
+            "start_date": "2025-05-14",
+            "end_date": "2025-11-26",
+            "total_return": 1.537061,
+            "cagr": 4.668639,
+            "mdd": -0.051462,
+            "sharpe": 3.745409
+          },
+          "trailing_1y": {
+            "period": "1Y",
+            "start_date": "2024-11-20",
+            "end_date": "2025-11-26",
+            "total_return": 3.666034,
+            "cagr": 3.555962,
+            "mdd": -0.099276,
+            "sharpe": 2.731952
+          },
+          "reference_5y": {
+            "period": "5Y",
+            "start_date": "2020-11-25",
+            "end_date": "2025-11-26",
+            "total_return": 61.272127,
+            "cagr": 1.284081,
+            "mdd": -0.142105,
+            "sharpe": 1.860207
+          },
+          "reference_full": {
+            "period": "FULL",
+            "start_date": "2017-10-18",
+            "end_date": "2025-11-26",
+            "total_return": 303.390787,
+            "cagr": 1.024605,
+            "mdd": -0.353589,
+            "sharpe": 1.797602
+          },
+          "last_realized_date": "2025-11-26"
+        },
+        "period_metrics": [
+          {
+            "period": "3M",
+            "start_date": "2025-08-20",
+            "end_date": "2025-11-26",
+            "total_return": 1.261786,
+            "cagr": 19.943805,
+            "mdd": 0.0,
+            "sharpe": 6.011654
+          },
+          {
+            "period": "6M",
+            "start_date": "2025-05-14",
+            "end_date": "2025-11-26",
+            "total_return": 1.537061,
+            "cagr": 4.668639,
+            "mdd": -0.051462,
+            "sharpe": 3.745409
+          },
+          {
+            "period": "1Y",
+            "start_date": "2024-11-20",
+            "end_date": "2025-11-26",
+            "total_return": 3.666034,
+            "cagr": 3.555962,
+            "mdd": -0.099276,
+            "sharpe": 2.731952
+          },
+          {
+            "period": "2Y",
+            "start_date": "2023-11-22",
+            "end_date": "2025-11-26",
+            "total_return": 6.12918,
+            "cagr": 1.654046,
+            "mdd": -0.138955,
+            "sharpe": 1.804423
+          },
+          {
+            "period": "3Y",
+            "start_date": "2022-11-23",
+            "end_date": "2025-11-26",
+            "total_return": 14.763595,
+            "cagr": 1.500563,
+            "mdd": -0.138955,
+            "sharpe": 1.815356
+          },
+          {
+            "period": "5Y",
+            "start_date": "2020-11-25",
+            "end_date": "2025-11-26",
+            "total_return": 61.272127,
+            "cagr": 1.284081,
+            "mdd": -0.142105,
+            "sharpe": 1.860207
+          },
+          {
+            "period": "FULL",
+            "start_date": "2017-10-18",
+            "end_date": "2025-11-26",
+            "total_return": 303.390787,
+            "cagr": 1.024605,
+            "mdd": -0.353589,
+            "sharpe": 1.797602
+          }
+        ],
+        "performance_subject_name": "T-series stock discovery basket",
+        "performance_subject_type": "shadow_portfolio",
+        "portfolio_generation_basis": "Equal-weight basket of confirmed and near candidates, rebalanced at each signal date using historical candidate history."
       }
     },
     {
@@ -274,6 +398,130 @@
           "avg_stage2_prob": null
         },
         "observe": {}
+      },
+      "performance_summary": {
+        "headline_metrics": {
+          "primary_period": "1Y",
+          "display_metric": "cagr",
+          "cagr": 0.320972,
+          "total_return": 0.32072,
+          "mdd": -0.044049,
+          "sharpe": 2.253569,
+          "trailing_3m": {
+            "period": "3M",
+            "start_date": "2025-11-28",
+            "end_date": "2026-03-31",
+            "total_return": 0.125588,
+            "cagr": 0.420927,
+            "mdd": 0.0,
+            "sharpe": null
+          },
+          "trailing_6m": {
+            "period": "6M",
+            "start_date": "2025-09-30",
+            "end_date": "2026-03-31",
+            "total_return": 0.207772,
+            "cagr": 0.460605,
+            "mdd": -0.010713,
+            "sharpe": 4.034373
+          },
+          "trailing_1y": {
+            "period": "1Y",
+            "start_date": "2025-03-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.32072,
+            "cagr": 0.320972,
+            "mdd": -0.044049,
+            "sharpe": 2.253569
+          },
+          "reference_5y": {
+            "period": "5Y",
+            "start_date": "2021-03-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.426195,
+            "cagr": 0.073594,
+            "mdd": -0.256673,
+            "sharpe": 0.484269
+          },
+          "reference_full": {
+            "period": "FULL",
+            "start_date": "2019-01-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.15836,
+            "cagr": 0.020737,
+            "mdd": -0.256673,
+            "sharpe": 0.204947
+          },
+          "last_realized_date": "2026-03-31"
+        },
+        "period_metrics": [
+          {
+            "period": "3M",
+            "start_date": "2025-11-28",
+            "end_date": "2026-03-31",
+            "total_return": 0.125588,
+            "cagr": 0.420927,
+            "mdd": 0.0,
+            "sharpe": null
+          },
+          {
+            "period": "6M",
+            "start_date": "2025-09-30",
+            "end_date": "2026-03-31",
+            "total_return": 0.207772,
+            "cagr": 0.460605,
+            "mdd": -0.010713,
+            "sharpe": 4.034373
+          },
+          {
+            "period": "1Y",
+            "start_date": "2025-03-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.32072,
+            "cagr": 0.320972,
+            "mdd": -0.044049,
+            "sharpe": 2.253569
+          },
+          {
+            "period": "2Y",
+            "start_date": "2024-03-29",
+            "end_date": "2026-03-31",
+            "total_return": 0.026964,
+            "cagr": 0.013365,
+            "mdd": -0.256673,
+            "sharpe": 0.173313
+          },
+          {
+            "period": "3Y",
+            "start_date": "2023-03-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.216067,
+            "cagr": 0.067364,
+            "mdd": -0.256673,
+            "sharpe": 0.448428
+          },
+          {
+            "period": "5Y",
+            "start_date": "2021-03-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.426195,
+            "cagr": 0.073594,
+            "mdd": -0.256673,
+            "sharpe": 0.484269
+          },
+          {
+            "period": "FULL",
+            "start_date": "2019-01-31",
+            "end_date": "2026-03-31",
+            "total_return": 0.15836,
+            "cagr": 0.020737,
+            "mdd": -0.256673,
+            "sharpe": 0.204947
+          }
+        ],
+        "performance_subject_name": "T-series ETF discovery basket",
+        "performance_subject_type": "shadow_portfolio",
+        "portfolio_generation_basis": "Equal-weight basket of confirmed and near candidates, rebalanced at each signal date using historical candidate history."
       }
     }
   ]

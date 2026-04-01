@@ -21,7 +21,7 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                 "model_code": "T-STOCK-V01",
                 "asof_date": "2026-03-26",
                 "meta": {
-                    "display_name": "전이형 발굴 모델 · Stock",
+                    "display_name": "전이형 발굴 모델 · 주식",
                     "version": "V01",
                     "asset_scope": "stock",
                 },
@@ -114,6 +114,33 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                         "avg_stage2_prob": 0.523,
                     },
                 },
+                "performance_summary": {
+                    "headline_metrics": {
+                        "primary_period": "1Y",
+                        "display_metric": "cagr",
+                        "cagr": 1.234,
+                        "total_return": 1.876,
+                        "mdd": -0.123,
+                        "sharpe": 1.98,
+                        "last_realized_date": "2025-11-26",
+                    },
+                    "period_metrics": [
+                        {
+                            "period": "3M",
+                            "start_date": "2025-08-20",
+                            "end_date": "2025-11-26",
+                            "total_return": 0.25,
+                            "cagr": 1.1,
+                            "mdd": -0.05,
+                            "sharpe": 2.4,
+                        }
+                    ],
+                    "performance_subject_name": "T-series stock discovery basket",
+                    "performance_subject_type": "shadow_portfolio",
+                    "portfolio_generation_basis": (
+                        "Equal-weight basket of confirmed and near candidates"
+                    ),
+                },
             },
             {
                 "model_code": "T-ETF-V01",
@@ -125,7 +152,7 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                 },
                 "profile": {
                     "profile_code": "operational_v1",
-                    "threshold_summary": "threshold values not published",
+                    "threshold_summary": "임계값 미공개",
                     "risk_filter_version": "etf_risk_filter_v1",
                 },
                 "run": {
@@ -168,6 +195,33 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                         "avg_stage2_prob": 0.551,
                     }
                 },
+                "performance_summary": {
+                    "headline_metrics": {
+                        "primary_period": "1Y",
+                        "display_metric": "cagr",
+                        "cagr": 0.321,
+                        "total_return": 0.321,
+                        "mdd": -0.044,
+                        "sharpe": 2.25,
+                        "last_realized_date": "2026-03-31",
+                    },
+                    "period_metrics": [
+                        {
+                            "period": "6M",
+                            "start_date": "2025-09-30",
+                            "end_date": "2026-03-31",
+                            "total_return": 0.208,
+                            "cagr": 0.461,
+                            "mdd": -0.011,
+                            "sharpe": 4.03,
+                        }
+                    ],
+                    "performance_subject_name": "T-series ETF discovery basket",
+                    "performance_subject_type": "shadow_portfolio",
+                    "portfolio_generation_basis": (
+                        "Equal-weight basket of confirmed and near candidates"
+                    ),
+                },
             },
         ],
     }
@@ -191,7 +245,7 @@ def test_tseries_api_routes_return_normalized_payloads(tmp_path: Path) -> None:
     models = list_response.get_json()["models"]
     assert [row["model_code"] for row in models] == ["T-STOCK-V01", "T-ETF-V01"]
     assert models[0]["latest_asof_date"] == "2026-03-26"
-    assert models[0]["threshold_summary"] == "stage1 0.520 / confirmed 0.525 / near 0.520"
+    assert models[0]["threshold_summary"] == "1단계 0.520 / 우선 후보 0.525 / 근접 후보 0.520"
     assert models[1]["bucket_counts"]["observe"] == 0
 
     assert stock_response.status_code == 200
@@ -202,6 +256,10 @@ def test_tseries_api_routes_return_normalized_payloads(tmp_path: Path) -> None:
     assert stock_payload["top_by_bucket"]["confirmed"][0]["ticker"] == "047040"
     assert stock_payload["top_by_bucket"]["confirmed"][2]["is_s2_overlap"] is True
     assert stock_payload["shadow_summary"]["confirmed"]["obs_n"] == 1946
+    assert stock_payload["performance_summary"]["headline_metrics"]["primary_period"] == "1Y"
+    assert stock_payload["performance_summary"]["portfolio_generation_basis"].startswith(
+        "Equal-weight basket"
+    )
 
     assert etf_alias_response.status_code == 200
     etf_payload = etf_alias_response.get_json()
@@ -209,6 +267,7 @@ def test_tseries_api_routes_return_normalized_payloads(tmp_path: Path) -> None:
     assert etf_payload["bucket_counts"] == {"confirmed": 1, "near": 2, "observe": 0}
     assert etf_payload["top_by_bucket"]["observe"] == []
     assert etf_payload["shadow_summary"]["confirmed"]["avg_stage1_prob"] == 0.626
+    assert etf_payload["performance_summary"]["period_metrics"][0]["period"] == "6M"
 
 
 def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) -> None:
@@ -221,13 +280,17 @@ def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) ->
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "T-series Discovery" in body
+    assert "T-series 발굴 후보" in body
     assert "전이형 발굴 모델" in body
     assert "T-STOCK-V01" in body
     assert "T-ETF-V01" in body
     assert "대우건설" in body
     assert "현재 후보가 없습니다." in body
-    assert "Stock" in body and "ETF" in body
+    assert "성과 요약" in body
+    assert "Total Return" in body
+    assert "shadow discovery basket" in body
+    assert "Equal-weight basket of confirmed and near candidates" in body
+    assert "주식" in body and "ETF" in body
 
 
 def test_home_renders_tseries_teaser_when_available(tmp_path: Path) -> None:
@@ -242,7 +305,7 @@ def test_home_renders_tseries_teaser_when_available(tmp_path: Path) -> None:
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "T-series Discovery" in body
+    assert "T-series 발굴 후보" in body
     assert "후보 상세 보기" in body
     assert "6" in body and "3" in body and "1" in body
 

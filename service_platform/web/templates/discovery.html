@@ -5,11 +5,11 @@
 <section class="hero-card hero-stage home-hero">
   <div class="hero-main hero-copy-block">
     <div class="hero-badges">
-      <span class="badge accent">T-series Discovery</span>
-      <span class="badge neutral">source {{ discovery_source_name }}</span>
+      <span class="badge accent">T-series 발굴 후보</span>
+      <span class="badge neutral">데이터 출처 {{ discovery_source_name }}</span>
     </div>
-    <h1>전이형 발굴 모델 후보군을 Stock / ETF 탭으로 확인해 보세요.</h1>
-    <p class="lead">T-series is a transition-based discovery model. It is designed to identify potential upgrade candidates, not to replace the existing ranking models.</p>
+    <h1>전이형 발굴 모델 후보군을 주식 / ETF 탭으로 확인해 보세요.</h1>
+    <p class="lead">T-series는 상위 그룹 승격 가능성이 있는 후보를 탐지하기 위한 전이형 발굴 모델입니다.</p>
     <p class="muted">T-series는 전이형 발굴 모델이며, 기존 랭킹형 종목선정 모델을 대체하기보다 상위 그룹 승격 가능성이 있는 후보를 탐지하기 위한 모델입니다.</p>
     {% if discovery_warnings %}
     <div class="warning-banner">{{ discovery_warnings[0] }}</div>
@@ -23,12 +23,12 @@
       </div>
       <div class="spotlight-card">
         <span class="label">모델 성격</span>
-        <strong>read-only watchlist</strong>
+        <strong>읽기 전용 관찰 목록</strong>
       </div>
     </div>
     <div class="disclosure-box compact-compliance-note">
       <strong>안내</strong>
-      <p>기존 S-series는 <strong>cross-sectional ranking model / 랭킹형 종목선정 모델</strong>로 유지되며, T-series는 별도 discovery 영역에서만 read-only로 노출됩니다.</p>
+      <p>기존 S-series는 <strong>랭킹형 종목선정 모델</strong>로 유지되며, T-series는 별도 발굴 후보 영역에서만 읽기 전용으로 노출됩니다.</p>
     </div>
   </aside>
 </section>
@@ -38,11 +38,11 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <h2>T-series Discovery</h2>
-      <p class="muted small">Stock / ETF 전용 탭에서 confirmed / near / observe 후보군을 각각 확인합니다.</p>
+      <h2>T-series 발굴 후보</h2>
+      <p class="muted small">주식 / ETF 전용 탭에서 우선 후보 / 근접 후보 / 관찰 후보를 각각 확인합니다.</p>
     </div>
   </div>
-  <div class="balanced-segmented-control discovery-tablist" role="tablist" aria-label="T-series asset scope tabs">
+  <div class="balanced-segmented-control discovery-tablist" role="tablist" aria-label="T-series 자산 구분 탭">
     {% for model in discovery_models %}
     <button
       type="button"
@@ -70,33 +70,103 @@
   <div class="section-heading feature-headline">
     <div>
       <h2>{{ tseries_asset_scope_labels.get(model.meta.asset_scope, model.meta.asset_scope) }}</h2>
-      <p class="muted small">{{ model.model_code }} · {{ model.meta.display_name_en }} · {{ model.meta.display_name_ko }}</p>
+      <p class="muted small">{{ model.model_code }} · {{ model.meta.display_name_ko }}</p>
     </div>
-    <span class="badge neutral">latest {{ model.asof_date }}</span>
+    <span class="badge neutral">기준일 {{ model.asof_date }}</span>
   </div>
 
   <div class="feature-grid four-up">
     <article class="feature-card shell-card">
-      <span class="label">display name</span>
+      <span class="label">표시명</span>
       <strong>{{ model.meta.display_name }}</strong>
-      <p class="muted small">{{ model.meta.asset_scope }}</p>
+      <p class="muted small">{{ tseries_asset_scope_labels.get(model.meta.asset_scope, model.meta.asset_scope) }}</p>
     </article>
     <article class="feature-card shell-card">
-      <span class="label">version</span>
+      <span class="label">버전</span>
       <strong>{{ model.meta.version }}</strong>
-      <p class="muted small">profile {{ model.profile.profile_code or '-' }}</p>
+      <p class="muted small">프로필 {{ model.profile.profile_code or '-' }}</p>
     </article>
     <article class="feature-card shell-card">
-      <span class="label">threshold summary</span>
+      <span class="label">임계값 요약</span>
       <strong>{{ model.profile.threshold_summary }}</strong>
-      <p class="muted small">risk filter {{ model.profile.risk_filter_version or '-' }}</p>
+      <p class="muted small">리스크 필터 {{ model.profile.risk_filter_version or '-' }}</p>
     </article>
     <article class="feature-card shell-card">
-      <span class="label">model type</span>
-      <strong>{{ model.meta.display_name_en }}</strong>
-      <p class="muted small">전이형 발굴 모델 / transition-based discovery model</p>
+      <span class="label">모델 유형</span>
+      <strong>{{ model.meta.display_name_ko }}</strong>
+      <p class="muted small">전이형 발굴 모델</p>
     </article>
   </div>
+
+  <section class="panel shell-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>성과 요약</h3>
+        <p class="muted small">이 성과는 실제 운용 계좌 성과가 아니라, confirmed + near 후보를 동일가중으로 묶은 shadow discovery basket 기준입니다.</p>
+        <p class="muted small">T-series 성과는 discovery/watchlist 해석용 참고 정보이며, 기존 S-series 운용 성과를 대체하지 않습니다.</p>
+      </div>
+    </div>
+    {% if model.performance_summary and model.performance_summary.period_metrics %}
+    {% set perf = model.performance_summary %}
+    {% set headline = perf.headline_metrics or {} %}
+    <div class="feature-grid four-up">
+      <article class="feature-card shell-card">
+        <span class="label">주요 기간</span>
+        <strong>{{ headline.primary_period or '-' }}</strong>
+        <p class="muted small">실현 기준 {{ headline.last_realized_date or '-' }}</p>
+      </article>
+      <article class="feature-card shell-card">
+        <span class="label">Total Return</span>
+        <strong>{% if headline.total_return is not none %}{{ headline.total_return | fmt_percent }}{% else %}-{% endif %}</strong>
+        <p class="muted small">누적 수익률</p>
+      </article>
+      <article class="feature-card shell-card">
+        <span class="label">CAGR / MDD</span>
+        <strong>{% if headline.cagr is not none %}{{ headline.cagr | fmt_percent }}{% else %}-{% endif %}</strong>
+        <p class="muted small">MDD {% if headline.mdd is not none %}{{ headline.mdd | fmt_percent }}{% else %}-{% endif %}</p>
+      </article>
+      <article class="feature-card shell-card">
+        <span class="label">Sharpe</span>
+        <strong>{% if headline.sharpe is not none %}{{ '%.2f'|format(headline.sharpe) }}{% else %}-{% endif %}</strong>
+        <p class="muted small">{{ perf.performance_subject_name or 'Discovery basket' }}</p>
+      </article>
+    </div>
+    <div class="disclosure-box compact-compliance-note discovery-performance-note">
+      <strong>{{ perf.performance_subject_name or 'Shadow discovery basket' }}</strong>
+      <p>{{ perf.portfolio_generation_basis or 'Equal-weight basket of confirmed and near candidates' }}</p>
+    </div>
+    <div class="discovery-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>기간</th>
+            <th>시작일</th>
+            <th>종료일</th>
+            <th>Total Return</th>
+            <th>CAGR</th>
+            <th>MDD</th>
+            <th>Sharpe</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in perf.period_metrics %}
+          <tr>
+            <td>{{ row.period or '-' }}</td>
+            <td>{{ row.start_date or '-' }}</td>
+            <td>{{ row.end_date or '-' }}</td>
+            <td>{% if row.total_return is not none %}{{ row.total_return | fmt_percent }}{% else %}-{% endif %}</td>
+            <td>{% if row.cagr is not none %}{{ row.cagr | fmt_percent }}{% else %}-{% endif %}</td>
+            <td>{% if row.mdd is not none %}{{ row.mdd | fmt_percent }}{% else %}-{% endif %}</td>
+            <td>{% if row.sharpe is not none %}{{ '%.2f'|format(row.sharpe) }}{% else %}-{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="warning-banner">성과 요약 데이터가 아직 준비되지 않았습니다.</div>
+    {% endif %}
+  </section>
 
   <div class="feature-grid three-up">
     {% for bucket in ['confirmed', 'near', 'observe'] %}
@@ -113,14 +183,14 @@
         <table>
           <thead>
             <tr>
-              <th>ticker</th>
-              <th>name</th>
-              <th>market</th>
-              <th>theme bucket</th>
-              <th>theme name</th>
-              <th>stage1</th>
-              <th>stage2</th>
-              {% if model.meta.asset_scope == 'stock' %}<th>S2 overlap</th>{% endif %}
+              <th>종목코드</th>
+              <th>종목명</th>
+              <th>시장</th>
+              <th>테마 분류</th>
+              <th>테마명</th>
+              <th>1단계</th>
+              <th>2단계</th>
+              {% if model.meta.asset_scope == 'stock' %}<th>S2 중복</th>{% endif %}
             </tr>
           </thead>
           <tbody>
@@ -134,7 +204,7 @@
               <td>{{ row.stage1_prob | fmt_percent if row.stage1_prob is not none else '-' }}</td>
               <td>{{ row.stage2_prob | fmt_percent if row.stage2_prob is not none else '-' }}</td>
               {% if model.meta.asset_scope == 'stock' %}
-              <td>{% if row.is_s2_overlap is none %}-{% else %}{{ 'yes' if row.is_s2_overlap else 'no' }}{% endif %}</td>
+              <td>{% if row.is_s2_overlap is none %}-{% else %}{{ '예' if row.is_s2_overlap else '아니오' }}{% endif %}</td>
               {% endif %}
             </tr>
             {% endfor %}
@@ -151,8 +221,8 @@
   <section class="panel shell-card">
     <div class="section-heading tight-head">
       <div>
-        <h3>shadow tracking summary</h3>
-        <p class="muted small">latest asof 기준 obs / t10 / t3 / average probabilities</p>
+        <h3>그림자 추적 요약</h3>
+        <p class="muted small">최신 기준일 기준 관측 수, T+10/T+3 적중률, 평균 확률을 함께 보여 줍니다.</p>
       </div>
     </div>
     {% if model.shadow_summary %}
@@ -160,12 +230,12 @@
       <table>
         <thead>
           <tr>
-            <th>bucket</th>
-            <th>obs_n</th>
-            <th>t10_hit_rate</th>
-            <th>t3_hit_rate</th>
-            <th>avg_stage1_prob</th>
-            <th>avg_stage2_prob</th>
+            <th>구분</th>
+            <th>관측 수</th>
+            <th>T+10 적중률</th>
+            <th>T+3 적중률</th>
+            <th>1단계 평균 확률</th>
+            <th>2단계 평균 확률</th>
           </tr>
         </thead>
         <tbody>
@@ -184,7 +254,7 @@
       </table>
     </div>
     {% else %}
-    <div class="warning-banner">shadow summary가 아직 준비되지 않았습니다.</div>
+    <div class="warning-banner">그림자 추적 요약이 아직 준비되지 않았습니다.</div>
     {% endif %}
   </section>
 </section>
