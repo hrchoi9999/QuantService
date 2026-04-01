@@ -264,6 +264,22 @@ def test_tseries_api_can_read_remote_current_payload(tmp_path: Path) -> None:
         "near": 4,
         "observe": 2,
     }
+    remote_payload["models"][1]["shadow_summary"] = {
+        "historical_stage2": {
+            "obs_n": 69,
+            "t10_hit_rate": 17.4,
+            "t3_hit_rate": 8.7,
+            "avg_stage1_prob": 0.626,
+            "avg_stage2_prob": 0.551,
+        },
+        "historical_stage1": {
+            "obs_n": 698,
+            "t10_hit_rate": 7.0,
+            "t3_hit_rate": 3.1,
+            "avg_stage1_prob": 0.601,
+            "avg_stage2_prob": None,
+        },
+    }
     remote_payload_path.write_text(
         json.dumps(remote_payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -281,9 +297,11 @@ def test_tseries_api_can_read_remote_current_payload(tmp_path: Path) -> None:
 
     list_response = client.get("/api/v1/discovery/t-series")
     detail_response = client.get("/api/v1/discovery/t-series/T-STOCK-V01")
+    etf_detail_response = client.get("/api/v1/discovery/t-series/T-ETF-V01")
 
     assert list_response.status_code == 200
     assert detail_response.status_code == 200
+    assert etf_detail_response.status_code == 200
     assert list_response.get_json()["source_name"] == "remote:tseries_discovery_current"
     assert detail_response.get_json()["asof_date"] == "2026-04-01"
     assert detail_response.get_json()["bucket_counts"] == {
@@ -291,6 +309,8 @@ def test_tseries_api_can_read_remote_current_payload(tmp_path: Path) -> None:
         "near": 4,
         "observe": 2,
     }
+    assert etf_detail_response.get_json()["shadow_summary"]["confirmed"]["obs_n"] == 69
+    assert etf_detail_response.get_json()["shadow_summary"]["near"]["obs_n"] == 698
 
 
 def test_tseries_api_remote_current_falls_back_to_local_payload(tmp_path: Path) -> None:

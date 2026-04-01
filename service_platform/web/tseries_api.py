@@ -214,7 +214,9 @@ class TSeriesOperationalApi:
         profile_payload = payload.get("profile") or {}
         run_payload = payload.get("run") or {}
         top_by_bucket_payload = payload.get("top_by_bucket") or {}
-        shadow_summary_payload = payload.get("shadow_summary") or {}
+        shadow_summary_payload = self._normalize_shadow_summary_payload(
+            payload.get("shadow_summary") or {}
+        )
         bucket_counts_payload = payload.get("bucket_counts") or {}
 
         top_by_bucket = {
@@ -355,6 +357,29 @@ class TSeriesOperationalApi:
             "avg_stage1_prob": row.get("avg_stage1_prob"),
             "avg_stage2_prob": row.get("avg_stage2_prob"),
         }
+
+    @staticmethod
+    def _normalize_shadow_summary_payload(payload: dict[str, Any]) -> dict[str, Any]:
+        normalized = {
+            bucket: payload.get(bucket)
+            for bucket in T_SERIES_BUCKETS
+            if payload.get(bucket) is not None
+        }
+        if normalized:
+            return normalized
+
+        legacy_bucket_map = {
+            "historical_stage2": "confirmed",
+            "historical_stage1": "near",
+        }
+        remapped = {
+            bucket: payload.get(legacy_key)
+            for legacy_key, bucket in legacy_bucket_map.items()
+            if payload.get(legacy_key) is not None
+        }
+        if remapped:
+            remapped.setdefault("observe", {})
+        return remapped
 
     @staticmethod
     def _build_threshold_summary(values: dict[str, Any]) -> str:
