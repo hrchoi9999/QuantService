@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_state_transition_history.v1",
-  "as_of_date": "2026-05-23T10:00:00+09:00",
-  "generated_at": "2026-05-23T10:05:11+09:00",
+  "as_of_date": "2026-05-23T15:00:00+09:00",
+  "generated_at": "2026-05-23T15:05:04+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-23T10:00:00+09:00",
+    "asof": "2026-05-23T15:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -8502,6 +8502,66 @@
       "transition_count_20d": 9,
       "stability_score": 0.46,
       "state_score": 1.0669
+    },
+    {
+      "asof": "2026-05-23T11:00:00+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "stronger",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T12:00:00+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T12:39:16+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T13:00:00+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T14:00:00+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T15:00:00+09:00",
+      "current_state": "상승",
+      "prev_state": "상승",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 5,
+      "transition_count_20d": 9,
+      "stability_score": 0.46,
+      "state_score": 1.3469
     }
   ]
 }

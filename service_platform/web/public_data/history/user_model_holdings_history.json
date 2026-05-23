@@ -1,1022 +1,12 @@
 {
   "source_name": "handoff:user_model_holdings_history",
   "schema_version": "v1",
-  "as_of_date": "2026-05-06",
-  "generated_at": "2026-05-07T10:24:47",
+  "as_of_date": "2026-05-22",
+  "generated_at": "2026-05-23T11:42:50",
   "scope": "user",
   "timezone": "Asia/Seoul",
   "interval": "1w",
   "series": [
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "001440",
-      "display_name": "대한전선",
-      "target_weight": 0.013333,
-      "rank_no": 17,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "002380",
-      "display_name": "KCC",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "005830",
-      "display_name": "DB손해보험",
-      "target_weight": 0.013333,
-      "rank_no": 19,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "005940",
-      "display_name": "NH투자증권",
-      "target_weight": 0.013333,
-      "rank_no": 20,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "006400",
-      "display_name": "삼성SDI",
-      "target_weight": 0.013333,
-      "rank_no": 21,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "010130",
-      "display_name": "고려아연",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "010950",
-      "display_name": "S-Oil",
-      "target_weight": 0.013333,
-      "rank_no": 24,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "012330",
-      "display_name": "현대모비스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "012450",
-      "display_name": "한화에어로스페이스",
-      "target_weight": 0.013333,
-      "rank_no": 41,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "022100",
-      "display_name": "포스코DX",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "028260",
-      "display_name": "삼성물산",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "052400",
-      "display_name": "코나아이",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "066570",
-      "display_name": "LG전자",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.056604,
-      "rank_no": 9,
-      "strategy_fit_score": 0.056604,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "079550",
-      "display_name": "LIG넥스원",
-      "target_weight": 0.013333,
-      "rank_no": 32,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "084370",
-      "display_name": "유진테크",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "086280",
-      "display_name": "현대글로비스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "088350",
-      "display_name": "한화생명",
-      "target_weight": 0.013333,
-      "rank_no": 31,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.084906,
-      "rank_no": 8,
-      "strategy_fit_score": 0.084906,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "180640",
-      "display_name": "한진칼",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.113208,
-      "rank_no": 4,
-      "strategy_fit_score": 0.113208,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "267250",
-      "display_name": "HD현대",
-      "target_weight": 0.013333,
-      "rank_no": 30,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "278470",
-      "display_name": "에이피알",
-      "target_weight": 0.013333,
-      "rank_no": 27,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "298040",
-      "display_name": "효성중공업",
-      "target_weight": 0.013333,
-      "rank_no": 26,
-      "strategy_fit_score": 0.013333,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "454910",
-      "display_name": "두산로보틱스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "459580",
-      "display_name": "KODEX CD금리액티브(합성)",
-      "target_weight": 0.096,
-      "rank_no": 6,
-      "strategy_fit_score": 0.096,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "balanced",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.028302,
-      "rank_no": 12,
-      "strategy_fit_score": 0.028302,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "003380",
-      "display_name": "하림지주",
-      "target_weight": 0.026316,
-      "rank_no": 22,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "030530",
-      "display_name": "원익홀딩스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "032820",
-      "display_name": "우리기술",
-      "target_weight": 0.026316,
-      "rank_no": 25,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "048410",
-      "display_name": "현대바이오",
-      "target_weight": 0.026316,
-      "rank_no": 21,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "052020",
-      "display_name": "에스티큐브",
-      "target_weight": 0.026316,
-      "rank_no": 12,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "058610",
-      "display_name": "에스피지",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.04717,
-      "rank_no": 9,
-      "strategy_fit_score": 0.04717,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "086450",
-      "display_name": "동국제약",
-      "target_weight": 0.026316,
-      "rank_no": 29,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "086520",
-      "display_name": "에코프로",
-      "target_weight": 0.026316,
-      "rank_no": 15,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "095340",
-      "display_name": "ISC",
-      "target_weight": 0.026316,
-      "rank_no": 27,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "102940",
-      "display_name": "코오롱생명과학",
-      "target_weight": 0.026316,
-      "rank_no": 14,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "108490",
-      "display_name": "로보티즈",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "126340",
-      "display_name": "비나텍",
-      "target_weight": 0.026316,
-      "rank_no": 13,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.070755,
-      "rank_no": 8,
-      "strategy_fit_score": 0.070755,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "174900",
-      "display_name": "앱클론",
-      "target_weight": 0.026316,
-      "rank_no": 17,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "189300",
-      "display_name": "인텔리안테크",
-      "target_weight": 0.026316,
-      "rank_no": 18,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.09434,
-      "rank_no": 4,
-      "strategy_fit_score": 0.09434,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "218410",
-      "display_name": "RFHIC",
-      "target_weight": 0.026316,
-      "rank_no": 19,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "240810",
-      "display_name": "원익IPS",
-      "target_weight": 0.026316,
-      "rank_no": 28,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "263750",
-      "display_name": "펄어비스",
-      "target_weight": 0.026316,
-      "rank_no": 26,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "319400",
-      "display_name": "현대무벡스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "319660",
-      "display_name": "피에스케이",
-      "target_weight": 0.026316,
-      "rank_no": 20,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "323280",
-      "display_name": "태성",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "347700",
-      "display_name": "스피어",
-      "target_weight": 0.026316,
-      "rank_no": 23,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "376900",
-      "display_name": "로킷헬스케어",
-      "target_weight": 0.026316,
-      "rank_no": 16,
-      "strategy_fit_score": 0.026316,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "437730",
-      "display_name": "삼현",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "440110",
-      "display_name": "파두",
-      "target_weight": 0.026316,
-      "rank_no": 24,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "458870",
-      "display_name": "씨어스테크놀로지",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "459580",
-      "display_name": "KODEX CD금리액티브(합성)",
-      "target_weight": 0.08,
-      "rank_no": 6,
-      "strategy_fit_score": 0.08,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.023585,
-      "rank_no": 31,
-      "strategy_fit_score": 0.023585,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "growth",
-      "security_code": "950160",
-      "display_name": "코오롱티슈진",
-      "target_weight": 0.026316,
-      "rank_no": 11,
-      "strategy_fit_score": 0.026316,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "001440",
-      "display_name": "대한전선",
-      "target_weight": 0.01,
-      "rank_no": 17,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "002380",
-      "display_name": "KCC",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "005830",
-      "display_name": "DB손해보험",
-      "target_weight": 0.01,
-      "rank_no": 19,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "005940",
-      "display_name": "NH투자증권",
-      "target_weight": 0.01,
-      "rank_no": 20,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "006400",
-      "display_name": "삼성SDI",
-      "target_weight": 0.01,
-      "rank_no": 21,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "010130",
-      "display_name": "고려아연",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "010950",
-      "display_name": "S-Oil",
-      "target_weight": 0.01,
-      "rank_no": 24,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "012330",
-      "display_name": "현대모비스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "012450",
-      "display_name": "한화에어로스페이스",
-      "target_weight": 0.01,
-      "rank_no": 41,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "022100",
-      "display_name": "포스코DX",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "028260",
-      "display_name": "삼성물산",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "052400",
-      "display_name": "코나아이",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "066570",
-      "display_name": "LG전자",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.066038,
-      "rank_no": 9,
-      "strategy_fit_score": 0.066038,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "079550",
-      "display_name": "LIG넥스원",
-      "target_weight": 0.01,
-      "rank_no": 32,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "084370",
-      "display_name": "유진테크",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "086280",
-      "display_name": "현대글로비스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "088350",
-      "display_name": "한화생명",
-      "target_weight": 0.01,
-      "rank_no": 31,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.099057,
-      "rank_no": 8,
-      "strategy_fit_score": 0.099057,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "180640",
-      "display_name": "한진칼",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.132075,
-      "rank_no": 4,
-      "strategy_fit_score": 0.132075,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "267250",
-      "display_name": "HD현대",
-      "target_weight": 0.01,
-      "rank_no": 30,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "278470",
-      "display_name": "에이피알",
-      "target_weight": 0.01,
-      "rank_no": 27,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "298040",
-      "display_name": "효성중공업",
-      "target_weight": 0.01,
-      "rank_no": 26,
-      "strategy_fit_score": 0.01,
-      "event_type": "new_entry"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "454910",
-      "display_name": "두산로보틱스",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "459580",
-      "display_name": "KODEX CD금리액티브(합성)",
-      "target_weight": 0.112,
-      "rank_no": 6,
-      "strategy_fit_score": 0.112,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-01",
-      "service_profile": "stable",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.033019,
-      "rank_no": 12,
-      "strategy_fit_score": 0.033019,
-      "event_type": "decrease"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.174,
-      "rank_no": 1,
-      "strategy_fit_score": 0.174,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "084370",
-      "display_name": "유진테크",
-      "target_weight": 0.013333,
-      "rank_no": 28,
-      "strategy_fit_score": 0.013333,
-      "event_type": "re_entry"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.09,
-      "rank_no": 4,
-      "strategy_fit_score": 0.09,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.165,
-      "rank_no": 2,
-      "strategy_fit_score": 0.165,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "278470",
-      "display_name": "에이피알",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "balanced",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.03,
-      "rank_no": 6,
-      "strategy_fit_score": 0.03,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "growth",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.145,
-      "rank_no": 1,
-      "strategy_fit_score": 0.145,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "growth",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.075,
-      "rank_no": 4,
-      "strategy_fit_score": 0.075,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "growth",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.1375,
-      "rank_no": 2,
-      "strategy_fit_score": 0.1375,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "growth",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.025,
-      "rank_no": 25,
-      "strategy_fit_score": 0.025,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "069500",
-      "display_name": "KODEX 200",
-      "target_weight": 0.203,
-      "rank_no": 1,
-      "strategy_fit_score": 0.203,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "084370",
-      "display_name": "유진테크",
-      "target_weight": 0.01,
-      "rank_no": 28,
-      "strategy_fit_score": 0.01,
-      "event_type": "re_entry"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "161510",
-      "display_name": "PLUS 고배당주",
-      "target_weight": 0.105,
-      "rank_no": 4,
-      "strategy_fit_score": 0.105,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "192720",
-      "display_name": "파워 고배당저변동성",
-      "target_weight": 0.1925,
-      "rank_no": 2,
-      "strategy_fit_score": 0.1925,
-      "event_type": "weight_increase"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "278470",
-      "display_name": "에이피알",
-      "target_weight": 0.0,
-      "rank_no": null,
-      "strategy_fit_score": null,
-      "event_type": "exit"
-    },
-    {
-      "asof_date": "2026-04-03",
-      "service_profile": "stable",
-      "security_code": "498400",
-      "display_name": "KODEX 200타겟위클리커버드콜",
-      "target_weight": 0.035,
-      "rank_no": 6,
-      "strategy_fit_score": 0.035,
-      "event_type": "weight_increase"
-    },
     {
       "asof_date": "2026-04-16",
       "service_profile": "balanced",
@@ -1855,7 +845,7 @@
       "target_weight": 0.013333,
       "rank_no": 56,
       "strategy_fit_score": 0.013333,
-      "event_type": "re_entry"
+      "event_type": "new_entry"
     },
     {
       "asof_date": "2026-05-04",
@@ -2575,7 +1565,7 @@
       "target_weight": 0.01,
       "rank_no": 56,
       "strategy_fit_score": 0.01,
-      "event_type": "re_entry"
+      "event_type": "new_entry"
     },
     {
       "asof_date": "2026-05-04",
@@ -3022,6 +2012,1966 @@
       "service_profile": "stable",
       "security_code": "103590",
       "display_name": "일진전기",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "000660",
+      "display_name": "SK하이닉스",
+      "target_weight": 0.013333,
+      "rank_no": 22,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.013333,
+      "rank_no": 15,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.013333,
+      "rank_no": 18,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "010060",
+      "display_name": "OCI홀딩스",
+      "target_weight": 0.013333,
+      "rank_no": 42,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.013333,
+      "rank_no": 23,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.013333,
+      "rank_no": 37,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.013333,
+      "rank_no": 35,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.013333,
+      "rank_no": 34,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.013333,
+      "rank_no": 33,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "082740",
+      "display_name": "한화엔진",
+      "target_weight": 0.013333,
+      "rank_no": 31,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "balanced",
+      "security_code": "103590",
+      "display_name": "일진전기",
+      "target_weight": 0.013333,
+      "rank_no": 30,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "000660",
+      "display_name": "SK하이닉스",
+      "target_weight": 0.01,
+      "rank_no": 22,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.01,
+      "rank_no": 15,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.01,
+      "rank_no": 18,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "010060",
+      "display_name": "OCI홀딩스",
+      "target_weight": 0.01,
+      "rank_no": 42,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.01,
+      "rank_no": 23,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.01,
+      "rank_no": 37,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.01,
+      "rank_no": 35,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.01,
+      "rank_no": 34,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.01,
+      "rank_no": 33,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "082740",
+      "display_name": "한화엔진",
+      "target_weight": 0.01,
+      "rank_no": 31,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-07",
+      "service_profile": "stable",
+      "security_code": "103590",
+      "display_name": "일진전기",
+      "target_weight": 0.01,
+      "rank_no": 30,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.013333,
+      "rank_no": 7,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "010060",
+      "display_name": "OCI홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.013333,
+      "rank_no": 9,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.013333,
+      "rank_no": 19,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.013333,
+      "rank_no": 35,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.013333,
+      "rank_no": 34,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.013333,
+      "rank_no": 33,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.013333,
+      "rank_no": 32,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.013333,
+      "rank_no": 31,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.013333,
+      "rank_no": 29,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.013333,
+      "rank_no": 28,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "082740",
+      "display_name": "한화엔진",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "balanced",
+      "security_code": "103590",
+      "display_name": "일진전기",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.01,
+      "rank_no": 7,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "010060",
+      "display_name": "OCI홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.01,
+      "rank_no": 9,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.01,
+      "rank_no": 19,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.01,
+      "rank_no": 35,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.01,
+      "rank_no": 34,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.01,
+      "rank_no": 33,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.01,
+      "rank_no": 32,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.01,
+      "rank_no": 31,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.01,
+      "rank_no": 29,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.01,
+      "rank_no": 28,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "082740",
+      "display_name": "한화엔진",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-08",
+      "service_profile": "stable",
+      "security_code": "103590",
+      "display_name": "일진전기",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.013333,
+      "rank_no": 14,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.013333,
+      "rank_no": 10,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.013333,
+      "rank_no": 29,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "balanced",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.013333,
+      "rank_no": 28,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.01,
+      "rank_no": 14,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.01,
+      "rank_no": 10,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "014620",
+      "display_name": "성광벤드",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.01,
+      "rank_no": 29,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-11",
+      "service_profile": "stable",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.01,
+      "rank_no": 28,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.013333,
+      "rank_no": 7,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.013333,
+      "rank_no": 30,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.013333,
+      "rank_no": 29,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "balanced",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.013333,
+      "rank_no": 27,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.01,
+      "rank_no": 7,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "005830",
+      "display_name": "DB손해보험",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "010950",
+      "display_name": "S-Oil",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.01,
+      "rank_no": 30,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.01,
+      "rank_no": 29,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "078930",
+      "display_name": "GS",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-12",
+      "service_profile": "stable",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.01,
+      "rank_no": 27,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-13",
+      "service_profile": "balanced",
+      "security_code": "052690",
+      "display_name": "한전기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-13",
+      "service_profile": "balanced",
+      "security_code": "083650",
+      "display_name": "비에이치아이",
+      "target_weight": 0.013333,
+      "rank_no": 27,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-13",
+      "service_profile": "stable",
+      "security_code": "052690",
+      "display_name": "한전기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-13",
+      "service_profile": "stable",
+      "security_code": "083650",
+      "display_name": "비에이치아이",
+      "target_weight": 0.01,
+      "rank_no": 27,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "001440",
+      "display_name": "대한전선",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "007810",
+      "display_name": "코리아써키트",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "010170",
+      "display_name": "대한광통신",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "015750",
+      "display_name": "성우하이텍",
+      "target_weight": 0.025,
+      "rank_no": 9,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "027360",
+      "display_name": "아주IB투자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "042700",
+      "display_name": "한미반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "050890",
+      "display_name": "쏠리드",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "052020",
+      "display_name": "에스티큐브",
+      "target_weight": 0.025,
+      "rank_no": 15,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "086450",
+      "display_name": "동국제약",
+      "target_weight": 0.025,
+      "rank_no": 12,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.025,
+      "rank_no": 6,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "094170",
+      "display_name": "동운아나텍",
+      "target_weight": 0.025,
+      "rank_no": 11,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "095340",
+      "display_name": "ISC",
+      "target_weight": 0.025,
+      "rank_no": 24,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "100790",
+      "display_name": "미래에셋벤처투자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "124500",
+      "display_name": "아이티센글로벌",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "240810",
+      "display_name": "원익IPS",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "295310",
+      "display_name": "에이치브이엠",
+      "target_weight": 0.025,
+      "rank_no": 16,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "319660",
+      "display_name": "피에스케이",
+      "target_weight": 0.025,
+      "rank_no": 23,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "327260",
+      "display_name": "RF머트리얼즈",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "347700",
+      "display_name": "스피어",
+      "target_weight": 0.025,
+      "rank_no": 19,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "372320",
+      "display_name": "큐로셀",
+      "target_weight": 0.025,
+      "rank_no": 8,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "375500",
+      "display_name": "DL이앤씨",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "420770",
+      "display_name": "기가비스",
+      "target_weight": 0.025,
+      "rank_no": 17,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-15",
+      "service_profile": "growth",
+      "security_code": "440110",
+      "display_name": "파두",
+      "target_weight": 0.025,
+      "rank_no": 25,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "001440",
+      "display_name": "대한전선",
+      "target_weight": 0.025,
+      "rank_no": 25,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "007810",
+      "display_name": "코리아써키트",
+      "target_weight": 0.025,
+      "rank_no": 23,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "010170",
+      "display_name": "대한광통신",
+      "target_weight": 0.025,
+      "rank_no": 19,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "015750",
+      "display_name": "성우하이텍",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "027360",
+      "display_name": "아주IB투자",
+      "target_weight": 0.025,
+      "rank_no": 14,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "042700",
+      "display_name": "한미반도체",
+      "target_weight": 0.025,
+      "rank_no": 6,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.025,
+      "rank_no": 16,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "047040",
+      "display_name": "대우건설",
+      "target_weight": 0.025,
+      "rank_no": 7,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "050890",
+      "display_name": "쏠리드",
+      "target_weight": 0.025,
+      "rank_no": 10,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "052020",
+      "display_name": "에스티큐브",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "086450",
+      "display_name": "동국제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "094170",
+      "display_name": "동운아나텍",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "095340",
+      "display_name": "ISC",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "100790",
+      "display_name": "미래에셋벤처투자",
+      "target_weight": 0.025,
+      "rank_no": 18,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "124500",
+      "display_name": "아이티센글로벌",
+      "target_weight": 0.025,
+      "rank_no": 13,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "240810",
+      "display_name": "원익IPS",
+      "target_weight": 0.025,
+      "rank_no": 20,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "295310",
+      "display_name": "에이치브이엠",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "319660",
+      "display_name": "피에스케이",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "327260",
+      "display_name": "RF머트리얼즈",
+      "target_weight": 0.025,
+      "rank_no": 9,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "347700",
+      "display_name": "스피어",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "372320",
+      "display_name": "큐로셀",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "375500",
+      "display_name": "DL이앤씨",
+      "target_weight": 0.025,
+      "rank_no": 24,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "420770",
+      "display_name": "기가비스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-18",
+      "service_profile": "growth",
+      "security_code": "440110",
+      "display_name": "파두",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "001440",
+      "display_name": "대한전선",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.025,
+      "rank_no": 21,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "086450",
+      "display_name": "동국제약",
+      "target_weight": 0.025,
+      "rank_no": 12,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.025,
+      "rank_no": 15,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-19",
+      "service_profile": "growth",
+      "security_code": "950160",
+      "display_name": "코오롱티슈진",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "balanced",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "balanced",
+      "security_code": "084370",
+      "display_name": "유진테크",
+      "target_weight": 0.013333,
+      "rank_no": 27,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "001440",
+      "display_name": "대한전선",
+      "target_weight": 0.025,
+      "rank_no": 25,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "027360",
+      "display_name": "아주IB투자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "044490",
+      "display_name": "태웅",
+      "target_weight": 0.025,
+      "rank_no": 9,
+      "strategy_fit_score": 0.025,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "086450",
+      "display_name": "동국제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.025,
+      "rank_no": 22,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "stable",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-20",
+      "service_profile": "stable",
+      "security_code": "084370",
+      "display_name": "유진테크",
+      "target_weight": 0.01,
+      "rank_no": 27,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "balanced",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.013333,
+      "rank_no": 36,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "balanced",
+      "security_code": "084370",
+      "display_name": "유진테크",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "027360",
+      "display_name": "아주IB투자",
+      "target_weight": 0.025,
+      "rank_no": 15,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "044490",
+      "display_name": "태웅",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.025,
+      "rank_no": 14,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "growth",
+      "security_code": "950160",
+      "display_name": "코오롱티슈진",
+      "target_weight": 0.025,
+      "rank_no": 22,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "stable",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.01,
+      "rank_no": 36,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-21",
+      "service_profile": "stable",
+      "security_code": "084370",
+      "display_name": "유진테크",
       "target_weight": 0.0,
       "rank_no": null,
       "strategy_fit_score": null,

@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_timeline_history.v1",
-  "as_of_date": "2026-05-23T10:00:00+09:00",
-  "generated_at": "2026-05-23T10:05:11+09:00",
+  "as_of_date": "2026-05-23T15:00:00+09:00",
+  "generated_at": "2026-05-23T15:05:04+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-23T10:00:00+09:00",
+    "asof": "2026-05-23T15:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -8014,6 +8014,60 @@
       "breadth_score": 1.0698,
       "risk_score": -1.9861,
       "defensive_flow_score": 0.621,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T11:00:00+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T12:00:00+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T12:39:16+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T13:00:00+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T14:00:00+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "state_label": "상승"
+    },
+    {
+      "asof": "2026-05-23T15:00:00+09:00",
+      "total_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
       "state_label": "상승"
     }
   ]

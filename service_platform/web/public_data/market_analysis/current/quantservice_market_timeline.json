@@ -1,80 +1,20 @@
 {
   "market": "KR",
-  "asof": "2026-05-23T10:00:00+09:00",
+  "asof": "2026-05-23T15:00:00+09:00",
   "title": "상태 타임라인",
   "description": "최근 시장상태와 핵심 점수 흐름을 시간순으로 정리한 공개 브리핑 데이터입니다.",
   "current_state": {
-    "asof": "2026-05-23T10:00:00+09:00",
+    "asof": "2026-05-23T15:00:00+09:00",
     "state_label": "상승",
-    "state_score": 1.0669,
+    "state_score": 1.3469,
     "trend_score": 3.0,
-    "breadth_score": 1.0698,
-    "risk_score": -1.9861,
-    "defensive_flow_score": 0.621,
-    "total_score": 1.0669
+    "breadth_score": 2.0254,
+    "risk_score": -1.9461,
+    "defensive_flow_score": 0.5235,
+    "total_score": 1.3469
   },
-  "trend_direction": "weaker",
+  "trend_direction": "unchanged",
   "points": [
-    {
-      "asof": "2026-05-22T13:00:00+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
-    {
-      "asof": "2026-05-22T13:00:02+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
-    {
-      "asof": "2026-05-22T13:10:01+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
-    {
-      "asof": "2026-05-22T13:20:01+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
-    {
-      "asof": "2026-05-22T13:30:02+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
-    {
-      "asof": "2026-05-22T13:40:02+09:00",
-      "state_label": "상승",
-      "state_score": 1.0889,
-      "trend_score": 3.0,
-      "breadth_score": 1.0698,
-      "risk_score": -1.9861,
-      "defensive_flow_score": 0.7679,
-      "total_score": 1.0889
-    },
     {
       "asof": "2026-05-22T13:50:04+09:00",
       "state_label": "상승",
@@ -254,6 +194,66 @@
       "risk_score": -1.9861,
       "defensive_flow_score": 0.621,
       "total_score": 1.0669
+    },
+    {
+      "asof": "2026-05-23T11:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T12:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T12:39:16+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T13:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T14:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
+    },
+    {
+      "asof": "2026-05-23T15:00:00+09:00",
+      "state_label": "상승",
+      "state_score": 1.3469,
+      "trend_score": 3.0,
+      "breadth_score": 2.0254,
+      "risk_score": -1.9461,
+      "defensive_flow_score": 0.5235,
+      "total_score": 1.3469
     }
   ]
 }

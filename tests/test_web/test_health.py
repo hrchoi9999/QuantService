@@ -7011,6 +7011,40 @@ def test_ops_viewer_can_access_investment_portfolio_page(tmp_path: Path) -> None
     assert api_response.get_json()["page"] == "투자 포트폴리오"
 
 
+def test_investment_portfolio_can_read_remote_current_json(tmp_path: Path) -> None:
+    remote_dir = tmp_path / "remote" / "admin" / "current"
+    remote_dir.mkdir(parents=True)
+    payload_path = remote_dir / "investment_portfolio_latest.json"
+    payload_path.write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-05-22",
+                "generated_at": "2026-05-23T14:35:53+09:00",
+                "market_risk": {},
+                "etf_strategy": {"selected_model": "E-ETF-V01"},
+                "stock_strategy": {"candidates": []},
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    settings = replace(
+        build_settings(tmp_path),
+        snapshot_gcs_base_url=(tmp_path / "remote").as_uri(),
+    )
+
+    bundle = InvestmentPortfolioApi(
+        primary_path=tmp_path / "missing-primary.json",
+        fallback_path=tmp_path / "missing-fallback.json",
+        db_path=tmp_path / "missing.db",
+        settings=settings,
+    ).load_bundle()
+
+    assert bundle.source_path.endswith("/admin/current/investment_portfolio_latest.json")
+    assert bundle.view["as_of_date"] == "2026-05-22"
+    assert bundle.view["etf_strategy"]["selected_model"] == "E-ETF-V01"
+
+
 def test_investment_portfolio_prefers_stock_candidate_model_display_from_latest_db(
     tmp_path: Path,
 ) -> None:

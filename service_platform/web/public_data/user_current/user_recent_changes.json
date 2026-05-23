@@ -1,5 +1,5 @@
 {
-  "as_of_date": "2026-05-06",
+  "as_of_date": "2026-05-22",
   "changes": [
     {
       "user_model_name": "안정형",
@@ -42,20 +42,20 @@
           "direction": "increase"
         },
         {
-          "display_name": "성호전자",
-          "security_code": "043260",
-          "delta_weight": 0.01,
-          "direction": "increase"
-        },
-        {
           "display_name": "솔브레인홀딩스",
           "security_code": "036830",
           "delta_weight": 0.01,
           "direction": "increase"
         },
         {
-          "display_name": "SFA반도체",
-          "security_code": "036540",
+          "display_name": "성호전자",
+          "security_code": "043260",
+          "delta_weight": 0.01,
+          "direction": "increase"
+        },
+        {
+          "display_name": "현대바이오",
+          "security_code": "048410",
           "delta_weight": 0.01,
           "direction": "increase"
         }
@@ -74,20 +74,20 @@
           "direction": "decrease"
         },
         {
-          "display_name": "대우건설",
-          "security_code": "047040",
+          "display_name": "키움증권",
+          "security_code": "039490",
           "delta_weight": -0.01,
           "direction": "decrease"
         },
         {
-          "display_name": "한국항공우주",
-          "security_code": "047810",
+          "display_name": "유진테크",
+          "security_code": "084370",
           "delta_weight": -0.01,
           "direction": "decrease"
         },
         {
-          "display_name": "한국금융지주",
-          "security_code": "071050",
+          "display_name": "케이엠더블유",
+          "security_code": "032500",
           "delta_weight": -0.01,
           "direction": "decrease"
         }
@@ -104,15 +104,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.06",
+        "model_version": "public-model-2026.05.22",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-06",
+        "asof_date": "2026-05-22",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-06",
+        "backtest_end_date": "2026-05-22",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
@@ -158,20 +158,20 @@
           "direction": "increase"
         },
         {
-          "display_name": "성호전자",
-          "security_code": "043260",
-          "delta_weight": 0.013333,
-          "direction": "increase"
-        },
-        {
           "display_name": "솔브레인홀딩스",
           "security_code": "036830",
           "delta_weight": 0.013333,
           "direction": "increase"
         },
         {
-          "display_name": "SFA반도체",
-          "security_code": "036540",
+          "display_name": "성호전자",
+          "security_code": "043260",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "현대바이오",
+          "security_code": "048410",
           "delta_weight": 0.013333,
           "direction": "increase"
         }
@@ -190,20 +190,20 @@
           "direction": "decrease"
         },
         {
-          "display_name": "대우건설",
-          "security_code": "047040",
+          "display_name": "키움증권",
+          "security_code": "039490",
           "delta_weight": -0.013333,
           "direction": "decrease"
         },
         {
-          "display_name": "한국항공우주",
-          "security_code": "047810",
+          "display_name": "유진테크",
+          "security_code": "084370",
           "delta_weight": -0.013333,
           "direction": "decrease"
         },
         {
-          "display_name": "한국금융지주",
-          "security_code": "071050",
+          "display_name": "케이엠더블유",
+          "security_code": "032500",
           "delta_weight": -0.013333,
           "direction": "decrease"
         }
@@ -220,15 +220,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.06",
+        "model_version": "public-model-2026.05.22",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-06",
+        "asof_date": "2026-05-22",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-06",
+        "backtest_end_date": "2026-05-22",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
@@ -336,15 +336,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.06",
+        "model_version": "public-model-2026.05.22",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-06",
+        "asof_date": "2026-05-22",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-06",
+        "backtest_end_date": "2026-05-22",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }

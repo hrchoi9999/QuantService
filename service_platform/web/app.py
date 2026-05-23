@@ -4145,7 +4145,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
     investment_status_service = InvestmentStatusService(settings, access_store)
-    investment_portfolio_api = InvestmentPortfolioApi()
+    investment_portfolio_api = InvestmentPortfolioApi(settings=settings)
     admin_new_entries_api = AdminNewEntriesApi(settings)
     internal_models_api = InternalModelsApi(settings)
     valuation_ai_api = ValuationAiApi(settings)

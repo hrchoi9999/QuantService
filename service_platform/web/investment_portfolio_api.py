@@ -1,10 +1,17 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.request import Request, urlopen
+
+from service_platform.shared.config import Settings
 
 QUANT_ANALYSIS_DB_PATH = Path("D:/QuantAnalysis/analysis.db")
 QUANT_ANALYSIS_PORTFOLIO_PATH = Path("D:/QuantAnalysis/outputs/investment_portfolio_latest.json")
@@ -45,27 +52,44 @@ class InvestmentPortfolioApi:
         primary_path: Path = QUANT_ANALYSIS_PORTFOLIO_PATH,
         fallback_path: Path = DEFAULT_PORTFOLIO_FALLBACK_PATH,
         db_path: Path = QUANT_ANALYSIS_DB_PATH,
+        settings: Settings | None = None,
     ) -> None:
         self.primary_path = primary_path
         self.fallback_path = fallback_path
         self.db_path = db_path
+        self.remote_url = os.getenv("INVESTMENT_PORTFOLIO_URL", "").strip()
+        if not self.remote_url and settings and settings.snapshot_gcs_base_url.strip():
+            self.remote_url = (
+                f"{settings.snapshot_gcs_base_url.rstrip('/')}"
+                "/admin/current/investment_portfolio_latest.json"
+            )
 
     def load_bundle(self) -> InvestmentPortfolioBundle:
-        path = self.primary_path if self.primary_path.exists() else self.fallback_path
-        if not path.exists():
-            raise InvestmentPortfolioLoadError("investment portfolio payload not found")
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise InvestmentPortfolioLoadError("investment portfolio payload invalid") from exc
+        payload: dict[str, Any] | None = None
+        source_path = ""
+        if self.remote_url:
+            try:
+                payload = self._load_remote_payload()
+                source_path = self.remote_url
+            except InvestmentPortfolioLoadError:
+                payload = None
+        if payload is None:
+            path = self.primary_path if self.primary_path.exists() else self.fallback_path
+            if not path.exists():
+                raise InvestmentPortfolioLoadError("investment portfolio payload not found")
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise InvestmentPortfolioLoadError("investment portfolio payload invalid") from exc
+            source_path = str(path)
         if not isinstance(payload, dict):
             raise InvestmentPortfolioLoadError("investment portfolio payload root must be object")
         return InvestmentPortfolioBundle(
-            source_path=str(path),
+            source_path=source_path,
             payload=payload,
             view=_build_view(
                 payload,
-                str(path),
+                source_path,
                 _load_portfolio_run_context_from_db(self.db_path),
                 _load_step_details_from_db(self.db_path),
                 _load_selected_models_from_db(self.db_path),
@@ -73,6 +97,36 @@ class InvestmentPortfolioApi:
                 _load_model_explanation_from_db(self.db_path),
             ),
         )
+
+    def _load_remote_payload(self) -> dict[str, Any]:
+        url = _with_cache_buster(self.remote_url)
+        request = Request(
+            url,
+            headers={
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+                "User-Agent": "QuantService/1.0",
+            },
+        )
+        try:
+            with urlopen(request, timeout=10) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except (HTTPError, URLError, OSError, TimeoutError, json.JSONDecodeError) as exc:
+            raise InvestmentPortfolioLoadError(
+                "investment portfolio remote payload invalid"
+            ) from exc
+        if not isinstance(payload, dict):
+            raise InvestmentPortfolioLoadError("investment portfolio payload root must be object")
+        return payload
+
+
+def _with_cache_buster(url: str) -> str:
+    split = urlsplit(url)
+    if split.scheme not in {"http", "https"}:
+        return url
+    query = dict(parse_qsl(split.query, keep_blank_values=True))
+    query["_"] = str(int(time.time()))
+    return urlunsplit(split._replace(query=urlencode(query)))
 
 
 def _text(value: Any, fallback: str = "-") -> str:
