@@ -40,6 +40,78 @@
     {% endfor %}
   </div>
 
+
+  {% if model.performance_interpretation %}
+  <article class="shell-card content-card preview-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>최근 12주 성과 해석</h3>
+        <p class="muted small">왜 최근 12주 성과가 크게 보였는지 구간, 주간 변동, 상위 추정 기여 종목으로 보조 설명합니다.</p>
+      </div>
+    </div>
+    <div class="metric-strip preview-summary-grid compact-grid">
+      {% for card in model.performance_interpretation.summary_cards %}
+      <div class="metric-card public-metric-card">
+        <span class="label">{{ card.label }}</span>
+        <strong>
+          {% if card.kind == 'percent' %}{{ card.value | fmt_percent }}
+          {% elif card.kind == 'weeks' %}{{ card.value }}주
+          {% else %}{{ card.value }}{% endif %}
+        </strong>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="grid two-up preview-two-up">
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>값</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.performance_interpretation.detail_rows %}
+            <tr>
+              <td>{{ row.label }}</td>
+              <td>
+                {% if row.kind == 'percent' %}{{ row.value | fmt_percent }}
+                {% else %}{{ row.value }}{% endif %}
+                {% if row.suffix %}<span class="muted"> / {{ row.suffix }}</span>{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>코드</th>
+              <th>종목명</th>
+              <th>추정 기여</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.performance_interpretation.top_contributors %}
+            <tr>
+              <td>{{ row.ticker }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.estimated_contribution_12w | fmt_percent }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="3">상위 추정 기여 종목 데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+  {% endif %}
+
   <div class="grid two-up preview-two-up">
     <article class="shell-card content-card preview-card">
       <div class="section-heading tight-head">

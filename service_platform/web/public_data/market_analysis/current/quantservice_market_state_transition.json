@@ -1,86 +1,86 @@
 {
   "market": "KR",
-  "asof": "2026-03-26T22:00:00+09:00",
+  "asof": "2026-05-23T10:00:00+09:00",
   "title": "상태 전이 요약",
   "description": "현재 상태가 얼마나 이어지고 있는지와 최근 상태 변화 빈도를 요약한 공개 브리핑 데이터입니다.",
   "current": {
     "current_state": "상승",
     "prev_state": "상승",
-    "duration_hours": 36.0,
-    "transition_count_5d": 4,
-    "transition_count_20d": 4,
-    "stability_score": 0.76
+    "duration_hours": 24.4517,
+    "transition_count_5d": 5,
+    "transition_count_20d": 9,
+    "stability_score": 0.46
   },
   "recent_changes": [
     {
-      "asof": "2026-03-26T22:00:00+09:00",
+      "asof": "2026-05-23T10:00:00+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
-      "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_change_direction": "weaker",
+      "state_score": 1.0669
     },
     {
-      "asof": "2026-03-26T21:00:00+09:00",
+      "asof": "2026-05-22T19:00:00+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.1005
     },
     {
-      "asof": "2026-03-26T20:00:00+09:00",
+      "asof": "2026-05-22T18:00:00+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.1005
     },
     {
-      "asof": "2026-03-26T19:00:00+09:00",
+      "asof": "2026-05-22T17:00:00+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
-      "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_change_direction": "stronger",
+      "state_score": 1.1005
     },
     {
-      "asof": "2026-03-26T18:31:51+09:00",
+      "asof": "2026-05-22T16:00:00+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     },
     {
-      "asof": "2026-03-26T18:00:00+09:00",
+      "asof": "2026-05-22T15:40:02+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     },
     {
-      "asof": "2026-03-26T17:06:37+09:00",
+      "asof": "2026-05-22T15:30:01+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     },
     {
-      "asof": "2026-03-26T17:00:00+09:00",
+      "asof": "2026-05-22T15:20:02+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     },
     {
-      "asof": "2026-03-26T16:00:00+09:00",
+      "asof": "2026-05-22T15:10:02+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     },
     {
-      "asof": "2026-03-26T15:00:00+09:00",
+      "asof": "2026-05-22T15:00:02+09:00",
       "state_label": "상승",
       "prev_state_label": "상승",
       "state_change_direction": "unchanged",
-      "state_score": 1.0978
+      "state_score": 1.0889
     }
   ]
 }

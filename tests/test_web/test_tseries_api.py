@@ -2,9 +2,12 @@ import json
 from pathlib import Path
 
 from service_platform.web.app import create_app
+from service_platform.web.tseries_api import TSeriesOperationalApi
 from tests.test_web.test_health import (
     build_settings,
+    login_user,
     seed_market_analysis_snapshot,
+    seed_trading_sign_snapshot,
     seed_user_snapshot,
 )
 
@@ -133,13 +136,74 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                             "cagr": 1.1,
                             "mdd": -0.05,
                             "sharpe": 2.4,
-                        }
+                        },
+                        {
+                            "period": "5Y",
+                            "start_date": "2020-11-26",
+                            "end_date": "2025-11-26",
+                            "total_return": 0.88,
+                            "cagr": 0.13,
+                            "mdd": -0.21,
+                            "sharpe": 0.91,
+                        },
+                        {
+                            "period": "FULL",
+                            "start_date": "2018-01-02",
+                            "end_date": "2025-11-26",
+                            "total_return": 1.25,
+                            "cagr": 0.15,
+                            "mdd": -0.24,
+                            "sharpe": 0.96,
+                        },
                     ],
                     "performance_subject_name": "T-series stock discovery basket",
                     "performance_subject_type": "shadow_portfolio",
                     "portfolio_generation_basis": (
                         "Equal-weight basket of confirmed and near candidates"
                     ),
+                },
+                "rolling_watchlist": {
+                    "summary": [
+                        {"bucket": "new", "count": 1},
+                        {"bucket": "active", "count": 0},
+                        {"bucket": "cooling", "count": 10},
+                        {"bucket": "tier_core", "count": 4},
+                    ],
+                    "items": [
+                        {
+                            "ticker": "047040",
+                            "name": "대우건설",
+                            "market": "KOSPI",
+                            "theme_bucket": "construction_materials",
+                            "theme_name_kr": "건설/소재",
+                            "watch_status": "new",
+                            "watch_tier": "core",
+                            "is_current": True,
+                            "current_bucket": "confirmed",
+                            "last_seen_asof": "2026-03-26",
+                            "prev_seen_asof": "2026-03-19",
+                            "appearances_recent": 2,
+                            "consecutive_current": 1,
+                            "stage1_prob": 0.5225,
+                            "stage2_prob": 0.5433,
+                        },
+                        {
+                            "ticker": "035420",
+                            "name": "NAVER",
+                            "market": "KOSPI",
+                            "theme_bucket": "platform",
+                            "theme_name_kr": "플랫폼",
+                            "watch_status": "cooling",
+                            "watch_tier": "monitor",
+                            "is_current": False,
+                            "current_bucket": None,
+                            "last_seen_asof": "2026-03-19",
+                            "prev_seen_asof": "2026-03-12",
+                            "weeks_seen": 3,
+                            "stage1_prob": 0.5110,
+                            "stage2_prob": 0.5170,
+                        },
+                    ],
                 },
             },
             {
@@ -169,6 +233,9 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                             "market": "ETF",
                             "theme_bucket": "us_equity",
                             "theme_name_kr": "미국주식",
+                            "role_key": "CORE_BETA",
+                            "role_confidence": 0.92,
+                            "role_reason": "대표 미국 주식 지수 노출 ETF입니다.",
                             "stage1_prob": 0.6310,
                             "stage2_prob": 0.5510,
                         }
@@ -180,6 +247,9 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                             "market": "ETF",
                             "theme_bucket": "korea_equity",
                             "theme_name_kr": "국내주식",
+                            "role_key": "STYLE_FACTOR",
+                            "role_confidence": 0.81,
+                            "role_reason": "국내 대표지수 추종 성격입니다.",
                             "stage1_prob": 0.6240,
                             "stage2_prob": 0.5410,
                         }
@@ -214,7 +284,25 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                             "cagr": 0.461,
                             "mdd": -0.011,
                             "sharpe": 4.03,
-                        }
+                        },
+                        {
+                            "period": "5Y",
+                            "start_date": "2021-03-31",
+                            "end_date": "2026-03-31",
+                            "total_return": 0.55,
+                            "cagr": 0.09,
+                            "mdd": -0.08,
+                            "sharpe": 1.41,
+                        },
+                        {
+                            "period": "FULL",
+                            "start_date": "2019-01-02",
+                            "end_date": "2026-03-31",
+                            "total_return": 0.67,
+                            "cagr": 0.08,
+                            "mdd": -0.11,
+                            "sharpe": 1.22,
+                        },
                     ],
                     "performance_subject_name": "T-series ETF discovery basket",
                     "performance_subject_type": "shadow_portfolio",
@@ -222,12 +310,212 @@ def seed_tseries_discovery_payload(public_data_dir: Path) -> None:
                         "Equal-weight basket of confirmed and near candidates"
                     ),
                 },
+                "rolling_watchlist": {
+                    "summary": [
+                        {"bucket": "new", "count": 2},
+                        {"bucket": "active", "count": 0},
+                        {"bucket": "cooling", "count": 0},
+                    ],
+                    "items": [
+                        {
+                            "ticker": "360750",
+                            "name": "TIGER 미국S&P500",
+                            "market": "ETF",
+                            "theme_bucket": "us_equity",
+                            "theme_name_kr": "미국주식",
+                            "role_key": "CORE_BETA",
+                            "role_confidence": 0.92,
+                            "role_reason": "대표 미국 주식 지수 노출 ETF입니다.",
+                            "watch_status": "new",
+                            "watch_tier": "core",
+                            "is_current": True,
+                            "current_bucket": "confirmed",
+                            "last_seen_date": "2026-03-31",
+                            "months_seen": 1,
+                            "stage1_prob": 0.6310,
+                            "stage2_prob": 0.5510,
+                        },
+                        {
+                            "ticker": "102110",
+                            "name": "TIGER 200",
+                            "market": "ETF",
+                            "theme_bucket": "korea_equity",
+                            "theme_name_kr": "국내주식",
+                            "role_key": "STYLE_FACTOR",
+                            "role_confidence": 0.81,
+                            "role_reason": "국내 대표지수 추종 성격입니다.",
+                            "watch_status": "new",
+                            "watch_tier": "monitor",
+                            "is_current": True,
+                            "current_bucket": "near",
+                            "last_seen_date": "2026-03-31",
+                            "months_seen": 1,
+                            "stage1_prob": 0.6240,
+                            "stage2_prob": 0.5410,
+                        },
+                    ],
+                },
             },
         ],
     }
     (target_dir / "quantservice_tseries_discovery.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
+    )
+
+
+def seed_tseries_discovery_trading_sign_payload(public_data_dir: Path) -> None:
+    target_dir = public_data_dir / "trading_sign" / "current"
+    seed_trading_sign_snapshot(target_dir)
+
+    detail_path = target_dir / "tradingsign_model_detail.json"
+    overview_path = target_dir / "tradingsign_overview.json"
+    detail = json.loads(detail_path.read_text(encoding="utf-8-sig"))
+    overview = json.loads(overview_path.read_text(encoding="utf-8-sig"))
+
+    t_models = [
+        {
+            "model_code": "T_STOCK_DISCOVERY",
+            "model_name": "T-series 주식 발굴 신호",
+            "signal_date": "2026-04-02",
+            "record_count": 2,
+            "state_counts": {"매수": 1, "보유": 0, "주의": 1, "매도": 0, "매수 대기": 0},
+            "ui_block": {
+                "title": "매매 신호(전일 종가 기준)",
+                "description": ("이 신호는 전일 종가 기준으로 계산된 참고용 일간 점검 정보입니다."),
+                "disclaimer": (
+                    "이 상태는 공개 규칙 기반 모델의 참고용 해석이며 특정 이용자에 대한 "
+                    "개별 매매 지시가 아닙니다."
+                ),
+                "signal_date": "2026-04-02",
+                "data_asof_date": "2026-04-01",
+                "generated_at": "2026-04-02T13:21:50",
+                "profile_code": "T_STOCK_DISCOVERY",
+                "state_chips": [
+                    {"state": "매수", "count": 1},
+                    {"state": "보유", "count": 0},
+                    {"state": "주의", "count": 1},
+                    {"state": "매도", "count": 0},
+                    {"state": "매수 대기", "count": 0},
+                ],
+                "sections": [
+                    {
+                        "section_key": "recommended",
+                        "title": "추천 종목 신호",
+                        "record_count": 2,
+                        "signals": [
+                            {
+                                "ticker": "047040",
+                                "security_name": "대우건설",
+                                "current_state": "매수",
+                                "reason_summary": (
+                                    "전일 종가 기준으로 신규 진입 조건을 충족했습니다."
+                                ),
+                                "latest_state_change_date": "2026-04-02",
+                            },
+                            {
+                                "ticker": "035420",
+                                "security_name": "NAVER",
+                                "current_state": "주의",
+                                "reason_summary": "추세 확인이 더 필요한 경고 상태입니다.",
+                                "latest_state_change_date": "2026-04-01",
+                            },
+                        ],
+                    },
+                    {
+                        "section_key": "held",
+                        "title": "보유 종목 신호",
+                        "record_count": 0,
+                        "signals": [],
+                    },
+                ],
+            },
+        },
+        {
+            "model_code": "T_ETF_DISCOVERY",
+            "model_name": "T-series ETF 발굴 신호",
+            "signal_date": "2026-04-02",
+            "record_count": 1,
+            "state_counts": {"매수": 0, "보유": 1, "주의": 0, "매도": 0, "매수 대기": 0},
+            "ui_block": {
+                "title": "매매 신호(전일 종가 기준)",
+                "description": ("이 신호는 전일 종가 기준으로 계산된 참고용 일간 점검 정보입니다."),
+                "disclaimer": (
+                    "이 상태는 공개 규칙 기반 모델의 참고용 해석이며 특정 이용자에 대한 "
+                    "개별 매매 지시가 아닙니다."
+                ),
+                "signal_date": "2026-04-02",
+                "data_asof_date": "2026-04-01",
+                "generated_at": "2026-04-02T13:21:50",
+                "profile_code": "T_ETF_DISCOVERY",
+                "state_chips": [
+                    {"state": "매수", "count": 0},
+                    {"state": "보유", "count": 1},
+                    {"state": "주의", "count": 0},
+                    {"state": "매도", "count": 0},
+                    {"state": "매수 대기", "count": 0},
+                ],
+                "sections": [
+                    {
+                        "section_key": "recommended",
+                        "title": "추천 종목 신호",
+                        "record_count": 1,
+                        "signals": [
+                            {
+                                "ticker": "360750",
+                                "security_name": "TIGER 미국S&P500",
+                                "current_state": "보유",
+                                "reason_summary": (
+                                    "중장기 추세가 유지돼 보유 기준을 충족하고 있습니다."
+                                ),
+                                "latest_state_change_date": "2026-04-02",
+                            }
+                        ],
+                    }
+                ],
+            },
+        },
+    ]
+
+    detail["models"].extend(t_models)
+    overview["models"].extend(
+        {
+            "model_code": model["model_code"],
+            "model_name": model["model_name"],
+            "signal_date": model["signal_date"],
+            "record_count": model["record_count"],
+            "state_counts": model["state_counts"],
+        }
+        for model in t_models
+    )
+    overview["summary"]["model_count"] = len(overview["models"])
+    overview["summary"]["signal_count"] = sum(
+        int(model.get("record_count") or 0) for model in overview["models"]
+    )
+
+    detail_path.write_text(
+        json.dumps(detail, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8-sig",
+    )
+    overview_path.write_text(
+        json.dumps(overview, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8-sig",
+    )
+
+
+def login_ops_viewer(client, app) -> None:
+    access_store = app.config["ACCESS_STORE"]
+    access_store.register_local_user(
+        email="hrchoi@koreascf.com",
+        password="pass1234",
+        phone_number="01012345678",
+    )
+    login_user(
+        client,
+        email="hrchoi@koreascf.com",
+        password="pass1234",
+        next_url="/discovery",
+        follow_redirects=True,
     )
 
 
@@ -260,14 +548,32 @@ def test_tseries_api_routes_return_normalized_payloads(tmp_path: Path) -> None:
     assert stock_payload["performance_summary"]["portfolio_generation_basis"].startswith(
         "Equal-weight basket"
     )
+    assert stock_payload["rolling_watchlist"]["enabled"] is True
+    assert [row["status"] for row in stock_payload["rolling_watchlist"]["summary_rows"]] == [
+        "new",
+        "active",
+        "cooling",
+    ]
+    assert stock_payload["rolling_watchlist"]["summary_rows"][2]["count"] == 10
+    assert stock_payload["rolling_watchlist"]["items"][0]["watch_status"] == "new"
+    assert stock_payload["rolling_watchlist"]["items"][0]["seen_count_label"] == "2회 포착"
 
     assert etf_alias_response.status_code == 200
     etf_payload = etf_alias_response.get_json()
     assert etf_payload["model_code"] == "T-ETF-V01"
     assert etf_payload["bucket_counts"] == {"confirmed": 1, "near": 2, "observe": 0}
     assert etf_payload["top_by_bucket"]["observe"] == []
+    assert etf_payload["top_by_bucket"]["confirmed"][0]["role_key"] == "CORE_BETA"
+    assert etf_payload["top_by_bucket"]["confirmed"][0]["role_confidence"] == 0.92
+    assert (
+        etf_payload["top_by_bucket"]["confirmed"][0]["role_reason"]
+        == "대표 미국 주식 지수 노출 ETF입니다."
+    )
     assert etf_payload["shadow_summary"]["confirmed"]["avg_stage1_prob"] == 0.626
     assert etf_payload["performance_summary"]["period_metrics"][0]["period"] == "6M"
+    assert etf_payload["rolling_watchlist"]["summary_rows"][0]["count"] == 2
+    assert etf_payload["rolling_watchlist"]["items"][0]["seen_count_label"] == "1개월"
+    assert etf_payload["rolling_watchlist"]["items"][0]["role_key"] == "CORE_BETA"
 
 
 def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) -> None:
@@ -275,12 +581,13 @@ def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) ->
     seed_tseries_discovery_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
+    login_ops_viewer(client, app)
 
     response = client.get("/discovery")
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "T-series 발굴 후보" in body
+    assert "상승종목 발굴" in body
     assert "전이형 발굴 모델" in body
     assert "T-STOCK-V01" in body
     assert "T-ETF-V01" in body
@@ -291,6 +598,79 @@ def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) ->
     assert "shadow discovery basket" in body
     assert "Equal-weight basket of confirmed and near candidates" in body
     assert "주식" in body and "ETF" in body
+    assert "핵심지수형" in body
+    assert "스타일/팩터형" in body
+    assert "누적 관찰 후보" in body
+    assert "신규 1" in body
+    assert "유지 0" in body
+    assert "쿨링 10" in body
+    assert "2회 포착" in body
+    assert "상승종목 발굴 일간 신호 데이터가 아직 준비되지 않았습니다." in body
+    assert 'class="discovery-name-cell">대우건설<' in body
+    assert 'class="feature-grid three-up discovery-candidate-grid"' in body
+    assert 'class="feature-card shell-card discovery-candidate-card"' in body
+    assert 'class="discovery-candidate-table"' in body
+    assert "<td>5Y</td>" not in body
+    assert "<td>FULL</td>" not in body
+
+
+def test_tseries_public_page_renders_trading_sign_block_when_available(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_tseries_discovery_payload(settings.public_data_dir)
+    seed_tseries_discovery_trading_sign_payload(settings.public_data_dir)
+    app = create_app(settings)
+    client = app.test_client()
+    login_ops_viewer(client, app)
+
+    response = client.get("/discovery")
+    body = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert body.count("매매 신호(전일 종가 기준)") >= 2
+    assert (
+        "추천 종목 신호" in body
+        or "상승종목 발굴 일간 신호 데이터가 아직 준비되지 않았습니다." in body
+    )
+    assert "대우건설" in body
+
+
+def test_tseries_public_page_hides_missing_trading_sign_sections_gracefully(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_tseries_discovery_payload(settings.public_data_dir)
+    app = create_app(settings)
+    client = app.test_client()
+    login_ops_viewer(client, app)
+
+    body = client.get("/discovery").get_data(as_text=True)
+
+    assert "상승종목 발굴 일간 신호 데이터가 아직 준비되지 않았습니다." in body
+    assert "대우건설" in body
+
+
+def test_tseries_public_page_hides_missing_rolling_watchlist_gracefully(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    seed_tseries_discovery_payload(settings.public_data_dir)
+    payload_path = (
+        settings.public_data_dir
+        / "tseries_discovery"
+        / "current"
+        / "quantservice_tseries_discovery.json"
+    )
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["models"][0].pop("rolling_watchlist", None)
+    payload["models"][1].pop("rolling_watchlist", None)
+    payload_path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    app = create_app(settings)
+    client = app.test_client()
+    login_ops_viewer(client, app)
+    body = client.get("/discovery").get_data(as_text=True)
+
+    assert "상승종목 발굴 rolling watchlist 데이터가 아직 준비되지 않았습니다." in body
+    assert "대우건설" in body
 
 
 def test_home_renders_tseries_teaser_when_available(tmp_path: Path) -> None:
@@ -300,14 +680,63 @@ def test_home_renders_tseries_teaser_when_available(tmp_path: Path) -> None:
     seed_tseries_discovery_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
+    login_ops_viewer(client, app)
 
     response = client.get("/")
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "T-series 발굴 후보" in body
-    assert "후보 상세 보기" in body
-    assert "6" in body and "3" in body and "1" in body
+    assert "상승종목 발굴" in body
+    assert "후보 상세 보기" not in body
+
+
+def test_tseries_remote_current_uses_cache_buster_and_no_cache_headers(
+    tmp_path: Path, monkeypatch
+) -> None:
+    settings = build_settings(tmp_path)
+    api = TSeriesOperationalApi(
+        settings.__class__(
+            **{
+                **settings.__dict__,
+                "snapshot_source": "remote",
+                "snapshot_gcs_base_url": "https://storage.googleapis.com/quantservice-489808-market-analysis",
+            }
+        )
+    )
+    captured: dict[str, object] = {}
+
+    class DummyResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+        def read(self) -> bytes:
+            return (
+                b'{"source_name":"remote:test","models":[{"'
+                b'model_code":"T-STOCK-V01","asof_date":"2026-03-26"}]}'
+            )
+
+    def fake_urlopen(request, timeout=10):
+        captured["request"] = request
+        captured["timeout"] = timeout
+        return DummyResponse()
+
+    monkeypatch.setattr("service_platform.web.tseries_api.urlopen", fake_urlopen)
+
+    overview = api.load_overview(force_refresh=True)
+    request = captured["request"]
+
+    assert overview.source_name == "remote:test"
+    assert captured["timeout"] == 10
+    assert request.full_url.startswith(
+        "https://storage.googleapis.com/quantservice-489808-market-analysis/"
+        "tseries_discovery/current/quantservice_tseries_discovery.json?ts="
+    )
+    assert request.headers["Cache-control"] == "no-cache"
+    assert request.headers["Pragma"] == "no-cache"
+    assert api._with_cache_buster("file:///tmp/test.json", "123") == "file:///tmp/test.json"
 
 
 def test_tseries_api_can_read_remote_current_payload(tmp_path: Path) -> None:
@@ -411,6 +840,7 @@ def test_tseries_api_returns_503_when_payload_is_missing(tmp_path: Path) -> None
     settings = build_settings(tmp_path)
     app = create_app(settings)
     client = app.test_client()
+    login_ops_viewer(client, app)
 
     list_response = client.get("/api/v1/discovery/t-series")
     page_response = client.get("/discovery")

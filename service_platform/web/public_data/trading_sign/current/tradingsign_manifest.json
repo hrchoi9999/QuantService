@@ -1,0 +1,14 @@
+{
+  "asof": "2026-05-06",
+  "generated_at": "2026-05-07T10:28:53",
+  "schema_version": "v1",
+  "files": [
+    "tradingsign_overview.json",
+    "tradingsign_model_detail.json",
+    "tradingsign_manifest.json"
+  ],
+  "freshness": {
+    "signal_refresh_frequency": "daily_eod",
+    "data_cutoff": "previous_trading_day_close"
+  }
+}

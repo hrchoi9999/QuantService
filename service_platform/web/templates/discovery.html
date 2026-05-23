@@ -5,10 +5,10 @@
 <section class="hero-card hero-stage home-hero">
   <div class="hero-main hero-copy-block">
     <div class="hero-badges">
-      <span class="badge accent">T-series 발굴 후보</span>
+      <span class="badge accent">상승종목 발굴</span>
       <span class="badge neutral">데이터 출처 {{ discovery_source_name }}</span>
     </div>
-    <h1>전이형 발굴 모델 후보군을 주식 / ETF 탭으로 확인해 보세요.</h1>
+    <h1>상승종목 발굴 후보군을 주식 / ETF 탭으로 확인해 보세요.</h1>
     <p class="lead">T-series는 상위 그룹 승격 가능성이 있는 후보를 탐지하기 위한 전이형 발굴 모델입니다.</p>
     <p class="muted">T-series는 전이형 발굴 모델이며, 기존 랭킹형 종목선정 모델을 대체하기보다 상위 그룹 승격 가능성이 있는 후보를 탐지하기 위한 모델입니다.</p>
     {% if discovery_warnings %}
@@ -16,7 +16,7 @@
     {% endif %}
   </div>
   <aside class="hero-side shell-card spotlight-panel segmented-card">
-    <div class="spotlight-grid">
+    <div class="spotlight-grid spotlight-grid-fixed">
       <div class="spotlight-card">
         <span class="label">모델 수</span>
         <strong>{{ discovery_models | length }}</strong>
@@ -28,7 +28,7 @@
     </div>
     <div class="disclosure-box compact-compliance-note">
       <strong>안내</strong>
-      <p>기존 S-series는 <strong>랭킹형 종목선정 모델</strong>로 유지되며, T-series는 별도 발굴 후보 영역에서만 읽기 전용으로 노출됩니다.</p>
+      <p>기존 S-series는 <strong>랭킹형 종목선정 모델</strong>로 유지되며, T-series는 상승종목 발굴 영역에서만 읽기 전용으로 노출됩니다.</p>
     </div>
   </aside>
 </section>
@@ -38,11 +38,11 @@
 <section class="panel shell-card">
   <div class="section-heading tight-head">
     <div>
-      <h2>T-series 발굴 후보</h2>
+      <h2>상승종목 발굴</h2>
       <p class="muted small">주식 / ETF 전용 탭에서 우선 후보 / 근접 후보 / 관찰 후보를 각각 확인합니다.</p>
     </div>
   </div>
-  <div class="balanced-segmented-control discovery-tablist" role="tablist" aria-label="T-series 자산 구분 탭">
+  <div class="balanced-segmented-control discovery-tablist" role="tablist" aria-label="상승종목 발굴 자산 구분 탭">
     {% for model in discovery_models %}
     <button
       type="button"
@@ -76,17 +76,17 @@
   </div>
 
   <div class="feature-grid four-up">
-    <article class="feature-card shell-card">
+    <article class="feature-card shell-card discovery-candidate-card">
       <span class="label">표시명</span>
       <strong>{{ model.meta.display_name }}</strong>
       <p class="muted small">{{ tseries_asset_scope_labels.get(model.meta.asset_scope, model.meta.asset_scope) }}</p>
     </article>
-    <article class="feature-card shell-card">
+    <article class="feature-card shell-card discovery-candidate-card">
       <span class="label">버전</span>
       <strong>{{ model.meta.version }}</strong>
       <p class="muted small">프로필 {{ model.profile.profile_code or '-' }}</p>
     </article>
-    <article class="feature-card shell-card">
+    <article class="feature-card shell-card discovery-candidate-card">
       <span class="label">임계값 요약</span>
       <strong>{{ model.profile.threshold_summary }}</strong>
       <p class="muted small">리스크 필터 {{ model.profile.risk_filter_version or '-' }}</p>
@@ -149,7 +149,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for row in perf.period_metrics %}
+          {% for row in perf.period_metrics if row.period not in ['5Y', 'FULL'] %}
           <tr>
             <td>{{ row.period or '-' }}</td>
             <td>{{ row.start_date or '-' }}</td>
@@ -168,7 +168,7 @@
     {% endif %}
   </section>
 
-  <div class="feature-grid three-up">
+  <div class="feature-grid three-up discovery-candidate-grid">
     {% for bucket in ['confirmed', 'near', 'observe'] %}
     <article class="feature-card shell-card">
       <div class="model-head">
@@ -180,7 +180,7 @@
       </div>
       {% if model.top_by_bucket.get(bucket) %}
       <div class="discovery-table-wrap">
-        <table>
+        <table class="discovery-candidate-table">
           <thead>
             <tr>
               <th>종목코드</th>
@@ -188,6 +188,7 @@
               <th>시장</th>
               <th>테마 분류</th>
               <th>테마명</th>
+              {% if model.meta.asset_scope == 'etf' %}<th>ETF 역할</th>{% endif %}
               <th>1단계</th>
               <th>2단계</th>
               {% if model.meta.asset_scope == 'stock' %}<th>S2 중복</th>{% endif %}
@@ -197,10 +198,18 @@
             {% for row in model.top_by_bucket.get(bucket, []) %}
             <tr>
               <td>{{ row.ticker or '-' }}</td>
-              <td>{{ row.name or '-' }}</td>
+              <td class="discovery-name-cell">{{ row.name or '-' }}</td>
               <td>{{ row.market or '-' }}</td>
               <td>{{ row.theme_bucket or '-' }}</td>
               <td>{{ row.theme_name_kr or '-' }}</td>
+              {% if model.meta.asset_scope == 'etf' %}
+              <td title="{{ row.role_reason or '' }}">
+                {{ tseries_etf_role_labels.get(row.role_key, row.role_key or '-') }}
+                {% if row.role_confidence is not none %}
+                <span class="muted small">({{ row.role_confidence | fmt_percent }})</span>
+                {% endif %}
+              </td>
+              {% endif %}
               <td>{{ row.stage1_prob | fmt_percent if row.stage1_prob is not none else '-' }}</td>
               <td>{{ row.stage2_prob | fmt_percent if row.stage2_prob is not none else '-' }}</td>
               {% if model.meta.asset_scope == 'stock' %}
@@ -217,6 +226,72 @@
     </article>
     {% endfor %}
   </div>
+
+  <section class="panel shell-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>누적 관찰 후보</h3>
+        <p class="muted small">rolling watchlist는 최근 몇 주/몇 개월 동안 누적 관찰 중인 discovery 후보입니다.</p>
+        <p class="muted small">current 후보에서 이탈한 종목도 cooling 기간 동안 계속 추적됩니다.</p>
+      </div>
+    </div>
+    {% if model.rolling_watchlist and model.rolling_watchlist.enabled %}
+    <div class="trading-sign-chip-row">
+      {% for row in model.rolling_watchlist.summary_rows %}
+      <span class="trading-sign-chip trading-sign-chip--inline">{{ tseries_watch_status_labels.get(row.status, row.status) }} {{ row.count }}</span>
+      {% endfor %}
+    </div>
+    {% if model.rolling_watchlist['items'] %}
+    <div class="discovery-table-wrap">
+      <table class="discovery-watchlist-table">
+        <thead>
+          <tr>
+            <th>상태</th>
+            <th>등급</th>
+            <th>종목코드</th>
+            <th>종목명</th>
+            {% if model.meta.asset_scope == 'etf' %}<th>ETF 역할</th>{% endif %}
+            <th>현재 후보</th>
+            <th>1단계</th>
+            <th>2단계</th>
+            <th>최근 포착</th>
+            <th>누적 관찰</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in model.rolling_watchlist['items'] %}
+          <tr>
+            <td>{{ tseries_watch_status_labels.get(row.watch_status, row.watch_status or '-') }}</td>
+            <td>{{ tseries_watch_tier_labels.get(row.watch_tier, row.watch_tier or '-') }}</td>
+            <td>{{ row.ticker or '-' }}</td>
+            <td class="discovery-name-cell">{{ row.name or '-' }}</td>
+            {% if model.meta.asset_scope == 'etf' %}
+            <td title="{{ row.role_reason or '' }}">
+              {{ tseries_etf_role_labels.get(row.role_key, row.role_key or '-') }}
+              {% if row.role_confidence is not none %}
+              <span class="muted small">({{ row.role_confidence | fmt_percent }})</span>
+              {% endif %}
+            </td>
+            {% endif %}
+            <td>{{ tseries_bucket_labels.get(row.current_bucket, row.current_bucket) if row.current_bucket else ('현재 포함' if row.is_current else '-') }}</td>
+            <td>{{ row.stage1_prob | fmt_percent if row.stage1_prob is not none else '-' }}</td>
+            <td>{{ row.stage2_prob | fmt_percent if row.stage2_prob is not none else '-' }}</td>
+            <td>{{ row.last_seen_date or '-' }}</td>
+            <td>{{ row.seen_count_label }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="warning-banner">누적 관찰 중인 후보가 없습니다.</div>
+    {% endif %}
+    {% else %}
+    <div class="warning-banner">상승종목 발굴 rolling watchlist 데이터가 아직 준비되지 않았습니다. 다음 갱신 후 다시 확인해 주세요.</div>
+    {% endif %}
+  </section>
+
+  {% include "_trading_sign_discovery_block.html" %}
 
   <section class="panel shell-card">
     <div class="section-heading tight-head">

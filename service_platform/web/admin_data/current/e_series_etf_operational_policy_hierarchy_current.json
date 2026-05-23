@@ -1,0 +1,343 @@
+{
+  "status": "ok",
+  "source_name": "e_series_etf_operational_policy_hierarchy",
+  "strategy_model_code": "E-ETF-V01",
+  "strategy_model_name_ko": "ETF전용 E시리즈AI",
+  "sleeve_model_code": "AI-E-ETF-SLEEVE-SELECTION-V01",
+  "portfolio_model_code": "AI-E-ETF-PORTFOLIO-V01",
+  "as_of_date": "2026-05-13",
+  "generated_at": "2026-05-14T18:42:57",
+  "active_primary_shadow_policy": "mode_switch_buffer_70_base",
+  "active_shadow_challenger_policy": "mode_switch_buffer_70_tight",
+  "return_basis": "partial_total_return_kodex_pilot",
+  "hierarchy": [
+    {
+      "level": 0,
+      "layer": "return_basis",
+      "policy_code": "partial_total_return_kodex_pilot",
+      "status": "active_input",
+      "description_ko": "ETF forward return label의 기준 수익률",
+      "decision_rule": "분배금 원천이 있으면 total return, 없으면 price return fallback",
+      "evidence": {
+        "has_distribution_source": true,
+        "issuer_distribution_rows": 129,
+        "adjusted_rows": 36,
+        "date_quality": "notice_date_proxy",
+        "adjustment_summary": [
+          {
+            "horizon": "1w",
+            "rows": 8837,
+            "priced_rows": 8637,
+            "adjusted_rows": 0,
+            "adjusted_tickers": 0,
+            "adjustment_coverage": 0.0,
+            "avg_price_return": 0.001882,
+            "avg_total_return": 0.001882,
+            "avg_adjustment": 0.0,
+            "max_adjustment": 0.0,
+            "total_distribution_amount": 0.0
+          },
+          {
+            "horizon": "2w",
+            "rows": 8837,
+            "priced_rows": 8437,
+            "adjusted_rows": 0,
+            "adjusted_tickers": 0,
+            "adjustment_coverage": 0.0,
+            "avg_price_return": 0.009491,
+            "avg_total_return": 0.009491,
+            "avg_adjustment": 0.0,
+            "max_adjustment": 0.0,
+            "total_distribution_amount": 0.0
+          },
+          {
+            "horizon": "1m",
+            "rows": 8837,
+            "priced_rows": 8437,
+            "adjusted_rows": 36,
+            "adjusted_tickers": 36,
+            "adjustment_coverage": 0.004074,
+            "avg_price_return": 0.013205,
+            "avg_total_return": 0.013225,
+            "avg_adjustment": 1.9e-05,
+            "max_adjustment": 0.017659,
+            "total_distribution_amount": 9084.0
+          }
+        ]
+      }
+    },
+    {
+      "level": 1,
+      "layer": "sleeve_selection_ai",
+      "policy_code": "AI-E-ETF-SLEEVE-SELECTION-V01",
+      "status": "active_model",
+      "description_ko": "역할별 ETF 후보 점수화 AI",
+      "decision_rule": "role별 top3 risk-adjusted 1M label을 학습",
+      "evidence": {
+        "model_version": "AI-E-ETF-SLEEVE-SELECTION-V01_20260513_001",
+        "auc": 0.678415,
+        "top_stats": {
+          "top1_label_rate": 0.481481,
+          "top1_avg_risk_adj_1m": -0.019971,
+          "top1_avg_fwd_ret_1m": 0.009071,
+          "top3_label_rate": 0.444444,
+          "top3_avg_risk_adj_1m": -0.001331,
+          "top3_avg_fwd_ret_1m": 0.016578,
+          "top5_label_rate": 0.392593,
+          "top5_avg_risk_adj_1m": -0.011951,
+          "top5_avg_fwd_ret_1m": 0.007957
+        }
+      }
+    },
+    {
+      "level": 2,
+      "layer": "base_portfolio_policy",
+      "policy_code": "hybrid_b50_ai50_top3_role",
+      "status": "base_reference",
+      "description_ko": "정상 국면에서 쓰는 기본 ETF 역할 포트폴리오",
+      "decision_rule": "baseline 50% + AI 50% hybrid, role별 top3",
+      "evidence": {
+        "policy": "hybrid_b50_ai50_top3_role",
+        "policy_label": "Hybrid baseline 50% + AI 50% Top3 per role",
+        "periods": 28,
+        "priced_periods": 28,
+        "avg_1m_ret": 0.021633,
+        "median_1m_ret": 0.012984,
+        "win_rate": 0.607143,
+        "avg_1m_risk_adj": 0.005993,
+        "avg_1m_mdd_proxy": -0.031281,
+        "worst_1m_ret": -0.07498,
+        "compounded_validation_return": 0.748877,
+        "baseline_avg_1m_ret": 0.01888,
+        "avg_1m_ret_delta": 0.0027529999999999985,
+        "baseline_win_rate": 0.607143,
+        "win_rate_delta": 0.0,
+        "baseline_avg_1m_risk_adj": 0.003728,
+        "avg_1m_risk_adj_delta": 0.002265,
+        "baseline_avg_1m_mdd_proxy": -0.030305,
+        "avg_1m_mdd_proxy_delta": -0.0009760000000000046,
+        "baseline_worst_1m_ret": -0.076366,
+        "worst_1m_ret_delta": 0.0013859999999999983,
+        "baseline_compounded_validation_return": 0.632102,
+        "compounded_validation_return_delta": 0.11677499999999996
+      }
+    },
+    {
+      "level": 3,
+      "layer": "mode_switch_reference",
+      "policy_code": "mode_switch_stress_tail_asset",
+      "status": "reference_overlay",
+      "description_ko": "stress 국면에서 tail asset 정책으로 전환하는 참조 overlay",
+      "decision_rule": "normal은 hybrid, stress는 tail asset",
+      "evidence": {
+        "best_policy": {
+          "policy": "mode_switch_stress_tail_asset",
+          "periods": 26,
+          "priced_periods": 26,
+          "avg_1m_ret": 0.023873,
+          "median_1m_ret": 0.011,
+          "win_rate": 0.615385,
+          "avg_1m_risk_adj": 0.009484,
+          "avg_1m_mdd_proxy": -0.028778,
+          "worst_1m_ret": -0.033538,
+          "compounded_validation_return": 0.780257,
+          "baseline_avg_1m_ret": 0.018259,
+          "avg_1m_ret_delta": 0.0056139999999999975,
+          "baseline_win_rate": 0.576923,
+          "win_rate_delta": 0.038461999999999996,
+          "baseline_avg_1m_risk_adj": 0.002327,
+          "avg_1m_risk_adj_delta": 0.007156999999999999,
+          "baseline_avg_1m_mdd_proxy": -0.031865,
+          "avg_1m_mdd_proxy_delta": 0.003086999999999996,
+          "baseline_worst_1m_ret": -0.076366,
+          "worst_1m_ret_delta": 0.042828000000000005,
+          "baseline_compounded_validation_return": 0.54758,
+          "compounded_validation_return_delta": 0.23267700000000002
+        },
+        "stress_dates": 13,
+        "risk_off_dates": 15
+      }
+    },
+    {
+      "level": 4,
+      "layer": "execution_control",
+      "policy_code": "mode_switch_buffer_70_base",
+      "status": "primary_shadow_candidate",
+      "description_ko": "현재 운영 관찰의 기준 후보",
+      "decision_rule": "목표 turnover가 70% 미만이면 리밸런싱 생략",
+      "evidence": {
+        "turnover_buffer_best": {
+          "policy": "mode_switch_buffer_70",
+          "periods": 26,
+          "priced_periods": 25,
+          "avg_net_1m_ret": 0.025025,
+          "net_win_rate": 0.6,
+          "avg_net_1m_risk_adj": 0.009834,
+          "avg_mdd_proxy": -0.030382,
+          "worst_net_1m_ret": -0.034338,
+          "compounded_net_return": 0.788132,
+          "avg_turnover": 0.472436,
+          "max_turnover": 0.933333,
+          "skipped_periods": 11,
+          "full_avg_net_1m_ret": 0.024126,
+          "avg_net_1m_ret_delta_vs_full": 0.000898999999999997,
+          "full_avg_net_1m_risk_adj": 0.009162,
+          "avg_net_1m_risk_adj_delta_vs_full": 0.0006720000000000007,
+          "full_worst_net_1m_ret": -0.034338,
+          "worst_net_1m_ret_delta_vs_full": 0.0,
+          "full_compounded_net_return": 0.749986,
+          "compounded_net_return_delta_vs_full": 0.03814600000000001,
+          "full_avg_turnover": 0.707692,
+          "avg_turnover_delta_vs_full": -0.23525599999999997
+        },
+        "stability": {
+          "evaluated_dates": 26,
+          "stress_dates": 13,
+          "normal_dates": 13,
+          "state_transitions": 9,
+          "single_month_flips": 4,
+          "transition_rate": 0.36,
+          "variant": "base",
+          "policy": "mode_switch_buffer_70_base",
+          "priced_periods": 25,
+          "avg_net_1m_ret": 0.025025,
+          "avg_net_1m_risk_adj": 0.009834,
+          "worst_net_1m_ret": -0.034338,
+          "compounded_net_return": 0.788132,
+          "avg_turnover": 0.472436,
+          "max_turnover": 0.933333,
+          "skipped_periods": 11,
+          "avg_net_1m_ret_delta_vs_base": 0.0,
+          "avg_net_1m_risk_adj_delta_vs_base": 0.0,
+          "worst_net_1m_ret_delta_vs_base": 0.0,
+          "compounded_net_return_delta_vs_base": 0.0,
+          "avg_turnover_delta_vs_base": 0.0
+        }
+      }
+    },
+    {
+      "level": 5,
+      "layer": "stability_challenger",
+      "policy_code": "mode_switch_buffer_70_tight",
+      "status": "shadow_challenger",
+      "description_ko": "더 보수적인 stress threshold 후보",
+      "decision_rule": "base보다 전환 flip이 낮고 성과 훼손이 작으면 승격 검토",
+      "evidence": {
+        "evaluated_dates": 26,
+        "stress_dates": 12,
+        "normal_dates": 14,
+        "state_transitions": 7,
+        "single_month_flips": 1,
+        "transition_rate": 0.28,
+        "variant": "tight",
+        "policy": "mode_switch_buffer_70_tight",
+        "priced_periods": 25,
+        "avg_net_1m_ret": 0.025096,
+        "avg_net_1m_risk_adj": 0.00988,
+        "worst_net_1m_ret": -0.034338,
+        "compounded_net_return": 0.791413,
+        "avg_turnover": 0.469872,
+        "max_turnover": 0.933333,
+        "skipped_periods": 11,
+        "avg_net_1m_ret_delta_vs_base": 7.100000000000162e-05,
+        "avg_net_1m_risk_adj_delta_vs_base": 4.5999999999999167e-05,
+        "worst_net_1m_ret_delta_vs_base": 0.0,
+        "compounded_net_return_delta_vs_base": 0.0032809999999999784,
+        "avg_turnover_delta_vs_base": -0.0025640000000000107
+      }
+    },
+    {
+      "level": 6,
+      "layer": "sensitivity_only",
+      "policy_code": "mode_switch_buffer_70_loose",
+      "status": "observation_only",
+      "description_ko": "민감도 관찰용 후보",
+      "decision_rule": "성과 비교에는 사용하되 운영 승격 후보는 아님",
+      "evidence": {
+        "evaluated_dates": 26,
+        "stress_dates": 13,
+        "normal_dates": 13,
+        "state_transitions": 9,
+        "single_month_flips": 4,
+        "transition_rate": 0.36,
+        "variant": "loose",
+        "policy": "mode_switch_buffer_70_loose",
+        "priced_periods": 25,
+        "avg_net_1m_ret": 0.025025,
+        "avg_net_1m_risk_adj": 0.009834,
+        "worst_net_1m_ret": -0.034338,
+        "compounded_net_return": 0.788132,
+        "avg_turnover": 0.472436,
+        "max_turnover": 0.933333,
+        "skipped_periods": 11,
+        "avg_net_1m_ret_delta_vs_base": 0.0,
+        "avg_net_1m_risk_adj_delta_vs_base": 0.0,
+        "worst_net_1m_ret_delta_vs_base": 0.0,
+        "compounded_net_return_delta_vs_base": 0.0,
+        "avg_turnover_delta_vs_base": 0.0
+      }
+    },
+    {
+      "level": 7,
+      "layer": "operational_hardening",
+      "policy_code": "gate_role_label_hysteresis_risk_cap_shadow",
+      "status": "shadow_hardening_candidate",
+      "description_ko": "유동성/괴리율 gate, role별 label, hysteresis, portfolio risk cap 보강 후보",
+      "decision_rule": "다음 업데이트 후 재현성 확인 전까지 운영 기본값은 대체하지 않음",
+      "evidence": {
+        "liquidity_gate": "hybrid_b50_ai50_top3_role__gate_liq_integrity_p20",
+        "role_label": "role_specific_candidate_only_where_auc_improves",
+        "hysteresis": "no_hysteresis_base",
+        "risk_cap": "single_8pct_cap",
+        "operation_status": "shadow_hardening_candidate"
+      }
+    }
+  ],
+  "governance": {
+    "operation_phase": "shadow_tracking",
+    "public_recommendation_allowed": false,
+    "admin_display_allowed": true,
+    "promotion_rule": [
+      "최소 4~8주 shadow tracking 후 판단",
+      "tight가 base 대비 single-month flip을 낮게 유지",
+      "tight가 base 대비 worst 1M return을 악화시키지 않음",
+      "turnover와 skipped periods가 과도하게 악화되지 않음",
+      "분배금 원천 도입 후 total-return 기준에서도 결과 재확인",
+      "operational hardening 후보는 다음 데이터 업데이트 후 재검증"
+    ],
+    "blockers": [
+      "KODEX 분배금은 pilot 원천이며 TIGER/ACE/SOL 등 provider 확장 전까지는 partial total-return 기준",
+      "ETF 전용 E-series는 기존 T-ETF와 별도 트랙",
+      "QS/QM 코드는 Quant thread에서 직접 수정하지 않음"
+    ]
+  },
+  "current_holdings_summary": [
+    {
+      "policy": "mode_switch_buffer_70_base",
+      "candidate_type": "current_candidate",
+      "holdings": 18,
+      "weight_sum": 0.999999999999999,
+      "roles": "CASH_LIKE,CORE_BETA,DEFENSIVE,INCOME,SECTOR_THEME,STYLE_FACTOR"
+    },
+    {
+      "policy": "mode_switch_buffer_70_loose",
+      "candidate_type": "sensitivity_candidate",
+      "holdings": 18,
+      "weight_sum": 0.999999999999999,
+      "roles": "CASH_LIKE,CORE_BETA,DEFENSIVE,INCOME,SECTOR_THEME,STYLE_FACTOR"
+    },
+    {
+      "policy": "mode_switch_buffer_70_tight",
+      "candidate_type": "shadow_candidate",
+      "holdings": 18,
+      "weight_sum": 0.999999999999999,
+      "roles": "CASH_LIKE,CORE_BETA,DEFENSIVE,INCOME,SECTOR_THEME,STYLE_FACTOR"
+    }
+  ],
+  "outputs": {
+    "json": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_policy_hierarchy_20260513.json",
+    "markdown": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_policy_hierarchy_20260513.md",
+    "holdings_summary_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_policy_hierarchy_holdings_20260513.csv",
+    "admin_current_json": "D:\\Quant\\service_platform\\web\\admin_data\\current\\e_series_etf_operational_policy_hierarchy_current.json"
+  }
+}

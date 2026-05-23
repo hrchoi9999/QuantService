@@ -1,4 +1,58 @@
-{% if variant == "full" %}
+{% if variant == "market_redesign" %}
+<div class="market-next-day-card market-next-day-card--redesign{% if market_next_day_preview_view.is_muted %} market-next-day-card--muted{% endif %}">
+  <div class="market-next-day-summary-row">
+    {% if market_next_day_preview_view.preview_label %}
+    <span class="badge neutral">{{ market_next_day_preview_view.preview_label }}</span>
+    {% endif %}
+    {% if market_next_day_preview_view.headline_line %}
+    <strong>{{ market_next_day_preview_view.headline_line }}</strong>
+    {% endif %}
+  </div>
+  {% if market_next_day_preview_view.summary_line %}
+  <p class="muted market-next-day-compact-summary">{{ market_next_day_preview_view.summary_line }}</p>
+  {% endif %}
+  {% if market_next_day_preview_view.key_assets %}
+  <div class="market-next-day-assets market-next-day-assets--compact">
+    <span class="label">야간 핵심 자산</span>
+    <div class="market-next-day-asset-grid market-next-day-asset-grid--compact">
+      {% for item in market_next_day_preview_view.key_assets %}
+      <div class="market-next-day-asset-pill market-next-day-asset-pill--{{ item.tone }}">
+        <strong>{{ item.asset_name }}</strong>
+        <span>{{ item.change_display }}</span>
+        <em>{{ item.direction_label }}</em>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% if market_next_day_preview_view.korea_signal_note %}
+  <p class="muted small market-next-day-notice">{{ market_next_day_preview_view.korea_signal_note }}</p>
+  {% endif %}
+  <div class="market-next-day-point-grid">
+    {% if market_next_day_preview_view.supporting_points %}
+    <div>
+      <span class="label">근거</span>
+      <ul class="message-list compact-list clean-list market-next-day-list">
+        {% for item in market_next_day_preview_view.supporting_points[:2] %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    {% if market_next_day_preview_view.risk_points %}
+    <div>
+      <span class="label">유의</span>
+      <ul class="message-list compact-list clean-list market-next-day-list">
+        {% for item in market_next_day_preview_view.risk_points[:2] %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+  <p class="muted small market-next-day-notice">{{ market_next_day_preview_view.short_notice }}</p>
+</div>
+{% elif variant == "full" %}
 <section class="panel shell-card market-next-day-card{% if market_next_day_preview_view.is_muted %} market-next-day-card--muted{% endif %}">
   <div class="section-heading tight-head market-panel-head">
     <div>
@@ -33,6 +87,9 @@
     </div>
   </div>
   {% endif %}
+  {% if market_next_day_preview_view.korea_signal_note %}
+  <p class="muted small market-next-day-notice">{{ market_next_day_preview_view.korea_signal_note }}</p>
+  {% endif %}
   {% if market_next_day_preview_view.supporting_points %}
   <ul class="message-list compact-list clean-list market-next-day-list">
     {% for item in market_next_day_preview_view.supporting_points %}
@@ -54,7 +111,7 @@
 </section>
 {% elif variant == "home" %}
 <div class="market-next-day-inline{% if market_next_day_preview_view.is_muted %} market-next-day-inline--muted{% endif %}">
-  <span class="label">내일 시장 전망 참고</span>
+  <span class="label">내일 시장 전망</span>
   <strong>{{ market_next_day_preview_view.preview_label or market_next_day_preview_view.home_line }}</strong>
   {% if market_next_day_preview_view.home_line and market_next_day_preview_view.home_line != market_next_day_preview_view.preview_label %}
   <span>{{ market_next_day_preview_view.home_line }}</span>
@@ -65,7 +122,7 @@
 </div>
 {% elif variant == "today" %}
 <div class="shell-card content-card market-next-day-inline-card{% if market_next_day_preview_view.is_muted %} market-next-day-inline-card--muted{% endif %}">
-  <span class="label">내일 시장 전망 참고</span>
+  <span class="label">내일 시장 전망</span>
   <strong>{{ market_next_day_preview_view.preview_label or market_next_day_preview_view.today_line }}</strong>
   {% if market_next_day_preview_view.today_line and market_next_day_preview_view.today_line != market_next_day_preview_view.preview_label %}
   <p>{{ market_next_day_preview_view.today_line }}</p>
@@ -76,7 +133,7 @@
 </div>
 {% elif variant == "weekly" %}
 <div class="sub-panel shell-card market-next-day-mini-card{% if market_next_day_preview_view.is_muted %} market-next-day-mini-card--muted{% endif %}">
-  <span class="label">내일 시장 전망 참고</span>
+  <span class="label">내일 시장 전망</span>
   <strong>{{ market_next_day_preview_view.preview_label or market_next_day_preview_view.weekly_point }}</strong>
   {% if market_next_day_preview_view.summary_line %}
   <p>{{ market_next_day_preview_view.summary_line }}</p>

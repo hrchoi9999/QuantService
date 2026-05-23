@@ -1,0 +1,274 @@
+{
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "title": "장중/야간 참고",
+  "description": "종가 기준 시장 흐름과 별도로, 오늘 장중 흐름과 다음 거래일 장초반 참고 신호를 함께 정리한 공개 데이터입니다.",
+  "state_intraday_bridge": {
+    "enabled": true,
+    "medium_term_label": "퀀트모델 시장 흐름",
+    "medium_term_description": "최근 추세와 시장 내부 신호를 반영한 퀀트모델 기준 흐름입니다.",
+    "medium_term_state_label": "상승",
+    "medium_term_state_score": 1.0669,
+    "intraday_label": "오늘 장중 흐름",
+    "intraday_description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
+    "intraday_state_label": "강세",
+    "intraday_state_values": [
+      "강세",
+      "소폭 강세",
+      "혼조",
+      "약세",
+      "강한 약세"
+    ],
+    "alignment": "aligned",
+    "display_label": "상승 흐름 유지",
+    "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름이 모두 상승 쪽으로 같은 방향을 가리킵니다.",
+    "basis_lines": [
+      "퀀트모델 시장 흐름 근거: 공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
+      "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다."
+    ],
+    "intraday": {
+      "asof": "2026-05-23T10:00:00+09:00",
+      "session_status": "live",
+      "direction_label": "강세",
+      "intraday_state_label": "강세",
+      "total_score": 1.7693,
+      "summary_line": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다.",
+      "session_date": "2026-05-23",
+      "is_previous_session_reference": false,
+      "reference_label": null,
+      "futures": {
+        "contract_name": "코스피200 선물",
+        "change_pct": 0.0018,
+        "price": 1230.15
+      },
+      "flow": {
+        "foreigner_net": null,
+        "program_total_net": null
+      }
+    }
+  },
+  "intraday_reference": {
+    "enabled": true,
+    "label": "오늘 장중 흐름",
+    "description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "direction_label": "강세",
+    "total_score": 1.7693,
+    "summary_line": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다.",
+    "futures": {
+      "contract_name": "코스피200 선물",
+      "change_pct": 0.0018,
+      "price": 1230.15
+    },
+    "flow": {
+      "foreigner_net": null,
+      "program_total_net": null
+    }
+  },
+  "next_day_preview": {
+    "market": "KR",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "reference_session": "2026-05-25",
+    "content_mode": "next_day_preview",
+    "source_type": "public_next_day_preview",
+    "active_now": false,
+    "active_window": {
+      "start": "18:00",
+      "end": "08:30",
+      "timezone": "Asia/Seoul"
+    },
+    "title": "내일 시장 전망 참고",
+    "preview_label": "장초반 경계 흐름",
+    "preview_score": -0.4056,
+    "headline_line": "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
+    "summary_line": "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
+    "supporting_points": [
+      "미국 10년 금리가 -0.61% 내려 금리 부담은 다소 완화됐습니다."
+    ],
+    "risk_points": [
+      "S&P500 선물 흐름은 0.24% 수준으로 방향성이 크지 않습니다.",
+      "나스닥100 선물은 0.25% 수준으로 혼조 흐름입니다.",
+      "미국 상장 한국 ETF가 -2.35% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다."
+    ],
+    "overnight_assets": [
+      {
+        "asset_code": "KOSPI200_NIGHT_FUT",
+        "asset_name": "국내 야간선물(Kiwoom REST)",
+        "asset_group": "korea_futures",
+        "change_pct": null,
+        "price": null,
+        "source": "kiwoom_rest_fallback_error:JSONDecodeError",
+        "is_fallback": true
+      },
+      {
+        "asset_code": "KOREA_PROXY_EWY",
+        "asset_name": "미국 상장 한국 ETF",
+        "asset_group": "korea_proxy",
+        "change_pct": -0.02354897543182055,
+        "price": 182.03,
+        "source": "yahoo:EWY",
+        "is_fallback": false
+      },
+      {
+        "asset_code": "SP500_FUT",
+        "asset_name": "S&P500 선물",
+        "asset_group": "us_futures",
+        "change_pct": 0.002444414679882101,
+        "price": 7484.25,
+        "source": "yahoo:ES=F",
+        "is_fallback": false
+      },
+      {
+        "asset_code": "NASDAQ100_FUT",
+        "asset_name": "나스닥100 선물",
+        "asset_group": "us_futures",
+        "change_pct": 0.002495988589766407,
+        "price": 29520.75,
+        "source": "yahoo:NQ=F",
+        "is_fallback": false
+      },
+      {
+        "asset_code": "USDKRW",
+        "asset_name": "USD/KRW",
+        "asset_group": "fx",
+        "change_pct": 0.008897765274165303,
+        "price": 1520.53,
+        "source": "yahoo:KRW=X",
+        "is_fallback": false
+      },
+      {
+        "asset_code": "WTI",
+        "asset_name": "WTI 원유",
+        "asset_group": "commodity",
+        "change_pct": 0.006746237675142819,
+        "price": 97.0,
+        "source": "yahoo:CL=F",
+        "is_fallback": false
+      },
+      {
+        "asset_code": "US10Y",
+        "asset_name": "미국 10년 금리",
+        "asset_group": "rates",
+        "change_pct": -0.0061055385957262676,
+        "price": 4.558,
+        "source": "yahoo:^TNX",
+        "is_fallback": false
+      }
+    ],
+    "biases": {
+      "overnight_futures_bias": -0.062,
+      "korea_signal_alignment": "single_source",
+      "global_risk_bias": -1.018,
+      "overnight_fx_bias": -0.1068,
+      "next_day_preview_score": -0.4056
+    },
+    "market_flow_label": "상승",
+    "market_flow_score": 1.0669,
+    "market_flow_reference_note": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+    "title_candidates": [
+      "2026-05-25 장초반 전망 참고",
+      "내일 시장 전망 참고: 장초반 경계 흐름",
+      "야간 자산 흐름 점검: 장초반 경계 흐름"
+    ],
+    "hook_line": "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
+    "caption_lines": [
+      "장초반 경계 흐름",
+      "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
+      "미국 10년 금리가 -0.61% 내려 금리 부담은 다소 완화됐습니다.",
+      "S&P500 선물 흐름은 0.24% 수준으로 방향성이 크지 않습니다.",
+      "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
+    ],
+    "narration_lines": [
+      "장초반 경계 흐름",
+      "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
+      "미국 10년 금리가 -0.61% 내려 금리 부담은 다소 완화됐습니다.",
+      "S&P500 선물 흐름은 0.24% 수준으로 방향성이 크지 않습니다.",
+      "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
+    ],
+    "tags": [
+      "시장브리핑",
+      "내일시장전망",
+      "퀀트모델",
+      "한국증시",
+      "멀티애셋"
+    ],
+    "content_hash": "cd798992b03252e895a67ef9924b5e8a95f658569eb05aa37b1da238bef8eb8b",
+    "material_change_flag": true,
+    "freshness": {
+      "target_update_interval_minutes": 60,
+      "consumer_warning_after_minutes": 90,
+      "consumer_stale_after_minutes": 240
+    },
+    "lineage": {
+      "producer": "QuantMarket",
+      "upstream_sources": [
+        "kiwoom_rest_optional",
+        "yahoo_chart",
+        "google_news_rss"
+      ],
+      "related_layers": [
+        "quant_model_market_flow",
+        "intraday_flow"
+      ]
+    },
+    "visibility": "public_next_day_preview",
+    "notice_block": {
+      "title": "주의사항",
+      "short_notice": "다음 거래일 장초반 참고 정보입니다.",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "preview_only": "야간 자산 흐름을 참고해 만든 공개형 참고 정보이며, 개별 투자자문이 아닙니다."
+    },
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-05-23T10:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "display_title": "내일 시장 전망 참고",
+    "display_subtitle": "야간 자산 흐름과 주요 뉴스를 바탕으로 다음 거래일 장초반 참고 신호를 정리합니다."
+  },
+  "view_mode": {
+    "market_flow": "정식/종가 기준",
+    "intraday": "장중 참고",
+    "overnight": "다음 거래일 장초반 참고"
+  },
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "notice_block": {
+    "title": "주의사항",
+    "body": [
+      "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+      "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+      "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+    ],
+    "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+  }
+}

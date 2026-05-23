@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="redesign-preview-board">
+  <div class="redesign-preview-hero">
+    <div>
+      <p class="eyebrow">UI Redesign Preview</p>
+      <h1>REDBOT 정보 화면을 더 읽기 쉬운 금융 리서치 보드로 재정리합니다.</h1>
+      <p class="lead">운영 화면과 분리된 검증용 보드입니다. 아래 카드에서 새 톤, 차트 슬롯, 반응형 처리 방향을 먼저 확인하고 실제 페이지로 이동해 비교할 수 있습니다.</p>
+    </div>
+    <div class="redesign-preview-scorecard">
+      <span class="label">검증 상태</span>
+      <strong>Preview ON</strong>
+      <p>라이트 테마 기준 · 다크 전환 가능 · 운영 기본 화면 미적용</p>
+    </div>
+  </div>
+
+  <section class="redesign-preview-grid">
+    <article class="redesign-preview-card redesign-preview-card--market">
+      <span class="label">Market Briefing</span>
+      <h2>시장 브리핑</h2>
+      <p>시장 상태, 오늘 장중 흐름, 내일 전망 참고, Gemini 시장 분위기를 한 화면에서 분리해 읽는 구조입니다.</p>
+      <div class="redesign-preview-mini-chart" aria-hidden="true">
+        <span style="height: 42%"></span>
+        <span style="height: 68%"></span>
+        <span style="height: 52%"></span>
+        <span style="height: 78%"></span>
+        <span style="height: 61%"></span>
+      </div>
+      <a class="primary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
+    </article>
+
+    <article class="redesign-preview-card redesign-preview-card--strategy">
+      <span class="label">Quant Models</span>
+      <h2>전략별 퀀트모델</h2>
+      <p>모델별 성과 카드, 포트폴리오, 주간 조정, 매매 신호를 접기/펼치기와 차트 슬롯으로 비교합니다.</p>
+      <div class="redesign-preview-metrics">
+        <div><span>CAGR</span><strong>24.8%</strong></div>
+        <div><span>MDD</span><strong>-8.3%</strong></div>
+        <div><span>Sharpe</span><strong>1.42</strong></div>
+      </div>
+      <a class="primary-button" href="{{ url_for('today') }}">전략별 퀀트모델 보기</a>
+    </article>
+
+    <article class="redesign-preview-card redesign-preview-card--performance">
+      <span class="label">Change Log</span>
+      <h2>변경내역</h2>
+      <p>모델별 종목 변경과 히스토리를 접기/펼치기 구조로 확인하는 화면입니다.</p>
+      <div class="redesign-preview-line" aria-hidden="true"></div>
+      <a class="primary-button" href="{{ url_for('changes') }}">변경내역 보기</a>
+    </article>
+
+    <article class="redesign-preview-card redesign-preview-card--private">
+      <span class="label">Private Workspace</span>
+      <h2>투자 현황</h2>
+      <p>거래 입력, 요약 카드, 평가 현황 표가 좁은 화면에서도 넘치지 않도록 정리한 사용자 전용 화면입니다.</p>
+      <div class="redesign-preview-table" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+      <a class="secondary-button" href="{{ url_for('me_investments') }}">투자 현황 보기</a>
+    </article>
+  </section>
+
+  <section class="redesign-preview-links">
+    <a href="{{ url_for('home') }}">홈 실제 페이지</a>
+    <a href="{{ url_for('changes') }}">변경내역</a>
+    <a href="{{ url_for('login') }}">로그인</a>
+    <a href="{{ url_for('signup') }}">회원가입</a>
+    <a href="{{ url_for('theme_preview') }}">컬러 방향</a>
+  </section>
+</section>
+{% endblock %}

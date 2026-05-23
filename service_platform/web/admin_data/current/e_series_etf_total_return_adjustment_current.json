@@ -1,0 +1,578 @@
+{
+  "status": "ok",
+  "source_name": "e_series_etf_total_return_adjustment",
+  "strategy_model_code": "E-ETF-V01",
+  "as_of_date": "2026-05-13",
+  "generated_at": "2026-05-14T18:11:46",
+  "source_status": {
+    "distribution_tables_found": [
+      "etf_distributions"
+    ],
+    "distribution_table_summaries": [
+      {
+        "table": "etf_distributions",
+        "rows": 129
+      }
+    ],
+    "distribution_csvs_found": [],
+    "has_distribution_source": true
+  },
+  "summary": [
+    {
+      "horizon": "1w",
+      "rows": 8837,
+      "priced_rows": 8637,
+      "adjusted_rows": 0,
+      "adjusted_tickers": 0,
+      "adjustment_coverage": 0.0,
+      "avg_price_return": 0.001882,
+      "avg_total_return": 0.001882,
+      "avg_adjustment": 0.0,
+      "max_adjustment": 0.0,
+      "total_distribution_amount": 0.0
+    },
+    {
+      "horizon": "2w",
+      "rows": 8837,
+      "priced_rows": 8437,
+      "adjusted_rows": 0,
+      "adjusted_tickers": 0,
+      "adjustment_coverage": 0.0,
+      "avg_price_return": 0.009491,
+      "avg_total_return": 0.009491,
+      "avg_adjustment": 0.0,
+      "max_adjustment": 0.0,
+      "total_distribution_amount": 0.0
+    },
+    {
+      "horizon": "1m",
+      "rows": 8837,
+      "priced_rows": 8437,
+      "adjusted_rows": 36,
+      "adjusted_tickers": 36,
+      "adjustment_coverage": 0.004074,
+      "avg_price_return": 0.013205,
+      "avg_total_return": 0.013225,
+      "avg_adjustment": 1.9e-05,
+      "max_adjustment": 0.017659,
+      "total_distribution_amount": 9084.0
+    }
+  ],
+  "role_summary": [
+    {
+      "horizon": "1w",
+      "e_series_role": "CASH_LIKE",
+      "rows": 540,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1w",
+      "e_series_role": "CORE_BETA",
+      "rows": 2473,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1w",
+      "e_series_role": "DEFENSIVE",
+      "rows": 1446,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1w",
+      "e_series_role": "INCOME",
+      "rows": 1012,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1w",
+      "e_series_role": "SECTOR_THEME",
+      "rows": 3119,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1w",
+      "e_series_role": "STYLE_FACTOR",
+      "rows": 247,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "CASH_LIKE",
+      "rows": 540,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "CORE_BETA",
+      "rows": 2473,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "DEFENSIVE",
+      "rows": 1446,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "INCOME",
+      "rows": 1012,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "SECTOR_THEME",
+      "rows": 3119,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "2w",
+      "e_series_role": "STYLE_FACTOR",
+      "rows": 247,
+      "adjusted_rows": 0,
+      "adjustment_coverage": 0.0,
+      "avg_adjustment": 0.0
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "CASH_LIKE",
+      "rows": 540,
+      "adjusted_rows": 2,
+      "adjustment_coverage": 0.003704,
+      "avg_adjustment": 8e-06
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "CORE_BETA",
+      "rows": 2473,
+      "adjusted_rows": 10,
+      "adjustment_coverage": 0.004044,
+      "avg_adjustment": 1.9e-05
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "DEFENSIVE",
+      "rows": 1446,
+      "adjusted_rows": 2,
+      "adjustment_coverage": 0.001383,
+      "avg_adjustment": 4e-06
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "INCOME",
+      "rows": 1012,
+      "adjusted_rows": 5,
+      "adjustment_coverage": 0.004941,
+      "avg_adjustment": 5.4e-05
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "SECTOR_THEME",
+      "rows": 3119,
+      "adjusted_rows": 16,
+      "adjustment_coverage": 0.00513,
+      "avg_adjustment": 1.9e-05
+    },
+    {
+      "horizon": "1m",
+      "e_series_role": "STYLE_FACTOR",
+      "rows": 247,
+      "adjusted_rows": 1,
+      "adjustment_coverage": 0.004049,
+      "avg_adjustment": 5e-06
+    }
+  ],
+  "current_sample": [
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "069660",
+      "name": "KIWOOM 200",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "091230",
+      "name": "TIGER 반도체",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "102110",
+      "name": "TIGER 200",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "105190",
+      "name": "ACE 200",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "114260",
+      "name": "KODEX 국고채3년",
+      "e_series_role": "CASH_LIKE",
+      "e_asset_bucket": "BOND_SHORT",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "114800",
+      "name": "KODEX 인버스",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "HEDGE_INVERSE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "123310",
+      "name": "TIGER 인버스",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "HEDGE_INVERSE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "132030",
+      "name": "KODEX 골드선물(H)",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "COMMODITY_GOLD",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "133690",
+      "name": "TIGER 미국나스닥100",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_US",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "138540",
+      "name": "TIGER 현대차그룹플러스",
+      "e_series_role": "STYLE_FACTOR",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "139220",
+      "name": "TIGER 200 건설",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "139230",
+      "name": "TIGER 200 중공업",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "139260",
+      "name": "TIGER 200 IT",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "144600",
+      "name": "KODEX 은선물(H)",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "COMMODITY_OTHER",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "148020",
+      "name": "RISE 200",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "152100",
+      "name": "PLUS 200",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "157450",
+      "name": "TIGER 단기통안채",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "CASH_RATE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "157500",
+      "name": "TIGER 증권",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "161510",
+      "name": "PLUS 고배당주",
+      "e_series_role": "INCOME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "217770",
+      "name": "TIGER 원유선물인버스(H)",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "HEDGE_INVERSE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "228790",
+      "name": "TIGER 화장품",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "232080",
+      "name": "TIGER 코스닥150",
+      "e_series_role": "CORE_BETA",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "233160",
+      "name": "TIGER 코스닥150 레버리지",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "243880",
+      "name": "TIGER 200IT레버리지",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "244580",
+      "name": "KODEX 바이오",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "EQUITY_KR",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "251340",
+      "name": "KODEX 코스닥150선물인버스",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "HEDGE_INVERSE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "251600",
+      "name": "PLUS 고배당주채권혼합",
+      "e_series_role": "INCOME",
+      "e_asset_bucket": "MULTI_ASSET",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "252710",
+      "name": "TIGER 200선물인버스2X",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "HEDGE_INVERSE",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "261220",
+      "name": "KODEX WTI원유선물(H)",
+      "e_series_role": "SECTOR_THEME",
+      "e_asset_bucket": "COMMODITY_OTHER",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    },
+    {
+      "signal_date": "2026-05-13",
+      "ticker": "261240",
+      "name": "KODEX 미국달러선물",
+      "e_series_role": "DEFENSIVE",
+      "e_asset_bucket": "FX_USD",
+      "fwd_ret_price_1m": null,
+      "fwd_ret_total_1m": null,
+      "distribution_sum_1m": 0.0,
+      "total_return_adjustment_1m": 0.0,
+      "total_return_source_1m": "price_only"
+    }
+  ],
+  "interpretation": "distribution_adjusted rows use forward total-return fields; price_only rows currently fall back to price return.",
+  "outputs": {
+    "summary_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_total_return_adjustment_summary_20260513.csv",
+    "role_summary_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_total_return_adjustment_role_summary_20260513.csv",
+    "current_sample_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_total_return_adjustment_current_sample_20260513.csv",
+    "json": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_total_return_adjustment_20260513.json",
+    "markdown": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_total_return_adjustment_20260513.md",
+    "admin_current_json": "D:\\Quant\\service_platform\\web\\admin_data\\current\\e_series_etf_total_return_adjustment_current.json"
+  }
+}

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -28,18 +28,38 @@ from service_platform.shared.constants import (
     DEFAULT_FEEDBACK_DUPLICATE_WINDOW_SECONDS,
     DEFAULT_FEEDBACK_MESSAGE_MIN_LENGTH,
     DEFAULT_FEEDBACK_RATE_LIMIT_SECONDS,
+    DEFAULT_INTERNAL_PREVIEW_ENABLED,
+    DEFAULT_INVESTMENT_GCS_BUCKET,
+    DEFAULT_INVESTMENT_GCS_PREFIX,
+    DEFAULT_INVESTMENT_PRICE_DB_PATH,
+    DEFAULT_INVESTMENT_STORAGE_SOURCE,
     DEFAULT_LIGHTPAY_MERCHANT_KEY,
     DEFAULT_LIGHTPAY_MID,
     DEFAULT_LIGHTPAY_NOTIFY_ALLOWED_IPS,
     DEFAULT_LIGHTPAY_NOTIFY_URL,
     DEFAULT_LIGHTPAY_RETURN_URL,
     DEFAULT_LOG_LEVEL,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_CODE_TTL_SECONDS,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_ENABLED,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_EMAIL,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_NAME,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_MODE,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_PREVIEW_ENABLED,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_HOST,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PASSWORD,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PORT,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_SSL,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_STARTTLS,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_TIMEOUT_SECONDS,
+    DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_USERNAME,
     DEFAULT_MARKET_ANALYSIS_BASE_URL,
     DEFAULT_MARKET_ANALYSIS_DIR,
     DEFAULT_MARKET_ANALYSIS_SOURCE,
     DEFAULT_PHONE_VERIFICATION_CODE_TTL_SECONDS,
     DEFAULT_PHONE_VERIFICATION_MODE,
     DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
+    DEFAULT_PRODUCTION_SNAPSHOT_GCS_BASE_URL,
+    DEFAULT_PRODUCTION_SNAPSHOT_SOURCE,
     DEFAULT_PUBLIC_DATA_DIR,
     DEFAULT_PUBLISH_KEEP_DAYS,
     DEFAULT_S2_HOLDINGS_CSV,
@@ -55,6 +75,9 @@ from service_platform.shared.constants import (
     DEFAULT_TRIAL_DEFAULT_PLAN,
     DEFAULT_TRIAL_END_DATE,
     DEFAULT_TRIAL_MODE,
+    DEFAULT_TSERIES_OPERATIONAL_DB_PATH,
+    DEFAULT_UI_REDESIGN_ENABLED,
+    DEFAULT_UI_THEME_DEFAULT,
     DEFAULT_USER_SNAPSHOT_DIR,
     DEFAULT_WEB_HOST,
     DEFAULT_WEB_PORT,
@@ -89,6 +112,7 @@ class Settings:
     feedback_message_min_length: int
     feedback_admin_key: str
     analytics_window_hours: int
+    internal_preview_enabled: bool
     analytics_preview_allowed_emails: tuple[str, ...]
     trial_mode: bool
     trial_default_plan: str
@@ -114,8 +138,34 @@ class Settings:
     market_analysis_dir: Path = DEFAULT_MARKET_ANALYSIS_DIR
     market_analysis_source: str = DEFAULT_MARKET_ANALYSIS_SOURCE
     market_analysis_base_url: str = DEFAULT_MARKET_ANALYSIS_BASE_URL
+    tseries_operational_db_path: Path = DEFAULT_TSERIES_OPERATIONAL_DB_PATH
+    investment_price_db_path: Path = DEFAULT_INVESTMENT_PRICE_DB_PATH
+    investment_storage_source: str = DEFAULT_INVESTMENT_STORAGE_SOURCE
+    investment_gcs_bucket: str = DEFAULT_INVESTMENT_GCS_BUCKET
+    investment_gcs_prefix: str = DEFAULT_INVESTMENT_GCS_PREFIX
+    ui_redesign_enabled: bool = DEFAULT_UI_REDESIGN_ENABLED
+    ui_theme_default: str = DEFAULT_UI_THEME_DEFAULT
     bootstrap_admin_email: str = DEFAULT_BOOTSTRAP_ADMIN_EMAIL
     bootstrap_admin_password: str = DEFAULT_BOOTSTRAP_ADMIN_PASSWORD
+    login_email_verification_enabled: bool = DEFAULT_LOGIN_EMAIL_VERIFICATION_ENABLED
+    login_email_verification_mode: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_MODE
+    login_email_verification_code_ttl_seconds: int = (
+        DEFAULT_LOGIN_EMAIL_VERIFICATION_CODE_TTL_SECONDS
+    )
+    login_email_verification_preview_enabled: bool = (
+        DEFAULT_LOGIN_EMAIL_VERIFICATION_PREVIEW_ENABLED
+    )
+    login_email_verification_smtp_host: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_HOST
+    login_email_verification_smtp_port: int = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PORT
+    login_email_verification_smtp_ssl: bool = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_SSL
+    login_email_verification_smtp_starttls: bool = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_STARTTLS
+    login_email_verification_smtp_username: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_USERNAME
+    login_email_verification_smtp_password: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PASSWORD
+    login_email_verification_from_email: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_EMAIL
+    login_email_verification_from_name: str = DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_NAME
+    login_email_verification_smtp_timeout_seconds: int = (
+        DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_TIMEOUT_SECONDS
+    )
 
 
 def _get_port() -> int:
@@ -136,9 +186,33 @@ def _get_csv_tuple(name: str, default: str = "") -> tuple[str, ...]:
     return tuple(values)
 
 
+def _get_theme_default() -> str:
+    raw_value = str(os.getenv("UI_THEME_DEFAULT", DEFAULT_UI_THEME_DEFAULT)).strip().lower()
+    if raw_value not in {"light", "dark", "system"}:
+        return DEFAULT_UI_THEME_DEFAULT
+    return raw_value
+
+
+def _normalize_snapshot_runtime(settings: Settings) -> Settings:
+    snapshot_source = settings.snapshot_source.strip().lower()
+    snapshot_gcs_base_url = settings.snapshot_gcs_base_url.strip()
+
+    if settings.app_env == "production":
+        if snapshot_source in {"", "local"}:
+            snapshot_source = DEFAULT_PRODUCTION_SNAPSHOT_SOURCE
+        if not snapshot_gcs_base_url:
+            snapshot_gcs_base_url = DEFAULT_PRODUCTION_SNAPSHOT_GCS_BASE_URL
+
+    return replace(
+        settings,
+        snapshot_source=snapshot_source,
+        snapshot_gcs_base_url=snapshot_gcs_base_url,
+    )
+
+
 def get_settings() -> Settings:
     public_data_dir = Path(os.getenv("PUBLIC_DATA_DIR", str(DEFAULT_PUBLIC_DATA_DIR)))
-    return Settings(
+    settings = Settings(
         app_env=os.getenv("APP_ENV", "development"),
         web_host=os.getenv("WEB_HOST", DEFAULT_WEB_HOST),
         web_port=_get_port(),
@@ -179,6 +253,10 @@ def get_settings() -> Settings:
         feedback_admin_key=os.getenv("FEEDBACK_ADMIN_KEY", DEFAULT_FEEDBACK_ADMIN_KEY),
         analytics_window_hours=int(
             os.getenv("ANALYTICS_WINDOW_HOURS", str(DEFAULT_ANALYTICS_WINDOW_HOURS))
+        ),
+        internal_preview_enabled=_get_bool(
+            "INTERNAL_PREVIEW_ENABLED",
+            DEFAULT_INTERNAL_PREVIEW_ENABLED,
         ),
         analytics_preview_allowed_emails=_get_csv_tuple(
             "ANALYTICS_PREVIEW_ALLOWED_EMAILS",
@@ -221,6 +299,66 @@ def get_settings() -> Settings:
             "PHONE_VERIFICATION_PREVIEW_ENABLED",
             DEFAULT_PHONE_VERIFICATION_PREVIEW_ENABLED,
         ),
+        login_email_verification_enabled=_get_bool(
+            "LOGIN_EMAIL_VERIFICATION_ENABLED",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_ENABLED,
+        ),
+        login_email_verification_mode=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_MODE",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_MODE,
+        )
+        .strip()
+        .lower(),
+        login_email_verification_code_ttl_seconds=int(
+            os.getenv(
+                "LOGIN_EMAIL_VERIFICATION_CODE_TTL_SECONDS",
+                str(DEFAULT_LOGIN_EMAIL_VERIFICATION_CODE_TTL_SECONDS),
+            )
+        ),
+        login_email_verification_preview_enabled=_get_bool(
+            "LOGIN_EMAIL_VERIFICATION_PREVIEW_ENABLED",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_PREVIEW_ENABLED,
+        ),
+        login_email_verification_smtp_host=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_SMTP_HOST",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_HOST,
+        ).strip(),
+        login_email_verification_smtp_port=int(
+            os.getenv(
+                "LOGIN_EMAIL_VERIFICATION_SMTP_PORT",
+                str(DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PORT),
+            )
+        ),
+        login_email_verification_smtp_ssl=_get_bool(
+            "LOGIN_EMAIL_VERIFICATION_SMTP_SSL",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_SSL,
+        ),
+        login_email_verification_smtp_starttls=_get_bool(
+            "LOGIN_EMAIL_VERIFICATION_SMTP_STARTTLS",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_STARTTLS,
+        ),
+        login_email_verification_smtp_username=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_SMTP_USERNAME",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_USERNAME,
+        ).strip(),
+        login_email_verification_smtp_password=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_SMTP_PASSWORD",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_PASSWORD,
+        ),
+        login_email_verification_from_email=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_FROM_EMAIL",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_EMAIL,
+        ).strip(),
+        login_email_verification_from_name=os.getenv(
+            "LOGIN_EMAIL_VERIFICATION_FROM_NAME",
+            DEFAULT_LOGIN_EMAIL_VERIFICATION_FROM_NAME,
+        ).strip(),
+        login_email_verification_smtp_timeout_seconds=int(
+            os.getenv(
+                "LOGIN_EMAIL_VERIFICATION_SMTP_TIMEOUT_SECONDS",
+                str(DEFAULT_LOGIN_EMAIL_VERIFICATION_SMTP_TIMEOUT_SECONDS),
+            )
+        ),
         market_analysis_source=os.getenv(
             "MARKET_ANALYSIS_SOURCE",
             DEFAULT_MARKET_ANALYSIS_SOURCE,
@@ -238,6 +376,34 @@ def get_settings() -> Settings:
         market_analysis_dir=Path(
             os.getenv("MARKET_ANALYSIS_DIR", str(DEFAULT_MARKET_ANALYSIS_DIR))
         ),
+        tseries_operational_db_path=Path(
+            os.getenv(
+                "TSERIES_OPERATIONAL_DB_PATH",
+                str(DEFAULT_TSERIES_OPERATIONAL_DB_PATH),
+            )
+        ),
+        investment_storage_source=os.getenv(
+            "INVESTMENT_STORAGE_SOURCE",
+            DEFAULT_INVESTMENT_STORAGE_SOURCE,
+        )
+        .strip()
+        .lower(),
+        investment_gcs_bucket=os.getenv(
+            "INVESTMENT_GCS_BUCKET",
+            DEFAULT_INVESTMENT_GCS_BUCKET,
+        ).strip(),
+        investment_gcs_prefix=os.getenv(
+            "INVESTMENT_GCS_PREFIX",
+            DEFAULT_INVESTMENT_GCS_PREFIX,
+        ).strip(),
+        ui_redesign_enabled=_get_bool("UI_REDESIGN_ENABLED", DEFAULT_UI_REDESIGN_ENABLED),
+        ui_theme_default=_get_theme_default(),
+        investment_price_db_path=Path(
+            os.getenv(
+                "INVESTMENT_PRICE_DB_PATH",
+                str(DEFAULT_INVESTMENT_PRICE_DB_PATH),
+            )
+        ),
         bootstrap_admin_email=os.getenv(
             "BOOTSTRAP_ADMIN_EMAIL",
             DEFAULT_BOOTSTRAP_ADMIN_EMAIL,
@@ -247,3 +413,4 @@ def get_settings() -> Settings:
             DEFAULT_BOOTSTRAP_ADMIN_PASSWORD,
         ),
     )
+    return _normalize_snapshot_runtime(settings)

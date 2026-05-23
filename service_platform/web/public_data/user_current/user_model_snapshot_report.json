@@ -1,12 +1,55 @@
 {
-  "as_of_date": "2026-03-20",
-  "generated_at": "2026-03-24T18:36:03",
+  "as_of_date": "2026-05-06",
+  "generated_at": "2026-05-07T10:24:36",
   "current_market_regime": "neutral",
+  "performance_meta": {
+    "content_class": "service_public_backtest",
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "is_personalized_advice": false,
+    "is_one_to_one_advisory": false,
+    "is_actual_trade_instruction": false,
+    "actual_investment_result": false,
+    "backtest_result": true,
+    "disclaimer_required": true,
+    "data_basis": "rule_based_public_model_output",
+    "model_version": "public-model-2026.05.06",
+    "calculation_version": "calc-2026-03-24-compliance-v1",
+    "asof_date": "2026-05-06",
+    "rebalance_frequency": "monthly",
+    "fee_bps": 0.0,
+    "slippage_bps": 0.0,
+    "benchmark_name": "KOSPI200",
+    "backtest_start_date": "2023-06-08",
+    "backtest_end_date": "2026-05-06",
+    "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+    "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+  },
   "reports": [
     {
       "user_model_name": "안정형",
       "service_profile": "stable",
-      "summary_text": "채권, 달러, 금 중심의 방어형 자산배분 포트폴리오",
+      "summary_text": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+      "model_metadata": {
+        "model_display_name": "안정형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+        "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "안정형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "안정형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "안정형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
       "market_view": "중립",
       "allocation_items": [
         {
@@ -15,7 +58,10 @@
           "display_name": "KODEX CD금리액티브(합성)",
           "target_weight": 0.226471,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 1,
+          "strategy_fit_score": 0.226471,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "192720",
@@ -23,7 +69,10 @@
           "display_name": "파워 고배당저변동성",
           "target_weight": 0.154412,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 2,
+          "strategy_fit_score": 0.154412,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -31,7 +80,10 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.113235,
           "role_summary": "현금성 대기 자산",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 3,
+          "strategy_fit_score": 0.113235,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "161510",
@@ -39,7 +91,10 @@
           "display_name": "PLUS 고배당주",
           "target_weight": 0.102941,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 4,
+          "strategy_fit_score": 0.102941,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "069500",
@@ -47,7 +102,10 @@
           "display_name": "KODEX 200",
           "target_weight": 0.068627,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 5,
+          "strategy_fit_score": 0.068627,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "498400",
@@ -55,231 +113,32 @@
           "display_name": "KODEX 200타겟위클리커버드콜",
           "target_weight": 0.034314,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 6,
+          "strategy_fit_score": 0.034314,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "000270",
+          "security_code": "000250",
           "asset_group": "stock",
-          "display_name": "기아",
+          "display_name": "삼천당제약",
           "target_weight": 0.01,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 7,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "001440",
+          "security_code": "006400",
           "asset_group": "stock",
-          "display_name": "대한전선",
+          "display_name": "삼성SDI",
           "target_weight": 0.01,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005380",
-          "asset_group": "stock",
-          "display_name": "현대차",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "003540",
-          "asset_group": "stock",
-          "display_name": "대신증권",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "002380",
-          "asset_group": "stock",
-          "display_name": "KCC",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001720",
-          "asset_group": "stock",
-          "display_name": "신영증권",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000720",
-          "asset_group": "stock",
-          "display_name": "현대건설",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001120",
-          "asset_group": "stock",
-          "display_name": "LX인터내셔널",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000880",
-          "asset_group": "stock",
-          "display_name": "한화",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005850",
-          "asset_group": "stock",
-          "display_name": "에스엘",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "307950",
-          "asset_group": "stock",
-          "display_name": "현대오토에버",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005440",
-          "asset_group": "stock",
-          "display_name": "현대지에프홀딩스",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "006800",
-          "asset_group": "stock",
-          "display_name": "미래에셋증권",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000660",
-          "asset_group": "stock",
-          "display_name": "SK하이닉스",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "010120",
-          "asset_group": "stock",
-          "display_name": "LS ELECTRIC",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "272210",
-          "asset_group": "stock",
-          "display_name": "한화시스템",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "204320",
-          "asset_group": "stock",
-          "display_name": "HL만도",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "180640",
-          "asset_group": "stock",
-          "display_name": "한진칼",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "131290",
-          "asset_group": "stock",
-          "display_name": "티에스이",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "103590",
-          "asset_group": "stock",
-          "display_name": "일진전기",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "086280",
-          "asset_group": "stock",
-          "display_name": "현대글로비스",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "071050",
-          "asset_group": "stock",
-          "display_name": "한국금융지주",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "066570",
-          "asset_group": "stock",
-          "display_name": "LG전자",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "056190",
-          "asset_group": "stock",
-          "display_name": "에스에프에이",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "052690",
-          "asset_group": "stock",
-          "display_name": "한전기술",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "028670",
-          "asset_group": "stock",
-          "display_name": "팬오션",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "023590",
-          "asset_group": "stock",
-          "display_name": "다우기술",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "017960",
-          "asset_group": "stock",
-          "display_name": "한국카본",
-          "target_weight": 0.01,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 8,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "017670",
@@ -287,15 +146,307 @@
           "display_name": "SK텔레콤",
           "target_weight": 0.01,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 9,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "010130",
+          "security_code": "014620",
           "asset_group": "stock",
-          "display_name": "고려아연",
+          "display_name": "성광벤드",
           "target_weight": 0.01,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 10,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "011070",
+          "asset_group": "stock",
+          "display_name": "LG이노텍",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 11,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "006800",
+          "asset_group": "stock",
+          "display_name": "미래에셋증권",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 12,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "001440",
+          "asset_group": "stock",
+          "display_name": "대한전선",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 13,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "005940",
+          "asset_group": "stock",
+          "display_name": "NH투자증권",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 14,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "005290",
+          "asset_group": "stock",
+          "display_name": "동진쎄미켐",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 15,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "032820",
+          "asset_group": "stock",
+          "display_name": "우리기술",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 16,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "443060",
+          "asset_group": "stock",
+          "display_name": "HD현대마린솔루션",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 17,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "028050",
+          "asset_group": "stock",
+          "display_name": "삼성E&A",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 18,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "032830",
+          "asset_group": "stock",
+          "display_name": "삼성생명",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 19,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "000720",
+          "asset_group": "stock",
+          "display_name": "현대건설",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 20,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "034730",
+          "asset_group": "stock",
+          "display_name": "SK",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 21,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "402340",
+          "asset_group": "stock",
+          "display_name": "SK스퀘어",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 22,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "298040",
+          "asset_group": "stock",
+          "display_name": "효성중공업",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 23,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "278470",
+          "asset_group": "stock",
+          "display_name": "에이피알",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 24,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "267270",
+          "asset_group": "stock",
+          "display_name": "HD건설기계",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 25,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "267260",
+          "asset_group": "stock",
+          "display_name": "HD현대일렉트릭",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 26,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "080220",
+          "asset_group": "stock",
+          "display_name": "제주반도체",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 27,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "079550",
+          "asset_group": "stock",
+          "display_name": "LIG디펜스앤에어로스페이스",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 28,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "078600",
+          "asset_group": "stock",
+          "display_name": "대주전자재료",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 29,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "067310",
+          "asset_group": "stock",
+          "display_name": "하나마이크론",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 30,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "052690",
+          "asset_group": "stock",
+          "display_name": "한전기술",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 31,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "048410",
+          "asset_group": "stock",
+          "display_name": "현대바이오",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 32,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "043260",
+          "asset_group": "stock",
+          "display_name": "성호전자",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 33,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "039030",
+          "asset_group": "stock",
+          "display_name": "이오테크닉스",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 34,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "036830",
+          "asset_group": "stock",
+          "display_name": "솔브레인홀딩스",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 35,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "036540",
+          "asset_group": "stock",
+          "display_name": "SFA반도체",
+          "target_weight": 0.01,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 36,
+          "strategy_fit_score": 0.01,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -303,193 +454,238 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.0,
           "role_summary": "현금성 대기 자산",
-          "source_type": "cash"
+          "source_type": "cash",
+          "rank_no": 37,
+          "strategy_fit_score": 0.0,
+          "strategy_fit_score_basis": "target_weight_proxy"
         }
       ],
       "rationale_items": [
-        "변동성이 큰 구간에서 방어 자산 비중을 높여 기준일 기준 낙폭 완화 구조를 반영합니다.",
-        "채권, 달러, 금을 함께 사용해 급락 구간 대응 특성을 관찰할 수 있도록 구성됩니다.",
-        "현금성 자산을 일부 유지해 공개 규칙 기준의 완충 역할을 둡니다.",
-        "현재 시장 판단은 '중립' 구간입니다.",
-        "현재 공개 모델 기준안은 채권, 달러, 금 중심의 방어형 자산배분 포트폴리오 성격을 반영합니다."
+        "이 모델은 멀티애셋 데이터 기반 퀀트투자 모델입니다.",
+        "이 모델은 공개 기준 기반 퀀트투자 모델입니다.",
+        "이 모델은 주간 브리핑용 퀀트투자 모델입니다.",
+        "이 모델은 모델 포트폴리오를 산출하는 퀀트투자 모델입니다.",
+        "시장·자산·리스크 데이터를 바탕으로 공개된 기준에 따라 산출됩니다.",
+        "동일한 기준이 모든 이용자에게 동일하게 적용됩니다."
       ],
       "risk_level": "낮음",
       "performance_summary": {
         "headline_metrics": {
           "primary_period": "1Y",
           "display_metric": "cagr",
-          "cagr": 0.622546,
-          "total_return": 0.622546,
-          "mdd": -0.12245,
-          "sharpe": 2.582301,
+          "cagr": 0.842578,
+          "total_return": 0.901304,
+          "mdd": -0.126087,
+          "sharpe": 3.865791,
           "trailing_3m": {
             "period": "3M",
-            "total_return": 0.149552,
-            "cagr": 0.74628,
-            "mdd": -0.12245,
-            "sharpe": 2.12932
+            "total_return": 0.243143,
+            "cagr": 1.232158,
+            "mdd": -0.126087,
+            "sharpe": 3.314495
           },
           "trailing_6m": {
             "period": "6M",
-            "total_return": 0.310611,
-            "cagr": 0.717702,
-            "mdd": -0.12245,
-            "sharpe": 2.514501
+            "total_return": 0.393769,
+            "cagr": 0.886847,
+            "mdd": -0.126087,
+            "sharpe": 3.261855
           },
           "trailing_1y": {
             "period": "1Y",
-            "total_return": 0.622546,
-            "cagr": 0.622546,
-            "mdd": -0.12245,
-            "sharpe": 2.582301
+            "total_return": 0.901304,
+            "cagr": 0.842578,
+            "mdd": -0.126087,
+            "sharpe": 3.865791
           },
           "reference_5y": {
             "period": "5Y",
-            "total_return": 0.841555,
-            "cagr": 0.257315,
-            "mdd": -0.12245,
-            "sharpe": 1.713394
+            "total_return": 1.193032,
+            "cagr": 0.309737,
+            "mdd": -0.126087,
+            "sharpe": 2.286637
           },
           "reference_full": {
             "period": "FULL",
-            "total_return": 0.841555,
-            "cagr": 0.257315,
-            "mdd": -0.12245,
-            "sharpe": 1.713394
+            "total_return": 1.193032,
+            "cagr": 0.309737,
+            "mdd": -0.126087,
+            "sharpe": 2.286637
           }
         },
         "period_metrics": [
           {
             "period": "3M",
-            "total_return": 0.149552,
-            "cagr": 0.74628,
-            "mdd": -0.12245,
-            "sharpe": 2.12932
+            "total_return": 0.243143,
+            "cagr": 1.232158,
+            "mdd": -0.126087,
+            "sharpe": 3.314495
           },
           {
             "period": "6M",
-            "total_return": 0.310611,
-            "cagr": 0.717702,
-            "mdd": -0.12245,
-            "sharpe": 2.514501
+            "total_return": 0.393769,
+            "cagr": 0.886847,
+            "mdd": -0.126087,
+            "sharpe": 3.261855
           },
           {
             "period": "1Y",
-            "total_return": 0.622546,
-            "cagr": 0.622546,
-            "mdd": -0.12245,
-            "sharpe": 2.582301
+            "total_return": 0.901304,
+            "cagr": 0.842578,
+            "mdd": -0.126087,
+            "sharpe": 3.865791
           },
           {
             "period": "2Y",
-            "total_return": 0.782201,
-            "cagr": 0.334991,
-            "mdd": -0.12245,
-            "sharpe": 1.927903
+            "total_return": 0.95296,
+            "cagr": 0.377125,
+            "mdd": -0.126087,
+            "sharpe": 2.41862
           },
           {
             "period": "3Y",
-            "total_return": 0.841555,
-            "cagr": 0.257315,
-            "mdd": -0.12245,
-            "sharpe": 1.713394
+            "total_return": 1.193032,
+            "cagr": 0.309737,
+            "mdd": -0.126087,
+            "sharpe": 2.286637
           },
           {
             "period": "5Y",
-            "total_return": 0.841555,
-            "cagr": 0.257315,
-            "mdd": -0.12245,
-            "sharpe": 1.713394
+            "total_return": 1.193032,
+            "cagr": 0.309737,
+            "mdd": -0.126087,
+            "sharpe": 2.286637
           },
           {
             "period": "FULL",
-            "total_return": 0.841555,
-            "cagr": 0.257315,
-            "mdd": -0.12245,
-            "sharpe": 1.713394
+            "total_return": 1.193032,
+            "cagr": 0.309737,
+            "mdd": -0.126087,
+            "sharpe": 2.286637
           }
-        ]
+        ],
+        "performance_subject_name": "안정형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과"
       },
       "change_log": {
         "increased_assets": [
           {
-            "display_name": "파워 고배당저변동성",
-            "security_code": "192720",
-            "delta_weight": 0.022336,
+            "display_name": "KODEX CD금리액티브(합성)",
+            "security_code": "459580",
+            "delta_weight": 0.114471,
             "direction": "increase"
           },
           {
-            "display_name": "한국카본",
-            "security_code": "017960",
+            "display_name": "현금/대기자금",
+            "security_code": null,
+            "delta_weight": 0.060735,
+            "direction": "increase"
+          },
+          {
+            "display_name": "성호전자",
+            "security_code": "043260",
             "delta_weight": 0.01,
             "direction": "increase"
           },
           {
-            "display_name": "에스에프에이",
-            "security_code": "056190",
+            "display_name": "솔브레인홀딩스",
+            "security_code": "036830",
             "delta_weight": 0.01,
             "direction": "increase"
           },
           {
-            "display_name": "팬오션",
-            "security_code": "028670",
-            "delta_weight": 0.01,
-            "direction": "increase"
-          },
-          {
-            "display_name": "한화",
-            "security_code": "000880",
+            "display_name": "SFA반도체",
+            "security_code": "036540",
             "delta_weight": 0.01,
             "direction": "increase"
           }
         ],
         "decreased_assets": [
           {
-            "display_name": "KODEX CD금리액티브(합성)",
-            "security_code": "459580",
-            "delta_weight": -0.017869,
+            "display_name": "KODEX 200",
+            "security_code": "069500",
+            "delta_weight": -0.134373,
             "direction": "decrease"
           },
           {
-            "display_name": "현금/대기자금",
-            "security_code": null,
-            "delta_weight": -0.012236,
+            "display_name": "파워 고배당저변동성",
+            "security_code": "192720",
+            "delta_weight": -0.038088,
             "direction": "decrease"
           },
           {
-            "display_name": "SK스퀘어",
-            "security_code": "402340",
+            "display_name": "대우건설",
+            "security_code": "047040",
             "delta_weight": -0.01,
             "direction": "decrease"
           },
           {
-            "display_name": "효성중공업",
-            "security_code": "298040",
+            "display_name": "한국항공우주",
+            "security_code": "047810",
             "delta_weight": -0.01,
             "direction": "decrease"
           },
           {
-            "display_name": "한미약품",
-            "security_code": "128940",
+            "display_name": "한국금융지주",
+            "security_code": "071050",
             "delta_weight": -0.01,
             "direction": "decrease"
           }
         ],
-        "change_basis": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다."
+        "change_subject_name": "안정형 퀀트투자 모델",
+        "change_basis": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
       },
-      "disclaimer_text": "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
+      "disclaimer_text": "이 자료는 공개 기준 기반 퀀트투자 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     },
     {
       "user_model_name": "균형형",
       "service_profile": "balanced",
-      "summary_text": "주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오",
+      "summary_text": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+      "model_metadata": {
+        "model_display_name": "균형형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+        "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "균형형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "균형형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "균형형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
       "market_view": "중립",
       "allocation_items": [
         {
@@ -498,7 +694,10 @@
           "display_name": "KODEX CD금리액티브(합성)",
           "target_weight": 0.194118,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 1,
+          "strategy_fit_score": 0.194118,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "192720",
@@ -506,7 +705,10 @@
           "display_name": "파워 고배당저변동성",
           "target_weight": 0.132353,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 2,
+          "strategy_fit_score": 0.132353,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -514,7 +716,10 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.097059,
           "role_summary": "현금성 대기 자산",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 3,
+          "strategy_fit_score": 0.097059,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "161510",
@@ -522,7 +727,10 @@
           "display_name": "PLUS 고배당주",
           "target_weight": 0.088235,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 4,
+          "strategy_fit_score": 0.088235,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "069500",
@@ -530,7 +738,10 @@
           "display_name": "KODEX 200",
           "target_weight": 0.058824,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 5,
+          "strategy_fit_score": 0.058824,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "498400",
@@ -538,231 +749,32 @@
           "display_name": "KODEX 200타겟위클리커버드콜",
           "target_weight": 0.029412,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 6,
+          "strategy_fit_score": 0.029412,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "000270",
+          "security_code": "000250",
           "asset_group": "stock",
-          "display_name": "기아",
+          "display_name": "삼천당제약",
           "target_weight": 0.013333,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 7,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "001440",
+          "security_code": "006400",
           "asset_group": "stock",
-          "display_name": "대한전선",
+          "display_name": "삼성SDI",
           "target_weight": 0.013333,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005380",
-          "asset_group": "stock",
-          "display_name": "현대차",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "003540",
-          "asset_group": "stock",
-          "display_name": "대신증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "002380",
-          "asset_group": "stock",
-          "display_name": "KCC",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001720",
-          "asset_group": "stock",
-          "display_name": "신영증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000720",
-          "asset_group": "stock",
-          "display_name": "현대건설",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001120",
-          "asset_group": "stock",
-          "display_name": "LX인터내셔널",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000880",
-          "asset_group": "stock",
-          "display_name": "한화",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005850",
-          "asset_group": "stock",
-          "display_name": "에스엘",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "307950",
-          "asset_group": "stock",
-          "display_name": "현대오토에버",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005440",
-          "asset_group": "stock",
-          "display_name": "현대지에프홀딩스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "006800",
-          "asset_group": "stock",
-          "display_name": "미래에셋증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000660",
-          "asset_group": "stock",
-          "display_name": "SK하이닉스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "010120",
-          "asset_group": "stock",
-          "display_name": "LS ELECTRIC",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "272210",
-          "asset_group": "stock",
-          "display_name": "한화시스템",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "204320",
-          "asset_group": "stock",
-          "display_name": "HL만도",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "180640",
-          "asset_group": "stock",
-          "display_name": "한진칼",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "131290",
-          "asset_group": "stock",
-          "display_name": "티에스이",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "103590",
-          "asset_group": "stock",
-          "display_name": "일진전기",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "086280",
-          "asset_group": "stock",
-          "display_name": "현대글로비스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "071050",
-          "asset_group": "stock",
-          "display_name": "한국금융지주",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "066570",
-          "asset_group": "stock",
-          "display_name": "LG전자",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "056190",
-          "asset_group": "stock",
-          "display_name": "에스에프에이",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "052690",
-          "asset_group": "stock",
-          "display_name": "한전기술",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "028670",
-          "asset_group": "stock",
-          "display_name": "팬오션",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "023590",
-          "asset_group": "stock",
-          "display_name": "다우기술",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "017960",
-          "asset_group": "stock",
-          "display_name": "한국카본",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 8,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "017670",
@@ -770,15 +782,307 @@
           "display_name": "SK텔레콤",
           "target_weight": 0.013333,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 9,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "010130",
+          "security_code": "014620",
           "asset_group": "stock",
-          "display_name": "고려아연",
+          "display_name": "성광벤드",
           "target_weight": 0.013333,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 10,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "011070",
+          "asset_group": "stock",
+          "display_name": "LG이노텍",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 11,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "006800",
+          "asset_group": "stock",
+          "display_name": "미래에셋증권",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 12,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "001440",
+          "asset_group": "stock",
+          "display_name": "대한전선",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 13,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "005940",
+          "asset_group": "stock",
+          "display_name": "NH투자증권",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 14,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "005290",
+          "asset_group": "stock",
+          "display_name": "동진쎄미켐",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 15,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "032820",
+          "asset_group": "stock",
+          "display_name": "우리기술",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 16,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "443060",
+          "asset_group": "stock",
+          "display_name": "HD현대마린솔루션",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 17,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "028050",
+          "asset_group": "stock",
+          "display_name": "삼성E&A",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 18,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "032830",
+          "asset_group": "stock",
+          "display_name": "삼성생명",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 19,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "000720",
+          "asset_group": "stock",
+          "display_name": "현대건설",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 20,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "034730",
+          "asset_group": "stock",
+          "display_name": "SK",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 21,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "402340",
+          "asset_group": "stock",
+          "display_name": "SK스퀘어",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 22,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "298040",
+          "asset_group": "stock",
+          "display_name": "효성중공업",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 23,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "278470",
+          "asset_group": "stock",
+          "display_name": "에이피알",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 24,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "267270",
+          "asset_group": "stock",
+          "display_name": "HD건설기계",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 25,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "267260",
+          "asset_group": "stock",
+          "display_name": "HD현대일렉트릭",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 26,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "080220",
+          "asset_group": "stock",
+          "display_name": "제주반도체",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 27,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "079550",
+          "asset_group": "stock",
+          "display_name": "LIG디펜스앤에어로스페이스",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 28,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "078600",
+          "asset_group": "stock",
+          "display_name": "대주전자재료",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 29,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "067310",
+          "asset_group": "stock",
+          "display_name": "하나마이크론",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 30,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "052690",
+          "asset_group": "stock",
+          "display_name": "한전기술",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 31,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "048410",
+          "asset_group": "stock",
+          "display_name": "현대바이오",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 32,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "043260",
+          "asset_group": "stock",
+          "display_name": "성호전자",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 33,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "039030",
+          "asset_group": "stock",
+          "display_name": "이오테크닉스",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 34,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "036830",
+          "asset_group": "stock",
+          "display_name": "솔브레인홀딩스",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 35,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "036540",
+          "asset_group": "stock",
+          "display_name": "SFA반도체",
+          "target_weight": 0.013333,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 36,
+          "strategy_fit_score": 0.013333,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -786,193 +1090,238 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.0,
           "role_summary": "현금성 대기 자산",
-          "source_type": "cash"
+          "source_type": "cash",
+          "rank_no": 37,
+          "strategy_fit_score": 0.0,
+          "strategy_fit_score_basis": "target_weight_proxy"
         }
       ],
       "rationale_items": [
-        "주식과 ETF를 함께 사용해 분산과 성장 노출을 균형 있게 반영합니다.",
-        "배당, 저변동, 단기채 성격의 자산을 함께 사용해 변동 완화 특성을 반영합니다.",
-        "중립 국면에서는 과도한 방향성 노출을 줄이는 구조를 사용합니다.",
-        "현재 시장 판단은 '중립' 구간입니다.",
-        "현재 공개 모델 기준안은 주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오 성격을 반영합니다."
+        "이 모델은 멀티애셋 데이터 기반 퀀트투자 모델입니다.",
+        "이 모델은 공개 기준 기반 퀀트투자 모델입니다.",
+        "이 모델은 주간 브리핑용 퀀트투자 모델입니다.",
+        "이 모델은 모델 포트폴리오를 산출하는 퀀트투자 모델입니다.",
+        "시장·자산·리스크 데이터를 바탕으로 공개된 기준에 따라 산출됩니다.",
+        "동일한 기준이 모든 이용자에게 동일하게 적용됩니다."
       ],
       "risk_level": "보통",
       "performance_summary": {
         "headline_metrics": {
           "primary_period": "1Y",
           "display_metric": "cagr",
-          "cagr": 0.675826,
-          "total_return": 0.675826,
-          "mdd": -0.13316,
-          "sharpe": 2.523104,
+          "cagr": 0.934187,
+          "total_return": 1.000809,
+          "mdd": -0.13796,
+          "sharpe": 3.782927,
           "trailing_3m": {
             "period": "3M",
-            "total_return": 0.164796,
-            "cagr": 0.84077,
-            "mdd": -0.13316,
-            "sharpe": 2.121267
+            "total_return": 0.264493,
+            "cagr": 1.376893,
+            "mdd": -0.13796,
+            "sharpe": 3.253257
           },
           "trailing_6m": {
             "period": "6M",
-            "total_return": 0.332693,
-            "cagr": 0.776069,
-            "mdd": -0.13316,
-            "sharpe": 2.421941
+            "total_return": 0.425493,
+            "cagr": 0.969827,
+            "mdd": -0.13796,
+            "sharpe": 3.176088
           },
           "trailing_1y": {
             "period": "1Y",
-            "total_return": 0.675826,
-            "cagr": 0.675826,
-            "mdd": -0.13316,
-            "sharpe": 2.523104
+            "total_return": 1.000809,
+            "cagr": 0.934187,
+            "mdd": -0.13796,
+            "sharpe": 3.782927
           },
           "reference_5y": {
             "period": "5Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
+            "total_return": 1.315651,
+            "cagr": 0.334451,
+            "mdd": -0.13796,
+            "sharpe": 2.24723
           },
           "reference_full": {
             "period": "FULL",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
+            "total_return": 1.315651,
+            "cagr": 0.334451,
+            "mdd": -0.13796,
+            "sharpe": 2.24723
           }
         },
         "period_metrics": [
           {
             "period": "3M",
-            "total_return": 0.164796,
-            "cagr": 0.84077,
-            "mdd": -0.13316,
-            "sharpe": 2.121267
+            "total_return": 0.264493,
+            "cagr": 1.376893,
+            "mdd": -0.13796,
+            "sharpe": 3.253257
           },
           {
             "period": "6M",
-            "total_return": 0.332693,
-            "cagr": 0.776069,
-            "mdd": -0.13316,
-            "sharpe": 2.421941
+            "total_return": 0.425493,
+            "cagr": 0.969827,
+            "mdd": -0.13796,
+            "sharpe": 3.176088
           },
           {
             "period": "1Y",
-            "total_return": 0.675826,
-            "cagr": 0.675826,
-            "mdd": -0.13316,
-            "sharpe": 2.523104
+            "total_return": 1.000809,
+            "cagr": 0.934187,
+            "mdd": -0.13796,
+            "sharpe": 3.782927
           },
           {
             "period": "2Y",
-            "total_return": 0.85366,
-            "cagr": 0.361492,
-            "mdd": -0.13316,
-            "sharpe": 1.898018
+            "total_return": 1.069995,
+            "cagr": 0.415981,
+            "mdd": -0.13796,
+            "sharpe": 2.410251
           },
           {
             "period": "3Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
+            "total_return": 1.315651,
+            "cagr": 0.334451,
+            "mdd": -0.13796,
+            "sharpe": 2.24723
           },
           {
             "period": "5Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
+            "total_return": 1.315651,
+            "cagr": 0.334451,
+            "mdd": -0.13796,
+            "sharpe": 2.24723
           },
           {
             "period": "FULL",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
+            "total_return": 1.315651,
+            "cagr": 0.334451,
+            "mdd": -0.13796,
+            "sharpe": 2.24723
           }
-        ]
+        ],
+        "performance_subject_name": "균형형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과"
       },
       "change_log": {
         "increased_assets": [
           {
-            "display_name": "파워 고배당저변동성",
-            "security_code": "192720",
-            "delta_weight": 0.019145,
+            "display_name": "KODEX CD금리액티브(합성)",
+            "security_code": "459580",
+            "delta_weight": 0.098118,
             "direction": "increase"
           },
           {
-            "display_name": "현대지에프홀딩스",
-            "security_code": "005440",
+            "display_name": "현금/대기자금",
+            "security_code": null,
+            "delta_weight": 0.052059,
+            "direction": "increase"
+          },
+          {
+            "display_name": "성호전자",
+            "security_code": "043260",
             "delta_weight": 0.013333,
             "direction": "increase"
           },
           {
-            "display_name": "대신증권",
-            "security_code": "003540",
+            "display_name": "솔브레인홀딩스",
+            "security_code": "036830",
             "delta_weight": 0.013333,
             "direction": "increase"
           },
           {
-            "display_name": "팬오션",
-            "security_code": "028670",
-            "delta_weight": 0.013333,
-            "direction": "increase"
-          },
-          {
-            "display_name": "한전기술",
-            "security_code": "052690",
+            "display_name": "SFA반도체",
+            "security_code": "036540",
             "delta_weight": 0.013333,
             "direction": "increase"
           }
         ],
         "decreased_assets": [
           {
-            "display_name": "KODEX CD금리액티브(합성)",
-            "security_code": "459580",
-            "delta_weight": -0.015316,
+            "display_name": "KODEX 200",
+            "security_code": "069500",
+            "delta_weight": -0.115176,
             "direction": "decrease"
           },
           {
-            "display_name": "삼성물산",
-            "security_code": "028260",
+            "display_name": "파워 고배당저변동성",
+            "security_code": "192720",
+            "delta_weight": -0.032647,
+            "direction": "decrease"
+          },
+          {
+            "display_name": "대우건설",
+            "security_code": "047040",
             "delta_weight": -0.013333,
             "direction": "decrease"
           },
           {
-            "display_name": "SK스퀘어",
-            "security_code": "402340",
+            "display_name": "한국항공우주",
+            "security_code": "047810",
             "delta_weight": -0.013333,
             "direction": "decrease"
           },
           {
-            "display_name": "효성중공업",
-            "security_code": "298040",
-            "delta_weight": -0.013333,
-            "direction": "decrease"
-          },
-          {
-            "display_name": "한미약품",
-            "security_code": "128940",
+            "display_name": "한국금융지주",
+            "security_code": "071050",
             "delta_weight": -0.013333,
             "direction": "decrease"
           }
         ],
-        "change_basis": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다."
+        "change_subject_name": "균형형 퀀트투자 모델",
+        "change_basis": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
       },
-      "disclaimer_text": "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
+      "disclaimer_text": "이 자료는 공개 기준 기반 퀀트투자 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     },
     {
       "user_model_name": "성장형",
       "service_profile": "growth",
-      "summary_text": "상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오",
+      "summary_text": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+      "model_metadata": {
+        "model_display_name": "성장형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+        "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "성장형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "성장형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "성장형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
       "market_view": "중립",
       "allocation_items": [
         {
@@ -981,7 +1330,10 @@
           "display_name": "KODEX CD금리액티브(합성)",
           "target_weight": 0.161765,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 1,
+          "strategy_fit_score": 0.161765,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "192720",
@@ -989,7 +1341,10 @@
           "display_name": "파워 고배당저변동성",
           "target_weight": 0.110294,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 2,
+          "strategy_fit_score": 0.110294,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -997,7 +1352,10 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.080882,
           "role_summary": "현금성 대기 자산",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 3,
+          "strategy_fit_score": 0.080882,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "161510",
@@ -1005,7 +1363,10 @@
           "display_name": "PLUS 고배당주",
           "target_weight": 0.073529,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 4,
+          "strategy_fit_score": 0.073529,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "069500",
@@ -1013,39 +1374,32 @@
           "display_name": "KODEX 200",
           "target_weight": 0.04902,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 5,
+          "strategy_fit_score": 0.04902,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "950160",
+          "security_code": "042700",
           "asset_group": "stock",
-          "display_name": "코오롱티슈진",
+          "display_name": "한미반도체",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 6,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "108490",
+          "security_code": "047040",
           "asset_group": "stock",
-          "display_name": "로보티즈",
+          "display_name": "대우건설",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "272290",
-          "asset_group": "stock",
-          "display_name": "이녹스첨단소재",
-          "target_weight": 0.025,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "126340",
-          "asset_group": "stock",
-          "display_name": "비나텍",
-          "target_weight": 0.025,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 7,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "102940",
@@ -1053,23 +1407,54 @@
           "display_name": "코오롱생명과학",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 8,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "032190",
+          "security_code": "327260",
           "asset_group": "stock",
-          "display_name": "다우데이타",
+          "display_name": "RF머트리얼즈",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 9,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "174900",
+          "security_code": "050890",
           "asset_group": "stock",
-          "display_name": "앱클론",
+          "display_name": "쏠리드",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 10,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "376900",
+          "asset_group": "stock",
+          "display_name": "로킷헬스케어",
+          "target_weight": 0.025,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 11,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
+        },
+        {
+          "security_code": "126340",
+          "asset_group": "stock",
+          "display_name": "비나텍",
+          "target_weight": 0.025,
+          "role_summary": "주식 직접 투자",
+          "source_type": "stock",
+          "rank_no": 12,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "124500",
@@ -1077,7 +1462,10 @@
           "display_name": "아이티센글로벌",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 13,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "189300",
@@ -1085,95 +1473,131 @@
           "display_name": "인텔리안테크",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 14,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "056080",
+          "security_code": "027360",
           "asset_group": "stock",
-          "display_name": "유진로봇",
+          "display_name": "아주IB투자",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 15,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "437730",
+          "security_code": "080220",
           "asset_group": "stock",
-          "display_name": "삼현",
+          "display_name": "제주반도체",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 16,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "043260",
+          "security_code": "218410",
           "asset_group": "stock",
-          "display_name": "성호전자",
+          "display_name": "RFHIC",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 17,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "003380",
+          "security_code": "010170",
           "asset_group": "stock",
-          "display_name": "하림지주",
+          "display_name": "대한광통신",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 18,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "458870",
+          "security_code": "100790",
           "asset_group": "stock",
-          "display_name": "씨어스테크놀로지",
+          "display_name": "미래에셋벤처투자",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 19,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "323280",
+          "security_code": "032820",
           "asset_group": "stock",
-          "display_name": "태성",
+          "display_name": "우리기술",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 20,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "440110",
+          "security_code": "240810",
           "asset_group": "stock",
-          "display_name": "파두",
+          "display_name": "원익IPS",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 21,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "030530",
+          "security_code": "950160",
           "asset_group": "stock",
-          "display_name": "원익홀딩스",
+          "display_name": "코오롱티슈진",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 22,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "058610",
+          "security_code": "007810",
           "asset_group": "stock",
-          "display_name": "에스피지",
+          "display_name": "코리아써키트",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 23,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "319400",
+          "security_code": "375500",
           "asset_group": "stock",
-          "display_name": "현대무벡스",
+          "display_name": "DL이앤씨",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 24,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
-          "security_code": "095340",
+          "security_code": "001440",
           "asset_group": "stock",
-          "display_name": "ISC",
+          "display_name": "대한전선",
           "target_weight": 0.025,
           "role_summary": "주식 직접 투자",
-          "source_type": "stock"
+          "source_type": "stock",
+          "rank_no": 25,
+          "strategy_fit_score": 0.025,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": "498400",
@@ -1181,7 +1605,10 @@
           "display_name": "KODEX 200타겟위클리커버드콜",
           "target_weight": 0.02451,
           "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
+          "source_type": "etf",
+          "rank_no": 26,
+          "strategy_fit_score": 0.02451,
+          "strategy_fit_score_basis": "target_weight_proxy"
         },
         {
           "security_code": null,
@@ -1189,670 +1616,212 @@
           "display_name": "현금/대기자금",
           "target_weight": 0.0,
           "role_summary": "현금성 대기 자산",
-          "source_type": "cash"
+          "source_type": "cash",
+          "rank_no": 27,
+          "strategy_fit_score": 0.0,
+          "strategy_fit_score_basis": "target_weight_proxy"
         }
       ],
       "rationale_items": [
-        "상승 추세가 유지되는 구간에서 성장 지향 노출을 상대적으로 크게 반영합니다.",
-        "성장형 ETF와 모멘텀 성격 자산 비중을 높여 추세 민감도를 반영합니다.",
-        "강한 종목과 자산군을 더 오래 유지하는 공개 규칙 구조를 사용합니다.",
-        "현재 시장 판단은 '중립' 구간입니다.",
-        "현재 공개 모델 기준안은 상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오 성격을 반영합니다."
+        "이 모델은 멀티애셋 데이터 기반 퀀트투자 모델입니다.",
+        "이 모델은 공개 기준 기반 퀀트투자 모델입니다.",
+        "이 모델은 주간 브리핑용 퀀트투자 모델입니다.",
+        "이 모델은 모델 포트폴리오를 산출하는 퀀트투자 모델입니다.",
+        "시장·자산·리스크 데이터를 바탕으로 공개된 기준에 따라 산출됩니다.",
+        "동일한 기준이 모든 이용자에게 동일하게 적용됩니다."
       ],
       "risk_level": "높음",
       "performance_summary": {
         "headline_metrics": {
           "primary_period": "1Y",
           "display_metric": "cagr",
-          "cagr": 1.355819,
-          "total_return": 1.355819,
-          "mdd": -0.142547,
-          "sharpe": 3.406951,
+          "cagr": 1.550055,
+          "total_return": 1.675591,
+          "mdd": -0.150973,
+          "sharpe": 4.504196,
           "trailing_3m": {
             "period": "3M",
-            "total_return": 0.23194,
-            "cagr": 1.303344,
-            "mdd": -0.142547,
-            "sharpe": 2.36453
+            "total_return": 0.241256,
+            "cagr": 1.219685,
+            "mdd": -0.150973,
+            "sharpe": 2.641379
           },
           "trailing_6m": {
             "period": "6M",
-            "total_return": 0.733342,
-            "cagr": 2.004475,
-            "mdd": -0.142547,
-            "sharpe": 3.760946
+            "total_return": 0.715729,
+            "cagr": 1.807613,
+            "mdd": -0.150973,
+            "sharpe": 3.979307
           },
           "trailing_1y": {
             "period": "1Y",
-            "total_return": 1.355819,
-            "cagr": 1.355819,
-            "mdd": -0.142547,
-            "sharpe": 3.406951
+            "total_return": 1.675591,
+            "cagr": 1.550055,
+            "mdd": -0.150973,
+            "sharpe": 4.504196
           },
           "reference_5y": {
             "period": "5Y",
-            "total_return": 2.938393,
-            "cagr": 0.672032,
-            "mdd": -0.142547,
-            "sharpe": 2.54015
+            "total_return": 3.322271,
+            "cagr": 0.653608,
+            "mdd": -0.150973,
+            "sharpe": 2.937192
           },
           "reference_full": {
             "period": "FULL",
-            "total_return": 2.938393,
-            "cagr": 0.672032,
-            "mdd": -0.142547,
-            "sharpe": 2.54015
+            "total_return": 3.322271,
+            "cagr": 0.653608,
+            "mdd": -0.150973,
+            "sharpe": 2.937192
           }
         },
         "period_metrics": [
           {
             "period": "3M",
-            "total_return": 0.23194,
-            "cagr": 1.303344,
-            "mdd": -0.142547,
-            "sharpe": 2.36453
+            "total_return": 0.241256,
+            "cagr": 1.219685,
+            "mdd": -0.150973,
+            "sharpe": 2.641379
           },
           {
             "period": "6M",
-            "total_return": 0.733342,
-            "cagr": 2.004475,
-            "mdd": -0.142547,
-            "sharpe": 3.760946
+            "total_return": 0.715729,
+            "cagr": 1.807613,
+            "mdd": -0.150973,
+            "sharpe": 3.979307
           },
           {
             "period": "1Y",
-            "total_return": 1.355819,
-            "cagr": 1.355819,
-            "mdd": -0.142547,
-            "sharpe": 3.406951
+            "total_return": 1.675591,
+            "cagr": 1.550055,
+            "mdd": -0.150973,
+            "sharpe": 4.504196
           },
           {
             "period": "2Y",
-            "total_return": 2.055461,
-            "cagr": 0.747988,
-            "mdd": -0.142547,
-            "sharpe": 2.606501
+            "total_return": 2.331617,
+            "cagr": 0.777742,
+            "mdd": -0.150973,
+            "sharpe": 3.044557
           },
           {
             "period": "3Y",
-            "total_return": 2.938393,
-            "cagr": 0.672032,
-            "mdd": -0.142547,
-            "sharpe": 2.54015
+            "total_return": 3.322271,
+            "cagr": 0.653608,
+            "mdd": -0.150973,
+            "sharpe": 2.937192
           },
           {
             "period": "5Y",
-            "total_return": 2.938393,
-            "cagr": 0.672032,
-            "mdd": -0.142547,
-            "sharpe": 2.54015
+            "total_return": 3.322271,
+            "cagr": 0.653608,
+            "mdd": -0.150973,
+            "sharpe": 2.937192
           },
           {
             "period": "FULL",
-            "total_return": 2.938393,
-            "cagr": 0.672032,
-            "mdd": -0.142547,
-            "sharpe": 2.54015
+            "total_return": 3.322271,
+            "cagr": 0.653608,
+            "mdd": -0.150973,
+            "sharpe": 2.937192
           }
-        ]
+        ],
+        "performance_subject_name": "성장형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과"
       },
       "change_log": {
         "increased_assets": [
-          {
-            "display_name": "하림지주",
-            "security_code": "003380",
-            "delta_weight": 0.025,
-            "direction": "increase"
-          },
-          {
-            "display_name": "유진로봇",
-            "security_code": "056080",
-            "delta_weight": 0.025,
-            "direction": "increase"
-          },
-          {
-            "display_name": "파두",
-            "security_code": "440110",
-            "delta_weight": 0.025,
-            "direction": "increase"
-          },
-          {
-            "display_name": "이녹스첨단소재",
-            "security_code": "272290",
-            "delta_weight": 0.025,
-            "direction": "increase"
-          },
-          {
-            "display_name": "인텔리안테크",
-            "security_code": "189300",
-            "delta_weight": 0.025,
-            "direction": "increase"
-          }
-        ],
-        "decreased_assets": [
-          {
-            "display_name": "인벤티지랩",
-            "security_code": "389470",
-            "delta_weight": -0.025,
-            "direction": "decrease"
-          },
-          {
-            "display_name": "로킷헬스케어",
-            "security_code": "376900",
-            "delta_weight": -0.025,
-            "direction": "decrease"
-          },
-          {
-            "display_name": "온코닉테라퓨틱스",
-            "security_code": "476060",
-            "delta_weight": -0.025,
-            "direction": "decrease"
-          },
-          {
-            "display_name": "미래에셋생명",
-            "security_code": "085620",
-            "delta_weight": -0.025,
-            "direction": "decrease"
-          },
-          {
-            "display_name": "로보스타",
-            "security_code": "090360",
-            "delta_weight": -0.025,
-            "direction": "decrease"
-          }
-        ],
-        "change_basis": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다."
-      },
-      "disclaimer_text": "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
-      "compliance_metadata": {
-        "content_class": "public_model_snapshot",
-        "is_personalized_advice": false,
-        "is_one_to_one_advisory": false,
-        "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
-      }
-    },
-    {
-      "user_model_name": "자동전환형",
-      "service_profile": "auto",
-      "summary_text": "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오",
-      "market_view": "중립",
-      "allocation_items": [
-        {
-          "security_code": "459580",
-          "asset_group": "etf",
-          "display_name": "KODEX CD금리액티브(합성)",
-          "target_weight": 0.194118,
-          "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
-        },
-        {
-          "security_code": "192720",
-          "asset_group": "etf",
-          "display_name": "파워 고배당저변동성",
-          "target_weight": 0.132353,
-          "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
-        },
-        {
-          "security_code": null,
-          "asset_group": "cash",
-          "display_name": "현금/대기자금",
-          "target_weight": 0.097059,
-          "role_summary": "현금성 대기 자산",
-          "source_type": "etf"
-        },
-        {
-          "security_code": "161510",
-          "asset_group": "etf",
-          "display_name": "PLUS 고배당주",
-          "target_weight": 0.088235,
-          "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
-        },
-        {
-          "security_code": "069500",
-          "asset_group": "etf",
-          "display_name": "KODEX 200",
-          "target_weight": 0.058824,
-          "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
-        },
-        {
-          "security_code": "498400",
-          "asset_group": "etf",
-          "display_name": "KODEX 200타겟위클리커버드콜",
-          "target_weight": 0.029412,
-          "role_summary": "ETF 분산 투자",
-          "source_type": "etf"
-        },
-        {
-          "security_code": "000270",
-          "asset_group": "stock",
-          "display_name": "기아",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001440",
-          "asset_group": "stock",
-          "display_name": "대한전선",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005380",
-          "asset_group": "stock",
-          "display_name": "현대차",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "003540",
-          "asset_group": "stock",
-          "display_name": "대신증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "002380",
-          "asset_group": "stock",
-          "display_name": "KCC",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001720",
-          "asset_group": "stock",
-          "display_name": "신영증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000720",
-          "asset_group": "stock",
-          "display_name": "현대건설",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "001120",
-          "asset_group": "stock",
-          "display_name": "LX인터내셔널",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000880",
-          "asset_group": "stock",
-          "display_name": "한화",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005850",
-          "asset_group": "stock",
-          "display_name": "에스엘",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "307950",
-          "asset_group": "stock",
-          "display_name": "현대오토에버",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "005440",
-          "asset_group": "stock",
-          "display_name": "현대지에프홀딩스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "006800",
-          "asset_group": "stock",
-          "display_name": "미래에셋증권",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "000660",
-          "asset_group": "stock",
-          "display_name": "SK하이닉스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "010120",
-          "asset_group": "stock",
-          "display_name": "LS ELECTRIC",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "272210",
-          "asset_group": "stock",
-          "display_name": "한화시스템",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "204320",
-          "asset_group": "stock",
-          "display_name": "HL만도",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "180640",
-          "asset_group": "stock",
-          "display_name": "한진칼",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "131290",
-          "asset_group": "stock",
-          "display_name": "티에스이",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "103590",
-          "asset_group": "stock",
-          "display_name": "일진전기",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "086280",
-          "asset_group": "stock",
-          "display_name": "현대글로비스",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "071050",
-          "asset_group": "stock",
-          "display_name": "한국금융지주",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "066570",
-          "asset_group": "stock",
-          "display_name": "LG전자",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "056190",
-          "asset_group": "stock",
-          "display_name": "에스에프에이",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "052690",
-          "asset_group": "stock",
-          "display_name": "한전기술",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "028670",
-          "asset_group": "stock",
-          "display_name": "팬오션",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "023590",
-          "asset_group": "stock",
-          "display_name": "다우기술",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "017960",
-          "asset_group": "stock",
-          "display_name": "한국카본",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "017670",
-          "asset_group": "stock",
-          "display_name": "SK텔레콤",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": "010130",
-          "asset_group": "stock",
-          "display_name": "고려아연",
-          "target_weight": 0.013333,
-          "role_summary": "주식 직접 투자",
-          "source_type": "stock"
-        },
-        {
-          "security_code": null,
-          "asset_group": "cash",
-          "display_name": "현금/대기자금",
-          "target_weight": 0.0,
-          "role_summary": "현금성 대기 자산",
-          "source_type": "cash"
-        }
-      ],
-      "rationale_items": [
-        "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 규칙을 사용합니다.",
-        "상승, 중립, 하락 구간마다 다른 포트폴리오 조합을 적용합니다.",
-        "한 가지 스타일에 고정되지 않고 국면 대응을 우선합니다.",
-        "현재 시장 판단은 '중립' 구간입니다.",
-        "현재 공개 모델 기준안은 시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오 성격을 반영합니다."
-      ],
-      "risk_level": "자동조정",
-      "performance_summary": {
-        "headline_metrics": {
-          "primary_period": "1Y",
-          "display_metric": "cagr",
-          "cagr": 0.675826,
-          "total_return": 0.675826,
-          "mdd": -0.13316,
-          "sharpe": 2.523104,
-          "trailing_3m": {
-            "period": "3M",
-            "total_return": 0.164796,
-            "cagr": 0.84077,
-            "mdd": -0.13316,
-            "sharpe": 2.121267
-          },
-          "trailing_6m": {
-            "period": "6M",
-            "total_return": 0.332693,
-            "cagr": 0.776069,
-            "mdd": -0.13316,
-            "sharpe": 2.421941
-          },
-          "trailing_1y": {
-            "period": "1Y",
-            "total_return": 0.675826,
-            "cagr": 0.675826,
-            "mdd": -0.13316,
-            "sharpe": 2.523104
-          },
-          "reference_5y": {
-            "period": "5Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
-          },
-          "reference_full": {
-            "period": "FULL",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
-          }
-        },
-        "period_metrics": [
-          {
-            "period": "3M",
-            "total_return": 0.164796,
-            "cagr": 0.84077,
-            "mdd": -0.13316,
-            "sharpe": 2.121267
-          },
-          {
-            "period": "6M",
-            "total_return": 0.332693,
-            "cagr": 0.776069,
-            "mdd": -0.13316,
-            "sharpe": 2.421941
-          },
-          {
-            "period": "1Y",
-            "total_return": 0.675826,
-            "cagr": 0.675826,
-            "mdd": -0.13316,
-            "sharpe": 2.523104
-          },
-          {
-            "period": "2Y",
-            "total_return": 0.85366,
-            "cagr": 0.361492,
-            "mdd": -0.13316,
-            "sharpe": 1.898018
-          },
-          {
-            "period": "3Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
-          },
-          {
-            "period": "5Y",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
-          },
-          {
-            "period": "FULL",
-            "total_return": 0.871859,
-            "cagr": 0.265035,
-            "mdd": -0.13316,
-            "sharpe": 1.621924
-          }
-        ]
-      },
-      "change_log": {
-        "increased_assets": [
-          {
-            "display_name": "파워 고배당저변동성",
-            "security_code": "192720",
-            "delta_weight": 0.019145,
-            "direction": "increase"
-          },
-          {
-            "display_name": "현대지에프홀딩스",
-            "security_code": "005440",
-            "delta_weight": 0.013333,
-            "direction": "increase"
-          },
-          {
-            "display_name": "대신증권",
-            "security_code": "003540",
-            "delta_weight": 0.013333,
-            "direction": "increase"
-          },
-          {
-            "display_name": "팬오션",
-            "security_code": "028670",
-            "delta_weight": 0.013333,
-            "direction": "increase"
-          },
-          {
-            "display_name": "한전기술",
-            "security_code": "052690",
-            "delta_weight": 0.013333,
-            "direction": "increase"
-          }
-        ],
-        "decreased_assets": [
           {
             "display_name": "KODEX CD금리액티브(합성)",
             "security_code": "459580",
-            "delta_weight": -0.015316,
+            "delta_weight": 0.081765,
+            "direction": "increase"
+          },
+          {
+            "display_name": "현금/대기자금",
+            "security_code": null,
+            "delta_weight": 0.043382,
+            "direction": "increase"
+          },
+          {
+            "display_name": "쏠리드",
+            "security_code": "050890",
+            "delta_weight": 0.025,
+            "direction": "increase"
+          },
+          {
+            "display_name": "DL이앤씨",
+            "security_code": "375500",
+            "delta_weight": 0.025,
+            "direction": "increase"
+          },
+          {
+            "display_name": "RF머트리얼즈",
+            "security_code": "327260",
+            "delta_weight": 0.025,
+            "direction": "increase"
+          }
+        ],
+        "decreased_assets": [
+          {
+            "display_name": "KODEX 200",
+            "security_code": "069500",
+            "delta_weight": -0.09598,
             "direction": "decrease"
           },
           {
-            "display_name": "삼성물산",
-            "security_code": "028260",
-            "delta_weight": -0.013333,
+            "display_name": "파워 고배당저변동성",
+            "security_code": "192720",
+            "delta_weight": -0.027206,
             "direction": "decrease"
           },
           {
-            "display_name": "SK스퀘어",
-            "security_code": "402340",
-            "delta_weight": -0.013333,
+            "display_name": "동국제약",
+            "security_code": "086450",
+            "delta_weight": -0.025,
             "direction": "decrease"
           },
           {
-            "display_name": "효성중공업",
-            "security_code": "298040",
-            "delta_weight": -0.013333,
+            "display_name": "앱클론",
+            "security_code": "174900",
+            "delta_weight": -0.025,
             "direction": "decrease"
           },
           {
-            "display_name": "한미약품",
-            "security_code": "128940",
-            "delta_weight": -0.013333,
+            "display_name": "ISC",
+            "security_code": "095340",
+            "delta_weight": -0.025,
             "direction": "decrease"
           }
         ],
-        "change_basis": "최근 리밸런싱 결과와 시장 국면 변화에 따라 공개 규칙 기준 비중이 조정되었습니다."
+        "change_subject_name": "성장형 퀀트투자 모델",
+        "change_basis": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
       },
-      "disclaimer_text": "이 자료는 공개 규칙 기반 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
+      "disclaimer_text": "이 자료는 공개 기준 기반 퀀트투자 모델 정보와 백테스트 결과를 설명하기 위한 참고자료이며 특정 개인에 대한 투자자문이나 실제 매매 지시가 아닙니다.",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     }
   ]

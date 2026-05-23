@@ -1,0 +1,177 @@
+<section class="rb-dashboard rb-dashboard--today">
+  <header class="rb-page-head">
+    <div>
+      <h1>전략별 퀀트모델</h1>
+      <p>먼저 모델을 고르고, 핵심 성과와 이번 주 조정 항목, 보유 종목을 순서대로 확인합니다.</p>
+    </div>
+    <div class="rb-page-meta">
+      <span>기준일</span>
+      <strong>{{ bundle.as_of_date or '-' }}</strong>
+      <small>{{ bundle.generated_at | fmt_datetime }}</small>
+    </div>
+  </header>
+
+  <section class="rb-situation-grid rb-situation-grid--today" aria-label="전략 화면 안내">
+    <article class="rb-card rb-situation-card rb-situation-card--primary">
+      <span>시장 참고</span>
+      <strong>{{ market_state_bridge_view.display_label or market_state_bridge_view.medium_term_bar.label or '-' }}</strong>
+      <small>{{ market_state_bridge_view.bridge_text or '모델 해석을 위한 시장 배경입니다.' }}</small>
+    </article>
+    <article class="rb-card rb-situation-card">
+      <span>모델 선택</span>
+      <strong>{{ report_views | length }}개</strong>
+      <small>안정형, 균형형, 성장형을 같은 구조로 비교합니다.</small>
+    </article>
+    <article class="rb-card rb-situation-card">
+      <span>확인 순서</span>
+      <strong>성과 → 조정 → 종목</strong>
+      <small>먼저 큰 숫자를 보고, 아래 표에서 세부 항목을 확인합니다.</small>
+    </article>
+  </section>
+
+  <nav class="rb-model-tabs" aria-label="모델 빠른 이동">
+    {% for report in report_views %}
+    <a href="#{{ report.service_profile }}">{{ report.user_model_name }}</a>
+    {% endfor %}
+  </nav>
+
+  <section class="rb-card rb-panel rb-market-bridge-redesign">
+    <div class="rb-section-head">
+      <div>
+        <h2>시장 브리핑 참고</h2>
+        <p>전략별 모델을 보기 전에 현재 시장 배경을 짧게 확인합니다.</p>
+      </div>
+      <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
+    </div>
+    {% set market_state_bridge_view = market_state_bridge_view %}
+    {% set variant = "bridge" %}
+    {% include "_market_state_bar.html" %}
+  </section>
+
+  {% if report_views %}
+  <section class="rb-strategy-stack">
+    {% for report in report_views %}
+    {% set primary = report.period_view.primary %}
+    <article class="rb-card rb-strategy-board" id="{{ report.service_profile }}">
+      <details {% if loop.first %}open{% endif %}>
+        <summary class="rb-strategy-summary">
+          <div>
+            <h2>{{ (report.quant_model_name or report.user_model_name) | replace(' 퀀트투자 모델', ' 모델') }}</h2>
+            <p>{{ report.summary_text }}</p>
+          </div>
+          <span class="rb-collapse-label">
+            <span class="when-closed">자세히 보기</span>
+            <span class="when-open">접기</span>
+          </span>
+        </summary>
+
+        <div class="rb-strategy-body">
+          <section class="rb-metric-grid rb-metric-grid--three">
+            <article class="rb-card rb-metric">
+              <span>{{ primary.headline_label if primary else 'CAGR' }}</span>
+              <strong>{{ (primary.headline_value if primary else none) | fmt_percent }}</strong>
+              <small>연환산</small>
+            </article>
+            <article class="rb-card rb-metric">
+              <span>{{ primary.period if primary else '1Y' }} MDD</span>
+              <strong>{{ (primary.mdd if primary else none) | fmt_percent }}</strong>
+              <small>최대낙폭</small>
+            </article>
+            <article class="rb-card rb-metric">
+              <span>{{ primary.period if primary else '1Y' }} Sharpe</span>
+              <strong>{% if primary and primary.sharpe is not none %}{{ '%.2f'|format(primary.sharpe) }}{% else %}-{% endif %}</strong>
+              <small>샤프비율</small>
+            </article>
+          </section>
+
+          <section class="rb-strategy-grid">
+            <article class="rb-panel-flat">
+              <div class="rb-section-head">
+                <div>
+                  <h3>기간별 성과</h3>
+                  <p>수익률과 낙폭을 함께 봅니다.</p>
+                </div>
+              </div>
+              <div class="rb-period-table">
+                {% for item in report.period_view.ordered[:5] %}
+                <div>
+                  <span>{{ item.period }}</span>
+                  <strong>{{ item.headline_value | fmt_percent }}</strong>
+                  <small>MDD {{ item.mdd | fmt_percent }} · Sharpe {{ item.sharpe | fmt_sharpe }}</small>
+                </div>
+                {% endfor %}
+              </div>
+            </article>
+
+            <article class="rb-panel-flat">
+              <div class="rb-section-head">
+                <div>
+                  <h3>주간 모델 조정</h3>
+                  <p>이번 주 비중 변화가 큰 항목입니다.</p>
+                </div>
+              </div>
+              <div class="rb-change-columns">
+                <div>
+                  <span>비중 확대</span>
+                  {% for item in report.change_log.increase_items[:4] %}
+                  <p><strong>{{ item.display_name }}</strong><em>{{ item.delta_weight | fmt_signed_percent }}</em></p>
+                  {% endfor %}
+                </div>
+                <div>
+                  <span>비중 축소</span>
+                  {% for item in report.change_log.decrease_items[:4] %}
+                  <p><strong>{{ item.display_name }}</strong><em>{{ item.delta_weight | fmt_signed_percent }}</em></p>
+                  {% endfor %}
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="rb-card rb-panel rb-holdings-redesign">
+            <div class="rb-section-head">
+              <div>
+                <h3>현재 보유 종목</h3>
+                <p>상위 {{ report.allocation_view.all_items[:10] | length }}개 항목</p>
+              </div>
+            </div>
+            <div class="rb-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>순위</th>
+                    <th>종목명</th>
+                    <th>코드</th>
+                    <th>비중</th>
+                    <th>전략 적합도</th>
+                    <th>근거</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in report.allocation_view.all_items[:10] %}
+                  <tr>
+                    <td>{{ item.rank_no if item.rank_no is not none else '-' }}</td>
+                    <td>{{ item.display_name }}</td>
+                    <td>{{ item.security_code or '-' }}</td>
+                    <td>{{ item.target_weight | fmt_percent }}</td>
+                    <td>{% if item.strategy_fit_score is not none %}{{ item.strategy_fit_score | fmt_percent }}{% else %}-{% endif %}</td>
+                    <td>{{ item.strategy_fit_score_basis or '-' }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {% include "_trading_sign_block.html" %}
+        </div>
+      </details>
+    </article>
+    {% endfor %}
+  </section>
+  {% else %}
+  <section class="rb-card rb-panel">
+    <h2>전략별 퀀트모델이 아직 없습니다.</h2>
+    <p>사용자용 스냅샷이 준비되면 이 화면에 모델별 스냅샷 리포트가 표시됩니다.</p>
+  </section>
+  {% endif %}
+</section>

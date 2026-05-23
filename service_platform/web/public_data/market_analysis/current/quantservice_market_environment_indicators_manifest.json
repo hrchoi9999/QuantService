@@ -1,0 +1,58 @@
+{
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_at": "2026-05-23T10:05:11+09:00",
+  "timezone": "Asia/Seoul",
+  "title": "시장 환경 지표 manifest",
+  "schema_version": "market_environment_indicators.v1",
+  "handoff_version": "2026-05-19-market-environment-indicators",
+  "files": {
+    "quantservice": "quantservice_market_environment_indicators.json",
+    "api": "api_v1_market_environment_indicators.json",
+    "manifest": "quantservice_market_environment_indicators_manifest.json"
+  },
+  "section_order": [
+    "domestic_source",
+    "fred_macro",
+    "yahoo_global"
+  ],
+  "section_counts": {
+    "domestic_source": 8,
+    "fred_macro": 31,
+    "yahoo_global": 29
+  },
+  "chart_policy": {
+    "default_chart_type": "line",
+    "default_chart_height_px": 160,
+    "popup_enabled": true,
+    "popup_chart_height_px": 420,
+    "points_lookback_days": 1095,
+    "points_lookback_label": "최근 3년",
+    "full_history_available_in_qm_db": true
+  },
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "notice_block": {
+    "title": "주의사항",
+    "body": [
+      "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+      "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+      "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+    ],
+    "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+  }
+}

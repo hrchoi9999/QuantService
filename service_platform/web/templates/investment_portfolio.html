@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-panel shell-card investment-portfolio-hero">
+  <div>
+    <span class="eyebrow">운영자 전용</span>
+    <h1>투자 포트폴리오</h1>
+    <p class="lead">QuantAnalysis가 생성한 일일 포트폴리오 판단 데이터를 요약합니다.</p>
+  </div>
+  <div class="hero-badges compact-meta">
+    <span class="badge neutral">기준일 {{ portfolio.as_of_date }}</span>
+    <span class="badge neutral">생성 {{ portfolio.generated_at }}</span>
+    <span class="badge neutral">{{ portfolio.source_thread }}</span>
+  </div>
+</section>
+
+<section class="panel shell-card investment-portfolio-summary">
+  <div class="portfolio-risk-card{% if portfolio.market_risk.is_defensive %} is-defensive{% endif %}">
+    <span class="label">시장판단</span>
+    <strong>{{ portfolio.market_risk.rating }}</strong>
+    <p>{{ portfolio.market_risk.direction_label }} · 총점 {{ portfolio.market_risk.total_score }}</p>
+  </div>
+  <div class="portfolio-summary-copy">
+    <h2>현재 결론</h2>
+    <p>{{ portfolio.market_risk.action }}</p>
+    <p class="muted">{{ portfolio.market_risk.summary }}</p>
+  </div>
+</section>
+
+{% if portfolio.process_steps %}
+<section class="panel shell-card">
+  <h2>단계별 판단</h2>
+  <div class="portfolio-step-grid">
+    {% for step in portfolio.process_steps %}
+    <article class="portfolio-step-card">
+      <span class="badge neutral">Step {{ step.step }}</span>
+      <h3>{{ step.name }}</h3>
+      <p>{{ step.result }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if portfolio.step_details %}
+<section class="panel shell-card">
+  <h2>단계별 상세 설명</h2>
+  <div class="portfolio-step-detail-grid">
+    {% for item in portfolio.step_details %}
+    <article class="content-card portfolio-step-detail-card">
+      <div class="section-head-row compact-head">
+        <div>
+          <span class="eyebrow">Step {{ item.step }}</span>
+          <h3>{{ item.title }}</h3>
+        </div>
+      </div>
+      <p class="portfolio-step-summary">{{ item.summary }}</p>
+      {% if item.details %}
+      <ul class="portfolio-step-detail-list">
+        {% for detail in item.details %}
+        <li>{{ detail }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <div class="portfolio-step-conclusion">
+        <strong>결론</strong>
+        <span>{{ item.conclusion }}</span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if portfolio.model_explanation %}
+<section class="panel shell-card portfolio-gemini-explanation">
+  <div class="section-head-row">
+    <div>
+      <span class="eyebrow">Gemini 생성형 해설</span>
+      <h2>{{ portfolio.model_explanation.section_title }}</h2>
+      <p class="lead">{{ portfolio.model_explanation.summary }}</p>
+    </div>
+    <div class="hero-badges compact-meta">
+      <span class="badge {% if portfolio.model_explanation.is_gemini %}positive{% else %}warning{% endif %}">
+        {{ portfolio.model_explanation.generation_method }} · {{ portfolio.model_explanation.generation_status }}
+      </span>
+      <span class="badge neutral">{{ portfolio.model_explanation.generation_model }}</span>
+      <span class="badge neutral">{{ portfolio.model_explanation.narrative_focus }}</span>
+    </div>
+  </div>
+
+  {% if portfolio.model_explanation.model_roles %}
+  <div class="portfolio-model-role-grid">
+    {% for role in portfolio.model_explanation.model_roles %}
+    <article class="content-card portfolio-model-role-card">
+      <div class="section-head-row compact-head">
+        <div>
+          <h3>{{ role.model }}</h3>
+          <p class="muted">{{ role.plain_name }}</p>
+        </div>
+        <span class="badge neutral">{{ role.candidate_count }}개 · {{ role.candidate_ratio }}</span>
+      </div>
+      <p>{{ role.description }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="grid two-up nested-grid">
+    <article class="sub-panel shell-card">
+      <h3>지금 이런 결과가 나온 이유</h3>
+      <ul class="portfolio-explanation-list">
+        {% for item in portfolio.model_explanation.why_now %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="sub-panel shell-card">
+      <h3>투자 해석</h3>
+      <ul class="portfolio-explanation-list">
+        {% for item in portfolio.model_explanation.interpretation %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </div>
+
+  <div class="portfolio-step-conclusion">
+    <strong>결론</strong>
+    <span>{{ portfolio.model_explanation.conclusion }}</span>
+  </div>
+</section>
+{% endif %}
+
+<section class="grid two-up investment-portfolio-grid">
+  <article class="panel shell-card">
+    <div class="section-head-row">
+      <div>
+        <h2>ETF 전략</h2>
+        <p class="muted">오늘의 ETF 우선 모델: <strong>{{ portfolio.etf_strategy.selected_model }}</strong></p>
+      </div>
+      {% if portfolio.etf_strategy.holdings %}
+      <div class="hero-badges compact-meta">
+        <span class="badge neutral">리밸런싱 기준일 {{ portfolio.etf_strategy.holdings[0].rebalance_date }}</span>
+      </div>
+      {% endif %}
+    </div>
+    <p>{{ portfolio.etf_strategy.reason }}</p>
+    <div class="table-wrap compact-table portfolio-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>종목명</th>
+            <th>역할</th>
+            <th class="is-numeric-cell">비중</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in portfolio.etf_strategy.holdings %}
+          <tr>
+            <td class="notranslate" translate="no">{{ row.ticker }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.role }}</td>
+            <td class="is-numeric-cell">{{ row.weight }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4">ETF 배분 데이터가 아직 준비되지 않았습니다.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="portfolio-reference-note">
+      <strong>E-series 참고</strong>
+      <span>{{ portfolio.etf_strategy.e_series.model_code }} · {{ portfolio.etf_strategy.e_series.as_of_date }}</span>
+      <p>{{ portfolio.etf_strategy.e_series.use_policy }}</p>
+    </div>
+  </article>
+
+  <article class="panel shell-card">
+    <h2>리스크 뉴스와 고지</h2>
+    <ul class="portfolio-risk-list">
+      {% for headline in portfolio.risk_headlines %}
+      <li>{{ headline }}</li>
+      {% else %}
+      <li>주요 리스크 헤드라인이 아직 준비되지 않았습니다.</li>
+      {% endfor %}
+    </ul>
+    <div class="disclaimer-panel portfolio-disclaimer">
+      {{ portfolio.disclaimer }}
+    </div>
+  </article>
+</section>
+
+<section class="panel shell-card">
+  <div class="section-head-row">
+    <div>
+      <h2>주식 후보 점검</h2>
+      <p class="muted">{{ portfolio.stock_strategy.exposure_guidance }}</p>
+    </div>
+    <div class="hero-badges compact-meta">
+      <span class="badge {% if portfolio.stock_strategy.live_confirmed %}positive{% else %}warning{% endif %}">
+        {{ portfolio.stock_strategy.live_status }}
+      </span>
+      <span class="badge neutral">{{ portfolio.stock_strategy.live_source }}</span>
+      <span class="badge neutral">조회시점 {{ portfolio.stock_strategy.live_fetched_at }}</span>
+    </div>
+  </div>
+  {% if portfolio.stock_strategy.live_not_loaded %}
+  <div class="notice-panel warning">최신 시세/수급 데이터가 아직 조회되지 않았습니다. 표의 최신가와 거래금액은 준비 후 표시됩니다.</div>
+  {% elif not portfolio.stock_strategy.live_confirmed %}
+  <div class="notice-panel warning">최신 수급 데이터가 확정되지 않았습니다. 주식 후보 판단은 보수적으로 확인해야 합니다.</div>
+  {% endif %}
+  <p>{{ portfolio.stock_strategy.execution_rule }}</p>
+  <div class="table-wrap compact-table portfolio-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>코드</th>
+          <th>종목명</th>
+          <th>모델</th>
+          <th>선정일</th>
+          <th class="is-numeric-cell">최신가</th>
+          <th class="is-numeric-cell">당일등락</th>
+          <th class="is-numeric-cell">외인거래(억원)</th>
+          <th class="is-numeric-cell">기관 거래금액(억원)</th>
+          <th>판단</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in portfolio.stock_strategy.candidates %}
+        <tr>
+          <td class="notranslate" translate="no">{{ row.ticker }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.model_names }}</td>
+          <td>{{ row.latest_selection_date }}</td>
+          <td class="is-numeric-cell">{{ row.price }}</td>
+          <td class="is-numeric-cell">{{ row.change_pct }}</td>
+          <td class="is-numeric-cell">{{ row.foreign_net }}</td>
+          <td class="is-numeric-cell">{{ row.institution_net }}</td>
+          <td><span class="badge neutral">{{ row.decision }}</span></td>
+        </tr>
+        <tr class="portfolio-candidate-summary-row">
+          <td colspan="9">{{ row.summary }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9">주식 후보 데이터가 아직 준비되지 않았습니다.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

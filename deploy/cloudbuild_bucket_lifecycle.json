@@ -1,0 +1,26 @@
+{
+  "rule": [
+    {
+      "action": {
+        "type": "Delete"
+      },
+      "condition": {
+        "age": 14,
+        "matchesPrefix": [
+          "source/"
+        ]
+      }
+    },
+    {
+      "action": {
+        "type": "Delete"
+      },
+      "condition": {
+        "age": 30,
+        "matchesPrefix": [
+          "logs/"
+        ]
+      }
+    }
+  ]
+}

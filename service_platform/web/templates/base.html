@@ -4,11 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ service_name }} | {{ page_title }}</title>
-  <meta name="description" content="REDBOT은 다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보와 시장 브리핑, 모델 성과 설명, 변경내역을 제공합니다.">
+  <meta name="description" content="REDBOT은 다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보와 시장 브리핑, 변경내역을 제공합니다.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css', v='redesign-20260430-01' if ui_redesign_enabled else None) }}">
 </head>
-<body>
+<body
+  data-ui-redesign="{{ '1' if ui_redesign_enabled else '0' }}"
+  data-theme="{{ ui_theme_default if ui_theme_default in ['light', 'dark', 'system'] else 'light' }}"
+>
   <div class="page-shell">
     <header class="site-header shell-card public-header">
       <div class="brand-block brand-inline-block">
@@ -18,38 +21,47 @@
         <div class="brand-copy muted">다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스</div>
       </div>
       <nav class="site-nav" aria-label="주요 메뉴">
-        <a href="{{ url_for('home') }}">홈</a>
-        <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
-        <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
-        <a href="{{ url_for('performance') }}">성과 설명</a>
+        <a href="{{ url_for('home') }}">시장 브리핑</a>
+        <a href="{{ url_for('market_analysis_data') }}">시장 분석</a>
+        <a href="{{ url_for('market_environment_indicators') }}">시장 환경 지표</a>
+        <a href="{{ url_for('today') }}">전략별 퀀트모델</a>
         <a href="{{ url_for('changes') }}">변경내역</a>
-        <a href="{{ url_for('discovery') }}">T-series Discovery</a>
-        <a href="{{ url_for('feedback') }}">의견보내기</a>
+        {% if current_user and can_access_ops_viewer %}
+        <a href="{{ url_for('discovery') }}">상승종목 발굴</a>
+        <a href="{{ url_for('new_entries') }}">신규 편입 종목</a>
+        <a href="{{ url_for('investment_portfolio') }}">투자 포트폴리오</a>
+        {% endif %}
+        {% if current_user and access_context and access_context.is_admin %}
+        <a href="{{ url_for('admin_internal_models') }}">내부용 모델</a>
+        <a href="{{ url_for('admin_valuation_ai') }}">AI 학습 모델</a>
+        {% endif %}
         {% if current_user %}
+        <a href="{{ url_for('me_investments') }}">투자 현황</a>
+        {% endif %}
+        {% if ui_redesign_enabled %}
+        <button
+          type="button"
+          class="theme-toggle-button"
+          data-theme-toggle
+          aria-label="화면 테마 전환"
+          title="라이트/다크/시스템 테마 전환"
+        >테마: 라이트</button>
+        {% endif %}
+        {% if current_user %}
+        <span class="header-account-pill" title="{{ current_user.email }}">
+          <span class="header-account-pill__label">계정</span>
+          <strong>{{ current_user.email }}</strong>
+          {% if access_context %}
+          <em>{{ access_context.effective_plan_id }}</em>
+          {% endif %}
+        </span>
         <a href="{{ url_for('logout') }}">로그아웃</a>
         {% else %}
         <a href="{{ url_for('login', next=request.path) }}">로그인</a>
         {% endif %}
-        {% if access_context.is_admin %}
-        <a href="{{ url_for('admin_dashboard') }}">관리자</a>
-        {% endif %}
+
       </nav>
     </header>
-
-    {% if current_user %}
-    <section class="member-ribbon shell-card">
-      <div>
-        <span class="label">로그인 계정</span>
-        <strong>{{ current_user.email }}</strong>
-      </div>
-      <div class="meta-strip compact-meta">
-        <span>{{ access_context.effective_plan_id }} 플랜 이용 중</span>
-        {% if access_context.trial_active %}
-        <span>체험중{% if access_context.trial_end_date %} · {{ access_context.trial_end_date }}까지{% endif %}</span>
-        {% endif %}
-      </div>
-    </section>
-    {% endif %}
 
     <main class="content-shell public-content-shell">
       {% block content %}{% endblock %}
@@ -62,11 +74,17 @@
       </div>
       <div class="footer-links">
         <a href="{{ url_for('market_analysis') }}">시장 브리핑</a>
-        <a href="{{ url_for('today') }}">이번 주 모델 기준안</a>
-        <a href="{{ url_for('discovery') }}">T-series Discovery</a>
-        <a href="{{ url_for('feedback') }}">의견 보내기</a>
+        <a href="{{ url_for('market_analysis_data') }}">시장 분석</a>
+        <a href="{{ url_for('market_environment_indicators') }}">시장 환경 지표</a>
+        <a href="{{ url_for('today') }}">전략별 퀀트모델</a>
+        {% if current_user and can_access_ops_viewer %}
+        <a href="{{ url_for('discovery') }}">상승종목 발굴</a>
+        {% endif %}
       </div>
     </footer>
   </div>
+  {% if ui_redesign_enabled %}
+      <script src="{{ url_for('static', filename='redesign.js', v='redesign-20260430-01') }}" defer></script>
+  {% endif %}
 </body>
 </html>

@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero investment-hero">
+  <p class="eyebrow">로그인 사용자 전용</p>
+  <div class="report-top investment-hero-top">
+    <div>
+      <h1>투자 현황</h1>
+      <p class="lead">이 페이지는 사용자가 직접 입력한 거래내역과 최신 가격 기준으로 평가손익을 참고용으로 보여줍니다.</p>
+    </div>
+    <div class="investment-hero-summary-grid">
+      {% for account_key, account_label in investment_tabs.items() %}
+      {% set account_dashboard = account_dashboards[account_key] %}
+      <a class="investment-hero-summary-card{% if active_tab == account_key %} is-active{% endif %}" href="{{ url_for('me_investments', tab=account_key) }}">
+        <span class="label">{{ account_label }}</span>
+        <strong>{{ account_dashboard.totals.market_value_display }}</strong>
+        <span class="investment-hero-summary-meta">보유 {{ account_dashboard.holding_summary.ticker_count }}종목 · 평가 {{ account_dashboard.holding_summary.lot_count }}건</span>
+        <span class="profit-{{ account_dashboard.totals.profit_tone }}">{{ account_dashboard.totals.profit_amount_display }} / {{ account_dashboard.totals.profit_rate_display }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="balanced-segmented-control investment-tab-row" aria-label="투자 현황 탭">
+  {% for tab_key, tab_label in investment_tabs.items() %}
+  <a class="segment-pill discovery-tab{% if active_tab == tab_key %} is-active{% endif %}" href="{{ url_for('me_investments', tab=tab_key) }}">{{ tab_label }}</a>
+  {% endfor %}
+</section>
+
+{% if investment_status_message %}
+<div class="warning-banner investment-status-banner">{{ investment_status_message }}</div>
+{% endif %}
+{% if validation_feedback %}
+<div class="warning-banner investment-status-banner{% if validation_feedback.status == 'valid' %} investment-status-banner--success{% endif %}">
+  {{ validation_feedback.message }}{% if validation_feedback.market %} · {{ validation_feedback.market }}{% endif %}
+</div>
+{% endif %}
+
+<section class="panel investment-history-panel">
+  <div class="section-head">
+    <div>
+      <h2>{{ dashboard.account_label }} 일별 누적 손익</h2>
+      <p class="muted">해당 투자자의 최초 투자일부터 현재 보유 평가이익과 이익률 변화를 함께 봅니다.</p>
+    </div>
+    {% if active_performance_history.points %}
+    <span class="status-pill">{{ active_performance_history.start_date }} ~ {{ active_performance_history.end_date }}</span>
+    {% endif %}
+  </div>
+  {% if active_performance_history.points %}
+  {% set active_chart = active_performance_history.chart %}
+  <div class="investment-history-chart-wrap">
+    <svg class="investment-history-chart" viewBox="{{ active_chart.view_box }}" role="img" aria-label="{{ dashboard.account_label }} 일별 누적 평가이익 및 이익률 그래프">
+      {% for tick in active_chart.amount_ticks %}
+      <line class="investment-history-grid-line" x1="{{ active_chart.plot.left }}" x2="{{ active_chart.plot.right }}" y1="{{ tick.y }}" y2="{{ tick.y }}"></line>
+      <text class="investment-history-axis-label investment-history-axis-label--left" x="{{ active_chart.plot.left - 10 }}" y="{{ tick.y + 4 }}">{{ tick.display }}</text>
+      {% endfor %}
+      {% for tick in active_chart.rate_ticks %}
+      <text class="investment-history-axis-label investment-history-axis-label--right" x="{{ active_chart.plot.right + 10 }}" y="{{ tick.y + 4 }}">{{ tick.display }}</text>
+      {% endfor %}
+      {% for tick in active_chart.x_ticks %}
+      <line class="investment-history-x-tick" x1="{{ tick.x }}" x2="{{ tick.x }}" y1="{{ active_chart.plot.bottom }}" y2="{{ active_chart.plot.bottom + 6 }}"></line>
+      <text class="investment-history-x-label{% if tick.is_endpoint %} is-endpoint{% endif %}{% if tick.is_start %} investment-history-x-label--start{% endif %}{% if tick.is_end %} investment-history-x-label--end{% endif %}" x="{{ tick.x }}" y="{{ tick.y }}">{{ tick.label }}</text>
+      {% endfor %}
+      <line class="investment-history-axis-line" x1="{{ active_chart.plot.left }}" x2="{{ active_chart.plot.right }}" y1="{{ active_chart.plot.bottom }}" y2="{{ active_chart.plot.bottom }}"></line>
+      <line class="investment-history-axis-line" x1="{{ active_chart.plot.left }}" x2="{{ active_chart.plot.left }}" y1="{{ active_chart.plot.top }}" y2="{{ active_chart.plot.bottom }}"></line>
+      <line class="investment-history-axis-line" x1="{{ active_chart.plot.right }}" x2="{{ active_chart.plot.right }}" y1="{{ active_chart.plot.top }}" y2="{{ active_chart.plot.bottom }}"></line>
+      <line class="investment-history-zero-line" x1="{{ active_chart.plot.left }}" x2="{{ active_chart.plot.right }}" y1="{{ active_chart.zero_y }}" y2="{{ active_chart.zero_y }}"></line>
+      {% for path in active_chart.paths %}
+      <path class="investment-history-line" d="{{ path.d }}" stroke="{{ path.stroke }}"></path>
+      <path class="investment-history-rate-line" d="{{ path.rate_d }}" stroke="{{ path.stroke }}"></path>
+      <path class="investment-history-realized-line" d="{{ path.realized_d }}" stroke="{{ path.stroke }}"></path>
+      {% endfor %}
+      <text class="investment-history-axis-title investment-history-axis-title--left" x="{{ active_chart.plot.left - 10 }}" y="12">투자이익금</text>
+      <text class="investment-history-axis-title investment-history-axis-title--right" x="{{ active_chart.plot.right + 10 }}" y="12">투자이익률</text>
+    </svg>
+  </div>
+  <p class="muted investment-history-chart-note">굵은 실선은 현재 보유 기준 투자이익금(좌측 축), 점선은 투자이익률(우측 축), 옅은 보조선은 매도 완료분의 누적 실현이익입니다. x축은 최초 투자일부터 매월 5/10/15/20/25/30일 단위로 표시합니다.</p>
+  <div class="investment-history-legend">
+    {% for path in active_chart.paths %}
+    <div class="investment-history-legend-card">
+      <span class="investment-history-dot" style="--line-color: {{ path.stroke }}"></span>
+      <span>{{ path.account_label }}</span>
+      <strong class="profit-{{ path.profit_tone }}">{{ path.latest_profit_display }}</strong>
+      <em class="profit-{{ path.profit_tone }}">{{ path.latest_rate_display }}</em>
+      <small class="profit-{{ path.realized_tone }}">실현 {{ path.latest_realized_display }}</small>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>{{ dashboard.account_label }}에 아직 그래프로 표시할 거래내역이 없습니다. 첫 거래를 입력하면 일별 누적 손익이 표시됩니다.</p>
+  </div>
+  {% endif %}
+</section>
+
+<section class="grid two-up investment-overview-grid">
+  <article class="panel">
+    <div class="section-head">
+      <div>
+        <h2>거래 입력</h2>
+        <p class="muted">종목코드와 종목명을 확인한 뒤 저장해 주세요.</p>
+      </div>
+    </div>
+    <form class="feedback-form" method="post" action="{{ url_for('me_investments_transactions') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="account_type" value="{{ active_tab }}">
+      <div class="investment-form-grid">
+        <div class="investment-field-date">
+          <label class="label" for="trade_date">거래일</label>
+          <input id="trade_date" name="trade_date" type="date" value="{{ form_values.trade_date }}" required>
+        </div>
+        <div class="investment-field-side">
+          <label class="label" for="side">거래구분</label>
+          <select id="side" name="side">
+            <option value="buy" {% if form_values.side == 'buy' %}selected{% endif %}>매수</option>
+            <option value="sell" {% if form_values.side == 'sell' %}selected{% endif %}>매도</option>
+          </select>
+        </div>
+        <div class="investment-field-ticker">
+          <label class="label" for="ticker">종목코드</label>
+          <input id="ticker" name="ticker" type="text" inputmode="numeric" value="{{ form_values.ticker }}" placeholder="005930" required>
+        </div>
+        <div class="investment-field-name">
+          <label class="label" for="security_name">종목명</label>
+          <input id="security_name" name="security_name" type="text" value="{{ form_values.security_name }}" placeholder="삼성전자" required>
+        </div>
+        <div class="investment-field-action investment-field-validate">
+          <button class="secondary-button" type="submit" formaction="{{ url_for('me_investments_validate_security') }}">종목 확인</button>
+        </div>
+        <div class="investment-field-quantity">
+          <label class="label" for="quantity">수량</label>
+          <input id="quantity" name="quantity" type="number" min="0" step="0.0001" value="{{ form_values.quantity }}" required>
+        </div>
+        <div class="investment-field-price">
+          <label class="label" for="unit_price">단가</label>
+          <input id="unit_price" name="unit_price" type="number" min="0" step="0.01" value="{{ form_values.unit_price }}" required>
+        </div>
+        <div class="investment-field-fee">
+          <label class="label" for="fee">수수료율(%)</label>
+          <input id="fee" name="fee" type="number" min="0" step="0.01" value="{{ form_values.fee }}">
+        </div>
+        <div class="investment-field-action investment-field-save">
+          <button class="primary-button" type="submit">거래 저장</button>
+        </div>
+      </div>
+      <p class="muted investment-helper-text">종목코드와 종목명이 일치하지 않으면 저장되지 않습니다.</p>
+    </form>
+  </article>
+
+  <article class="panel metric-panel">
+    <div class="section-head">
+      <div>
+        <h2>{{ dashboard.account_label }} 요약</h2>
+        <p class="muted">현재 보유 기준의 평가손익 요약입니다.</p>
+      </div>
+    </div>
+    <div class="metric-strip two-col investment-summary-metrics">
+      <div>
+        <span class="label">총 투자금액</span>
+        <strong>{{ dashboard.totals.invested_amount_display }}</strong>
+      </div>
+      <div>
+        <span class="label">총 평가금액</span>
+        <strong>{{ dashboard.totals.market_value_display }}</strong>
+      </div>
+      <div>
+        <span class="label">총 평가이익</span>
+        <strong class="profit-{{ dashboard.totals.profit_tone }}">{{ dashboard.totals.profit_amount_display }}</strong>
+      </div>
+      <div>
+        <span class="label">총 이익률</span>
+        <strong class="profit-{{ dashboard.totals.profit_tone }}">{{ dashboard.totals.profit_rate_display }}</strong>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="section-head">
+    <div>
+      <h2>{{ dashboard.account_label }} 현황</h2>
+      <p class="muted">같은 종목도 매수 거래건별로 나누어 계산한 현재 평가표입니다.</p>
+    </div>
+  </div>
+  {% if dashboard.holdings %}
+  <div class="table-wrap compact-table">
+    <table class="investment-holdings-table">
+      <thead>
+        <tr>
+          <th>종목코드</th>
+          <th>종목명</th>
+          <th>매수일</th>
+          <th>보유수량</th>
+          <th>평균매입단가</th>
+          <th>현재가</th>
+          <th>투자금액</th>
+          <th>평가금액</th>
+          <th>평가이익</th>
+          <th>평가이익률</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in dashboard.holdings %}
+        <tr>
+          <td>{{ row.ticker }}</td>
+          <td>{{ row.security_name }}</td>
+          <td>{{ row.trade_date }}</td>
+          <td>{{ row.quantity_display }}</td>
+          <td>{{ row.average_buy_price_display }}</td>
+          <td>{{ row.current_price_display }}</td>
+          <td>{{ row.invested_amount_display }}</td>
+          <td>{{ row.market_value_display }}</td>
+          <td class="profit-{{ row.profit_tone }}">{{ row.profit_amount_display }}</td>
+          <td class="profit-{{ row.profit_tone }}">{{ row.profit_rate_display }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr class="investment-total-row">
+          <td colspan="6">합계</td>
+          <td>{{ dashboard.totals.invested_amount_display }}</td>
+          <td>{{ dashboard.totals.market_value_display }}</td>
+          <td class="profit-{{ dashboard.totals.profit_tone }}">{{ dashboard.totals.profit_amount_display }}</td>
+          <td class="profit-{{ dashboard.totals.profit_tone }}">{{ dashboard.totals.profit_rate_display }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>아직 저장된 보유 현황이 없습니다. 첫 거래를 입력해 주세요.</p>
+  </div>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <div class="section-head">
+    <div>
+      <h2>거래내역</h2>
+      <p class="muted">입력한 거래 원장을 최근 순으로 보여줍니다.</p>
+    </div>
+  </div>
+  {% if dashboard.transactions %}
+  <div class="table-wrap compact-table">
+    {% for row in dashboard.transactions %}
+    <form id="investment-edit-{{ row.id }}" method="post" action="{{ url_for('me_investments_transaction_update', transaction_id=row.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="account_type" value="{{ active_tab }}">
+      <input type="hidden" name="ticker" value="{{ row.ticker }}">
+      <input type="hidden" name="security_name" value="{{ row.security_name }}">
+    </form>
+    {% endfor %}
+    <table class="investment-ledger-table">
+      <thead>
+        <tr>
+          <th>거래일</th>
+          <th>종목코드</th>
+          <th>종목명</th>
+          <th>구분</th>
+          <th>수량</th>
+          <th>단가</th>
+          <th>수수료율/금액</th>
+          <th>투자금액</th>
+          <th>수정</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in dashboard.transactions %}
+        <tr>
+          <td>
+            <input class="investment-ledger-input investment-ledger-date" form="investment-edit-{{ row.id }}" name="trade_date" type="date" value="{{ row.trade_date }}" required>
+          </td>
+          <td>{{ row.ticker }}</td>
+          <td>{{ row.security_name }}</td>
+          <td>
+            <select class="investment-ledger-input investment-ledger-select" form="investment-edit-{{ row.id }}" name="side">
+              <option value="buy" {% if row.side == 'buy' %}selected{% endif %}>매수</option>
+              <option value="sell" {% if row.side == 'sell' %}selected{% endif %}>매도</option>
+            </select>
+          </td>
+          <td>
+            <input class="investment-ledger-input investment-ledger-number" form="investment-edit-{{ row.id }}" name="quantity" type="number" min="0" step="0.0001" value="{{ row.quantity }}" required>
+          </td>
+          <td>
+            <input class="investment-ledger-input investment-ledger-number" form="investment-edit-{{ row.id }}" name="unit_price" type="number" min="0" step="0.01" value="{{ row.unit_price }}" required>
+          </td>
+          <td>
+            <input class="investment-ledger-input investment-ledger-number" form="investment-edit-{{ row.id }}" name="fee" type="number" min="0" step="0.01" value="{{ row.fee_rate }}">
+            <span class="investment-ledger-fee-amount">{{ row.fee_display }}</span>
+          </td>
+          <td>{{ row.invested_amount_display }}</td>
+          <td>
+            <button class="secondary-button investment-ledger-save" form="investment-edit-{{ row.id }}" type="submit">수정</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>저장된 거래가 없습니다. 위 입력 폼에서 거래를 추가해 주세요.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

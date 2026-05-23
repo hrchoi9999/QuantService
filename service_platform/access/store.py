@@ -223,6 +223,22 @@ class AccessStore:
                     FOREIGN KEY(user_id) REFERENCES users(id)
                 );
 
+                CREATE TABLE IF NOT EXISTS investment_transactions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    account_type TEXT NOT NULL,
+                    trade_date TEXT NOT NULL,
+                    ticker TEXT NOT NULL,
+                    security_name TEXT NOT NULL,
+                    side TEXT NOT NULL,
+                    quantity REAL NOT NULL,
+                    unit_price REAL NOT NULL,
+                    fee REAL NOT NULL DEFAULT 0,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    FOREIGN KEY(user_id) REFERENCES users(id)
+                );
+
                 CREATE TABLE IF NOT EXISTS payment_events (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     provider TEXT NOT NULL,
@@ -260,6 +276,10 @@ class AccessStore:
                 ON subscriptions(user_id, status);
                 CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
                 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
+                CREATE INDEX IF NOT EXISTS idx_investment_transactions_user_account
+                ON investment_transactions(user_id, account_type, trade_date DESC, id DESC);
+                CREATE INDEX IF NOT EXISTS idx_investment_transactions_ticker
+                ON investment_transactions(user_id, account_type, ticker);
                 CREATE INDEX IF NOT EXISTS idx_payment_events_ord_no ON payment_events(ord_no);
                 CREATE INDEX IF NOT EXISTS idx_payment_events_tid ON payment_events(tid);
                 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at DESC);
@@ -292,6 +312,10 @@ class AccessStore:
             connection.execute(
                 "INSERT OR IGNORE INTO roles(role_id, description) VALUES ('admin', ?)",
                 ("Administrative access",),
+            )
+            connection.execute(
+                "INSERT OR IGNORE INTO roles(role_id, description) VALUES ('ops_viewer', ?)",
+                ("Operational viewer access",),
             )
             connection.execute(
                 """
@@ -719,12 +743,22 @@ class AccessStore:
         return {"email": user.email, "plan_id": "free"}
 
     def assign_role(self, *, email: str, role_id: str = "admin") -> None:
-        if role_id != "admin":
+        if role_id not in {"admin", "ops_viewer"}:
             raise GrantValidationError("지원하지 않는 role_id 입니다.")
         user = self._ensure_user(email)
         with self._connect() as connection:
             connection.execute(
                 "INSERT OR IGNORE INTO user_roles(user_id, role_id) VALUES (?, ?)",
+                (user.id, role_id),
+            )
+
+    def revoke_role(self, *, email: str, role_id: str = "admin") -> None:
+        if role_id not in {"admin", "ops_viewer"}:
+            raise GrantValidationError("지원하지 않는 role_id 입니다.")
+        user = self._ensure_user(email)
+        with self._connect() as connection:
+            connection.execute(
+                "DELETE FROM user_roles WHERE user_id = ? AND role_id = ?",
                 (user.id, role_id),
             )
 
@@ -787,6 +821,153 @@ class AccessStore:
                 (user_id,),
             )
         return self.get_user_by_id(user_id)
+
+    def create_investment_transaction(
+        self,
+        *,
+        user_id: int,
+        account_type: str,
+        trade_date: str,
+        ticker: str,
+        security_name: str,
+        side: str,
+        quantity: float,
+        unit_price: float,
+        fee: float,
+    ) -> dict[str, Any]:
+        normalized_account_type = account_type.strip().lower()
+        normalized_side = side.strip().lower()
+        if normalized_account_type not in {"virtual", "live", "live2"}:
+            raise AdminValidationError("지원하지 않는 account_type 입니다.")
+        if normalized_side not in {"buy", "sell"}:
+            raise AdminValidationError("지원하지 않는 거래 구분입니다.")
+        self._parse_date(trade_date)
+        now = self._now_iso()
+        with self._connect() as connection:
+            cursor = connection.execute(
+                """
+                INSERT INTO investment_transactions(
+                    user_id,
+                    account_type,
+                    trade_date,
+                    ticker,
+                    security_name,
+                    side,
+                    quantity,
+                    unit_price,
+                    fee,
+                    created_at,
+                    updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    user_id,
+                    normalized_account_type,
+                    trade_date,
+                    ticker.strip(),
+                    security_name.strip(),
+                    normalized_side,
+                    float(quantity),
+                    float(unit_price),
+                    float(fee),
+                    now,
+                    now,
+                ),
+            )
+            transaction_id = int(cursor.lastrowid)
+        transaction = self.get_investment_transaction(transaction_id=transaction_id)
+        assert transaction is not None
+        return transaction
+
+    def get_investment_transaction(self, *, transaction_id: int) -> dict[str, Any] | None:
+        with self._connect() as connection:
+            row = connection.execute(
+                """
+                SELECT id, user_id, account_type, trade_date, ticker, security_name,
+                       side, quantity, unit_price, fee, created_at, updated_at
+                FROM investment_transactions
+                WHERE id = ?
+                LIMIT 1
+                """,
+                (transaction_id,),
+            ).fetchone()
+        return dict(row) if row is not None else None
+
+    def update_investment_transaction(
+        self,
+        *,
+        transaction_id: int,
+        user_id: int,
+        account_type: str,
+        trade_date: str,
+        ticker: str,
+        security_name: str,
+        side: str,
+        quantity: float,
+        unit_price: float,
+        fee: float,
+    ) -> dict[str, Any]:
+        normalized_account_type = account_type.strip().lower()
+        normalized_side = side.strip().lower()
+        if normalized_account_type not in {"virtual", "live", "live2"}:
+            raise AdminValidationError("지원하지 않는 account_type 입니다.")
+        if normalized_side not in {"buy", "sell"}:
+            raise AdminValidationError("지원하지 않는 거래 구분입니다.")
+        self._parse_date(trade_date)
+        now = self._now_iso()
+        with self._connect() as connection:
+            cursor = connection.execute(
+                """
+                UPDATE investment_transactions
+                SET trade_date = ?,
+                    ticker = ?,
+                    security_name = ?,
+                    side = ?,
+                    quantity = ?,
+                    unit_price = ?,
+                    fee = ?,
+                    updated_at = ?
+                WHERE id = ?
+                  AND user_id = ?
+                  AND account_type = ?
+                """,
+                (
+                    trade_date,
+                    ticker.strip(),
+                    security_name.strip(),
+                    normalized_side,
+                    float(quantity),
+                    float(unit_price),
+                    float(fee),
+                    now,
+                    int(transaction_id),
+                    int(user_id),
+                    normalized_account_type,
+                ),
+            )
+            if cursor.rowcount != 1:
+                raise AdminValidationError("수정할 거래내역을 찾지 못했습니다.")
+        transaction = self.get_investment_transaction(transaction_id=transaction_id)
+        assert transaction is not None
+        return transaction
+
+    def list_investment_transactions(
+        self, *, user_id: int, account_type: str
+    ) -> list[dict[str, Any]]:
+        normalized_account_type = account_type.strip().lower()
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT id, user_id, account_type, trade_date, ticker, security_name,
+                       side, quantity, unit_price, fee, created_at, updated_at
+                FROM investment_transactions
+                WHERE user_id = ? AND account_type = ?
+                ORDER BY trade_date DESC, id DESC
+                """,
+                (user_id, normalized_account_type),
+            ).fetchall()
+        return [dict(row) for row in rows]
 
     def create_order(
         self,

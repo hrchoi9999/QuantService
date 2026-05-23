@@ -1,0 +1,76 @@
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>모델별 실제 운영 성과</h2>
+      <p class="muted small">운영 시작 이후 모델 편입 종목의 실제 시장가격 추적 결과입니다.</p>
+    </div>
+    {% if payload.actual_live_performance.metric_basis %}
+    <span class="badge neutral">{{ payload.actual_live_performance.metric_basis }}</span>
+    {% endif %}
+  </div>
+  <p class="muted small">백테스트 성과와 별도로 집계한 모델별 평균수익률입니다. 표본이 없는 구간은 0%가 아니라 N/A로 표시합니다.</p>
+  {% if payload.actual_live_performance.rows %}
+  <div class="table-wrap compact-table actual-live-performance-table">
+    <table class="js-sortable-table" data-default-sort-key="actual_live_current_return" data-default-sort-order="desc">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>모델</th>
+          <th>운영 시작일</th>
+          <th>운영 이벤트</th>
+          <th>최신 이벤트</th>
+          {% for horizon in payload.actual_live_performance.horizons %}
+          <th><button class="table-sort-button" type="button" data-sort-key="actual_live_{{ horizon.key }}">{{ horizon.label }}</button></th>
+          {% if horizon.key == '1m' %}
+          <th><button class="table-sort-button" type="button" data-sort-key="actual_live_1m_mdd">1M MDD</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="actual_live_1m_sharpe">1M Sharpe</button></th>
+          {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for model_row in payload.actual_live_performance.rows %}
+        <tr>
+          <td>{{ model_row.scope_label or model_row.scope }}</td>
+          <td>{{ model_row.model_label or model_row.model_code }}</td>
+          <td>{{ model_row.live_start_date or '-' }}</td>
+          <td>
+            {% if model_row.live_event_count is not none %}{{ model_row.live_event_count }}{% else %}N/A{% endif %}
+            /
+            {% if model_row.source_event_count is not none %}{{ model_row.source_event_count }}{% else %}N/A{% endif %}
+          </td>
+          <td>{{ model_row.latest_live_event_date or '-' }}</td>
+          {% for metric in model_row.metrics %}
+          <td data-sort-value="{% if metric.has_sample and metric.avg_return is not none %}{{ metric.avg_return }}{% endif %}">
+            {% if metric.has_sample and metric.avg_return is not none %}
+            {{ metric.avg_return | fmt_signed_percent }}
+            {% else %}
+            N/A
+            {% endif %}
+          </td>
+          {% if metric.key == '1m' %}
+          <td data-sort-value="{% if metric.mdd_sample_count and metric.mdd is not none %}{{ metric.mdd }}{% endif %}">
+            {% if metric.mdd_sample_count and metric.mdd is not none %}
+            {{ metric.mdd | fmt_signed_percent }}
+            {% else %}
+            N/A
+            {% endif %}
+          </td>
+          <td data-sort-value="{% if metric.sharpe_sample_count and metric.sharpe is not none %}{{ metric.sharpe }}{% endif %}">
+            {% if metric.sharpe_sample_count and metric.sharpe is not none %}
+            {{ metric.sharpe | fmt_sharpe }}
+            {% else %}
+            N/A
+            {% endif %}
+          </td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">실제 운영 성과 데이터가 아직 준비되지 않았습니다.</div>
+  {% endif %}
+</section>

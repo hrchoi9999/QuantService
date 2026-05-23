@@ -194,15 +194,29 @@ th,
 td {
   padding: 14px 12px;
   border-bottom: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.5;
   text-align: left;
   vertical-align: top;
 }
 
 th {
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+th.is-numeric-cell,
+td.is-numeric-cell {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+th.is-numeric-cell .table-sort-button {
+  justify-content: flex-end;
+  text-align: right;
 }
 
 .action-link,

@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero hero-stage market-analysis-data-hero market-analysis-data-hero--compact">
+  <div class="hero-main">
+    <div class="hero-badges">
+      <span class="badge accent">시장 분석</span>
+      <span class="badge neutral">데이터 패널</span>
+    </div>
+    <h1>시장 분석</h1>
+    <p class="lead">브리핑과 중복되는 해석형 정보는 덜어내고, 시장 내부 데이터와 공시·야간 지표를 가로형 패널로 정리합니다.</p>
+    <p class="muted small">기준시각 {{ analysis_view.asof or market_status_snapshot.asof or '-' }} · 시장 흐름 외 중복 요약은 제외했습니다.</p>
+  </div>
+</section>
+
+<section class="market-analysis-dashboard-grid">
+  <article class="panel shell-card market-analysis-dashboard-card market-analysis-flow-card">
+    <div class="market-analysis-panel-head">
+      <div>
+        <h2>시장 흐름</h2>
+        <p class="muted small">퀀트모델 시장 흐름과 오늘 장중 흐름만 빠르게 확인합니다.</p>
+      </div>
+    </div>
+    {% set market_state_bar = analysis_view.state_bar %}
+    {% set market_state_bridge_view = analysis_view.state_bridge %}
+    {% set variant = "compact" %}
+    {% include "_market_state_bar.html" %}
+  </article>
+
+  <aside class="panel shell-card market-analysis-dashboard-card">
+    <div class="market-analysis-panel-head">
+      <div>
+        <h2>데이터 기준</h2>
+        <p class="muted small">분석 패널에 사용된 최신 기준일입니다.</p>
+      </div>
+    </div>
+    <div class="market-analysis-freshness-grid">
+      <div class="market-analysis-freshness-item">
+        <span>시장 내부 확산</span>
+        <strong>{{ analysis_view.breadth_detail.latest_close_asof or '-' }}</strong>
+      </div>
+      <div class="market-analysis-freshness-item">
+        <span>야간 글로벌 흐름</span>
+        <strong>{{ analysis_view.us_macro_panel.latest_asset_asof or '-' }}</strong>
+      </div>
+      <div class="market-analysis-freshness-item">
+        <span>DART 공시</span>
+        <strong>{{ analysis_view.dart_summary.reference_date or '-' }}</strong>
+      </div>
+    </div>
+  </aside>
+</section>
+
+{% if analysis_view.breadth_detail.enabled %}
+<section class="panel shell-card market-analysis-wide-panel">
+  <div class="market-analysis-panel-head">
+    <div>
+      <h2>시장 내부 확산 흐름</h2>
+      <p class="muted small">{{ analysis_view.breadth_detail.summary_line }}</p>
+    </div>
+    <span class="badge neutral">종가 {{ analysis_view.breadth_detail.latest_close_asof }}</span>
+  </div>
+
+  <div class="metric-grid compact-metrics market-analysis-compact-metrics">
+    {% for metric in analysis_view.breadth_detail.close_metrics %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ metric.label }}</span>
+      <strong>{{ metric.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="market-analysis-horizontal-grid">
+    {% for chart in analysis_view.breadth_detail.close_charts %}
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>{{ chart.title }}</strong>
+        <span>{{ chart.latest }}{% if chart.unit %} · {{ chart.unit }}{% endif %}</span>
+      </div>
+      {% if chart.series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ chart.series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">{{ chart.title }} · 최근값 {{ chart.latest }}</p>
+      {% else %}
+      <p class="muted small">히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="market-analysis-two-column">
+    {% for chart in analysis_view.breadth_detail.intraday_charts %}
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>{{ chart.title }}</strong>
+        <span>현재 {{ chart.latest }}</span>
+      </div>
+      {% if chart.series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ chart.series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">{{ chart.title }} · 최근값 {{ chart.latest }}</p>
+      {% else %}
+      <p class="muted small">장중 히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if analysis_view.us_macro_panel.enabled %}
+<section class="panel shell-card market-analysis-wide-panel">
+  <div class="market-analysis-panel-head">
+    <div>
+      <h2>미국/글로벌 야간 흐름</h2>
+      <p class="muted small">{{ analysis_view.us_macro_panel.summary_line }}</p>
+    </div>
+    <span class="badge neutral">기준 {{ analysis_view.us_macro_panel.latest_asset_asof }}</span>
+  </div>
+
+  {% if analysis_view.us_macro_panel.headline_line %}
+  <p class="market-analysis-summary-line">{{ analysis_view.us_macro_panel.headline_line }}</p>
+  {% endif %}
+
+  <div class="market-analysis-horizontal-grid market-analysis-horizontal-grid--three">
+    {% for chart in analysis_view.us_macro_panel.asset_charts %}
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>{{ chart.title }}</strong>
+        <span>{{ chart.latest }} · {{ chart.status_label }}</span>
+      </div>
+      {% if chart.series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ chart.series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">{{ chart.title }} · 최근값 {{ chart.latest }}</p>
+      {% else %}
+      <p class="muted small">히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="market-analysis-horizontal-grid market-analysis-horizontal-grid--four">
+    {% for chart in analysis_view.us_macro_panel.preview_charts %}
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>{{ chart.title }}</strong>
+        <span>현재 {{ chart.latest }}</span>
+      </div>
+      {% if chart.series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ chart.series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">{{ chart.title }} · 현재 {{ chart.latest }}</p>
+      {% else %}
+      <p class="muted small">preview 히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if analysis_view.dart_summary.enabled %}
+<section class="panel shell-card market-analysis-wide-panel">
+  <div class="market-analysis-panel-head">
+    <div>
+      <h2>DART 공시 흐름</h2>
+      <p class="muted small">{{ analysis_view.dart_summary.summary_line }}</p>
+    </div>
+    <span class="badge neutral">기준 {{ analysis_view.dart_summary.reference_date }}</span>
+  </div>
+
+  <div class="metric-grid compact-metrics market-analysis-compact-metrics">
+    {% for metric in analysis_view.dart_summary.metrics %}
+    <div class="metric-card public-metric-card">
+      <span class="label">{{ metric.label }}</span>
+      <strong>{{ metric.value }}</strong>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="market-analysis-two-column">
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>전체 공시 건수 추이</strong>
+        <span>단위: 건수</span>
+      </div>
+      {% if analysis_view.dart_summary.total_series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ analysis_view.dart_summary.total_series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">전체 공시 건수 · 일자별 추이</p>
+      {% else %}
+      <p class="muted small">히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>리스크 공시 건수 추이</strong>
+        <span>단위: 건수</span>
+      </div>
+      {% if analysis_view.dart_summary.risk_series %}
+      <div
+        class="market-chart-shell market-chart-shell--small"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ analysis_view.dart_summary.risk_series | tojson }}'
+      ></div>
+      <p class="market-analysis-chart-caption">리스크 공시 건수 · 일자별 추이</p>
+      {% else %}
+      <p class="muted small">히스토리 데이터 축적 중입니다.</p>
+      {% endif %}
+    </article>
+  </div>
+
+  <div class="market-analysis-two-column market-analysis-two-column--compact">
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>유형별 공시 건수</strong>
+        <span>기준일</span>
+      </div>
+      {% if analysis_view.dart_summary.filing_types %}
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>유형</th>
+              <th>건수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in analysis_view.dart_summary.filing_types %}
+            <tr>
+              <td>{{ row.label }}</td>
+              <td class="numeric-cell">{{ row.count_display }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="muted small">유형별 공시 건수 데이터가 준비 중입니다.</p>
+      {% endif %}
+    </article>
+
+    <article class="market-analysis-mini-chart-card">
+      <div class="market-analysis-mini-chart-head">
+        <strong>최근 공시 목록</strong>
+        <span>중립 표시</span>
+      </div>
+      {% if analysis_view.dart_summary.recent_filings %}
+      <div class="market-analysis-dart-list market-analysis-dart-list--compact">
+        {% for row in analysis_view.dart_summary.recent_filings[:5] %}
+        <div class="market-analysis-dart-item">
+          <div class="market-analysis-dart-inline-title">
+            <strong>{{ row.company or '-' }} · {{ row.date_display or row.date or '-' }}</strong>
+            <span>{{ row.title }}</span>
+          </div>
+          {% if row.url %}<a href="{{ row.url }}" target="_blank" rel="noopener noreferrer">공시 원문 보기</a>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="muted small">최근 공시 목록이 준비 중입니다.</p>
+      {% endif %}
+    </article>
+  </div>
+
+  <p class="muted small market-analysis-data-note">{{ analysis_view.dart_summary.disclaimer }}</p>
+</section>
+{% elif analysis_view.dart_summary.show_fallback %}
+<section class="panel shell-card market-analysis-wide-panel">
+  <h2>DART 공시 흐름</h2>
+  <p class="muted">DART 공시 흐름 데이터가 아직 공개 노출 상태가 아닙니다.</p>
+</section>
+{% endif %}
+{% endblock %}

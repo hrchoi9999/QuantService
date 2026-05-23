@@ -3,8 +3,8 @@
 {% block content %}
 <section class="hero-card compact-hero hero-stage performance-hero">
   <div class="hero-main">
-    <h1>공개 기준 기반 퀀트투자 모델의 성과를 같은 기준으로 설명합니다.</h1>
-    <p class="lead">공개 기준 기반 퀀트투자 모델을 과거 데이터에 적용한 백테스트 결과를 설명하며, 1년·2년·3년은 CAGR 중심으로, 6개월·3개월은 total return 중심으로 정리합니다.</p>
+    <h1>공개 기준 기반 모델의 성과를 같은 기준으로 설명합니다.</h1>
+    <p class="lead">공개 기준 기반 모델을 과거 데이터에 적용한 백테스트 결과를 설명하며, 1년·2년·3년은 CAGR 중심으로, 6개월·3개월은 total return 중심으로 정리합니다.</p>
     <div class="hero-badges">
       <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
       <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
@@ -33,22 +33,16 @@
 
 {% include "_notice_group.html" %}
 
-{% if auto_balanced_same %}
-<section class="panel shell-card info-banner-panel">
-  <p class="muted">현재 시장 국면에서는 자동전환형이 균형형과 유사하게 운용될 수 있습니다.</p>
-</section>
-{% endif %}
-
 {% if performance_rows %}
 <section class="comparison-matrix">
   {% for row in performance_rows %}
   <article class="feature-card shell-card comparison-card">
     <div class="section-heading tight-head">
       <div class="title-stack">
-        <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
+        <h2>{{ (row.quant_model_name or row.user_model_name) | replace(' 퀀트투자 모델', ' 모델') }}</h2>
         <p class="muted small">{{ row.model_definition_line }}</p>
       </div>
-      <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>{% if auto_balanced_same and row.service_profile == "auto" %}<span class="badge neutral">현재 균형형과 유사 운용</span>{% endif %}
+      <span class="badge accent">{{ row.performance_cards.primary_period or '1Y' }} 메인</span>
     </div>
     <p class="muted small">{{ row.model_definition_line }}</p>
     {% if row.model_definition_detail %}<p class="muted">{{ row.model_definition_detail }}</p>{% else %}<p class="muted">{{ row.note }}</p>{% endif %}
@@ -90,7 +84,7 @@
       <tbody>
         {% for row in performance_rows %}
         <tr>
-          <td>{{ row.quant_model_name or row.user_model_name }}</td>
+          <td>{{ (row.quant_model_name or row.user_model_name) | replace(' 퀀트투자 모델', ' 모델') }}</td>
           <td>{{ risk_labels.get(row.risk_label, row.risk_label) }}</td>
           <td>{{ row.performance_cards.cagr | fmt_percent }}</td>
           <td>{{ row.performance_cards.mdd | fmt_percent }}</td>
@@ -107,11 +101,45 @@
   <article class="panel shell-card period-panel-modern performance-detail-panel">
     <div class="section-heading tight-head">
       <div class="title-stack">
-        <h2>{{ row.quant_model_name or row.user_model_name }}</h2>
+        <h2>{{ (row.quant_model_name or row.user_model_name) | replace(' 퀀트투자 모델', ' 모델') }}</h2>
         <p class="muted small">{{ row.model_definition_line }}</p>
       </div>
       <span class="badge neutral">{{ row.performance_cards.primary_period or '1Y' }} 기준</span>
     </div>
+    {% if ui_redesign_enabled and row.redesign_chart_view.enabled %}
+    <div class="market-redesign-chart-grid">
+      {% if row.redesign_chart_view.line_series %}
+      <article class="shell-card content-card market-chart-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h4>핵심 수익률 추이</h4>
+            <p class="muted small">기간별 headline 지표 흐름</p>
+          </div>
+        </div>
+        <div
+          class="market-chart-shell market-chart-shell--compact"
+          data-rb-chart="line"
+          data-rb-chart-series='{{ row.redesign_chart_view.line_series | tojson }}'
+        ></div>
+      </article>
+      {% endif %}
+      {% if row.redesign_chart_view.bar_series %}
+      <article class="shell-card content-card market-chart-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h4>기간별 MDD</h4>
+            <p class="muted small">손실 구간 리스크 비교</p>
+          </div>
+        </div>
+        <div
+          class="market-chart-shell market-chart-shell--compact"
+          data-rb-chart="bar"
+          data-rb-chart-series='{{ row.redesign_chart_view.bar_series | tojson }}'
+        ></div>
+      </article>
+      {% endif %}
+    </div>
+    {% endif %}
     {% if row.period_view.primary %}
     <div class="period-highlight-card">
       <div class="period-highlight-head">

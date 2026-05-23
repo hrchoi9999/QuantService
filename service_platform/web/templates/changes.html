@@ -44,56 +44,108 @@
   {% endif %}
 </section>
 
-{% if change_rows %}
-<section class="changes-feed redesigned-changes-feed">
-  {% for change in change_rows %}
-  <article class="panel change-card-extended shell-card modern-change-card">
-    <div class="section-heading tight-head detail-top">
-      <div class="title-stack">
-        <h2>{{ change.quant_model_name or (change.user_model_name ~ " 퀀트투자 모델") }}</h2>
-      </div>
-      <span class="badge accent">{{ change.change_badge_label or "주간 모델 조정" }}</span>
+{% if change_history_rows %}
+<section class="changes-feed redesigned-changes-feed change-history-feed">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>{% if selected_change_period == "monthly" %}월간 변경내역{% else %}주간 변경내역{% endif %}</h2>
+      <p class="lead compact-lead">변경 기준일별 요약을 먼저 보고, 필요한 날짜를 펼쳐 모델별 세부 종목을 확인할 수 있습니다.</p>
     </div>
-    <p class="change-summary">{{ change.summary }}</p>
-    <div class="change-summary-grid">
-      <div class="metric-card public-metric-card">
-        <span class="label">확대 종목 수</span>
-        <strong>{{ change.increase_items | length }}</strong>
-      </div>
-      <div class="metric-card public-metric-card">
-        <span class="label">축소 종목 수</span>
-        <strong>{{ change.decrease_items | length }}</strong>
-      </div>
+    <span class="badge neutral">총 {{ change_history_rows | length }}개 기준일</span>
+  </div>
+  <div class="change-history-controls shell-card">
+    <div class="segmented-control">
+      <a class="segment-pill discovery-tab{% if selected_change_period == 'weekly' %} is-active{% endif %}" href="{{ url_for('changes', period='weekly', model=selected_change_model) }}">주간</a>
+      <a class="segment-pill discovery-tab{% if selected_change_period == 'monthly' %} is-active{% endif %}" href="{{ url_for('changes', period='monthly', model=selected_change_model) }}">월간</a>
     </div>
-    <div class="grid two-up nested-grid change-grid-modern">
-      <div class="sub-panel shell-card change-subpanel increase-panel">
-        <span class="label">비중 확대</span>
-        <ul class="message-list compact-list clean-list">
-          {% for item in change.increase_items %}
-          <li class="change-entry change-entry-up"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
-          {% endfor %}
-          {% if not change.increase_items %}
-          <li>해당 없음</li>
-          {% endif %}
-        </ul>
-      </div>
-      <div class="sub-panel shell-card change-subpanel decrease-panel">
-        <span class="label">비중 축소</span>
-        <ul class="message-list compact-list clean-list">
-          {% for item in change.decrease_items %}
-          <li class="change-entry change-entry-down"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
-          {% endfor %}
-          {% if not change.decrease_items %}
-          <li>해당 없음</li>
-          {% endif %}
-        </ul>
-      </div>
+    <div class="change-model-filter">
+      {% for filter in change_model_filters %}
+      <a class="badge {% if selected_change_model == filter.value %}accent{% else %}neutral{% endif %}" href="{{ url_for('changes', period=selected_change_period, model=filter.value) }}">{{ filter.label }}</a>
+      {% endfor %}
     </div>
-    <div class="sub-panel shell-card reason-panel">
-      <span class="label">모델 조정 기준</span>
-      <p>{{ change.reason_text }}</p>
+  </div>
+  {% for history in change_history_rows %}
+  <details class="panel shell-card change-history-item"{% if loop.first %} open{% endif %}>
+    <summary class="change-history-summary">
+      <div>
+        <span class="label">{% if selected_change_period == "monthly" %}변경 월{% else %}변경 기준일{% endif %}</span>
+        <strong>{{ history.change_date }}</strong>
+        <p>{{ history.summary }}</p>
+      </div>
+      <div class="hero-badges compact-meta">
+        <span class="badge neutral">모델 {{ history.model_count }}</span>
+        <span class="badge accent">비중 확대 {{ history.increase_count }}</span>
+        <span class="badge neutral">비중 축소 {{ history.decrease_count }}</span>
+      </div>
+    </summary>
+    <div class="change-history-body">
+      {% for change in history.changes %}
+      <article class="change-card-extended shell-card modern-change-card change-history-card">
+        <div class="section-heading tight-head detail-top">
+          <div class="title-stack">
+            <h3>{{ (change.quant_model_name or (change.user_model_name ~ " 모델")) | replace(" 퀀트투자 모델", " 모델") }}</h3>
+            <p class="muted small">{{ change.summary }}</p>
+          </div>
+          <span class="badge accent">{{ change.change_badge_label or "주간 모델 조정" }}</span>
+        </div>
+        <div class="change-summary-grid">
+          <div class="metric-card public-metric-card">
+            <span class="label">확대 종목 수</span>
+            <strong>{{ change.increase_items | length }}</strong>
+          </div>
+          <div class="metric-card public-metric-card">
+            <span class="label">축소 종목 수</span>
+            <strong>{{ change.decrease_items | length }}</strong>
+          </div>
+        </div>
+        <div class="grid two-up nested-grid change-grid-modern">
+          <div class="sub-panel shell-card change-subpanel increase-panel">
+            <span class="label">비중 증가 / 신규 편입 가능 항목</span>
+            <ul class="message-list compact-list clean-list">
+              {% for item in change.increase_items %}
+              {% set delta = item.get('delta_weight') if item.get('delta_weight') is not none else item.get('latest_delta_weight') %}
+              <li class="change-entry change-entry-up">
+                <span class="change-entry-name">
+                  {{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}
+                  {% if item.occurrence_count %}<small>{{ item.occurrence_count }}회 관찰</small>{% endif %}
+                  {% if item.source_dates %}<small>{{ item.source_dates | join(', ') }}</small>{% endif %}
+                </span>
+                <span class="change-entry-delta">{{ delta | fmt_signed_percent }}</span>
+              </li>
+              {% endfor %}
+              {% if not change.increase_items %}
+              <li>해당 없음</li>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="sub-panel shell-card change-subpanel decrease-panel">
+            <span class="label">비중 감소 / 제외 가능 항목</span>
+            <ul class="message-list compact-list clean-list">
+              {% for item in change.decrease_items %}
+              {% set delta = item.get('delta_weight') if item.get('delta_weight') is not none else item.get('latest_delta_weight') %}
+              <li class="change-entry change-entry-down">
+                <span class="change-entry-name">
+                  {{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}
+                  {% if item.occurrence_count %}<small>{{ item.occurrence_count }}회 관찰</small>{% endif %}
+                  {% if item.source_dates %}<small>{{ item.source_dates | join(', ') }}</small>{% endif %}
+                </span>
+                <span class="change-entry-delta">{{ delta | fmt_signed_percent }}</span>
+              </li>
+              {% endfor %}
+              {% if not change.decrease_items %}
+              <li>해당 없음</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <div class="sub-panel shell-card reason-panel">
+          <span class="label">모델 조정 기준</span>
+          <p>{{ change.reason_text }}</p>
+        </div>
+      </article>
+      {% endfor %}
     </div>
-  </article>
+  </details>
   {% endfor %}
 </section>
 {% else %}

@@ -1,0 +1,1409 @@
+{
+  "source_name": "internal_model_validation_current",
+  "schema_version": "2026-05-17.v3",
+  "visibility": "admin_only",
+  "page_target": "admin_internal_models",
+  "section_title_ko": "내부용 모델 검증",
+  "as_of_date": "2026-05-15",
+  "generated_at": "2026-05-17T23:23:17+09:00",
+  "review_schedule": {
+    "frequency": "weekly",
+    "recommended_day": "weekend_after_week_close",
+    "operating_rule": "모델 보정/수정/중단 판단은 주말 주 1회 검증 결과 기준으로만 수행한다.",
+    "daily_pipeline_rule": "평일에는 payload 최신화와 표시만 허용하고 모델 정책 변경은 하지 않는다."
+  },
+  "decision_policy": {
+    "PASS": "live-first 점수 90점 이상. 현행 운영 유지.",
+    "WATCH": "live-first 점수 85점 이상 90점 미만. 다음 주말 재검증.",
+    "REVIEW": "live-first 점수 85점 미만. 보정/강등/중단 후보 검토."
+  },
+  "metric_definitions": {
+    "backtest_1y_return": "모델 NAV/proxy 기준 최근 1년 수익률",
+    "backtest_sharpe_1y": "모델 NAV/proxy 기준 최근 1년 Sharpe",
+    "backtest_mdd_1y": "모델 NAV/proxy 기준 최근 1년 최대낙폭",
+    "live_1m_avg_return": "운영 시작 이후 편입 이벤트 중 1개월 성과가 확정된 표본의 평균 수익률",
+    "live_1m_win_rate": "운영 시작 이후 편입 이벤트 중 1개월 성과가 플러스인 비율",
+    "sample_confidence": "live 1M 표본 수 기반 신뢰도입니다. 30개 이상 high, 10개 이상 medium, 10개 미만 low입니다.",
+    "model_value_score": "모델이 자체 목적을 달성하는지 보는 효용 점수입니다. T-STOCK은 confirmed 후보 lift와 초과수익을 반영합니다.",
+    "backtest_reference_score": "백테스트 참고 점수입니다. live-first 평가에서 보조 10%만 반영합니다.",
+    "total_validation_score": "live 1M 수익률 35%, 현재수익률 15%, live 1M 승률 15%, live 1M MDD 15%, 모델효용 10%, 백테스트 참고 10% 결합 점수입니다.",
+    "grade": "S는 95점 이상, A는 90점 이상, B는 85점 이상, C는 85점 미만입니다.",
+    "qualitative_assessment_ko": "Quant 쓰레드가 작성한 50단어 이내의 객관적·보수적·냉정한 정성 평가입니다.",
+    "confirmed_t10_hit_rate": "T-STOCK confirmed 후보가 실제 T10 이상 성과군에 들어간 비율입니다.",
+    "confirmed_avg_excess_vs_all_1m": "T-STOCK confirmed 후보의 1개월 평균 초과수익률입니다."
+  },
+  "summary": {
+    "model_count": 11,
+    "by_review_state": {
+      "PASS": 5,
+      "REVIEW": 5,
+      "WATCH": 1
+    },
+    "action_required_count": 6
+  },
+  "models": [
+    {
+      "scope": "internal_models",
+      "model_code": "S2",
+      "display_name": "Quant S2",
+      "model_profile": "standard_internal",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "PASS",
+      "recommended_action": "MAINTAIN",
+      "review_reasons": [],
+      "qualitative_assessment_ko": "S2는 S등급(100.00)으로 live-first 기준을 충족합니다. 표본신뢰도는 high이며, 성과 지속성과 손실 방어를 계속 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 100.0,
+        "grade": "S",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 100.0,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "standard_internal",
+        "primary_metric": "total_validation_score",
+        "min_backtest_1y_return": 0.3,
+        "min_backtest_sharpe_1y": 1.4,
+        "max_backtest_mdd_1y": -0.22,
+        "min_live_1m_avg_return": 0.02,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 55.0,
+        "min_total_validation_score": 60.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.094782,
+        "trailing_3m": 0.235235,
+        "trailing_6m": 0.554997,
+        "trailing_1y": 1.575407,
+        "itd_return": 4.83265,
+        "cagr": 0.150441,
+        "mdd_1y": -0.207798,
+        "sharpe_1y": 2.655166,
+        "sample_count": 30
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-12",
+        "live_event_count": 68,
+        "latest_live_event_date": "2026-05-13",
+        "current_avg_return": 0.08139,
+        "current_win_rate": 0.455882,
+        "current_avg_mdd": -0.159027,
+        "one_month_sample_count": 34,
+        "sample_confidence": "high",
+        "one_month_avg_return": 0.184369,
+        "one_month_win_rate": 0.705882,
+        "one_month_avg_mdd": -0.147065
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.184369,
+          "target": 0.02,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": 0.08139,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 0.705882,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.147065,
+          "target": -0.22,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 55.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 100.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S2_PIT_V01",
+      "display_name": "Quant S2 PIT V01",
+      "model_profile": "standard_internal",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "REVIEW",
+      "recommended_action": "MODEL_REVIEW_OR_DOWNGRADE_CANDIDATE",
+      "review_reasons": [
+        "live_current_avg_return actual=-0.010389 target=0.0",
+        "model_value_score actual=11.2 target=55.0",
+        "total_validation_score actual=17.84 target=85.0"
+      ],
+      "qualitative_assessment_ko": "S2_PIT_V01는 C등급(17.84)이며 live_current_avg_return 미달입니다. 표본신뢰도는 low입니다. 현행 확대 적용은 보류하고 보정·강등·중단 후보로 검토해야 합니다.",
+      "validation_score": {
+        "total_score": 17.84,
+        "grade": "C",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 22.4,
+        "risk_score": 0.0,
+        "consistency_score": 0.0,
+        "model_value_score": 11.2,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "standard_internal",
+        "primary_metric": "total_validation_score",
+        "min_backtest_1y_return": 0.3,
+        "min_backtest_sharpe_1y": 1.4,
+        "max_backtest_mdd_1y": -0.22,
+        "min_live_1m_avg_return": 0.02,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 55.0,
+        "min_total_validation_score": 60.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.223544,
+        "trailing_3m": 0.580222,
+        "trailing_6m": 1.029908,
+        "trailing_1y": 2.536414,
+        "itd_return": 2.693912,
+        "cagr": 0.771058,
+        "mdd_1y": -0.186375,
+        "sharpe_1y": 3.274721,
+        "sample_count": 30
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-04-23",
+        "live_event_count": 12,
+        "latest_live_event_date": "2026-05-13",
+        "current_avg_return": -0.010389,
+        "current_win_rate": 0.25,
+        "current_avg_mdd": -0.094808,
+        "one_month_sample_count": 0,
+        "sample_confidence": "low",
+        "one_month_avg_return": null,
+        "one_month_win_rate": null,
+        "one_month_avg_mdd": null
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": null,
+          "target": 0.02,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.010389,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": null,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": null,
+          "target": -0.22,
+          "direction": "max_drawdown_floor",
+          "pass": null
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 11.2,
+          "target": 55.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 17.84,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": false
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S3",
+      "display_name": "Quant S3",
+      "model_profile": "aggressive_return",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "PASS",
+      "recommended_action": "MAINTAIN",
+      "review_reasons": [],
+      "qualitative_assessment_ko": "S3는 S등급(100.00)으로 live-first 기준을 충족합니다. 표본신뢰도는 medium이며, 성과 지속성과 손실 방어를 계속 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 100.0,
+        "grade": "S",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 100.0,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "aggressive_return",
+        "primary_metric": "return_first_validation_score",
+        "min_backtest_1y_return": 1.0,
+        "min_backtest_sharpe_1y": 1.8,
+        "max_backtest_mdd_1y": -0.35,
+        "min_live_1m_avg_return": 0.03,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 60.0,
+        "min_total_validation_score": 65.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.958031,
+        "trailing_3m": 6.04193,
+        "trailing_6m": 28.080689,
+        "trailing_1y": 225.968909,
+        "itd_return": 18766.815652,
+        "cagr": 1.901452,
+        "mdd_1y": -0.181229,
+        "sharpe_1y": 7.37819,
+        "sample_count": 20
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-12",
+        "live_event_count": 24,
+        "latest_live_event_date": "2026-04-15",
+        "current_avg_return": 0.120423,
+        "current_win_rate": 0.541667,
+        "current_avg_mdd": -0.171318,
+        "one_month_sample_count": 24,
+        "sample_confidence": "medium",
+        "one_month_avg_return": 0.124787,
+        "one_month_win_rate": 0.666667,
+        "one_month_avg_mdd": -0.131839
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.124787,
+          "target": 0.03,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": 0.120423,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 0.666667,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.131839,
+          "target": -0.35,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 60.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 100.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S3_ACCEL_V01",
+      "display_name": "Quant S3 Accel V01",
+      "model_profile": "aggressive_return",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "REVIEW",
+      "recommended_action": "MODEL_REVIEW_OR_DOWNGRADE_CANDIDATE",
+      "review_reasons": [
+        "live_current_avg_return actual=-0.101988 target=0.0",
+        "model_value_score actual=0.0 target=60.0",
+        "total_validation_score actual=10.0 target=85.0"
+      ],
+      "qualitative_assessment_ko": "S3_ACCEL_V01는 C등급(10.00)이며 live_current_avg_return 미달입니다. 표본신뢰도는 low입니다. 현행 확대 적용은 보류하고 보정·강등·중단 후보로 검토해야 합니다.",
+      "validation_score": {
+        "total_score": 10.0,
+        "grade": "C",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 0.0,
+        "risk_score": 0.0,
+        "consistency_score": 0.0,
+        "model_value_score": 0.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "aggressive_return",
+        "primary_metric": "return_first_validation_score",
+        "min_backtest_1y_return": 1.0,
+        "min_backtest_sharpe_1y": 1.8,
+        "max_backtest_mdd_1y": -0.35,
+        "min_live_1m_avg_return": 0.03,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 60.0,
+        "min_total_validation_score": 65.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.040651,
+        "trailing_3m": 0.268494,
+        "trailing_6m": 1.525722,
+        "trailing_1y": 3.904998,
+        "itd_return": 20.212033,
+        "cagr": 0.391628,
+        "mdd_1y": -0.190308,
+        "sharpe_1y": 3.508855,
+        "sample_count": 20
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-04-23",
+        "live_event_count": 12,
+        "latest_live_event_date": "2026-05-13",
+        "current_avg_return": -0.101988,
+        "current_win_rate": 0.166667,
+        "current_avg_mdd": -0.169041,
+        "one_month_sample_count": 0,
+        "sample_confidence": "low",
+        "one_month_avg_return": null,
+        "one_month_win_rate": null,
+        "one_month_avg_mdd": null
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": null,
+          "target": 0.03,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.101988,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": null,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": null,
+          "target": -0.35,
+          "direction": "max_drawdown_floor",
+          "pass": null
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 0.0,
+          "target": 60.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 10.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": false
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S3_CORE2",
+      "display_name": "Quant S3 core2",
+      "model_profile": "aggressive_return",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "PASS",
+      "recommended_action": "MAINTAIN",
+      "review_reasons": [],
+      "qualitative_assessment_ko": "S3_CORE2는 S등급(100.00)으로 live-first 기준을 충족합니다. 표본신뢰도는 low이며, 성과 지속성과 손실 방어를 계속 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 100.0,
+        "grade": "S",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 100.0,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "aggressive_return",
+        "primary_metric": "return_first_validation_score",
+        "min_backtest_1y_return": 1.0,
+        "min_backtest_sharpe_1y": 1.8,
+        "max_backtest_mdd_1y": -0.35,
+        "min_live_1m_avg_return": 0.03,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 60.0,
+        "min_total_validation_score": 65.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 1.592909,
+        "trailing_3m": 5.991902,
+        "trailing_6m": 5.991902,
+        "trailing_1y": 11.177008,
+        "itd_return": 65.833349,
+        "cagr": 0.576026,
+        "mdd_1y": -0.148473,
+        "sharpe_1y": 3.94292,
+        "sample_count": 20
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-12",
+        "live_event_count": 4,
+        "latest_live_event_date": "2026-04-15",
+        "current_avg_return": 0.118363,
+        "current_win_rate": 0.5,
+        "current_avg_mdd": -0.213404,
+        "one_month_sample_count": 4,
+        "sample_confidence": "low",
+        "one_month_avg_return": 0.223522,
+        "one_month_win_rate": 1.0,
+        "one_month_avg_mdd": -0.168136
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.223522,
+          "target": 0.03,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": 0.118363,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 1.0,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.168136,
+          "target": -0.35,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 60.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 100.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S4",
+      "display_name": "Quant S4",
+      "model_profile": "standard_internal",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "PASS",
+      "recommended_action": "MAINTAIN",
+      "review_reasons": [],
+      "qualitative_assessment_ko": "S4는 S등급(100.00)으로 live-first 기준을 충족합니다. 표본신뢰도는 low이며, 성과 지속성과 손실 방어를 계속 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 100.0,
+        "grade": "S",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 100.0,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "standard_internal",
+        "primary_metric": "total_validation_score",
+        "min_backtest_1y_return": 0.3,
+        "min_backtest_sharpe_1y": 1.4,
+        "max_backtest_mdd_1y": -0.22,
+        "min_live_1m_avg_return": 0.02,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 55.0,
+        "min_total_validation_score": 60.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.154876,
+        "trailing_3m": 0.256905,
+        "trailing_6m": 0.506867,
+        "trailing_1y": 1.686718,
+        "itd_return": 1.839518,
+        "cagr": 0.427016,
+        "mdd_1y": -0.164081,
+        "sharpe_1y": 2.870666,
+        "sample_count": 3
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-17",
+        "live_event_count": 6,
+        "latest_live_event_date": "2026-05-15",
+        "current_avg_return": 0.119129,
+        "current_win_rate": 0.6,
+        "current_avg_mdd": -0.086182,
+        "one_month_sample_count": 1,
+        "sample_confidence": "low",
+        "one_month_avg_return": 0.27952,
+        "one_month_win_rate": 1.0,
+        "one_month_avg_mdd": -0.049089
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.27952,
+          "target": 0.02,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": 0.119129,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 1.0,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.049089,
+          "target": -0.22,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 55.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 100.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S5",
+      "display_name": "Quant S5",
+      "model_profile": "stable_defensive",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "PASS",
+      "recommended_action": "MAINTAIN",
+      "review_reasons": [],
+      "qualitative_assessment_ko": "S5는 S등급(100.00)으로 live-first 기준을 충족합니다. 표본신뢰도는 low이며, 성과 지속성과 손실 방어를 계속 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 100.0,
+        "grade": "S",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 100.0,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "stable_defensive",
+        "primary_metric": "risk_controlled_return_and_drawdown",
+        "min_backtest_1y_return": 0.1,
+        "min_backtest_sharpe_1y": 1.0,
+        "max_backtest_mdd_1y": -0.12,
+        "min_live_1m_avg_return": 0.005,
+        "min_live_1m_win_rate": 0.52,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 50.0,
+        "min_total_validation_score": 58.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.104799,
+        "trailing_3m": 0.173884,
+        "trailing_6m": 0.304669,
+        "trailing_1y": 0.609583,
+        "itd_return": 0.872703,
+        "cagr": 0.238326,
+        "mdd_1y": -0.089996,
+        "sharpe_1y": 3.250291,
+        "sample_count": 6
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-17",
+        "live_event_count": 8,
+        "latest_live_event_date": "2026-05-15",
+        "current_avg_return": 0.159465,
+        "current_win_rate": 0.833333,
+        "current_avg_mdd": -0.036882,
+        "one_month_sample_count": 4,
+        "sample_confidence": "low",
+        "one_month_avg_return": 0.16974,
+        "one_month_win_rate": 1.0,
+        "one_month_avg_mdd": -0.03953
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.16974,
+          "target": 0.005,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": 0.159465,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 1.0,
+          "target": 0.52,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.03953,
+          "target": -0.12,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 50.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 100.0,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "S6",
+      "display_name": "Quant S6",
+      "model_profile": "stable_defensive",
+      "asof_date": "2026-05-15",
+      "metric_basis": "published_backtest",
+      "review_state": "REVIEW",
+      "recommended_action": "MODEL_REVIEW_OR_DOWNGRADE_CANDIDATE",
+      "review_reasons": [
+        "live_1m_avg_return actual=-0.116262 target=0.005",
+        "live_current_avg_return actual=-0.081236 target=0.0",
+        "live_1m_win_rate actual=0.5 target=0.52",
+        "live_1m_avg_mdd actual=-0.135567 target=-0.12",
+        "total_validation_score actual=37.5 target=85.0"
+      ],
+      "qualitative_assessment_ko": "S6는 C등급(37.50)이며 live_1m_avg_return 미달입니다. 표본신뢰도는 low입니다. 현행 확대 적용은 보류하고 보정·강등·중단 후보로 검토해야 합니다.",
+      "validation_score": {
+        "total_score": 37.5,
+        "grade": "C",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 4.69,
+        "risk_score": 88.51711699749939,
+        "consistency_score": 96.15384615384615,
+        "model_value_score": 50.42,
+        "backtest_reference_score": 33.54,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "stable_defensive",
+        "primary_metric": "risk_controlled_return_and_drawdown",
+        "min_backtest_1y_return": 0.1,
+        "min_backtest_sharpe_1y": 1.0,
+        "max_backtest_mdd_1y": -0.12,
+        "min_live_1m_avg_return": 0.005,
+        "min_live_1m_win_rate": 0.52,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 50.0,
+        "min_total_validation_score": 58.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": -0.038284,
+        "trailing_3m": -0.047382,
+        "trailing_6m": -0.020138,
+        "trailing_1y": -0.002322,
+        "itd_return": 0.10454,
+        "cagr": 0.034458,
+        "mdd_1y": -0.075544,
+        "sharpe_1y": 0.006115,
+        "sample_count": 6
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-03-17",
+        "live_event_count": 4,
+        "latest_live_event_date": "2026-05-04",
+        "current_avg_return": -0.081236,
+        "current_win_rate": 0.5,
+        "current_avg_mdd": -0.108434,
+        "one_month_sample_count": 2,
+        "sample_confidence": "low",
+        "one_month_avg_return": -0.116262,
+        "one_month_win_rate": 0.5,
+        "one_month_avg_mdd": -0.135567
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": -0.116262,
+          "target": 0.005,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.081236,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 0.5,
+          "target": 0.52,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.135567,
+          "target": -0.12,
+          "direction": "max_drawdown_floor",
+          "pass": false
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 50.42,
+          "target": 50.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 37.5,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": false
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "internal_models",
+      "model_code": "I-STOCK-STRONG-RSI-V01",
+      "display_name": "I-STOCK-STRONG-RSI-V01",
+      "model_profile": "standard_internal",
+      "asof_date": "2026-05-13",
+      "metric_basis": "i_series_shadow_backtest",
+      "review_state": "REVIEW",
+      "recommended_action": "MODEL_REVIEW_OR_DOWNGRADE_CANDIDATE",
+      "review_reasons": [
+        "live_current_avg_return actual=-0.02249 target=0.0",
+        "model_value_score actual=9.69 target=55.0",
+        "total_validation_score actual=16.78 target=85.0"
+      ],
+      "qualitative_assessment_ko": "I-STOCK-STRONG-RSI-V01는 C등급(16.78)이며 live_current_avg_return 미달입니다. 표본신뢰도는 low입니다. 현행 확대 적용은 보류하고 보정·강등·중단 후보로 검토해야 합니다.",
+      "validation_score": {
+        "total_score": 16.78,
+        "grade": "C",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 19.38,
+        "risk_score": 0.0,
+        "consistency_score": 0.0,
+        "model_value_score": 9.69,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "standard_internal",
+        "primary_metric": "total_validation_score",
+        "min_backtest_1y_return": 0.3,
+        "min_backtest_sharpe_1y": 1.4,
+        "max_backtest_mdd_1y": -0.22,
+        "min_live_1m_avg_return": 0.02,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 55.0,
+        "min_total_validation_score": 60.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.199475,
+        "trailing_3m": 0.296988,
+        "trailing_6m": 0.887594,
+        "trailing_1y": 2.225269,
+        "itd_return": 11.609533,
+        "cagr": 0.311265,
+        "mdd_1y": -0.201988,
+        "sharpe_1y": 2.775325,
+        "sample_count": 30
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-04-29",
+        "live_event_count": 75,
+        "latest_live_event_date": "2026-05-13",
+        "current_avg_return": -0.02249,
+        "current_win_rate": 0.373333,
+        "current_avg_mdd": -0.114112,
+        "one_month_sample_count": 0,
+        "sample_confidence": "low",
+        "one_month_avg_return": null,
+        "one_month_win_rate": null,
+        "one_month_avg_mdd": null
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": null,
+          "target": 0.02,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.02249,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": null,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": null,
+          "target": -0.22,
+          "direction": "max_drawdown_floor",
+          "pass": null
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 9.69,
+          "target": 55.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 16.78,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": false
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "tseries_models",
+      "model_code": "T-STOCK-V01",
+      "display_name": "T-STOCK-V01",
+      "model_profile": "timing_discovery",
+      "asof_date": "2026-05-15",
+      "metric_basis": "weekly_top20_equal_weight_proxy",
+      "review_state": "WATCH",
+      "recommended_action": "REVIEW_NEXT_WEEK",
+      "review_reasons": [
+        "live_current_avg_return actual=-0.035458 target=0.0"
+      ],
+      "qualitative_assessment_ko": "T-STOCK-V01는 B등급(89.84)으로 관찰 구간입니다. 표본신뢰도는 medium이며, 다음 주말 검증에서 개선 여부를 확인해야 합니다.",
+      "validation_score": {
+        "total_score": 89.84,
+        "grade": "B",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 66.14,
+        "risk_score": 100.0,
+        "consistency_score": 100.0,
+        "model_value_score": 100.0,
+        "backtest_reference_score": 100.0,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "timing_discovery",
+        "primary_metric": "confirmed_candidate_quality",
+        "min_backtest_1y_return": 0.3,
+        "min_backtest_sharpe_1y": 1.2,
+        "max_backtest_mdd_1y": -0.28,
+        "min_live_1m_avg_return": 0.02,
+        "min_live_1m_win_rate": 0.55,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 65.0,
+        "min_total_validation_score": 62.0,
+        "min_confirmed_t10_hit_rate": 50.0,
+        "min_confirmed_avg_excess_vs_all_1m": 1.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.017095,
+        "trailing_3m": 0.201472,
+        "trailing_6m": 0.380057,
+        "trailing_1y": 1.691558,
+        "itd_return": 22.898935,
+        "cagr": 0.448092,
+        "mdd_1y": -0.200643,
+        "sharpe_1y": 2.440701,
+        "sample_count": 3
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-04-01",
+        "live_event_count": 71,
+        "latest_live_event_date": "2026-05-15",
+        "current_avg_return": -0.035458,
+        "current_win_rate": 0.225352,
+        "current_avg_mdd": -0.15276,
+        "one_month_sample_count": 17,
+        "sample_confidence": "medium",
+        "one_month_avg_return": 0.094524,
+        "one_month_win_rate": 0.588235,
+        "one_month_avg_mdd": -0.141166
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": 0.094524,
+          "target": 0.02,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.035458,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": 0.588235,
+          "target": 0.55,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": -0.141166,
+          "target": -0.28,
+          "direction": "max_drawdown_floor",
+          "pass": true
+        },
+        {
+          "metric": "confirmed_t10_hit_rate",
+          "actual": 70.78968573730863,
+          "target": 50.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "confirmed_avg_excess_vs_all_1m",
+          "actual": 4.373088805332742,
+          "target": 1.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 100.0,
+          "target": 65.0,
+          "direction": "higher_is_better",
+          "pass": true
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 89.84,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": true
+        }
+      ],
+      "supporting_validation": {
+        "source": "D:\\Quant\\reports\\model_upgrade_research\\20260515\\T_STOCK_V01_OPERATIONALIZATION\\t_stock_v01_validation_summary_20260515.csv",
+        "summary": {
+          "confirmed_t10_hit_rate": 70.78968573730863,
+          "confirmed_t3_hit_rate": 20.950846091861404,
+          "confirmed_avg_ret_1m": 6.39003995255325,
+          "confirmed_avg_excess_vs_all_1m": 4.373088805332742,
+          "confirmed_obs_n": 2482
+        }
+      },
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    },
+    {
+      "scope": "tseries_models",
+      "model_code": "T-ETF-V01",
+      "display_name": "T-ETF-V01",
+      "model_profile": "etf_timing_defensive",
+      "asof_date": "2026-05-15",
+      "metric_basis": "weekly_top20_equal_weight_proxy",
+      "review_state": "REVIEW",
+      "recommended_action": "MODEL_REVIEW_OR_DOWNGRADE_CANDIDATE",
+      "review_reasons": [
+        "live_current_avg_return actual=-0.009786 target=0.0",
+        "model_value_score actual=11.28 target=50.0",
+        "total_validation_score actual=16.79 target=85.0"
+      ],
+      "qualitative_assessment_ko": "T-ETF-V01는 C등급(16.79)이며 live_current_avg_return 미달입니다. 표본신뢰도는 low입니다. 현행 확대 적용은 보류하고 보정·강등·중단 후보로 검토해야 합니다.",
+      "validation_score": {
+        "total_score": 16.79,
+        "grade": "C",
+        "grade_rule": "S>=95, A>=90, B>=85, C<85",
+        "profitability_score": 22.55,
+        "risk_score": 0.0,
+        "consistency_score": 0.0,
+        "model_value_score": 11.28,
+        "backtest_reference_score": 88.94,
+        "score_weights": {
+          "live_1m_avg_return": 0.35,
+          "live_current_avg_return": 0.15,
+          "live_1m_win_rate": 0.15,
+          "live_1m_avg_mdd": 0.15,
+          "model_value": 0.1,
+          "backtest_reference": 0.1
+        },
+        "score_basis": "live_first_v3",
+        "backtest_reference_only": true
+      },
+      "target": {
+        "target_profile": "etf_timing_defensive",
+        "primary_metric": "etf_return_with_drawdown_guard",
+        "min_backtest_1y_return": 0.12,
+        "min_backtest_sharpe_1y": 1.0,
+        "max_backtest_mdd_1y": -0.15,
+        "min_live_1m_avg_return": 0.005,
+        "min_live_1m_win_rate": 0.52,
+        "min_live_1m_sample_count": 10,
+        "min_live_current_avg_return": 0.0,
+        "min_model_value_score": 50.0,
+        "min_total_validation_score": 58.0
+      },
+      "current_backtest_metrics": {
+        "trailing_1m": 0.07659,
+        "trailing_3m": 0.170235,
+        "trailing_6m": 0.12432,
+        "trailing_1y": 0.506777,
+        "itd_return": 1.633259,
+        "cagr": 0.142134,
+        "mdd_1y": -0.22453,
+        "sharpe_1y": 1.29894,
+        "sample_count": 1
+      },
+      "current_live_metrics": {
+        "live_start_date": "2026-04-01",
+        "live_event_count": 6,
+        "latest_live_event_date": "2026-05-12",
+        "current_avg_return": -0.009786,
+        "current_win_rate": 0.333333,
+        "current_avg_mdd": -0.043926,
+        "one_month_sample_count": 0,
+        "sample_confidence": "low",
+        "one_month_avg_return": null,
+        "one_month_win_rate": null,
+        "one_month_avg_mdd": null
+      },
+      "metric_checks": [
+        {
+          "metric": "live_1m_avg_return",
+          "actual": null,
+          "target": 0.005,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_current_avg_return",
+          "actual": -0.009786,
+          "target": 0.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "live_1m_win_rate",
+          "actual": null,
+          "target": 0.52,
+          "direction": "higher_is_better",
+          "pass": null
+        },
+        {
+          "metric": "live_1m_avg_mdd",
+          "actual": null,
+          "target": -0.15,
+          "direction": "max_drawdown_floor",
+          "pass": null
+        },
+        {
+          "metric": "model_value_score",
+          "actual": 11.28,
+          "target": 50.0,
+          "direction": "higher_is_better",
+          "pass": false
+        },
+        {
+          "metric": "total_validation_score",
+          "actual": 16.79,
+          "target": 85.0,
+          "direction": "higher_is_better",
+          "pass": false
+        }
+      ],
+      "supporting_validation": null,
+      "notes": [
+        "Backtest metrics are published model NAV/proxy metrics.",
+        "Live metrics use actual market-price forward returns since model live start.",
+        "Weekly model correction/suspension decisions should use weekend review only."
+      ]
+    }
+  ],
+  "source_payloads": {
+    "admin_new_entry_tracker": "D:\\Quant\\service_platform\\web\\admin_data\\current\\admin_new_entry_tracker.json",
+    "internal_model_performance_history": "D:\\Quant\\service_platform\\web\\admin_data\\current\\internal_model_performance_history.json",
+    "internal_model_validation_history": "D:\\Quant\\service_platform\\web\\admin_data\\current\\internal_model_validation_history.json"
+  }
+}

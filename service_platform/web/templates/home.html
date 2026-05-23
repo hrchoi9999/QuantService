@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if ui_redesign_enabled %}
+{% include "_redesign_home.html" %}
+{% else %}
 <section class="hero-card hero-stage home-hero">
   <div class="hero-main hero-copy-block">
     <div class="hero-badges">
@@ -11,7 +14,7 @@
     <h1>다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보를 한 화면에서 확인해 보세요.</h1>
     <p class="lead">REDBOT은 멀티애셋 데이터 기반 퀀트투자 모델, 시장 브리핑, 모델 변경내역을 같은 기준으로 정리해 제공합니다.</p>
     <div class="stack-actions hero-actions">
-      <a class="primary-button" href="{{ url_for('today') }}">이번 주 모델 기준안 보기</a>
+      <a class="primary-button" href="{{ url_for('today') }}">전략별 퀀트모델 보기</a>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
       <a class="secondary-button" href="{{ url_for('performance') }}">모델 성과 설명 보기</a>
     </div>
@@ -26,7 +29,7 @@
     </div>
   </div>
   <aside class="hero-side shell-card spotlight-panel">
-    <div class="spotlight-grid">
+    <div class="spotlight-grid spotlight-grid-fixed">
       <div class="spotlight-card">
         <span class="label">모델 수</span>
         <strong>{{ bundle.user_models.models | length }}</strong>
@@ -46,14 +49,63 @@
 
 {% include "_notice_group.html" %}
 
+{% if bundle.recent_changes.changes %}
+<section class="panel shell-card home-changes-panel">
+  <div class="section-heading feature-headline">
+    <div>
+      <h2>변경 내역</h2>
+      <p class="muted small">기준일 {{ bundle.recent_changes.as_of_date or bundle.as_of_date or '-' }} 공개 모델의 비중 증가/감소 종목을 요약했습니다.</p>
+    </div>
+    <a class="text-link" href="{{ url_for('changes') }}">변경내역 전체 보기</a>
+  </div>
+  <div class="feature-grid three-up home-change-card-grid">
+    {% for change in bundle.recent_changes.changes %}
+    <article class="feature-card shell-card strategy-card home-change-card">
+      <div class="model-head">
+        <div class="title-stack">
+          <h3>{{ (change.quant_model_name or (change.user_model_name ~ " 모델")) | replace(" 퀀트투자 모델", " 모델") }}</h3>
+          <p class="muted small">{{ change.summary }}</p>
+        </div>
+        <span class="badge neutral">{{ change.change_badge_label or "모델 변경" }}</span>
+      </div>
+      <div class="grid two-up nested-grid home-change-mini-grid">
+        <div class="sub-panel shell-card change-subpanel increase-panel">
+          <span class="label">비중 증가</span>
+          <ul class="message-list compact-list clean-list">
+            {% for item in change.increase_items[:3] %}
+            <li class="change-entry change-entry-up"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
+            {% endfor %}
+            {% if not change.increase_items %}
+            <li>해당 없음</li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="sub-panel shell-card change-subpanel decrease-panel">
+          <span class="label">비중 감소</span>
+          <ul class="message-list compact-list clean-list">
+            {% for item in change.decrease_items[:3] %}
+            <li class="change-entry change-entry-down"><span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span><span class="change-entry-delta">{{ item.delta_weight | fmt_signed_percent }}</span></li>
+            {% endfor %}
+            {% if not change.decrease_items %}
+            <li>해당 없음</li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 {% if tseries_overview and tseries_overview.models %}
 <section class="panel shell-card">
   <div class="section-heading feature-headline">
     <div>
-      <h2>T-series Discovery</h2>
-      <p class="muted small">전이형 발굴 모델을 stock / ETF watchlist 성격으로 분리 조회할 수 있습니다.</p>
+      <h2>상승종목 발굴</h2>
+      <p class="muted small">전이형 발굴 모델을 주식 / ETF 관찰 목록 성격으로 분리 조회할 수 있습니다.</p>
     </div>
-    <a class="text-link" href="{{ url_for('discovery') }}">전체 discovery 보기</a>
+    <a class="text-link" href="{{ url_for('discovery') }}">상승종목 발굴 전체 보기</a>
   </div>
   {% if tseries_overview.warnings %}
   <div class="warning-banner">{{ tseries_overview.warnings[0] }}</div>
@@ -71,15 +123,15 @@
       <p class="strategy-summary">{{ model.meta.disclaimer_ko }}</p>
       <div class="mini-metric-grid">
         <div>
-          <span class="label">confirmed</span>
+          <span class="label">우선 후보</span>
           <strong>{{ model.bucket_counts.confirmed }}</strong>
         </div>
         <div>
-          <span class="label">near</span>
+          <span class="label">근접 후보</span>
           <strong>{{ model.bucket_counts.near }}</strong>
         </div>
         <div>
-          <span class="label">observe</span>
+          <span class="label">관찰 후보</span>
           <strong>{{ model.bucket_counts.observe }}</strong>
         </div>
       </div>
@@ -146,6 +198,40 @@
     </div>
     {% endif %}
   </div>
+  {% if ui_redesign_enabled and market_home_chart_view.enabled %}
+  <section class="market-redesign-chart-grid market-redesign-chart-grid--home">
+    {% if market_home_chart_view.timeline.enabled %}
+    <article class="panel shell-card market-chart-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>상태점수 추이</h3>
+          <p class="muted small">최근 시장 상태점수 흐름</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell market-chart-shell--compact"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ market_home_chart_view.timeline.chart_series | tojson }}'
+      ></div>
+    </article>
+    {% endif %}
+    {% if market_home_chart_view.asset_strength.enabled %}
+    <article class="panel shell-card market-chart-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>자산군 상대강도</h3>
+          <p class="muted small">강도 점수 기준</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell market-chart-shell--compact"
+        data-rb-chart="bar"
+        data-rb-chart-series='{{ market_home_chart_view.asset_strength.chart_bars | tojson }}'
+      ></div>
+    </article>
+    {% endif %}
+  </section>
+  {% endif %}
   {% else %}
   <div class="warning-banner">시장 브리핑 데이터가 아직 준비되지 않았습니다. 잠시 후 다시 확인해 주세요.</div>
   {% endif %}
@@ -154,9 +240,9 @@
 <section class="section-block">
   <div class="section-heading feature-headline">
     <div>
-      <h2>이번 주 퀀트투자 모델을 빠르게 확인해 보세요.</h2>
+      <h2>이번 주 모델을 빠르게 확인해 보세요.</h2>
     </div>
-    <a class="text-link" href="{{ url_for('today') }}">전체 모델 기준안 보기</a>
+    <a class="text-link" href="{{ url_for('today') }}">전략별 퀀트모델 전체 보기</a>
   </div>
   <div class="feature-grid four-up">
     {% for model in bundle.user_models.models %}
@@ -165,11 +251,11 @@
     <article class="feature-card shell-card strategy-card">
       <div class="model-head">
         <div class="title-stack">
-          <h3>{{ model.quant_model_name or (model.user_model_name ~ " 퀀트투자 모델") }}</h3>
+          <h3>{{ (model.quant_model_name or (model.user_model_name ~ " 모델")) | replace(" 퀀트투자 모델", " 모델") }}</h3>
         </div>
         <span class="badge accent">위험도 {{ risk_labels.get(model.risk_label, model.risk_label) }}</span>
       </div>
-      <p class="muted small">{{ model.model_definition_line or "공개 기준 기반 퀀트투자 모델" }}</p>
+      <p class="muted small">{{ (model.model_definition_line or "공개 기준 기반 모델") | replace("퀀트투자 ", "") }}</p>
       <p class="strategy-summary">{{ model.model_definition_detail or model.summary }}</p>
       <p class="muted small">{{ model.reference_usage_context }}</p>
       <div class="chip-row">
@@ -199,14 +285,14 @@
 
 <section class="grid two-up product-story-grid">
   <article class="panel shell-card">
-    <h2>읽기 쉬운 퀀트투자 모델 브리핑</h2>
+    <h2>읽기 쉬운 모델 브리핑</h2>
     <div class="product-pillars">
       <div class="feature-note">
         <strong>모델별 구성 차이</strong>
-        <p>안정형부터 자동전환형까지 각 퀀트투자 모델의 성격과 성과를 같은 기준으로 비교합니다.</p>
+        <p>안정형부터 성장형까지 각 모델의 성격과 성과를 같은 기준으로 비교합니다.</p>
       </div>
       <div class="feature-note">
-        <strong>기준일 모델 기준안</strong>
+        <strong>기준일 전략별 퀀트모델</strong>
         <p>기준일 모델 구성과 핵심 편입 자산을 빠르게 확인할 수 있습니다.</p>
       </div>
       <div class="feature-note">
@@ -221,7 +307,7 @@
       {% for row in bundle.performance_summary.models %}
       <div class="summary-row modern-summary-row">
         <div>
-          <strong>{{ row.quant_model_name or row.user_model_name }}</strong>
+          <strong>{{ (row.quant_model_name or row.user_model_name) | replace(" 퀀트투자 모델", " 모델") }}</strong>
           <p class="muted small">{{ row.model_definition_detail or row.note }}</p>
         </div>
         <div class="summary-metrics">
@@ -234,4 +320,5 @@
     </div>
   </article>
 </section>
+{% endif %}
 {% endblock %}

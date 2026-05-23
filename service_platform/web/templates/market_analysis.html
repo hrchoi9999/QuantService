@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if ui_redesign_enabled %}
+{% include "_redesign_market_analysis.html" %}
+{% else %}
 <section class="hero-card compact-hero hero-stage market-analysis-hero">
   <div class="hero-main">
     <div class="hero-badges">
@@ -16,19 +19,45 @@
     <section class="market-ai-briefs" aria-label="{{ market_page_view.ai_briefs.title }}">
       <div class="section-heading tight-head">
         <div>
-          <h2>{{ market_page_view.ai_briefs.title }}</h2>
+          <h2 class="market-ai-brief-title">
+            {% if market_page_view.ai_briefs.has_gemini %}
+            <img
+              class="market-ai-brief-logo"
+              src="{{ url_for('static', filename='ai_logos/gemini.svg') }}"
+              alt="Gemini 로고"
+            >
+            {% endif %}
+            {{ market_page_view.ai_briefs.title }}
+          </h2>
         </div>
       </div>
       {% if market_page_view.ai_briefs.cards %}
       <div class="market-ai-brief-grid">
         {% for card in market_page_view.ai_briefs.cards %}
+        {% if card.split_enabled %}
         <article class="panel shell-card market-ai-brief-card">
           <div class="market-ai-brief-header">
-            <img
-              class="market-ai-brief-logo"
-              src="{{ url_for('static', filename='ai_logos/' + ('gemini.svg' if card.provider == 'gemini' else 'chatgpt.svg')) }}"
-              alt="{{ card.label }} 로고"
-            >
+            <h3>긍정적 요인</h3>
+          </div>
+          <ul class="market-ai-brief-copy" role="list">
+            {% for line in card.positive_lines %}
+            <li>{{ line }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        <article class="panel shell-card market-ai-brief-card">
+          <div class="market-ai-brief-header">
+            <h3>리스크 요인</h3>
+          </div>
+          <ul class="market-ai-brief-copy" role="list">
+            {% for line in card.risk_lines %}
+            <li>{{ line }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        {% else %}
+        <article class="panel shell-card market-ai-brief-card">
+          <div class="market-ai-brief-header">
             <h3>{{ card.full_title or card.label }}</h3>
           </div>
           <ul class="market-ai-brief-copy" role="list">
@@ -37,6 +66,7 @@
             {% endfor %}
           </ul>
         </article>
+        {% endif %}
         {% endfor %}
       </div>
       {% elif market_page_view.ai_briefs.show_placeholder %}
@@ -51,7 +81,7 @@
     {% if market_page_view.header_state.description or market_page_view.header_state.tooltip %}
     <p class="market-state-help muted small">{{ market_page_view.header_state.description or market_page_view.header_state.tooltip }}</p>
     {% endif %}
-    {% if market_next_day_preview_view.show_default %}
+    {% if market_next_day_preview_view.show_market_analysis %}
     {% set variant = "full" %}
     {% include "_market_next_day_preview.html" %}
     {% endif %}
@@ -69,6 +99,40 @@
         <p>일부 지수 수익률 지표는 정의를 다시 확인한 뒤 재공개할 예정입니다.</p>
       </div>
     </div>
+    {% if ui_redesign_enabled and (market_timeline_view.enabled or market_asset_strength_view.enabled) %}
+    <section class="market-redesign-chart-grid">
+      {% if market_timeline_view.enabled %}
+      <article class="panel shell-card market-chart-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h2>상태점수 추이</h2>
+            <p class="muted small">최근 업데이트 구간의 시장 상태점수 흐름입니다.</p>
+          </div>
+        </div>
+        <div
+          class="market-chart-shell"
+          data-rb-chart="line"
+          data-rb-chart-series='{{ market_timeline_view.chart_series | tojson }}'
+        ></div>
+      </article>
+      {% endif %}
+      {% if market_asset_strength_view.enabled %}
+      <article class="panel shell-card market-chart-card">
+        <div class="section-heading tight-head">
+          <div>
+            <h2>자산군 상대강도</h2>
+            <p class="muted small">자산군별 strength score를 비교합니다.</p>
+          </div>
+        </div>
+        <div
+          class="market-chart-shell"
+          data-rb-chart="bar"
+          data-rb-chart-series='{{ market_asset_strength_view.chart_bars | tojson }}'
+        ></div>
+      </article>
+      {% endif %}
+    </section>
+    {% endif %}
   </div>
 </section>
 
@@ -97,174 +161,7 @@
 </section>
 {% endif %}
 
-{% if market_timeline_view.enabled %}
-<section class="panel shell-card market-timeline-panel">
-  <div class="section-heading tight-head">
-    <div>
-      <h2>{{ market_timeline_view.title }}</h2>
-      <p class="muted small">{{ market_timeline_view.description }}</p>
-    </div>
-    <span class="badge neutral">{{ market_timeline_view.trend_direction }}</span>
-  </div>
-  <div class="market-timeline-track" aria-label="상태 타임라인">
-    {% for row in market_timeline_view.rows %}
-    <div class="market-timeline-point">
-      <span class="market-timeline-dot" style="left: {{ row.position_percent }}%;"></span>
-      <div class="market-timeline-meta">
-        <strong>{{ row.state_label }}</strong>
-        <span>{{ row.score_text }}</span>
-        <span class="muted small">{{ row.asof_display }}</span>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
 
-{% if market_page_view.component_cards %}
-<section class="market-card-grid">
-  {% for item in market_page_view.component_cards %}
-  <article class="panel shell-card market-component-card">
-    <span class="label">{{ item.label }}</span>
-    <div class="market-component-score-row">
-      <h2>{% if item.score is not none %}{{ '%.2f'|format(item.score) }}{% else %}-{% endif %}</h2>
-      {% if item.status_badge.label %}
-      <span class="market-status-badge market-status-badge--{{ item.status_badge.tone }}"{% if item.status_badge.reason %} title="{{ item.status_badge.reason }}"{% endif %}>{{ item.status_badge.label }}</span>
-      {% endif %}
-    </div>
-    <p>{{ item.summary }}</p>
-    {% if item.description %}
-    <p class="muted small market-component-description">{{ item.description }}</p>
-    {% endif %}
-    {% if item.status_badge.reason %}
-    <p class="muted small market-status-badge-reason">{{ item.status_badge.reason }}</p>
-    {% endif %}
-  </article>
-  {% endfor %}
-</section>
-{% endif %}
-
-{% if market_model_background_view.enabled %}
-<section class="panel shell-card market-background-panel">
-  <div class="section-heading tight-head">
-    <div>
-      <h2>{{ market_model_background_view.title }}</h2>
-      <p class="muted small">{{ market_model_background_view.description }}</p>
-    </div>
-    <span class="badge neutral">{{ market_model_background_view.briefing_tone }}</span>
-  </div>
-  <p class="lead compact-lead">{{ market_model_background_view.summary_line }}</p>
-  <p class="muted">{{ market_model_background_view.reference_note }}</p>
-  {% if market_model_background_view.points %}
-  <ul class="message-list compact-list clean-list market-background-points">
-    {% for item in market_model_background_view.points %}
-    <li>{{ item }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</section>
-{% endif %}
-
-<section class="grid two-up market-signal-grid">
-  <article class="panel shell-card">
-    <h2>{{ market_page_view.positive_label }}</h2>
-    <ul class="message-list compact-list clean-list">
-      {% for item in market_page_view.positive_points %}
-      <li>{{ item }}</li>
-      {% endfor %}
-      {% if not market_page_view.positive_points %}
-      <li>표시할 긍정 신호가 아직 없습니다.</li>
-      {% endif %}
-    </ul>
-  </article>
-  <article class="panel shell-card">
-    <h2>{{ market_page_view.warning_label }}</h2>
-    <ul class="message-list compact-list clean-list">
-      {% for item in market_page_view.warning_points %}
-      <li>{{ item }}</li>
-      {% endfor %}
-      {% if not market_page_view.warning_points %}
-      <li>표시할 주의 신호가 아직 없습니다.</li>
-      {% endif %}
-    </ul>
-  </article>
-</section>
-
-<section class="panel shell-card market-action-panel">
-  <h2>{{ market_page_view.observation_title }}</h2>
-  <p class="muted small">{{ market_page_view.observation_description }}</p>
-  <p class="lead compact-lead">{{ market_page_view.observation_note }}</p>
-</section>
-
-{% if market_asset_strength_view.enabled %}
-<section class="panel shell-card market-asset-strength-panel">
-  <div class="section-heading tight-head">
-    <div>
-      <h2>{{ market_asset_strength_view.title }}</h2>
-      <p class="muted small">{{ market_asset_strength_view.description }}</p>
-    </div>
-  </div>
-  <div class="grid two-up preview-two-up market-strength-summary-grid">
-    <div class="metric-card public-metric-card">
-      <span class="label">현재 상대적으로 강한 자산</span>
-      <strong>{{ market_asset_strength_view.top_assets_text }}</strong>
-    </div>
-    <div class="metric-card public-metric-card">
-      <span class="label">현재 상대적으로 약한 자산</span>
-      <strong>{{ market_asset_strength_view.bottom_assets_text }}</strong>
-    </div>
-  </div>
-  <div class="table-wrap compact-table">
-    <table>
-      <thead>
-        <tr>
-          <th>순위</th>
-          <th>자산군</th>
-          <th>강도 라벨</th>
-          <th>20일 흐름</th>
-          <th>강도 점수</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in market_asset_strength_view.assets %}
-        <tr>
-          <td>{{ row.strength_rank }}</td>
-          <td>{{ row.asset_group }}</td>
-          <td>{{ row.strength_label }}</td>
-          <td>{{ row.ret_20d_display }}</td>
-          <td>{{ row.strength_score_display }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
-{% endif %}
-
-{% if market_state_transition_view.enabled %}
-<section class="panel shell-card market-transition-panel">
-  <div class="section-heading tight-head">
-    <div>
-      <h2>{{ market_state_transition_view.title }}</h2>
-      <p class="muted small">{{ market_state_transition_view.description }}</p>
-    </div>
-  </div>
-  <p class="lead compact-lead">{{ market_state_transition_view.summary_line }}</p>
-  <div class="metric-strip four-col preview-summary-grid compact-grid">
-    {% for card in market_state_transition_view.cards %}
-    <div class="metric-card public-metric-card">
-      <span class="label">{{ card.label }}</span>
-      <strong>{{ card.value }}</strong>
-    </div>
-    {% endfor %}
-  </div>
-  <ul class="message-list compact-list clean-list market-transition-list">
-    {% for row in market_state_transition_view.recent_changes %}
-    <li><strong>{{ row.state_label }}</strong> · {{ row.direction_label }} · {{ row.score_text }} · {{ row.asof_display }}</li>
-    {% endfor %}
-  </ul>
-</section>
-{% endif %}
 
 <section class="market-metric-groups">
   {% for group in market_page_view.metric_groups %}
@@ -317,7 +214,7 @@
     {% endfor %}
   </ul>
   <div class="stack-actions">
-    <a class="secondary-button" href="{{ url_for('today') }}">이번 주 모델 기준안 보기</a>
+    <a class="secondary-button" href="{{ url_for('today') }}">전략별 퀀트모델 보기</a>
     <a class="secondary-button" href="{{ url_for('changes') }}">변경내역 보기</a>
   </div>
 </section>
@@ -335,5 +232,6 @@
   <p class="muted small">{{ market_page_view.notice_block.performance_link_note }}</p>
   {% endif %}
 </section>
+{% endif %}
 {% endif %}
 {% endblock %}

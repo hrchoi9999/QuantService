@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero hero-stage market-environment-hero">
+  <div class="hero-main">
+    <div class="hero-badges">
+      <span class="badge accent">공개 정보</span>
+      <span class="badge neutral">시장 데이터 차트</span>
+    </div>
+    <h1>{{ environment_view.page_title or "시장 환경 지표" }}</h1>
+    <p class="lead">{{ environment_view.description }}</p>
+    <p class="muted small">
+      기준 {{ environment_view.asof or "-" }}
+      · 생성 {{ environment_view.generated_at or "-" }}
+      · 지표 {{ environment_view.total_series_count }}개
+    </p>
+  </div>
+</section>
+
+{% if environment_view.enabled %}
+<section class="panel shell-card market-environment-guide">
+  <strong>데이터 안내</strong>
+  <span>{{ environment_view.data_note }}</span>
+</section>
+
+{% for section in environment_view.sections %}
+<section class="panel shell-card market-environment-section">
+  <div class="market-analysis-panel-head">
+    <div>
+      <h2>{{ section.title }}</h2>
+      {% if section.description %}<p class="muted small">{{ section.description }}</p>{% endif %}
+    </div>
+    <span class="badge neutral">{{ section.series|length }}개 지표</span>
+  </div>
+
+  {% if section.coverage_warning %}
+  <div class="warning-banner market-environment-warning">{{ section.coverage_warning }}</div>
+  {% endif %}
+
+  <div class="market-environment-grid">
+    {% for series in section.series %}
+    <article
+      class="market-environment-card"
+      data-environment-chart-card
+      data-environment-title="{{ series.title }}"
+      data-environment-source="{{ series.source_provider }} · {{ series.source_detail }}"
+      data-environment-period="{{ series.period_label }}"
+      data-environment-series='{{ series.chart_series | tojson }}'
+      data-environment-popup-height="{{ environment_view.popup_chart_height }}"
+    >
+      <button class="market-environment-card__button" type="button" aria-label="{{ series.title }} 확대 보기">
+        <div class="market-environment-card__head">
+          <div>
+            <strong>{{ series.title }}</strong>
+            {% if series.category %}<span>{{ series.category }}</span>{% endif %}
+          </div>
+          <em>{{ series.latest_value }}</em>
+        </div>
+        {% if series.has_data %}
+        <div
+          class="market-chart-shell market-chart-shell--small market-environment-chart"
+          style="height: {{ series.chart_height }}px"
+          data-rb-chart="line"
+          data-rb-chart-series='{{ series.chart_series | tojson }}'
+        ></div>
+        {% else %}
+        <div class="market-environment-empty">데이터 준비 중</div>
+        {% endif %}
+        <div class="market-environment-card__meta">
+          <span>{{ series.period_label or "기간 정보 없음" }}</span>
+          <span>{{ series.source_provider }} · {{ series.source_detail }}</span>
+          <span>최신 {{ series.latest_date }}</span>
+        </div>
+      </button>
+    </article>
+    {% else %}
+    <div class="market-environment-empty">데이터 준비 중</div>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="panel shell-card market-environment-notice">
+  <h2>{{ environment_view.notice_title }}</h2>
+  <ul>
+    {% for line in environment_view.notice_body %}
+    <li>{{ line }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<div class="market-environment-modal" data-environment-modal hidden>
+  <div class="market-environment-modal__backdrop" data-environment-modal-close></div>
+  <section class="market-environment-modal__panel" role="dialog" aria-modal="true" aria-label="시장 환경 지표 확대 차트">
+    <button class="market-environment-modal__close" type="button" data-environment-modal-close>닫기</button>
+    <div class="market-environment-modal__head">
+      <h2 data-environment-modal-title>시장 환경 지표</h2>
+      <p class="muted small" data-environment-modal-meta></p>
+    </div>
+    <div class="market-chart-shell market-environment-modal__chart" data-environment-modal-chart></div>
+    <p class="muted small" data-environment-modal-period></p>
+  </section>
+</div>
+{% else %}
+<section class="panel shell-card">
+  <h2>시장 환경 지표 데이터가 아직 준비되지 않았습니다.</h2>
+  <p class="muted">QM remote handoff가 도착하면 이 페이지에 차트가 표시됩니다.</p>
+</section>
+{% endif %}
+{% endblock %}

@@ -23,8 +23,24 @@ MARKET_ANALYSIS_FILES = {
     "asset_strength": "quantservice_market_asset_strength.json",
     "state_transition": "quantservice_market_state_transition.json",
     "model_background": "quantservice_market_model_background.json",
+    "timeline_history": "quantservice_market_timeline_history.json",
+    "asset_strength_history": "quantservice_market_asset_strength_history.json",
+    "state_transition_history": "quantservice_market_state_transition_history.json",
     "next_day_preview": "quantservice_market_next_day_preview.json",
+    "next_day_preview_history": "quantservice_market_next_day_preview_history.json",
     "next_day_preview_manifest": "market_next_day_preview_manifest.json",
+    "analysis_tabs": "quantservice_market_analysis_tabs.json",
+    "live_context": "quantservice_market_live_context.json",
+    "data_guide": "quantservice_market_data_guide.json",
+    "dart_summary": "quantservice_market_dart_summary.json",
+    "dart_summary_history": "quantservice_market_dart_summary_history.json",
+    "breadth_detail": "quantservice_market_breadth_detail.json",
+    "breadth_detail_history": "quantservice_market_breadth_detail_history.json",
+    "us_macro_panel": "quantservice_market_us_macro_panel.json",
+    "us_macro_panel_history": "quantservice_market_us_macro_panel_history.json",
+    "environment_indicators": "quantservice_market_environment_indicators.json",
+    "api_environment_indicators": "api_v1_market_environment_indicators.json",
+    "environment_indicators_manifest": "quantservice_market_environment_indicators_manifest.json",
     "api_home": "api_v1_market_analysis_home.json",
     "api_page": "api_v1_market_analysis_page.json",
     "api_summary": "api_v1_market_analysis_summary.json",
@@ -35,21 +51,89 @@ MARKET_ANALYSIS_FILES = {
     "api_state_transition": "api_v1_market_analysis_state_transition.json",
     "api_model_background": "api_v1_market_analysis_model_background.json",
     "api_next_day_preview": "api_v1_market_analysis_next_day_preview.json",
+    "api_analysis_tabs": "api_v1_market_analysis_tabs.json",
+    "api_live_context": "api_v1_market_analysis_live_context.json",
+    "api_data_guide": "api_v1_market_analysis_data_guide.json",
+    "api_dart_summary": "api_v1_market_analysis_dart_summary.json",
+    "api_dart_summary_history": "api_v1_market_analysis_dart_summary_history.json",
+    "api_breadth_detail": "api_v1_market_analysis_breadth_detail.json",
+    "api_breadth_detail_history": "api_v1_market_analysis_breadth_detail_history.json",
+    "api_us_macro_panel": "api_v1_market_analysis_us_macro_panel.json",
+    "api_us_macro_panel_history": "api_v1_market_analysis_us_macro_panel_history.json",
+    "api_timeline_history": "api_v1_market_analysis_timeline_history.json",
+    "api_asset_strength_history": "api_v1_market_analysis_asset_strength_history.json",
+    "api_state_transition_history": "api_v1_market_analysis_state_transition_history.json",
+    "api_next_day_preview_history": "api_v1_market_analysis_next_day_preview_history.json",
 }
 OPTIONAL_MARKET_ANALYSIS_KEYS = {
     "timeline",
     "asset_strength",
     "state_transition",
     "model_background",
+    "timeline_history",
+    "asset_strength_history",
+    "state_transition_history",
+    "next_day_preview_history",
     "api_timeline",
     "api_asset_strength",
     "api_state_transition",
     "api_model_background",
     "next_day_preview",
     "next_day_preview_manifest",
+    "analysis_tabs",
+    "live_context",
+    "data_guide",
+    "dart_summary",
+    "dart_summary_history",
+    "breadth_detail",
+    "breadth_detail_history",
+    "us_macro_panel",
+    "us_macro_panel_history",
+    "environment_indicators",
+    "api_environment_indicators",
+    "environment_indicators_manifest",
     "api_next_day_preview",
+    "api_analysis_tabs",
+    "api_live_context",
+    "api_data_guide",
+    "api_dart_summary",
+    "api_dart_summary_history",
+    "api_breadth_detail",
+    "api_breadth_detail_history",
+    "api_us_macro_panel",
+    "api_us_macro_panel_history",
+    "api_timeline_history",
+    "api_asset_strength_history",
+    "api_state_transition_history",
+    "api_next_day_preview_history",
 }
 REMOTE_SOURCES = {"remote", "http", "gcs"}
+HISTORY_MARKET_ANALYSIS_KEYS = {
+    "timeline_history",
+    "asset_strength_history",
+    "state_transition_history",
+    "next_day_preview_history",
+    "dart_summary_history",
+    "breadth_detail_history",
+    "us_macro_panel_history",
+    "api_timeline_history",
+    "api_asset_strength_history",
+    "api_state_transition_history",
+    "api_next_day_preview_history",
+    "api_dart_summary_history",
+    "api_breadth_detail_history",
+    "api_us_macro_panel_history",
+}
+STRICT_MARKET_ANALYSIS_ASOF_KEYS = {
+    "home",
+    "today",
+    "page",
+    "api_home",
+    "api_page",
+    "api_summary",
+    "api_detail",
+    "api_today_bridge",
+}
 
 
 def _normalized_asof(value: Any) -> str | None:
@@ -62,7 +146,7 @@ def _normalized_asof(value: Any) -> str | None:
 def _payload_asof(payload: dict[str, Any]) -> str | None:
     if not isinstance(payload, dict):
         return None
-    return _normalized_asof(payload.get("asof"))
+    return _normalized_asof(payload.get("asof") or payload.get("as_of_date"))
 
 
 class MarketAnalysisLoadError(RuntimeError):
@@ -81,8 +165,24 @@ class MarketAnalysisBundle:
     asset_strength: dict[str, Any] = field(default_factory=dict)
     state_transition: dict[str, Any] = field(default_factory=dict)
     model_background: dict[str, Any] = field(default_factory=dict)
+    timeline_history: dict[str, Any] = field(default_factory=dict)
+    asset_strength_history: dict[str, Any] = field(default_factory=dict)
+    state_transition_history: dict[str, Any] = field(default_factory=dict)
     next_day_preview: dict[str, Any] = field(default_factory=dict)
+    next_day_preview_history: dict[str, Any] = field(default_factory=dict)
     next_day_preview_manifest: dict[str, Any] = field(default_factory=dict)
+    analysis_tabs: dict[str, Any] = field(default_factory=dict)
+    live_context: dict[str, Any] = field(default_factory=dict)
+    data_guide: dict[str, Any] = field(default_factory=dict)
+    dart_summary: dict[str, Any] = field(default_factory=dict)
+    dart_summary_history: dict[str, Any] = field(default_factory=dict)
+    breadth_detail: dict[str, Any] = field(default_factory=dict)
+    breadth_detail_history: dict[str, Any] = field(default_factory=dict)
+    us_macro_panel: dict[str, Any] = field(default_factory=dict)
+    us_macro_panel_history: dict[str, Any] = field(default_factory=dict)
+    environment_indicators: dict[str, Any] = field(default_factory=dict)
+    api_environment_indicators: dict[str, Any] = field(default_factory=dict)
+    environment_indicators_manifest: dict[str, Any] = field(default_factory=dict)
     api_home: dict[str, Any] = field(default_factory=dict)
     api_page: dict[str, Any] = field(default_factory=dict)
     api_summary: dict[str, Any] = field(default_factory=dict)
@@ -93,6 +193,19 @@ class MarketAnalysisBundle:
     api_state_transition: dict[str, Any] = field(default_factory=dict)
     api_model_background: dict[str, Any] = field(default_factory=dict)
     api_next_day_preview: dict[str, Any] = field(default_factory=dict)
+    api_analysis_tabs: dict[str, Any] = field(default_factory=dict)
+    api_live_context: dict[str, Any] = field(default_factory=dict)
+    api_data_guide: dict[str, Any] = field(default_factory=dict)
+    api_dart_summary: dict[str, Any] = field(default_factory=dict)
+    api_dart_summary_history: dict[str, Any] = field(default_factory=dict)
+    api_breadth_detail: dict[str, Any] = field(default_factory=dict)
+    api_breadth_detail_history: dict[str, Any] = field(default_factory=dict)
+    api_us_macro_panel: dict[str, Any] = field(default_factory=dict)
+    api_us_macro_panel_history: dict[str, Any] = field(default_factory=dict)
+    api_timeline_history: dict[str, Any] = field(default_factory=dict)
+    api_asset_strength_history: dict[str, Any] = field(default_factory=dict)
+    api_state_transition_history: dict[str, Any] = field(default_factory=dict)
+    api_next_day_preview_history: dict[str, Any] = field(default_factory=dict)
     source_name: str = "market-analysis-local"
     stale: bool = False
     empty: bool = False
@@ -107,10 +220,22 @@ class MarketAnalysisBundle:
             or self.home.get("asof")
             or self.today.get("asof")
             or self.timeline.get("asof")
+            or self.timeline_history.get("asof")
+            or self.timeline_history.get("as_of_date")
             or self.asset_strength.get("asof")
+            or self.asset_strength_history.get("asof")
+            or self.asset_strength_history.get("as_of_date")
             or self.state_transition.get("asof")
             or self.model_background.get("asof")
             or self.next_day_preview.get("asof")
+            or self.analysis_tabs.get("asof")
+            or self.live_context.get("asof")
+            or self.data_guide.get("asof")
+            or self.dart_summary.get("asof")
+            or self.dart_summary.get("reference_date")
+            or self.breadth_detail.get("asof")
+            or self.us_macro_panel.get("asof")
+            or self.environment_indicators.get("asof")
         )
 
 
@@ -233,11 +358,13 @@ class MarketAnalysisMockApi:
 
     def _load_from_remote_current(self) -> MarketAnalysisBundle:
         base_url = self._get_remote_base_url()
+        history_base_url = self._get_remote_history_base_url(base_url)
         warnings: list[str] = []
         payloads: dict[str, dict[str, Any]] = {}
         request_token = str(int(time.time()))
         for key, filename in MARKET_ANALYSIS_FILES.items():
-            url = self._with_cache_buster(f"{base_url}/{filename}", request_token)
+            source_base_url = history_base_url if key in HISTORY_MARKET_ANALYSIS_KEYS else base_url
+            url = self._with_cache_buster(f"{source_base_url}/{filename}", request_token)
             required = key not in OPTIONAL_MARKET_ANALYSIS_KEYS and key != "manifest"
             payload = self._load_json_url(url, required=required)
             if payload is None:
@@ -254,8 +381,24 @@ class MarketAnalysisMockApi:
             asset_strength=payloads["asset_strength"],
             state_transition=payloads["state_transition"],
             model_background=payloads["model_background"],
+            timeline_history=payloads["timeline_history"],
+            asset_strength_history=payloads["asset_strength_history"],
+            state_transition_history=payloads["state_transition_history"],
             next_day_preview=payloads["next_day_preview"],
+            next_day_preview_history=payloads["next_day_preview_history"],
             next_day_preview_manifest=payloads["next_day_preview_manifest"],
+            analysis_tabs=payloads["analysis_tabs"],
+            live_context=payloads["live_context"],
+            data_guide=payloads["data_guide"],
+            dart_summary=payloads["dart_summary"],
+            dart_summary_history=payloads["dart_summary_history"],
+            breadth_detail=payloads["breadth_detail"],
+            breadth_detail_history=payloads["breadth_detail_history"],
+            us_macro_panel=payloads["us_macro_panel"],
+            us_macro_panel_history=payloads["us_macro_panel_history"],
+            environment_indicators=payloads["environment_indicators"],
+            api_environment_indicators=payloads["api_environment_indicators"],
+            environment_indicators_manifest=payloads["environment_indicators_manifest"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
@@ -266,6 +409,19 @@ class MarketAnalysisMockApi:
             api_state_transition=payloads["api_state_transition"],
             api_model_background=payloads["api_model_background"],
             api_next_day_preview=payloads["api_next_day_preview"],
+            api_analysis_tabs=payloads["api_analysis_tabs"],
+            api_live_context=payloads["api_live_context"],
+            api_data_guide=payloads["api_data_guide"],
+            api_dart_summary=payloads["api_dart_summary"],
+            api_dart_summary_history=payloads["api_dart_summary_history"],
+            api_breadth_detail=payloads["api_breadth_detail"],
+            api_breadth_detail_history=payloads["api_breadth_detail_history"],
+            api_us_macro_panel=payloads["api_us_macro_panel"],
+            api_us_macro_panel_history=payloads["api_us_macro_panel_history"],
+            api_timeline_history=payloads["api_timeline_history"],
+            api_asset_strength_history=payloads["api_asset_strength_history"],
+            api_state_transition_history=payloads["api_state_transition_history"],
+            api_next_day_preview_history=payloads["api_next_day_preview_history"],
             source_name="market-analysis-remote",
             warnings=warnings,
         )
@@ -295,6 +451,9 @@ class MarketAnalysisMockApi:
             ("asset_strength", bundle.asset_strength),
             ("state_transition", bundle.state_transition),
             ("model_background", bundle.model_background),
+            ("timeline_history", bundle.timeline_history),
+            ("asset_strength_history", bundle.asset_strength_history),
+            ("state_transition_history", bundle.state_transition_history),
             ("api_summary", bundle.api_summary),
             ("api_detail", bundle.api_detail),
             ("api_today_bridge", bundle.api_today_bridge),
@@ -302,14 +461,34 @@ class MarketAnalysisMockApi:
             ("api_asset_strength", bundle.api_asset_strength),
             ("api_state_transition", bundle.api_state_transition),
             ("api_model_background", bundle.api_model_background),
+            ("api_analysis_tabs", bundle.api_analysis_tabs),
+            ("api_live_context", bundle.api_live_context),
+            ("api_data_guide", bundle.api_data_guide),
+            ("api_dart_summary", bundle.api_dart_summary),
+            ("api_breadth_detail", bundle.api_breadth_detail),
+            ("api_us_macro_panel", bundle.api_us_macro_panel),
+            ("api_environment_indicators", bundle.api_environment_indicators),
+            ("api_timeline_history", bundle.api_timeline_history),
+            ("api_asset_strength_history", bundle.api_asset_strength_history),
+            ("api_state_transition_history", bundle.api_state_transition_history),
         ]
-        mismatches: list[str] = []
+        strict_mismatches: list[str] = []
+        optional_mismatches: list[str] = []
         for key, payload in payload_pairs:
             payload_asof = _payload_asof(payload)
             if manifest_asof and payload_asof and payload_asof != manifest_asof:
-                mismatches.append(f"{key}={payload_asof}")
-        if mismatches:
-            details = ", ".join(mismatches)
+                if key in STRICT_MARKET_ANALYSIS_ASOF_KEYS:
+                    strict_mismatches.append(f"{key}={payload_asof}")
+                else:
+                    optional_mismatches.append(f"{key}={payload_asof}")
+        if optional_mismatches:
+            details = ", ".join(optional_mismatches)
+            bundle.warnings.append(
+                "시장 분석 보조/히스토리 payload 기준시각이 manifest와 다릅니다: "
+                f"manifest={manifest_asof}, {details}"
+            )
+        if strict_mismatches:
+            details = ", ".join(strict_mismatches)
             message = (
                 "시장 브리핑 handoff 파일의 기준시각이 서로 다릅니다: "
                 f"manifest={manifest_asof}, {details}"
@@ -332,6 +511,12 @@ class MarketAnalysisMockApi:
             "Remote market-analysis source is configured without "
             "MARKET_ANALYSIS_BASE_URL or GCS settings."
         )
+
+    @staticmethod
+    def _get_remote_history_base_url(base_url: str) -> str:
+        if base_url.endswith("/current"):
+            return base_url[: -len("/current")] + "/history"
+        return base_url.rstrip("/") + "/history"
 
     def _load_from_local_directory(self, directory: Path, source_name: str) -> MarketAnalysisBundle:
         if not directory.exists():
@@ -357,8 +542,24 @@ class MarketAnalysisMockApi:
             asset_strength=payloads["asset_strength"],
             state_transition=payloads["state_transition"],
             model_background=payloads["model_background"],
+            timeline_history=payloads["timeline_history"],
+            asset_strength_history=payloads["asset_strength_history"],
+            state_transition_history=payloads["state_transition_history"],
             next_day_preview=payloads["next_day_preview"],
+            next_day_preview_history=payloads["next_day_preview_history"],
             next_day_preview_manifest=payloads["next_day_preview_manifest"],
+            analysis_tabs=payloads["analysis_tabs"],
+            live_context=payloads["live_context"],
+            data_guide=payloads["data_guide"],
+            dart_summary=payloads["dart_summary"],
+            dart_summary_history=payloads["dart_summary_history"],
+            breadth_detail=payloads["breadth_detail"],
+            breadth_detail_history=payloads["breadth_detail_history"],
+            us_macro_panel=payloads["us_macro_panel"],
+            us_macro_panel_history=payloads["us_macro_panel_history"],
+            environment_indicators=payloads["environment_indicators"],
+            api_environment_indicators=payloads["api_environment_indicators"],
+            environment_indicators_manifest=payloads["environment_indicators_manifest"],
             api_home=payloads["api_home"],
             api_page=payloads["api_page"],
             api_summary=payloads["api_summary"],
@@ -369,6 +570,19 @@ class MarketAnalysisMockApi:
             api_state_transition=payloads["api_state_transition"],
             api_model_background=payloads["api_model_background"],
             api_next_day_preview=payloads["api_next_day_preview"],
+            api_analysis_tabs=payloads["api_analysis_tabs"],
+            api_live_context=payloads["api_live_context"],
+            api_data_guide=payloads["api_data_guide"],
+            api_dart_summary=payloads["api_dart_summary"],
+            api_dart_summary_history=payloads["api_dart_summary_history"],
+            api_breadth_detail=payloads["api_breadth_detail"],
+            api_breadth_detail_history=payloads["api_breadth_detail_history"],
+            api_us_macro_panel=payloads["api_us_macro_panel"],
+            api_us_macro_panel_history=payloads["api_us_macro_panel_history"],
+            api_timeline_history=payloads["api_timeline_history"],
+            api_asset_strength_history=payloads["api_asset_strength_history"],
+            api_state_transition_history=payloads["api_state_transition_history"],
+            api_next_day_preview_history=payloads["api_next_day_preview_history"],
             source_name=source_name,
             warnings=warnings,
         )
@@ -389,6 +603,8 @@ class MarketAnalysisMockApi:
     @staticmethod
     def _with_cache_buster(url: str, token: str) -> str:
         parts = urlsplit(url)
+        if parts.scheme == "file" or not parts.scheme:
+            return url
         query = dict(parse_qsl(parts.query, keep_blank_values=True))
         query["ts"] = token
         return urlunsplit(

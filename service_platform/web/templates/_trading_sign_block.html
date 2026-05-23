@@ -1,0 +1,83 @@
+{% set trading_sign = report.trading_sign_view %}
+<article class="shell-card content-card strategy-signal-panel">
+  <div class="section-heading tight-head trading-sign-head">
+    <div>
+      <h3>{{ trading_sign.title or '매매 신호(전일 종가 기준)' }}</h3>
+      {% if trading_sign.description %}
+      <p class="muted small">{{ trading_sign.description }}</p>
+      {% endif %}
+    </div>
+    <div class="report-badges compact-stack trading-sign-badges">
+      {% if trading_sign.data_asof_date %}
+      <span class="badge neutral">기준 {{ trading_sign.data_asof_date }}</span>
+      {% endif %}
+      {% if trading_sign.generated_at %}
+      <span class="badge neutral">생성 {{ trading_sign.generated_at | fmt_datetime }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if trading_sign.enabled %}
+  {% if trading_sign.stale_notice %}
+  <div class="warning-banner investment-status-banner">{{ trading_sign.stale_notice }}</div>
+  {% endif %}
+  {% if trading_sign.disclaimer %}
+  <p class="muted small trading-sign-disclaimer">{{ trading_sign.disclaimer }}</p>
+  {% endif %}
+  {% if trading_sign.state_chips %}
+  <div class="trading-sign-chip-row">
+    {% for chip in trading_sign.state_chips %}
+    <span class="trading-sign-chip trading-sign-chip--{{ chip.tone }}">{{ chip.state }} {{ chip.count }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <div class="trading-sign-section-grid">
+    {% for section in trading_sign.sections %}
+    <section class="sub-panel shell-card trading-sign-section">
+      <div class="section-heading tight-head holding-section-head">
+        <div>
+          <h4>{{ section.title }}</h4>
+        </div>
+        <span class="badge neutral">{{ section.record_count }}개</span>
+      </div>
+      {% if section.signals %}
+      <div class="table-wrap compact-table trading-sign-table-wrap">
+        <table class="trading-sign-table">
+          <thead>
+            <tr>
+              <th>종목명</th>
+              <th>상태</th>
+              <th>이유</th>
+              <th>최근 변화일</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in section.signals %}
+            <tr>
+              <td>
+                <strong>{{ row.security_name }}</strong>
+                {% if row.ticker %}
+                <p class="muted small">{{ row.ticker }}</p>
+                {% endif %}
+              </td>
+              <td><span class="trading-sign-chip trading-sign-chip--{{ {'매수':'buy','보유':'hold','주의':'caution','매도':'sell','매수 대기':'wait'}.get(row.current_state,'wait') }} trading-sign-chip--inline">{{ row.current_state }}</span></td>
+              <td>{{ row.reason_summary }}</td>
+              <td>{{ row.latest_state_change_date }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="muted small">현재 신호가 없습니다.</p>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="disclosure-box compact-market-notice trading-sign-fallback">
+    <strong>일간 신호 안내</strong>
+    <p>{{ trading_sign.fallback_message }}</p>
+  </div>
+  {% endif %}
+</article>

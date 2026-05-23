@@ -1,15 +1,23 @@
-﻿param(
+param(
     [string]$ProjectId = "quantservice-489808",
     [string]$Region = "asia-northeast3",
     [string]$ServiceName = "quantservice-web",
     [string]$Repository = "quantservice",
     [string]$ImageName = "web",
+    [string]$CloudBuildBucketName = "quantservice-489808-cloudbuild-asia-northeast3",
     [string]$PublicBaseUrl = "https://redbot.co.kr",
-    [string]$SnapshotSource = "local",
+    [string]$SnapshotSource = "remote",
+    [string]$SnapshotGcsBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis",
     [string]$MarketAnalysisSource = "remote",
     [string]$MarketAnalysisBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/market_analysis/current",
+    [string]$InvestmentStorageSource = "gcs",
+    [string]$InvestmentGcsBucket = "quantservice-489808-private-investments",
+    [string]$InvestmentGcsPrefix = "investment_status",
     [string]$AnalyticsPreviewAllowedEmails = "hrchoi@koreascf.com",
     [string]$BootstrapAdminEmail = "hrchoi@koreascf.com",
+    [bool]$UiRedesignEnabled = $true,
+    [ValidateSet("light", "dark", "system")]
+    [string]$UiThemeDefault = "light",
     [bool]$BillingEnabled = $false,
     [ValidateSet("test", "prod")]
     [string]$BillingMode = "test",
@@ -33,6 +41,9 @@ if (-not (Test-Path $gcloud)) {
 $imageTag = Get-Date -Format "yyyyMMdd-HHmmss"
 $tag = "$Region-docker.pkg.dev/$ProjectId/$Repository/${ImageName}:$imageTag"
 $latestTag = "$Region-docker.pkg.dev/$ProjectId/$Repository/${ImageName}:latest"
+$cloudBuildBucketUri = "gs://$CloudBuildBucketName"
+$cloudBuildSourceStagingDir = "$cloudBuildBucketUri/source"
+$cloudBuildLogDir = "$cloudBuildBucketUri/logs"
 
 & $gcloud config configurations activate quantservice | Out-Null
 & $gcloud config set project $ProjectId | Out-Null
@@ -43,13 +54,19 @@ if ($repositories -notcontains $Repository) {
     & $gcloud artifacts repositories create $Repository --repository-format=docker --location=$Region --description="QuantService container images"
 }
 
-& $gcloud builds submit --tag $tag .
+$buildBuckets = & $gcloud storage buckets list --project $ProjectId --format="value(name)"
+if ($buildBuckets -notcontains $CloudBuildBucketName) {
+    & $gcloud storage buckets create $cloudBuildBucketUri --project $ProjectId --location=$Region --uniform-bucket-level-access | Out-Null
+}
+
+& $gcloud builds submit --tag $tag . --gcs-source-staging-dir $cloudBuildSourceStagingDir --gcs-log-dir $cloudBuildLogDir
 & $gcloud artifacts docker tags add $tag $latestTag | Out-Null
 
 $projectNumber = & $gcloud projects describe $ProjectId --format="value(projectNumber)"
 $serviceAccount = "$projectNumber-compute@developer.gserviceaccount.com"
 $tmpFile = Join-Path $env:TEMP ("cloudrun-{0}.yaml" -f ([guid]::NewGuid().ToString()))
 $billingEnabledValue = $BillingEnabled.ToString().ToLowerInvariant()
+$uiRedesignEnabledValue = $UiRedesignEnabled.ToString().ToLowerInvariant()
 
 @"
 apiVersion: serving.knative.dev/v1
@@ -81,16 +98,28 @@ spec:
           value: 0.0.0.0
         - name: SNAPSHOT_SOURCE
           value: $SnapshotSource
+        - name: SNAPSHOT_GCS_BASE_URL
+          value: $SnapshotGcsBaseUrl
         - name: USER_SNAPSHOT_DIR
           value: /app/service_platform/web/public_data/user_current
         - name: MARKET_ANALYSIS_SOURCE
           value: $MarketAnalysisSource
         - name: MARKET_ANALYSIS_BASE_URL
           value: $MarketAnalysisBaseUrl
+        - name: INVESTMENT_STORAGE_SOURCE
+          value: $InvestmentStorageSource
+        - name: INVESTMENT_GCS_BUCKET
+          value: $InvestmentGcsBucket
+        - name: INVESTMENT_GCS_PREFIX
+          value: $InvestmentGcsPrefix
         - name: ANALYTICS_PREVIEW_ALLOWED_EMAILS
           value: $AnalyticsPreviewAllowedEmails
         - name: BOOTSTRAP_ADMIN_EMAIL
           value: $BootstrapAdminEmail
+        - name: UI_REDESIGN_ENABLED
+          value: '$uiRedesignEnabledValue'
+        - name: UI_THEME_DEFAULT
+          value: $UiThemeDefault
         - name: BILLING_ENABLED
           value: '$billingEnabledValue'
         - name: BILLING_MODE

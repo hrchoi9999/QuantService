@@ -1,0 +1,1116 @@
+{% extends "base.html" %}
+
+{% macro pct_or_na(value) -%}
+  {%- if value is not none and value != '' -%}{{ value | fmt_signed_percent }}{%- else -%}N/A{%- endif -%}
+{%- endmacro %}
+
+{% macro ratio_or_na(value) -%}
+  {%- if value is not none and value != '' -%}{{ value | fmt_percent }}{%- else -%}N/A{%- endif -%}
+{%- endmacro %}
+
+{% macro num_or_na(value) -%}
+  {%- if value is not none and value != '' -%}{{ value | fmt_sharpe }}{%- else -%}N/A{%- endif -%}
+{%- endmacro %}
+
+{% macro text_or_na(value) -%}
+  {%- if value -%}{{ value }}{%- else -%}N/A{%- endif -%}
+{%- endmacro %}
+
+{% block content %}
+{% set ai_model_names = {
+  'AI-CANDIDATE-VALIDATION-V01': '퀀트후보검증AI',
+  'AI-GROWTH-VALUATION-V01': '주가수준평가AI',
+  'AI-DOWNSIDE-RISK-V01': '하락위험예측AI',
+  'AI-CANDIDATE-RANK-DELTA-V01': '후보순위조정AI',
+  'AI-THEME-PERSISTENCE-V01': '테마지속성AI',
+  'AI-ETF-SHADOW-PORTFOLIO-V01': 'ETF전용포트폴리오AI',
+  'E-ETF-V01': 'ETF전용 E시리즈AI',
+  'AI-ETF-ROLE-ALLOCATION-V01': 'ETF역할배분AI',
+  'AI-ETF-ROLE-WEIGHT-TEMPLATE-V01': 'ETF비중템플릿AI'
+} %}
+{% set ai_model_roles = {
+  'AI-CANDIDATE-VALIDATION-V01': '후보 검증 그림자 관찰',
+  'AI-GROWTH-VALUATION-V01': '평가 참조 도전자 관찰',
+  'AI-DOWNSIDE-RISK-V01': '하락 위험 오버레이 관찰',
+  'AI-CANDIDATE-RANK-DELTA-V01': '다음 리밸런싱 순위 변화 기반 비중/rank 조정',
+  'AI-THEME-PERSISTENCE-V01': '테마 지속성 그림자 관찰',
+  'AI-ETF-SHADOW-PORTFOLIO-V01': 'ETF 전용 shadow 포트폴리오 관찰',
+  'E-ETF-V01': 'ETF sleeve와 shadow portfolio를 구성하는 별도 AI 트랙',
+  'AI-ETF-ROLE-ALLOCATION-V01': '시장국면별 ETF 역할 선택',
+  'AI-ETF-ROLE-WEIGHT-TEMPLATE-V01': 'ETF 역할 포트폴리오 비중 템플릿 선택'
+} %}
+{% set ai_model_guides = {
+  'AI-CANDIDATE-VALIDATION-V01': {
+    'summary': '전략 모델이 뽑은 후보가 실제 투자 후보로 적합한지 과거 유사 조건을 바탕으로 검증합니다.',
+    'scope': 'S/T/I/C 전략 후보',
+    'stage': 'Shadow 관찰',
+    'recommendation': 'Public 추천 미반영',
+    'role': '기존 S/T/I/C 전략 모델이 뽑은 후보의 신뢰도를 보강하는 검증 AI입니다.',
+    'purpose': '전략 모델 후보를 그대로 믿기보다 과거 유사 조건에서 성과가 좋았는지 학습해 후보 품질을 보강합니다.',
+    'effect': '성과 가능성이 낮은 후보를 사전에 걸러내고 향후 Meta AI 입력 feature로 활용할 수 있습니다.',
+    'metrics': ['horizon별 sample count', '1W/2W/1M/2M/3M 실제 성과', '후보별 validation score와 shadow performance'],
+    'caution': 'sample이 아직 없으면 0%가 아니라 N/A 또는 관찰 데이터 부족으로 해석해야 합니다.'
+  },
+  'AI-GROWTH-VALUATION-V01': {
+    'summary': '후보 종목의 현재 주가 수준이 부담스러운지, 합리적인지, 여전히 매력적인지 평가합니다.',
+    'scope': '주식 후보',
+    'stage': 'Challenger 관찰',
+    'recommendation': 'Public 추천 미반영',
+    'role': 'valuation/growth/momentum/risk를 결합한 proxy 기반 주가수준 평가 AI입니다.',
+    'purpose': '좋은 후보라도 너무 비싼 구간에서 추격하는 위험을 줄이기 위해 champion, QM-THEME challenger, QM-RISK tag를 함께 봅니다.',
+    'effect': '테마 context가 강한 후보를 재평가하고 risk context가 높은 후보에는 caution tag를 붙입니다.',
+    'metrics': ['champion_state', 'challenger_state', 'risk_tag', 'challenger 승격/강등', '1W~1Y shadow performance'],
+    'caution': 'QM-RISK는 추천 모델이 아니라 caution tag이며 ETF는 적용 대상이 아닙니다.'
+  },
+  'AI-DOWNSIDE-RISK-V01': {
+    'summary': '후보 종목의 단기 하락 위험 또는 편입 후 손실 위험을 관찰합니다.',
+    'scope': '주식 후보 리스크',
+    'stage': 'Risk overlay 관찰',
+    'recommendation': 'Public 추천 미반영',
+    'role': '매수 후보 발굴보다 위험 회피, 비중 축소, 매도 검토에 가까운 보조 AI입니다.',
+    'purpose': 'T-series 보강과 후보 리스크 필터로 활용할 수 있는 손실 위험 구간을 분류합니다.',
+    'effect': '큰 손실과 MDD를 줄이고 위험이 커진 후보를 watch/caution으로 조기에 분류합니다.',
+    'metrics': ['downside_risk_tag', 'risk_clear/watch/caution/exit_watch 분포', 'AUC', 'tag별 1W/2W/1M 실제 성과', 'MDD와 하락 회피 효과'],
+    'caution': 'risk_exit_watch는 자동 매도 신호가 아니라 매도 검토/관찰 신호입니다.'
+  },
+  'AI-CANDIDATE-RANK-DELTA-V01': {
+    'summary': '다음 리밸런싱에서 후보가 편출될지, 잔류 후보 순위가 올라갈지/내려갈지 관찰합니다.',
+    'scope': '후보 순위 변화',
+    'stage': 'Shadow 관찰',
+    'recommendation': 'Public 추천 미반영',
+    'role': '전략 모델 후보의 다음 리밸런싱 편출 가능성과 잔류 후보 순위 변화를 재평가하는 AI입니다.',
+    'purpose': '편출 예측 모델과 잔류 순위변화 모델을 분리해 리밸런싱 품질을 높입니다.',
+    'effect': '순위가 약해질 후보를 미리 감지하고 향후 S/T/I/C 후보 최종 점수 조정에 활용할 수 있습니다.',
+    'metrics': ['rank_drop_prob', 'retained_rank_change_score', 'rank_delta_score', 'rank_delta_decision', 'drop/upgrade/downgrade head별 AUC'],
+    'caution': 'rank_upgrade_candidate는 매수 확정이 아니라 후보 우선순위 상향 관찰 신호입니다.'
+  },
+  'AI-ETF-ROLE-ALLOCATION-V01': {
+    'summary': '시장국면별로 ETF가 맡아야 할 역할을 선택하는 ETF 전용 보조 AI입니다.',
+    'scope': 'ETF 전용',
+    'stage': 'Admin-only shadow',
+    'recommendation': 'Public 추천 미반영',
+    'role': 'ETF 후보를 핵심지수, 방어/헤지, 섹터/테마 등 역할 단위로 분류하고 시장국면별 선호 역할을 관찰합니다.',
+    'purpose': 'ETF전용포트폴리오AI가 단순 수익률 순서가 아니라 역할 기반 포트폴리오를 만들 수 있도록 돕습니다.',
+    'effect': '시장국면에 맞는 ETF 역할 선택 가능성을 shadow로 검증합니다.',
+    'metrics': ['selected_role', 'role probability', 'role별 shadow 성과'],
+    'caution': '역할 선택은 실제 매수 지시가 아니라 ETF shadow portfolio 구성용 관찰값입니다.'
+  },
+  'AI-ETF-ROLE-WEIGHT-TEMPLATE-V01': {
+    'summary': '선택된 ETF 역할에 맞는 비중 템플릿을 관찰하는 ETF 전용 보조 AI입니다.',
+    'scope': 'ETF 전용',
+    'stage': 'Admin-only shadow',
+    'recommendation': 'Public 추천 미반영',
+    'role': 'ETF 역할 조합별 비중 구조를 template 단위로 선택해 shadow portfolio를 구성합니다.',
+    'purpose': 'ETF 후보별 수익률뿐 아니라 역할별 분산과 비중 구조의 안정성을 함께 점검합니다.',
+    'effect': '시장국면별 ETF 비중 배분의 실험 결과를 누적 관찰합니다.',
+    'metrics': ['selected_template', 'template probability', 'template별 shadow 성과'],
+    'caution': '비중 템플릿은 실제 계좌 배분이 아니라 연구용 shadow 구조입니다.'
+  },
+  'AI-THEME-PERSISTENCE-V01': {
+    'summary': '현재 강한 테마가 다음 1개월에도 유지될지, 둔화될지 관찰합니다.',
+    'scope': '테마 단위',
+    'stage': 'Shadow 관찰',
+    'recommendation': 'Public 추천 미반영',
+    'role': '테마 추종 후보가 단기 과열인지 지속 가능성이 있는지 구분하는 AI입니다.',
+    'purpose': 'S/T/I/C 후보 및 향후 Meta AI에 theme specialist feature로 제공될 수 있습니다.',
+    'effect': '테마가 꺾이는 구간의 추격 위험을 줄이고 지속성이 높은 테마 후보를 더 신뢰할 수 있게 합니다.',
+    'metrics': ['theme_continue_prob', 'theme_fade_prob', 'theme_persistence_score', 'theme_persistence_tag', 'continue/fade head별 AUC'],
+    'caution': 'theme_persist_strong은 자동 매수 신호가 아니며 theme_fade_watch는 테마 둔화 관찰 신호입니다.'
+  },
+  'AI-ETF-SHADOW-PORTFOLIO-V01': {
+    'summary': 'ETF 전용 데이터와 시장국면을 바탕으로 ETF shadow 포트폴리오 후보를 구성합니다.',
+    'scope': 'ETF 전용',
+    'stage': 'Admin-only shadow',
+    'recommendation': 'Public 추천 미반영',
+    'role': 'ETF역할배분AI와 ETF비중템플릿AI를 결합해 시장 모드별 ETF 포트폴리오를 관찰하는 AI입니다.',
+    'purpose': '주식용 AI와 분리된 ETF 전용 트랙으로, ETF 역할과 비중 템플릿을 함께 평가합니다.',
+    'effect': '단순 수익률 순서가 아니라 시장국면에 맞는 역할과 비중 구조로 ETF 배분 가능성을 관찰합니다.',
+    'metrics': ['regime_mode', 'selected_role', 'selected_template', 'selected_role_prob', 'selected_template_prob', 'backtest avg_1m_ret/win_rate/MDD/worst_1m_ret', 'current_holding_count'],
+    'caution': '현재 포트폴리오는 실제 추천이 아니라 시장국면별 ETF 배분 가능성을 관찰하기 위한 테스트 결과입니다.'
+  },
+  'E-ETF-V01': {
+    'summary': 'ETF 전용 데이터와 시장국면을 이용해 역할별 ETF sleeve와 최종 shadow 포트폴리오를 구성합니다.',
+    'scope': 'ETF E-series',
+    'stage': 'Admin-only shadow',
+    'recommendation': 'Public 추천 미반영',
+    'role': '주식용 S/T/I/C AI overlay와 분리된 ETF 전용 전략모델입니다.',
+    'purpose': 'ETF를 주식과 분리된 별도 전략모델로 운영하고 시장국면별 포트폴리오 역할 배분을 검증합니다.',
+    'effect': 'ETF 포트폴리오의 총수익률, 시장 대응력, 손실 방어력을 개선할 수 있는지 관찰합니다.',
+    'metrics': ['avg_1m_ret', 'compounded_validation_return', 'net_return', 'turnover', 'risk_cap effect'],
+    'caution': 'E-series는 운영 반영 전 shadow 관찰 단계이며 실제 추천/매매 로직에 적용되지 않습니다.'
+  }
+} %}
+{% macro ai_guide_panel(model_code, compact=False) -%}
+  {% set guide = ai_model_guides.get(model_code) %}
+  {% if guide %}
+  <details class="ai-guide-panel{% if compact %} compact{% endif %}" {% if not compact %}open{% endif %}>
+    <summary>
+      <strong>모델 해석 가이드</strong>
+      <span>{{ guide.summary }}</span>
+    </summary>
+    <div class="ai-guide-grid">
+      <div><b>역할</b><p>{{ guide.role }}</p></div>
+      <div><b>목적</b><p>{{ guide.purpose }}</p></div>
+      <div><b>기대효과</b><p>{{ guide.effect }}</p></div>
+      <div><b>주의</b><p>{{ guide.caution }}</p></div>
+    </div>
+    <div class="hero-badges compact-meta ai-guide-badges">
+      <span class="badge neutral">적용 범위: {{ guide.scope }}</span>
+      <span class="badge accent">{{ guide.stage }}</span>
+      <span class="badge neutral">{{ guide.recommendation }}</span>
+      {% for metric in guide.metrics %}
+      <span class="badge neutral">{{ metric }}</span>
+      {% endfor %}
+    </div>
+  </details>
+  {% endif %}
+{%- endmacro %}
+{% set candidate_validation = bundle.details.get('candidate_validation', {}) %}
+{% set candidate_training = candidate_validation.get('model_specific_training') or {} %}
+{% set candidate_live = candidate_validation.get('live_summary') or {} %}
+{% set candidate_reconstructed = candidate_validation.get('reconstructed_summary') or {} %}
+{% set valuation_ai = bundle.details.get('valuation_ai', {}) %}
+{% set valuation_monitor = valuation_ai.get('monitor') or {} %}
+{% set downside_ai = bundle.details.get('downside_risk_ai', {}) %}
+{% set downside_current = downside_ai.get('current') or {} %}
+{% set downside_tracker = downside_ai.get('tracker') or {} %}
+{% set downside_evaluation = downside_current.get('evaluation') or {} %}
+{% set theme_ai = bundle.details.get('theme_persistence_ai', {}) %}
+{% set etf_ai = bundle.details.get('etf_shadow_portfolio_ai', {}) %}
+{% set e_series_details = bundle.details.get('e_series_etf', {}) %}
+{% set e_policy_hierarchy = e_series_details.get('policy_hierarchy') or {} %}
+{% set e_hardening = e_series_details.get('hardening') or {} %}
+{% set e_cost_adjusted = e_series_details.get('cost_adjusted') or {} %}
+{% set e_turnover_buffer = e_series_details.get('turnover_buffer') or {} %}
+{% set etf_decision = etf_ai.get('current_decision') or {} %}
+{% set etf_default_variant = (etf_ai.get('policy') or {}).get('primary_shadow_variant') or 'template_ai_aum_p20_top1' %}
+{% set etf_backtests = etf_ai.get('backtest_summary', []) | selectattr('variant', 'equalto', etf_default_variant) | list %}
+{% set etf_holdings = etf_ai.get('current_holdings', []) | selectattr('variant', 'equalto', etf_default_variant) | list %}
+
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin only</p>
+  <h1>AI 학습 모델</h1>
+  <p class="lead">Quant가 생성한 AI 학습 모델의 shadow 관찰 상태와 성과 추적 상황을 한 화면에서 확인합니다.</p>
+  <p class="muted small">이 화면의 score와 tag는 현재 추천을 자동으로 바꾸는 신호가 아니라, 기존 전략 모델 후보를 검증하고 향후 모델 개선에 활용하기 위한 관찰 지표입니다.</p>
+  <div class="hero-badges">
+    <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
+    <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span class="badge accent">AI 모델 {{ bundle.models | length }}개</span>
+    <span class="badge neutral">source {{ bundle.source_name }}</span>
+  </div>
+</section>
+
+{% if bundle.errors %}
+<section class="panel shell-card">
+  <div class="warning-banner">{{ bundle.errors | join(' / ') }}</div>
+</section>
+{% endif %}
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>AI 모델 목록</h2>
+      <p class="muted small">이 화면은 AI 학습 모델의 shadow 관찰용입니다. 표시된 값은 실제 계좌 수익률이나 투자 권유가 아닙니다.</p>
+    </div>
+  </div>
+  <div class="strategy-layout three-col">
+    {% for model in bundle.models %}
+    <a class="shell-card content-card no-underline" href="#{{ model.model_code | lower | replace('_', '-') }}">
+      <div class="section-heading tight-head">
+        <div>
+          <h3 class="notranslate" translate="no">{{ ai_model_names.get(model.model_code, model.model_name_ko or model.model_code) }}</h3>
+          <p class="muted small notranslate" translate="no">{{ model.model_code }}</p>
+        </div>
+        <span class="badge accent">{{ model.status or '-' }}</span>
+      </div>
+      <div class="hero-badges compact-meta">
+        <span class="badge neutral notranslate" translate="no">{{ ai_model_roles.get(model.model_code, model.model_role or '-') }}</span>
+        <span class="badge neutral">기준 {{ model.as_of_date or '-' }}</span>
+        {% set guide = ai_model_guides.get(model.model_code, {}) %}
+        {% if guide %}
+        <span class="badge neutral">범위 {{ guide.scope }}</span>
+        <span class="badge neutral">{{ guide.recommendation }}</span>
+        {% endif %}
+        {% if model.performance_asof_date %}
+        <span class="badge neutral">성과 {{ model.performance_asof_date }}</span>
+        {% endif %}
+      </div>
+      {% set metadata = model.display_metadata or {} %}
+      {% if metadata.plain_description or ai_model_guides.get(model.model_code) %}
+      <p class="muted small">{{ metadata.plain_description or ai_model_guides.get(model.model_code).summary }}</p>
+      {% endif %}
+      {% if metadata.purpose or metadata.expected_effect %}
+      <p class="muted tiny">{{ metadata.purpose or '' }}{% if metadata.expected_effect %} / {{ metadata.expected_effect }}{% endif %}</p>
+      {% endif %}
+      {% if model.model_code == 'AI-CANDIDATE-VALIDATION-V01' %}
+      <p class="muted small">trained {{ model.summary.trained_models or 0 }} / fallback {{ model.summary.fallback_models or 0 }}</p>
+      {% elif model.model_code == 'AI-GROWTH-VALUATION-V01' %}
+      <p class="muted small">후보 {{ model.summary.candidate_count or 0 }}개 / monitor {{ model.summary.monitor_status or 'N/A' }}</p>
+      {% elif model.model_code == 'AI-DOWNSIDE-RISK-V01' %}
+      <p class="muted small">AUC {{ num_or_na(model.summary.auc) }} / train {{ model.summary.train_rows or '-' }} / valid {{ model.summary.valid_rows or '-' }}</p>
+      {% elif model.model_code == 'AI-THEME-PERSISTENCE-V01' %}
+      <p class="muted small">feature {{ model.summary.feature_mode or theme_ai.get('feature_mode') or 'BASE' }} / tag {{ (theme_ai.get('tag_counts') or []) | length }}종</p>
+      {% elif model.model_code == 'AI-CANDIDATE-RANK-DELTA-V01' %}
+      <p class="muted small">후보 순위 변화 관찰용 shadow 모델입니다.</p>
+      {% elif model.model_code == 'AI-ETF-SHADOW-PORTFOLIO-V01' %}
+      <p class="muted small">선택 역할 {{ etf_decision.get('selected_role') or '-' }} / ETF {{ etf_holdings | length }}개</p>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel shell-card">
+  <details class="ai-guide-panel" open>
+    <summary>
+      <strong>공통 지표 해석 가이드</strong>
+      <span>N/A는 0%가 아니라 아직 관찰 기간이나 표본이 부족하다는 뜻입니다.</span>
+    </summary>
+    <div class="ai-guide-grid">
+      <div><b>AUC</b><p>positive/negative case 구분 능력입니다. 0.5는 무작위 수준이며 높을수록 구분력이 좋지만, 투자 성과를 보장하지는 않습니다.</p></div>
+      <div><b>sample_count</b><p>실제 성과 평가에 사용 가능한 관찰 건수입니다. 표본이 부족한 기간은 해석을 보류해야 합니다.</p></div>
+      <div><b>1W / 2W / 1M</b><p>AI tag가 붙은 뒤 실제 시간이 지난 후의 성과입니다. 기준일과 성과일이 같으면 N/A가 정상입니다.</p></div>
+      <div><b>MDD / risk_adj</b><p>MDD는 관찰 구간 최대 낙폭이고, risk_adj는 수익률과 낙폭 위험을 함께 고려한 보조 지표입니다.</p></div>
+      <div><b>prob / score</b><p>prob는 사건 발생 예측 확률, score는 여러 feature를 결합한 종합 점수입니다. 높다고 곧바로 매수라는 뜻은 아닙니다.</p></div>
+      <div><b>tag</b><p>score/prob를 사람이 보기 쉽게 구간화한 결과입니다. 단독 매수/매도 신호가 아니라 의사결정 보조 신호입니다.</p></div>
+    </div>
+  </details>
+</section>
+
+{% if bundle.overlay_monitor.enabled %}
+<section class="panel shell-card" id="ai-overlay-monitor">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>AI Overlay 효과 요약</h2>
+      <p class="muted small">AI 학습모델은 현재 실제 추천을 직접 대체하지 않습니다. 기존 전략모델 후보에 AI overlay를 적용했을 때 baseline 대비 성과가 개선되는지 shadow tracking으로 관찰하는 단계입니다.</p>
+    </div>
+    <span class="badge accent">Shadow 관찰</span>
+  </div>
+  <div class="hero-badges compact-meta">
+    <span class="badge neutral">기준 데이터 {{ bundle.overlay_monitor.base_data_date or '-' }}</span>
+    <span class="badge neutral">Tracking 시작 {{ bundle.overlay_monitor.shadow_tracking_start_date or '-' }}</span>
+    <span class="badge neutral">상태 {{ bundle.overlay_monitor.status or '-' }}</span>
+    <span class="badge neutral">실추천 반영 {{ 'Yes' if bundle.overlay_monitor.live_recommendation_applied else 'No' }}</span>
+  </div>
+
+  <div class="strategy-layout three-col top-margin-sm">
+    {% for model in bundle.overlay_monitor.component_models %}
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3 class="notranslate" translate="no">{{ model.model_name_ko }}</h3>
+          <p class="muted small notranslate" translate="no">{{ model.model_code }}</p>
+        </div>
+        <span class="badge neutral">{{ model.status }}</span>
+      </div>
+      <p class="muted small">{{ model.role }}</p>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="table-wrap compact-table top-margin-sm">
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>Baseline 평균</th>
+          <th>AI Overlay 평균</th>
+          <th>수익률 개선</th>
+          <th>Baseline 승률</th>
+          <th>AI Overlay 승률</th>
+          <th>Baseline MDD</th>
+          <th>AI Overlay MDD</th>
+          <th>MDD 변화</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in bundle.overlay_monitor.family_summary %}
+        <tr>
+          <td>{{ row.strategy_family or '-' }}</td>
+          <td>{{ pct_or_na(row.baseline_avg_period_return) }}</td>
+          <td>{{ pct_or_na(row.avg_period_return) }}</td>
+          <td>{{ pct_or_na(row.avg_return_delta) }}</td>
+          <td>{{ ratio_or_na(row.baseline_win_rate) }}</td>
+          <td>{{ ratio_or_na(row.win_rate) }}</td>
+          <td>{{ pct_or_na(row.baseline_nav_mdd) }}</td>
+          <td>{{ pct_or_na(row.nav_mdd) }}</td>
+          <td>{{ pct_or_na(row.nav_mdd_delta) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-wrap compact-table top-margin-sm">
+    <table>
+      <thead>
+        <tr>
+          <th>모델</th>
+          <th>정책</th>
+          <th>결과 해석</th>
+          <th>Baseline 평균</th>
+          <th>AI Overlay 평균</th>
+          <th>수익률 개선</th>
+          <th>승률 변화</th>
+          <th>MDD 변화</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in bundle.overlay_monitor.model_summary %}
+        <tr>
+          <td class="notranslate" translate="no">{{ row.model_id or row.strategy_family or '-' }}</td>
+          <td>{{ row.mapped_policy_label_ko or row.mapped_policy or row.policy or '-' }}</td>
+          <td>{{ row.overlay_result_label_ko or '-' }}</td>
+          <td>{{ pct_or_na(row.baseline_avg_period_return) }}</td>
+          <td>{{ pct_or_na(row.avg_period_return) }}</td>
+          <td>{{ pct_or_na(row.avg_return_delta) }}</td>
+          <td>{{ pct_or_na(row.win_rate_delta) }}</td>
+          <td>{{ pct_or_na(row.nav_mdd_delta) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="muted tiny top-margin-sm no-margin">ETF전용포트폴리오AI는 주식 전략모델 overlay와 별도 트랙입니다. ETF는 역할 포트폴리오와 시장국면별 비중 템플릿을 결합해 별도 shadow portfolio로 관찰합니다.</p>
+</section>
+{% endif %}
+
+<section class="panel shell-card" id="ai-etf-shadow-portfolio-v01">
+  <details class="strategy-disclosure">
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary ai-model-summary">
+      <div class="title-stack">
+      <h2 class="notranslate" translate="no">{{ ai_model_names.get(etf_ai.get('model_code'), 'ETF전용 E시리즈AI') }}</h2>
+      <p class="muted small">ETF 전용 E-series shadow portfolio입니다. 주식용 AI overlay와 분리된 별도 트랙이며 public 추천/배분에는 반영하지 않습니다.</p>
+      </div>
+      <div class="report-summary-meta">
+        <span class="badge neutral notranslate" translate="no">{{ etf_ai.get('model_code') or 'E-ETF-V01' }}</span>
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+      </div>
+    </summary>
+  <div class="strategy-disclosure-body">
+  {{ ai_guide_panel(etf_ai.get('model_code') or 'E-ETF-V01') }}
+
+  <div class="metric-strip four-col report-metric-strip">
+    <div class="metric-card public-metric-card">
+      <span class="label">시장 모드</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(etf_decision.get('regime_mode')) }}</strong>
+      <small>기준 {{ etf_ai.get('as_of_date') or bundle.as_of_date or '-' }}</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">선택 역할</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(etf_decision.get('selected_role')) }}</strong>
+      <small>확률 {{ ratio_or_na(etf_decision.get('selected_role_prob')) }}</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">선택 템플릿</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(etf_decision.get('selected_template')) }}</strong>
+      <small>확률 {{ ratio_or_na(etf_decision.get('selected_template_prob')) }}</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">기본 템플릿</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(etf_decision.get('mode_default_template')) }}</strong>
+      <small>shadow observation</small>
+    </div>
+  </div>
+
+  <div class="metric-strip four-col report-metric-strip top-margin-sm">
+    <div class="metric-card public-metric-card">
+      <span class="label">Primary policy</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(e_policy_hierarchy.get('active_primary_shadow_policy') or (etf_ai.get('policy') or {}).get('primary_shadow_variant')) }}</strong>
+      <small>shadow primary</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Challenger policy</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(e_policy_hierarchy.get('active_shadow_challenger_policy')) }}</strong>
+      <small>shadow challenger</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Return basis</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(e_policy_hierarchy.get('return_basis')) }}</strong>
+      <small>성과 산출 기준</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Hardening</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(e_hardening.get('status') or etf_ai.get('status')) }}</strong>
+      <small>운영 반영 전 점검</small>
+    </div>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>백테스트 요약</h3>
+          <p class="muted small">기본 관찰 variant는 <span class="notranslate" translate="no">{{ etf_default_variant }}</span>입니다.</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>variant</th><th>policy</th><th>관측</th><th>1M 평균</th><th>1M 중앙</th><th>승률</th><th>MDD</th><th>Risk adj.</th><th>검증 누적</th></tr>
+          </thead>
+          <tbody>
+            {% for row in etf_ai.get('backtest_summary', []) %}
+            <tr class="{% if row.variant == etf_default_variant %}is-highlight-row{% endif %}">
+              <td class="notranslate" translate="no">{{ text_or_na(row.variant) }}</td>
+              <td class="notranslate" translate="no">{{ text_or_na(row.source_policy) }}</td>
+              <td>{% if row.observations is not none and row.observations != '' %}{{ row.observations | int }}{% else %}N/A{% endif %}</td>
+              <td>{{ pct_or_na(row.avg_1m_ret) }}</td>
+              <td>{{ pct_or_na(row.median_1m_ret) }}</td>
+              <td>{{ ratio_or_na(row.win_rate) }}</td>
+              <td>{{ pct_or_na(row.avg_1m_mdd) }}</td>
+              <td>{{ pct_or_na(row.avg_1m_risk_adj) }}</td>
+              <td>{{ pct_or_na(row.compounded_validation_return) }}</td>
+            </tr>
+            {% endfor %}
+            {% if not etf_ai.get('backtest_summary') %}
+            <tr><td colspan="9">ETF shadow portfolio 백테스트 요약이 아직 준비되지 않았습니다.</td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>운영 정책 점검</h3>
+          <p class="muted small">mode switch, 비용, turnover buffer 기준의 shadow hardening 요약입니다.</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>구분</th><th>선택 정책</th><th>평균 1M</th><th>승률</th><th>누적 검증</th><th>회전율</th></tr></thead>
+          <tbody>
+            {% set cost_rows = e_cost_adjusted.get('summary') or [] %}
+            {% set turnover_rows = e_turnover_buffer.get('summary') or [] %}
+            {% set cost_best = cost_rows[0] if cost_rows else {} %}
+            {% set turnover_best = turnover_rows[0] if turnover_rows else {} %}
+            <tr>
+              <td>비용 반영</td>
+              <td class="notranslate" translate="no">{{ text_or_na(e_cost_adjusted.get('best_net_policy') or cost_best.get('policy')) }}</td>
+              <td>{{ pct_or_na(cost_best.get('avg_net_1m_ret')) }}</td>
+              <td>{{ ratio_or_na(cost_best.get('net_win_rate')) }}</td>
+              <td>{{ pct_or_na(cost_best.get('compounded_net_return')) }}</td>
+              <td>{{ ratio_or_na(cost_best.get('avg_one_way_turnover')) }}</td>
+            </tr>
+            <tr>
+              <td>Turnover buffer</td>
+              <td class="notranslate" translate="no">{{ text_or_na(e_turnover_buffer.get('best_buffer_policy') or turnover_best.get('policy')) }}</td>
+              <td>{{ pct_or_na(turnover_best.get('avg_net_1m_ret')) }}</td>
+              <td>{{ ratio_or_na(turnover_best.get('net_win_rate')) }}</td>
+              <td>{{ pct_or_na(turnover_best.get('compounded_net_return')) }}</td>
+              <td>{{ ratio_or_na(turnover_best.get('avg_turnover')) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>하위 모델 정보</h3>
+          <p class="muted small">role allocation과 weight template 선택 모델을 함께 관찰합니다.</p>
+        </div>
+      </div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>모델</th><th>역할</th><th>Gate</th><th>AUC</th><th>Train</th><th>Valid</th><th>최신 신호</th></tr></thead>
+          <tbody>
+            {% for row in etf_ai.get('component_models', []) %}
+            {% set evaluation = row.evaluation or {} %}
+            <tr>
+              <td><strong>{{ text_or_na(row.model_name_ko) }}</strong><br><span class="muted small notranslate" translate="no">{{ text_or_na(row.model_code) }}</span></td>
+              <td>{{ text_or_na(row.role) }}</td>
+              <td>{{ text_or_na(row.quality_gate) }}</td>
+              <td>{{ num_or_na(evaluation.get('auc')) }}</td>
+              <td>{% if evaluation.get('train_rows') is not none %}{{ evaluation.get('train_rows') }}{% else %}N/A{% endif %}</td>
+              <td>{% if evaluation.get('valid_rows') is not none %}{{ evaluation.get('valid_rows') }}{% else %}N/A{% endif %}</td>
+              <td>{{ text_or_na(evaluation.get('current_signal_date')) }}</td>
+            </tr>
+            {% endfor %}
+            {% if not etf_ai.get('component_models') %}
+            <tr><td colspan="7">하위 모델 정보가 아직 준비되지 않았습니다.</td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <section class="shell-card content-card top-margin-sm">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>현재 ETF 구성</h3>
+        <p class="muted small">기본 표시 variant <span class="notranslate" translate="no">{{ etf_default_variant }}</span> 기준입니다.</p>
+      </div>
+      <span class="badge neutral">{{ etf_holdings | length }}개</span>
+    </div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr><th>코드</th><th>ETF명</th><th>역할</th><th>비중</th><th>역할비중</th><th>선정점수</th><th>괴리/할인</th><th>추적오차</th><th>신호일</th></tr>
+        </thead>
+        <tbody>
+          {% for row in etf_holdings %}
+          <tr>
+            <td>{{ text_or_na(row.ticker) }}</td>
+            <td>{{ text_or_na(row.name) }}</td>
+            <td class="notranslate" translate="no">{{ text_or_na(row.role_key) }}</td>
+            <td>{{ ratio_or_na(row.holding_weight) }}</td>
+            <td>{{ ratio_or_na(row.role_weight) }}</td>
+            <td>{{ num_or_na(row.sleeve_selection_score) }}</td>
+            <td>{{ pct_or_na(row.sleeve_premium_discount) }}</td>
+            <td>{{ pct_or_na(row.sleeve_daily_tracking_gap_pct) }}</td>
+            <td>{{ (row.signal_date or row.as_of_date or '-') | string | replace('T00:00:00.000', '') }}</td>
+          </tr>
+          {% endfor %}
+          {% if not etf_holdings %}
+          <tr><td colspan="9">기본 variant 기준 ETF 구성이 아직 준비되지 않았습니다.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  </div>
+  </details>
+</section>
+
+<section class="panel shell-card" id="ai-candidate-validation-v01">
+  <details class="strategy-disclosure">
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary ai-model-summary">
+      <div class="title-stack">
+      <h2 class="notranslate" translate="no">퀀트후보검증AI</h2>
+      <p class="muted small">common AI와 model-specific AI의 후보 검증 상태를 관찰합니다. pending_samples는 성과 표본 대기 상태로 정상입니다.</p>
+      </div>
+      <div class="report-summary-meta">
+        <span class="badge neutral">{{ candidate_live.get('status') or 'N/A' }}</span>
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+      </div>
+    </summary>
+  <div class="strategy-disclosure-body">
+  {{ ai_guide_panel('AI-CANDIDATE-VALIDATION-V01') }}
+  <div class="metric-strip three-col report-metric-strip">
+    <div class="metric-card public-metric-card">
+      <span class="label">Trained models</span>
+      <strong>{{ candidate_training.get('trained_models', []) | length }}</strong>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Fallback models</span>
+      <strong>{{ candidate_training.get('fallback_models', []) | length }}</strong>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Latest sample</span>
+      <strong>{{ candidate_validation.get('latest_shadow_sample', []) | length }}</strong>
+    </div>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Live horizon status</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>기간</th><th>표본</th><th>상태</th></tr>
+          </thead>
+          <tbody>
+            {% for row in candidate_live.get('horizon_status', []) %}
+            <tr>
+              <td>{{ row.horizon }}</td>
+              <td>{{ row.sample_count }}</td>
+              <td>{% if row.available %}available{% else %}N/A{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Reconstructed 1M summary</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>그룹</th><th>표본</th><th>평균</th><th>승률</th><th>MDD</th></tr>
+          </thead>
+          <tbody>
+            {% for row in candidate_reconstructed.get('reconstructed_model_specific_tag_1m', [])[:6] %}
+            <tr>
+              <td>{{ row.group_value }}</td>
+              <td>{{ row.sample_count }}</td>
+              <td>{{ pct_or_na(row.avg_return) }}</td>
+              <td>{{ ratio_or_na(row.win_rate) }}</td>
+              <td>{{ pct_or_na(row.avg_mdd) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Trained model-specific rows</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>모델</th><th>라벨</th><th>AUC</th><th>1M 평균</th><th>승률</th></tr>
+          </thead>
+          <tbody>
+            {% for row in candidate_training.get('trained_models', []) %}
+            <tr>
+              <td>{{ row.scope_key }}</td>
+              <td>{{ row.model_id }}</td>
+              <td>{{ row.label }}</td>
+              <td>{{ num_or_na(row.auc) }}</td>
+              <td>{{ pct_or_na(row.top30_avg_1m_return) }}</td>
+              <td>{{ ratio_or_na(row.top30_win_rate) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Fallback model rows</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>모델</th><th>label rows</th><th>사유</th></tr>
+          </thead>
+          <tbody>
+            {% for row in candidate_training.get('fallback_models', []) %}
+            <tr>
+              <td>{{ row.scope_key }}</td>
+              <td>{{ row.model_id }}</td>
+              <td>{{ row.label_rows }}</td>
+              <td>{{ row.reason }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+  </div>
+  </details>
+</section>
+
+<section class="panel shell-card" id="ai-growth-valuation-v01">
+  <details class="strategy-disclosure">
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary ai-model-summary">
+      <div class="title-stack">
+      <h2 class="notranslate" translate="no">주가수준평가AI</h2>
+      <p class="muted small">QM-THEME challenger와 QM-RISK risk overlay를 비교합니다. QM-RISK는 추천 모델이 아니라 caution tag입니다.</p>
+      </div>
+      <div class="report-summary-meta">
+        <span class="badge neutral notranslate" translate="no">{{ bundle.model_code or 'AI-GROWTH-VALUATION-V01' }}</span>
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+      </div>
+    </summary>
+  <div class="strategy-disclosure-body">
+  {{ ai_guide_panel('AI-GROWTH-VALUATION-V01') }}
+  <div class="metric-strip three-col report-metric-strip">
+    <div class="metric-card public-metric-card">
+      <span class="label">Champion</span>
+      <strong>{{ bundle.champion.feature_set or 'LOCAL_MARKET' }}</strong>
+      <small>{{ bundle.champion.model_version or '-' }}</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Challenger</span>
+      <strong>{{ bundle.challenger.feature_set or 'QM_MARKET_THEME' }}</strong>
+      <small>기존 모델을 대체하지 않고 성과 검증 중입니다.</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Risk overlay</span>
+      <strong>{{ bundle.risk_overlay.feature_set or 'QM_MARKET_RISK' }}</strong>
+      <small>추천 신호가 아니라 주의 관찰 태그입니다.</small>
+    </div>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Monitor status</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>기간</th><th>후보</th><th>표본</th><th>평균</th><th>승률</th></tr>
+          </thead>
+          <tbody>
+            {% for row in valuation_monitor.get('availability', []) %}
+            <tr>
+              <td>{{ row.horizon }}</td>
+              <td>{{ row.candidate_count }}</td>
+              <td>{{ row.sample_count }}</td>
+              <td>{{ pct_or_na(row.avg_return if row.sample_count else none) }}</td>
+              <td>{{ ratio_or_na(row.win_rate if row.sample_count else none) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>State counts</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>구분</th><th>상태</th><th>건수</th></tr>
+          </thead>
+          <tbody>
+            {% for group_name, counts in (valuation_monitor.get('state_counts') or {}).items() %}
+              {% for state, count in counts.items() %}
+              <tr><td>{{ group_name }}</td><td>{{ state }}</td><td>{{ count }}</td></tr>
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <section class="shell-card content-card top-margin-sm">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>AI 평가 후보</h3>
+        <p class="muted small">최신 S/T/I/user 후보의 champion, challenger, risk overlay 상태를 비교합니다.</p>
+      </div>
+      <span class="badge neutral">{{ bundle.candidates | length }}개</span>
+    </div>
+    <form class="filter-bar" method="get" action="{{ url_for('admin_valuation_ai') }}">
+      <label><span>구분</span><select name="scope"><option value="">전체</option>{% for option in bundle.filter_options.scope %}<option value="{{ option }}" {% if option == selected_scope %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <label><span>모델</span><select name="model_code"><option value="">전체</option>{% for option in bundle.filter_options.model_code %}<option value="{{ option }}" {% if option == selected_model_code %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <label><span>Challenger</span><select name="challenger_state"><option value="">전체</option>{% for option in bundle.filter_options.challenger_state %}<option value="{{ option }}" {% if option == selected_challenger_state %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <label><span>변화</span><select name="challenger_change_label"><option value="">전체</option>{% for option in bundle.filter_options.challenger_change_label %}<option value="{{ option }}" {% if option == selected_challenger_change_label %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <label><span>Risk tag</span><select name="risk_tag"><option value="">전체</option>{% for option in bundle.filter_options.risk_tag %}<option value="{{ option }}" {% if option == selected_risk_tag %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <label><span>테마</span><select name="theme_bucket"><option value="">전체</option>{% for option in bundle.filter_options.theme_bucket %}<option value="{{ option }}" {% if option == selected_theme_bucket %}selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+      <button class="btn primary" type="submit">조회</button>
+    </form>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th><th>모델</th><th>코드</th><th>종목명</th><th>순위</th><th>점수</th><th>Champion</th><th>Challenger</th><th>변화</th><th>Risk tag</th><th>QM 테마</th><th>QM Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in bundle.candidates %}
+          <tr>
+            <td>{{ row.scope or '-' }}</td>
+            <td>{{ row.model_code or '-' }}</td>
+            <td>{{ row.security_code or '-' }}</td>
+            <td>{{ row.display_name or '-' }}</td>
+            <td>{% if row.rank_no is not none %}{{ row.rank_no }}{% else %}N/A{% endif %}</td>
+            <td>{{ num_or_na(row.score) }}</td>
+            <td>{{ text_or_na(row.champion_state) }}</td>
+            <td>{{ text_or_na(row.challenger_state) }}</td>
+            <td>{{ text_or_na(row.challenger_change_label) }}</td>
+            <td>{{ text_or_na(row.risk_tag) }}</td>
+            <td>{{ text_or_na(row.qm_quantmarket_theme_bucket) }}</td>
+            <td>{{ num_or_na(row.qm_risk_score) }}</td>
+          </tr>
+          {% endfor %}
+          {% if not bundle.candidates %}
+          <tr><td colspan="12">조건에 맞는 AI 평가 후보가 없습니다.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="shell-card content-card top-margin-sm">
+    <div class="section-heading tight-head"><h3>Shadow 성과 요약</h3></div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr><th>그룹</th><th>값</th><th>기간</th><th>후보</th><th>표본</th><th>평균</th><th>중앙</th><th>승률</th><th>MDD</th><th>Sharpe</th></tr>
+        </thead>
+        <tbody>
+          {% for row in bundle.performance_summary %}
+          <tr>
+            <td>{{ row.group_type or '-' }}</td>
+            <td>{{ row.group_value or '-' }}</td>
+            <td>{{ row.horizon or '-' }}</td>
+            <td>{% if row.candidate_count is not none %}{{ row.candidate_count }}{% else %}N/A{% endif %}</td>
+            <td>{% if row.sample_count is not none %}{{ row.sample_count }}{% else %}N/A{% endif %}</td>
+            <td>{{ pct_or_na(row.avg_return) }}</td>
+            <td>{{ pct_or_na(row.median_return) }}</td>
+            <td>{{ ratio_or_na(row.win_rate) }}</td>
+            <td>{{ pct_or_na(row.avg_mdd) }}</td>
+            <td>{{ num_or_na(row.avg_sharpe) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  </div>
+  </details>
+</section>
+
+<section class="panel shell-card" id="ai-theme-persistence-v01">
+  <details class="strategy-disclosure">
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary ai-model-summary">
+      <div class="title-stack">
+      <h2 class="notranslate" translate="no">테마지속성AI</h2>
+      <p class="muted small">강한 테마가 다음 1개월 구간에도 유지될 가능성과 둔화 위험을 shadow 관찰합니다. 테마 태그는 매수·매도 지시가 아닙니다.</p>
+      </div>
+      <div class="report-summary-meta">
+        <span class="badge neutral notranslate" translate="no">{{ theme_ai.get('model_code') or 'AI-THEME-PERSISTENCE-V01' }}</span>
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+      </div>
+    </summary>
+  <div class="strategy-disclosure-body">
+  {{ ai_guide_panel('AI-THEME-PERSISTENCE-V01') }}
+  <div class="metric-strip three-col report-metric-strip">
+    <div class="metric-card public-metric-card">
+      <span class="label">Model version</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(theme_ai.get('model_version')) }}</strong>
+      <small>{{ text_or_na(theme_ai.get('model_role')) }}</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Feature mode</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(theme_ai.get('feature_mode') or 'BASE') }}</strong>
+      <small>운영 feature 기준</small>
+    </div>
+    <div class="metric-card public-metric-card">
+      <span class="label">Visibility</span>
+      <strong class="notranslate" translate="no">{{ text_or_na(theme_ai.get('visibility') or 'admin_only') }}</strong>
+      <small>기준 {{ theme_ai.get('as_of_date') or bundle.as_of_date or '-' }}</small>
+    </div>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Head별 평가 지표</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr><th>head</th><th>label</th><th>AUC</th><th>Top30 label</th><th>Bottom30 label</th><th>Top30 1M</th></tr>
+          </thead>
+          <tbody>
+            {% for row in theme_ai.get('evaluation', []) %}
+            <tr>
+              <td>{{ text_or_na(row.head) }}</td>
+              <td>{{ text_or_na(row.label) }}</td>
+              <td>{{ num_or_na(row.auc) }}</td>
+              <td>{{ ratio_or_na(row.top30_label_rate) }}</td>
+              <td>{{ ratio_or_na(row.bottom30_label_rate) }}</td>
+              <td>{{ pct_or_na(row.top30_future_theme_ret_1m) }}</td>
+            </tr>
+            {% endfor %}
+            {% if not theme_ai.get('evaluation') %}
+            <tr><td colspan="6">평가 지표가 아직 준비되지 않았습니다.</td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Theme tag count</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>tag</th><th>건수</th><th>설명</th></tr></thead>
+          <tbody>
+            {% set theme_tag_notes = {
+              'theme_persist_strong': '현재 강한 테마가 다음 1개월 구간에도 상위권을 유지할 가능성이 높은 상태',
+              'theme_persist_watch': '지속 가능성은 있으나 강한 확정 신호는 아닌 상태',
+              'theme_neutral': '지속/둔화 신호가 뚜렷하지 않은 상태',
+              'theme_fade_watch': '테마 순위 둔화 가능성이 있어 관찰이 필요한 상태',
+              'theme_fade_risk': '테마 둔화 위험이 높은 상태'
+            } %}
+            {% for row in theme_ai.get('tag_counts', []) %}
+            {% set tag_name = row.theme_persistence_tag or row.tag %}
+            <tr>
+              <td>{{ text_or_na(tag_name) }}</td>
+              <td>{% if row.count is not none and row.count != '' %}{{ row.count | int }}{% else %}N/A{% endif %}</td>
+              <td>{{ theme_tag_notes.get(tag_name, '테마 지속/둔화 관찰 태그') }}</td>
+            </tr>
+            {% endfor %}
+            {% if not theme_ai.get('tag_counts') %}
+            <tr><td colspan="3">태그 집계가 아직 준비되지 않았습니다.</td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  {% macro theme_table(rows) -%}
+  <div class="table-wrap compact-table">
+    <table>
+      <thead>
+        <tr>
+          <th>테마</th><th>버킷</th><th>1W</th><th>1M</th><th>Momentum</th><th>Rotation</th><th>Rank</th><th>Mapping</th><th>Continue</th><th>Fade</th><th>Score</th><th>Tag</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows[:12] %}
+        <tr>
+          <td>{{ text_or_na(row.theme_name_kr) }}</td>
+          <td>{{ text_or_na(row.quant_theme_bucket) }}</td>
+          <td>{{ pct_or_na(row.theme_ret_1w) }}</td>
+          <td>{{ pct_or_na(row.theme_ret_1m) }}</td>
+          <td>{{ num_or_na(row.theme_momentum_score) }}</td>
+          <td>{{ num_or_na(row.theme_rotation_score) }}</td>
+          <td>{% if row.leading_theme_rank is not none and row.leading_theme_rank != '' %}{{ row.leading_theme_rank | int }}{% else %}N/A{% endif %}</td>
+          <td>{{ ratio_or_na(row.mapping_confidence) }}</td>
+          <td>{{ ratio_or_na(row.theme_continue_prob) }}</td>
+          <td>{{ ratio_or_na(row.theme_fade_prob) }}</td>
+          <td>{{ num_or_na(row.theme_persistence_score) }}</td>
+          <td>{{ text_or_na(row.theme_persistence_tag) }}</td>
+        </tr>
+        {% endfor %}
+        {% if not rows %}
+        <tr><td colspan="12">테마 리스트가 아직 준비되지 않았습니다.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  {%- endmacro %}
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>지속 가능성 상위 테마</h3>
+          <p class="muted small">theme_persistence_score가 높은 순서입니다.</p>
+        </div>
+      </div>
+      {{ theme_table(theme_ai.get('top_persistent_themes', [])) }}
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>둔화 관찰 테마</h3>
+          <p class="muted small">theme_persistence_score가 낮은 순서입니다.</p>
+        </div>
+      </div>
+      {{ theme_table(theme_ai.get('top_fade_risk_themes', [])) }}
+    </article>
+  </div>
+</section>
+
+<section class="panel shell-card" id="ai-downside-risk-v01">
+  <details class="strategy-disclosure">
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary ai-model-summary">
+      <div class="title-stack">
+      <h2 class="notranslate" translate="no">하락위험예측AI</h2>
+      <p class="muted small">하락위험과 비중축소/매도 후보를 shadow 관찰합니다. risk_exit_watch는 자동 매도 신호가 아닙니다.</p>
+      </div>
+      <div class="report-summary-meta">
+        <span class="badge neutral">{{ downside_current.get('model_version') or '-' }}</span>
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+      </div>
+    </summary>
+  <div class="strategy-disclosure-body">
+  {{ ai_guide_panel('AI-DOWNSIDE-RISK-V01') }}
+  <div class="metric-strip three-col report-metric-strip">
+    <div class="metric-card public-metric-card"><span class="label">AUC</span><strong>{{ num_or_na(downside_evaluation.get('auc')) }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">Train rows</span><strong>{{ downside_evaluation.get('train_rows') or '-' }}</strong></div>
+    <div class="metric-card public-metric-card"><span class="label">Valid rows</span><strong>{{ downside_evaluation.get('valid_rows') or '-' }}</strong></div>
+  </div>
+
+  <div class="strategy-layout internal-model-support-grid top-margin-sm">
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Risk tag 분포</h3></div>
+      <div class="table-wrap compact-table">
+        <table>
+          <thead><tr><th>tag</th><th>표시명</th><th>건수</th></tr></thead>
+          <tbody>
+            {% set risk_labels = {'risk_exit_watch':'매도/비중축소 관찰','risk_caution':'비중축소 검토','risk_watch':'관찰 필요','risk_clear':'유지 가능'} %}
+            {% for row in downside_current.get('tag_counts', []) %}
+            <tr><td>{{ row.downside_risk_tag }}</td><td>{{ risk_labels.get(row.downside_risk_tag, row.downside_risk_tag) }}</td><td>{{ row.count | int }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="shell-card content-card">
+      <div class="section-heading tight-head"><h3>Tracker roles</h3></div>
+      <div class="hero-badges compact-meta">
+        {% for role in downside_tracker.get('tracker_roles', []) %}
+        <span class="badge neutral">{{ role }}</span>
+        {% endfor %}
+      </div>
+      <p class="muted small top-margin-sm">live sample이 없으면 1W/2W/1M 성과는 N/A로 표시됩니다.</p>
+    </article>
+  </div>
+
+  <section class="shell-card content-card top-margin-sm">
+    <div class="section-heading tight-head"><h3>Top risk candidates</h3></div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>모델</th><th>코드</th><th>종목명</th><th>위험확률</th><th>tag</th><th>설명</th><th>20D 수익률</th><th>20D MDD</th></tr>
+        </thead>
+        <tbody>
+          {% for row in downside_current.get('top_risk_candidates', [])[:20] %}
+          <tr>
+            <td>{{ row.scope_key }}</td>
+            <td>{{ row.model_id }}</td>
+            <td>{{ row.ticker }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ ratio_or_na(row.downside_risk_prob) }}</td>
+            <td>{{ row.downside_risk_tag }}</td>
+            <td>{{ row.action_hint }}</td>
+            <td>{{ pct_or_na(row.ret_20d) }}</td>
+            <td>{{ pct_or_na(row.mdd_20d) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="shell-card content-card top-margin-sm">
+    <div class="section-heading tight-head"><h3>Tag별 shadow 성과</h3></div>
+    <div class="table-wrap compact-table">
+      <table>
+        <thead>
+          <tr><th>그룹</th><th>값</th><th>기간</th><th>후보</th><th>표본</th><th>평균</th><th>중앙</th><th>승률</th><th>MDD</th><th>Bad rate</th></tr>
+        </thead>
+        <tbody>
+          {% for row in downside_tracker.get('summary', [])[:60] %}
+          <tr>
+            <td>{{ row.group_type }}</td>
+            <td>{{ row.group_value }}</td>
+            <td>{{ row.horizon }}</td>
+            <td>{{ row.candidate_count }}</td>
+            <td>{{ row.sample_count }}</td>
+            <td>{{ pct_or_na(row.avg_return if row.sample_count else none) }}</td>
+            <td>{{ pct_or_na(row.median_return if row.sample_count else none) }}</td>
+            <td>{{ ratio_or_na(row.win_rate if row.sample_count else none) }}</td>
+            <td>{{ pct_or_na(row.avg_mdd if row.sample_count else none) }}</td>
+            <td>{{ ratio_or_na(row.bad_return_rate if row.sample_count else none) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  </div>
+  </details>
+</section>
+{% endblock %}

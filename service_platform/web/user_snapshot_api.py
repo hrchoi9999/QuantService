@@ -9,6 +9,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
 from typing import Any
+from urllib.error import URLError
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.request import Request, urlopen
 
 from service_platform.shared.config import Settings
 
@@ -17,14 +20,39 @@ USER_SNAPSHOT_FILES = {
     "recommendation_today": "user_model_snapshot_report.json",
     "performance_summary": "user_performance_summary.json",
     "recent_changes": "user_recent_changes.json",
-    "publish_status": "publish_manifest.json",
 }
+USER_SNAPSHOT_OPTIONAL_FILES = {
+    "change_history": "user_model_change_history.json",
+}
+USER_SNAPSHOT_MANIFEST_FILENAMES = (
+    "publish_manifest_user.json",
+    "publish_manifest.json",
+)
+REMOTE_SOURCES = {"remote", "http", "gcs"}
 
 SERVICE_PROFILE_LABELS = {
     "stable": "안정형",
     "balanced": "균형형",
     "growth": "성장형",
     "auto": "자동전환형",
+}
+SERVICE_PROFILE_NAME_ALIASES = {
+    "안정형": "stable",
+    "안정형 모델": "stable",
+    "안정형 퀀트투자 모델": "stable",
+    "stable": "stable",
+    "균형형": "balanced",
+    "균형형 모델": "balanced",
+    "균형형 퀀트투자 모델": "balanced",
+    "balanced": "balanced",
+    "성장형": "growth",
+    "성장형 모델": "growth",
+    "성장형 퀀트투자 모델": "growth",
+    "growth": "growth",
+    "자동전환형": "auto",
+    "자동전환형 모델": "auto",
+    "자동전환형 퀀트투자 모델": "auto",
+    "auto": "auto",
 }
 
 SERVICE_PROFILE_SUMMARIES = {
@@ -109,12 +137,20 @@ class UserSnapshotLoadError(RuntimeError):
         self.errors = errors or [message]
 
 
+def _normalized_value(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    return text or None
+
+
 @dataclass
 class UserSnapshotBundle:
     user_models: dict[str, Any]
     recommendation_today: dict[str, Any]
     performance_summary: dict[str, Any]
     recent_changes: dict[str, Any]
+    change_history: dict[str, Any]
     publish_status: dict[str, Any]
     source_name: str
     stale: bool = False
@@ -165,7 +201,7 @@ class UserSnapshotMockApi:
                 return deepcopy(self._cached_bundle)
 
             try:
-                bundle = self._load_from_directory(self.root_dir, source_name="snapshot-local")
+                bundle = self._load_bundle_with_fallbacks()
             except UserSnapshotLoadError as exc:
                 self._last_errors = exc.errors
                 if self._cached_bundle is not None:
@@ -180,7 +216,7 @@ class UserSnapshotMockApi:
 
             self._cached_bundle = deepcopy(bundle)
             self._cache_expires_at = now + self.cache_ttl_seconds
-            self._last_errors = []
+            self._last_errors = list(bundle.errors)
             return bundle
 
     def get_status(self, force_refresh: bool = False) -> UserSnapshotStatus:
@@ -189,7 +225,7 @@ class UserSnapshotMockApi:
         except UserSnapshotLoadError as exc:
             return UserSnapshotStatus(
                 state="error",
-                source_name="snapshot-local",
+                source_name=self._configured_source_name(),
                 as_of_date=self._cached_bundle.as_of_date if self._cached_bundle else None,
                 generated_at=self._cached_bundle.generated_at if self._cached_bundle else None,
                 age_seconds=self._compute_age_seconds(
@@ -277,8 +313,80 @@ class UserSnapshotMockApi:
     def get_recent_changes(self, force_refresh: bool = False) -> dict[str, Any]:
         return self.load_bundle(force_refresh=force_refresh).recent_changes
 
+    def get_change_history(self, force_refresh: bool = False) -> dict[str, Any]:
+        return self.load_bundle(force_refresh=force_refresh).change_history
+
     def get_publish_status(self, force_refresh: bool = False) -> dict[str, Any]:
         return self.load_bundle(force_refresh=force_refresh).publish_status
+
+    def _load_bundle_with_fallbacks(self) -> UserSnapshotBundle:
+        errors: list[str] = []
+        for loader in self._iter_loaders():
+            try:
+                bundle = loader()
+            except UserSnapshotLoadError as exc:
+                errors.extend(exc.errors)
+                continue
+
+            if errors:
+                bundle.errors = list(bundle.errors) + errors
+                if bundle.source_name == "snapshot-local":
+                    bundle.warnings = list(bundle.warnings) + [
+                        "원격 사용자 스냅샷을 읽지 못해 로컬 current 데이터를 사용합니다."
+                    ]
+            return bundle
+
+        raise UserSnapshotLoadError(
+            "User snapshot handoff is temporarily unavailable.",
+            errors=errors,
+        )
+
+    def _iter_loaders(self):
+        use_remote = self.settings.snapshot_source in REMOTE_SOURCES or bool(
+            self.settings.snapshot_gcs_base_url
+        )
+        if use_remote:
+            yield self._load_from_remote_current
+        yield self._load_from_local_current
+
+    def _load_from_local_current(self) -> UserSnapshotBundle:
+        return self._load_from_directory(self.root_dir, source_name="snapshot-local")
+
+    def _load_from_remote_current(self) -> UserSnapshotBundle:
+        base_url = self._get_remote_base_url()
+        request_token = str(int(time.time()))
+        payloads = {
+            key: self._load_json_url(
+                self._with_cache_buster(f"{base_url}/{filename}", request_token)
+            )
+            for key, filename in USER_SNAPSHOT_FILES.items()
+        }
+        payloads.update(
+            {
+                key: payload
+                for key, filename in USER_SNAPSHOT_OPTIONAL_FILES.items()
+                if (
+                    payload := self._load_json_url(
+                        self._with_cache_buster(f"{base_url}/{filename}", request_token),
+                        required=False,
+                    )
+                )
+                is not None
+            }
+        )
+        manifest, manifest_warnings = self._load_manifest_from_remote(base_url, request_token)
+        warnings = list(manifest_warnings)
+        if manifest is None:
+            manifest = self._build_synthetic_manifest(payloads)
+            warnings.append(
+                "원격 current manifest를 찾지 못해 payload 기준으로 메타데이터를 구성했습니다."
+            )
+        return self._build_bundle_from_payloads(
+            payloads,
+            manifest,
+            source_name="snapshot-remote",
+            warnings=warnings,
+        )
 
     def _load_from_directory(self, directory: Path, *, source_name: str) -> UserSnapshotBundle:
         if not directory.exists():
@@ -288,18 +396,330 @@ class UserSnapshotMockApi:
             key: self._load_json(directory / filename)
             for key, filename in USER_SNAPSHOT_FILES.items()
         }
-        payloads = self._sanitize_payloads(payloads)
-        self._validate_payloads(payloads)
-        bundle = UserSnapshotBundle(
-            user_models=payloads["user_models"],
-            recommendation_today=payloads["recommendation_today"],
-            performance_summary=payloads["performance_summary"],
-            recent_changes=payloads["recent_changes"],
-            publish_status=payloads["publish_status"],
+        for key, filename in USER_SNAPSHOT_OPTIONAL_FILES.items():
+            path = directory / filename
+            if path.exists():
+                payloads[key] = self._load_json(path)
+        manifest, manifest_warnings = self._load_manifest_from_directory(directory)
+        warnings = list(manifest_warnings)
+        if manifest is None:
+            manifest = self._build_synthetic_manifest(payloads)
+            warnings.append(
+                "current manifest를 찾지 못해 payload 기준으로 메타데이터를 구성했습니다."
+            )
+        return self._build_bundle_from_payloads(
+            payloads,
+            manifest,
             source_name=source_name,
+            warnings=warnings,
+        )
+
+    def _build_bundle_from_payloads(
+        self,
+        payloads: dict[str, dict[str, Any]],
+        manifest: dict[str, Any],
+        *,
+        source_name: str,
+        warnings: list[str] | None = None,
+    ) -> UserSnapshotBundle:
+        combined_payloads = dict(payloads)
+        combined_payloads["change_history"] = self._normalize_change_history_payload(
+            combined_payloads.get("change_history"),
+            combined_payloads["recent_changes"],
+        )
+        combined_payloads["recent_changes"] = self._fill_recent_changes_from_history(
+            combined_payloads["recent_changes"],
+            combined_payloads["change_history"],
+        )
+        combined_payloads["publish_status"] = manifest
+        combined_payloads = self._sanitize_payloads(combined_payloads)
+        self._validate_payloads(combined_payloads)
+        bundle = UserSnapshotBundle(
+            user_models=combined_payloads["user_models"],
+            recommendation_today=combined_payloads["recommendation_today"],
+            performance_summary=combined_payloads["performance_summary"],
+            recent_changes=combined_payloads["recent_changes"],
+            change_history=combined_payloads["change_history"],
+            publish_status=combined_payloads["publish_status"],
+            source_name=source_name,
+            warnings=list(warnings or []),
         )
         bundle.empty = self._is_bundle_empty(bundle)
+        self._validate_bundle_consistency(bundle)
         return bundle
+
+    def _load_manifest_from_directory(
+        self, directory: Path
+    ) -> tuple[dict[str, Any] | None, list[str]]:
+        warnings: list[str] = []
+        for filename in USER_SNAPSHOT_MANIFEST_FILENAMES:
+            path = directory / filename
+            if not path.exists():
+                continue
+            try:
+                return self._load_json(path), warnings
+            except UserSnapshotLoadError as exc:
+                warnings.extend(exc.errors)
+        return None, warnings
+
+    def _load_manifest_from_remote(
+        self, base_url: str, request_token: str
+    ) -> tuple[dict[str, Any] | None, list[str]]:
+        warnings: list[str] = []
+        for filename in USER_SNAPSHOT_MANIFEST_FILENAMES:
+            url = self._with_cache_buster(f"{base_url}/{filename}", request_token)
+            try:
+                payload = self._load_json_url(url, required=False)
+            except UserSnapshotLoadError as exc:
+                warnings.extend(exc.errors)
+                continue
+            if payload is not None:
+                return payload, warnings
+        return None, warnings
+
+    def _build_synthetic_manifest(self, payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+        recommendation = payloads.get("recommendation_today") or {}
+        as_of_date = _normalized_value(recommendation.get("as_of_date"))
+        if as_of_date is None:
+            for payload in payloads.values():
+                as_of_date = _normalized_value(payload.get("as_of_date"))
+                if as_of_date:
+                    break
+        return {
+            "as_of_date": as_of_date,
+            "generated_at": _normalized_value(recommendation.get("generated_at")),
+            "files": list(USER_SNAPSHOT_FILES.values()),
+            "channel": "user-facing",
+            "version": "synthetic-current-manifest",
+        }
+
+    def _normalize_change_history_payload(
+        self,
+        history_payload: dict[str, Any] | None,
+        recent_changes: dict[str, Any],
+    ) -> dict[str, Any]:
+        if isinstance(history_payload, dict):
+            weekly_rows = self._normalize_change_period_rows(
+                history_payload.get("weekly"),
+                recent_changes,
+                period_type="weekly",
+            )
+            monthly_rows = self._normalize_change_period_rows(
+                history_payload.get("monthly"),
+                recent_changes,
+                period_type="monthly",
+            )
+            history_rows = history_payload.get("history")
+            if history_rows is None:
+                history_rows = history_payload.get("items")
+            if isinstance(history_rows, list):
+                normalized_rows = [
+                    self._normalize_change_history_row(row, recent_changes)
+                    for row in history_rows
+                    if isinstance(row, dict)
+                ]
+                return {
+                    **history_payload,
+                    "as_of_date": history_payload.get("as_of_date")
+                    or recent_changes.get("as_of_date"),
+                    "weekly": weekly_rows,
+                    "monthly": monthly_rows,
+                    "history": normalized_rows,
+                }
+            if weekly_rows or monthly_rows:
+                return {
+                    **history_payload,
+                    "as_of_date": history_payload.get("as_of_date")
+                    or recent_changes.get("as_of_date"),
+                    "weekly": weekly_rows,
+                    "monthly": monthly_rows,
+                    "history": [
+                        {
+                            "change_date": row.get("period_key") or row.get("as_of_date"),
+                            "summary": "주간 공개 모델 변경내역",
+                            "changes": list(row.get("models") or []),
+                        }
+                        for row in weekly_rows
+                    ],
+                }
+        return self._build_change_history_from_recent(recent_changes)
+
+    def _normalize_change_period_rows(
+        self,
+        rows: Any,
+        recent_changes: dict[str, Any],
+        *,
+        period_type: str,
+    ) -> list[dict[str, Any]]:
+        normalized_rows: list[dict[str, Any]] = []
+        if not isinstance(rows, list):
+            return normalized_rows
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            normalized = dict(row)
+            normalized["period_type"] = (
+                _normalized_value(normalized.get("period_type")) or period_type
+            )
+            normalized["period_key"] = (
+                _normalized_value(normalized.get("period_key"))
+                or _normalized_value(normalized.get("as_of_date"))
+                or _normalized_value(normalized.get("end_date"))
+                or _normalized_value(recent_changes.get("as_of_date"))
+            )
+            models = normalized.get("models")
+            normalized["models"] = models if isinstance(models, list) else []
+            normalized_rows.append(normalized)
+        return normalized_rows
+
+    def _fill_recent_changes_from_history(
+        self,
+        recent_changes: dict[str, Any],
+        history_payload: dict[str, Any],
+    ) -> dict[str, Any]:
+        changes = recent_changes.get("changes") if isinstance(recent_changes, dict) else None
+        if changes:
+            return recent_changes
+        weekly_rows = history_payload.get("weekly") if isinstance(history_payload, dict) else None
+        if not isinstance(weekly_rows, list) or not weekly_rows:
+            return recent_changes
+        latest = weekly_rows[0] if isinstance(weekly_rows[0], dict) else {}
+        latest_models = latest.get("models") if isinstance(latest, dict) else []
+        if not isinstance(latest_models, list) or not latest_models:
+            return recent_changes
+        filled = dict(recent_changes)
+        filled["as_of_date"] = (
+            filled.get("as_of_date")
+            or latest.get("as_of_date")
+            or latest.get("period_key")
+            or history_payload.get("as_of_date")
+        )
+        filled["changes"] = list(latest_models)
+        filled["source"] = "change_history_latest_weekly_fallback"
+        return filled
+
+    def _build_change_history_from_recent(self, recent_changes: dict[str, Any]) -> dict[str, Any]:
+        as_of_date = _normalized_value(recent_changes.get("as_of_date"))
+        changes = recent_changes.get("changes") if isinstance(recent_changes, dict) else []
+        history_rows = (
+            [
+                {
+                    "change_date": as_of_date,
+                    "summary": "최신 공개 모델 변경내역",
+                    "changes": list(changes or []),
+                }
+            ]
+            if changes
+            else []
+        )
+        weekly_rows = (
+            [
+                {
+                    "period_type": "weekly",
+                    "period_key": as_of_date,
+                    "as_of_date": as_of_date,
+                    "models": list(changes or []),
+                }
+            ]
+            if changes
+            else []
+        )
+        return {
+            "as_of_date": as_of_date,
+            "source": "recent_changes_fallback",
+            "weekly": weekly_rows,
+            "monthly": [],
+            "history": history_rows,
+        }
+
+    def _normalize_change_history_row(
+        self,
+        row: dict[str, Any],
+        recent_changes: dict[str, Any],
+    ) -> dict[str, Any]:
+        normalized = dict(row)
+        change_date = (
+            _normalized_value(normalized.get("change_date"))
+            or _normalized_value(normalized.get("as_of_date"))
+            or _normalized_value(normalized.get("date"))
+            or _normalized_value(recent_changes.get("as_of_date"))
+        )
+        normalized["change_date"] = change_date
+        changes = normalized.get("changes")
+        if changes is None:
+            changes = normalized.get("items")
+        normalized["changes"] = changes if isinstance(changes, list) else []
+        return normalized
+
+    def _validate_bundle_consistency(self, bundle: UserSnapshotBundle) -> None:
+        manifest_as_of = _normalized_value(bundle.publish_status.get("as_of_date"))
+        payload_pairs = [
+            ("user_model_catalog.json", bundle.user_models),
+            ("user_model_snapshot_report.json", bundle.recommendation_today),
+            ("user_performance_summary.json", bundle.performance_summary),
+            ("user_recent_changes.json", bundle.recent_changes),
+        ]
+        payload_as_ofs = [
+            _normalized_value(payload.get("as_of_date"))
+            for _, payload in payload_pairs
+            if _normalized_value(payload.get("as_of_date"))
+        ]
+        canonical_as_of = manifest_as_of or (payload_as_ofs[0] if payload_as_ofs else None)
+        mismatches: list[str] = []
+        for filename, payload in payload_pairs:
+            payload_as_of = _normalized_value(payload.get("as_of_date"))
+            if canonical_as_of and payload_as_of and payload_as_of != canonical_as_of:
+                mismatches.append(f"{filename}={payload_as_of}")
+        if mismatches:
+            details = ", ".join(mismatches)
+            raise UserSnapshotLoadError(
+                "User snapshot handoff files are out of sync.",
+                errors=[
+                    (
+                        "사용자 snapshot handoff 파일의 기준일이 서로 다릅니다: "
+                        f"manifest={canonical_as_of}, {details}"
+                    )
+                ],
+            )
+
+        manifest_generated_at = _normalized_value(bundle.publish_status.get("generated_at"))
+        report_generated_at = _normalized_value(bundle.recommendation_today.get("generated_at"))
+        if (
+            manifest_generated_at
+            and report_generated_at
+            and manifest_generated_at != report_generated_at
+        ):
+            raise UserSnapshotLoadError(
+                "User snapshot handoff generated_at values are out of sync.",
+                errors=[
+                    (
+                        "사용자 snapshot manifest와 report generated_at이 다릅니다: "
+                        f"manifest={manifest_generated_at}, report={report_generated_at}"
+                    )
+                ],
+            )
+
+    def _get_remote_base_url(self) -> str:
+        base_url = self.settings.snapshot_gcs_base_url.strip().rstrip("/")
+        if base_url:
+            return base_url
+        if self.settings.snapshot_gcs_bucket:
+            bucket = self.settings.snapshot_gcs_bucket.strip().removeprefix("gs://")
+            return f"https://storage.googleapis.com/{bucket}/current"
+        raise UserSnapshotLoadError(
+            "Remote user snapshot source is configured without SNAPSHOT_GCS_BASE_URL or bucket."
+        )
+
+    @staticmethod
+    def _with_cache_buster(url: str, token: str) -> str:
+        parts = urlsplit(url)
+        if parts.scheme in {"file", ""}:
+            return url
+        query = dict(parse_qsl(parts.query, keep_blank_values=True))
+        query["ts"] = token
+        return urlunsplit(
+            (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
+        )
 
     def _load_json(self, path: Path) -> dict[str, Any]:
         if not path.exists():
@@ -308,6 +728,37 @@ class UserSnapshotMockApi:
             return json.loads(path.read_text(encoding="utf-8-sig"))
         except json.JSONDecodeError as exc:
             raise UserSnapshotLoadError(f"Invalid JSON in {path.name}: {exc.msg}") from exc
+
+    @staticmethod
+    def _load_json_url(url: str, *, required: bool = True) -> dict[str, Any] | None:
+        request_target: str | Request = url
+        if urlsplit(url).scheme not in {"file", ""}:
+            request_target = Request(
+                url,
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                },
+            )
+        try:
+            with urlopen(request_target, timeout=5) as response:
+                payload = response.read().decode("utf-8-sig")
+        except (OSError, URLError) as exc:
+            if required:
+                raise UserSnapshotLoadError(
+                    f"Failed to fetch user snapshot handoff: {url}"
+                ) from exc
+            return None
+        try:
+            return json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise UserSnapshotLoadError(f"Invalid JSON fetched from {url}: {exc.msg}") from exc
+
+    def _configured_source_name(self) -> str:
+        use_remote = self.settings.snapshot_source in REMOTE_SOURCES or bool(
+            self.settings.snapshot_gcs_base_url
+        )
+        return "snapshot-remote" if use_remote else "snapshot-local"
 
     def _sanitize_payloads(self, payloads: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
         sanitized = deepcopy(payloads)
@@ -389,25 +840,103 @@ class UserSnapshotMockApi:
             model["compliance_metadata"] = compliance_metadata
 
         for change in sanitized["recent_changes"].get("changes", []):
-            profile = change.get("service_profile")
-            change["user_model_name"] = self._sanitize_model_name(
-                change.get("user_model_name"), profile
-            )
-            change["summary"] = self._sanitize_profile_summary(change.get("summary"), profile)
-            change["increase_items"] = self._sanitize_change_items(
-                change.get("increase_items") or change.get("increased_assets"),
-                direction="increase",
-            )
-            change["decrease_items"] = self._sanitize_change_items(
-                change.get("decrease_items") or change.get("decreased_assets"),
-                direction="decrease",
-            )
-            change["reason_text"] = self._sanitize_change_reason(change.get("reason_text"), profile)
-            compliance_metadata = change.get("compliance_metadata") or {}
-            compliance_metadata["is_personalized_advice"] = False
-            change["compliance_metadata"] = compliance_metadata
+            self._sanitize_recent_change(change)
+
+        sanitized_change_ids: set[int] = set()
+        for period_key in ("weekly", "monthly"):
+            for period_row in sanitized["change_history"].get(period_key, []):
+                period_models = period_row.get("models")
+                if not isinstance(period_models, list):
+                    period_row["models"] = []
+                    continue
+                for change in period_models:
+                    if isinstance(change, dict):
+                        self._sanitize_recent_change_once(change, sanitized_change_ids)
+
+        for history_row in sanitized["change_history"].get("history", []):
+            history_changes = history_row.get("changes")
+            if not isinstance(history_changes, list):
+                history_row["changes"] = []
+                continue
+            for change in history_changes:
+                if isinstance(change, dict):
+                    self._sanitize_recent_change_once(change, sanitized_change_ids)
 
         return sanitized
+
+    def _sanitize_recent_change_once(
+        self,
+        change: dict[str, Any],
+        sanitized_change_ids: set[int],
+    ) -> None:
+        change_id = id(change)
+        if change_id in sanitized_change_ids:
+            return
+        sanitized_change_ids.add(change_id)
+        self._sanitize_recent_change(change)
+
+    def _sanitize_recent_change(self, change: dict[str, Any]) -> None:
+        profile = self._resolve_service_profile(change)
+        if profile:
+            change["service_profile"] = profile
+        change["user_model_name"] = self._sanitize_model_name(
+            change.get("user_model_name"), profile
+        )
+        change["summary"] = self._sanitize_profile_summary(change.get("summary"), profile)
+        change["increase_items"] = self._sanitize_change_items(
+            change.get("increase_items") or change.get("increased_assets"),
+            direction="increase",
+        )
+        change["decrease_items"] = self._sanitize_change_items(
+            change.get("decrease_items") or change.get("decreased_assets"),
+            direction="decrease",
+        )
+        change["reason_text"] = self._sanitize_change_reason(change.get("reason_text"), profile)
+        compliance_metadata = change.get("compliance_metadata") or {}
+        compliance_metadata["is_personalized_advice"] = False
+        change["compliance_metadata"] = compliance_metadata
+
+    def _resolve_service_profile(self, row: dict[str, Any]) -> str:
+        direct_profile = str(row.get("service_profile") or "").strip().lower()
+        if direct_profile in SERVICE_PROFILE_LABELS:
+            return direct_profile
+        metadata = row.get("model_metadata") if isinstance(row.get("model_metadata"), dict) else {}
+        metadata_profile = (
+            str(
+                metadata.get("service_profile")
+                or metadata.get("profile")
+                or metadata.get("profile_code")
+                or ""
+            )
+            .strip()
+            .lower()
+        )
+        if metadata_profile in SERVICE_PROFILE_LABELS:
+            return metadata_profile
+        candidates = [
+            row.get("user_model_name"),
+            row.get("quant_model_name"),
+            row.get("change_subject_name"),
+            metadata.get("model_display_name"),
+            metadata.get("change_subject_name"),
+            metadata.get("performance_subject_name"),
+        ]
+        for candidate in candidates:
+            repaired = self._repair_text(candidate)
+            if repaired in SERVICE_PROFILE_NAME_ALIASES:
+                return SERVICE_PROFILE_NAME_ALIASES[repaired]
+            compact = repaired.replace(" ", "")
+            if compact in SERVICE_PROFILE_NAME_ALIASES:
+                return SERVICE_PROFILE_NAME_ALIASES[compact]
+            if "안정형" in repaired:
+                return "stable"
+            if "균형형" in repaired:
+                return "balanced"
+            if "성장형" in repaired:
+                return "growth"
+            if "자동전환형" in repaired:
+                return "auto"
+        return ""
 
     def _sanitize_model_name(self, value: Any, profile: str | None) -> str:
         repaired = self._repair_text(value)
@@ -509,12 +1038,24 @@ class UserSnapshotMockApi:
                 delta_weight = item.get("delta_weight")
                 if not isinstance(delta_weight, (int, float)):
                     delta_weight = None
+                latest_delta_weight = item.get("latest_delta_weight")
+                if not isinstance(latest_delta_weight, (int, float)):
+                    latest_delta_weight = None
+                source_dates = item.get("source_dates")
+                if not isinstance(source_dates, list):
+                    source_dates = []
+                occurrence_count = item.get("occurrence_count")
+                if not isinstance(occurrence_count, int):
+                    occurrence_count = None
                 item_direction = item.get("direction") or direction
                 sanitized.append(
                     {
                         "display_name": display_name,
                         "security_code": security_code,
                         "delta_weight": delta_weight,
+                        "latest_delta_weight": latest_delta_weight,
+                        "source_dates": source_dates,
+                        "occurrence_count": occurrence_count,
                         "direction": item_direction,
                     }
                 )
@@ -580,6 +1121,12 @@ class UserSnapshotMockApi:
             errors.append("user_performance_summary.json: models must be a list")
         if not isinstance(payloads["recent_changes"].get("changes"), list):
             errors.append("user_recent_changes.json: changes must be a list")
+        if not isinstance(payloads["change_history"].get("history"), list):
+            errors.append("user_model_change_history.json: history must be a list")
+        if not isinstance(payloads["change_history"].get("weekly"), list):
+            errors.append("user_model_change_history.json: weekly must be a list")
+        if not isinstance(payloads["change_history"].get("monthly"), list):
+            errors.append("user_model_change_history.json: monthly must be a list")
         if not isinstance(payloads["publish_status"].get("files"), list):
             errors.append("publish_manifest.json: files must be a list")
         for key in ("as_of_date",):

@@ -1,5 +1,28 @@
 {
-  "as_of_date": "2026-03-20",
+  "as_of_date": "2026-05-06",
+  "performance_meta": {
+    "content_class": "service_public_backtest",
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "is_personalized_advice": false,
+    "is_one_to_one_advisory": false,
+    "is_actual_trade_instruction": false,
+    "actual_investment_result": false,
+    "backtest_result": true,
+    "disclaimer_required": true,
+    "data_basis": "rule_based_public_model_output",
+    "model_version": "public-model-2026.05.06",
+    "calculation_version": "calc-2026-03-24-compliance-v1",
+    "asof_date": "2026-05-06",
+    "rebalance_frequency": "monthly",
+    "fee_bps": 0.0,
+    "slippage_bps": 0.0,
+    "benchmark_name": "KOSPI200",
+    "backtest_start_date": "2023-06-08",
+    "backtest_end_date": "2026-05-06",
+    "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+    "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+  },
   "models": [
     {
       "user_model_name": "안정형",
@@ -8,85 +31,124 @@
       "performance_cards": {
         "primary_period": "1Y",
         "display_metric": "cagr",
-        "cagr": 0.622546,
-        "total_return": 0.622546,
-        "mdd": -0.12245,
-        "sharpe": 2.582301
+        "cagr": 0.842578,
+        "total_return": 0.901304,
+        "mdd": -0.126087,
+        "sharpe": 3.865791
       },
+      "model_metadata": {
+        "model_display_name": "안정형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+        "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "안정형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "안정형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "안정형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
       "period_table": [
         {
           "period": "3M",
-          "total_return": 0.149552,
-          "cagr": 0.74628,
-          "mdd": -0.12245,
-          "sharpe": 2.12932
+          "total_return": 0.243143,
+          "cagr": 1.232158,
+          "mdd": -0.126087,
+          "sharpe": 3.314495
         },
         {
           "period": "6M",
-          "total_return": 0.310611,
-          "cagr": 0.717702,
-          "mdd": -0.12245,
-          "sharpe": 2.514501
+          "total_return": 0.393769,
+          "cagr": 0.886847,
+          "mdd": -0.126087,
+          "sharpe": 3.261855
         },
         {
           "period": "1Y",
-          "total_return": 0.622546,
-          "cagr": 0.622546,
-          "mdd": -0.12245,
-          "sharpe": 2.582301
+          "total_return": 0.901304,
+          "cagr": 0.842578,
+          "mdd": -0.126087,
+          "sharpe": 3.865791
         },
         {
           "period": "2Y",
-          "total_return": 0.782201,
-          "cagr": 0.334991,
-          "mdd": -0.12245,
-          "sharpe": 1.927903
+          "total_return": 0.95296,
+          "cagr": 0.377125,
+          "mdd": -0.126087,
+          "sharpe": 2.41862
         },
         {
           "period": "3Y",
-          "total_return": 0.841555,
-          "cagr": 0.257315,
-          "mdd": -0.12245,
-          "sharpe": 1.713394
+          "total_return": 1.193032,
+          "cagr": 0.309737,
+          "mdd": -0.126087,
+          "sharpe": 2.286637
         },
         {
           "period": "5Y",
-          "total_return": 0.841555,
-          "cagr": 0.257315,
-          "mdd": -0.12245,
-          "sharpe": 1.713394
+          "total_return": 1.193032,
+          "cagr": 0.309737,
+          "mdd": -0.126087,
+          "sharpe": 2.286637
         },
         {
           "period": "FULL",
-          "total_return": 0.841555,
-          "cagr": 0.257315,
-          "mdd": -0.12245,
-          "sharpe": 1.713394
+          "total_return": 1.193032,
+          "cagr": 0.309737,
+          "mdd": -0.126087,
+          "sharpe": 2.286637
         }
       ],
+      "performance_subject_name": "안정형 퀀트투자 모델",
+      "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+      "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
       "reference_metrics": {
         "five_year": {
           "period": "5Y",
-          "total_return": 0.841555,
-          "cagr": 0.257315,
-          "mdd": -0.12245,
-          "sharpe": 1.713394
+          "total_return": 1.193032,
+          "cagr": 0.309737,
+          "mdd": -0.126087,
+          "sharpe": 2.286637
         },
         "full": {
           "period": "FULL",
-          "total_return": 0.841555,
-          "cagr": 0.257315,
-          "mdd": -0.12245,
-          "sharpe": 1.713394
+          "total_return": 1.193032,
+          "cagr": 0.309737,
+          "mdd": -0.126087,
+          "sharpe": 2.286637
         }
       },
-      "note": "채권, 달러, 금 중심의 방어형 자산배분 포트폴리오",
+      "note": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     },
     {
@@ -96,85 +158,124 @@
       "performance_cards": {
         "primary_period": "1Y",
         "display_metric": "cagr",
-        "cagr": 0.675826,
-        "total_return": 0.675826,
-        "mdd": -0.13316,
-        "sharpe": 2.523104
+        "cagr": 0.934187,
+        "total_return": 1.000809,
+        "mdd": -0.13796,
+        "sharpe": 3.782927
       },
+      "model_metadata": {
+        "model_display_name": "균형형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+        "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "균형형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "균형형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "균형형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
       "period_table": [
         {
           "period": "3M",
-          "total_return": 0.164796,
-          "cagr": 0.84077,
-          "mdd": -0.13316,
-          "sharpe": 2.121267
+          "total_return": 0.264493,
+          "cagr": 1.376893,
+          "mdd": -0.13796,
+          "sharpe": 3.253257
         },
         {
           "period": "6M",
-          "total_return": 0.332693,
-          "cagr": 0.776069,
-          "mdd": -0.13316,
-          "sharpe": 2.421941
+          "total_return": 0.425493,
+          "cagr": 0.969827,
+          "mdd": -0.13796,
+          "sharpe": 3.176088
         },
         {
           "period": "1Y",
-          "total_return": 0.675826,
-          "cagr": 0.675826,
-          "mdd": -0.13316,
-          "sharpe": 2.523104
+          "total_return": 1.000809,
+          "cagr": 0.934187,
+          "mdd": -0.13796,
+          "sharpe": 3.782927
         },
         {
           "period": "2Y",
-          "total_return": 0.85366,
-          "cagr": 0.361492,
-          "mdd": -0.13316,
-          "sharpe": 1.898018
+          "total_return": 1.069995,
+          "cagr": 0.415981,
+          "mdd": -0.13796,
+          "sharpe": 2.410251
         },
         {
           "period": "3Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
+          "total_return": 1.315651,
+          "cagr": 0.334451,
+          "mdd": -0.13796,
+          "sharpe": 2.24723
         },
         {
           "period": "5Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
+          "total_return": 1.315651,
+          "cagr": 0.334451,
+          "mdd": -0.13796,
+          "sharpe": 2.24723
         },
         {
           "period": "FULL",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
+          "total_return": 1.315651,
+          "cagr": 0.334451,
+          "mdd": -0.13796,
+          "sharpe": 2.24723
         }
       ],
+      "performance_subject_name": "균형형 퀀트투자 모델",
+      "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+      "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
       "reference_metrics": {
         "five_year": {
           "period": "5Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
+          "total_return": 1.315651,
+          "cagr": 0.334451,
+          "mdd": -0.13796,
+          "sharpe": 2.24723
         },
         "full": {
           "period": "FULL",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
+          "total_return": 1.315651,
+          "cagr": 0.334451,
+          "mdd": -0.13796,
+          "sharpe": 2.24723
         }
       },
-      "note": "주식과 ETF를 함께 사용해 수익과 안정성을 균형 있게 추구하는 포트폴리오",
+      "note": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     },
     {
@@ -184,173 +285,124 @@
       "performance_cards": {
         "primary_period": "1Y",
         "display_metric": "cagr",
-        "cagr": 1.355819,
-        "total_return": 1.355819,
-        "mdd": -0.142547,
-        "sharpe": 3.406951
+        "cagr": 1.550055,
+        "total_return": 1.675591,
+        "mdd": -0.150973,
+        "sharpe": 4.504196
       },
+      "model_metadata": {
+        "model_display_name": "성장형 퀀트투자 모델",
+        "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_public_type": "공개 기준 기반 퀀트투자 모델",
+        "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+        "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+        "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+        "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+        "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+        "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+        "performance_subject_name": "성장형 퀀트투자 모델",
+        "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+        "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+        "change_subject_name": "성장형 퀀트투자 모델",
+        "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+        "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+      },
+      "quant_model_name": "성장형 퀀트투자 모델",
+      "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+      "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
       "period_table": [
         {
           "period": "3M",
-          "total_return": 0.23194,
-          "cagr": 1.303344,
-          "mdd": -0.142547,
-          "sharpe": 2.36453
+          "total_return": 0.241256,
+          "cagr": 1.219685,
+          "mdd": -0.150973,
+          "sharpe": 2.641379
         },
         {
           "period": "6M",
-          "total_return": 0.733342,
-          "cagr": 2.004475,
-          "mdd": -0.142547,
-          "sharpe": 3.760946
+          "total_return": 0.715729,
+          "cagr": 1.807613,
+          "mdd": -0.150973,
+          "sharpe": 3.979307
         },
         {
           "period": "1Y",
-          "total_return": 1.355819,
-          "cagr": 1.355819,
-          "mdd": -0.142547,
-          "sharpe": 3.406951
+          "total_return": 1.675591,
+          "cagr": 1.550055,
+          "mdd": -0.150973,
+          "sharpe": 4.504196
         },
         {
           "period": "2Y",
-          "total_return": 2.055461,
-          "cagr": 0.747988,
-          "mdd": -0.142547,
-          "sharpe": 2.606501
+          "total_return": 2.331617,
+          "cagr": 0.777742,
+          "mdd": -0.150973,
+          "sharpe": 3.044557
         },
         {
           "period": "3Y",
-          "total_return": 2.938393,
-          "cagr": 0.672032,
-          "mdd": -0.142547,
-          "sharpe": 2.54015
+          "total_return": 3.322271,
+          "cagr": 0.653608,
+          "mdd": -0.150973,
+          "sharpe": 2.937192
         },
         {
           "period": "5Y",
-          "total_return": 2.938393,
-          "cagr": 0.672032,
-          "mdd": -0.142547,
-          "sharpe": 2.54015
+          "total_return": 3.322271,
+          "cagr": 0.653608,
+          "mdd": -0.150973,
+          "sharpe": 2.937192
         },
         {
           "period": "FULL",
-          "total_return": 2.938393,
-          "cagr": 0.672032,
-          "mdd": -0.142547,
-          "sharpe": 2.54015
+          "total_return": 3.322271,
+          "cagr": 0.653608,
+          "mdd": -0.150973,
+          "sharpe": 2.937192
         }
       ],
+      "performance_subject_name": "성장형 퀀트투자 모델",
+      "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+      "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
       "reference_metrics": {
         "five_year": {
           "period": "5Y",
-          "total_return": 2.938393,
-          "cagr": 0.672032,
-          "mdd": -0.142547,
-          "sharpe": 2.54015
+          "total_return": 3.322271,
+          "cagr": 0.653608,
+          "mdd": -0.150973,
+          "sharpe": 2.937192
         },
         "full": {
           "period": "FULL",
-          "total_return": 2.938393,
-          "cagr": 0.672032,
-          "mdd": -0.142547,
-          "sharpe": 2.54015
+          "total_return": 3.322271,
+          "cagr": 0.653608,
+          "mdd": -0.150973,
+          "sharpe": 2.937192
         }
       },
-      "note": "상승 추세와 모멘텀을 적극 반영하는 성장 지향 포트폴리오",
+      "note": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
       "compliance_metadata": {
-        "content_class": "public_model_snapshot",
+        "content_class": "service_public_backtest",
+        "public_same_for_all_users": true,
+        "non_personalized": true,
         "is_personalized_advice": false,
         "is_one_to_one_advisory": false,
         "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
-      }
-    },
-    {
-      "user_model_name": "자동전환형",
-      "service_profile": "auto",
-      "risk_label": "adaptive",
-      "performance_cards": {
-        "primary_period": "1Y",
-        "display_metric": "cagr",
-        "cagr": 0.675826,
-        "total_return": 0.675826,
-        "mdd": -0.13316,
-        "sharpe": 2.523104
-      },
-      "period_table": [
-        {
-          "period": "3M",
-          "total_return": 0.164796,
-          "cagr": 0.84077,
-          "mdd": -0.13316,
-          "sharpe": 2.121267
-        },
-        {
-          "period": "6M",
-          "total_return": 0.332693,
-          "cagr": 0.776069,
-          "mdd": -0.13316,
-          "sharpe": 2.421941
-        },
-        {
-          "period": "1Y",
-          "total_return": 0.675826,
-          "cagr": 0.675826,
-          "mdd": -0.13316,
-          "sharpe": 2.523104
-        },
-        {
-          "period": "2Y",
-          "total_return": 0.85366,
-          "cagr": 0.361492,
-          "mdd": -0.13316,
-          "sharpe": 1.898018
-        },
-        {
-          "period": "3Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
-        },
-        {
-          "period": "5Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
-        },
-        {
-          "period": "FULL",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
-        }
-      ],
-      "reference_metrics": {
-        "five_year": {
-          "period": "5Y",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
-        },
-        "full": {
-          "period": "FULL",
-          "total_return": 0.871859,
-          "cagr": 0.265035,
-          "mdd": -0.13316,
-          "sharpe": 1.621924
-        }
-      },
-      "note": "시장 국면에 따라 주식과 ETF 비중을 자동 조정하는 다중자산 포트폴리오",
-      "compliance_metadata": {
-        "content_class": "public_model_snapshot",
-        "is_personalized_advice": false,
-        "is_one_to_one_advisory": false,
-        "is_actual_trade_instruction": false,
-        "data_basis": "rule_based_public_model_output"
+        "actual_investment_result": false,
+        "backtest_result": true,
+        "disclaimer_required": true,
+        "data_basis": "rule_based_public_model_output",
+        "model_version": "public-model-2026.05.06",
+        "calculation_version": "calc-2026-03-24-compliance-v1",
+        "asof_date": "2026-05-06",
+        "rebalance_frequency": "monthly",
+        "fee_bps": 0.0,
+        "slippage_bps": 0.0,
+        "benchmark_name": "KOSPI200",
+        "backtest_start_date": "2023-06-08",
+        "backtest_end_date": "2026-05-06",
+        "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+        "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
     }
   ]

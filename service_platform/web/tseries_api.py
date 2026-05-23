@@ -8,11 +8,13 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 from urllib.error import URLError
-from urllib.request import urlopen
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.request import Request, urlopen
 
 from service_platform.shared.config import Settings
 
 T_SERIES_BUCKETS = ("confirmed", "near", "observe")
+T_SERIES_WATCH_STATUSES = ("new", "active", "cooling")
 T_SERIES_MODEL_REGISTRY = {
     "T-STOCK-V01": {
         "service_model_code": "T_STOCK_DISCOVERY",
@@ -152,9 +154,20 @@ class TSeriesOperationalApi:
         return self._build_overview(payload, f"json:{local_path.name}")
 
     def _load_from_remote_current(self) -> TSeriesOverview:
-        url = self._get_remote_base_url().rstrip("/") + "/" + T_SERIES_PAYLOAD_FILENAME
+        base_url = self._get_remote_base_url().rstrip("/")
+        request_token = str(int(time.time()))
+        url = self._with_cache_buster(f"{base_url}/{T_SERIES_PAYLOAD_FILENAME}", request_token)
+        request_target: str | Request = url
+        if urlsplit(url).scheme not in {"file", ""}:
+            request_target = Request(
+                url,
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                },
+            )
         try:
-            with urlopen(url, timeout=10) as response:
+            with urlopen(request_target, timeout=10) as response:
                 payload = json.loads(response.read().decode("utf-8-sig"))
         except (OSError, URLError, json.JSONDecodeError) as exc:
             raise TSeriesLoadError(f"Failed to load T-series discovery payload: {exc}") from exc
@@ -192,6 +205,17 @@ class TSeriesOperationalApi:
         )
 
     @staticmethod
+    def _with_cache_buster(url: str, token: str) -> str:
+        parts = urlsplit(url)
+        if parts.scheme in {"file", ""}:
+            return url
+        query = dict(parse_qsl(parts.query, keep_blank_values=True))
+        query["ts"] = token
+        return urlunsplit(
+            (parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment)
+        )
+
+    @staticmethod
     def _read_json(path: Path) -> dict[str, Any]:
         try:
             return json.loads(path.read_text(encoding="utf-8-sig"))
@@ -218,6 +242,7 @@ class TSeriesOperationalApi:
             payload.get("shadow_summary") or {}
         )
         performance_summary_payload = payload.get("performance_summary") or {}
+        rolling_watchlist_payload = payload.get("rolling_watchlist") or {}
         bucket_counts_payload = payload.get("bucket_counts") or {}
 
         top_by_bucket = {
@@ -239,6 +264,7 @@ class TSeriesOperationalApi:
             for bucket in T_SERIES_BUCKETS
             if shadow_summary_payload.get(bucket) is not None
         }
+        rolling_watchlist = self._normalize_rolling_watchlist(rolling_watchlist_payload)
 
         threshold_summary = str(profile_payload.get("threshold_summary") or "").strip()
         if not threshold_summary:
@@ -334,6 +360,7 @@ class TSeriesOperationalApi:
             "bucket_counts": bucket_counts,
             "top_by_bucket": top_by_bucket,
             "shadow_summary": shadow_summary,
+            "rolling_watchlist": rolling_watchlist,
             "performance_summary": self._normalize_performance_summary(performance_summary_payload),
         }
 
@@ -345,6 +372,9 @@ class TSeriesOperationalApi:
             "market": row.get("market"),
             "theme_bucket": row.get("theme_bucket"),
             "theme_name_kr": row.get("theme_name_kr"),
+            "role_key": row.get("role_key"),
+            "role_confidence": row.get("role_confidence"),
+            "role_reason": row.get("role_reason"),
             "stage1_prob": row.get("stage1_prob"),
             "stage2_prob": row.get("stage2_prob"),
             "is_s2_overlap": row.get("is_s2_overlap"),
@@ -410,6 +440,99 @@ class TSeriesOperationalApi:
             "performance_subject_name": payload.get("performance_subject_name"),
             "performance_subject_type": payload.get("performance_subject_type"),
             "portfolio_generation_basis": payload.get("portfolio_generation_basis"),
+        }
+
+    @staticmethod
+    def _normalize_rolling_watch_item(row: dict[str, Any]) -> dict[str, Any]:
+        watch_status = str(row.get("watch_status") or row.get("status") or "").strip().lower()
+        watch_tier = str(row.get("watch_tier") or row.get("tier") or "").strip().lower()
+        current_bucket = str(row.get("current_bucket") or "").strip().lower() or None
+        if current_bucket not in T_SERIES_BUCKETS:
+            current_bucket = None
+
+        seen_count_label = "-"
+        if row.get("months_seen") is not None:
+            seen_count_label = f"{int(row.get('months_seen') or 0)}개월"
+        elif row.get("weeks_seen") is not None:
+            seen_count_label = f"{int(row.get('weeks_seen') or 0)}주"
+        elif row.get("appearances_recent") is not None:
+            seen_count_label = f"{int(row.get('appearances_recent') or 0)}회 포착"
+
+        return {
+            "ticker": row.get("ticker"),
+            "name": row.get("name"),
+            "market": row.get("market"),
+            "theme_bucket": row.get("theme_bucket"),
+            "theme_name_kr": row.get("theme_name_kr"),
+            "role_key": row.get("role_key"),
+            "role_confidence": row.get("role_confidence"),
+            "role_reason": row.get("role_reason"),
+            "watch_status": watch_status or None,
+            "watch_tier": watch_tier or None,
+            "is_current": bool(row.get("is_current")),
+            "current_bucket": current_bucket,
+            "best_bucket_recent": str(row.get("best_bucket_recent") or "").strip().lower() or None,
+            "first_seen_date": (
+                row.get("first_seen_date")
+                or row.get("first_seen_asof")
+                or row.get("prev_seen_asof")
+            ),
+            "last_seen_date": row.get("last_seen_date") or row.get("last_seen_asof"),
+            "weeks_seen": row.get("weeks_seen"),
+            "months_seen": row.get("months_seen"),
+            "appearances_recent": row.get("appearances_recent"),
+            "consecutive_current": row.get("consecutive_current"),
+            "seen_count_label": seen_count_label,
+            "stage1_prob": row.get("stage1_prob"),
+            "stage2_prob": row.get("stage2_prob"),
+            "is_s2_overlap": row.get("is_s2_overlap"),
+        }
+
+    def _normalize_rolling_watchlist(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            return {"enabled": False, "summary_rows": [], "items": []}
+
+        items = [
+            self._normalize_rolling_watch_item(row)
+            for row in (payload.get("items") or [])
+            if isinstance(row, dict)
+        ]
+
+        status_counts = {status: 0 for status in T_SERIES_WATCH_STATUSES}
+        summary_rows_raw = [row for row in (payload.get("summary") or []) if isinstance(row, dict)]
+        for row in summary_rows_raw:
+            status = str(row.get("status") or row.get("bucket") or "").strip().lower()
+            if status in status_counts:
+                try:
+                    status_counts[status] = int(row.get("count") or 0)
+                except (TypeError, ValueError):
+                    status_counts[status] = 0
+
+        if not summary_rows_raw and items:
+            for row in items:
+                status = row.get("watch_status")
+                if status in status_counts:
+                    status_counts[status] += 1
+
+        status_order = {status: index for index, status in enumerate(T_SERIES_WATCH_STATUSES)}
+        tier_order = {"core": 0, "monitor": 1}
+        items.sort(
+            key=lambda row: (
+                status_order.get(str(row.get("watch_status") or ""), 99),
+                tier_order.get(str(row.get("watch_tier") or ""), 99),
+                0 if row.get("is_current") else 1,
+                str(row.get("name") or ""),
+                str(row.get("ticker") or ""),
+            )
+        )
+
+        return {
+            "enabled": bool(summary_rows_raw or items),
+            "summary_rows": [
+                {"status": status, "count": status_counts.get(status, 0)}
+                for status in T_SERIES_WATCH_STATUSES
+            ],
+            "items": items,
         }
 
     @staticmethod

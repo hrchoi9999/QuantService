@@ -1,0 +1,585 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>내부용 모델</h1>
+  <p class="lead">내부 운용 모델 전체의 현재 편입/순위/점수/성과를 한 화면에서 모니터링합니다.</p>
+  <div class="hero-badges">
+    <span class="badge neutral">기준일 {{ bundle.as_of_date or '-' }}</span>
+    <span class="badge neutral">업데이트 {{ bundle.generated_at | fmt_datetime }}</span>
+    <span class="badge accent">모델 {{ bundle.models | length }}개</span>
+    <span class="badge neutral">source {{ bundle.source_name }}</span>
+  </div>
+</section>
+
+{% if bundle.errors %}
+<section class="panel shell-card">
+  <div class="warning-banner">{{ bundle.errors | join(' / ') }}</div>
+</section>
+{% endif %}
+
+<section class="panel shell-card internal-performance-overview">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>내부 모델 성과 비교</h2>
+      <p class="muted small">모델별 CAGR, 1Y MDD, 1Y Sharpe를 먼저 비교한 뒤 아래 상세 모델을 확인합니다.</p>
+    </div>
+    <span class="badge neutral">모델 {{ bundle.models | length }}개</span>
+  </div>
+  <div class="internal-performance-chart-grid">
+    <article class="shell-card content-card internal-performance-chart-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>CAGR 비교</h3>
+          <p class="muted small">단위: %</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell rb-chart-shell internal-performance-chart"
+        data-rb-chart="bar"
+        data-rb-chart-series='{{ bundle.performance_comparison.cagr | tojson }}'
+      ></div>
+    </article>
+    <article class="shell-card content-card internal-performance-chart-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>1Y MDD 비교</h3>
+          <p class="muted small">단위: %, 낮을수록 낙폭이 큽니다.</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell rb-chart-shell internal-performance-chart"
+        data-rb-chart="bar"
+        data-rb-chart-series='{{ bundle.performance_comparison.mdd | tojson }}'
+      ></div>
+    </article>
+    <article class="shell-card content-card internal-performance-chart-card">
+      <div class="section-heading tight-head">
+        <div>
+          <h3>1Y Sharpe 비교</h3>
+          <p class="muted small">위험 대비 성과 지표</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell rb-chart-shell internal-performance-chart"
+        data-rb-chart="bar"
+        data-rb-chart-series='{{ bundle.performance_comparison.sharpe | tojson }}'
+      ></div>
+    </article>
+  </div>
+</section>
+
+{% if bundle.ai_overlay_shadow.enabled %}
+<section class="panel shell-card internal-ai-overlay-overview">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>AI Overlay Shadow 비교</h2>
+      <p class="muted small">AI Overlay Shadow는 실제 추천에 반영된 결과가 아니라, 기존 전략모델 후보에 AI 보정 rule을 적용했을 때의 연구용 비교 결과입니다.</p>
+    </div>
+    <span class="badge neutral">Tracking 시작 {{ bundle.ai_overlay_shadow.shadow_tracking_start_date or '-' }}</span>
+  </div>
+  <div class="hero-badges compact-meta">
+    <span class="badge neutral">기준 데이터 {{ bundle.ai_overlay_shadow.base_data_date or '-' }}</span>
+    <span class="badge neutral">상태 {{ bundle.ai_overlay_shadow.status or '-' }}</span>
+    <span class="badge neutral">실추천 반영 {{ 'Yes' if bundle.ai_overlay_shadow.live_recommendation_applied else 'No' }}</span>
+  </div>
+  <div class="table-wrap compact-table top-margin-sm">
+    <table>
+      <thead>
+        <tr>
+          <th>모델</th>
+          <th>정책</th>
+          <th>결과 해석</th>
+          <th>Baseline 평균</th>
+          <th>AI Overlay 평균</th>
+          <th>수익률 변화</th>
+          <th>Baseline 승률</th>
+          <th>AI Overlay 승률</th>
+          <th>승률 변화</th>
+          <th>Baseline MDD</th>
+          <th>AI Overlay MDD</th>
+          <th>MDD 변화</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in bundle.ai_overlay_shadow.model_summary %}
+        <tr>
+          <td class="notranslate" translate="no">{{ row.model_id or '-' }}</td>
+          <td>{{ row.mapped_policy_label_ko or row.mapped_policy or row.policy or '-' }}</td>
+          <td>{{ row.overlay_result_label_ko or '-' }}</td>
+          <td>{% if row.baseline_avg_period_return is not none %}{{ row.baseline_avg_period_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.avg_period_return is not none %}{{ row.avg_period_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.avg_return_delta is not none %}{{ row.avg_return_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.baseline_win_rate is not none %}{{ row.baseline_win_rate | fmt_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.win_rate is not none %}{{ row.win_rate | fmt_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.win_rate_delta is not none %}{{ row.win_rate_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.baseline_nav_mdd is not none %}{{ row.baseline_nav_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.nav_mdd is not none %}{{ row.nav_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.nav_mdd_delta is not none %}{{ row.nav_mdd_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+
+{% for model in bundle.models %}
+<section class="panel report-shell shell-card strategy-detail-card" id="{{ model.model_code | lower | replace('_', '-') }}">
+  <details class="strategy-disclosure" {% if loop.first %}open{% endif %}>
+    <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary">
+      <div class="title-stack">
+        <h2>{{ model.display_name }}</h2>
+        <p class="muted small">최신 기준 {{ model.latest_week or '-' }}</p>
+        <p class="lead compact-lead">{{ model.model_note }}</p>
+      </div>
+      <div class="internal-summary-metrics" aria-label="{{ model.display_name }} 핵심 성과">
+        <div class="internal-summary-metric">
+          <span>CAGR</span>
+          <strong>{{ model.performance.cagr_proxy | fmt_signed_percent }}</strong>
+        </div>
+        <div class="internal-summary-metric">
+          <span>1Y MDD</span>
+          <strong>{{ model.performance.mdd | fmt_signed_percent }}</strong>
+        </div>
+        <div class="internal-summary-metric">
+          <span>1Y SHARPE</span>
+          <strong>{{ model.performance.sharpe | fmt_sharpe }}</strong>
+        </div>
+      </div>
+      <div class="report-summary-meta">
+        <span class="strategy-disclosure-toggle" aria-hidden="true">
+          <span class="when-closed">펼치기</span>
+          <span class="when-open">접기</span>
+          <span class="strategy-disclosure-chevron"></span>
+        </span>
+        <div class="internal-summary-counts" aria-label="{{ model.display_name }} 구성 요약">
+          <span><strong>{{ model.summary_counts.holding_count }}</strong><em>종목</em></span>
+          <span><strong>{{ model.summary_counts.new_reentry_count }}</strong><em>신규/재편입</em></span>
+          <span><strong>{{ model.summary_counts.excluded_count }}</strong><em>제외/탈락</em></span>
+        </div>
+      </div>
+    </summary>
+
+    <div class="strategy-disclosure-body">
+      <div class="hero-badges compact-meta">
+        {% for event_type, count in model.event_counts.items() %}
+        <span class="badge neutral">{{ event_type }} {{ count }}</span>
+        {% endfor %}
+        {% if not model.event_counts %}
+        <span class="badge neutral">event 없음</span>
+        {% endif %}
+        <span class="badge neutral">산출 기준 {{ model.performance_basis or '-' }}</span>
+      </div>
+
+      <div class="metric-strip three-col report-metric-strip full-metric-band top-margin-sm">
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">CAGR</span>
+          <strong>{{ model.performance.cagr_proxy | fmt_signed_percent }}</strong>
+        </div>
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">1Y MDD</span>
+          <strong>{{ model.performance.mdd | fmt_signed_percent }}</strong>
+        </div>
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">1Y SHARPE</span>
+          <strong>{{ model.performance.sharpe | fmt_sharpe }}</strong>
+        </div>
+      </div>
+
+      {% if model.ai_overlay_shadow.enabled %}
+      <article class="shell-card content-card top-margin-sm">
+        <div class="section-heading tight-head">
+          <div>
+            <h3>AI Overlay Shadow</h3>
+            <p class="muted small">기존 전략모델 baseline과 AI overlay policy map 적용 결과를 비교한 연구용 shadow 지표입니다.</p>
+          </div>
+          <span class="badge neutral">{{ model.ai_overlay_shadow.mapped_policy_label_ko or model.ai_overlay_shadow.mapped_policy or model.ai_overlay_shadow.policy }}</span>
+        </div>
+        {% if model.model_code == 'S3_CORE2' %}
+        <p class="warning-banner small">S3_CORE2는 수익 개선 가능성은 있으나 MDD 악화가 확인되어 보수 rule 추가 검증 중입니다.</p>
+        {% endif %}
+        {% for note in model.ai_overlay_shadow.notes %}
+        <p class="muted small">{{ note }}</p>
+        {% endfor %}
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th>Baseline</th>
+                <th>AI Overlay</th>
+                <th>변화</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>평균 period return</td>
+                <td>{% if model.ai_overlay_shadow.baseline_avg_period_return is not none %}{{ model.ai_overlay_shadow.baseline_avg_period_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.avg_period_return is not none %}{{ model.ai_overlay_shadow.avg_period_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.avg_return_delta is not none %}{{ model.ai_overlay_shadow.avg_return_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <td>승률</td>
+                <td>{% if model.ai_overlay_shadow.baseline_win_rate is not none %}{{ model.ai_overlay_shadow.baseline_win_rate | fmt_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.win_rate is not none %}{{ model.ai_overlay_shadow.win_rate | fmt_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.win_rate_delta is not none %}{{ model.ai_overlay_shadow.win_rate_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <td>NAV MDD</td>
+                <td>{% if model.ai_overlay_shadow.baseline_nav_mdd is not none %}{{ model.ai_overlay_shadow.baseline_nav_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.nav_mdd is not none %}{{ model.ai_overlay_shadow.nav_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                <td>{% if model.ai_overlay_shadow.nav_mdd_delta is not none %}{{ model.ai_overlay_shadow.nav_mdd_delta | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      {% endif %}
+
+      <div class="table-wrap compact-table top-margin-sm">
+        <table class="internal-holdings-table">
+          <thead>
+            <tr>
+              <th>순위</th>
+              <th>종목명</th>
+              <th>티커</th>
+              <th>비중</th>
+              <th>점수</th>
+              <th>점수 근거</th>
+              <th>표시 점수</th>
+              <th>전체 순위</th>
+              <th>전체 점수</th>
+              <th>스냅샷일</th>
+              <th>버킷</th>
+              <th>stage1</th>
+              <th>stage2</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in model.holdings %}
+            <tr>
+              <td>{% if row.rank_no is not none %}{{ row.rank_no }}{% else %}-{% endif %}</td>
+              <td>{{ row.display_name }}</td>
+              <td>{{ row.ticker }}</td>
+              <td>{% if row.weight is not none %}{{ row.weight | fmt_percent }}{% else %}-{% endif %}</td>
+              <td>{% if row.score is not none %}{% if row.score_display_mode == 'number' %}{{ row.score | fmt_sharpe }}{% else %}{{ row.score | fmt_percent }}{% endif %}{% else %}-{% endif %}</td>
+              <td>{{ row.score_basis or '-' }}</td>
+              <td>{% if row.display_score is not none %}{{ row.display_score | fmt_sharpe }}{% else %}-{% endif %}</td>
+              <td>{% if row.universe_rank_no is not none %}{{ row.universe_rank_no }}{% else %}-{% endif %}</td>
+              <td>{% if row.universe_rank_score is not none %}{{ row.universe_rank_score | fmt_sharpe }}{% else %}-{% endif %}</td>
+              <td>{{ row.snapshot_date or '-' }}</td>
+              <td>{{ row.candidate_bucket or '-' }}</td>
+              <td>{% if row.stage1_prob is not none %}{{ row.stage1_prob | fmt_percent }}{% else %}-{% endif %}</td>
+              <td>{% if row.stage2_prob is not none %}{{ row.stage2_prob | fmt_percent }}{% else %}-{% endif %}</td>
+            </tr>
+            {% endfor %}
+            {% if not model.holdings %}
+            <tr>
+              <td colspan="13">해당 모델의 최신 편입/순위 데이터가 없습니다.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="strategy-layout internal-model-support-grid top-margin-sm">
+        <article class="shell-card content-card strategy-period-panel">
+          <div class="section-heading tight-head">
+            <div>
+              <h3>기간별 성과</h3>
+            </div>
+          </div>
+          <div class="table-wrap compact-table internal-period-table-wrap">
+            <table class="internal-period-table">
+              <thead>
+                <tr>
+                  <th>기간</th>
+                  <th>CAGR</th>
+                  <th>Total Return</th>
+                  <th>MDD</th>
+                  <th>Sharpe</th>
+                  <th>표본</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in model.period_view.supporting %}
+                {% set headline_value = item.get('cagr') if item.get('cagr') is not none else item.get('headline_value') %}
+                <tr{% if model.period_view.primary and item.period == model.period_view.primary.period %} class="is-primary-period"{% endif %}>
+                  <td>{{ item.period }}</td>
+                  <td>{% if headline_value is not none %}{{ headline_value | fmt_signed_percent }}{% else %}-{% endif %}</td>
+                  <td>{% if item.get('total_return') is not none %}{{ item.get('total_return') | fmt_signed_percent }}{% else %}-{% endif %}</td>
+                  <td>{% if item.get('mdd') is not none %}{{ item.get('mdd') | fmt_signed_percent }}{% else %}-{% endif %}</td>
+                  <td>{% if item.get('sharpe') is not none %}{{ item.get('sharpe') | fmt_sharpe }}{% else %}-{% endif %}</td>
+                  <td>{% if item.sample_count %}{{ item.sample_count }}개{% else %}-{% endif %}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% if not model.period_view.supporting %}
+          <p class="muted small">기간별 성과 원천 데이터가 아직 준비되지 않았습니다.</p>
+          {% endif %}
+        </article>
+
+        <article class="shell-card content-card strategy-change-panel">
+          <div class="section-heading tight-head">
+            <div>
+              <h3>주간 모델 조정</h3>
+            </div>
+            <span class="badge neutral">기준 {{ model.change_log.asof }}</span>
+          </div>
+          <div class="grid two-up nested-grid change-grid-modern">
+            <div class="sub-panel shell-card change-subpanel increase-panel">
+              <span class="label">비중 확대/신규</span>
+              <ul class="message-list compact-list clean-list">
+                {% for item in model.change_log.increase_items %}
+                <li class="change-entry change-entry-up">
+                  <span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span>
+                  <span class="change-entry-delta">{% if item.delta_weight is not none %}{{ item.delta_weight | fmt_signed_percent }}{% else %}{{ item.event_type }}{% endif %}</span>
+                </li>
+                {% endfor %}
+                {% if not model.change_log.increase_items %}
+                <li>해당 없음</li>
+                {% endif %}
+              </ul>
+            </div>
+            <div class="sub-panel shell-card change-subpanel decrease-panel">
+              <span class="label">비중 축소/이탈</span>
+              <ul class="message-list compact-list clean-list">
+                {% for item in model.change_log.decrease_items %}
+                <li class="change-entry change-entry-down">
+                  <span class="change-entry-name">{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</span>
+                  <span class="change-entry-delta">{% if item.delta_weight is not none %}{{ item.delta_weight | fmt_signed_percent }}{% else %}{{ item.event_type }}{% endif %}</span>
+                </li>
+                {% endfor %}
+                {% if not model.change_log.decrease_items %}
+                <li>해당 없음</li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% if model.performance.mdd is none or model.performance.sharpe is none %}
+      <p class="muted tiny top-margin-sm no-margin">참고: 1Y MDD/1Y SHARPE는 현재 admin tracker 원천에 미포함된 모델에서 '-'로 표시됩니다.</p>
+      {% endif %}
+    </div>
+  </details>
+</section>
+{% endfor %}
+
+{% if bundle.validation.enabled %}
+<section class="panel shell-card internal-validation-section" id="internal-model-validation">
+  <div class="section-heading tight-head">
+    <div>
+      <p class="eyebrow">Admin weekly validation</p>
+      <h1>{{ bundle.validation.section_title }}</h1>
+      <p class="muted small">주말 주 1회 기준으로 내부 전략모델의 live-first 실운영 성과를 점검합니다. 백테스트 성과는 참고 항목으로만 표시합니다.</p>
+    </div>
+    <div class="hero-badges compact-meta">
+      <span class="badge neutral">검증 기준 {{ bundle.validation.as_of_date or '-' }}</span>
+      <span class="badge neutral">업데이트 {{ bundle.validation.generated_at | fmt_datetime }}</span>
+      <span class="badge accent">모델 {{ bundle.validation.summary.model_count or bundle.validation.models | length }}개</span>
+      <span class="badge neutral">조치 필요 {{ bundle.validation.summary.action_required_count or 0 }}개</span>
+    </div>
+  </div>
+
+  <div class="internal-validation-summary-grid">
+    {% for state, count in (bundle.validation.summary.by_review_state or {}).items() %}
+    <article class="public-status-card internal-validation-status-card review-state-{{ state | lower }}">
+      <span class="label">{{ state }}</span>
+      <h2>{{ count }}</h2>
+      <p class="muted tiny">
+        {% if state == 'PASS' %}현행 운영 유지{% elif state == 'WATCH' %}다음 주말 재검증{% elif state == 'REVIEW' %}보정/강등/중단 후보{% else %}상태 집계{% endif %}
+      </p>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="internal-validation-score-guide shell-card content-card">
+    <div class="section-heading tight-head">
+      <div>
+        <h3>평가 기준</h3>
+        <p class="muted small">v3 live-first 평가입니다. 표본 수는 점수 상태를 나누지 않고 sample confidence로만 표시합니다.</p>
+      </div>
+      <span class="badge neutral">S≥95 / A≥90 / B≥85 / C&lt;85</span>
+    </div>
+    <div class="internal-validation-weight-grid">
+      <span>Live 1M 평균수익률 <strong>35%</strong></span>
+      <span>Live 현재수익률 <strong>15%</strong></span>
+      <span>Live 1M Win rate <strong>15%</strong></span>
+      <span>Live 1M MDD <strong>15%</strong></span>
+      <span>모델효용 <strong>10%</strong></span>
+      <span>백테스트 참고 <strong>10%</strong></span>
+    </div>
+  </div>
+
+  <div class="internal-validation-card-grid">
+    {% for item in bundle.validation.models %}
+    <article class="panel report-shell shell-card strategy-detail-card internal-validation-card review-state-{{ item.review_state | lower }}">
+      <details class="strategy-disclosure">
+        <summary class="section-heading report-top detail-top strategy-disclosure-summary internal-model-summary">
+          <div class="title-stack">
+            <h2>{{ item.display_name }}</h2>
+            <p class="muted small">검증 기준 {{ item.asof_date or bundle.validation.as_of_date or '-' }}</p>
+            <p class="lead compact-lead">{{ item.model_note }}</p>
+          </div>
+          <div class="internal-summary-metrics" aria-label="{{ item.display_name }} 검증 요약">
+            <div class="internal-summary-metric">
+              <span>Total Score</span>
+              <strong>{% if item.total_score is not none %}{{ item.total_score | fmt_sharpe }}{% else %}N/A{% endif %}</strong>
+            </div>
+            <div class="internal-summary-metric">
+              <span>Grade</span>
+              <strong>{{ item.grade or 'N/A' }}</strong>
+            </div>
+            <div class="internal-summary-metric">
+              <span>Sample</span>
+              <strong>{{ item.sample_confidence or 'N/A' }}</strong>
+            </div>
+          </div>
+          <div class="report-summary-meta">
+            <span class="strategy-disclosure-toggle" aria-hidden="true">
+              <span class="when-closed">펼치기</span>
+              <span class="when-open">접기</span>
+              <span class="strategy-disclosure-chevron"></span>
+            </span>
+            <div class="internal-summary-counts" aria-label="{{ item.display_name }} 검증 상태">
+              <span><strong>{{ item.review_state or '-' }}</strong><em>상태</em></span>
+              <span><strong>{{ item.recommended_action or '-' }}</strong><em>조치</em></span>
+              <span><strong>{{ item.live.one_month_sample_count if item.live.one_month_sample_count is not none else '-' }}</strong><em>1M 표본</em></span>
+            </div>
+          </div>
+        </summary>
+
+        <div class="strategy-disclosure-body">
+          <div class="hero-badges compact-meta">
+            <span class="badge neutral notranslate" translate="no">{{ item.model_code }}</span>
+            <span class="badge neutral">{{ item.model_profile or '-' }}</span>
+            <span class="badge neutral">Score basis {{ item.score_basis or '-' }}</span>
+            <span class="badge neutral">Grade rule {{ item.grade_rule or '-' }}</span>
+          </div>
+
+          <div class="metric-strip three-col report-metric-strip full-metric-band top-margin-sm">
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">Total Score</span>
+          <strong>{% if item.total_score is not none %}{{ item.total_score | fmt_sharpe }}{% else %}N/A{% endif %}</strong>
+        </div>
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">Sample</span>
+          <strong>{{ item.sample_confidence or 'N/A' }}</strong>
+        </div>
+        <div class="metric-card public-metric-card emphasis full-metric-item">
+          <span class="label">Grade Rule</span>
+          <strong>{{ item.grade_rule or 'N/A' }}</strong>
+        </div>
+      </div>
+
+      <div class="grid two-up nested-grid top-margin-sm">
+        <div class="sub-panel shell-card">
+          <span class="label">주요 live 성과</span>
+          <div class="table-wrap compact-table">
+            <table>
+              <tbody>
+                <tr>
+                  <th>Live 1M 평균수익률</th>
+                  <td>{% if item.live.one_month_avg_return is not none %}{{ item.live.one_month_avg_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Live 현재수익률</th>
+                  <td>{% if item.live.current_avg_return is not none %}{{ item.live.current_avg_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Live 1M Win rate</th>
+                  <td>{% if item.live.one_month_win_rate is not none %}{{ item.live.one_month_win_rate | fmt_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Live 1M MDD</th>
+                  <td>{% if item.live.one_month_avg_mdd is not none %}{{ item.live.one_month_avg_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="sub-panel shell-card">
+          <span class="label">백테스트 참고 성과</span>
+          <div class="table-wrap compact-table">
+            <table>
+              <tbody>
+                <tr>
+                  <th>1Y Return</th>
+                  <td>{% if item.backtest.trailing_1y is not none %}{{ item.backtest.trailing_1y | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>CAGR</th>
+                  <td>{% if item.backtest.cagr is not none %}{{ item.backtest.cagr | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>1Y MDD</th>
+                  <td>{% if item.backtest.mdd_1y is not none %}{{ item.backtest.mdd_1y | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>1Y Sharpe</th>
+                  <td>{% if item.backtest.sharpe_1y is not none %}{{ item.backtest.sharpe_1y | fmt_sharpe }}{% else %}N/A{% endif %}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {% if item.qualitative_assessment_ko %}
+      <p class="{% if item.review_state == 'REVIEW' %}warning-banner{% else %}muted small{% endif %} top-margin-sm">{{ item.qualitative_assessment_ko }}</p>
+      {% endif %}
+      {% if item.review_reasons %}
+      <div class="internal-validation-reasons">
+        <span class="label">검토 사유</span>
+        <ul class="message-list compact-list clean-list">
+          {% for reason in item.review_reasons %}
+          <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="table-wrap compact-table top-margin-sm">
+        <table>
+          <thead>
+            <tr>
+              <th>검증일</th>
+              <th>Total Score</th>
+              <th>Grade</th>
+              <th>State</th>
+              <th>Action</th>
+              <th>정성 평가</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for history in item.history %}
+            <tr>
+              <td>{{ history.validation_asof_date or '-' }}</td>
+              <td>{% if history.total_score is not none %}{{ history.total_score | fmt_sharpe }}{% else %}N/A{% endif %}</td>
+              <td>{{ history.grade or '-' }}</td>
+              <td>{{ history.review_state or '-' }}</td>
+              <td>{{ history.recommended_action or '-' }}</td>
+              <td>{{ history.qualitative_assessment_ko or '-' }}</td>
+            </tr>
+            {% endfor %}
+            {% if not item.history %}
+            <tr>
+              <td colspan="6">최근 검증 이력이 없습니다.</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+        </div>
+      </details>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

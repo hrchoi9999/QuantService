@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-card compact-hero">
+  <p class="eyebrow">Admin</p>
+  <h1>신규 편입 추적</h1>
+  <p class="lead">주간 기준으로 새로 편입된 종목과 이후 성과를 관리자용으로 추적합니다.</p>
+  <div class="hero-badges">
+    <span class="badge neutral">scope {{ selected_scope }}</span>
+    <span class="badge neutral">event {{ selected_event_type }}</span>
+    <span class="badge neutral">기준일 {{ payload.as_of_date or '-' }}</span>
+    <span class="badge neutral">업데이트 {{ payload.generated_at | fmt_datetime }}</span>
+    <span class="badge accent">건수 {{ payload.total_count }}</span>
+  </div>
+</section>
+
+{% include "admin/nav.html" %}
+
+{% include "_actual_live_performance_summary.html" %}
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>조회 필터</h2>
+      <p class="muted small">공개 변경내역과 분리된 관리자 전용 추적 화면입니다.</p>
+    </div>
+  </div>
+  <form class="admin-new-entries-form" method="get" action="{{ url_for('admin_new_entries') }}">
+    <div class="field">
+      <label for="scope">구분</label>
+      <select id="scope" name="scope">
+        {% for option in scope_options %}
+        <option value="{{ option.value }}"{% if selected_scope == option.value %} selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="event_type">이벤트</label>
+      <select id="event_type" name="event_type">
+        {% for option in event_type_options %}
+        <option value="{{ option.value }}"{% if selected_event_type == option.value %} selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="period">기간</label>
+      <select id="period" name="period">
+        {% for option in period_options %}
+        <option value="{{ option.value }}"{% if selected_period == option.value %} selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="model">모델</label>
+      <select id="model" name="model">
+        {% for option in model_options %}
+        <option value="{{ option.value }}"{% if selected_model == option.value %} selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field submit-wrap">
+      <button class="primary-button" type="submit">조회</button>
+    </div>
+  </form>
+</section>
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>
+        {% if selected_scope == 'user' %}
+        사용자용 모델 신규 편입
+        {% elif selected_scope == 'internal' %}
+        내부 운영 모델 신규 편입
+        {% else %}
+        T-series 신규 편입
+        {% endif %}
+      </h2>
+      <p class="muted small">신규 편입 / 재편입 / 승격 / 비중 증가 이벤트를 기준으로 편입 후 추적 성과를 확인합니다.</p>
+    </div>
+    <span class="badge neutral">{{ payload.source_name }}</span>
+  </div>
+  {% if payload.summary %}
+  <div class="hero-badges compact-meta">
+    {% for row in payload.summary %}
+    <span class="badge neutral">
+      {{ row.get('user_model_name') or row.get('service_profile') or row.get('model_code') or '-' }}
+      · {{ row.get('event_type') }} {{ row.get('count') }}
+    </span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if payload.errors %}
+  <div class="warning-banner">{{ payload.errors | join(' / ') }}</div>
+  {% endif %}
+</section>
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>편입 후 추적 성과</h2>
+      <p class="muted small">모델 운영 시작 이후 실제로 편입된 종목의 사후 시장가격 성과입니다. 아직 기간이 도래하지 않은 성과는 N/A로 표시합니다.</p>
+    </div>
+    <span class="badge neutral">{{ payload.source_name }}</span>
+  </div>
+  <div class="table-wrap compact-table">
+    <table class="js-sortable-table" data-default-sort-key="week_end" data-default-sort-order="desc">
+      <thead>
+        <tr>
+          <th><button class="table-sort-button" type="button" data-sort-key="week_end">기준 주차</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="model_label">모델</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="name">종목</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="event_type">이벤트</button></th>
+          <th>최초 편입일</th>
+          <th><button class="table-sort-button" type="button" data-sort-key="rank_no">순위</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="score">전략 적합도 점수</button></th>
+          <th>점수 근거</th>
+          <th>점수 비중</th>
+          <th>변화 비중</th>
+          <th><button class="table-sort-button" type="button" data-sort-key="current_return">현재 수익률</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_1w">1W</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_2w">2W</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_1m">1M</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_1m_mdd">1M MDD</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_1m_sharpe">1M Sharpe</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_2m">2M</button></th>
+          <th><button class="table-sort-button" type="button" data-sort-key="forward_3m">3M</button></th>
+          <th>현재 보유 여부</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in payload.rows %}
+        <tr>
+          <td data-sort-value="{{ row.week_end or '' }}">{{ row.week_end or '-' }}</td>
+          <td data-sort-value="{{ row.model_label or '' }}">{{ row.model_label }}</td>
+          <td data-sort-value="{{ row.name or '' }}">{{ row.name }}{% if row.ticker and row.ticker != '-' %} ({{ row.ticker }}){% endif %}</td>
+          <td data-sort-value="{{ row.event_type or '' }}">{{ row.event_type }}</td>
+          <td>{{ row.first_entry_date or '-' }}</td>
+          <td data-sort-value="{% if row.rank_no is not none %}{{ row.rank_no }}{% endif %}">{% if row.rank_no is not none %}{{ row.rank_no }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.score is not none %}{{ row.score }}{% endif %}">{% if row.score is not none %}{% if row.score_display_mode == 'number' %}{{ row.score | fmt_sharpe }}{% else %}{{ row.score | fmt_percent }}{% endif %}{% else %}-{% endif %}</td>
+          <td>{{ row.score_basis or '-' }}</td>
+          <td data-sort-value="{% if row.score_weight is not none %}{{ row.score_weight }}{% endif %}">{% if row.score_weight is not none %}{{ row.score_weight | fmt_percent }}{% else %}-{% endif %}</td>
+          <td>{% if row.delta_weight is not none %}{{ row.delta_weight | fmt_signed_percent }}{% elif row.curr_weight is not none %}{{ row.curr_weight | fmt_signed_percent }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.current_return is not none %}{{ row.current_return }}{% endif %}">{% if row.current_return is not none %}{{ row.current_return | fmt_signed_percent }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.forward_1w is not none %}{{ row.forward_1w }}{% endif %}">{% if row.forward_1w is not none %}{{ row.forward_1w | fmt_signed_percent }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.forward_2w is not none %}{{ row.forward_2w }}{% endif %}">{% if row.forward_2w is not none %}{{ row.forward_2w | fmt_signed_percent }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.forward_1m is not none %}{{ row.forward_1m }}{% endif %}">{% if row.forward_1m is not none %}{{ row.forward_1m | fmt_signed_percent }}{% else %}-{% endif %}</td>
+          <td data-sort-value="{% if row.forward_1m_mdd is not none %}{{ row.forward_1m_mdd }}{% endif %}">{% if row.forward_1m_mdd is not none %}{{ row.forward_1m_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td data-sort-value="{% if row.forward_1m_sharpe is not none %}{{ row.forward_1m_sharpe }}{% endif %}">{% if row.forward_1m_sharpe is not none %}{{ row.forward_1m_sharpe | fmt_sharpe }}{% else %}N/A{% endif %}</td>
+          <td data-sort-value="{% if row.forward_2m is not none %}{{ row.forward_2m }}{% endif %}">{% if row.forward_2m is not none %}{{ row.forward_2m | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td data-sort-value="{% if row.forward_3m is not none %}{{ row.forward_3m }}{% endif %}">{% if row.forward_3m is not none %}{{ row.forward_3m | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>
+            {% if row.is_current is sameas true %}
+            <span class="badge accent">보유</span>
+            {% elif row.is_current is sameas false %}
+            <span class="badge neutral">미보유</span>
+            {% else %}
+            <span class="badge neutral">미확인</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        {% if not payload.rows %}
+        <tr>
+          <td colspan="19">해당 조건의 신규 편입 데이터가 없습니다.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel shell-card">
+  <div class="section-heading tight-head">
+    <div>
+      <h2>주간 순위 히스토리</h2>
+      <p class="muted small">주차별 순위와 전략 적합도 점수 변화를 관리자 관점에서 확인합니다.</p>
+    </div>
+    <span class="badge neutral">{{ payload.weekly_rankings_total_count }}건</span>
+  </div>
+  <div class="table-wrap compact-table">
+    <table>
+      <thead>
+        <tr>
+          <th>주차</th>
+          <th>스냅샷일</th>
+          <th>모델</th>
+          <th>종목</th>
+          <th>순위</th>
+          <th>점수</th>
+          <th>점수 근거</th>
+          <th>비중</th>
+          <th>버킷</th>
+          <th>Stage1</th>
+          <th>Stage2</th>
+          <th>이벤트</th>
+          <th>현재까지</th>
+          <th>1W</th>
+          <th>2W</th>
+          <th>1M</th>
+          <th>1M MDD</th>
+          <th>1M Sharpe</th>
+          <th>2M</th>
+          <th>3M</th>
+          <th>최신 여부</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in payload.weekly_rankings %}
+        <tr>
+          <td>{{ row.week_end or '-' }}</td>
+          <td>{{ row.snapshot_date or '-' }}</td>
+          <td>{{ row.model_label }}</td>
+          <td>{{ row.display_name }}{% if row.security_code and row.security_code != '-' %} ({{ row.security_code }}){% endif %}</td>
+          <td>{% if row.rank_no is not none %}{{ row.rank_no }}{% else %}-{% endif %}</td>
+          <td>{% if row.score is not none %}{% if row.score_display_mode == 'number' %}{{ row.score | fmt_sharpe }}{% else %}{{ row.score | fmt_percent }}{% endif %}{% else %}-{% endif %}</td>
+          <td>{{ row.score_basis or '-' }}</td>
+          <td>{% if row.weight is not none %}{{ row.weight | fmt_percent }}{% else %}-{% endif %}</td>
+          <td>{{ row.candidate_bucket or '-' }}</td>
+          <td>{% if row.stage1_prob is not none %}{{ row.stage1_prob | fmt_percent }}{% else %}-{% endif %}</td>
+          <td>{% if row.stage2_prob is not none %}{{ row.stage2_prob | fmt_percent }}{% else %}-{% endif %}</td>
+          <td>{{ row.event_type or '-' }}</td>
+          <td>{% if row.current_return is not none %}{{ row.current_return | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_1w is not none %}{{ row.forward_1w | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_2w is not none %}{{ row.forward_2w | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_1m is not none %}{{ row.forward_1m | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_1m_mdd is not none %}{{ row.forward_1m_mdd | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_1m_sharpe is not none %}{{ row.forward_1m_sharpe | fmt_sharpe }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_2m is not none %}{{ row.forward_2m | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>{% if row.forward_3m is not none %}{{ row.forward_3m | fmt_signed_percent }}{% else %}N/A{% endif %}</td>
+          <td>
+            {% if row.is_latest_snapshot is sameas true %}
+            <span class="badge accent">최신</span>
+            {% elif row.is_latest_snapshot is sameas false %}
+            <span class="badge neutral">과거</span>
+            {% else %}
+            <span class="badge neutral">미확인</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        {% if not payload.weekly_rankings %}
+        <tr>
+          <td colspan="21">해당 조건의 주간 순위 히스토리가 없습니다.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const scopeSelect = document.getElementById('scope');
+    const modelSelect = document.getElementById('model');
+    if (!scopeSelect || !modelSelect) return;
+    const modelOptionsByScope = {{ model_options_by_scope | tojson }};
+    const currentSelectedModel = "{{ selected_model }}";
+
+    function renderModelOptions(scopeValue) {
+      const options = modelOptionsByScope[scopeValue] || modelOptionsByScope.user || [];
+      const previousValue = modelSelect.value || currentSelectedModel || "";
+      modelSelect.innerHTML = "";
+      for (const option of options) {
+        const node = document.createElement('option');
+        node.value = option.value;
+        node.textContent = option.label;
+        modelSelect.appendChild(node);
+      }
+      const canKeepPrevious = options.some((option) => option.value === previousValue);
+      modelSelect.value = canKeepPrevious ? previousValue : "";
+    }
+
+    renderModelOptions(scopeSelect.value);
+    scopeSelect.addEventListener('change', () => renderModelOptions(scopeSelect.value));
+  })();
+
+  (() => {
+    const tables = document.querySelectorAll('.js-sortable-table');
+    if (!tables.length) return;
+
+    const isNumeric = (value) => /^-?\d+(\.\d+)?$/.test(value);
+    const compare = (a, b, order) => {
+      const av = (a ?? '').toString().trim();
+      const bv = (b ?? '').toString().trim();
+      if (isNumeric(av) && isNumeric(bv)) {
+        const diff = Number(av) - Number(bv);
+        return order === 'asc' ? diff : -diff;
+      }
+      const result = av.localeCompare(bv, 'ko', { numeric: true, sensitivity: 'base' });
+      return order === 'asc' ? result : -result;
+    };
+
+    for (const table of tables) {
+      const body = table.querySelector('tbody');
+      const buttons = table.querySelectorAll('.table-sort-button[data-sort-key]');
+      if (!body || !buttons.length) continue;
+
+      const headers = Array.from(table.querySelectorAll('thead th'));
+      let currentSortKey = table.dataset.defaultSortKey || '';
+      let currentSortOrder = table.dataset.defaultSortOrder || 'asc';
+
+      const applySort = (sortKey, sortOrder) => {
+        const columnIndex = Array.from(buttons).findIndex((button) => button.dataset.sortKey === sortKey);
+        if (columnIndex < 0) return;
+        const headerCell = buttons[columnIndex].closest('th');
+        const actualIndex = headers.indexOf(headerCell);
+        if (actualIndex < 0) return;
+        const rows = Array.from(body.querySelectorAll('tr')).filter((row) => row.children.length > 1);
+        rows.sort((rowA, rowB) => {
+          const cellA = rowA.children[actualIndex];
+          const cellB = rowB.children[actualIndex];
+          const valueA = cellA?.dataset.sortValue ?? cellA?.textContent ?? '';
+          const valueB = cellB?.dataset.sortValue ?? cellB?.textContent ?? '';
+          return compare(valueA, valueB, sortOrder);
+        });
+        for (const row of rows) body.appendChild(row);
+        for (const button of buttons) {
+          const active = button.dataset.sortKey === sortKey;
+          button.dataset.sortOrder = active ? sortOrder : '';
+          button.classList.toggle('is-active', active);
+        }
+      };
+
+      for (const button of buttons) {
+        button.addEventListener('click', () => {
+          const sortKey = button.dataset.sortKey;
+          const nextOrder =
+            currentSortKey === sortKey && currentSortOrder === 'asc' ? 'desc' : 'asc';
+          currentSortKey = sortKey;
+          currentSortOrder = nextOrder;
+          applySort(sortKey, nextOrder);
+        });
+      }
+
+      if (currentSortKey) {
+        applySort(currentSortKey, currentSortOrder);
+      }
+    }
+  })();
+</script>
+{% endblock %}

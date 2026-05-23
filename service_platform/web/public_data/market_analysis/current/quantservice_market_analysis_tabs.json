@@ -1,0 +1,79 @@
+{
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_at": "2026-05-23T10:05:11+09:00",
+  "title": "시장 분석",
+  "description": "시장 데이터를 차트와 표 중심으로 나누어 보는 공개형 데이터 열람 페이지입니다.",
+  "tabs": [
+    {
+      "tab_id": "market_state",
+      "label": "시장 상태",
+      "description": "시장 상태점수와 상태 전이 흐름을 봅니다.",
+      "current_files": [
+        "quantservice_market_timeline.json",
+        "quantservice_market_state_transition.json"
+      ],
+      "history_files": [
+        "quantservice_market_timeline_history.json",
+        "quantservice_market_state_transition_history.json"
+      ]
+    },
+    {
+      "tab_id": "asset_strength",
+      "label": "자산 강도",
+      "description": "주요 자산군의 상대강도와 최근 흐름을 비교합니다.",
+      "current_files": [
+        "quantservice_market_asset_strength.json"
+      ],
+      "history_files": [
+        "quantservice_market_asset_strength_history.json"
+      ]
+    },
+    {
+      "tab_id": "intraday_overnight",
+      "label": "장중/야간 참고",
+      "description": "오늘 장중 흐름과 내일 시장 전망 참고 레이어를 함께 봅니다.",
+      "current_files": [
+        "quantservice_market_live_context.json",
+        "quantservice_market_next_day_preview.json"
+      ],
+      "history_files": [
+        "quantservice_market_next_day_preview_history.json"
+      ]
+    },
+    {
+      "tab_id": "data_guide",
+      "label": "데이터 해설",
+      "description": "지표 의미, 데이터 출처, official/proxy/fallback 구분을 설명합니다.",
+      "current_files": [
+        "quantservice_market_data_guide.json"
+      ],
+      "history_files": []
+    }
+  ],
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "notice_block": {
+    "title": "주의사항",
+    "body": [
+      "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+      "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+      "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+    ],
+    "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+  }
+}

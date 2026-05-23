@@ -1,0 +1,105 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/index-panel?market=KR",
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "generated_at": "2026-05-23T10:05:11+09:00",
+    "title": "KRX 지수 패널",
+    "description": "국내 대표 지수의 최근 흐름과 변동성 상태를 한 번에 보는 공개형 시장 데이터 패널입니다.",
+    "indices": [
+      {
+        "index_code": "1001",
+        "index_name": "KOSPI",
+        "date": "2026-05-21",
+        "close": 7815.58984375,
+        "ret_1d": 0.08415090020069171,
+        "ret_5d": -0.020775816460221752,
+        "ret_20d": 0.2233898853578915,
+        "ret_60d": 0.5344121738146799,
+        "realized_vol_20d": 0.5199953733089556,
+        "drawdown_20d": -0.020775816460221752,
+        "source": "fdr:^KS11",
+        "source_tier": "official"
+      },
+      {
+        "index_code": "2001",
+        "index_name": "KOSDAQ",
+        "date": "2026-05-21",
+        "close": 1105.969970703125,
+        "ret_1d": 0.04725068125402765,
+        "ret_5d": -0.0714639511370283,
+        "ret_20d": -0.06196624070492929,
+        "ret_60d": 0.13034010051051226,
+        "realized_vol_20d": 0.3466901375853149,
+        "drawdown_20d": -0.09803624079840978,
+        "source": "fdr:^KQ11",
+        "source_tier": "official"
+      },
+      {
+        "index_code": "1028",
+        "index_name": "KOSPI200",
+        "date": "2026-05-21",
+        "close": 1225.219970703125,
+        "ret_1d": 0.08859091440534006,
+        "ret_5d": -0.014438952522714654,
+        "ret_20d": 0.2732732923210104,
+        "ret_60d": 0.6189696035573773,
+        "realized_vol_20d": 0.5683521572377594,
+        "drawdown_20d": -0.014438952522714654,
+        "source": "fdr:^KS200",
+        "source_tier": "official"
+      }
+    ],
+    "summary": {
+      "count": 3,
+      "strongest_20d_index": "KOSPI200",
+      "weakest_20d_index": "KOSDAQ",
+      "all_official": true
+    },
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-05-23T10:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "notice_block": {
+      "title": "주의사항",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+    }
+  }
+}

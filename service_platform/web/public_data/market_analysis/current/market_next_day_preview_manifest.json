@@ -1,10 +1,68 @@
-﻿{
+{
   "market": "KR",
-  "asof": "2026-04-01T17:00:00+09:00",
-  "generated_by": "QuantMarket",
-  "consumer": "QuantService",
-  "content_hash": "market-next-day-preview-20260401",
-  "active_now": true,
-  "active_window": "2026-04-01 18:00 KST ~ 2026-04-02 09:00 KST",
-  "reference_session": "2026-04-02 장초반 참고"
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_at": "2026-05-23T10:05:42+09:00",
+  "reference_session": "2026-05-25",
+  "content_modes": [
+    "next_day_preview"
+  ],
+  "visibility": "public_next_day_preview",
+  "freshness": {
+    "target_update_interval_minutes": 60,
+    "consumer_warning_after_minutes": 90,
+    "consumer_stale_after_minutes": 240
+  },
+  "lineage": {
+    "producer": "QuantMarket",
+    "upstream_sources": [
+      "kiwoom_rest_optional",
+      "yahoo_chart",
+      "google_news_rss"
+    ],
+    "related_layers": [
+      "quant_model_market_flow",
+      "intraday_flow"
+    ]
+  },
+  "files": {
+    "snapshot": "market_next_day_preview.json",
+    "handoff": "quantservice_market_next_day_preview.json",
+    "api": "api_v1_market_analysis_next_day_preview.json",
+    "manifest": "market_next_day_preview_manifest.json"
+  },
+  "change_detection_rule": {
+    "preview_label_change": true,
+    "headline_line_change": true,
+    "preview_score_delta_gte": 0.35,
+    "futures_direction_change": true,
+    "top_point_change": true
+  },
+  "content_hash": "cd798992b03252e895a67ef9924b5e8a95f658569eb05aa37b1da238bef8eb8b",
+  "material_change_flag": true,
+  "notice_block": {
+    "title": "주의사항",
+    "short_notice": "다음 거래일 장초반 참고 정보입니다.",
+    "body": [
+      "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+      "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+      "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+    ],
+    "preview_only": "야간 자산 흐름을 참고해 만든 공개형 참고 정보이며, 개별 투자자문이 아닙니다."
+  },
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  }
 }

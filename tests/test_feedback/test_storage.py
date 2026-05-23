@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 
 import pytest
 
@@ -39,6 +39,7 @@ def build_settings(tmp_path: Path) -> Settings:
         feedback_message_min_length=10,
         feedback_admin_key="secret-key",
         analytics_window_hours=24,
+        internal_preview_enabled=False,
         analytics_preview_allowed_emails=(),
         trial_mode=True,
         trial_default_plan="starter",

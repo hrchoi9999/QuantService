@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import secrets
 import shutil
+from copy import deepcopy
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -28,23 +29,25 @@ from service_platform.access.store import (
 )
 from service_platform.admin.auth import get_policy_state, require_admin
 from service_platform.billing import BillingDisabledError, BillingService, LightPayValidationError
-from service_platform.feedback.handlers import (
-    build_feedback_redirect,
-    build_feedback_submission,
-)
-from service_platform.feedback.storage import (
-    FeedbackDuplicateError,
-    FeedbackRateLimitError,
-    FeedbackStore,
-    FeedbackValidationError,
-)
+from service_platform.feedback.storage import FeedbackStore
 from service_platform.shared.config import Settings, get_settings
 from service_platform.shared.constants import CURRENT_DIRNAME, MANIFEST_FILENAME, PUBLISHED_DIRNAME
+from service_platform.shared.email_delivery import (
+    EmailDeliveryError,
+    send_login_verification_email,
+)
 from service_platform.shared.logging import configure_logging
 from service_platform.shared.notifications import send_alert
 from service_platform.web.admin_market_lab_api import (
     AdminMarketLabApi,
     AdminMarketLabLoadError,
+)
+from service_platform.web.admin_new_entries_api import (
+    EVENT_TYPE_OPTIONS_BY_SCOPE,
+    INTERNAL_SCOPE_MODELS,
+    TSERIES_SCOPE_MODELS,
+    USER_SCOPE_MODELS,
+    AdminNewEntriesApi,
 )
 from service_platform.web.analytics_preview_api import (
     AnalyticsPreviewApi,
@@ -67,14 +70,37 @@ from service_platform.web.analytics_preview_p5_api import (
     AnalyticsPreviewP5LoadError,
 )
 from service_platform.web.data_provider import SnapshotDataProvider, SnapshotLoadError
+from service_platform.web.internal_models_api import (
+    INTERNAL_ADMIN_MODEL_CODES,
+    InternalModelsApi,
+)
+from service_platform.web.investment_portfolio_api import (
+    InvestmentPortfolioApi,
+    InvestmentPortfolioLoadError,
+)
+from service_platform.web.investment_status_api import (
+    INVESTMENT_ACCOUNT_LABELS,
+    InvestmentStatusService,
+    InvestmentValidationError,
+)
 from service_platform.web.market_analysis_api import MarketAnalysisLoadError, MarketAnalysisMockApi
+from service_platform.web.trading_sign_api import (
+    TradingSignLoadError,
+    TradingSignSnapshotApi,
+    TradingSignStatus,
+)
 from service_platform.web.tseries_api import TSeriesLoadError, TSeriesOperationalApi
 from service_platform.web.user_snapshot_api import UserSnapshotLoadError, UserSnapshotMockApi
+from service_platform.web.valuation_ai_api import ValuationAiApi
 
 STATUS_MESSAGES = {
     "invalid": "이메일 또는 비밀번호를 다시 확인해 주세요.",
     "signup_success": "회원가입이 완료되었습니다. 로그인해 주세요.",
     "code_sent": "휴대폰 인증번호를 발급했습니다.",
+    "email_code_sent": "보안을 위해 이메일 인증번호를 확인해 주세요.",
+    "email_code_invalid": "이메일 인증번호를 다시 확인해 주세요.",
+    "email_code_expired": "이메일 인증 시간이 만료되었습니다. 다시 로그인해 주세요.",
+    "email_send_error": "이메일 인증번호를 발송하지 못했습니다. 잠시 후 다시 시도해 주세요.",
     "verify_required": "휴대폰 인증을 먼저 완료해 주세요.",
     "email_exists": "이미 가입된 이메일입니다. 로그인해 주세요.",
     "code_invalid": "인증번호를 다시 확인해 주세요.",
@@ -93,20 +119,83 @@ BILLING_MESSAGES = {
     "login_required": "결제를 진행하려면 먼저 로그인해 주세요.",
     "invalid": "결제 요청을 처리하지 못했습니다. 결제수단과 플랜을 다시 확인해 주세요.",
 }
-T_SERIES_BUCKET_LABELS = {
-    "confirmed": "confirmed",
-    "near": "near",
-    "observe": "observe",
-    "historical_stage1": "historical stage1",
-    "historical_stage2": "historical stage2",
+INVESTMENT_MESSAGES = {
+    "validated": "종목코드와 종목명이 확인되었습니다.",
+    "saved": "거래가 저장되었습니다.",
+    "updated": "거래내역이 수정되었습니다.",
+    "security_mismatch": "종목코드와 종목명이 일치하지 않습니다.",
+    "insufficient_holdings": "보유 수량보다 많은 매도는 저장할 수 없습니다.",
+    "invalid": "입력값을 다시 확인해 주세요.",
 }
-T_SERIES_ASSET_SCOPE_LABELS = {"stock": "Stock", "etf": "ETF"}
+T_SERIES_BUCKET_LABELS = {
+    "confirmed": "우선 후보",
+    "near": "근접 후보",
+    "observe": "관찰 후보",
+    "historical_stage1": "기존 1단계",
+    "historical_stage2": "기존 2단계",
+}
+T_SERIES_ASSET_SCOPE_LABELS = {"stock": "주식", "etf": "ETF"}
+T_SERIES_ETF_ROLE_LABELS = {
+    "CORE_BETA": "핵심지수형",
+    "STYLE_FACTOR": "스타일/팩터형",
+    "SECTOR_THEME": "섹터/테마형",
+    "DEFENSIVE_HEDGE": "방어/헤지형",
+    "TACTICAL_HEDGE": "전술 헤지형",
+    "TACTICAL_LEVERAGE": "전술 레버리지형",
+    "UNCLASSIFIED": "미분류",
+}
+T_SERIES_WATCH_STATUS_LABELS = {"new": "신규", "active": "유지", "cooling": "쿨링"}
+T_SERIES_WATCH_TIER_LABELS = {"core": "핵심", "monitor": "관찰"}
+MARKET_ANALYSIS_DATA_TABS = (
+    {"key": "state", "label": "시장 상태", "description": "상태점수와 구성요소 흐름"},
+    {"key": "assets", "label": "자산 강도", "description": "자산군 상대강도와 20일 수익률"},
+    {"key": "live", "label": "장중/야간 참고", "description": "장중 흐름과 야간 참고 레이어"},
+    {"key": "guide", "label": "데이터 해설", "description": "지표 의미와 데이터 성격"},
+)
+PUBLIC_SERVICE_PROFILES = ("stable", "balanced", "growth")
+PUBLIC_SERVICE_PROFILE_SET = set(PUBLIC_SERVICE_PROFILES)
+USER_MODEL_LABELS = {"stable": "안정형", "balanced": "균형형", "growth": "성장형"}
+TRADING_SIGN_MODEL_CODE_BY_PROFILE = {
+    "stable": "STABLE",
+    "balanced": "BALANCED",
+    "growth": "GROWTH",
+}
+T_SERIES_TRADING_SIGN_MODEL_CODE_BY_MODEL = {
+    "T-STOCK-V01": "T_STOCK_DISCOVERY",
+    "T-ETF-V01": "T_ETF_DISCOVERY",
+}
+TRADING_SIGN_STATE_TONE_BY_LABEL = {
+    "매수": "buy",
+    "보유": "hold",
+    "주의": "caution",
+    "매도": "sell",
+    "매수 대기": "wait",
+}
+TRADING_SIGN_STATE_SORT_ORDER = {
+    "매수": 0,
+    "보유": 1,
+    "주의": 2,
+    "매도": 3,
+    "매수 대기": 4,
+}
+TRADING_SIGN_BLOCK_TITLE = "매매 신호(전일 종가 기준)"
+AUTO_ADMIN_EMAILS = {"hrchoi@koreascf.com"}
+AUTO_OPS_VIEWER_EMAILS = {"hrchoi@koreascf.com"}
+# Ops viewer only accounts (admin 권한 자동 회수가 필요한 계정만 명시)
+AUTO_OPS_VIEWER_ONLY_EMAILS: set[str] = set()
+
+TRADING_SIGN_FALLBACK_TEXT = (
+    "일간 신호 데이터가 아직 준비되지 않았습니다. 다음 갱신 후 다시 확인해 주세요."
+)
+TRADING_SIGN_DISCOVERY_FALLBACK_TEXT = (
+    "상승종목 발굴 일간 신호 데이터가 아직 준비되지 않았습니다. 다음 갱신 후 다시 확인해 주세요."
+)
 DEFAULT_NEXT_DAY_PREVIEW_NOTICE = (
     "이 내용은 내일 시장을 참고용으로 정리한 공개 브리핑이며, 특정 매매행동을 안내하지 않습니다."
 )
 NEXT_DAY_PREVIEW_ASSET_LABELS = {
-    "KOSPI200_NIGHT_FUT": "코스피200 야간선물",
-    "KOREA_PROXY_EWY": "한국 관련 야간 프록시",
+    "KOSPI200_NIGHT_FUT": "국내 야간선물",
+    "KOREA_PROXY_EWY": "미국 상장 한국 ETF",
     "SP500_FUT": "S&P500 선물",
     "NASDAQ100_FUT": "나스닥100 선물",
     "USDKRW": "원달러",
@@ -152,6 +241,141 @@ PUBLIC_NOTICE_BLOCKS = {
 }
 
 
+def _is_public_service_profile(profile: Any) -> bool:
+    return str(profile or "").strip().lower() in PUBLIC_SERVICE_PROFILE_SET
+
+
+def _filter_public_profile_rows(rows: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
+    return [row for row in (rows or []) if _is_public_service_profile(row.get("service_profile"))]
+
+
+def _filter_public_payload_list(payload: dict[str, Any], key: str) -> dict[str, Any]:
+    filtered = deepcopy(payload or {})
+    filtered[key] = _filter_public_profile_rows(filtered.get(key) or [])
+    summary = filtered.get("summary")
+    if isinstance(summary, dict) and "model_count" in summary:
+        summary["model_count"] = len(filtered[key])
+    if key == "reports":
+        filtered["model_count"] = len(filtered[key])
+    return filtered
+
+
+def _filter_public_change_history(payload: dict[str, Any]) -> dict[str, Any]:
+    filtered = deepcopy(payload or {})
+    for period_key in ("weekly", "monthly"):
+        period_rows = []
+        for row in filtered.get(period_key) or []:
+            if not isinstance(row, dict):
+                continue
+            period_row = dict(row)
+            period_row["models"] = _filter_public_profile_rows(period_row.get("models") or [])
+            period_rows.append(period_row)
+        filtered[period_key] = period_rows
+    history_rows = []
+    for row in filtered.get("history") or []:
+        if not isinstance(row, dict):
+            continue
+        history_row = dict(row)
+        history_row["changes"] = _filter_public_profile_rows(history_row.get("changes") or [])
+        history_rows.append(history_row)
+    filtered["history"] = history_rows
+    return filtered
+
+
+def _filter_public_user_bundle(bundle: Any) -> Any:
+    filtered = deepcopy(bundle)
+    filtered.user_models = _filter_public_payload_list(filtered.user_models, "models")
+    filtered.recommendation_today = _filter_public_payload_list(
+        filtered.recommendation_today, "reports"
+    )
+    filtered.performance_summary = _filter_public_payload_list(
+        filtered.performance_summary, "models"
+    )
+    filtered.recent_changes = _filter_public_payload_list(filtered.recent_changes, "changes")
+    filtered.change_history = _filter_public_change_history(filtered.change_history)
+    return filtered
+
+
+def _normalize_change_model_filter(model: str | None) -> str:
+    raw = str(model or "").strip().lower()
+    aliases = {
+        "stable": "stable",
+        "안정형": "stable",
+        "balanced": "balanced",
+        "균형형": "balanced",
+        "growth": "growth",
+        "성장형": "growth",
+    }
+    return aliases.get(raw, raw)
+
+
+def _filter_change_rows_by_model(
+    rows: list[dict[str, Any]], model: str | None
+) -> list[dict[str, Any]]:
+    normalized_model = _normalize_change_model_filter(model)
+    if not normalized_model:
+        return rows
+    return [
+        row
+        for row in rows
+        if str(row.get("service_profile") or "").strip().lower() == normalized_model
+        or str(row.get("user_model_name") or "").strip().lower() == normalized_model
+    ]
+
+
+def _build_change_history_rows(
+    payload: dict[str, Any],
+    *,
+    period: str = "weekly",
+    model: str | None = None,
+) -> list[dict[str, Any]]:
+    selected_period = period if period in {"weekly", "monthly"} else "weekly"
+    source_rows = payload.get(selected_period) or []
+    if not source_rows and selected_period == "weekly":
+        source_rows = payload.get("history") or []
+    history_rows: list[dict[str, Any]] = []
+    for row in source_rows:
+        if not isinstance(row, dict):
+            continue
+        raw_changes = row.get("models") if "models" in row else row.get("changes")
+        changes = [change for change in (raw_changes or []) if isinstance(change, dict)]
+        changes = _filter_change_rows_by_model(changes, model)
+        if not changes:
+            continue
+        increase_count = sum(len(change.get("increase_items") or []) for change in changes)
+        decrease_count = sum(len(change.get("decrease_items") or []) for change in changes)
+        period_key = row.get("period_key") or row.get("change_date") or row.get("as_of_date") or "-"
+        if selected_period == "monthly":
+            summary = row.get("summary") or "월간 공개 모델 변경내역"
+            date_label = period_key
+            if row.get("start_date") and row.get("end_date"):
+                date_label = f"{period_key} ({row.get('start_date')} ~ {row.get('end_date')})"
+        else:
+            summary = row.get("summary") or "주간 공개 모델 변경내역"
+            date_label = period_key
+        history_rows.append(
+            {
+                "change_date": date_label,
+                "period_key": period_key,
+                "period_type": selected_period,
+                "summary": summary,
+                "model_count": len(changes),
+                "increase_count": increase_count,
+                "decrease_count": decrease_count,
+                "changes": changes,
+            }
+        )
+    return sorted(history_rows, key=lambda item: str(item.get("change_date") or ""), reverse=True)
+
+
+def _apply_public_status_counts(status_snapshot: Any, bundle: Any) -> Any:
+    if status_snapshot is None or bundle is None:
+        return status_snapshot
+    status_snapshot.model_count = len(bundle.user_models.get("models", []))
+    status_snapshot.report_count = len(bundle.recommendation_today.get("reports", []))
+    return status_snapshot
+
+
 def _format_datetime(value: str | None) -> str:
     if not value:
         return "-"
@@ -172,6 +396,28 @@ def _format_kst_datetime(value: str | None) -> str:
     except ValueError:
         return value
     return parsed.strftime("%Y-%m-%d %H:%M KST")
+
+
+def _format_market_kst_label(value: Any) -> str:
+    if value is None:
+        return "-"
+    text = str(value).strip()
+    if not text:
+        return "-"
+    if len(text) == 8 and text.isdigit():
+        return f"{text[:4]}-{text[4:6]}-{text[6:8]} KST"
+    if len(text) == 10 and text[4] == "-" and text[7] == "-":
+        return f"{text} KST"
+    return _format_kst_datetime(text)
+
+
+def _format_chart_date_label(value: Any) -> str:
+    text = str(value or "").strip()
+    if len(text) == 8 and text.isdigit():
+        return f"{text[4:6]}-{text[6:8]}"
+    if len(text) >= 10 and text[4] == "-" and text[7] == "-":
+        return text[5:10]
+    return text
 
 
 def _format_percent(value: float | int | None) -> str:
@@ -252,6 +498,36 @@ def _allocation_bucket(item: dict[str, Any]) -> str:
     return "etf"
 
 
+def _safe_int(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        return None
+
+
+def _safe_float(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
 def _normalize_allocation_items(allocation_items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     merged: dict[tuple[str, str, str], dict[str, Any]] = {}
     for item in allocation_items:
@@ -271,12 +547,34 @@ def _normalize_allocation_items(allocation_items: list[dict[str, Any]]) -> list[
                 merged_item["display_name"] = "현금/대기자금"
                 merged_item["security_code"] = None
                 merged_item["role_summary"] = merged_item.get("role_summary") or "유동성 관리"
+            merged_item["rank_no"] = _safe_int(item.get("rank_no"))
+            merged_item["strategy_fit_score"] = _safe_float(item.get("strategy_fit_score"))
+            merged_item["strategy_fit_score_basis"] = str(
+                item.get("strategy_fit_score_basis") or ""
+            ).strip()
             merged_item["target_weight"] = weight
             merged[key] = merged_item
             continue
         merged_item["target_weight"] = float(merged_item.get("target_weight") or 0) + weight
         if not merged_item.get("role_summary") and item.get("role_summary"):
             merged_item["role_summary"] = item.get("role_summary")
+        item_rank_no = _safe_int(item.get("rank_no"))
+        current_rank_no = _safe_int(merged_item.get("rank_no"))
+        if item_rank_no is not None and (current_rank_no is None or item_rank_no < current_rank_no):
+            merged_item["rank_no"] = item_rank_no
+        item_fit_score = _safe_float(item.get("strategy_fit_score"))
+        current_fit_score = _safe_float(merged_item.get("strategy_fit_score"))
+        if item_fit_score is not None and (
+            current_fit_score is None or item_fit_score > current_fit_score
+        ):
+            merged_item["strategy_fit_score"] = item_fit_score
+        if (
+            not str(merged_item.get("strategy_fit_score_basis") or "").strip()
+            and str(item.get("strategy_fit_score_basis") or "").strip()
+        ):
+            merged_item["strategy_fit_score_basis"] = str(
+                item.get("strategy_fit_score_basis")
+            ).strip()
     normalized = [
         item for item in merged.values() if abs(float(item.get("target_weight") or 0)) >= 1e-9
     ]
@@ -379,6 +677,32 @@ def _build_period_view(
     }
 
 
+def _build_today_performance_chart_view(period_view: dict[str, Any] | None) -> dict[str, Any]:
+    ordered_rows = list((period_view or {}).get("ordered") or [])
+    if not ordered_rows:
+        return {"enabled": False, "line_series": [], "bar_series": []}
+
+    line_series: list[dict[str, Any]] = []
+    bar_series: list[dict[str, Any]] = []
+    for row in ordered_rows:
+        period_label = str(row.get("period") or "").strip()
+        if not period_label or period_label in REFERENCE_PERIODS:
+            continue
+        headline_value = row.get("headline_value")
+        if headline_value is None:
+            headline_value = row.get("cagr")
+        if headline_value is not None:
+            line_series.append({"label": period_label, "value": headline_value})
+        if row.get("mdd") is not None:
+            bar_series.append({"label": period_label, "value": row.get("mdd")})
+
+    return {
+        "enabled": bool(line_series or bar_series),
+        "line_series": line_series,
+        "bar_series": bar_series,
+    }
+
+
 def _build_growth_note(service_profile: str, market_regime: str | None) -> str | None:
     if service_profile != "growth":
         return None
@@ -446,7 +770,139 @@ def _build_performance_row_view(row: dict[str, Any]) -> dict[str, Any]:
     row_view["model_definition_detail"] = str(
         row.get("model_definition_detail") or row.get("note") or ""
     ).strip()
+    row_view["redesign_chart_view"] = _build_today_performance_chart_view(period_view)
     return row_view
+
+
+def _build_trading_sign_section_view(
+    section: dict[str, Any],
+    *,
+    include_empty: bool = True,
+) -> dict[str, Any] | None:
+    signals = []
+    for row in section.get("signals") or []:
+        signals.append(
+            {
+                "ticker": str(row.get("ticker") or "").strip(),
+                "security_name": str(row.get("security_name") or "-").strip() or "-",
+                "current_state": str(row.get("current_state") or "-").strip() or "-",
+                "reason_summary": str(row.get("reason_summary") or "-").strip() or "-",
+                "latest_state_change_date": str(row.get("latest_state_change_date") or "-").strip()
+                or "-",
+            }
+        )
+    signals.sort(
+        key=lambda row: (
+            TRADING_SIGN_STATE_SORT_ORDER.get(row["current_state"], 99),
+            row["latest_state_change_date"],
+            row["security_name"],
+        )
+    )
+    if not include_empty and not signals:
+        return None
+    return {
+        "section_key": str(section.get("section_key") or "").strip(),
+        "title": str(section.get("title") or "일간 신호").strip(),
+        "record_count": int(section.get("record_count") or len(signals)),
+        "signals": signals,
+    }
+
+
+def _build_trading_sign_view(
+    service_profile: str,
+    model_detail: dict[str, Any] | None,
+    status_snapshot: TradingSignStatus,
+    *,
+    fallback_message: str = TRADING_SIGN_FALLBACK_TEXT,
+    preferred_section_keys: tuple[str, ...] | None = None,
+    include_empty_sections: bool = True,
+) -> dict[str, Any]:
+    if status_snapshot.state in {"error", "empty"}:
+        return {
+            "enabled": False,
+            "show_fallback": True,
+            "fallback_message": fallback_message,
+        }
+
+    if not model_detail:
+        return {
+            "enabled": False,
+            "show_fallback": True,
+            "fallback_message": fallback_message,
+        }
+
+    ui_block = model_detail.get("ui_block") or {}
+    if not ui_block:
+        return {
+            "enabled": False,
+            "show_fallback": True,
+            "fallback_message": fallback_message,
+        }
+
+    state_chips = []
+    for chip in ui_block.get("state_chips") or []:
+        state = str(chip.get("state") or "").strip()
+        state_chips.append(
+            {
+                "state": state,
+                "count": int(chip.get("count") or 0),
+                "tone": TRADING_SIGN_STATE_TONE_BY_LABEL.get(state, "wait"),
+            }
+        )
+
+    raw_sections = [
+        section for section in (ui_block.get("sections") or []) if isinstance(section, dict)
+    ]
+    sections_by_key = {
+        str(section.get("section_key") or "").strip(): section for section in raw_sections
+    }
+    ordered_sections: list[dict[str, Any]] = []
+    if preferred_section_keys:
+        for key in preferred_section_keys:
+            section = sections_by_key.pop(key, None)
+            if section is not None:
+                ordered_sections.append(section)
+    ordered_sections.extend(
+        raw_sections if not preferred_section_keys else sections_by_key.values()
+    )
+
+    sections = []
+    for section in ordered_sections:
+        section_view = _build_trading_sign_section_view(
+            section,
+            include_empty=include_empty_sections,
+        )
+        if section_view is not None:
+            sections.append(section_view)
+
+    if not sections:
+        return {
+            "enabled": False,
+            "show_fallback": True,
+            "fallback_message": fallback_message,
+        }
+
+    stale_notice = ""
+    if status_snapshot.state == "stale":
+        stale_notice = "일간 신호 데이터 업데이트가 지연되어 최근 기준 스냅샷을 표시합니다."
+
+    return {
+        "enabled": True,
+        "show_fallback": False,
+        # Keep the public title stable even if upstream snapshot text lags behind.
+        "title": TRADING_SIGN_BLOCK_TITLE,
+        "description": str(ui_block.get("description") or "").strip(),
+        "disclaimer": str(ui_block.get("disclaimer") or "").strip(),
+        "signal_date": str(ui_block.get("signal_date") or "").strip(),
+        "data_asof_date": str(ui_block.get("data_asof_date") or "").strip(),
+        "generated_at": str(
+            ui_block.get("generated_at") or status_snapshot.generated_at or ""
+        ).strip(),
+        "profile_code": str(ui_block.get("profile_code") or service_profile).strip(),
+        "state_chips": state_chips,
+        "sections": sections,
+        "stale_notice": stale_notice,
+    }
 
 
 MARKET_CHANGE_DIRECTION_LABELS = {
@@ -639,7 +1095,9 @@ def _build_market_state_bridge_view(
     asof: str | None,
 ) -> dict[str, Any]:
     payload = bridge_payload or {}
-    enabled = payload.get("enabled") is True
+    # Keep dual-layer UI resilient when upstream sends bridge payload without intraday label.
+    has_bridge_payload = bool(payload)
+    enabled = payload.get("enabled") is True or has_bridge_payload
     medium_term_state_label = (
         str(
             payload.get("medium_term_state_label") or fallback_bar.get("label") or "데이터 준비 중"
@@ -647,7 +1105,7 @@ def _build_market_state_bridge_view(
         or "데이터 준비 중"
     )
     intraday_state_label = str(payload.get("intraday_state_label") or "").strip()
-    if not intraday_state_label and payload.get("enabled") is True:
+    if not intraday_state_label and has_bridge_payload:
         intraday_state_label = "전일 기준 참고"
     basis_lines = [
         str(line).strip() for line in (payload.get("basis_lines") or []) if str(line).strip()
@@ -659,21 +1117,595 @@ def _build_market_state_bridge_view(
         "bridge_text": str(payload.get("bridge_text") or "").strip(),
         "basis_lines": basis_lines[:2],
         "medium_term_bar": _build_market_state_label_bar(
-            title=str(payload.get("medium_term_label") or "정식 시장상태(전일 종가 기준)").strip(),
+            title=str(payload.get("medium_term_label") or "퀀트모델 시장 흐름").strip(),
             state_label=medium_term_state_label,
             asof=asof,
         ),
+        "medium_term_description": str(payload.get("medium_term_description") or "").strip(),
         "intraday_bar": (
             _build_market_state_label_bar(
-                title=str(payload.get("intraday_label") or "오늘 장중 흐름(참고용)").strip(),
+                title=str(payload.get("intraday_label") or "오늘 장중 흐름").strip(),
                 state_label=intraday_state_label,
                 asof=asof,
             )
             if intraday_state_label
             else None
         ),
+        "intraday_description": str(payload.get("intraday_description") or "").strip(),
         "fallback_bar": fallback_bar,
         "asof_display": fallback_bar.get("asof_display") or _format_kst_datetime(asof),
+    }
+
+
+def _format_market_metric(value: Any, unit: str = "", *, signed: bool = False) -> str:
+    numeric = _coerce_market_score(value)
+    if numeric is None:
+        return "데이터 확인 중"
+    prefix = "+" if signed and numeric > 0 else ""
+    if abs(numeric) >= 1000:
+        text = f"{numeric:,.0f}"
+    elif abs(numeric) >= 100:
+        text = f"{numeric:,.1f}"
+    else:
+        text = f"{numeric:,.2f}".rstrip("0").rstrip(".")
+    return f"{prefix}{text}{unit}"
+
+
+def _market_gauge_percent(value: Any) -> float:
+    numeric = _coerce_market_score(value)
+    if numeric is None:
+        return 50.0
+    return max(0.0, min(100.0, numeric))
+
+
+def _market_composite_axis_lookup(payload: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    axes = payload.get("axes") if isinstance(payload.get("axes"), list) else []
+    return {
+        str(axis.get("axis_id") or "").strip(): axis
+        for axis in axes
+        if isinstance(axis, dict) and str(axis.get("axis_id") or "").strip()
+    }
+
+
+def _format_key_indicator_value(value: Any, unit: Any = "") -> str:
+    unit_text = str(unit or "").strip()
+    if value is None or value == "":
+        return "데이터 확인 중"
+    if unit_text == "label":
+        return str(value).strip() or "데이터 확인 중"
+    suffix = "" if unit_text in {"score", "pt"} else unit_text
+    return _format_market_metric(value, suffix)
+
+
+def _composite_chart_y(
+    value: Any, *, chart_height: float, score_min: float, score_max: float
+) -> float:
+    numeric = _coerce_market_score(value)
+    if numeric is None or score_max <= score_min:
+        numeric = 0.0
+    numeric = max(score_min, min(score_max, numeric))
+    return round((score_max - numeric) / (score_max - score_min) * chart_height, 1)
+
+
+def _market_score_state_label(value: Any) -> str:
+    numeric = _coerce_market_score(value)
+    if numeric is None:
+        return "데이터 확인 중"
+    if numeric <= -2.0:
+        return "매우 나쁨"
+    if numeric <= -1.0:
+        return "나쁨"
+    if numeric < -0.3:
+        return "다소 나쁨"
+    if numeric <= 0.3:
+        return "중립"
+    if numeric < 1.0:
+        return "다소 좋음"
+    if numeric < 2.0:
+        return "좋음"
+    return "매우 좋음"
+
+
+def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
+    score_range = chart.get("score_range") if isinstance(chart.get("score_range"), dict) else {}
+    y_axis = chart.get("y_axis") if isinstance(chart.get("y_axis"), dict) else {}
+    neutral = chart.get("neutral_band") if isinstance(chart.get("neutral_band"), dict) else {}
+    score_min = _coerce_market_score(score_range.get("min", y_axis.get("min", -3.0))) or -3.0
+    score_max = _coerce_market_score(score_range.get("max", y_axis.get("max", 3.0))) or 3.0
+    neutral_min = _coerce_market_score(neutral.get("min")) or -0.3
+    neutral_max = _coerce_market_score(neutral.get("max")) or 0.3
+    viewport_width = 720.0
+    height = 280.0
+    visible_points = 120
+    chart_right_padding = 80.0
+    raw_series_rows: list[dict[str, Any]] = []
+    raw_reference_rows: list[dict[str, Any]] = []
+    all_dates: list[str] = []
+    for raw_series in chart.get("series") or []:
+        if not isinstance(raw_series, dict):
+            continue
+        raw_points = [p for p in (raw_series.get("points") or []) if isinstance(p, dict)]
+        if not raw_points:
+            continue
+        point_by_date = {}
+        for raw_point in raw_points:
+            date_text = str(raw_point.get("date") or "").strip()
+            if not date_text:
+                continue
+            point_by_date[date_text] = raw_point
+            all_dates.append(date_text)
+        raw_series_rows.append(
+            {
+                "series_id": str(raw_series.get("series_id") or "").strip(),
+                "label": str(raw_series.get("label") or "시장 지표").strip(),
+                "color": str(raw_series.get("color") or "#64748b").strip(),
+                "description": str(raw_series.get("description") or "").strip(),
+                "latest_visual": (
+                    raw_series.get("latest_visual")
+                    if isinstance(raw_series.get("latest_visual"), dict)
+                    else {}
+                ),
+                "point_by_date": point_by_date,
+            }
+        )
+    for raw_reference in chart.get("reference_indices") or []:
+        if not isinstance(raw_reference, dict):
+            continue
+        series_id = str(raw_reference.get("series_id") or "").strip()
+        if series_id != "reference_index_kospi":
+            continue
+        raw_points = [p for p in (raw_reference.get("points") or []) if isinstance(p, dict)]
+        if not raw_points:
+            continue
+        filtered_points = []
+        previous_reference_value: float | None = None
+        for raw_point in raw_points:
+            reference_value = _coerce_market_score(
+                raw_point.get("raw_close", raw_point.get("value"))
+            )
+            if (
+                previous_reference_value
+                and reference_value
+                and abs(reference_value - previous_reference_value)
+                / max(abs(previous_reference_value), 1.0)
+                > 0.2
+            ):
+                continue
+            filtered_points.append(raw_point)
+            if reference_value:
+                previous_reference_value = reference_value
+        raw_points = filtered_points
+        point_by_date = {}
+        for raw_point in raw_points:
+            date_text = str(raw_point.get("date") or "").strip()
+            if not date_text:
+                continue
+            point_by_date[date_text] = raw_point
+            all_dates.append(date_text)
+        raw_reference_rows.append(
+            {
+                "series_id": series_id,
+                "label": str(raw_reference.get("label") or "주가지수 기준선").strip(),
+                "color": "#374151",
+                "description": str(raw_reference.get("description") or "").strip(),
+                "unit": str(raw_reference.get("unit") or "").strip(),
+                "base_date": str(raw_reference.get("base_date") or "").strip(),
+                "base_value": raw_reference.get("base_value"),
+                "latest_date": str(raw_reference.get("latest_date") or "").strip(),
+                "latest_value": raw_reference.get("latest_value"),
+                "latest_close": raw_reference.get("latest_close"),
+                "point_by_date": point_by_date,
+            }
+        )
+    unique_dates = sorted(set(all_dates))
+    point_count = max(len(unique_dates) - 1, 1)
+    width = max(
+        viewport_width,
+        round(point_count / max(visible_points - 1, 1) * viewport_width, 1),
+    )
+    content_width = width
+    scroll_width = width + chart_right_padding
+    date_to_x = {
+        date_text: round(index / point_count * width, 1)
+        for index, date_text in enumerate(unique_dates)
+    }
+    reference_values = [
+        numeric
+        for raw_reference in raw_reference_rows
+        for raw_point in raw_reference["point_by_date"].values()
+        if (numeric := _coerce_market_score(raw_point.get("value"))) is not None
+    ]
+    reference_min = min(reference_values) if reference_values else 0.0
+    reference_max = max(reference_values) if reference_values else 1.0
+    reference_padding = max((reference_max - reference_min) * 0.06, 1.0)
+    reference_min -= reference_padding
+    reference_max += reference_padding
+
+    def _reference_chart_y(value: Any) -> float:
+        numeric = _coerce_market_score(value)
+        if numeric is None or reference_max <= reference_min:
+            numeric = reference_min + ((reference_max - reference_min) / 2)
+        numeric = max(reference_min, min(reference_max, numeric))
+        return round((reference_max - numeric) / (reference_max - reference_min) * height, 1)
+
+    series_rows = []
+    tooltip_by_date: dict[str, dict[str, Any]] = {
+        date_text: {"date": date_text, "label": _format_chart_date_label(date_text), "items": []}
+        for date_text in unique_dates
+    }
+    for raw_series in raw_series_rows:
+        points = []
+        for date_text in unique_dates:
+            raw_point = raw_series["point_by_date"].get(date_text)
+            if not raw_point:
+                continue
+            score_value = raw_point.get("value")
+            x_position = date_to_x[date_text]
+            points.append(
+                {
+                    "x": x_position,
+                    "y": _composite_chart_y(
+                        score_value,
+                        chart_height=height,
+                        score_min=score_min,
+                        score_max=score_max,
+                    ),
+                    "date": date_text,
+                    "value": _format_market_metric(score_value),
+                }
+            )
+            tooltip_by_date[date_text]["items"].append(
+                {
+                    "label": raw_series["label"],
+                    "color": raw_series["color"],
+                    "value": _format_market_metric(score_value),
+                    "state": _market_score_state_label(score_value),
+                }
+            )
+        if not points:
+            continue
+        latest = raw_series["latest_visual"]
+        latest_point = points[-1]
+        latest_position = _market_gauge_percent(latest.get("position_pct"))
+        series_rows.append(
+            {
+                "series_id": raw_series["series_id"],
+                "label": raw_series["label"],
+                "color": raw_series["color"],
+                "description": raw_series["description"],
+                "points": points,
+                "polyline": " ".join(f"{p['x']},{p['y']}" for p in points),
+                "latest": {
+                    "x": latest_point["x"],
+                    "y": latest_point["y"],
+                    "display_text": str(
+                        latest.get("display_text") or latest_point["value"]
+                    ).strip(),
+                    "position_pct": latest_position,
+                    "band_label": str((latest.get("band") or {}).get("label") or "").strip(),
+                    "explain_text": str(latest.get("explain_text") or "").strip(),
+                },
+            }
+        )
+    reference_index_rows = []
+    for raw_reference in raw_reference_rows:
+        points = []
+        for date_text in unique_dates:
+            raw_point = raw_reference["point_by_date"].get(date_text)
+            if not raw_point:
+                continue
+            index_value = raw_point.get("value")
+            raw_close = raw_point.get("raw_close", raw_reference.get("latest_close"))
+            x_position = date_to_x[date_text]
+            points.append(
+                {
+                    "x": x_position,
+                    "y": _reference_chart_y(index_value),
+                    "date": date_text,
+                    "value": _format_market_metric(index_value),
+                    "raw_close": _format_market_metric(raw_close),
+                }
+            )
+            tooltip_by_date[date_text]["items"].append(
+                {
+                    "label": raw_reference["label"],
+                    "color": raw_reference["color"],
+                    "value": f"기준 {_format_market_metric(index_value)}",
+                    "state": f"종가 {_format_market_metric(raw_close)}",
+                }
+            )
+        if not points:
+            continue
+        latest_point = points[-1]
+        latest_value = raw_reference.get("latest_value")
+        latest_close = raw_reference.get("latest_close")
+        reference_index_rows.append(
+            {
+                "series_id": raw_reference["series_id"],
+                "label": raw_reference["label"],
+                "color": raw_reference["color"],
+                "description": raw_reference["description"],
+                "unit": raw_reference["unit"],
+                "base_date": raw_reference["base_date"],
+                "base_value": _format_market_metric(raw_reference["base_value"]),
+                "latest": {
+                    "x": latest_point["x"],
+                    "y": latest_point["y"],
+                    "value": _format_market_metric(latest_value),
+                    "close": _format_market_metric(latest_close),
+                },
+                "polyline": " ".join(f"{p['x']},{p['y']}" for p in points),
+            }
+        )
+    date_labels = []
+    if unique_dates:
+        label_step = 20
+        label_indexes = set(range(0, len(unique_dates), label_step))
+        label_indexes.update({0, len(unique_dates) - 1})
+        for label_index in sorted(label_indexes):
+            date_labels.append(
+                {
+                    "x": date_to_x[unique_dates[label_index]],
+                    "label": _format_chart_date_label(unique_dates[label_index]),
+                }
+            )
+    hover_points = []
+    for date_text in unique_dates:
+        tooltip = tooltip_by_date.get(date_text) or {}
+        if not tooltip.get("items"):
+            continue
+        hover_points.append(
+            {
+                "x": date_to_x[date_text],
+                "width": max(6, round(width / max(len(unique_dates), 1), 1)),
+                "height": height,
+                "tooltip": tooltip,
+            }
+        )
+    y_ticks = []
+    for tick in (3.0, 1.5, 0.0, -1.5, -3.0):
+        y_ticks.append(
+            {
+                "value": tick,
+                "label": f"{tick:+.1f}".replace("+0.0", "0.0"),
+                "y": _composite_chart_y(
+                    tick, chart_height=height, score_min=score_min, score_max=score_max
+                ),
+            }
+        )
+    neutral_y_top = _composite_chart_y(
+        neutral_max, chart_height=height, score_min=score_min, score_max=score_max
+    )
+    neutral_y_bottom = _composite_chart_y(
+        neutral_min, chart_height=height, score_min=score_min, score_max=score_max
+    )
+    return {
+        "enabled": bool(series_rows),
+        "title": "시장흐름 3축 그래프",
+        "subtitle": str(chart.get("subtitle") or "").strip(),
+        "width": int(viewport_width),
+        "scroll_width": int(scroll_width),
+        "content_width": int(content_width),
+        "height": int(height),
+        "viewbox": f"0 0 {int(scroll_width)} {int(height)}",
+        "score_min": score_min,
+        "score_max": score_max,
+        "neutral_band": {
+            "label": str(neutral.get("label") or "중립권").strip(),
+            "y": min(neutral_y_top, neutral_y_bottom),
+            "height": abs(neutral_y_bottom - neutral_y_top),
+        },
+        "series": series_rows,
+        "reference_indices": reference_index_rows,
+        "date_labels": date_labels,
+        "hover_points": hover_points,
+        "y_ticks": y_ticks,
+    }
+
+
+def _build_market_state_composite_view(payload: dict[str, Any] | None) -> dict[str, Any]:
+    source = payload or {}
+    if source.get("enabled") is not True:
+        return {"enabled": False}
+    composite_chart = (
+        source.get("composite_chart") if isinstance(source.get("composite_chart"), dict) else {}
+    )
+    chart_view = _build_market_composite_chart_view(composite_chart)
+    key_indicators = (
+        source.get("key_indicators") if isinstance(source.get("key_indicators"), dict) else {}
+    )
+    key_groups = []
+    for group in key_indicators.get("groups") or []:
+        if not isinstance(group, dict):
+            continue
+        key_groups.append(
+            {
+                "group_id": str(group.get("group_id") or "").strip(),
+                "title": str(group.get("title") or "핵심지표").strip(),
+                "items": [
+                    {
+                        "label": str(item.get("label") or "-").strip(),
+                        "value": _format_key_indicator_value(item.get("value"), item.get("unit")),
+                        "tone": str(item.get("tone") or "neutral").strip(),
+                    }
+                    for item in (group.get("items") or [])[:6]
+                    if isinstance(item, dict)
+                ],
+            }
+        )
+    considerations = []
+    for item in source.get("investment_considerations") or []:
+        if not isinstance(item, dict):
+            continue
+        considerations.append(
+            {
+                "label": str(item.get("label") or "").strip(),
+                "body": str(item.get("body") or "").strip(),
+                "tone": str(item.get("tone") or "neutral").strip(),
+                "basis": [str(v).strip() for v in (item.get("basis") or []) if str(v).strip()],
+            }
+        )
+    score_scale = (
+        source.get("score_scale_guide") if isinstance(source.get("score_scale_guide"), dict) else {}
+    )
+    score_bands = [
+        {
+            "label": str(item.get("label") or "").strip(),
+            "range": str(item.get("range") or "").strip(),
+            "tone": str(item.get("tone") or "neutral").strip(),
+            "color": str(item.get("color") or "#94a3b8").strip(),
+        }
+        for item in (score_scale.get("bands") or [])
+        if isinstance(item, dict)
+    ]
+    summary = source.get("summary") if isinstance(source.get("summary"), dict) else {}
+    if str(source.get("schema_version") or "").strip() == "market_state_composite.v2":
+        return {
+            "enabled": bool(chart_view.get("enabled")),
+            "layout": "multi_line",
+            "title": "시장 현황판",
+            "subtitle": str(source.get("subtitle") or "").strip(),
+            "asof_display": _format_kst_datetime(source.get("asof")),
+            "summary_line": str(summary.get("one_line") or "").strip(),
+            "chart": chart_view,
+            "key_indicators_title": str(key_indicators.get("title") or "핵심 판단 숫자").strip(),
+            "key_indicator_groups": key_groups,
+            "investment_considerations": considerations,
+            "score_bands": score_bands,
+            "interpretation_rules": [
+                str(item).strip()
+                for item in (source.get("interpretation_rules") or [])
+                if str(item).strip()
+            ],
+        }
+    axes = _market_composite_axis_lookup(source)
+    environment = axes.get("financial_environment", {})
+    medium_term = axes.get("medium_term_model_outlook", {})
+    short_term = axes.get("short_term_market_condition", {})
+    summary = source.get("summary") if isinstance(source.get("summary"), dict) else {}
+    today = short_term.get("today") if isinstance(short_term.get("today"), dict) else {}
+    weekly = short_term.get("weekly") if isinstance(short_term.get("weekly"), dict) else {}
+
+    cards = [
+        {
+            "axis_id": "financial_environment",
+            "title": str(environment.get("title") or "금융시장 환경").strip(),
+            "subtitle": str(environment.get("subtitle") or "기회와 리스크").strip(),
+            "label": str(environment.get("status_label") or "데이터 확인 중").strip(),
+            "tone": str(environment.get("tone") or "neutral").strip(),
+            "gauge_value": _market_gauge_percent(environment.get("gauge_value")),
+            "score_text": _format_market_metric(environment.get("score")),
+            "metrics": [
+                {
+                    "label": "기회",
+                    "value": _format_market_metric(environment.get("opportunity_score")),
+                },
+                {
+                    "label": "리스크",
+                    "value": _format_market_metric(environment.get("risk_pressure_score")),
+                },
+            ],
+            "key_numbers": [
+                {
+                    "label": str(item.get("label") or "-").strip(),
+                    "value": _format_market_metric(item.get("value"), str(item.get("unit") or "")),
+                }
+                for item in (environment.get("key_numbers") or [])[:4]
+                if isinstance(item, dict)
+            ],
+            "basis": [
+                str(item).strip() for item in (environment.get("basis") or []) if str(item).strip()
+            ][:2],
+        },
+        {
+            "axis_id": "medium_term_model_outlook",
+            "title": str(medium_term.get("title") or "퀀트모델 시장 전망").strip(),
+            "subtitle": str(medium_term.get("subtitle") or "1~6개월 흐름").strip(),
+            "label": str(medium_term.get("state_label") or "데이터 확인 중").strip(),
+            "tone": str(medium_term.get("tone") or "neutral").strip(),
+            "gauge_value": _market_gauge_percent(medium_term.get("gauge_value")),
+            "score_text": _format_market_metric(medium_term.get("score")),
+            "metrics": [
+                {
+                    "label": str(item.get("label") or "-").strip(),
+                    "value": _format_market_metric(item.get("score")),
+                }
+                for item in (medium_term.get("components") or [])[:4]
+                if isinstance(item, dict)
+            ],
+            "key_numbers": [
+                {
+                    "label": f"{str(item.get('market_scope') or '-').strip()} 20거래일",
+                    "value": _format_market_metric(
+                        item.get("predicted_forward_return_pct"), "%", signed=True
+                    ),
+                }
+                for item in (medium_term.get("forecast_20d") or [])[:3]
+                if isinstance(item, dict)
+            ],
+            "basis": [
+                str(item).strip() for item in (medium_term.get("basis") or []) if str(item).strip()
+            ][:2],
+        },
+        {
+            "axis_id": "short_term_market_condition",
+            "title": str(short_term.get("title") or "단기 시장 상황").strip(),
+            "subtitle": str(short_term.get("subtitle") or "최근 1주일 + 오늘").strip(),
+            "label": str(short_term.get("status_label") or "데이터 확인 중").strip(),
+            "tone": str(short_term.get("tone") or "neutral").strip(),
+            "gauge_value": _market_gauge_percent(short_term.get("gauge_value")),
+            "score_text": _format_market_metric(short_term.get("score")),
+            "metrics": [
+                {
+                    "label": "KOSPI 1주",
+                    "value": _format_market_metric(
+                        weekly.get("kospi_5d_ret_pct"), "%", signed=True
+                    ),
+                },
+                {
+                    "label": "KOSDAQ 1주",
+                    "value": _format_market_metric(
+                        weekly.get("kosdaq_5d_ret_pct"), "%", signed=True
+                    ),
+                },
+                {
+                    "label": "장중",
+                    "value": str(today.get("intraday_state_label") or "데이터 확인 중"),
+                },
+                {
+                    "label": "외국인",
+                    "value": _format_market_metric(today.get("foreigner_net"), "억"),
+                },
+            ],
+            "key_numbers": [
+                {
+                    "label": "선물",
+                    "value": _format_market_metric(
+                        today.get("futures_change_pct"), "%", signed=True
+                    ),
+                },
+                {
+                    "label": "프로그램",
+                    "value": _format_market_metric(today.get("program_total_net"), "억"),
+                },
+            ],
+            "basis": [
+                str(item).strip() for item in (short_term.get("basis") or []) if str(item).strip()
+            ][:2],
+        },
+    ]
+    return {
+        "enabled": True,
+        "title": "시장 현황판",
+        "subtitle": str(source.get("subtitle") or "").strip(),
+        "asof_display": _format_kst_datetime(source.get("asof")),
+        "summary_line": str(summary.get("one_line") or "").strip(),
+        "cards": cards,
+        "interpretation_rules": [
+            str(item).strip()
+            for item in (source.get("interpretation_rules") or [])
+            if str(item).strip()
+        ],
     }
 
 
@@ -731,12 +1763,19 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     compliance_meta = ai_payload.get("compliance_meta") or {}
     providers = ai_payload.get("providers") or []
     cards: list[dict[str, Any]] = []
+
+    def _strip_summary_prefix(value: str) -> str:
+        for prefix in ("긍정:", "리스크:"):
+            if value.startswith(prefix):
+                return value[len(prefix) :].strip()
+        return value
+
     for provider in providers:
         if not isinstance(provider, dict) or not provider.get("enabled"):
             continue
         summary_lines = [
             str(line).strip() for line in (provider.get("summary_lines") or []) if str(line).strip()
-        ][:4]
+        ][:8]
         if not summary_lines:
             continue
         provider_name = provider.get("provider") or "unknown"
@@ -753,6 +1792,9 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
         elif provider_name == "chatgpt":
             provider_label = "ChatGPT"
             sort_order = 1
+        cleaned_lines = [_strip_summary_prefix(line) for line in summary_lines]
+        split_index = 4 if len(summary_lines) == 8 else 3 if len(summary_lines) == 6 else 0
+        split_enabled = split_index > 0
         cards.append(
             {
                 "provider": provider_name,
@@ -761,7 +1803,10 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
                 "sort_order": sort_order,
                 "source": provider.get("source") or "",
                 "generated_at": provider.get("generated_at"),
-                "summary_lines": summary_lines,
+                "summary_lines": cleaned_lines,
+                "positive_lines": cleaned_lines[:split_index] if split_enabled else [],
+                "risk_lines": cleaned_lines[split_index : split_index * 2] if split_enabled else [],
+                "split_enabled": split_enabled,
             }
         )
     cards.sort(key=lambda item: (item.get("sort_order", 99), item.get("label", "")))
@@ -769,6 +1814,7 @@ def _build_market_ai_briefs(ai_payload: dict[str, Any]) -> dict[str, Any]:
     return {
         "enabled": enabled,
         "title": title,
+        "has_gemini": any(card.get("provider") == "gemini" for card in cards),
         "cards": cards,
         "show_placeholder": show_placeholder,
         "placeholder": f"{title} 준비 중",
@@ -783,6 +1829,12 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     notice_block = page_payload.get("notice_block") or {}
     usage_guide_card = page_payload.get("usage_guide_card") or {}
     compliance_meta = page_payload.get("compliance_meta") or {}
+    ai_providers = (page_payload.get("ai_briefs") or {}).get("providers") or []
+    generated_at = page_payload.get("generated_at")
+    for provider in ai_providers:
+        if isinstance(provider, dict) and provider.get("generated_at"):
+            generated_at = provider.get("generated_at")
+            break
     component_cards = []
     for item in page_payload.get("component_cards") or []:
         status_badge = item.get("status_badge") or {}
@@ -809,6 +1861,8 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     )
     return {
         "asof": page_payload.get("asof"),
+        "as_of_date": _format_kst_datetime(page_payload.get("asof")),
+        "generated_at": generated_at,
         "page_title": str(page_meta.get("page_title") or "시장 브리핑").strip(),
         "page_subtitle": str(
             page_meta.get("page_subtitle")
@@ -836,6 +1890,9 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
         },
         "ai_briefs": _build_market_ai_briefs(page_payload.get("ai_briefs") or {}),
         "state_bar": state_bar,
+        "market_state_composite_view": _build_market_state_composite_view(
+            page_payload.get("market_state_composite")
+        ),
         "state_intraday_bridge_view": _build_market_state_bridge_view(
             page_payload.get("state_intraday_bridge"),
             fallback_bar=state_bar,
@@ -885,9 +1942,42 @@ def _build_market_page_view(page_payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _build_market_timeline_view(payload: dict[str, Any]) -> dict[str, Any]:
+def _build_market_timeline_points(payload: dict[str, Any]) -> list[dict[str, Any]]:
     points = payload.get("points") or []
+    if points:
+        return [point for point in points if isinstance(point, dict)]
+    series = payload.get("series") or []
+    normalized_points: list[dict[str, Any]] = []
+    for row in series:
+        if not isinstance(row, dict):
+            continue
+        total_score = row.get("total_score")
+        normalized_points.append(
+            {
+                "asof": row.get("asof"),
+                "state_label": row.get("state_label"),
+                "state_score": total_score,
+                "trend_score": row.get("trend_score"),
+                "breadth_score": row.get("breadth_score"),
+                "risk_score": row.get("risk_score"),
+                "defensive_flow_score": row.get("defensive_flow_score"),
+                "total_score": total_score,
+            }
+        )
+    return normalized_points
+
+
+def _build_market_timeline_view(payload: dict[str, Any]) -> dict[str, Any]:
+    points = _build_market_timeline_points(payload)
     rows = []
+    chart_series = []
+    for point in points[-180:]:
+        chart_series.append(
+            {
+                "label": _format_kst_datetime(point.get("asof")),
+                "score": _coerce_market_score(point.get("total_score")),
+            }
+        )
     for row in points[-12:]:
         score = row.get("total_score")
         try:
@@ -906,7 +1996,7 @@ def _build_market_timeline_view(payload: dict[str, Any]) -> dict[str, Any]:
                 ),
             }
         )
-    current_state = payload.get("current_state") or {}
+    current_state = payload.get("current_state") or (points[-1] if points else {})
     return {
         "enabled": bool(payload and rows),
         "title": str(payload.get("title") or "상태 타임라인").strip(),
@@ -918,12 +2008,33 @@ def _build_market_timeline_view(payload: dict[str, Any]) -> dict[str, Any]:
         "current_state_label": current_state.get("state_label") or "-",
         "current_score_text": rows[-1]["score_text"] if rows else "-",
         "rows": rows,
+        "chart_series": chart_series,
     }
+
+
+def _latest_asset_strength_rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    assets = payload.get("assets") or []
+    if assets:
+        return [row for row in assets if isinstance(row, dict)]
+    series = [row for row in (payload.get("series") or []) if isinstance(row, dict)]
+    latest_asof = ""
+    for row in series:
+        asof = str(row.get("asof") or "")
+        if asof > latest_asof:
+            latest_asof = asof
+    if not latest_asof:
+        return []
+    latest_rows = [row for row in series if str(row.get("asof") or "") == latest_asof]
+    return sorted(latest_rows, key=lambda row: _safe_float(row.get("strength_rank")) or 999)
 
 
 def _build_market_asset_strength_view(payload: dict[str, Any]) -> dict[str, Any]:
     assets = []
-    for row in payload.get("assets") or []:
+    chart_bars = []
+    raw_assets = _latest_asset_strength_rows(payload)
+    for row in raw_assets:
+        score_value = _safe_float(row.get("strength_score"))
+        ret_value = _safe_float(row.get("ret_20d"))
         assets.append(
             {
                 "asset_group": row.get("asset_group") or "-",
@@ -931,10 +2042,15 @@ def _build_market_asset_strength_view(payload: dict[str, Any]) -> dict[str, Any]
                 "strength_label": row.get("strength_label") or "-",
                 "ret_20d_display": _format_percent(row.get("ret_20d")),
                 "strength_score_display": (
-                    f"{float(row.get('strength_score')):.2f}"
-                    if row.get("strength_score") is not None
-                    else "-"
+                    f"{score_value:.2f}" if score_value is not None else "-"
                 ),
+            }
+        )
+        chart_bars.append(
+            {
+                "label": str(row.get("asset_group") or "-"),
+                "score": score_value,
+                "ret_20d": ret_value,
             }
         )
     top_assets = [
@@ -943,6 +2059,10 @@ def _build_market_asset_strength_view(payload: dict[str, Any]) -> dict[str, Any]
     bottom_assets = [
         str(item.get("asset_group") or "-") for item in (payload.get("bottom_assets") or [])[:2]
     ]
+    if not top_assets:
+        top_assets = [str(item.get("asset_group") or "-") for item in raw_assets[:2]]
+    if not bottom_assets:
+        bottom_assets = [str(item.get("asset_group") or "-") for item in raw_assets[-2:]]
     return {
         "enabled": bool(payload and assets),
         "title": str(payload.get("title") or "자산군 상대강도").strip(),
@@ -950,6 +2070,20 @@ def _build_market_asset_strength_view(payload: dict[str, Any]) -> dict[str, Any]
         "assets": assets,
         "top_assets_text": ", ".join(top_assets) if top_assets else "-",
         "bottom_assets_text": ", ".join(bottom_assets) if bottom_assets else "-",
+        "chart_bars": chart_bars,
+    }
+
+
+def _build_market_home_chart_view(
+    timeline_payload: dict[str, Any] | None,
+    asset_strength_payload: dict[str, Any] | None,
+) -> dict[str, Any]:
+    timeline_view = _build_market_timeline_view(timeline_payload or {})
+    asset_strength_view = _build_market_asset_strength_view(asset_strength_payload or {})
+    return {
+        "enabled": bool(timeline_view.get("enabled") or asset_strength_view.get("enabled")),
+        "timeline": timeline_view,
+        "asset_strength": asset_strength_view,
     }
 
 
@@ -1107,6 +2241,12 @@ def _build_market_next_day_asset_view(asset: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _is_publishable_next_day_asset(asset: dict[str, Any]) -> bool:
+    if bool(asset.get("is_fallback")):
+        return False
+    return _coerce_change_pct(asset.get("change_pct")) is not None
+
+
 def _build_market_next_day_assets_view(assets: list[dict[str, Any]]) -> list[dict[str, Any]]:
     normalized_assets = [asset for asset in assets if isinstance(asset, dict)]
     asset_by_code = {}
@@ -1118,24 +2258,20 @@ def _build_market_next_day_assets_view(assets: list[dict[str, Any]]) -> list[dic
     selected: list[dict[str, Any]] = []
     used_codes: set[str] = set()
 
-    korea_asset = asset_by_code.get("KOSPI200_NIGHT_FUT")
-    if korea_asset is None:
-        korea_asset = asset_by_code.get("KOREA_PROXY_EWY")
-    if korea_asset is not None:
-        code = str(korea_asset.get("asset_code") or "").strip()
-        selected.append(_build_market_next_day_asset_view(korea_asset))
-        used_codes.add(code)
-
-    for code in ("SP500_FUT", "USDKRW"):
+    for code in ("KOSPI200_NIGHT_FUT", "KOREA_PROXY_EWY", "SP500_FUT", "USDKRW"):
         asset = asset_by_code.get(code)
-        if asset is None or code in used_codes:
+        if asset is None or code in used_codes or not _is_publishable_next_day_asset(asset):
             continue
         selected.append(_build_market_next_day_asset_view(asset))
         used_codes.add(code)
+        if len(selected) >= 3:
+            break
 
     for asset in normalized_assets:
         code = str(asset.get("asset_code") or "").strip()
         if not code or code in used_codes:
+            continue
+        if not _is_publishable_next_day_asset(asset):
             continue
         selected.append(_build_market_next_day_asset_view(asset))
         used_codes.add(code)
@@ -1147,6 +2283,7 @@ def _build_market_next_day_assets_view(assets: list[dict[str, Any]]) -> list[dic
 
 def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, Any]:
     preview_payload = payload or {}
+    active_now = preview_payload.get("active_now") is True
     supporting_points = [
         str(item).strip()
         for item in (preview_payload.get("supporting_points") or [])
@@ -1165,6 +2302,17 @@ def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, An
         or DEFAULT_NEXT_DAY_PREVIEW_NOTICE
     ).strip()
     key_assets = _build_market_next_day_assets_view(preview_payload.get("overnight_assets") or [])
+    biases = (
+        preview_payload.get("biases") if isinstance(preview_payload.get("biases"), dict) else {}
+    )
+    key_asset_codes = {asset.get("asset_code") for asset in key_assets}
+    korea_signal_note = ""
+    if (
+        biases.get("korea_signal_alignment") == "mixed"
+        and "KOSPI200_NIGHT_FUT" in key_asset_codes
+        and "KOREA_PROXY_EWY" in key_asset_codes
+    ):
+        korea_signal_note = "국내/해외 한국 신호가 엇갈려 장초반 변동성 확인이 필요합니다."
     compact_assets = key_assets[:2]
     compact_asset_line = ", ".join(
         f"{item['asset_name']} {item['change_display']}"
@@ -1178,12 +2326,16 @@ def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, An
         if supporting_points
         else (summary_line or headline_line or preview_label)
     )
+    display_title = str(preview_payload.get("display_title") or "내일 시장 전망").strip()
+    if display_title == "내일 시장 전망 참고":
+        display_title = "내일 시장 전망"
     return {
         "enabled": bool(preview_payload),
-        "show_default": bool(preview_payload) and preview_payload.get("active_now") is True,
-        "active_now": preview_payload.get("active_now") is True,
-        "title": "내일 시장 전망 참고",
-        "display_title": str(preview_payload.get("display_title") or "내일 시장 전망 참고").strip(),
+        "show_default": bool(preview_payload) and active_now,
+        "show_market_analysis": bool(preview_payload),
+        "active_now": active_now,
+        "title": "내일 시장 전망",
+        "display_title": display_title,
         "display_subtitle": str(preview_payload.get("display_subtitle") or "").strip(),
         "preview_label": preview_label,
         "preview_score": preview_payload.get("preview_score"),
@@ -1199,14 +2351,796 @@ def _build_market_next_day_preview_view(payload: dict[str, Any]) -> dict[str, An
             preview_payload.get("market_flow_reference_note") or ""
         ).strip(),
         "material_change_flag": preview_payload.get("material_change_flag") is True,
-        "is_muted": preview_payload.get("material_change_flag") is False,
+        "is_muted": (preview_payload.get("material_change_flag") is False) or (not active_now),
         "content_hash": str(preview_payload.get("content_hash") or "").strip(),
         "home_line": home_line,
         "today_line": today_line,
         "weekly_point": weekly_point,
         "key_assets": key_assets,
+        "korea_signal_note": korea_signal_note,
         "compact_assets": compact_assets,
         "compact_asset_line": compact_asset_line,
+    }
+
+
+def _unwrap_market_payload(payload: dict[str, Any] | None) -> dict[str, Any]:
+    if not isinstance(payload, dict):
+        return {}
+    data = payload.get("data")
+    if isinstance(data, dict):
+        return data
+    return payload
+
+
+def _build_market_analysis_tabs_view(payload: dict[str, Any] | None) -> list[dict[str, Any]]:
+    source = _unwrap_market_payload(payload)
+    source_tabs = source.get("tabs") if isinstance(source.get("tabs"), list) else []
+    tabs_by_key = {
+        str(tab.get("key") or tab.get("id") or "").strip(): tab
+        for tab in source_tabs
+        if isinstance(tab, dict)
+    }
+    tabs = []
+    for default_tab in MARKET_ANALYSIS_DATA_TABS:
+        source_tab = tabs_by_key.get(default_tab["key"]) or {}
+        tabs.append(
+            {
+                "key": default_tab["key"],
+                "label": str(source_tab.get("label") or default_tab["label"]).strip(),
+                "description": str(
+                    source_tab.get("description") or default_tab["description"]
+                ).strip(),
+            }
+        )
+    return tabs
+
+
+def _market_component_label(key: str) -> str:
+    labels = {
+        "trend_score": "추세",
+        "breadth_score": "시장 폭",
+        "risk_score": "위험/변동성",
+        "defensive_flow_score": "방어 흐름",
+    }
+    return labels.get(key, key)
+
+
+def _build_market_component_chart_views(points: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    components = []
+    for key in ("trend_score", "breadth_score", "risk_score", "defensive_flow_score"):
+        series = []
+        for point in points[-120:]:
+            value = _safe_float(point.get(key))
+            if value is None:
+                continue
+            series.append(
+                {
+                    "label": _format_kst_datetime(point.get("asof")),
+                    "score": value,
+                }
+            )
+        latest_value = series[-1]["score"] if series else None
+        components.append(
+            {
+                "key": key,
+                "label": _market_component_label(key),
+                "latest_display": f"{latest_value:.2f}" if latest_value is not None else "-",
+                "series": series,
+                "enabled": len(series) >= 2,
+            }
+        )
+    return components
+
+
+def _build_market_asset_rank_change_view(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    series = [row for row in (payload.get("series") or []) if isinstance(row, dict)]
+    asof_values = sorted({str(row.get("asof") or "") for row in series if row.get("asof")})
+    if len(asof_values) < 2:
+        return []
+    previous_asof, latest_asof = asof_values[-2], asof_values[-1]
+    previous = {
+        str(row.get("asset_group") or ""): _safe_float(row.get("strength_rank"))
+        for row in series
+        if str(row.get("asof") or "") == previous_asof
+    }
+    latest_rows = [
+        row
+        for row in series
+        if str(row.get("asof") or "") == latest_asof and row.get("asset_group")
+    ]
+    changes = []
+    for row in sorted(latest_rows, key=lambda item: _safe_float(item.get("strength_rank")) or 999):
+        asset_group = str(row.get("asset_group") or "-")
+        latest_rank = _safe_float(row.get("strength_rank"))
+        previous_rank = previous.get(asset_group)
+        rank_delta = None
+        if latest_rank is not None and previous_rank is not None:
+            rank_delta = int(previous_rank - latest_rank)
+        if rank_delta is None:
+            delta_display = "-"
+        elif rank_delta > 0:
+            delta_display = f"{rank_delta}계단 상승"
+        elif rank_delta < 0:
+            delta_display = f"{abs(rank_delta)}계단 하락"
+        else:
+            delta_display = "변화 없음"
+        changes.append(
+            {
+                "asset_group": asset_group,
+                "latest_rank": int(latest_rank) if latest_rank is not None else "-",
+                "previous_rank": int(previous_rank) if previous_rank is not None else "-",
+                "delta_display": delta_display,
+            }
+        )
+    return changes[:8]
+
+
+def _build_market_live_context_view(payload: dict[str, Any] | None) -> dict[str, Any]:
+    source = _unwrap_market_payload(payload)
+    cards = []
+    candidate_rows = []
+    for key in ("cards", "items", "sections", "signals", "contexts"):
+        value = source.get(key)
+        if isinstance(value, list):
+            candidate_rows.extend([row for row in value if isinstance(row, dict)])
+    if not candidate_rows and source:
+        for key, value in source.items():
+            if isinstance(value, dict):
+                candidate_rows.append({"title": key, **value})
+    for row in candidate_rows[:6]:
+        title = str(row.get("title") or row.get("label") or row.get("name") or "참고 항목").strip()
+        value = str(
+            row.get("display_value")
+            or row.get("value")
+            or row.get("state_label")
+            or row.get("summary")
+            or row.get("description")
+            or "-"
+        ).strip()
+        description = str(
+            row.get("description") or row.get("summary_line") or row.get("reference_note") or ""
+        ).strip()
+        cards.append({"title": title, "value": value, "description": description})
+    return {
+        "enabled": bool(source),
+        "title": str(
+            source.get("display_title") or source.get("title") or "장중/야간 참고"
+        ).strip(),
+        "summary_line": str(
+            source.get("summary_line")
+            or source.get("headline_line")
+            or "장중 참고 데이터와 종가 기준 데이터를 분리해 보여줍니다."
+        ).strip(),
+        "cards": cards,
+    }
+
+
+def _build_market_data_guide_view(payload: dict[str, Any] | None) -> dict[str, Any]:
+    source = _unwrap_market_payload(payload)
+    raw_sections = []
+    for key in ("sections", "guide_sections", "items", "data_sources"):
+        value = source.get(key)
+        if isinstance(value, list):
+            raw_sections.extend([row for row in value if isinstance(row, dict)])
+    if not raw_sections:
+        raw_sections = [
+            {
+                "title": "official",
+                "description": "공식 데이터 또는 공식 산출값입니다.",
+            },
+            {
+                "title": "official_delayed",
+                "description": "공식 데이터이나 공개 지연 가능성이 있는 항목입니다.",
+            },
+            {
+                "title": "proxy",
+                "description": "직접 지표가 없을 때 사용하는 대체 참고 지표입니다.",
+            },
+            {
+                "title": "fallback",
+                "description": "원천 데이터 지연 시 임시로 사용하는 보조값입니다.",
+            },
+        ]
+    sections = []
+    for row in raw_sections[:12]:
+        lines = [
+            str(item).strip()
+            for item in (row.get("lines") or row.get("body") or row.get("bullets") or [])
+            if str(item).strip()
+        ]
+        sections.append(
+            {
+                "title": str(
+                    row.get("title")
+                    or row.get("label")
+                    or row.get("source_type")
+                    or row.get("key")
+                    or "데이터 항목"
+                ).strip(),
+                "description": str(
+                    row.get("description")
+                    or row.get("summary")
+                    or row.get("meaning")
+                    or row.get("note")
+                    or ""
+                ).strip(),
+                "lines": lines[:4],
+            }
+        )
+    return {
+        "enabled": bool(source or sections),
+        "title": str(source.get("display_title") or source.get("title") or "데이터 해설").strip(),
+        "summary_line": str(
+            source.get("summary_line")
+            or source.get("description")
+            or "시장 분석에 사용되는 지표의 의미와 데이터 성격을 정리합니다."
+        ).strip(),
+        "sections": sections,
+    }
+
+
+def _format_count(value: Any) -> str:
+    if value is None or value == "":
+        return "-"
+    try:
+        return f"{int(float(value)):,}"
+    except (TypeError, ValueError):
+        return str(value)
+
+
+def _dart_type_label(row: dict[str, Any]) -> str:
+    return str(
+        row.get("label")
+        or row.get("type_label")
+        or row.get("filing_type")
+        or row.get("type")
+        or row.get("category")
+        or "공시 유형"
+    ).strip()
+
+
+def _dart_type_count(row: dict[str, Any]) -> Any:
+    return row.get("count", row.get("filing_count", row.get("value")))
+
+
+def _dart_filing_title(row: dict[str, Any]) -> str:
+    return str(
+        row.get("title")
+        or row.get("report_nm")
+        or row.get("filing_title")
+        or row.get("report_name")
+        or "공시 제목"
+    ).strip()
+
+
+def _dart_filing_company(row: dict[str, Any]) -> str:
+    return str(row.get("corp_name") or row.get("company_name") or row.get("company") or "").strip()
+
+
+def _dart_filing_date(row: dict[str, Any]) -> str:
+    return str(
+        row.get("filing_date")
+        or row.get("receipt_date")
+        or row.get("rcept_dt")
+        or row.get("date")
+        or ""
+    ).strip()
+
+
+def _dart_filing_url(row: dict[str, Any]) -> str:
+    return str(row.get("url") or row.get("filing_url") or row.get("dart_url") or "").strip()
+
+
+def _build_market_dart_summary_view(
+    current_payload: dict[str, Any] | None,
+    history_payload: dict[str, Any] | None,
+) -> dict[str, Any]:
+    current = _unwrap_market_payload(current_payload)
+    history = _unwrap_market_payload(history_payload)
+    enabled = current.get("enabled", True) is not False and bool(current)
+    market_breakdown = current.get("market_breakdown") or {}
+    filing_types = []
+    for row in current.get("filing_count_by_type") or []:
+        if not isinstance(row, dict):
+            continue
+        filing_types.append(
+            {
+                "label": _dart_type_label(row),
+                "count_display": _format_count(_dart_type_count(row)),
+            }
+        )
+    highlights = []
+    for row in (current.get("highlights") or [])[:5]:
+        if not isinstance(row, dict):
+            continue
+        highlights.append(
+            {
+                "title": _dart_filing_title(row),
+                "company": _dart_filing_company(row),
+                "date": _dart_filing_date(row),
+                "date_display": _format_market_kst_label(_dart_filing_date(row)),
+                "url": _dart_filing_url(row),
+            }
+        )
+    recent_filings = []
+    for row in (current.get("recent_filings") or [])[:8]:
+        if not isinstance(row, dict):
+            continue
+        recent_filings.append(
+            {
+                "title": _dart_filing_title(row),
+                "company": _dart_filing_company(row),
+                "date": _dart_filing_date(row),
+                "date_display": _format_market_kst_label(_dart_filing_date(row)),
+                "url": _dart_filing_url(row),
+            }
+        )
+
+    series_rows = [row for row in (history.get("series") or []) if isinstance(row, dict)]
+    total_series = []
+    risk_series = []
+    for row in series_rows[-120:]:
+        label = str(row.get("reference_date") or row.get("asof") or "").strip()
+        total_value = _safe_float(row.get("filing_count_total"))
+        risk_value = _safe_float(row.get("risk_event_count"))
+        if label and total_value is not None:
+            total_series.append(
+                {
+                    "label": _format_chart_date_label(label),
+                    "score": total_value,
+                    "value_label": _format_count(total_value),
+                }
+            )
+        if label and risk_value is not None:
+            risk_series.append(
+                {
+                    "label": _format_chart_date_label(label),
+                    "score": risk_value,
+                    "value_label": _format_count(risk_value),
+                }
+            )
+
+    return {
+        "enabled": enabled,
+        "show_fallback": bool(current) and not enabled,
+        "reference_date": _format_market_kst_label(
+            current.get("reference_date") or current.get("asof")
+        ),
+        "summary_line": ("상장사 공시 흐름을 OpenDART 기준으로 정리한 공개형 참고 정보입니다."),
+        "disclaimer": (
+            "공시 건수는 시장 상황 이해를 돕는 참고 지표이며, 특정 종목의 매수·매도 "
+            "판단을 직접 제시하지 않습니다."
+        ),
+        "metrics": [
+            {"label": "전체 공시", "value": _format_count(current.get("filing_count_total"))},
+            {"label": "코스피", "value": _format_count(market_breakdown.get("kospi_count"))},
+            {"label": "코스닥", "value": _format_count(market_breakdown.get("kosdaq_count"))},
+            {"label": "리스크 공시", "value": _format_count(current.get("risk_event_count"))},
+        ],
+        "filing_types": filing_types,
+        "highlights": highlights,
+        "recent_filings": recent_filings,
+        "total_series": total_series,
+        "risk_series": risk_series,
+        "history_enabled": bool(total_series or risk_series),
+    }
+
+
+def _series_chart(
+    rows: list[dict[str, Any]],
+    *,
+    key: str,
+    label_key: str = "asof",
+    limit: int = 120,
+    percent: bool = False,
+) -> list[dict[str, Any]]:
+    series = []
+    for row in rows[-limit:]:
+        value = _safe_float(row.get(key))
+        label = str(row.get(label_key) or row.get("asof") or "").strip()
+        if value is None or not label:
+            continue
+        series.append(
+            {
+                "label": _format_chart_date_label(label),
+                "score": value,
+                "value_label": _format_percent(value) if percent else f"{value:.2f}",
+            }
+        )
+    return series
+
+
+def _latest_value_display(rows: list[dict[str, Any]], key: str, *, percent: bool = False) -> str:
+    for row in reversed(rows):
+        value = _safe_float(row.get(key))
+        if value is None:
+            continue
+        return _format_percent(value) if percent else f"{value:.2f}"
+    return "-"
+
+
+def _build_market_breadth_detail_view(
+    current_payload: dict[str, Any] | None,
+    history_payload: dict[str, Any] | None,
+) -> dict[str, Any]:
+    current = _unwrap_market_payload(current_payload)
+    history = _unwrap_market_payload(history_payload)
+    close_series = [
+        row
+        for row in (history.get("close_series") or history.get("series") or [])
+        if isinstance(row, dict)
+    ]
+    intraday_series = [
+        row for row in (history.get("intraday_series") or []) if isinstance(row, dict)
+    ]
+    close_charts = [
+        {
+            "key": "above_20dma_ratio",
+            "title": "20일선 위 종목 비율",
+            "unit": "비율",
+            "latest": _latest_value_display(close_series, "above_20dma_ratio", percent=True),
+            "series": _series_chart(close_series, key="above_20dma_ratio", percent=True),
+        },
+        {
+            "key": "above_60dma_ratio",
+            "title": "60일선 위 종목 비율",
+            "unit": "비율",
+            "latest": _latest_value_display(close_series, "above_60dma_ratio", percent=True),
+            "series": _series_chart(close_series, key="above_60dma_ratio", percent=True),
+        },
+        {
+            "key": "adv_dec_ratio",
+            "title": "상승/하락 종목 비율",
+            "unit": "배율",
+            "latest": _latest_value_display(close_series, "adv_dec_ratio"),
+            "series": _series_chart(close_series, key="adv_dec_ratio"),
+        },
+    ]
+    intraday_charts = []
+    for universe_code in ("KOSPI", "KOSDAQ"):
+        rows = [
+            row
+            for row in intraday_series
+            if str(row.get("universe_code") or "").upper() == universe_code
+        ]
+        intraday_charts.append(
+            {
+                "key": universe_code.lower(),
+                "title": f"{universe_code} 장중 상승 종목 비율",
+                "latest": _latest_value_display(rows, "positive_ratio", percent=True),
+                "series": _series_chart(rows, key="positive_ratio", percent=True),
+            }
+        )
+    latest_close = close_series[-1] if close_series else {}
+    latest_intraday = intraday_series[-1] if intraday_series else {}
+    return {
+        "enabled": bool(current or close_series or intraday_series),
+        "summary_line": (
+            "이 차트는 시장 안쪽 종목들의 확산 흐름을 보여주는 공개형 참고 정보입니다."
+        ),
+        "latest_close_asof": _format_market_kst_label(
+            (history.get("summary") or {}).get("latest_close_asof")
+            or latest_close.get("asof")
+            or current.get("latest_close_asof")
+        ),
+        "latest_intraday_asof": _format_market_kst_label(
+            (history.get("summary") or {}).get("latest_intraday_asof")
+            or latest_intraday.get("asof")
+            or current.get("latest_intraday_asof")
+        ).strip(),
+        "close_metrics": [
+            {
+                "label": "20일선 위",
+                "value": _latest_value_display(close_series, "above_20dma_ratio", percent=True),
+            },
+            {
+                "label": "60일선 위",
+                "value": _latest_value_display(close_series, "above_60dma_ratio", percent=True),
+            },
+            {
+                "label": "상승/하락 비율",
+                "value": _latest_value_display(close_series, "adv_dec_ratio"),
+            },
+            {
+                "label": "신고가/신저가",
+                "value": (
+                    f"{_format_count(latest_close.get('new_high_count'))} / "
+                    f"{_format_count(latest_close.get('new_low_count'))}"
+                    if latest_close
+                    else "-"
+                ),
+            },
+        ],
+        "close_charts": close_charts,
+        "intraday_charts": intraday_charts,
+    }
+
+
+US_MACRO_ASSET_LABELS = {
+    "KOREA_PROXY_EWY": "한국 관련 야간 프록시(EWY)",
+    "SP500_FUT": "S&P500 선물",
+    "NASDAQ100_FUT": "나스닥100 선물",
+    "USDKRW": "USD/KRW",
+    "WTI": "WTI",
+    "US10Y": "미국 10년 금리",
+}
+
+
+def _build_market_us_macro_panel_view(
+    current_payload: dict[str, Any] | None,
+    history_payload: dict[str, Any] | None,
+) -> dict[str, Any]:
+    current = _unwrap_market_payload(current_payload)
+    history = _unwrap_market_payload(history_payload)
+    asset_series = [
+        row
+        for row in (history.get("asset_series") or history.get("series") or [])
+        if isinstance(row, dict)
+    ]
+    preview_series = [row for row in (history.get("preview_series") or []) if isinstance(row, dict)]
+    asset_charts = []
+    for asset_code, asset_label in US_MACRO_ASSET_LABELS.items():
+        rows = [
+            row for row in asset_series if str(row.get("asset_code") or "").upper() == asset_code
+        ]
+        asset_charts.append(
+            {
+                "asset_code": asset_code,
+                "title": asset_label,
+                "latest": _latest_value_display(rows, "change_pct", percent=True),
+                "status_label": (
+                    str(rows[-1].get("status_label") or rows[-1].get("direction_label") or "-")
+                    if rows
+                    else "-"
+                ),
+                "series": _series_chart(rows, key="change_pct", percent=True),
+            }
+        )
+    preview_charts = [
+        {
+            "key": "preview_score",
+            "title": "preview score",
+            "latest": _latest_value_display(preview_series, "preview_score"),
+            "series": _series_chart(preview_series, key="preview_score"),
+        },
+        {
+            "key": "overnight_futures_bias",
+            "title": "야간 선물 bias",
+            "latest": _latest_value_display(preview_series, "overnight_futures_bias"),
+            "series": _series_chart(preview_series, key="overnight_futures_bias"),
+        },
+        {
+            "key": "global_risk_bias",
+            "title": "글로벌 위험 bias",
+            "latest": _latest_value_display(preview_series, "global_risk_bias"),
+            "series": _series_chart(preview_series, key="global_risk_bias"),
+        },
+        {
+            "key": "overnight_fx_bias",
+            "title": "야간 환율 bias",
+            "latest": _latest_value_display(preview_series, "overnight_fx_bias"),
+            "series": _series_chart(preview_series, key="overnight_fx_bias"),
+        },
+    ]
+    latest_preview = preview_series[-1] if preview_series else {}
+    return {
+        "enabled": bool(current or asset_series or preview_series),
+        "summary_line": (
+            "야간 글로벌 지표는 다음 거래일 장초반 환경을 참고하기 위한 정보이며, "
+            "국내 퀀트모델 시장 흐름 자체를 대체하지 않습니다."
+        ),
+        "latest_asset_asof": _format_market_kst_label(
+            (history.get("summary") or {}).get("latest_asset_asof")
+            or (asset_series[-1].get("asof") if asset_series else "")
+        ),
+        "latest_preview_asof": _format_market_kst_label(
+            (history.get("summary") or {}).get("latest_preview_asof") or latest_preview.get("asof")
+        ),
+        "headline_line": str(
+            current.get("headline_line")
+            or latest_preview.get("headline_line")
+            or latest_preview.get("summary_line")
+            or ""
+        ).strip(),
+        "asset_charts": asset_charts,
+        "preview_charts": preview_charts,
+    }
+
+
+def _build_market_analysis_data_view(market_bundle: Any) -> dict[str, Any]:
+    timeline_payload = (
+        market_bundle.timeline_history or market_bundle.timeline if market_bundle else {}
+    )
+    asset_strength_payload = (
+        market_bundle.asset_strength_history or market_bundle.asset_strength
+        if market_bundle
+        else {}
+    )
+    timeline_view = _build_market_timeline_view(timeline_payload)
+    asset_strength_view = _build_market_asset_strength_view(asset_strength_payload)
+    state_transition_view = _build_market_state_transition_view(
+        market_bundle.state_transition if market_bundle else {}
+    )
+    page_view = _build_market_page_view(market_bundle.page if market_bundle else {})
+    points = _build_market_timeline_points(timeline_payload)
+    return {
+        "page_title": "시장 분석",
+        "subtitle": (
+            "시장 브리핑의 해석 요약과 분리해, current와 history 데이터를 "
+            "차트 중심으로 확인합니다."
+        ),
+        "asof": _format_market_kst_label(market_bundle.asof if market_bundle else None),
+        "tabs": _build_market_analysis_tabs_view(
+            market_bundle.analysis_tabs if market_bundle else {}
+        ),
+        "timeline": timeline_view,
+        "component_charts": _build_market_component_chart_views(points),
+        "state_transition": state_transition_view,
+        "asset_strength": asset_strength_view,
+        "asset_rank_changes": _build_market_asset_rank_change_view(asset_strength_payload),
+        "live_context": _build_market_live_context_view(
+            market_bundle.live_context if market_bundle else {}
+        ),
+        "state_bridge": page_view.get("state_intraday_bridge_view"),
+        "state_bar": page_view.get("state_bar"),
+        "next_day_preview": _build_market_next_day_preview_view(
+            market_bundle.next_day_preview if market_bundle else {}
+        ),
+        "data_guide": _build_market_data_guide_view(
+            market_bundle.data_guide if market_bundle else {}
+        ),
+        "dart_summary": _build_market_dart_summary_view(
+            market_bundle.dart_summary if market_bundle else {},
+            market_bundle.dart_summary_history if market_bundle else {},
+        ),
+        "breadth_detail": _build_market_breadth_detail_view(
+            market_bundle.breadth_detail if market_bundle else {},
+            market_bundle.breadth_detail_history if market_bundle else {},
+        ),
+        "us_macro_panel": _build_market_us_macro_panel_view(
+            market_bundle.us_macro_panel if market_bundle else {},
+            market_bundle.us_macro_panel_history if market_bundle else {},
+        ),
+    }
+
+
+MARKET_ENVIRONMENT_SECTION_ORDER = (
+    ("domestic_source", "국내 시장 원천 데이터"),
+    ("fred_macro", "FRED 매크로/금리 데이터"),
+    ("yahoo_global", "Yahoo 글로벌 시장 데이터"),
+)
+
+
+def _format_environment_value(value: Any, unit: Any = "") -> str:
+    numeric = _safe_float(value)
+    unit_text = str(unit or "").strip()
+    if numeric is None:
+        return "-"
+    if unit_text in {"%", "percent", "pct"}:
+        return f"{numeric:.2f}%"
+    if abs(numeric) >= 1000:
+        return f"{numeric:,.2f}".rstrip("0").rstrip(".")
+    if abs(numeric) >= 10:
+        return f"{numeric:.2f}".rstrip("0").rstrip(".")
+    return f"{numeric:.4f}".rstrip("0").rstrip(".")
+
+
+def _build_environment_series_chart(
+    points: list[dict[str, Any]],
+    *,
+    unit: Any = "",
+    limit: int = 260,
+) -> list[dict[str, Any]]:
+    series = []
+    for point in points[-limit:]:
+        if not isinstance(point, dict):
+            continue
+        value = _safe_float(point.get("value"))
+        label = str(point.get("date") or point.get("asof") or "").strip()
+        if value is None or not label:
+            continue
+        series.append(
+            {
+                "label": _format_chart_date_label(label),
+                "score": value,
+                "value_label": _format_environment_value(value, unit),
+            }
+        )
+    return series
+
+
+def _build_market_environment_indicators_view(payload: dict[str, Any] | None) -> dict[str, Any]:
+    source = _unwrap_market_payload(payload)
+    source_sections = [row for row in (source.get("sections") or []) if isinstance(row, dict)]
+    sections_by_key = {
+        str(
+            row.get("section_key") or row.get("section_id") or row.get("key") or row.get("id") or ""
+        ).strip(): row
+        for row in source_sections
+    }
+    chart_policy = (
+        source.get("chart_policy") if isinstance(source.get("chart_policy"), dict) else {}
+    )
+    default_height = int(chart_policy.get("default_chart_height_px") or 160)
+    popup_height = int(chart_policy.get("popup_chart_height_px") or 420)
+    sections = []
+    total_series_count = 0
+    for section_key, fallback_title in MARKET_ENVIRONMENT_SECTION_ORDER:
+        section = sections_by_key.get(section_key) or {}
+        raw_series = [row for row in (section.get("series") or []) if isinstance(row, dict)]
+        series_cards = []
+        for row in raw_series:
+            points = [point for point in (row.get("points") or []) if isinstance(point, dict)]
+            unit = row.get("unit") or ""
+            chart_series = _build_environment_series_chart(points, unit=unit)
+            latest_value = row.get("latest_value")
+            series_cards.append(
+                {
+                    "series_id": str(row.get("series_id") or "").strip(),
+                    "title": str(
+                        row.get("display_name_kr") or row.get("series_id") or "지표"
+                    ).strip(),
+                    "category": str(row.get("category_label_kr") or "").strip(),
+                    "source_provider": str(row.get("source_provider") or "-").strip(),
+                    "source_detail": str(row.get("source_detail") or "-").strip(),
+                    "source_tier": str(row.get("source_tier") or "").strip(),
+                    "unit": str(unit).strip(),
+                    "frequency": str(row.get("frequency") or "-").strip(),
+                    "period_label": str(row.get("period_label") or "").strip(),
+                    "latest_date": _format_market_kst_label(row.get("latest_date")),
+                    "latest_value": _format_environment_value(latest_value, unit),
+                    "row_count": _format_count(row.get("row_count")),
+                    "chart_height": int(row.get("default_chart_height_px") or default_height),
+                    "popup_enabled": row.get("popup_enabled", True) is not False,
+                    "chart_series": chart_series,
+                    "has_data": bool(chart_series),
+                }
+            )
+        total_series_count += len(series_cards)
+        sections.append(
+            {
+                "key": section_key,
+                "title": str(
+                    section.get("display_title") or section.get("title") or fallback_title
+                ).strip(),
+                "description": str(section.get("description") or "").strip(),
+                "coverage_warning": str(section.get("coverage_warning") or "").strip(),
+                "series": series_cards,
+            }
+        )
+    notice_block = (
+        source.get("notice_block") if isinstance(source.get("notice_block"), dict) else {}
+    )
+    return {
+        "enabled": bool(source),
+        "page_title": str(source.get("title") or "시장 환경 지표").strip(),
+        "description": str(
+            source.get("description")
+            or (
+                "국내 지수와 환율, 미국 금리와 물가, 글로벌 ETF 흐름을 한 화면에서 "
+                "확인하는 공개형 시장 데이터입니다."
+            )
+        ).strip(),
+        "asof": _format_market_kst_label(source.get("asof")),
+        "generated_at": _format_market_kst_label(source.get("generated_at")),
+        "timezone": str(source.get("timezone") or "Asia/Seoul").strip(),
+        "sections": sections,
+        "total_series_count": total_series_count,
+        "popup_chart_height": popup_height,
+        "notice_title": str(notice_block.get("title") or "주의사항").strip(),
+        "notice_body": [
+            str(item).strip() for item in (notice_block.get("body") or []) if str(item).strip()
+        ]
+        or [
+            (
+                "본 정보는 공개 시장 데이터의 흐름을 보여주는 참고 자료이며, "
+                "특정 종목이나 자산의 매수·매도 권유가 아닙니다."
+            )
+        ],
+        "data_note": (
+            "차트는 화면 성능을 위해 최근 3년 구간을 우선 표시하며, "
+            "각 지표의 전체 보유기간은 기간 정보로 함께 제공합니다."
+        ),
     }
 
 
@@ -1542,6 +3476,83 @@ def _preview_change_log_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
     return normalized
 
 
+def _build_preview_performance_interpretation_view(
+    payload: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    interpretation = payload or {}
+    if not interpretation:
+        return None
+
+    top_contributors = []
+    for row in interpretation.get("top_contributors_12w") or []:
+        contribution = row.get("estimated_contribution_12w")
+        if contribution is None:
+            continue
+        top_contributors.append(
+            {
+                "ticker": str(row.get("ticker") or "-").strip() or "-",
+                "name": str(row.get("name") or "-").strip() or "-",
+                "estimated_contribution_12w": contribution,
+            }
+        )
+
+    summary_cards = [
+        {"label": "성과 구간", "value": interpretation.get("window_weeks"), "kind": "weeks"},
+        {
+            "label": "최근 12주 누적수익률",
+            "value": interpretation.get("cumulative_return_12w"),
+            "kind": "percent",
+        },
+        {
+            "label": "연환산 변동성",
+            "value": interpretation.get("annualized_volatility_12w"),
+            "kind": "percent",
+        },
+    ]
+
+    detail_rows = [
+        {
+            "label": "구간 시작",
+            "value": str(interpretation.get("window_start_week_end") or "-").strip() or "-",
+            "kind": "text",
+        },
+        {
+            "label": "구간 종료",
+            "value": str(interpretation.get("window_end_week_end") or "-").strip() or "-",
+            "kind": "text",
+        },
+        {
+            "label": "최고 주간 수익률",
+            "value": interpretation.get("best_weekly_return_12w"),
+            "kind": "percent",
+            "suffix": str(interpretation.get("best_weekly_return_week_end") or "-").strip() or "-",
+        },
+        {
+            "label": "최저 주간 수익률",
+            "value": interpretation.get("worst_weekly_return_12w"),
+            "kind": "percent",
+            "suffix": str(interpretation.get("worst_weekly_return_week_end") or "-").strip() or "-",
+        },
+        {
+            "label": "상승 주 수",
+            "value": interpretation.get("positive_weeks_12w", 0),
+            "kind": "count",
+        },
+        {
+            "label": "하락 주 수",
+            "value": interpretation.get("negative_weeks_12w", 0),
+            "kind": "count",
+        },
+        {"label": "보합 주 수", "value": interpretation.get("flat_weeks_12w", 0), "kind": "count"},
+    ]
+
+    return {
+        "summary_cards": summary_cards,
+        "detail_rows": detail_rows,
+        "top_contributors": top_contributors[:5],
+    }
+
+
 def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
     latest_quality = model.get("latest_quality") or {}
     change_density = model.get("change_density") or {}
@@ -1626,6 +3637,9 @@ def _build_preview_model_quality_view(model: dict[str, Any]) -> dict[str, Any]:
             },
         ],
         "quality_checks": _preview_quality_checks_rows(model.get("quality_checks") or []),
+        "performance_interpretation": _build_preview_performance_interpretation_view(
+            model.get("performance_interpretation")
+        ),
     }
 
 
@@ -1662,6 +3676,9 @@ def _build_preview_weekly_briefing_view(model: dict[str, Any]) -> dict[str, Any]
         "top_holdings": _preview_breakdown_rows(model.get("top_holdings") or [])[:5],
         "one_week_changes": _preview_change_log_rows(model.get("one_week_changes") or [])[:12],
         "recent_changes": _preview_change_log_rows(model.get("recent_changes_8w") or [])[:16],
+        "performance_interpretation": _build_preview_performance_interpretation_view(
+            model.get("performance_interpretation")
+        ),
     }
 
 
@@ -2108,6 +4125,7 @@ def create_app(settings: Settings | None = None) -> Flask:
     user_snapshot_api = UserSnapshotMockApi(settings)
     market_analysis_api = MarketAnalysisMockApi(settings)
     tseries_api = TSeriesOperationalApi(settings)
+    trading_sign_api = TradingSignSnapshotApi(settings)
     analytics_preview_api = AnalyticsPreviewApi(
         cache_ttl_seconds=settings.snapshot_cache_ttl_seconds
     )
@@ -2126,6 +4144,11 @@ def create_app(settings: Settings | None = None) -> Flask:
     admin_market_lab_api = AdminMarketLabApi(cache_ttl_seconds=settings.snapshot_cache_ttl_seconds)
     feedback_store = FeedbackStore(settings)
     access_store = AccessStore(settings)
+    investment_status_service = InvestmentStatusService(settings, access_store)
+    investment_portfolio_api = InvestmentPortfolioApi()
+    admin_new_entries_api = AdminNewEntriesApi(settings)
+    internal_models_api = InternalModelsApi(settings)
+    valuation_ai_api = ValuationAiApi(settings)
     billing_service = BillingService(settings, access_store)
 
     if settings.bootstrap_admin_email and settings.bootstrap_admin_password:
@@ -2133,12 +4156,27 @@ def create_app(settings: Settings | None = None) -> Flask:
             email=settings.bootstrap_admin_email,
             password=settings.bootstrap_admin_password,
         )
+    for email in AUTO_ADMIN_EMAILS:
+        if access_store.get_user_by_email(email) is not None:
+            try:
+                access_store.assign_role(email=email)
+            except GrantValidationError:
+                pass
+    for email in AUTO_OPS_VIEWER_EMAILS:
+        if access_store.get_user_by_email(email) is not None:
+            try:
+                access_store.assign_role(email=email, role_id="ops_viewer")
+                if email in AUTO_OPS_VIEWER_ONLY_EMAILS:
+                    access_store.revoke_role(email=email, role_id="admin")
+            except GrantValidationError:
+                pass
 
     app.config["SETTINGS"] = settings
     app.config["SNAPSHOT_PROVIDER"] = provider
     app.config["USER_SNAPSHOT_API"] = user_snapshot_api
     app.config["MARKET_ANALYSIS_API"] = market_analysis_api
     app.config["TSERIES_API"] = tseries_api
+    app.config["TRADING_SIGN_API"] = trading_sign_api
     app.config["ANALYTICS_PREVIEW_API"] = analytics_preview_api
     app.config["ANALYTICS_PREVIEW_P2_API"] = analytics_preview_p2_api
     app.config["ANALYTICS_PREVIEW_P3_API"] = analytics_preview_p3_api
@@ -2147,6 +4185,10 @@ def create_app(settings: Settings | None = None) -> Flask:
     app.config["ADMIN_MARKET_LAB_API"] = admin_market_lab_api
     app.config["FEEDBACK_STORE"] = feedback_store
     app.config["ACCESS_STORE"] = access_store
+    app.config["INVESTMENT_STATUS_SERVICE"] = investment_status_service
+    app.config["ADMIN_NEW_ENTRIES_API"] = admin_new_entries_api
+    app.config["INTERNAL_MODELS_API"] = internal_models_api
+    app.config["VALUATION_AI_API"] = valuation_ai_api
     app.config["BILLING_SERVICE"] = billing_service
 
     def current_access_context() -> AccessContext:
@@ -2168,11 +4210,63 @@ def create_app(settings: Settings | None = None) -> Flask:
             session["csrf_token"] = token
         return token
 
-    def require_csrf() -> None:
+    def is_valid_form_csrf() -> bool:
         expected = session.get("csrf_token")
         provided = request.form.get("csrf_token", "")
+        return bool(
+            isinstance(expected, str)
+            and expected
+            and provided
+            and secrets.compare_digest(provided, expected)
+        )
+
+    def require_csrf() -> None:
+        if not is_valid_form_csrf():
+            abort(400)
+
+    def require_request_csrf() -> None:
+        expected = session.get("csrf_token")
+        provided = request.form.get("csrf_token", "") or request.headers.get("X-CSRF-Token", "")
+        if not provided and request.is_json:
+            payload = request.get_json(silent=True) or {}
+            provided = str(payload.get("csrf_token") or "")
         if not expected or not provided or provided != expected:
             abort(400)
+
+    def current_authenticated_access() -> AccessContext:
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            abort(401)
+        return access_context
+
+    def _private_headers() -> dict[str, str]:
+        return {
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma": "no-cache",
+            "X-Robots-Tag": "noindex, nofollow",
+        }
+
+    def _private_html_response(rendered: str) -> Response:
+        response = Response(rendered, mimetype="text/html")
+        response.headers.update(_private_headers())
+        return response
+
+    def _private_json_response(payload: dict[str, object], status: int = 200) -> Response:
+        response = jsonify(payload)
+        response.status_code = status
+        response.headers.update(_private_headers())
+        return response
+
+    def _investment_prefill() -> dict[str, str]:
+        return {
+            "trade_date": request.args.get("trade_date", ""),
+            "ticker": request.args.get("ticker", ""),
+            "security_name": request.args.get("security_name", ""),
+            "side": request.args.get("side", "buy"),
+            "quantity": request.args.get("quantity", ""),
+            "unit_price": request.args.get("unit_price", ""),
+            "fee": request.args.get("fee", "0"),
+        }
 
     def _normalize_phone_number(phone_number: str) -> str:
         return "".join(ch for ch in phone_number if ch.isdigit())
@@ -2212,10 +4306,94 @@ def create_app(settings: Settings | None = None) -> Flask:
     def clear_phone_verification() -> None:
         session.pop("phone_verification", None)
 
+    def issue_login_email_verification(user: Any, next_url: str) -> str:
+        verification_code = f"{secrets.randbelow(900000) + 100000:06d}"
+        expires_at = (
+            datetime.utcnow()
+            + timedelta(seconds=settings.login_email_verification_code_ttl_seconds)
+        ).isoformat()
+        session["pending_login_email_verification"] = {
+            "user_id": user.id,
+            "email": str(user.email or "").strip().lower(),
+            "code": verification_code,
+            "expires_at": expires_at,
+            "next_url": next_url,
+            "attempts": 0,
+        }
+        if settings.login_email_verification_preview_enabled:
+            session["login_email_verification_preview"] = verification_code
+        else:
+            session.pop("login_email_verification_preview", None)
+        try:
+            send_login_verification_email(
+                settings=settings,
+                to_email=str(user.email or "").strip(),
+                code=verification_code,
+            )
+        except EmailDeliveryError:
+            clear_login_email_verification()
+            raise
+        return verification_code
+
+    def _pending_login_email_payload() -> dict[str, Any]:
+        payload = session.get("pending_login_email_verification") or {}
+        if not isinstance(payload, dict):
+            return {}
+        return payload
+
+    def is_login_email_verification_valid(verification_code: str) -> tuple[bool, str]:
+        payload = _pending_login_email_payload()
+        if not payload:
+            return False, "expired"
+        expires_at = payload.get("expires_at")
+        try:
+            expires = datetime.fromisoformat(str(expires_at or ""))
+        except ValueError:
+            return False, "expired"
+        if datetime.utcnow() > expires:
+            clear_login_email_verification()
+            return False, "expired"
+
+        if payload.get("code") != verification_code.strip():
+            attempts = int(payload.get("attempts") or 0) + 1
+            payload["attempts"] = attempts
+            session["pending_login_email_verification"] = payload
+            if attempts >= 5:
+                clear_login_email_verification()
+                return False, "expired"
+            return False, "invalid"
+        return True, ""
+
+    def clear_login_email_verification() -> None:
+        session.pop("pending_login_email_verification", None)
+        session.pop("login_email_verification_preview", None)
+
+    def complete_login(user: Any, next_url: str) -> Response:
+        user_email = str(user.email or "").strip().lower()
+        if user_email in AUTO_ADMIN_EMAILS:
+            try:
+                access_store.assign_role(email=user.email)
+            except GrantValidationError:
+                pass
+        if user_email in AUTO_OPS_VIEWER_EMAILS:
+            try:
+                access_store.assign_role(email=user.email, role_id="ops_viewer")
+                if user_email in AUTO_OPS_VIEWER_ONLY_EMAILS:
+                    access_store.revoke_role(email=user.email, role_id="admin")
+            except GrantValidationError:
+                pass
+
+        session.clear()
+        session["user_id"] = user.id
+        session["csrf_token"] = secrets.token_urlsafe(24)
+        return redirect(next_url)
+
     def admin_url(endpoint: str) -> str:
         return url_for(endpoint)
 
     def can_access_internal_preview(access_context: AccessContext | None = None) -> bool:
+        if not settings.internal_preview_enabled:
+            return False
         access_context = access_context or current_access_context()
         if not access_context.is_admin:
             return False
@@ -2225,6 +4403,19 @@ def create_app(settings: Settings | None = None) -> Flask:
         current_email = str((access_context.user.email if access_context.user else "")).lower()
         return current_email in allowed_emails
 
+    def can_access_ops_viewer(access_context: AccessContext | None = None) -> bool:
+        access_context = access_context or current_access_context()
+        if not access_context.authenticated:
+            return False
+        if access_context.is_admin:
+            return True
+        if "ops_viewer" in set(access_context.roles or ()):
+            return True
+        current_email = (
+            str((access_context.user.email if access_context.user else "")).strip().lower()
+        )
+        return current_email in AUTO_OPS_VIEWER_EMAILS
+
     def build_admin_links(access_context: AccessContext | None = None) -> dict[str, str]:
         links = {
             "dashboard": admin_url("admin_dashboard"),
@@ -2232,6 +4423,9 @@ def create_app(settings: Settings | None = None) -> Flask:
             "grant": admin_url("admin_grant"),
             "plans": admin_url("admin_plans_entitlements"),
             "publish": admin_url("admin_publish_snapshots"),
+            "new_entries": admin_url("admin_new_entries"),
+            "internal_models": admin_url("admin_internal_models"),
+            "valuation_ai": admin_url("admin_valuation_ai"),
             "feedback": admin_url("admin_feedback"),
             "metrics": admin_url("admin_metrics"),
             "audit": admin_url("admin_audit"),
@@ -2255,6 +4449,44 @@ def create_app(settings: Settings | None = None) -> Flask:
         if not can_access_internal_preview(access_context):
             abort(404)
         return access_context
+
+    def require_ops_viewer_access() -> AccessContext:
+        access_context = current_access_context()
+        if not can_access_ops_viewer(access_context):
+            abort(404)
+        return access_context
+
+    def _normalize_admin_new_entries_scope(value: str | None) -> str:
+        candidate = str(value or "").strip().lower()
+        return candidate if candidate in {"user", "internal", "tseries"} else "user"
+
+    def _normalize_admin_new_entries_period(value: str | None) -> str:
+        candidate = str(value or "").strip().lower()
+        return candidate if candidate in {"4w", "8w", "all"} else "8w"
+
+    def _normalize_admin_new_entries_event_type(scope: str, value: str | None) -> str:
+        candidate = str(value or "").strip().lower()
+        allowed = EVENT_TYPE_OPTIONS_BY_SCOPE.get(scope, ())
+        if candidate in allowed:
+            return candidate
+        return "new_entry"
+
+    def _normalize_admin_new_entries_model(scope: str, value: str | None) -> str:
+        candidate = str(value or "").strip()
+        if scope == "user":
+            normalized = candidate.lower()
+            aliases = {"안정형": "stable", "균형형": "balanced", "성장형": "growth"}
+            normalized = aliases.get(candidate, aliases.get(normalized, normalized))
+            return normalized if normalized in USER_SCOPE_MODELS else ""
+        if scope == "tseries":
+            uppered = candidate.upper()
+            if uppered == "T_STOCK_DISCOVERY":
+                uppered = "T-STOCK-V01"
+            if uppered == "T_ETF_DISCOVERY":
+                uppered = "T-ETF-V01"
+            return uppered if uppered in TSERIES_SCOPE_MODELS else ""
+        uppered = candidate.upper()
+        return uppered if uppered in INTERNAL_SCOPE_MODELS else ""
 
     def build_analytics_preview_links() -> dict[str, str]:
         return {
@@ -2394,9 +4626,10 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     def load_user_bundle_or_error():
         try:
-            return user_snapshot_api.load_bundle(force_refresh=False)
+            bundle = user_snapshot_api.load_bundle(force_refresh=False)
         except UserSnapshotLoadError:
             return None
+        return _filter_public_user_bundle(bundle)
 
     def load_market_bundle_or_error():
         try:
@@ -2490,10 +4723,15 @@ def create_app(settings: Settings | None = None) -> Flask:
     @app.context_processor
     def inject_globals() -> dict[str, object]:
         access_context = current_access_context()
+        ops_viewer_access = can_access_ops_viewer(access_context)
         return {
             "service_name": "redbot",
             "current_user": access_context.user,
             "access_context": access_context,
+            "can_access_ops_viewer": ops_viewer_access,
+            "can_access_admin": bool(access_context.is_admin),
+            "ui_redesign_enabled": bool(settings.ui_redesign_enabled),
+            "ui_theme_default": str(settings.ui_theme_default or "light"),
             "status_messages": STATUS_MESSAGES,
             "billing_enabled": settings.billing_enabled,
             "billing_messages": BILLING_MESSAGES,
@@ -2503,7 +4741,6 @@ def create_app(settings: Settings | None = None) -> Flask:
                 "stable": "안정형",
                 "balanced": "균형형",
                 "growth": "성장형",
-                "auto": "자동전환형",
             },
             "risk_labels": {
                 "low": "낮음",
@@ -2540,7 +4777,12 @@ def create_app(settings: Settings | None = None) -> Flask:
         }
 
     @app.after_request
-    def apply_admin_headers(response: Response) -> Response:
+    def apply_response_headers(response: Response) -> Response:
+        is_https = (
+            request.is_secure or request.headers.get("X-Forwarded-Proto", "").lower() == "https"
+        )
+        if is_https:
+            response.headers["Strict-Transport-Security"] = "max-age=2592000"
         if request.path.startswith("/admin"):
             response.headers["X-Robots-Tag"] = "noindex, nofollow"
         return response
@@ -2578,7 +4820,7 @@ def create_app(settings: Settings | None = None) -> Flask:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
-        return (jsonify(user_snapshot_api.get_model_snapshots_today(force_refresh=False)), 200)
+        return (jsonify(bundle.recommendation_today), 200)
 
     @app.get("/api/v1/model-weekly/<service_profile>")
     @app.get("/api/v1/model-snapshots/<service_profile>")
@@ -2586,6 +4828,8 @@ def create_app(settings: Settings | None = None) -> Flask:
         bundle = load_user_bundle_or_error()
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        if not _is_public_service_profile(service_profile):
+            return ({"status": "not_found", "message": "service profile not found"}, 404)
         report_payload = user_snapshot_api.get_model_snapshot_by_profile(service_profile)
         if report_payload is None:
             return ({"status": "not_found", "message": "service profile not found"}, 404)
@@ -2605,6 +4849,37 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.recent_changes), 200)
+
+    @app.get("/api/v1/changes/history")
+    def api_changes_history() -> tuple[dict[str, object], int]:
+        bundle = load_user_bundle_or_error()
+        if bundle is None:
+            return ({"status": "error", "message": "snapshot unavailable"}, 503)
+        payload = deepcopy(bundle.change_history)
+        period = request.args.get("period", "").strip().lower()
+        model = request.args.get("model", "").strip().lower()
+        for period_key in ("weekly", "monthly"):
+            filtered_period_rows = []
+            for row in payload.get(period_key) or []:
+                models = _filter_change_rows_by_model(row.get("models") or [], model)
+                if model and not models:
+                    continue
+                filtered_row = dict(row)
+                filtered_row["models"] = models
+                filtered_period_rows.append(filtered_row)
+            payload[period_key] = filtered_period_rows
+        payload["history"] = [
+            {
+                **row,
+                "changes": _filter_change_rows_by_model(row.get("changes") or [], model),
+            }
+            for row in payload.get("history") or []
+            if not model or _filter_change_rows_by_model(row.get("changes") or [], model)
+        ]
+        if period in {"weekly", "monthly"}:
+            payload["selected_period"] = period
+            payload["items"] = payload.get(period) or []
+        return (jsonify(payload), 200)
 
     @app.get("/api/v1/publish-status")
     @app.get("/api/v1/manifest")
@@ -2695,6 +4970,107 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "market analysis unavailable"}, 503)
         return (jsonify(market_analysis_api.get_api_payload("api_next_day_preview")), 200)
 
+    @app.get("/api/v1/market-analysis/tabs")
+    def api_market_analysis_tabs() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_analysis_tabs")), 200)
+
+    @app.get("/api/v1/market-analysis/live-context")
+    def api_market_analysis_live_context() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_live_context")), 200)
+
+    @app.get("/api/v1/market-analysis/data-guide")
+    def api_market_analysis_data_guide() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_data_guide")), 200)
+
+    @app.get("/api/v1/market-analysis/dart-summary")
+    def api_market_analysis_dart_summary() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_dart_summary")), 200)
+
+    @app.get("/api/v1/market-analysis/breadth-detail")
+    def api_market_analysis_breadth_detail() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_breadth_detail")), 200)
+
+    @app.get("/api/v1/market-analysis/us-macro-panel")
+    def api_market_analysis_us_macro_panel() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_us_macro_panel")), 200)
+
+    @app.get("/api/v1/market-analysis/timeline/history")
+    def api_market_analysis_timeline_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_timeline_history")), 200)
+
+    @app.get("/api/v1/market-analysis/asset-strength/history")
+    def api_market_analysis_asset_strength_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_asset_strength_history")), 200)
+
+    @app.get("/api/v1/market-analysis/state-transition/history")
+    def api_market_analysis_state_transition_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_state_transition_history")), 200)
+
+    @app.get("/api/v1/market-analysis/next-day-preview/history")
+    def api_market_analysis_next_day_preview_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_next_day_preview_history")), 200)
+
+    @app.get("/api/v1/market-analysis/dart-summary/history")
+    def api_market_analysis_dart_summary_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_dart_summary_history")), 200)
+
+    @app.get("/api/v1/market-analysis/breadth-detail/history")
+    def api_market_analysis_breadth_detail_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_breadth_detail_history")), 200)
+
+    @app.get("/api/v1/market-analysis/us-macro-panel/history")
+    def api_market_analysis_us_macro_panel_history() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market analysis unavailable"}, 503)
+        return (jsonify(market_analysis_api.get_api_payload("api_us_macro_panel_history")), 200)
+
+    @app.get("/api/v1/market-environment-indicators")
+    def api_market_environment_indicators() -> tuple[dict[str, object], int]:
+        payload = load_market_bundle_or_error()
+        if payload is None:
+            return ({"status": "error", "message": "market environment unavailable"}, 503)
+        api_payload = market_analysis_api.get_api_payload("api_environment_indicators")
+        if not api_payload:
+            api_payload = market_analysis_api.get_api_payload("environment_indicators")
+        return (jsonify(api_payload), 200)
+
     @app.get("/api/v1/discovery/t-series")
     def api_tseries_models() -> tuple[dict[str, object], int]:
         try:
@@ -2723,52 +5099,51 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "not_found", "message": "t-series model not found"}, 404)
         return (jsonify(snapshot), 200)
 
-    @app.get("/")
-    def home() -> Response | tuple[str, int]:
-        bundle = load_user_bundle_or_error()
-        if bundle is None:
-            return render_user_snapshot_error()
+    def render_market_analysis_page(*, record_path: str) -> Response:
         market_bundle = load_market_bundle_or_error()
-        record_page_view("/", bundle)
-        performance_by_profile = {
-            row.get("service_profile"): row for row in bundle.performance_summary.get("models", [])
-        }
-        status_snapshot = user_snapshot_api.get_status(force_refresh=False)
         market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
-        market_state_bar = _build_market_state_bar_from_bundle(market_bundle)
-        home_payload = market_bundle.home if market_bundle else {}
-        home_hero = home_payload.get("hero") or {}
-        tseries_overview = load_tseries_overview_or_none(force_refresh=False)
+        page_view = _build_market_page_view((market_bundle.page if market_bundle else {}))
+        timeline_payload = (
+            market_bundle.timeline_history or market_bundle.timeline if market_bundle else {}
+        )
+        asset_strength_payload = (
+            market_bundle.asset_strength_history or market_bundle.asset_strength
+            if market_bundle
+            else {}
+        )
+        timeline_view = _build_market_timeline_view(timeline_payload)
+        asset_strength_view = _build_market_asset_strength_view(asset_strength_payload)
+        state_transition_view = _build_market_state_transition_view(
+            market_bundle.state_transition if market_bundle else {}
+        )
+        model_background_view = _build_market_model_background_view(
+            market_bundle.model_background if market_bundle else {}
+        )
+        record_page_view(record_path)
         return Response(
             render_template(
-                "home.html",
-                page_title="홈",
-                bundle=bundle,
-                performance_by_profile=performance_by_profile,
-                status_snapshot=status_snapshot,
-                market_home_payload=home_payload,
-                market_home_extra_view=_build_market_home_extra_view(
-                    (market_bundle.asset_strength if market_bundle else {}),
-                    (market_bundle.state_transition if market_bundle else {}),
-                ),
-                market_state_bar=market_state_bar,
-                market_state_bridge_view=_build_market_state_bridge_view(
-                    home_hero.get("state_intraday_bridge"),
-                    fallback_bar=market_state_bar,
-                    asof=home_payload.get("asof") or getattr(market_bundle, "asof", None),
-                ),
+                "market_analysis.html",
+                page_title=page_view.get("page_title", "시장 브리핑"),
+                market_page_view=page_view,
+                market_timeline_view=timeline_view,
+                market_asset_strength_view=asset_strength_view,
+                market_state_transition_view=state_transition_view,
+                market_model_background_view=model_background_view,
+                market_state_bar=page_view.get("state_bar"),
+                market_state_bridge_view=page_view.get("state_intraday_bridge_view"),
+                market_state_composite_view=page_view.get("market_state_composite_view"),
                 market_status_snapshot=market_status_snapshot,
                 market_next_day_preview_view=_build_market_next_day_preview_view(
                     market_bundle.next_day_preview if market_bundle else {}
                 ),
-                tseries_overview=tseries_overview,
-                tseries_bucket_labels=T_SERIES_BUCKET_LABELS,
-                tseries_asset_scope_labels=T_SERIES_ASSET_SCOPE_LABELS,
-                compliance_note=_build_public_model_compliance_note(bundle),
-                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
+                notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )
+
+    @app.get("/")
+    def home() -> Response:
+        return render_market_analysis_page(record_path="/")
 
     @app.get("/theme-preview")
     def theme_preview() -> Response:
@@ -2777,22 +5152,60 @@ def create_app(settings: Settings | None = None) -> Flask:
             render_template("theme_preview.html", page_title="Theme Preview"), mimetype="text/html"
         )
 
+    @app.get("/redesign-preview")
+    def redesign_preview() -> Response:
+        record_page_view("/redesign-preview")
+        return Response(
+            render_template("redesign_preview.html", page_title="UI Redesign Preview"),
+            mimetype="text/html",
+        )
+
     @app.route("/login", methods=["GET", "POST"])
     def login() -> Response:
         next_url = _safe_next_url(request.values.get("next"))
         if request.method == "GET":
             record_page_view("/login")
+            pending_payload = _pending_login_email_payload()
+            pending_email = str(pending_payload.get("email") or "")
+            preview_code = ""
+            if pending_payload and settings.login_email_verification_preview_enabled:
+                preview_code = str(session.get("login_email_verification_preview") or "")
             return Response(
                 render_template(
                     "login.html",
                     page_title="로그인",
                     status=request.args.get("status", ""),
                     next_url=next_url,
+                    verification_pending=bool(pending_payload),
+                    pending_email=pending_email,
+                    preview_code=preview_code,
                 ),
                 mimetype="text/html",
             )
 
-        require_csrf()
+        if not is_valid_form_csrf():
+            if isinstance(session.get("user_id"), int):
+                return redirect(next_url)
+            abort(400)
+        action = request.form.get("action", "password")
+        if action == "verify_email_code":
+            is_valid, reason = is_login_email_verification_valid(
+                request.form.get("email_verification_code", "")
+            )
+            pending_payload = _pending_login_email_payload()
+            pending_next_url = _safe_next_url(
+                request.form.get("next") or str(pending_payload.get("next_url") or next_url)
+            )
+            if not is_valid:
+                status = "email_code_expired" if reason == "expired" else "email_code_invalid"
+                return redirect(url_for("login", status=status, next=pending_next_url))
+            user = access_store.get_user_by_id(int(pending_payload.get("user_id") or 0))
+            if user is None:
+                clear_login_email_verification()
+                return redirect(url_for("login", status="email_code_expired", next=next_url))
+            clear_login_email_verification()
+            return complete_login(user, pending_next_url)
+
         try:
             user = access_store.authenticate_local(
                 email=request.form.get("email", ""),
@@ -2800,11 +5213,13 @@ def create_app(settings: Settings | None = None) -> Flask:
             )
         except LoginValidationError:
             return redirect(url_for("login", status="invalid", next=next_url))
-
-        session.clear()
-        session["user_id"] = user.id
-        session["csrf_token"] = secrets.token_urlsafe(24)
-        return redirect(next_url)
+        if settings.login_email_verification_enabled:
+            try:
+                issue_login_email_verification(user, next_url)
+            except EmailDeliveryError:
+                return redirect(url_for("login", status="email_send_error", next=next_url))
+            return redirect(url_for("login", status="email_code_sent", next=next_url))
+        return complete_login(user, next_url)
 
     @app.route("/signup", methods=["GET", "POST"])
     def signup() -> Response:
@@ -2896,6 +5311,288 @@ def create_app(settings: Settings | None = None) -> Flask:
             ),
             200,
         )
+
+    @app.get("/me/investments")
+    def me_investments() -> Response:
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            return redirect(url_for("login", next=url_for("me_investments")))
+        active_tab = request.args.get("tab", "virtual").strip().lower()
+        if active_tab not in INVESTMENT_ACCOUNT_LABELS:
+            active_tab = "virtual"
+        account_dashboards = {
+            account_type: investment_status_service.list_dashboard(
+                user_id=access_context.user.id,
+                account_type=account_type,
+                user_key=access_context.user.email,
+            )
+            for account_type in INVESTMENT_ACCOUNT_LABELS
+        }
+        performance_history = investment_status_service.list_performance_history(
+            user_id=access_context.user.id,
+            user_key=access_context.user.email,
+        )
+        active_performance_history = next(
+            (
+                row
+                for row in performance_history.get("accounts", [])
+                if row.get("account_type") == active_tab
+            ),
+            {},
+        )
+        dashboard = account_dashboards[active_tab]
+        validation_feedback = None
+        validation_status = request.args.get("validation_status", "")
+        if validation_status:
+            validation_feedback = {
+                "status": validation_status,
+                "message": request.args.get("validation_message", ""),
+                "market": request.args.get("validation_market", ""),
+            }
+        status_key = request.args.get("status", "")
+        return _private_html_response(
+            render_template(
+                "investments.html",
+                page_title="투자 현황",
+                page_robots="noindex, nofollow",
+                active_tab=active_tab,
+                investment_tabs=INVESTMENT_ACCOUNT_LABELS,
+                dashboard=dashboard,
+                account_dashboards=account_dashboards,
+                performance_history=performance_history,
+                active_performance_history=active_performance_history,
+                form_values=_investment_prefill(),
+                validation_feedback=validation_feedback,
+                investment_status_key=status_key,
+                investment_status_message=INVESTMENT_MESSAGES.get(status_key, ""),
+            )
+        )
+
+    @app.post("/me/investments/validate-security")
+    def me_investments_validate_security() -> Response:
+        require_request_csrf()
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            return redirect(url_for("login", next=url_for("me_investments")))
+        account_type = request.form.get("account_type", "virtual")
+        validation = investment_status_service.validate_security(
+            ticker=request.form.get("ticker", ""),
+            security_name=request.form.get("security_name", ""),
+        )
+        params = {
+            "tab": account_type,
+            "trade_date": request.form.get("trade_date", ""),
+            "ticker": request.form.get("ticker", ""),
+            "security_name": request.form.get("security_name", ""),
+            "side": request.form.get("side", "buy"),
+            "quantity": request.form.get("quantity", ""),
+            "unit_price": request.form.get("unit_price", ""),
+            "fee": request.form.get("fee", "0"),
+            "validation_status": "valid" if validation.valid else "invalid",
+            "validation_message": validation.message,
+            "validation_market": validation.market or "",
+        }
+        return redirect(url_for("me_investments", **params))
+
+    @app.post("/me/investments/transactions")
+    def me_investments_transactions() -> Response:
+        require_request_csrf()
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            return redirect(url_for("login", next=url_for("me_investments")))
+        account_type = request.form.get("account_type", "virtual")
+        try:
+            investment_status_service.create_transaction(
+                user_id=access_context.user.id,
+                user_key=access_context.user.email,
+                account_type=account_type,
+                trade_date=request.form.get("trade_date", ""),
+                ticker=request.form.get("ticker", ""),
+                security_name=request.form.get("security_name", ""),
+                side=request.form.get("side", "buy"),
+                quantity=request.form.get("quantity", ""),
+                unit_price=request.form.get("unit_price", ""),
+                fee=request.form.get("fee", "0"),
+            )
+        except InvestmentValidationError as exc:
+            params = {
+                "tab": account_type,
+                "trade_date": request.form.get("trade_date", ""),
+                "ticker": request.form.get("ticker", ""),
+                "security_name": request.form.get("security_name", ""),
+                "side": request.form.get("side", "buy"),
+                "quantity": request.form.get("quantity", ""),
+                "unit_price": request.form.get("unit_price", ""),
+                "fee": request.form.get("fee", "0"),
+                "status": "security_mismatch" if "일치하지 않습니다" in str(exc) else "invalid",
+                "validation_status": "invalid",
+                "validation_message": str(exc),
+            }
+            if "보유 수량보다 많은 매도" in str(exc):
+                params["status"] = "insufficient_holdings"
+            return redirect(url_for("me_investments", **params))
+        return redirect(url_for("me_investments", tab=account_type, status="saved"))
+
+    @app.post("/me/investments/transactions/<int:transaction_id>")
+    def me_investments_transaction_update(transaction_id: int) -> Response:
+        require_request_csrf()
+        access_context = current_access_context()
+        if not access_context.authenticated or access_context.user is None:
+            return redirect(url_for("login", next=url_for("me_investments")))
+        account_type = request.form.get("account_type", "virtual")
+        try:
+            investment_status_service.update_transaction(
+                user_id=access_context.user.id,
+                user_key=access_context.user.email,
+                account_type=account_type,
+                transaction_id=transaction_id,
+                trade_date=request.form.get("trade_date", ""),
+                ticker=request.form.get("ticker", ""),
+                security_name=request.form.get("security_name", ""),
+                side=request.form.get("side", "buy"),
+                quantity=request.form.get("quantity", ""),
+                unit_price=request.form.get("unit_price", ""),
+                fee=request.form.get("fee", "0"),
+            )
+        except InvestmentValidationError as exc:
+            params = {
+                "tab": account_type,
+                "status": "security_mismatch" if "일치하지 않습니다" in str(exc) else "invalid",
+                "validation_status": "invalid",
+                "validation_message": str(exc),
+            }
+            if "보유 수량보다 많은 매도" in str(exc):
+                params["status"] = "insufficient_holdings"
+            return redirect(url_for("me_investments", **params))
+        return redirect(url_for("me_investments", tab=account_type, status="updated"))
+
+    @app.get("/api/v1/me/investments/<account_type>")
+    def api_me_investments(account_type: str) -> Response:
+        access_context = current_authenticated_access()
+        try:
+            dashboard = investment_status_service.list_dashboard(
+                user_id=access_context.user.id,
+                account_type=account_type,
+                user_key=access_context.user.email,
+            )
+        except InvestmentValidationError:
+            return _private_json_response(
+                {"status": "error", "message": "invalid account type"},
+                400,
+            )
+        return _private_json_response(dashboard, 200)
+
+    @app.get("/api/v1/me/investments/history")
+    def api_me_investments_history() -> Response:
+        access_context = current_authenticated_access()
+        history = investment_status_service.list_performance_history(
+            user_id=access_context.user.id,
+            user_key=access_context.user.email,
+        )
+        return _private_json_response(history, 200)
+
+    @app.post("/api/v1/me/investments/validate-security")
+    def api_me_investments_validate_security() -> Response:
+        current_authenticated_access()
+        require_request_csrf()
+        payload = request.get_json(silent=True) or request.form.to_dict() or {}
+        validation = investment_status_service.validate_security(
+            ticker=str(payload.get("ticker") or ""),
+            security_name=str(payload.get("security_name") or ""),
+        )
+        return _private_json_response(
+            {
+                "valid": validation.valid,
+                "ticker": validation.ticker,
+                "security_name": validation.security_name,
+                "market": validation.market,
+                "asset_type": validation.asset_type,
+                "message": validation.message,
+            },
+            200,
+        )
+
+    @app.post("/api/v1/me/investments/transactions")
+    def api_me_investments_transactions() -> Response:
+        access_context = current_authenticated_access()
+        require_request_csrf()
+        payload = request.get_json(silent=True) or request.form.to_dict() or {}
+        try:
+            transaction = investment_status_service.create_transaction(
+                user_id=access_context.user.id,
+                user_key=access_context.user.email,
+                account_type=str(payload.get("account_type") or "virtual"),
+                trade_date=str(payload.get("trade_date") or ""),
+                ticker=str(payload.get("ticker") or ""),
+                security_name=str(payload.get("security_name") or ""),
+                side=str(payload.get("side") or "buy"),
+                quantity=str(payload.get("quantity") or ""),
+                unit_price=str(payload.get("unit_price") or ""),
+                fee=str(payload.get("fee") or "0"),
+            )
+        except InvestmentValidationError as exc:
+            return _private_json_response({"status": "error", "message": str(exc)}, 400)
+        return _private_json_response({"status": "ok", "transaction": transaction}, 201)
+
+    @app.post("/api/v1/me/investments/transactions/<int:transaction_id>")
+    def api_me_investments_transaction_update(transaction_id: int) -> Response:
+        access_context = current_authenticated_access()
+        require_request_csrf()
+        payload = request.get_json(silent=True) or request.form.to_dict() or {}
+        try:
+            transaction = investment_status_service.update_transaction(
+                user_id=access_context.user.id,
+                user_key=access_context.user.email,
+                account_type=str(payload.get("account_type") or "virtual"),
+                transaction_id=transaction_id,
+                trade_date=str(payload.get("trade_date") or ""),
+                ticker=str(payload.get("ticker") or ""),
+                security_name=str(payload.get("security_name") or ""),
+                side=str(payload.get("side") or "buy"),
+                quantity=str(payload.get("quantity") or ""),
+                unit_price=str(payload.get("unit_price") or ""),
+                fee=str(payload.get("fee") or "0"),
+            )
+        except InvestmentValidationError as exc:
+            return _private_json_response({"status": "error", "message": str(exc)}, 400)
+        return _private_json_response({"status": "ok", "transaction": transaction}, 200)
+
+    @app.get("/investment-portfolio")
+    def investment_portfolio() -> Response:
+        require_ops_viewer_access()
+        try:
+            bundle = investment_portfolio_api.load_bundle()
+        except InvestmentPortfolioLoadError:
+            return Response(
+                render_template(
+                    "snapshot_unavailable.html",
+                    page_title="투자 포트폴리오",
+                    message="투자 포트폴리오 데이터가 아직 준비되지 않았습니다.",
+                ),
+                status=503,
+                mimetype="text/html",
+            )
+        return Response(
+            render_template(
+                "investment_portfolio.html",
+                page_title="투자 포트폴리오",
+                page_robots="noindex, nofollow",
+                portfolio=bundle.view,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/api/v1/investment-portfolio")
+    def api_investment_portfolio() -> Response:
+        require_ops_viewer_access()
+        try:
+            bundle = investment_portfolio_api.load_bundle()
+        except InvestmentPortfolioLoadError:
+            return _private_json_response(
+                {"status": "error", "message": "portfolio unavailable"},
+                503,
+            )
+        return _private_json_response(bundle.payload, 200)
 
     @app.get("/pricing")
     def pricing() -> Response:
@@ -3005,7 +5702,24 @@ def create_app(settings: Settings | None = None) -> Flask:
             )
             for report in bundle.recommendation_today.get("reports", [])
         ]
+        trading_sign_status = trading_sign_api.get_status(force_refresh=False)
+        trading_sign_model_map: dict[str, dict[str, Any]] = {}
+        if trading_sign_status.snapshot_accessible:
+            try:
+                trading_sign_model_map = trading_sign_api.get_model_detail_map(force_refresh=False)
+            except TradingSignLoadError:
+                trading_sign_model_map = {}
         for report in report_views:
+            service_profile = str(report.get("service_profile") or "").strip().lower()
+            trading_model_code = TRADING_SIGN_MODEL_CODE_BY_PROFILE.get(service_profile, "")
+            report["trading_sign_view"] = _build_trading_sign_view(
+                service_profile,
+                trading_sign_model_map.get(trading_model_code),
+                trading_sign_status,
+            )
+            report["redesign_chart_view"] = _build_today_performance_chart_view(
+                report.get("period_view")
+            )
             safe_record_event(
                 event_name="model_section_view",
                 page="/today",
@@ -3014,9 +5728,11 @@ def create_app(settings: Settings | None = None) -> Flask:
         return Response(
             render_template(
                 "today.html",
-                page_title="이번 주 모델 기준안",
+                page_title="전략별 퀀트모델",
                 bundle=bundle,
-                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
+                status_snapshot=_apply_public_status_counts(
+                    user_snapshot_api.get_status(force_refresh=False), bundle
+                ),
                 report_views=report_views,
                 market_today_payload=today_payload,
                 market_today_background_view=_build_market_today_background_view(
@@ -3027,6 +5743,9 @@ def create_app(settings: Settings | None = None) -> Flask:
                     today_market_bridge.get("state_intraday_bridge"),
                     fallback_bar=market_state_bar,
                     asof=today_payload.get("asof") or getattr(market_bundle, "asof", None),
+                ),
+                market_state_composite_view=_build_market_state_composite_view(
+                    today_market_bridge.get("market_state_composite")
                 ),
                 market_status_snapshot=market_analysis_api.get_status(force_refresh=False),
                 market_next_day_preview_view=_build_market_next_day_preview_view(
@@ -3044,11 +5763,17 @@ def create_app(settings: Settings | None = None) -> Flask:
         if bundle is None:
             return render_user_snapshot_error()
         record_page_view("/changes", bundle)
-        user_status_snapshot = user_snapshot_api.get_status(force_refresh=False)
+        user_status_snapshot = _apply_public_status_counts(
+            user_snapshot_api.get_status(force_refresh=False), bundle
+        )
         maybe_alert_status(user_status_snapshot)
         publish_status_payload = None
         if user_status_snapshot.snapshot_accessible:
             publish_status_payload = user_snapshot_api.get_publish_status(force_refresh=False)
+        selected_period = request.args.get("period", "weekly").strip().lower()
+        if selected_period not in {"weekly", "monthly"}:
+            selected_period = "weekly"
+        selected_model = _normalize_change_model_filter(request.args.get("model"))
         return Response(
             render_template(
                 "changes.html",
@@ -3057,75 +5782,58 @@ def create_app(settings: Settings | None = None) -> Flask:
                 status_snapshot=user_status_snapshot,
                 publish_status_payload=publish_status_payload,
                 change_rows=bundle.recent_changes.get("changes", []),
-            ),
-            mimetype="text/html",
-        )
-
-    @app.get("/performance")
-    def performance() -> Response | tuple[str, int]:
-        bundle = load_user_bundle_or_error()
-        if bundle is None:
-            return render_user_snapshot_error()
-        record_page_view("/performance", bundle)
-        performance_rows = [
-            _build_performance_row_view(row) for row in bundle.performance_summary.get("models", [])
-        ]
-        performance_by_profile = {
-            row.get("service_profile"): row
-            for row in performance_rows
-            if row.get("service_profile")
-        }
-        balanced_cards = (performance_by_profile.get("balanced") or {}).get(
-            "performance_cards"
-        ) or {}
-        auto_cards = (performance_by_profile.get("auto") or {}).get("performance_cards") or {}
-        auto_balanced_same = (
-            bool(balanced_cards) and bool(auto_cards) and balanced_cards == auto_cards
-        )
-        return Response(
-            render_template(
-                "performance.html",
-                page_title="성과 설명",
-                bundle=bundle,
-                status_snapshot=user_snapshot_api.get_status(force_refresh=False),
-                performance_rows=performance_rows,
-                auto_balanced_same=auto_balanced_same,
-                notice_blocks=_build_notice_blocks("backtest", "risk", "non_advice"),
+                change_history_rows=_build_change_history_rows(
+                    bundle.change_history,
+                    period=selected_period,
+                    model=selected_model,
+                ),
+                selected_change_period=selected_period,
+                selected_change_model=selected_model,
+                change_model_filters=[
+                    {"label": "전체", "value": ""},
+                    {"label": "안정형", "value": "stable"},
+                    {"label": "균형형", "value": "balanced"},
+                    {"label": "성장형", "value": "growth"},
+                ],
             ),
             mimetype="text/html",
         )
 
     @app.get("/market-analysis")
     def market_analysis() -> Response:
+        return render_market_analysis_page(record_path="/market-analysis")
+
+    @app.get("/market-analysis/data")
+    def market_analysis_data() -> Response:
         market_bundle = load_market_bundle_or_error()
         market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
-        page_view = _build_market_page_view((market_bundle.page if market_bundle else {}))
-        timeline_view = _build_market_timeline_view(market_bundle.timeline if market_bundle else {})
-        asset_strength_view = _build_market_asset_strength_view(
-            market_bundle.asset_strength if market_bundle else {}
-        )
-        state_transition_view = _build_market_state_transition_view(
-            market_bundle.state_transition if market_bundle else {}
-        )
-        model_background_view = _build_market_model_background_view(
-            market_bundle.model_background if market_bundle else {}
-        )
-        record_page_view("/market-analysis")
+        analysis_view = _build_market_analysis_data_view(market_bundle)
+        record_page_view("/market-analysis/data")
         return Response(
             render_template(
-                "market_analysis.html",
-                page_title=page_view.get("page_title", "시장 브리핑"),
-                market_page_view=page_view,
-                market_timeline_view=timeline_view,
-                market_asset_strength_view=asset_strength_view,
-                market_state_transition_view=state_transition_view,
-                market_model_background_view=model_background_view,
-                market_state_bar=page_view.get("state_bar"),
-                market_state_bridge_view=page_view.get("state_intraday_bridge_view"),
+                "market_analysis_data.html",
+                page_title="시장 분석",
+                analysis_view=analysis_view,
                 market_status_snapshot=market_status_snapshot,
-                market_next_day_preview_view=_build_market_next_day_preview_view(
-                    market_bundle.next_day_preview if market_bundle else {}
-                ),
+                notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/market-environment-indicators")
+    def market_environment_indicators() -> Response:
+        market_bundle = load_market_bundle_or_error()
+        market_status_snapshot = market_analysis_api.get_status(force_refresh=False)
+        environment_view = _build_market_environment_indicators_view(
+            market_bundle.environment_indicators if market_bundle else {}
+        )
+        record_page_view("/market-environment-indicators")
+        return Response(
+            render_template(
+                "market_environment_indicators.html",
+                page_title="시장 환경 지표",
+                environment_view=environment_view,
+                market_status_snapshot=market_status_snapshot,
                 notice_blocks=_build_notice_blocks("market_brief", "non_advice", "risk"),
             ),
             mimetype="text/html",
@@ -3133,70 +5841,65 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/discovery")
     def discovery() -> Response | tuple[str, int]:
+        require_ops_viewer_access()
         try:
             overview = tseries_api.load_overview(force_refresh=False)
         except TSeriesLoadError:
             return (
                 render_template(
                     "error.html",
-                    page_title="T-series Discovery Unavailable",
+                    page_title="상승종목 발굴 데이터 오류",
                     status_snapshot=user_snapshot_api.get_status(force_refresh=False),
                     metrics_summary=safe_metrics_summary(),
                     message=(
-                        "현재 T-series discovery 데이터를 불러오지 못했습니다. "
+                        "현재 상승종목 발굴 데이터를 불러오지 못했습니다. "
                         "잠시 후 다시 시도해 주세요."
                     ),
                 ),
                 503,
             )
+        trading_sign_status = trading_sign_api.get_status(force_refresh=False)
+        trading_sign_model_map: dict[str, dict[str, Any]] = {}
+        if trading_sign_status.snapshot_accessible:
+            try:
+                trading_sign_model_map = trading_sign_api.get_model_detail_map(force_refresh=False)
+            except TradingSignLoadError:
+                trading_sign_model_map = {}
+
+        discovery_models = []
+        for model in overview.models:
+            model_view = dict(model)
+            trading_model_code = T_SERIES_TRADING_SIGN_MODEL_CODE_BY_MODEL.get(
+                model_view.get("model_code", "")
+            )
+            model_view["trading_sign_view"] = _build_trading_sign_view(
+                str(model_view.get("model_code") or ""),
+                trading_sign_model_map.get(trading_model_code or ""),
+                trading_sign_status,
+                fallback_message=TRADING_SIGN_DISCOVERY_FALLBACK_TEXT,
+                preferred_section_keys=("recommended", "held"),
+                include_empty_sections=False,
+            )
+            discovery_models.append(model_view)
+
         record_page_view("/discovery")
         return Response(
             render_template(
                 "discovery.html",
-                page_title="T-series Discovery",
-                discovery_models=overview.models,
+                page_title="상승종목 발굴",
+                discovery_models=discovery_models,
                 discovery_warnings=overview.warnings,
                 discovery_errors=overview.errors,
                 discovery_source_name=overview.source_name,
                 tseries_bucket_labels=T_SERIES_BUCKET_LABELS,
                 tseries_asset_scope_labels=T_SERIES_ASSET_SCOPE_LABELS,
+                tseries_etf_role_labels=T_SERIES_ETF_ROLE_LABELS,
+                tseries_watch_status_labels=T_SERIES_WATCH_STATUS_LABELS,
+                tseries_watch_tier_labels=T_SERIES_WATCH_TIER_LABELS,
                 notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
             ),
             mimetype="text/html",
         )
-
-    @app.get("/feedback")
-    def feedback() -> Response:
-        record_page_view("/feedback")
-        return Response(
-            render_template(
-                "feedback.html", page_title="의견 보내기", status=request.args.get("status", "")
-            ),
-            mimetype="text/html",
-        )
-
-    @app.post("/feedback")
-    def submit_feedback() -> Response:
-        require_csrf()
-        submission = build_feedback_submission(request)
-        try:
-            feedback_store.submit_feedback(submission)
-            return redirect(build_feedback_redirect(url_for("feedback"), status="success"))
-        except FeedbackValidationError:
-            return redirect(build_feedback_redirect(url_for("feedback"), status="invalid"))
-        except FeedbackRateLimitError:
-            return redirect(build_feedback_redirect(url_for("feedback"), status="rate_limited"))
-        except FeedbackDuplicateError:
-            return redirect(build_feedback_redirect(url_for("feedback"), status="duplicate"))
-        except Exception as exc:  # pragma: no cover
-            logger.warning("feedback_submit_failed error=%s", exc)
-            send_alert(
-                settings,
-                title="Feedback Submit Failed",
-                message=f"Feedback submit failed on page={submission.page}: {exc}",
-                alert_key="feedback_submit_failed",
-            )
-            return redirect(build_feedback_redirect(url_for("feedback"), status="error"))
 
     @app.get("/privacy")
     def privacy() -> Response:
@@ -4005,6 +6708,423 @@ def create_app(settings: Settings | None = None) -> Flask:
         if payload is None:
             abort(404)
         return jsonify(payload)
+
+    @app.get("/admin/new-entries")
+    def admin_new_entries() -> Response:
+        access_context = require_admin_access()
+        selected_scope = _normalize_admin_new_entries_scope(request.args.get("scope"))
+        selected_event_type = _normalize_admin_new_entries_event_type(
+            selected_scope,
+            request.args.get("event_type"),
+        )
+        selected_period = _normalize_admin_new_entries_period(request.args.get("period"))
+        selected_model = _normalize_admin_new_entries_model(
+            selected_scope,
+            request.args.get("model"),
+        )
+        payload = admin_new_entries_api.get_payload(
+            scope=selected_scope,
+            event_type=selected_event_type,
+            period=selected_period,
+            model=selected_model,
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return Response(
+            render_template(
+                "admin/new_entries.html",
+                page_title="신규 편입 추적",
+                page_robots="noindex, nofollow",
+                admin_links=build_admin_links(access_context),
+                payload=payload,
+                selected_scope=selected_scope,
+                selected_event_type=selected_event_type,
+                selected_period=selected_period,
+                selected_model=selected_model,
+                scope_options=[
+                    {"value": "user", "label": "사용자용"},
+                    {"value": "internal", "label": "내부용"},
+                    {"value": "tseries", "label": "T-series"},
+                ],
+                event_type_options=[
+                    {"value": "new_entry", "label": "신규 편입"},
+                    {"value": "re_entry", "label": "재편입"},
+                    {"value": "new_or_re_entry", "label": "신규 편입+재편입"},
+                    {"value": "promotion", "label": "승격"},
+                    {"value": "weight_increase", "label": "비중 증가"},
+                ],
+                period_options=[
+                    {"value": "4w", "label": "최근 4주"},
+                    {"value": "8w", "label": "최근 8주"},
+                    {"value": "all", "label": "전체"},
+                ],
+                model_options_by_scope={
+                    "user": [
+                        {"value": "", "label": "전체"},
+                        *[
+                            {"value": code, "label": USER_MODEL_LABELS.get(code, code)}
+                            for code in USER_SCOPE_MODELS
+                        ],
+                    ],
+                    "internal": [
+                        {"value": "", "label": "전체"},
+                        *[{"value": code, "label": code} for code in INTERNAL_SCOPE_MODELS],
+                    ],
+                    "tseries": [
+                        {"value": "", "label": "전체"},
+                        *[{"value": code, "label": code} for code in TSERIES_SCOPE_MODELS],
+                    ],
+                },
+                model_options=(
+                    [{"value": "", "label": "전체"}]
+                    + (
+                        [
+                            {"value": code, "label": USER_MODEL_LABELS.get(code, code)}
+                            for code in USER_SCOPE_MODELS
+                        ]
+                        if selected_scope == "user"
+                        else (
+                            [{"value": code, "label": code} for code in INTERNAL_SCOPE_MODELS]
+                            if selected_scope == "internal"
+                            else [{"value": code, "label": code} for code in TSERIES_SCOPE_MODELS]
+                        )
+                    )
+                ),
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/admin/internal-models")
+    def admin_internal_models() -> Response:
+        access_context = require_admin_access()
+        bundle = internal_models_api.load_bundle(force_refresh=request.args.get("refresh") == "1")
+        return Response(
+            render_template(
+                "admin/internal_models.html",
+                page_title="내부용 모델",
+                page_robots="noindex, nofollow",
+                admin_links=build_admin_links(access_context),
+                bundle=bundle,
+                model_codes=INTERNAL_ADMIN_MODEL_CODES,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/api/v1/admin/internal-models")
+    def api_admin_internal_models() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        bundle = internal_models_api.load_bundle(force_refresh=request.args.get("refresh") == "1")
+        return (
+            jsonify(
+                {
+                    "source_name": bundle.source_name,
+                    "as_of_date": bundle.as_of_date,
+                    "generated_at": bundle.generated_at,
+                    "models": bundle.models,
+                    "errors": bundle.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/admin/valuation-ai")
+    @app.get("/admin/ai-learning-models")
+    def admin_valuation_ai() -> Response:
+        access_context = require_admin_access()
+        selected_scope = str(request.args.get("scope") or "").strip()
+        selected_model_code = str(request.args.get("model_code") or "").strip()
+        selected_challenger_state = str(request.args.get("challenger_state") or "").strip()
+        selected_challenger_change_label = str(
+            request.args.get("challenger_change_label") or ""
+        ).strip()
+        selected_risk_tag = str(request.args.get("risk_tag") or "").strip()
+        selected_theme_bucket = str(request.args.get("theme_bucket") or "").strip()
+        bundle = valuation_ai_api.load_bundle(
+            scope=selected_scope,
+            model_code=selected_model_code,
+            challenger_state=selected_challenger_state,
+            challenger_change_label=selected_challenger_change_label,
+            risk_tag=selected_risk_tag,
+            theme_bucket=selected_theme_bucket,
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return Response(
+            render_template(
+                "admin/valuation_ai.html",
+                page_title="AI 학습 모델",
+                page_robots="noindex, nofollow",
+                admin_links=build_admin_links(access_context),
+                bundle=bundle,
+                selected_scope=selected_scope,
+                selected_model_code=selected_model_code,
+                selected_challenger_state=selected_challenger_state,
+                selected_challenger_change_label=selected_challenger_change_label,
+                selected_risk_tag=selected_risk_tag,
+                selected_theme_bucket=selected_theme_bucket,
+            ),
+            mimetype="text/html",
+        )
+
+    @app.get("/api/v1/admin/valuation-ai")
+    @app.get("/api/v1/admin/ai-learning-models")
+    def api_admin_valuation_ai() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        bundle = valuation_ai_api.load_bundle(
+            scope=str(request.args.get("scope") or "").strip(),
+            model_code=str(request.args.get("model_code") or "").strip(),
+            challenger_state=str(request.args.get("challenger_state") or "").strip(),
+            challenger_change_label=str(request.args.get("challenger_change_label") or "").strip(),
+            risk_tag=str(request.args.get("risk_tag") or "").strip(),
+            theme_bucket=str(request.args.get("theme_bucket") or "").strip(),
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return (
+            jsonify(
+                {
+                    "source_name": bundle.source_name,
+                    "as_of_date": bundle.as_of_date,
+                    "generated_at": bundle.generated_at,
+                    "model_code": bundle.model_code,
+                    "models": bundle.models,
+                    "details": bundle.details,
+                    "summary_cards": bundle.summary_cards,
+                    "candidates": bundle.candidates,
+                    "performance_summary": bundle.performance_summary,
+                    "performance_detail": bundle.performance_detail,
+                    "errors": bundle.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/api/v1/admin/new-entries")
+    def api_admin_new_entries() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        selected_scope = _normalize_admin_new_entries_scope(request.args.get("scope"))
+        selected_event_type = _normalize_admin_new_entries_event_type(
+            selected_scope,
+            request.args.get("event_type"),
+        )
+        selected_period = _normalize_admin_new_entries_period(request.args.get("period"))
+        selected_model = _normalize_admin_new_entries_model(
+            selected_scope,
+            request.args.get("model"),
+        )
+        payload = admin_new_entries_api.get_payload(
+            scope=selected_scope,
+            event_type=selected_event_type,
+            period=selected_period,
+            model=selected_model,
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return (
+            jsonify(
+                {
+                    "scope": payload.scope,
+                    "event_type": payload.event_type,
+                    "period": payload.period,
+                    "model": payload.model,
+                    "as_of_date": payload.as_of_date,
+                    "generated_at": payload.generated_at,
+                    "source_name": payload.source_name,
+                    "summary": payload.summary,
+                    "total_count": payload.total_count,
+                    "rows": payload.rows,
+                    "weekly_rankings_total_count": payload.weekly_rankings_total_count,
+                    "weekly_rankings": payload.weekly_rankings,
+                    "actual_live_performance": payload.actual_live_performance,
+                    "errors": payload.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/api/v1/admin/new-entries/user")
+    def api_admin_new_entries_user() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        payload = admin_new_entries_api.get_payload(
+            scope="user",
+            event_type=_normalize_admin_new_entries_event_type(
+                "user",
+                request.args.get("event_type"),
+            ),
+            period=_normalize_admin_new_entries_period(request.args.get("period")),
+            model=_normalize_admin_new_entries_model("user", request.args.get("model")),
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return (
+            jsonify(
+                {
+                    "scope": payload.scope,
+                    "event_type": payload.event_type,
+                    "period": payload.period,
+                    "model": payload.model,
+                    "as_of_date": payload.as_of_date,
+                    "generated_at": payload.generated_at,
+                    "source_name": payload.source_name,
+                    "summary": payload.summary,
+                    "total_count": payload.total_count,
+                    "rows": payload.rows,
+                    "weekly_rankings_total_count": payload.weekly_rankings_total_count,
+                    "weekly_rankings": payload.weekly_rankings,
+                    "actual_live_performance": payload.actual_live_performance,
+                    "errors": payload.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/api/v1/admin/new-entries/internal")
+    def api_admin_new_entries_internal() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        payload = admin_new_entries_api.get_payload(
+            scope="internal",
+            event_type=_normalize_admin_new_entries_event_type(
+                "internal",
+                request.args.get("event_type"),
+            ),
+            period=_normalize_admin_new_entries_period(request.args.get("period")),
+            model=_normalize_admin_new_entries_model("internal", request.args.get("model")),
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return (
+            jsonify(
+                {
+                    "scope": payload.scope,
+                    "event_type": payload.event_type,
+                    "period": payload.period,
+                    "model": payload.model,
+                    "as_of_date": payload.as_of_date,
+                    "generated_at": payload.generated_at,
+                    "source_name": payload.source_name,
+                    "summary": payload.summary,
+                    "total_count": payload.total_count,
+                    "rows": payload.rows,
+                    "weekly_rankings_total_count": payload.weekly_rankings_total_count,
+                    "weekly_rankings": payload.weekly_rankings,
+                    "actual_live_performance": payload.actual_live_performance,
+                    "errors": payload.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/api/v1/admin/new-entries/tseries")
+    def api_admin_new_entries_tseries() -> tuple[dict[str, Any], int]:
+        require_admin_access()
+        payload = admin_new_entries_api.get_payload(
+            scope="tseries",
+            event_type=_normalize_admin_new_entries_event_type(
+                "tseries",
+                request.args.get("event_type"),
+            ),
+            period=_normalize_admin_new_entries_period(request.args.get("period")),
+            model=_normalize_admin_new_entries_model("tseries", request.args.get("model")),
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return (
+            jsonify(
+                {
+                    "scope": payload.scope,
+                    "event_type": payload.event_type,
+                    "period": payload.period,
+                    "model": payload.model,
+                    "as_of_date": payload.as_of_date,
+                    "generated_at": payload.generated_at,
+                    "source_name": payload.source_name,
+                    "summary": payload.summary,
+                    "total_count": payload.total_count,
+                    "rows": payload.rows,
+                    "weekly_rankings_total_count": payload.weekly_rankings_total_count,
+                    "weekly_rankings": payload.weekly_rankings,
+                    "actual_live_performance": payload.actual_live_performance,
+                    "errors": payload.errors,
+                }
+            ),
+            200,
+        )
+
+    @app.get("/new-entries")
+    def new_entries() -> Response:
+        require_ops_viewer_access()
+        selected_scope = _normalize_admin_new_entries_scope(request.args.get("scope"))
+        selected_event_type = _normalize_admin_new_entries_event_type(
+            selected_scope,
+            request.args.get("event_type"),
+        )
+        selected_period = _normalize_admin_new_entries_period(request.args.get("period"))
+        selected_model = _normalize_admin_new_entries_model(
+            selected_scope,
+            request.args.get("model"),
+        )
+        payload = admin_new_entries_api.get_payload(
+            scope=selected_scope,
+            event_type=selected_event_type,
+            period=selected_period,
+            model=selected_model,
+            force_refresh=request.args.get("refresh") == "1",
+        )
+        return Response(
+            render_template(
+                "new_entries.html",
+                page_title="신규 편입 추적",
+                payload=payload,
+                selected_scope=selected_scope,
+                selected_event_type=selected_event_type,
+                selected_period=selected_period,
+                selected_model=selected_model,
+                scope_options=[
+                    {"value": "user", "label": "사용자용"},
+                    {"value": "internal", "label": "내부용"},
+                    {"value": "tseries", "label": "T-series"},
+                ],
+                event_type_options=[
+                    {"value": "new_entry", "label": "신규 편입"},
+                    {"value": "re_entry", "label": "재편입"},
+                    {"value": "new_or_re_entry", "label": "신규 편입+재편입"},
+                    {"value": "promotion", "label": "승격"},
+                    {"value": "weight_increase", "label": "비중 증가"},
+                ],
+                period_options=[
+                    {"value": "4w", "label": "최근 4주"},
+                    {"value": "8w", "label": "최근 8주"},
+                    {"value": "all", "label": "전체"},
+                ],
+                model_options_by_scope={
+                    "user": [
+                        {"value": "", "label": "전체"},
+                        *[
+                            {"value": code, "label": USER_MODEL_LABELS.get(code, code)}
+                            for code in USER_SCOPE_MODELS
+                        ],
+                    ],
+                    "internal": [
+                        {"value": "", "label": "전체"},
+                        *[{"value": code, "label": code} for code in INTERNAL_SCOPE_MODELS],
+                    ],
+                    "tseries": [
+                        {"value": "", "label": "전체"},
+                        *[{"value": code, "label": code} for code in TSERIES_SCOPE_MODELS],
+                    ],
+                },
+                model_options=(
+                    [{"value": "", "label": "전체"}]
+                    + (
+                        [
+                            {"value": code, "label": USER_MODEL_LABELS.get(code, code)}
+                            for code in USER_SCOPE_MODELS
+                        ]
+                        if selected_scope == "user"
+                        else (
+                            [{"value": code, "label": code} for code in INTERNAL_SCOPE_MODELS]
+                            if selected_scope == "internal"
+                            else [{"value": code, "label": code} for code in TSERIES_SCOPE_MODELS]
+                        )
+                    )
+                ),
+                notice_blocks=_build_notice_blocks("service_nature", "non_advice", "risk"),
+            ),
+            mimetype="text/html",
+        )
 
     @app.get("/admin/feedback")
     def admin_feedback() -> Response:

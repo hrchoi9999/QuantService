@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if ui_redesign_enabled %}
+{% include "_redesign_today.html" %}
+{% else %}
 <section class="hero-card compact-hero hero-stage today-stage today-overview">
   <div class="hero-main">
-    <h1>이번 주 모델 기준안</h1>
-    <p class="lead">공개 기준에 따라 산출한 퀀트투자 모델 포트폴리오와 모델 조정 기준을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
+    <h1>전략별 퀀트모델</h1>
+    <p class="lead">공개 기준에 따라 산출한 모델 포트폴리오와 모델 조정 기준을 먼저 확인하고, 필요한 모델만 자세히 펼쳐볼 수 있도록 정리했습니다.</p>
     <div class="overview-metrics overview-metrics-fixed">
       <div class="metric-card public-metric-card">
         <span class="label">기준일</span>
@@ -56,7 +59,7 @@
   <div class="section-heading tight-head market-panel-head">
     <div>
       <h2>시장 브리핑 참고</h2>
-      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장 브리핑 데이터가 준비되면 이번 주 모델 기준안과 연결된 해석이 표시됩니다.') }}</p>
+      <p class="lead compact-lead">{{ market_today_payload.get('market_bridge', {}).get('reference_text', '시장 브리핑 데이터가 준비되면 전략별 퀀트모델과 연결된 해석이 표시됩니다.') }}</p>
     </div>
     <span class="badge {% if market_status_snapshot.state in ['stale', 'warning'] %}accent{% else %}neutral{% endif %}">{{ market_today_payload.get('market_bridge', {}).get('state_label', market_status_labels.get(market_status_snapshot.state, market_status_snapshot.state)) }}</span>
   </div>
@@ -125,7 +128,7 @@
     <details class="strategy-disclosure" {% if loop.first %}open{% endif %}>
     <summary class="section-heading report-top detail-top strategy-disclosure-summary">
       <div class="title-stack">
-        <h2>{{ report.quant_model_name or report.user_model_name }}</h2>
+        <h2>{{ (report.quant_model_name or report.user_model_name) | replace(' 퀀트투자 모델', ' 모델') }}</h2>
         <p class="muted small">{{ report.model_definition_line }}</p>
         <p class="lead compact-lead">{{ report.summary_text }}</p>
         {% if report.model_definition_detail %}<p class="muted small">{{ report.model_definition_detail }}</p>{% endif %}
@@ -163,13 +166,13 @@
       <article class="shell-card content-card spotlight-surface strategy-summary-panel">
         <div class="section-heading tight-head">
           <div>
-            <h3>현재 기준 퀀트투자 모델</h3>
+            <h3>현재 기준 모델</h3>
           </div>
         </div>
         <p class="lead compact-lead">{{ report.market_view }}</p>
         <div class="sub-panel shell-card note-panel usage-context-panel">
           <span class="label">참고 이용자 유형</span>
-          <p>{{ report.reference_usage_context or '공개 기준 기반 퀀트투자 모델 정보를 참고하려는 이용자' }}</p>
+          <p>{{ (report.reference_usage_context or '공개 기준 기반 모델 정보를 참고하려는 이용자') | replace('퀀트투자 ', '') }}</p>
         </div>
 
         {% if report.growth_note %}
@@ -218,9 +221,21 @@
                     <span class="badge neutral small-badge">{{ item.asset_group }}</span>
                   </div>
                   <div class="holding-meta">
-                    <span>{{ item.role_summary }}</span>
+                    <span>
+                      {% if item.rank_no is not none %}
+                      순위 {{ item.rank_no }} ·
+                      {% endif %}
+                      {% if item.strategy_fit_score is not none %}
+                      전략 적합도 {{ item.strategy_fit_score | fmt_percent }}
+                      {% elif item.rank_no is none %}
+                      -
+                      {% endif %}
+                    </span>
                     <strong>{{ item.target_weight | fmt_percent }}</strong>
                   </div>
+                  {% if item.strategy_fit_score_basis %}
+                  <p class="muted tiny no-margin">근거: {{ item.strategy_fit_score_basis }}</p>
+                  {% endif %}
                   <div class="holding-bar-track">
                     <span class="holding-bar-fill" style="width: {{ ((item.target_weight or 0) * 100)|round(1) }}%;"></span>
                   </div>
@@ -240,6 +255,8 @@
                 <tr>
                   <th>자산군</th>
                   <th>종목명</th>
+                  <th>순위</th>
+                  <th>전략 적합도</th>
                   <th>목표 비중</th>
                   <th>역할</th>
                 </tr>
@@ -249,6 +266,17 @@
                 <tr>
                   <td>{{ item.asset_group }}</td>
                   <td>{{ item.display_name }}{% if item.security_code %} ({{ item.security_code }}){% endif %}</td>
+                  <td>{% if item.rank_no is not none %}{{ item.rank_no }}{% else %}-{% endif %}</td>
+                  <td>
+                    {% if item.strategy_fit_score is not none %}
+                    {{ item.strategy_fit_score | fmt_percent }}
+                    {% else %}
+                    -
+                    {% endif %}
+                    {% if item.strategy_fit_score_basis %}
+                    <div class="muted tiny">{{ item.strategy_fit_score_basis }}</div>
+                    {% endif %}
+                  </td>
                   <td>{{ item.target_weight | fmt_percent }}</td>
                   <td>{{ item.role_summary }}</td>
                 </tr>
@@ -260,12 +288,48 @@
         {% endif %}
       </article>
 
+      {% include "_trading_sign_block.html" %}
+
       <article class="shell-card content-card strategy-period-panel">
         <div class="section-heading tight-head">
           <div>
             <h3>기간별 성과</h3>
           </div>
         </div>
+        {% if ui_redesign_enabled and report.redesign_chart_view.enabled %}
+        <div class="market-redesign-chart-grid">
+          {% if report.redesign_chart_view.line_series %}
+          <article class="shell-card content-card market-chart-card">
+            <div class="section-heading tight-head">
+              <div>
+                <h4>핵심 수익률 추이</h4>
+                <p class="muted small">기간별 headline 지표 흐름</p>
+              </div>
+            </div>
+            <div
+              class="market-chart-shell market-chart-shell--compact"
+              data-rb-chart="line"
+              data-rb-chart-series='{{ report.redesign_chart_view.line_series | tojson }}'
+            ></div>
+          </article>
+          {% endif %}
+          {% if report.redesign_chart_view.bar_series %}
+          <article class="shell-card content-card market-chart-card">
+            <div class="section-heading tight-head">
+              <div>
+                <h4>기간별 MDD</h4>
+                <p class="muted small">손실 구간 리스크 비교</p>
+              </div>
+            </div>
+            <div
+              class="market-chart-shell market-chart-shell--compact"
+              data-rb-chart="bar"
+              data-rb-chart-series='{{ report.redesign_chart_view.bar_series | tojson }}'
+            ></div>
+          </article>
+          {% endif %}
+        </div>
+        {% endif %}
         {% if report.period_view.primary %}
         <div class="period-highlight-card">
           <div class="period-highlight-head">
@@ -335,9 +399,10 @@
   {% endfor %}
 {% else %}
 <section class="panel empty-state shell-card empty-shell">
-  <h2>이번 주 모델 기준안이 아직 없습니다.</h2>
+  <h2>전략별 퀀트모델이 아직 없습니다.</h2>
   <p>사용자용 스냅샷이 준비되면 이 화면에 모델별 스냅샷 리포트가 표시됩니다.</p>
 </section>
+{% endif %}
 {% endif %}
 {% endblock %}
 

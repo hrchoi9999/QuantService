@@ -1,0 +1,437 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/dart-summary?market=KR",
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "generated_at": "2026-05-23T10:05:11+09:00",
+    "title": "DART 공시 요약",
+    "description": "상장사 공시 흐름을 OpenDART 기준으로 요약한 공개형 시장 데이터 패널입니다.",
+    "enabled": true,
+    "status_label": "정상",
+    "availability_reason": null,
+    "reference_date": "20260522",
+    "filing_count_total": 489,
+    "market_breakdown": {
+      "kospi_count": 212,
+      "kosdaq_count": 277
+    },
+    "risk_event_count": 11,
+    "filing_count_by_type": [
+      {
+        "category_label": "지분/자사주",
+        "count": 198
+      },
+      {
+        "category_label": "일반 공시",
+        "count": 177
+      },
+      {
+        "category_label": "자금조달",
+        "count": 58
+      },
+      {
+        "category_label": "지배구조/의사결정",
+        "count": 39
+      },
+      {
+        "category_label": "리스크 공시",
+        "count": 11
+      },
+      {
+        "category_label": "실적/정기보고",
+        "count": 6
+      }
+    ],
+    "highlights": [
+      {
+        "corp_name": "씨씨에스",
+        "stock_code": "066790",
+        "report_nm": "소송등의판결ㆍ결정              (경영권 분쟁 소송)(주주총회결의 집행금지 가처분)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900603",
+        "rcept_no": "20260522900603",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "씨씨에스",
+        "stock_code": "066790",
+        "report_nm": "소송등의판결ㆍ결정              (경영권 분쟁 소송)(임시주주총회 개최금지 가처분)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900545",
+        "rcept_no": "20260522900545",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "씨씨에스",
+        "stock_code": "066790",
+        "report_nm": "소송등의판결ㆍ결정              (경영권 분쟁 소송)(임시주주총회 개최금지 가처분)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900543",
+        "rcept_no": "20260522900543",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "씨씨에스",
+        "stock_code": "066790",
+        "report_nm": "소송등의판결ㆍ결정              (경영권 분쟁 소송)(직무집행정지 및 대행자선임 가처분)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900541",
+        "rcept_no": "20260522900541",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "씨씨에스",
+        "stock_code": "066790",
+        "report_nm": "소송등의판결ㆍ결정              (경영권 분쟁 소송)(주주총회결의 효력정지 및 직무집행신청)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900538",
+        "rcept_no": "20260522900538",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "아이톡시",
+        "stock_code": "052770",
+        "report_nm": "소송등의제기ㆍ신청(일정금액이상의청구)              ",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522901016",
+        "rcept_no": "20260522901016",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "알로이스",
+        "stock_code": "297570",
+        "report_nm": "소송등의제기ㆍ신청(경영권분쟁소송)              (임시의장 선임 가처분)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900493",
+        "rcept_no": "20260522900493",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "앱토크롬",
+        "stock_code": "109960",
+        "report_nm": "기타시장안내              (앱토크롬 6WR 신주인수권 행사기간 만료 및 상장폐지 예고)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900746",
+        "rcept_no": "20260522900746",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      },
+      {
+        "corp_name": "에이리츠",
+        "stock_code": "140910",
+        "report_nm": "기타시장안내              (상장폐지결정 효력정지 가처분 신청 기각결정에 따른 정리매매절차 재개)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800677",
+        "rcept_no": "20260522800677",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "캐스텍코리아",
+        "stock_code": "071850",
+        "report_nm": "소송등의판결ㆍ결정              (주주총회결의무효확인 등)",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522900639",
+        "rcept_no": "20260522900639",
+        "rcept_dt": "20260522",
+        "corp_cls": "K"
+      }
+    ],
+    "recent_filings": [
+      {
+        "corp_name": "콜마홀딩스",
+        "stock_code": "024720",
+        "report_nm": "투자판단관련주요경영사항(자회사의 주요경영사항)              ",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800995",
+        "rcept_no": "20260522800995",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "한국콜마",
+        "stock_code": "161890",
+        "report_nm": "투자판단관련주요경영사항              ",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800985",
+        "rcept_no": "20260522800985",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SKC",
+        "stock_code": "011790",
+        "report_nm": "임원ㆍ주요주주특정증권등소유상황보고서",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000659",
+        "rcept_no": "20260522000659",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "LG",
+        "stock_code": "003550",
+        "report_nm": "주식소각결정              ",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800934",
+        "rcept_no": "20260522800934",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "KC그린홀딩스",
+        "stock_code": "009440",
+        "report_nm": "주식등의대량보유상황보고서(약식)",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000654",
+        "rcept_no": "20260522000654",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "에이프로젠바이오로직스",
+        "stock_code": "003060",
+        "report_nm": "주식등의대량보유상황보고서(약식)",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000651",
+        "rcept_no": "20260522000651",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "DB하이텍",
+        "stock_code": "000990",
+        "report_nm": "최대주주등소유주식변동신고서              ",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800941",
+        "rcept_no": "20260522800941",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SK증권",
+        "stock_code": "001510",
+        "report_nm": "투자설명서(일괄신고)",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000641",
+        "rcept_no": "20260522000641",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SYTS",
+        "stock_code": "002170",
+        "report_nm": "주주명부폐쇄기간또는기준일설정              ",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800925",
+        "rcept_no": "20260522800925",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "동성제약",
+        "stock_code": "002210",
+        "report_nm": "기타시장안내              (개선계획 이행 여부 심의 요청)",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800920",
+        "rcept_no": "20260522800920",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "삼성생명",
+        "stock_code": "032830",
+        "report_nm": "주식등의대량보유상황보고서(일반)",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000629",
+        "rcept_no": "20260522000629",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "한국전력공사",
+        "stock_code": "015760",
+        "report_nm": "[기재정정]소송등의제기ㆍ신청(일정금액이상의청구)              ",
+        "category_label": "리스크 공시",
+        "severity_label": "high",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800906",
+        "rcept_no": "20260522800906",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "에이플러스에셋",
+        "stock_code": "244920",
+        "report_nm": "최대주주등소유주식변동신고서              ",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800903",
+        "rcept_no": "20260522800903",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "벽산",
+        "stock_code": "007210",
+        "report_nm": "주식등의대량보유상황보고서(일반)",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000612",
+        "rcept_no": "20260522000612",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SKC",
+        "stock_code": "011790",
+        "report_nm": "임원ㆍ주요주주특정증권등소유상황보고서",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000605",
+        "rcept_no": "20260522000605",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SYTS",
+        "stock_code": "002170",
+        "report_nm": "주주총회소집결의              ",
+        "category_label": "지배구조/의사결정",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800807",
+        "rcept_no": "20260522800807",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "제주은행",
+        "stock_code": "006220",
+        "report_nm": "투자설명서(일괄신고)",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000601",
+        "rcept_no": "20260522000601",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "제주은행",
+        "stock_code": "006220",
+        "report_nm": "일괄신고추가서류",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000595",
+        "rcept_no": "20260522000595",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "삼성전자",
+        "stock_code": "005930",
+        "report_nm": "주식등의대량보유상황보고서(일반)",
+        "category_label": "지분/자사주",
+        "severity_label": "medium",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522000589",
+        "rcept_no": "20260522000589",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      },
+      {
+        "corp_name": "SK디스커버리",
+        "stock_code": "006120",
+        "report_nm": "[기재정정]타인에대한채무보증결정(자회사의 주요경영사항)              ",
+        "category_label": "일반 공시",
+        "severity_label": "normal",
+        "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260522800852",
+        "rcept_no": "20260522800852",
+        "rcept_dt": "20260522",
+        "corp_cls": "Y"
+      }
+    ],
+    "source": {
+      "provider": "OpenDART",
+      "endpoint": "list.json",
+      "source_tier": "official"
+    },
+    "planned_next_fields": [
+      "filing_count_total",
+      "filing_count_by_type",
+      "risk_event_count",
+      "highlights",
+      "recent_filings"
+    ],
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-05-23T10:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "notice_block": {
+      "title": "주의사항",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+    }
+  }
+}

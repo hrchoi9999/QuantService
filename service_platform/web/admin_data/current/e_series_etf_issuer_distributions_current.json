@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "source_name": "issuer_etf_distributions",
+  "as_of_date": "2026-05-13",
+  "generated_at": "2026-05-14T18:09:29",
+  "providers": [
+    "kodex"
+  ],
+  "inserted_rows": 129,
+  "event_rows_collected": 129,
+  "event_tickers_collected": 129,
+  "date_quality": "notice_date_proxy",
+  "table": {
+    "db_path": "D:\\Quant\\data\\db\\price.db",
+    "name": "etf_distributions",
+    "summary": {
+      "rows": 129,
+      "tickers": 129,
+      "min_date": "2026-04-28",
+      "max_date": "2026-05-13",
+      "amount_sum": 19878.0,
+      "by_source": [
+        {
+          "source": "issuer_kodex_notice",
+          "rows": 129,
+          "tickers": 129,
+          "min_date": "2026-04-28",
+          "max_date": "2026-05-13"
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "kodex_notices": [
+      {
+        "notice_no": "75873",
+        "title": "('26.5월_월중배당) Kodex ETF 분배금 공지 (18종)",
+        "notice_date": "2026-05-13",
+        "url": "https://www.samsungfund.com/etf/lounge/notice-view.do?no=75873"
+      },
+      {
+        "notice_no": "75493",
+        "title": "('26.4월_월말배당) Kodex ETF 분배금 공지 (134종)",
+        "notice_date": "2026-04-28",
+        "url": "https://www.samsungfund.com/etf/lounge/notice-view.do?no=75493"
+      }
+    ]
+  },
+  "errors": [],
+  "outputs": {
+    "json": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_issuer_distributions_20260513.json",
+    "sample_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_issuer_distributions_sample_20260513.csv",
+    "admin_current_json": "D:\\Quant\\service_platform\\web\\admin_data\\current\\e_series_etf_issuer_distributions_current.json"
+  }
+}

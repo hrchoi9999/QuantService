@@ -1,0 +1,99 @@
+{
+  "api_version": "v1",
+  "endpoint": "/api/v1/market-analysis/breadth-detail?market=KR",
+  "market": "KR",
+  "asof": "2026-05-23T10:00:00+09:00",
+  "generated_by": "QuantMarket",
+  "compliance_meta": {
+    "public_same_for_all_users": true,
+    "non_personalized": true,
+    "advisory_action_signal": false,
+    "actual_investment_result": false,
+    "backtest_result": false,
+    "disclaimer_required": true,
+    "consumer_channel": "public_market_brief",
+    "generated_by": "QuantMarket",
+    "intended_use": "market_briefing_reference",
+    "model_version": "market_analysis_p1",
+    "calculation_version": "market_analysis_p1_20260324",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "refresh_cycle": "hourly",
+    "rebalance_frequency": "not_applicable"
+  },
+  "data": {
+    "market": "KR",
+    "asof": "2026-05-23T10:00:00+09:00",
+    "generated_at": "2026-05-23T10:05:11+09:00",
+    "title": "시장 내부 확산 상세",
+    "description": "종가 기준 breadth와 최신 장중 breadth를 함께 비교해 시장 내부 체력을 읽는 공개형 데이터 패널입니다.",
+    "close_breadth": {
+      "asof": "2026-05-23T10:00:00+09:00",
+      "above_20dma_ratio": 0.25773195876288657,
+      "above_60dma_ratio": 0.44329896907216493,
+      "adv_dec_ratio": 6.959183673469388,
+      "new_high_count": 19.0,
+      "new_low_count": 9.0,
+      "breadth_universe_count": 388,
+      "breadth_proxy_flag": false,
+      "breadth_regime_label": "혼조"
+    },
+    "intraday_breadth": {
+      "asof": "2026-05-23T10:00:00+09:00",
+      "available": true,
+      "rows": [
+        {
+          "universe_code": "KOSDAQ",
+          "advancers": 1460,
+          "decliners": 215,
+          "flat_count": 147,
+          "adv_dec_ratio": 6.763888888888889,
+          "positive_ratio": 0.8013172338090011,
+          "source": "naver:sise_market_sum:1:37pages",
+          "is_fallback": 0,
+          "source_tier": "proxy"
+        },
+        {
+          "universe_code": "KOSPI",
+          "advancers": 1948,
+          "decliners": 373,
+          "flat_count": 129,
+          "adv_dec_ratio": 5.211229946524064,
+          "positive_ratio": 0.7951020408163265,
+          "source": "naver:sise_market_sum:0:49pages",
+          "is_fallback": 0,
+          "source_tier": "proxy"
+        }
+      ]
+    },
+    "summary": {
+      "close_regime_label": "혼조",
+      "intraday_positive_universe_count": 2,
+      "uses_proxy": true
+    },
+    "compliance_meta": {
+      "public_same_for_all_users": true,
+      "non_personalized": true,
+      "advisory_action_signal": false,
+      "actual_investment_result": false,
+      "backtest_result": false,
+      "disclaimer_required": true,
+      "consumer_channel": "public_market_brief",
+      "generated_by": "QuantMarket",
+      "intended_use": "market_briefing_reference",
+      "model_version": "market_analysis_p1",
+      "calculation_version": "market_analysis_p1_20260324",
+      "asof": "2026-05-23T10:00:00+09:00",
+      "refresh_cycle": "hourly",
+      "rebalance_frequency": "not_applicable"
+    },
+    "notice_block": {
+      "title": "주의사항",
+      "body": [
+        "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
+        "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
+        "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
+      ],
+      "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "status": "no_distribution_columns_found",
+  "source_name": "krx_etf_distributions",
+  "as_of_date": "2026-05-13",
+  "range": {
+    "start": "2026-05-13",
+    "end": "2026-05-13",
+    "max_dates": 1
+  },
+  "generated_at": "2026-05-14T18:09:27",
+  "table": {
+    "db_path": "D:\\Quant\\data\\db\\price.db",
+    "name": "etf_distributions",
+    "inserted_rows": 0,
+    "summary": {
+      "table_exists": true,
+      "rows": 129,
+      "tickers": 129,
+      "min_date": "2026-04-28",
+      "max_date": "2026-05-13",
+      "amount_sum": 19878.0
+    }
+  },
+  "source_diagnostics": {
+    "method": "krx_openapi_etf_daily_schema_probe",
+    "endpoint": "/etp/etf_bydd_trd",
+    "ticker_filter": 874,
+    "observed_dates": 1,
+    "amount_columns_found": [],
+    "latest_observed_columns": [
+      "ACC_TRDVAL",
+      "ACC_TRDVOL",
+      "BAS_DD",
+      "CMPPREVDD_IDX",
+      "CMPPREVDD_PRC",
+      "FLUC_RT",
+      "FLUC_RT_IDX",
+      "IDX_IND_NM",
+      "INVSTASST_NETASST_TOTAMT",
+      "ISU_CD",
+      "ISU_NM",
+      "LIST_SHRS",
+      "MKTCAP",
+      "NAV",
+      "OBJ_STKPRC_IDX",
+      "TDD_CLSPRC",
+      "TDD_HGPRC",
+      "TDD_LWPRC",
+      "TDD_OPNPRC"
+    ],
+    "latest_diagnostic": {
+      "row_count": 1107,
+      "columns": [
+        "ACC_TRDVAL",
+        "ACC_TRDVOL",
+        "BAS_DD",
+        "CMPPREVDD_IDX",
+        "CMPPREVDD_PRC",
+        "FLUC_RT",
+        "FLUC_RT_IDX",
+        "IDX_IND_NM",
+        "INVSTASST_NETASST_TOTAMT",
+        "ISU_CD",
+        "ISU_NM",
+        "LIST_SHRS",
+        "MKTCAP",
+        "NAV",
+        "OBJ_STKPRC_IDX",
+        "TDD_CLSPRC",
+        "TDD_HGPRC",
+        "TDD_LWPRC",
+        "TDD_OPNPRC"
+      ],
+      "ticker_column": "ISU_CD",
+      "name_column": "ISU_NM",
+      "date_column": "BAS_DD",
+      "amount_column": null,
+      "date_inferred_from_query": false,
+      "bas_dd": "20260513",
+      "matched_events": 0
+    },
+    "errors": []
+  },
+  "outputs": {
+    "json": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_krx_distributions_20260513.json",
+    "sample_csv": null,
+    "admin_current_json": "D:\\Quant\\service_platform\\web\\admin_data\\current\\e_series_etf_krx_distributions_current.json"
+  },
+  "interpretation": "KRX OpenAPI ETF daily rows are probed for cash distribution columns. If no distribution amount column exists, the standard etf_distributions table is still prepared and E-series total-return logic remains on price-return fallback."
+}

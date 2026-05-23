@@ -3,3 +3,27 @@
 - 배포 전 체크 자동화 범위 검토
 - gcloud 실행 권한/로컬 환경 의존 완화 검토
 - live smoke check 문서 템플릿 정리
+- public market current payload의 `intraday_state_label` 미포함으로 2단 상태의 두 번째 막대 미노출 원인 정리 및 담당 쓰레드 이관
+- 별도 Cloud Build trigger/수동 build 경로가 old `US` bucket을 참조하지 않는지 1회 추가 확인
+- Cloud Build asia bucket lifecycle rule 적용
+  - `source/`: `7일` 후 삭제 권장
+  - `logs/`: `30일` 후 삭제 권장
+- 월간 운영 체크리스트에 Cloud Build source/log bucket 확인 추가
+- Billing에서 Cloud Storage 비용 추세 추적
+  - Standard Storage / Class A / Class B / Egress 기준
+  - asia bucket 전환 전후 추세 비교
+- HSTS 운영 유지 모니터링
+  - `https://redbot.co.kr`
+  - `https://quantservice-web-452568862306.asia-northeast3.run.app`
+  - `Strict-Transport-Security: max-age=2592000` 유지 여부 확인
+- LB 고정비 절감 후보로 `bluebot-http-forwarding-rule` 제거 가능성 유지
+  - `http://redbot.co.kr` 직접 유입 영향 검토
+  - 사용자 불편 감수 가능 여부 검토
+  - 운영/브랜드 정책 확인
+- user snapshot public remote current 전환 준비
+  - `SNAPSHOT_SOURCE` / `SNAPSHOT_GCS_BASE_URL` 운영 env 최종값 확정
+  - Quant canonical current base URL 확정
+  - 배포 후 live 확인 절차 수행
+- 구현 선행 이슈 추적
+  - public user snapshot 경로가 `UserSnapshotMockApi` local 의존에서 remote current 지원 경로로 전환되어야 함
+  - `SNAPSHOT_SOURCE=remote` vs `gcs` 최종 enum/alias 정리 필요

@@ -112,11 +112,19 @@ def _rotate_current(staging_current_dir: Path, current_dir: Path) -> None:
         raise
 
 
-def _cleanup_old_published_dirs(published_root: Path, keep_days: int) -> None:
+def _cleanup_old_published_dirs(
+    published_root: Path,
+    keep_days: int,
+    *,
+    preserve_names: set[str] | None = None,
+) -> None:
     cutoff = datetime.now(timezone.utc).date() - timedelta(days=keep_days)
+    preserve_names = preserve_names or set()
     if not published_root.exists():
         return
     for child in published_root.iterdir():
+        if child.name in preserve_names:
+            continue
         try:
             child_date = datetime.strptime(child.name, "%Y-%m-%d").date()
         except ValueError:
@@ -208,7 +216,7 @@ def publish_daily(
 
     _rotate_current(current_staging_dir, current_dir)
     shutil.rmtree(tmp_run_dir, ignore_errors=True)
-    _cleanup_old_published_dirs(published_root, keep_days)
+    _cleanup_old_published_dirs(published_root, keep_days, preserve_names={effective_asof})
 
     LOGGER.info(
         "publish_success",

@@ -1,0 +1,220 @@
+{
+  "status": "ok",
+  "source_name": "e_series_etf_operational_hardening",
+  "strategy_model_code": "E-ETF-V01",
+  "sleeve_model_code": "AI-E-ETF-SLEEVE-SELECTION-V01",
+  "as_of_date": "2026-05-13",
+  "valid_start": "2024-01-01",
+  "generated_at": "2026-05-14T18:42:56",
+  "liquidity_gate_summary": [
+    {
+      "policy": "hybrid_b50_ai50_top3_role__gate_liq_integrity_p20",
+      "periods": 28,
+      "avg_1m_ret": 0.022056,
+      "win_rate": 0.607143,
+      "avg_1m_risk_adj": 0.006863,
+      "avg_1m_mdd_proxy": -0.030386,
+      "worst_1m_ret": -0.07498,
+      "compounded_return": 0.768121,
+      "avg_1m_ret_delta_vs_base": 0.00042299999999999977,
+      "avg_1m_risk_adj_delta_vs_base": 0.0008700000000000001,
+      "worst_1m_ret_delta_vs_base": 0.0,
+      "compounded_return_delta_vs_base": 0.01924400000000004
+    },
+    {
+      "policy": "hybrid_b50_ai50_top3_role__gate_quality_guard_p40",
+      "periods": 28,
+      "avg_1m_ret": 0.021034,
+      "win_rate": 0.571429,
+      "avg_1m_risk_adj": 0.006407,
+      "avg_1m_mdd_proxy": -0.029255,
+      "worst_1m_ret": -0.074731,
+      "compounded_return": 0.723717,
+      "avg_1m_ret_delta_vs_base": -0.0005989999999999988,
+      "avg_1m_risk_adj_delta_vs_base": 0.0004140000000000003,
+      "worst_1m_ret_delta_vs_base": 0.0002489999999999992,
+      "compounded_return_delta_vs_base": -0.02515999999999996
+    },
+    {
+      "policy": "hybrid_b50_ai50_top3_role__gate_none",
+      "periods": 28,
+      "avg_1m_ret": 0.021633,
+      "win_rate": 0.607143,
+      "avg_1m_risk_adj": 0.005993,
+      "avg_1m_mdd_proxy": -0.031281,
+      "worst_1m_ret": -0.07498,
+      "compounded_return": 0.748877,
+      "avg_1m_ret_delta_vs_base": 0.0,
+      "avg_1m_risk_adj_delta_vs_base": 0.0,
+      "worst_1m_ret_delta_vs_base": 0.0,
+      "compounded_return_delta_vs_base": 0.0
+    },
+    {
+      "policy": "hybrid_b50_ai50_top3_role__gate_liq_integrity_p30_premium",
+      "periods": 28,
+      "avg_1m_ret": 0.019944,
+      "win_rate": 0.642857,
+      "avg_1m_risk_adj": 0.004457,
+      "avg_1m_mdd_proxy": -0.030973,
+      "worst_1m_ret": -0.07498,
+      "compounded_return": 0.67451,
+      "avg_1m_ret_delta_vs_base": -0.0016889999999999995,
+      "avg_1m_risk_adj_delta_vs_base": -0.001536,
+      "worst_1m_ret_delta_vs_base": 0.0,
+      "compounded_return_delta_vs_base": -0.07436699999999996
+    }
+  ],
+  "role_label_summary": [
+    {
+      "e_series_role": "CASH_LIKE",
+      "train_rows": 478,
+      "valid_rows": 38,
+      "positive_rate": 0.236842,
+      "common_auc": 0.436416,
+      "role_specific_auc": 0.869732,
+      "auc_delta": 0.433316,
+      "status": "candidate"
+    },
+    {
+      "e_series_role": "INCOME",
+      "train_rows": 822,
+      "valid_rows": 116,
+      "positive_rate": 0.077586,
+      "common_auc": 0.528053,
+      "role_specific_auc": 0.640706,
+      "auc_delta": 0.112653,
+      "status": "candidate"
+    },
+    {
+      "e_series_role": "STYLE_FACTOR",
+      "train_rows": 183,
+      "valid_rows": 38,
+      "positive_rate": 0.236842,
+      "common_auc": 0.562468,
+      "role_specific_auc": 0.62069,
+      "auc_delta": 0.058222,
+      "status": "candidate"
+    },
+    {
+      "e_series_role": "SECTOR_THEME",
+      "train_rows": 2753,
+      "valid_rows": 222,
+      "positive_rate": 0.040541,
+      "common_auc": 0.522278,
+      "role_specific_auc": 0.545123,
+      "auc_delta": 0.022845,
+      "status": "candidate"
+    },
+    {
+      "e_series_role": "CORE_BETA",
+      "train_rows": 2259,
+      "valid_rows": 121,
+      "positive_rate": 0.07438,
+      "common_auc": 0.667037,
+      "role_specific_auc": 0.664683,
+      "auc_delta": -0.002354,
+      "status": "observe_only"
+    },
+    {
+      "e_series_role": "DEFENSIVE",
+      "train_rows": 1342,
+      "valid_rows": 65,
+      "positive_rate": 0.138462,
+      "common_auc": 0.595032,
+      "role_specific_auc": 0.494048,
+      "auc_delta": -0.100984,
+      "status": "observe_only"
+    }
+  ],
+  "hysteresis_summary": [
+    {
+      "policy": "no_hysteresis_base",
+      "periods": 26,
+      "avg_1m_ret": 0.023346,
+      "win_rate": 0.615385,
+      "avg_1m_risk_adj": 0.008825,
+      "avg_1m_mdd_proxy": -0.029042,
+      "worst_1m_ret": -0.033538,
+      "compounded_return": 0.755497,
+      "stress_dates": 14,
+      "transitions": 7,
+      "single_flips": 2
+    },
+    {
+      "policy": "hysteresis_base",
+      "periods": 26,
+      "avg_1m_ret": 0.02294,
+      "win_rate": 0.576923,
+      "avg_1m_risk_adj": 0.008518,
+      "avg_1m_mdd_proxy": -0.028843,
+      "worst_1m_ret": -0.033538,
+      "compounded_return": 0.737038,
+      "stress_dates": 14,
+      "transitions": 3,
+      "single_flips": 0
+    },
+    {
+      "policy": "hysteresis_tight",
+      "periods": 26,
+      "avg_1m_ret": 0.02294,
+      "win_rate": 0.576923,
+      "avg_1m_risk_adj": 0.008518,
+      "avg_1m_mdd_proxy": -0.028843,
+      "worst_1m_ret": -0.033538,
+      "compounded_return": 0.737038,
+      "stress_dates": 14,
+      "transitions": 3,
+      "single_flips": 0
+    }
+  ],
+  "risk_cap_summary": [
+    {
+      "policy": "single_8pct_cap",
+      "periods": 26,
+      "avg_1m_ret": 0.022956,
+      "win_rate": 0.615385,
+      "avg_1m_risk_adj": 0.009808,
+      "avg_1m_mdd_proxy": -0.026298,
+      "worst_1m_ret": -0.031788,
+      "compounded_return": 0.74107
+    },
+    {
+      "policy": "single_8pct_highrisk_30pct_cap",
+      "periods": 26,
+      "avg_1m_ret": 0.022956,
+      "win_rate": 0.615385,
+      "avg_1m_risk_adj": 0.009808,
+      "avg_1m_mdd_proxy": -0.026298,
+      "worst_1m_ret": -0.031788,
+      "compounded_return": 0.74107
+    },
+    {
+      "policy": "risk_cap_none",
+      "periods": 26,
+      "avg_1m_ret": 0.023346,
+      "win_rate": 0.615385,
+      "avg_1m_risk_adj": 0.008825,
+      "avg_1m_mdd_proxy": -0.029042,
+      "worst_1m_ret": -0.033538,
+      "compounded_return": 0.755497
+    }
+  ],
+  "recommendation": {
+    "liquidity_gate": "hybrid_b50_ai50_top3_role__gate_liq_integrity_p20",
+    "role_label": "role_specific_candidate_only_where_auc_improves",
+    "hysteresis": "no_hysteresis_base",
+    "risk_cap": "single_8pct_cap",
+    "operation_status": "shadow_hardening_candidate"
+  },
+  "outputs": {
+    "gate_selected_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_gate_selected_20260513.csv",
+    "gate_summary_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_gate_summary_20260513.csv",
+    "role_label_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_role_label_20260513.csv",
+    "hysteresis_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_hysteresis_20260513.csv",
+    "risk_cap_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_risk_cap_20260513.csv",
+    "states_csv": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_states_20260513.csv",
+    "json": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_20260513.json",
+    "markdown": "D:\\Quant\\reports\\e_series_etf\\e_series_etf_operational_hardening_20260513.md",
+    "admin_current_json": "D:\\Quant\\service_platform\\web\\admin_data\\current\\e_series_etf_operational_hardening_current.json"
+  }
+}
