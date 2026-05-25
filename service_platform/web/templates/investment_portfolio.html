@@ -15,11 +15,6 @@
 </section>
 
 <section class="panel shell-card investment-portfolio-summary">
-  <div class="portfolio-risk-card{% if portfolio.market_risk.is_defensive %} is-defensive{% endif %}">
-    <span class="label">시장판단</span>
-    <strong>{{ portfolio.market_risk.rating }}</strong>
-    <p>{{ portfolio.market_risk.direction_label }} · 총점 {{ portfolio.market_risk.total_score }}</p>
-  </div>
   <div class="portfolio-summary-copy">
     <h2>현재 결론</h2>
     <p>{{ portfolio.market_risk.action }}</p>
@@ -33,53 +28,6 @@
     {% endif %}
   </div>
 </section>
-
-{% if portfolio.market_risk.step1_v2 %}
-<section class="panel shell-card portfolio-step1-panel">
-  <div class="section-head-row">
-    <div>
-      <span class="eyebrow">STEP1 6등급 평가</span>
-      <h2>{{ portfolio.market_risk.step1_v2.display_rating }}</h2>
-      <p class="lead">총점 {{ portfolio.market_risk.step1_v2.score }}점 · 기준시점 {{ portfolio.market_risk.step1_v2.effective_asof }}</p>
-    </div>
-    <div class="hero-badges compact-meta">
-      <span class="badge neutral">기존 {{ portfolio.market_risk.step1_v2.legacy_rating }}</span>
-      {% if portfolio.market_risk.step1_v2.is_boundary %}
-      <span class="badge warning">{{ portfolio.market_risk.step1_v2.boundary_position or "경계 구간" }}</span>
-      {% endif %}
-    </div>
-  </div>
-  {% if portfolio.market_risk.step1_v2.boundary_reason %}
-  <div class="notice-panel warning">{{ portfolio.market_risk.step1_v2.boundary_reason }}</div>
-  {% endif %}
-  <div class="table-wrap compact-table portfolio-step1-table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>축</th>
-          <th class="is-numeric-cell">점수</th>
-          <th>주요 근거</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for axis in portfolio.market_risk.step1_v2.axes %}
-        <tr>
-          <td>{{ axis.axis }}</td>
-          <td class="is-numeric-cell">{{ axis.score_label }}</td>
-          <td>
-            <ul class="portfolio-inline-list">
-              {% for reason in axis.reasons %}
-              <li>{{ reason }}</li>
-              {% endfor %}
-            </ul>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
-{% endif %}
 
 {% if portfolio.process_steps %}
 <section class="panel shell-card">
@@ -133,6 +81,49 @@
   </div>
 </section>
 {% endif %}
+
+<section class="panel shell-card portfolio-step1-panel">
+  <div class="portfolio-market-overview">
+    <div class="portfolio-risk-card{% if portfolio.market_risk.is_defensive %} is-defensive{% endif %}">
+      <span class="label">시장판단</span>
+      <strong>{{ portfolio.market_risk.rating }}</strong>
+      <p>{{ portfolio.market_risk.direction_label }} · 총점 {{ portfolio.market_risk.total_score }}</p>
+    </div>
+    {% if portfolio.market_risk.step1_v2 %}
+    <div class="portfolio-step1-copy">
+      <div class="section-head-row">
+        <div>
+          <span class="eyebrow">STEP1 6등급 평가</span>
+          <h2>{{ portfolio.market_risk.step1_v2.display_rating }}</h2>
+          <p class="lead">총점 {{ portfolio.market_risk.step1_v2.score }}점 · 기준시점 {{ portfolio.market_risk.step1_v2.effective_asof }}</p>
+        </div>
+        <div class="hero-badges compact-meta">
+          <span class="badge neutral">기존 {{ portfolio.market_risk.step1_v2.legacy_rating }}</span>
+          {% if portfolio.market_risk.step1_v2.is_boundary %}
+          <span class="badge warning">{{ portfolio.market_risk.step1_v2.boundary_position or "경계 구간" }}</span>
+          {% endif %}
+        </div>
+      </div>
+      {% if portfolio.market_risk.step1_v2.boundary_reason %}
+      <p class="muted">{{ portfolio.market_risk.step1_v2.boundary_reason }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% if portfolio.market_risk.step1_v2 %}
+  <div class="portfolio-step1-axis-grid">
+    {% for axis in portfolio.market_risk.step1_v2.axes %}
+    <article class="portfolio-step1-axis-card">
+      <div>
+        <strong>{{ axis.axis }}</strong>
+        <span>{{ axis.score_label }}</span>
+      </div>
+      <p>{{ axis.reason_summary }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
 
 {% if portfolio.model_explanation %}
 <section class="panel shell-card portfolio-gemini-explanation">
@@ -232,11 +223,6 @@
         </tbody>
       </table>
     </div>
-    <div class="portfolio-reference-note">
-      <strong>E-series 참고</strong>
-      <span>{{ portfolio.etf_strategy.e_series.model_code }} · {{ portfolio.etf_strategy.e_series.as_of_date }}</span>
-      <p>{{ portfolio.etf_strategy.e_series.use_policy }}</p>
-    </div>
     {% if portfolio.etf_strategy.portfolio_scenarios %}
     <div class="portfolio-scenario-grid">
       {% for scenario in portfolio.etf_strategy.portfolio_scenarios %}
@@ -258,6 +244,25 @@
       {% endfor %}
     </div>
     {% endif %}
+  </article>
+
+  <article class="panel shell-card">
+    <h2>리스크 뉴스와 고지</h2>
+    <ul class="portfolio-risk-list">
+      {% for headline in portfolio.risk_headlines %}
+      <li>{{ headline }}</li>
+      {% else %}
+      <li>주요 리스크 헤드라인이 아직 준비되지 않았습니다.</li>
+      {% endfor %}
+    </ul>
+    <div class="disclaimer-panel portfolio-disclaimer">
+      {{ portfolio.disclaimer }}
+    </div>
+    <div class="portfolio-reference-note">
+      <strong>E-series 참고</strong>
+      <span>{{ portfolio.etf_strategy.e_series.model_code }} · {{ portfolio.etf_strategy.e_series.as_of_date }}</span>
+      <p>{{ portfolio.etf_strategy.e_series.use_policy }}</p>
+    </div>
     {% if portfolio.etf_strategy.e_series_scenario_reference %}
     <div class="portfolio-reference-note">
       <strong>E-series 시나리오별 해석</strong>
@@ -275,20 +280,6 @@
       </div>
     </div>
     {% endif %}
-  </article>
-
-  <article class="panel shell-card">
-    <h2>리스크 뉴스와 고지</h2>
-    <ul class="portfolio-risk-list">
-      {% for headline in portfolio.risk_headlines %}
-      <li>{{ headline }}</li>
-      {% else %}
-      <li>주요 리스크 헤드라인이 아직 준비되지 않았습니다.</li>
-      {% endfor %}
-    </ul>
-    <div class="disclaimer-panel portfolio-disclaimer">
-      {{ portfolio.disclaimer }}
-    </div>
   </article>
 </section>
 
@@ -343,8 +334,8 @@
           <th>선정일</th>
           <th class="is-numeric-cell">최신가</th>
           <th class="is-numeric-cell">당일등락</th>
-          <th>수급상태</th>
-          <th class="is-numeric-cell">순수급(억원)</th>
+          <th class="is-numeric-cell">외인거래(억원)</th>
+          <th class="is-numeric-cell">기관 거래금액(억원)</th>
           <th>판단</th>
           <th>A안 판단</th>
           <th>A안 비중</th>
@@ -363,8 +354,8 @@
           <td>{{ row.latest_selection_date }}</td>
           <td class="is-numeric-cell">{{ row.price }}</td>
           <td class="is-numeric-cell">{{ row.change_pct }}</td>
-          <td>{{ row.flow_status }}</td>
-          <td class="is-numeric-cell">{{ row.net_flow }}</td>
+          <td class="is-numeric-cell">{{ row.foreign_net }}</td>
+          <td class="is-numeric-cell">{{ row.institution_net }}</td>
           <td><span class="badge neutral">{{ row.decision }}</span></td>
           <td><span class="badge neutral">{{ row.scenario_a.decision or "-" }}</span></td>
           <td>{{ row.scenario_a.max_weight_hint or "-" }}</td>

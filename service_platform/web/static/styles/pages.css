@@ -847,7 +847,7 @@
 
 .investment-portfolio-summary {
   display: grid;
-  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   align-items: stretch;
 }
@@ -1020,11 +1020,58 @@
 }
 
 .portfolio-table-wrap table {
-  min-width: 1080px;
+  min-width: 1160px;
 }
 
-.portfolio-step1-table-wrap table {
-  min-width: 760px;
+.portfolio-market-overview {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.portfolio-step1-copy {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+}
+
+.portfolio-step1-axis-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.portfolio-step1-axis-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.portfolio-step1-axis-card div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio-step1-axis-card strong {
+  color: var(--ink-strong);
+}
+
+.portfolio-step1-axis-card span {
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.portfolio-step1-axis-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .portfolio-inline-list {
@@ -1420,7 +1467,9 @@
   .investment-portfolio-grid,
   .portfolio-step-detail-grid,
   .portfolio-model-role-grid,
-  .portfolio-scenario-grid {
+  .portfolio-scenario-grid,
+  .portfolio-market-overview,
+  .portfolio-step1-axis-grid {
     grid-template-columns: 1fr;
   }
 

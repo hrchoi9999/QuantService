@@ -548,6 +548,7 @@ def _normalize_step1_v2(value: Any) -> dict[str, Any] | None:
                     f"{_number(item.get('score'), 1)}/" f"{_number(item.get('max_score'), 0)}"
                 ),
                 "reasons": _normalize_text_list(item.get("reasons")),
+                "reason_summary": " · ".join(_normalize_text_list(item.get("reasons"))[:2]),
             }
         )
     return {
