@@ -14,21 +14,6 @@
   </div>
 </section>
 
-<section class="panel shell-card investment-portfolio-summary">
-  <div class="portfolio-summary-copy">
-    <h2>현재 결론</h2>
-    <p>{{ portfolio.market_risk.action }}</p>
-    <p class="muted">{{ portfolio.market_risk.summary }}</p>
-    {% if portfolio.final_portfolio_strategy %}
-    <div class="portfolio-summary-strategy">
-      <span class="badge neutral">기본 {{ portfolio.final_portfolio_strategy.default_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.default_scenario.name }}</span>
-      <span class="badge neutral">조건부 {{ portfolio.final_portfolio_strategy.conditional_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.conditional_scenario.name }}</span>
-      <p>{{ portfolio.final_portfolio_strategy.conclusion }}</p>
-    </div>
-    {% endif %}
-  </div>
-</section>
-
 {% if portfolio.process_steps %}
 <section class="panel shell-card">
   <h2>단계별 판단</h2>
@@ -57,7 +42,7 @@
         </div>
       </div>
       {% if portfolio.market_risk.step1_v2 and item.step == "1" %}
-      <p class="portfolio-step-summary">시장 위험 평가는 상단 STEP1 6등급 평가 표에 통합했습니다.</p>
+      <p class="portfolio-step-summary">시장 위험 평가는 아래 시장판단/STEP1 영역에 통합했습니다.</p>
       <div class="portfolio-step-conclusion">
         <strong>요약</strong>
         <span>{{ portfolio.market_risk.step1_v2.display_rating }} · {{ portfolio.market_risk.step1_v2.score }}점</span>
@@ -89,26 +74,40 @@
       <strong>{{ portfolio.market_risk.rating }}</strong>
       <p>{{ portfolio.market_risk.direction_label }} · 총점 {{ portfolio.market_risk.total_score }}</p>
     </div>
-    {% if portfolio.market_risk.step1_v2 %}
     <div class="portfolio-step1-copy">
       <div class="section-head-row">
         <div>
+          {% if portfolio.market_risk.step1_v2 %}
           <span class="eyebrow">STEP1 6등급 평가</span>
           <h2>{{ portfolio.market_risk.step1_v2.display_rating }}</h2>
           <p class="lead">총점 {{ portfolio.market_risk.step1_v2.score }}점 · 기준시점 {{ portfolio.market_risk.step1_v2.effective_asof }}</p>
+          {% else %}
+          <span class="eyebrow">시장 판단 요약</span>
+          <h2>{{ portfolio.market_risk.rating }}</h2>
+          {% endif %}
         </div>
+        {% if portfolio.market_risk.step1_v2 %}
         <div class="hero-badges compact-meta">
           <span class="badge neutral">기존 {{ portfolio.market_risk.step1_v2.legacy_rating }}</span>
           {% if portfolio.market_risk.step1_v2.is_boundary %}
           <span class="badge warning">{{ portfolio.market_risk.step1_v2.boundary_position or "경계 구간" }}</span>
           {% endif %}
         </div>
+        {% endif %}
       </div>
+      <p>{{ portfolio.market_risk.action }}</p>
+      <p class="muted">{{ portfolio.market_risk.summary }}</p>
       {% if portfolio.market_risk.step1_v2.boundary_reason %}
       <p class="muted">{{ portfolio.market_risk.step1_v2.boundary_reason }}</p>
       {% endif %}
+      {% if portfolio.final_portfolio_strategy %}
+      <div class="portfolio-summary-strategy">
+        <span class="badge neutral">기본 {{ portfolio.final_portfolio_strategy.default_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.default_scenario.name }}</span>
+        <span class="badge neutral">조건부 {{ portfolio.final_portfolio_strategy.conditional_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.conditional_scenario.name }}</span>
+        <p>{{ portfolio.final_portfolio_strategy.conclusion }}</p>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </div>
   {% if portfolio.market_risk.step1_v2 %}
   <div class="portfolio-step1-axis-grid">

@@ -845,13 +845,6 @@
   align-items: center;
 }
 
-.investment-portfolio-summary {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 18px;
-  align-items: stretch;
-}
-
 .portfolio-risk-card {
   padding: 18px;
   border: 1px solid var(--line);
@@ -869,12 +862,6 @@
   color: var(--ink-strong);
   font-size: clamp(22px, 2.2vw, 32px);
   line-height: 1.05;
-}
-
-.portfolio-summary-copy {
-  display: grid;
-  align-content: center;
-  gap: 8px;
 }
 
 .portfolio-summary-strategy {
@@ -1463,7 +1450,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .investment-portfolio-summary,
   .investment-portfolio-grid,
   .portfolio-step-detail-grid,
   .portfolio-model-role-grid,
