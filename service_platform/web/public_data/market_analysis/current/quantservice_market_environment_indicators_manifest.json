@@ -1,7 +1,7 @@
 {
   "market": "KR",
-  "asof": "2026-05-25T20:40:03+09:00",
-  "generated_at": "2026-05-25T20:40:05+09:00",
+  "asof": "2026-05-25T21:00:04+09:00",
+  "generated_at": "2026-05-25T21:00:05+09:00",
   "timezone": "Asia/Seoul",
   "title": "시장 환경 지표 manifest",
   "schema_version": "market_environment_indicators.v1",
@@ -42,7 +42,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:40:03+09:00",
+    "asof": "2026-05-25T21:00:04+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
