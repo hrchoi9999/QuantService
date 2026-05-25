@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_breadth_detail_history.v1",
-  "as_of_date": "2026-05-25T20:00:00+09:00",
-  "generated_at": "2026-05-25T20:05:10+09:00",
+  "as_of_date": "2026-05-25T21:00:00+09:00",
+  "generated_at": "2026-05-25T21:05:17+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -10614,6 +10614,17 @@
       "breadth_universe_count": 386,
       "breadth_proxy_flag": 0,
       "breadth_regime_label": "혼조"
+    },
+    {
+      "asof": "2026-05-25T21:00:00+09:00",
+      "above_20dma_ratio": 0.35751295336787564,
+      "above_60dma_ratio": 0.5181347150259067,
+      "adv_dec_ratio": 6.461538461538462,
+      "new_high_count": 29.0,
+      "new_low_count": 0.0,
+      "breadth_universe_count": 386,
+      "breadth_proxy_flag": 0,
+      "breadth_regime_label": "혼조"
     }
   ],
   "close_series": [
@@ -21198,6 +21209,17 @@
       "breadth_universe_count": 386,
       "breadth_proxy_flag": 0,
       "breadth_regime_label": "혼조"
+    },
+    {
+      "asof": "2026-05-25T21:00:00+09:00",
+      "above_20dma_ratio": 0.35751295336787564,
+      "above_60dma_ratio": 0.5181347150259067,
+      "adv_dec_ratio": 6.461538461538462,
+      "new_high_count": 29.0,
+      "new_low_count": 0.0,
+      "breadth_universe_count": 386,
+      "breadth_proxy_flag": 0,
+      "breadth_regime_label": "혼조"
     }
   ],
   "intraday_series": [
@@ -25378,9 +25400,9 @@
   "intraday_interval": "15m",
   "intraday_lookback_days": 10,
   "summary": {
-    "latest_close_asof": "2026-05-25T20:00:00+09:00",
+    "latest_close_asof": "2026-05-25T21:00:00+09:00",
     "latest_intraday_asof": "2026-05-25T18:00:00+09:00",
-    "close_points": 962,
+    "close_points": 963,
     "intraday_points": 298
   }
 }

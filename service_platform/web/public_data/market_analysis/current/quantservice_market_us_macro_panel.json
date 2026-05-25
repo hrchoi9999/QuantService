@@ -1,10 +1,10 @@
 {
   "market": "KR",
-  "asof": "2026-05-25T20:00:00+09:00",
-  "generated_at": "2026-05-25T20:05:10+09:00",
+  "asof": "2026-05-25T21:00:00+09:00",
+  "generated_at": "2026-05-25T21:05:17+09:00",
   "title": "미국/글로벌 매크로 패널",
   "description": "미국 선물, 금리, 환율, 원유와 미국 상장 한국 ETF를 함께 보여 주는 공개형 글로벌 참고 패널입니다.",
-  "snapshot_asof": "2026-05-25T20:00:00+09:00",
+  "snapshot_asof": "2026-05-25T21:00:00+09:00",
   "assets": [
     {
       "asset_code": "WTI",
@@ -22,9 +22,9 @@
       "asset_code": "USDKRW",
       "asset_name": "USD/KRW",
       "asset_group": "fx",
-      "price": 1514.91,
-      "change_value": -5.619999999999891,
-      "change_pct": -0.0036960796564354803,
+      "price": 1513.26,
+      "change_value": -7.269999999999982,
+      "change_pct": -0.004781227598271598,
       "source": "yahoo:KRW=X",
       "is_fallback": 0,
       "source_tier": "proxy",
@@ -93,7 +93,7 @@
   ],
   "summary": {
     "preview_label": "혼조 출발 가능성",
-    "preview_score": -0.3765,
+    "preview_score": -0.3738,
     "headline_line": "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
     "summary_line": "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
     "top_movers": [
@@ -125,9 +125,9 @@
         "asset_code": "USDKRW",
         "asset_name": "USD/KRW",
         "asset_group": "fx",
-        "price": 1514.91,
-        "change_value": -5.619999999999891,
-        "change_pct": -0.0036960796564354803,
+        "price": 1513.26,
+        "change_value": -7.269999999999982,
+        "change_pct": -0.004781227598271598,
         "source": "yahoo:KRW=X",
         "is_fallback": 0,
         "source_tier": "proxy",
@@ -148,7 +148,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

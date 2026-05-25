@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/page?market=KR",
   "market": "KR",
-  "asof": "2026-05-25T20:00:00+09:00",
+  "asof": "2026-05-25T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "page_meta": {
       "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
       "page_title": "시장 브리핑",
@@ -93,7 +93,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -63338,7 +63338,7 @@
     "ai_briefs": {
       "enabled": true,
       "market": "KR",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "layout": "single_market_mood_block",
       "title": "시장 분위기 참고",
       "compliance_meta": {
@@ -63353,18 +63353,18 @@
           "label": "제미나이",
           "theme_label": "시장 분위기",
           "viewpoint": {
-            "key": "index_fx",
-            "label": "지수와 환율의 현재 흐름"
+            "key": "breadth_vol",
+            "label": "종목 확산과 변동성 체감"
           },
           "enabled": true,
-          "generated_at": "2026-05-25T20:05:10+09:00",
+          "generated_at": "2026-05-25T21:05:17+09:00",
           "source": "gemini:gemini-2.5-flash",
           "summary_lines": [
-            "긍정: 퀀트 모델 흐름과 장중 흐름이 모두 상승 방향을 가리키며 시장의 주된 움직임이 강세입니다.",
-            "긍정: 코스피 1개월 상승 흐름이 견조하게 지속되어 단기적인 시장 모멘텀이 긍정적입니다.",
-            "긍정: 코스피200 선물이 0.0018% 상승하여 선물 시장의 상방 압력이 여전히 유효합니다.",
-            "긍정: 호르무즈 해협 개방 기대감으로 글로벌 증시 선물 및 유가 흐름에 긍정적인 영향을 미치고 있습니다.",
-            "리스크: 20일선 위 종목 비율이 낮아 지수 상승에도 불구하고 시장 내부 종목 확산이 제한적입니다.",
+            "긍정: 퀀트 모델 흐름과 오늘 장중 흐름이 모두 상승 방향을 가리키며 시장의 주된 움직임이 강세입니다.",
+            "긍정: 코스피 1개월 상승 흐름이 견조하게 이어져 단기적인 시장 모멘텀이 긍정적으로 작용하고 있습니다.",
+            "긍정: 코스피200 선물이 0.0018% 상승하며 선물 시장의 상방 압력이 여전히 유효함을 보여줍니다.",
+            "긍정: 중동 평화 협상 기대감 확산으로 글로벌 증시 선물 및 유가 흐름에 긍정적인 영향을 미치고 있습니다.",
+            "리스크: 20일선 위 종목 비율이 낮아 지수 상승에도 불구하고 시장 내부의 종목 확산이 제한적인 상황입니다.",
             "리스크: 60일선 위 종목 비율 또한 낮아 다수 종목의 추세 강도가 취약하여 상승 지속에 제약이 따릅니다.",
             "리스크: 달러 강세 신호가 지속되어 외국인 수급에 잠재적인 부담 요인으로 작용할 가능성이 있습니다.",
             "리스크: 트럼프의 이란 협상 관련 발언 가능성이 유가와 환율의 변동성을 확대시킬 수 있습니다."
@@ -63753,7 +63753,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

@@ -1,9 +1,9 @@
 {
   "market": "KR",
-  "asof": "2026-05-25T20:00:00+09:00",
+  "asof": "2026-05-25T21:00:00+09:00",
   "market_bridge": {
     "market": "KR",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "state_label": "상승",
     "state_score": 1.3482,
     "market_tone": "위험선호 환경",
@@ -66,7 +66,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -92,7 +92,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -63348,7 +63348,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -63421,7 +63421,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",

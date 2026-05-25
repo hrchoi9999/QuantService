@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/next-day-preview/history?market=KR",
   "market": "KR",
-  "asof": "2026-05-25T20:00:00+09:00",
+  "asof": "2026-05-25T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_next_day_preview_history.v1",
-    "as_of_date": "2026-05-25T20:00:00+09:00",
-    "generated_at": "2026-05-25T20:05:10+09:00",
+    "as_of_date": "2026-05-25T21:00:00+09:00",
+    "generated_at": "2026-05-25T21:05:17+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -55,50 +55,6 @@
       "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
     },
     "series": [
-      {
-        "asof": "2026-04-25T20:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
       {
         "asof": "2026-04-25T21:00:00+09:00",
         "reference_session": "2026-04-27",
@@ -25816,6 +25772,56 @@
           {
             "asset_code": "USDKRW",
             "change_pct": -0.0036960796564354803,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.0061055385957262676,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-25T21:00:00+09:00",
+        "reference_session": "2026-05-26",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004781227598271598,
             "direction_label": "down",
             "status_label": "live"
           },

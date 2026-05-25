@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/tabs?market=KR",
   "market": "KR",
-  "asof": "2026-05-25T20:00:00+09:00",
+  "asof": "2026-05-25T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,14 +16,14 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T20:00:00+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-25T20:00:00+09:00",
-    "generated_at": "2026-05-25T20:05:10+09:00",
+    "asof": "2026-05-25T21:00:00+09:00",
+    "generated_at": "2026-05-25T21:05:17+09:00",
     "title": "시장 분석",
     "description": "시장 데이터를 차트와 표 중심으로 나누어 보는 공개형 데이터 열람 페이지입니다.",
     "tabs": [
@@ -85,7 +85,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-25T20:00:00+09:00",
+      "asof": "2026-05-25T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
