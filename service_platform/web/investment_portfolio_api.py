@@ -199,18 +199,24 @@ def _build_view(
         if isinstance(etf_strategy.get("e_series_reference"), dict)
         else {}
     )
+    step1_v2 = _normalize_step1_v2(market_risk.get("step1_v2"))
+    scenario_summary = _normalize_scenario_summary(stock_strategy.get("scenario_summary"))
+    validation_scenarios = _normalize_validation_scenarios(
+        stock_strategy.get("validation_scenarios")
+    )
     return {
         "source_path": source_path,
         "as_of_date": _text(payload.get("as_of_date")),
         "generated_at": _text(payload.get("generated_at")),
         "source_thread": _text(payload.get("source_thread"), "QuantAnalysis"),
         "market_risk": {
-            "rating": _text(market_risk.get("rating")),
+            "rating": step1_v2["display_rating"] if step1_v2 else _text(market_risk.get("rating")),
             "direction_label": _text(market_risk.get("direction_label")),
             "total_score": _number(market_risk.get("total_score"), 3),
             "summary": _text(market_risk.get("summary")),
             "action": _text(market_risk.get("action")),
             "is_defensive": "defensive" in _text(market_risk.get("rating"), "").lower(),
+            "step1_v2": step1_v2,
         },
         "process_steps": _normalize_steps(payload.get("process_steps")),
         "step_details": db_step_details or _normalize_step_details(payload.get("step_details")),
@@ -226,6 +232,12 @@ def _build_view(
                 "public_allowed": bool(e_series.get("public_recommendation_allowed")),
                 "use_policy": _text(e_series.get("use_policy")),
             },
+            "portfolio_scenarios": _normalize_portfolio_scenarios(
+                etf_strategy.get("portfolio_scenarios")
+            ),
+            "e_series_scenario_reference": _normalize_e_series_scenario_reference(
+                etf_strategy.get("e_series_scenario_reference")
+            ),
         },
         "stock_strategy": {
             "exposure_guidance": _text(stock_strategy.get("exposure_guidance")),
@@ -240,7 +252,12 @@ def _build_view(
                 selected_models_by_ticker or {},
                 candidate_overrides_by_ticker or {},
             ),
+            "scenario_summary": scenario_summary,
+            "validation_scenarios": validation_scenarios,
         },
+        "final_portfolio_strategy": _normalize_final_portfolio_strategy(
+            payload.get("final_portfolio_strategy")
+        ),
         "risk_headlines": [
             _text(item) for item in (news_context.get("risk_headlines") or []) if _text(item, "")
         ][:6],
@@ -515,6 +532,172 @@ def _parse_details_json(value: Any) -> list[str]:
     return []
 
 
+def _normalize_step1_v2(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        return None
+    axes = []
+    for item in value.get("axes") or []:
+        if not isinstance(item, dict):
+            continue
+        axes.append(
+            {
+                "axis": _text(item.get("axis")),
+                "score": _number(item.get("score"), 1),
+                "max_score": _number(item.get("max_score"), 0),
+                "score_label": (
+                    f"{_number(item.get('score'), 1)}/" f"{_number(item.get('max_score'), 0)}"
+                ),
+                "reasons": _normalize_text_list(item.get("reasons")),
+            }
+        )
+    return {
+        "score": _number(value.get("score"), 1),
+        "display_rating": _text(value.get("display_rating") or value.get("label")),
+        "effective_asof": _text(value.get("effective_asof") or value.get("effective_date")),
+        "legacy_rating": _text(value.get("legacy_rating")),
+        "is_boundary": bool(value.get("is_boundary")),
+        "boundary_reason": _text(value.get("boundary_reason"), ""),
+        "boundary_position": _text(value.get("boundary_position"), ""),
+        "axes": axes,
+    }
+
+
+def _normalize_portfolio_scenarios(value: Any) -> list[dict[str, str]]:
+    if not isinstance(value, list):
+        return []
+    rows: list[dict[str, str]] = []
+    for item in value:
+        if isinstance(item, dict):
+            rows.append(_normalize_scenario(item))
+    return rows
+
+
+def _normalize_scenario(item: Any) -> dict[str, str]:
+    if not isinstance(item, dict):
+        item = {}
+    return {
+        "scenario": _text(item.get("scenario")),
+        "name": _text(item.get("name") or item.get("scenario_name")),
+        "basis": _text(item.get("basis")),
+        "etf_policy": _text(item.get("etf_policy")),
+        "stock_policy": _text(item.get("stock_policy")),
+        "stock_weight_range_pct": _format_weight_range(item.get("stock_weight_range_pct")),
+        "cash_or_defensive_weight": _text(item.get("cash_or_defensive_weight")),
+        "activation_condition": _text(item.get("activation_condition")),
+    }
+
+
+def _normalize_e_series_scenario_reference(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    rows: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        rows.append(
+            {
+                "scenario": _text(item.get("scenario")),
+                "scenario_name": _text(item.get("scenario_name") or item.get("name")),
+                "basis": _text(item.get("basis")),
+                "model": _text(item.get("e_series_model") or item.get("strategy_model_code")),
+                "as_of_date": _text(item.get("e_series_as_of_date") or item.get("as_of_date")),
+                "interpretation": _text(item.get("interpretation")),
+                "usage": _text(item.get("usage")),
+                "public_allowed": bool(item.get("public_recommendation_allowed")),
+            }
+        )
+    return rows
+
+
+def _normalize_scenario_summary(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    rows: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        decision_counts = item.get("decision_counts")
+        counts = []
+        if isinstance(decision_counts, dict):
+            counts = [
+                {"decision": _text(decision), "count": _number(count)}
+                for decision, count in decision_counts.items()
+            ]
+        rows.append(
+            {
+                "scenario": _text(item.get("scenario")),
+                "scenario_name": _text(item.get("scenario_name") or item.get("name")),
+                "basis": _text(item.get("basis")),
+                "decision_counts": counts,
+                "interpretation": _text(item.get("interpretation")),
+            }
+        )
+    return rows
+
+
+def _normalize_validation_scenarios(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    rows: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        rows.append(
+            {
+                "scenario": _text(item.get("scenario")),
+                "scenario_name": _text(item.get("scenario_name") or item.get("name")),
+                "checks": _normalize_text_list(item.get("checks")),
+            }
+        )
+    return rows
+
+
+def _normalize_final_portfolio_strategy(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        return None
+    return {
+        "step1_rating": _text(value.get("step1_rating")),
+        "step1_score": _number(value.get("step1_score"), 1),
+        "default_scenario": _normalize_scenario(value.get("default_scenario") or {}),
+        "conditional_scenario": _normalize_scenario(value.get("conditional_scenario") or {}),
+        "transition_conditions": _normalize_text_list(value.get("transition_conditions")),
+        "conclusion": _text(value.get("conclusion")),
+    }
+
+
+def _normalize_scenario_decisions(value: Any) -> dict[str, dict[str, str]]:
+    if not isinstance(value, list):
+        return {}
+    rows: dict[str, dict[str, str]] = {}
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        scenario = _text(item.get("scenario"), "").upper()
+        if scenario not in {"A", "B"}:
+            continue
+        rows[scenario] = {
+            "scenario_name": _text(item.get("scenario_name") or item.get("name")),
+            "decision": _text(item.get("decision")),
+            "max_weight_hint": _text(item.get("max_weight_hint")),
+            "activation_condition": _text(item.get("activation_condition")),
+            "reason": _text(item.get("reason"), ""),
+        }
+    return rows
+
+
+def _normalize_text_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [_text(item) for item in value if _text(item, "")]
+
+
+def _format_weight_range(value: Any) -> str:
+    text = _text(value, "")
+    if not text:
+        return "-"
+    return text if "%" in text else f"{text}%"
+
+
 def _normalize_step_details(value: Any) -> list[dict[str, Any]]:
     if not isinstance(value, list):
         return []
@@ -593,6 +776,7 @@ def _normalize_stock_candidates(
             or item.get("model_codes")
             or (selected_models_by_ticker or {}).get(ticker)
         )
+        scenario_decisions = _normalize_scenario_decisions(item.get("scenario_decisions"))
         model_display = override.get("model_display") or _format_stock_candidate_model_display(
             item.get("model_display"),
             item.get("model_display_codes"),
@@ -622,6 +806,9 @@ def _normalize_stock_candidates(
                     1,
                 ),
                 "summary": _text(item.get("qualitative_summary")),
+                "scenario_decisions": scenario_decisions,
+                "scenario_a": scenario_decisions.get("A", {}),
+                "scenario_b": scenario_decisions.get("B", {}),
             }
         )
     return rows

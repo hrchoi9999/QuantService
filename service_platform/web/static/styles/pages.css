@@ -1004,7 +1004,90 @@
 }
 
 .portfolio-table-wrap table {
-  min-width: 680px;
+  min-width: 1180px;
+}
+
+.portfolio-step1-table-wrap table {
+  min-width: 760px;
+}
+
+.portfolio-inline-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink-soft);
+}
+
+.portfolio-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.portfolio-scenario-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.portfolio-scenario-card h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.portfolio-definition-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.portfolio-definition-list div {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.portfolio-definition-list dt {
+  color: var(--ink-soft);
+  font-weight: 800;
+}
+
+.portfolio-definition-list dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.portfolio-scenario-reference-list {
+  display: grid;
+  gap: 12px;
+}
+
+.portfolio-scenario-reference-list article {
+  display: grid;
+  gap: 5px;
+}
+
+.portfolio-final-strategy {
+  display: grid;
+  gap: 14px;
+}
+
+.portfolio-stock-scenario-summary,
+.portfolio-validation-grid {
+  margin-bottom: 14px;
+}
+
+.portfolio-candidate-scenario-reason {
+  display: grid;
+  gap: 3px;
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 13px;
 }
 
 .portfolio-reference-note {
@@ -1320,7 +1403,8 @@
   .investment-portfolio-summary,
   .investment-portfolio-grid,
   .portfolio-step-detail-grid,
-  .portfolio-model-role-grid {
+  .portfolio-model-role-grid,
+  .portfolio-scenario-grid {
     grid-template-columns: 1fr;
   }
 

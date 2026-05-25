@@ -1,48 +1,48 @@
 {
   "market": "KR",
-  "asof": "2026-05-23T15:00:00+09:00",
+  "asof": "2026-05-25T20:00:00+09:00",
   "title": "자산군 상대강도",
   "description": "주요 자산군의 최근 상대 흐름을 비교해 현재 어떤 자산이 상대적으로 강한지 보여 줍니다.",
   "assets": [
     {
       "asset_group": "KOSPI",
       "ret_20d": 0.2227789561425393,
-      "strength_score": 1.6807,
+      "strength_score": 1.6818,
       "strength_rank": 1,
       "strength_label": "강함"
     },
     {
       "asset_group": "USDKRW",
-      "ret_20d": 0.03351644184804248,
-      "strength_score": 0.3266,
+      "ret_20d": 0.0329340105497391,
+      "strength_score": 0.3232,
       "strength_rank": 2,
       "strength_label": "중립"
     },
     {
       "asset_group": "BOND",
       "ret_20d": -0.007849166531801233,
-      "strength_score": 0.0306,
+      "strength_score": 0.0313,
       "strength_rank": 3,
       "strength_label": "중립"
     },
     {
       "asset_group": "KOSDAQ",
       "ret_20d": -0.016924605727626885,
-      "strength_score": -0.0344,
+      "strength_score": -0.0337,
       "strength_rank": 4,
       "strength_label": "중립"
     },
     {
       "asset_group": "GOLD",
       "ret_20d": -0.050414905276342625,
-      "strength_score": -0.274,
+      "strength_score": -0.2733,
       "strength_rank": 5,
       "strength_label": "중립"
     },
     {
       "asset_group": "INVERSE",
       "ret_20d": -0.25384615384615383,
-      "strength_score": -1.7295,
+      "strength_score": -1.7292,
       "strength_rank": 6,
       "strength_label": "약함"
     }
@@ -51,14 +51,14 @@
     {
       "asset_group": "KOSPI",
       "ret_20d": 0.2227789561425393,
-      "strength_score": 1.6807,
+      "strength_score": 1.6818,
       "strength_rank": 1,
       "strength_label": "강함"
     },
     {
       "asset_group": "USDKRW",
-      "ret_20d": 0.03351644184804248,
-      "strength_score": 0.3266,
+      "ret_20d": 0.0329340105497391,
+      "strength_score": 0.3232,
       "strength_rank": 2,
       "strength_label": "중립"
     }
@@ -67,14 +67,14 @@
     {
       "asset_group": "INVERSE",
       "ret_20d": -0.25384615384615383,
-      "strength_score": -1.7295,
+      "strength_score": -1.7292,
       "strength_rank": 6,
       "strength_label": "약함"
     },
     {
       "asset_group": "GOLD",
       "ret_20d": -0.050414905276342625,
-      "strength_score": -0.274,
+      "strength_score": -0.2733,
       "strength_rank": 5,
       "strength_label": "중립"
     }

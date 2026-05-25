@@ -1,25 +1,25 @@
 {
   "page": "투자 포트폴리오",
-  "as_of_date": "2026-05-22",
-  "generated_at": "2026-05-23T14:35:53.879+09:00",
-  "run_session": "afternoon",
+  "as_of_date": "2026-05-25",
+  "generated_at": "2026-05-25T19:53:26.069+09:00",
+  "run_session": "after_close",
   "source_thread": "QuantAnalysis",
   "publishing_rule": "redbot.co.kr 반영은 QuantService 작업요청서를 통해서만 수행",
   "market_risk": {
-    "rating": "Neutral Watch",
-    "asof": "2026-05-23T14:00:00+09:00",
-    "generated_at": "2026-05-23T14:05:04+09:00",
+    "rating": "4등급 중립 상단",
+    "asof": "2026-05-22T18:00:00+09:00",
+    "generated_at": "2026-05-25T18:05:07+09:00",
     "direction_label": "강세",
     "direction_score": 2.1858,
     "breadth_score": 3.0,
-    "risk_score": -0.1317,
-    "total_score": 1.7693,
-    "summary": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다.",
+    "risk_score": -0.1181,
+    "total_score": 1.7727,
+    "summary": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다.",
     "breadth": [
       {
         "market": "KR",
-        "asof": "2026-05-23T14:00:00+09:00",
-        "session_date": "2026-05-23",
+        "asof": "2026-05-25T18:00:00+09:00",
+        "session_date": "2026-05-25",
         "universe_code": "KOSDAQ",
         "advancers": 1460,
         "decliners": 215,
@@ -28,12 +28,12 @@
         "positive_ratio": 0.8013172338090011,
         "source": "naver:sise_market_sum:1:37pages",
         "is_fallback": 0,
-        "created_at": "2026-05-23T14:05:07+09:00"
+        "created_at": "2026-05-25T18:05:11+09:00"
       },
       {
         "market": "KR",
-        "asof": "2026-05-23T14:00:00+09:00",
-        "session_date": "2026-05-23",
+        "asof": "2026-05-25T18:00:00+09:00",
+        "session_date": "2026-05-25",
         "universe_code": "KOSPI",
         "advancers": 1948,
         "decliners": 373,
@@ -42,27 +42,150 @@
         "positive_ratio": 0.7951020408163265,
         "source": "naver:sise_market_sum:0:49pages",
         "is_fallback": 0,
-        "created_at": "2026-05-23T14:05:07+09:00"
+        "created_at": "2026-05-25T18:05:11+09:00"
       }
     ],
     "flows": [],
-    "action": "주식 추격매수보다 ETF/현금/방어자산 우선. 주식은 선별 관찰과 소액 분할만 검토."
+    "action": "중립 관찰 구간이다. 주식은 선별 관찰과 소액 분할만 검토한다.",
+    "legacy_rating": "Constructive Watch",
+    "step1_v2": {
+      "logic_version": "step1_v2_6grade_20260525",
+      "requested_asof_date": "2026-05-25",
+      "effective_date": "2026-05-22",
+      "effective_asof": "2026-05-22T18:00:00+09:00",
+      "legacy_rating": "Constructive Watch",
+      "legacy_total_score": 1.7727,
+      "legacy_risk_score": -0.1181,
+      "score": 63.0,
+      "grade": 4,
+      "label": "중립",
+      "display_rating": "4등급 중립 상단",
+      "is_boundary": true,
+      "adjacent_grade": 5,
+      "adjacent_label": "우호적 관찰",
+      "boundary_position": "상단 경계",
+      "boundary_reason": "방향성과 확산력은 5등급에 가깝지만 수급 또는 리스크가 약해 4등급 상단으로 분류",
+      "axes": [
+        {
+          "axis": "시장 방향성",
+          "score": 18.0,
+          "max_score": 20,
+          "reasons": [
+            "KOSPI 0.41%, KOSDAQ 9.95%",
+            "KOSPI 20일 22.34%, KOSDAQ 20일 -6.2%",
+            "선물 0.01%"
+          ]
+        },
+        {
+          "axis": "시장 확산력",
+          "score": 14,
+          "max_score": 20,
+          "reasons": [
+            "상승종목 평균비율 79.82%",
+            "20일선 위 25.77%, 60일선 위 44.33%",
+            "신고가 19, 신저가 9"
+          ]
+        },
+        {
+          "axis": "수급",
+          "score": 5,
+          "max_score": 20,
+          "reasons": [
+            "외국인 -19,221억원, 기관 7,583억원",
+            "프로그램 전체 -23,256억원",
+            "선물 수급은 가격 방향만 참고하고 투자주체별 수급은 추가 데이터가 필요함"
+          ]
+        },
+        {
+          "axis": "변동성/리스크",
+          "score": 6,
+          "max_score": 20,
+          "reasons": [
+            "원달러 당일 0.71%, 20일 1.86%",
+            "국고3년 20일 변화 0.37%p, 20일 변동성 3.23%",
+            "글로벌 이벤트/유가/금리 뉴스 경계 신호 존재"
+          ]
+        },
+        {
+          "axis": "시장 스타일",
+          "score": 10,
+          "max_score": 10,
+          "reasons": [
+            "KOSDAQ 9.95% vs KOSPI 0.41%",
+            "중소형/성장 위험선호가 회복됐지만 수급 확인이 필요함"
+          ]
+        },
+        {
+          "axis": "데이터 신뢰도",
+          "score": 10,
+          "max_score": 10,
+          "reasons": [
+            "2026-05-25 휴장/비거래일로 판단해 마지막 거래일 2026-05-22 기준으로 평가",
+            "마지막 거래일 외국인/기관/프로그램 수급 데이터 확인"
+          ]
+        }
+      ]
+    }
   },
   "market_news_context": {
-    "fetched_at": "2026-05-23T14:05:04+09:00",
+    "fetched_at": "2026-05-25T18:05:07+09:00",
     "caution_bias": true,
     "risk_headlines": [
+      "이란 평화 협상 기대감에 미국 증시 선물 급등, 유가 하락 - Investing.com 한국어",
+      "트럼프 이란과 전격 합의하나…유가·환율 흔드는 '슈퍼위크' 열린다 - ebn.co.kr",
+      "호르무즈 해협 다시 열리나 … 유가 내리고 증시선물 오르고 '기대감 확산' - 뉴데일리 경제",
       "미·이란 평화협상 불확실성 속 세계 증시 상승세…유가도 반등 - VOA 한국어 홈페이지",
-      "유가·국채금리 진정에 뉴욕증시 상승[뉴욕 is] - MTN 머니투데이방송",
-      "뉴욕증시, 이란戰 종전 기대감 고조에 또 최고치 경신 행진 - 글로벌경제신문",
-      "[속보]유가·국채금리 하락에 뉴욕증시↑…“이란 전쟁 곧 끝날 것” 기대 - 이데일리",
       "코스피, 577.96 포인트 '출렁' 역대 두번째 변동성…삼전·SK하닉, 외국인·개인 수급 전쟁 - v.daum.net"
     ],
-    "snapshot_source": "latest_market_context"
+    "snapshot_source": "historical_portfolio_snapshot"
   },
   "etf_strategy": {
     "selected_model": "S6_DEFENSIVE_V1",
-    "reason": "시장 확산력 약화, 외국인 순매도, 프로그램 매도 우위로 위험자산 노출을 낮추는 방어형 ETF 모델이 적합.",
+    "reason": "STEP1이 등급 경계 구간이므로 S6 방어 배분을 기본안으로 두고, 수급 개선 시 조건부 주식 편입안을 함께 제시한다.",
+    "portfolio_scenarios": [
+      {
+        "scenario": "A",
+        "name": "보수안",
+        "basis": "4등급 중립 상단",
+        "etf_policy": "S6_DEFENSIVE_V1 중심 유지",
+        "stock_policy": "주식 후보는 관찰/소액분할 중심",
+        "stock_weight_range_pct": "10~20",
+        "cash_or_defensive_weight": "높게 유지",
+        "activation_condition": "기본 적용"
+      },
+      {
+        "scenario": "B",
+        "name": "조건부 공격안",
+        "basis": "5등급 우호적 관찰 하단",
+        "etf_policy": "S6 유지 + 성장/모멘텀 노출 일부 허용",
+        "stock_policy": "수급 개선 종목부터 단계적 편입",
+        "stock_weight_range_pct": "20~35",
+        "cash_or_defensive_weight": "일부 축소",
+        "activation_condition": "외국인/프로그램 매도 완화 또는 기관·외국인 동시 개선 확인"
+      }
+    ],
+    "e_series_scenario_reference": [
+      {
+        "scenario": "A",
+        "scenario_name": "보수안",
+        "basis": "4등급 중립 상단",
+        "e_series_model": "E-ETF-V01",
+        "e_series_as_of_date": "2026-05-15",
+        "interpretation": "E-series는 S6 방어 배분을 대체하지 않고 ETF 전략 참고 신호로만 사용한다.",
+        "usage": "보수안에서는 S6를 우선하고 E-series는 편입 확대 근거로 쓰지 않는다.",
+        "public_recommendation_allowed": false
+      },
+      {
+        "scenario": "B",
+        "scenario_name": "조건부 공격안",
+        "basis": "5등급 우호적 관찰 하단",
+        "e_series_model": "E-ETF-V01",
+        "e_series_as_of_date": "2026-05-15",
+        "interpretation": "E-series 신호가 성장/모멘텀 ETF와 같은 방향일 때 조건부 공격안의 보조 근거로 사용한다.",
+        "usage": "조건부 공격안에서는 E-series가 위험선호 회복을 확인할 때 ETF 노출 조정 참고자료로 쓴다.",
+        "public_recommendation_allowed": false
+      }
+    ],
     "s6_allocation": {
       "source_file": "D:\\Quant\\reports\\backtest_etf_allocation\\s6_alloc_weights_20260522_M_20230608_20260522.csv",
       "rebalance_date": "2026-05-22",
@@ -133,18 +256,59 @@
     }
   },
   "stock_strategy": {
-    "exposure_guidance": "오늘 주식 비중은 0% 고정이 아니라 최대 10~20% 이내 관찰/소액 분할 검토.",
+    "exposure_guidance": "기본안은 주식 10~20% 이내 제한, 조건부안은 수급 개선 확인 시 20~35%까지 단계적 편입 검토.",
     "execution_rule": "외국인 매도와 당일 급락/급등 종목은 추격 금지. 기관/외국인 수급이 동시 개선되는 종목만 후보 유지.",
+    "scenario_summary": [
+      {
+        "scenario": "A",
+        "scenario_name": "보수안",
+        "basis": "4등급 중립 상단",
+        "decision_counts": {
+          "보류/관찰": 8,
+          "소액/관찰": 2
+        },
+        "interpretation": "보수안은 후보 유지와 제한 비중 관리가 핵심이다."
+      },
+      {
+        "scenario": "B",
+        "scenario_name": "조건부 공격안",
+        "basis": "5등급 우호적 관찰 하단",
+        "decision_counts": {
+          "조건부 소액검토": 5,
+          "조건부 관찰": 3,
+          "추격 보류": 2
+        },
+        "interpretation": "조건부 공격안은 수급 개선 종목부터 단계적으로 편입한다."
+      }
+    ],
+    "validation_scenarios": [
+      {
+        "scenario": "A",
+        "scenario_name": "보수안",
+        "checks": [
+          "외국인/프로그램 매도가 지속되면 신규 편입을 보류한다.",
+          "급등 종목은 추격하지 않고 가격 안정 후 재점검한다.",
+          "소액 후보도 종목별 손실 제한 기준을 둔다."
+        ]
+      },
+      {
+        "scenario": "B",
+        "scenario_name": "조건부 공격안",
+        "checks": [
+          "외국인 매도 완화 또는 기관·외국인 동시 개선을 확인한다.",
+          "KOSDAQ 강세가 후보 종목 수급으로 확산되는지 확인한다.",
+          "환율과 금리 부담이 완화될 때만 주식 비중을 늘린다."
+        ]
+      }
+    ],
     "live_data": {
-      "status": "not_loaded",
-      "source": null,
-      "asof_date": "2026-05-22",
-      "fetched_at": "2026-05-23T14:35:53.792+09:00",
-      "success_count": null,
-      "error_count": null,
-      "errors": [
-        "HTTPSConnectionPool(host='api.kiwoom.com', port=443): Max retries exceeded with url: /oauth2/token (Caused by NewConnectionError(\"HTTPSConnection(host='api.kiwoom.com', port=443): Failed to establish a new connection: [WinError 10013] 액세스 권한에 의해 숨겨진 소켓에 액세스를 시도했습니다\"))"
-      ]
+      "status": "ok",
+      "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+      "asof_date": "2026-05-25",
+      "fetched_at": "2026-05-25T19:53:00.710+09:00",
+      "success_count": 10,
+      "error_count": 0,
+      "errors": []
     },
     "candidates": [
       {
@@ -173,7 +337,37 @@
         "market_cap": 145378013860000,
         "return_from_selection_pct": -1.41,
         "holding_days": 2,
-        "qualitative_summary": "완성차, 전기차, 하이브리드, SDV 전환 역량은 긍정적이나 글로벌 수요와 경쟁 심화가 부담."
+        "qualitative_summary": "완성차, 전기차, 하이브리드, SDV 전환 역량은 긍정적이나 글로벌 수요와 경쟁 심화가 부담.",
+        "live_quote": {
+          "price": 655000,
+          "change_pct": -1.65,
+          "foreign_net_억원": -1161.3,
+          "institution_net_억원": 474.1,
+          "individual_net_억원": 672.3,
+          "pension_net_억원": 145.6,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -687.2억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 소액검토",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "외국인 매도 완화 또는 기관 매수 지속",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -687.2억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "012330",
@@ -201,7 +395,37 @@
         "market_cap": 58885446367000,
         "return_from_selection_pct": -3.08,
         "holding_days": 2,
-        "qualitative_summary": "모듈, 전동화, 자율주행 부품 경쟁력이 있으나 완성차 업황과 투자비 부담에 민감."
+        "qualitative_summary": "모듈, 전동화, 자율주행 부품 경쟁력이 있으나 완성차 업황과 투자비 부담에 민감.",
+        "live_quote": {
+          "price": 646000,
+          "change_pct": -3.58,
+          "foreign_net_억원": -2479.1,
+          "institution_net_억원": 469.1,
+          "individual_net_억원": 1826.3,
+          "pension_net_억원": 190.3,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -2,010억원, 가격상태 volatile"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 소액검토",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "외국인 매도 완화 또는 기관 매수 지속",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -2,010억원, 가격상태 volatile"
+          }
+        ]
       },
       {
         "ticker": "005490",
@@ -226,7 +450,37 @@
         "market_cap": 37917070669500,
         "return_from_selection_pct": -2.3,
         "holding_days": 2,
-        "qualitative_summary": "철강과 2차전지 소재 전환을 병행하나 철강 경기와 배터리 소재 가격 변동성이 핵심 리스크."
+        "qualitative_summary": "철강과 2차전지 소재 전환을 병행하나 철강 경기와 배터리 소재 가격 변동성이 핵심 리스크.",
+        "live_quote": {
+          "price": 447500,
+          "change_pct": 0.9,
+          "foreign_net_억원": -350.8,
+          "institution_net_억원": 61.1,
+          "individual_net_억원": 279.7,
+          "pension_net_억원": -18.7,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "소액/관찰",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "기본안 내 제한 편입 가능",
+            "reason": "모델 2개, 수급상태 mixed, 순수급 -289.7억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 소액검토",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "외국인 매도 완화 또는 기관 매수 지속",
+            "reason": "모델 2개, 수급상태 mixed, 순수급 -289.7억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "017670",
@@ -251,7 +505,37 @@
         "market_cap": 22724787607400,
         "return_from_selection_pct": -4.25,
         "holding_days": 2,
-        "qualitative_summary": "통신 방어주 성격과 AI, 데이터센터, 클라우드 확장이 강점. 요금 규제와 경쟁은 부담."
+        "qualitative_summary": "통신 방어주 성격과 AI, 데이터센터, 클라우드 확장이 강점. 요금 규제와 경쟁은 부담.",
+        "live_quote": {
+          "price": 102800,
+          "change_pct": 0,
+          "foreign_net_억원": -585.8,
+          "institution_net_억원": -40.1,
+          "individual_net_억원": 610.2,
+          "pension_net_억원": 0.9,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "소액/관찰",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "기본안 내 제한 편입 가능",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -625.9억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 소액검토",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "외국인 매도 완화 또는 기관 매수 지속",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -625.9억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "047040",
@@ -276,7 +560,37 @@
         "market_cap": 11895776120100,
         "return_from_selection_pct": -1.55,
         "holding_days": 2,
-        "qualitative_summary": "주택, 토목, 해외 플랜트 회복이 관건. 금리, 원가, 부동산 경기 둔화 리스크가 큼."
+        "qualitative_summary": "주택, 토목, 해외 플랜트 회복이 관건. 금리, 원가, 부동산 경기 둔화 리스크가 큼.",
+        "live_quote": {
+          "price": 28550,
+          "change_pct": 0.71,
+          "foreign_net_억원": -304.6,
+          "institution_net_억원": -30.7,
+          "individual_net_억원": 376.5,
+          "pension_net_억원": -37.4,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -335.3억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 소액검토",
+            "max_weight_hint": "1~3%",
+            "activation_condition": "외국인 매도 완화 또는 기관 매수 지속",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -335.3억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "000660",
@@ -304,7 +618,37 @@
         "market_cap": 1408299873240000,
         "return_from_selection_pct": -7.95,
         "holding_days": 2,
-        "qualitative_summary": "HBM과 AI 서버 메모리 수혜가 크지만 메모리 사이클, 설비투자, 경쟁 리스크가 높음."
+        "qualitative_summary": "HBM과 AI 서버 메모리 수혜가 크지만 메모리 사이클, 설비투자, 경쟁 리스크가 높음.",
+        "live_quote": {
+          "price": 1941000,
+          "change_pct": 0.05,
+          "foreign_net_억원": -3055.0,
+          "institution_net_억원": 2974.7,
+          "individual_net_억원": 0.8,
+          "pension_net_억원": 50.3,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -80.3억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 관찰",
+            "max_weight_hint": "0~2%",
+            "activation_condition": "급등 없이 수급 개선 확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -80.3억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "005930",
@@ -330,7 +674,37 @@
         "market_cap": 1660343124672000,
         "return_from_selection_pct": -4.75,
         "holding_days": 2,
-        "qualitative_summary": "메모리, 파운드리, 모바일, 가전 포트폴리오가 넓으나 반도체 경쟁과 글로벌 수요가 변수."
+        "qualitative_summary": "메모리, 파운드리, 모바일, 가전 포트폴리오가 넓으나 반도체 경쟁과 글로벌 수요가 변수.",
+        "live_quote": {
+          "price": 292500,
+          "change_pct": -2.34,
+          "foreign_net_억원": -10109.6,
+          "institution_net_억원": -893.3,
+          "individual_net_억원": 10603.9,
+          "pension_net_억원": -176.4,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -11,002.9억원, 가격상태 volatile"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "추격 보류",
+            "max_weight_hint": "0%",
+            "activation_condition": "가격 과열/수급 부담 해소 필요",
+            "reason": "모델 2개, 수급상태 negative, 순수급 -11,002.9억원, 가격상태 volatile"
+          }
+        ]
       },
       {
         "ticker": "066570",
@@ -358,7 +732,37 @@
         "market_cap": 31176454471800,
         "return_from_selection_pct": 25.65,
         "holding_days": 2,
-        "qualitative_summary": "가전, TV, 전장, B2B 전환이 강점이나 단기 급등 후 수요 둔화와 차익실현 부담이 큼."
+        "qualitative_summary": "가전, TV, 전장, B2B 전환이 강점이나 단기 급등 후 수요 둔화와 차익실현 부담이 큼.",
+        "live_quote": {
+          "price": 237000,
+          "change_pct": 0.85,
+          "foreign_net_억원": -1406.2,
+          "institution_net_억원": 469.2,
+          "individual_net_억원": 829.7,
+          "pension_net_억원": 48.9,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -937억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 관찰",
+            "max_weight_hint": "0~2%",
+            "activation_condition": "급등 없이 수급 개선 확인",
+            "reason": "모델 3개, 수급상태 mixed, 순수급 -937억원, 가격상태 stable"
+          }
+        ]
       },
       {
         "ticker": "003550",
@@ -383,7 +787,37 @@
         "market_cap": 16763886289500,
         "return_from_selection_pct": 15.92,
         "holding_days": 2,
-        "qualitative_summary": "지주회사로 계열사 가치와 신사업 투자 성과가 핵심. 할인율과 자회사 변동성에 영향."
+        "qualitative_summary": "지주회사로 계열사 가치와 신사업 투자 성과가 핵심. 할인율과 자회사 변동성에 영향.",
+        "live_quote": {
+          "price": 118500,
+          "change_pct": -3.66,
+          "foreign_net_억원": -128.0,
+          "institution_net_억원": 255.6,
+          "individual_net_억원": -129.4,
+          "pension_net_억원": 193.3,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 2개, 수급상태 mixed_positive, 순수급 127.6억원, 가격상태 volatile"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "추격 보류",
+            "max_weight_hint": "0%",
+            "activation_condition": "가격 과열/수급 부담 해소 필요",
+            "reason": "모델 2개, 수급상태 mixed_positive, 순수급 127.6억원, 가격상태 volatile"
+          }
+        ]
       },
       {
         "ticker": "402340",
@@ -408,7 +842,37 @@
         "market_cap": 157030479340000,
         "return_from_selection_pct": -7.73,
         "holding_days": 2,
-        "qualitative_summary": "SK하이닉스와 ICT 투자자산 가치에 연동. 하이닉스 변동성과 투자자산 재평가가 핵심 변수."
+        "qualitative_summary": "SK하이닉스와 ICT 투자자산 가치에 연동. 하이닉스 변동성과 투자자산 재평가가 핵심 변수.",
+        "live_quote": {
+          "price": 1185000,
+          "change_pct": 0.51,
+          "foreign_net_억원": 22.6,
+          "institution_net_억원": 602.6,
+          "individual_net_억원": -625.0,
+          "pension_net_억원": 15.4,
+          "flow_date": "20260522",
+          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+          "asof_date": "2026-05-25",
+          "fetched_at": "2026-05-25T19:53:00.710+09:00"
+        },
+        "scenario_decisions": [
+          {
+            "scenario": "A",
+            "scenario_name": "보수안",
+            "decision": "보류/관찰",
+            "max_weight_hint": "0%",
+            "activation_condition": "수급과 가격 안정 재확인",
+            "reason": "모델 2개, 수급상태 positive, 순수급 625.2억원, 가격상태 stable"
+          },
+          {
+            "scenario": "B",
+            "scenario_name": "조건부 공격안",
+            "decision": "조건부 관찰",
+            "max_weight_hint": "0~2%",
+            "activation_condition": "급등 없이 수급 개선 확인",
+            "reason": "모델 2개, 수급상태 positive, 순수급 625.2억원, 가격상태 stable"
+          }
+        ]
       }
     ]
   },
@@ -416,12 +880,12 @@
     {
       "step": 1,
       "name": "시장 위험 판단",
-      "result": "Neutral Watch"
+      "result": "4등급 중립 상단"
     },
     {
       "step": 2,
       "name": "ETF 전략 선택",
-      "result": "S6_DEFENSIVE_V1 우선"
+      "result": "보수안 기본 + 조건부 공격안 병행"
     },
     {
       "step": 3,
@@ -441,33 +905,54 @@
     {
       "step": 6,
       "name": "최종 포트폴리오 판단",
-      "result": "ETF 방어 배분 중심, 주식은 제한 비중"
+      "result": "보수안 기본 + 조건부 공격안 병행"
     }
   ],
   "step_details": [
     {
       "step": 1,
       "title": "시장 위험 판단",
-      "summary": "시장 전체가 상승 종목보다 하락 종목이 훨씬 많고, 외국인과 프로그램 매도 압력이 강해 방어적 판단을 우선했다.",
+      "summary": "시장판단은 4등급 중립 상단이다. 등급 경계 구간이므로 보수안과 조건부 공격안을 함께 검토한다.",
       "details": [
-        "시장판단은 Neutral Watch이다.",
-        "시장 방향은 강세, 총점은 1.7693, 위험점수는 -0.1317이다.",
+        "시장판단은 4등급 중립 상단이다.",
+        "STEP1 v2 점수는 63.0점, 기준 시점은 2026-05-22T18:00:00+09:00이다.",
+        "기존 판단은 Constructive Watch였다.",
+        "시장 방향성: 18.0/20점",
+        "시장 방향성 근거: KOSPI 0.41%, KOSDAQ 9.95%",
+        "시장 방향성 근거: KOSPI 20일 22.34%, KOSDAQ 20일 -6.2%",
+        "시장 확산력: 14/20점",
+        "시장 확산력 근거: 상승종목 평균비율 79.82%",
+        "시장 확산력 근거: 20일선 위 25.77%, 60일선 위 44.33%",
+        "수급: 5/20점",
+        "수급 근거: 외국인 -19,221억원, 기관 7,583억원",
+        "수급 근거: 프로그램 전체 -23,256억원",
+        "변동성/리스크: 6/20점",
+        "변동성/리스크 근거: 원달러 당일 0.71%, 20일 1.86%",
+        "변동성/리스크 근거: 국고3년 20일 변화 0.37%p, 20일 변동성 3.23%",
+        "시장 스타일: 10/10점",
+        "시장 스타일 근거: KOSDAQ 9.95% vs KOSPI 0.41%",
+        "시장 스타일 근거: 중소형/성장 위험선호가 회복됐지만 수급 확인이 필요함",
+        "데이터 신뢰도: 10/10점",
+        "데이터 신뢰도 근거: 2026-05-25 휴장/비거래일로 판단해 마지막 거래일 2026-05-22 기준으로 평가",
+        "데이터 신뢰도 근거: 마지막 거래일 외국인/기관/프로그램 수급 데이터 확인",
         "KOSDAQ: 상승 1460 / 하락 215 / 상승비율 80.1%",
         "KOSPI: 상승 1948 / 하락 373 / 상승비율 79.5%",
         "중동, 유가, 금리, 반도체 변동성 관련 뉴스가 리스크 요인으로 반영됐다."
       ],
-      "conclusion": "오늘은 공격적 주식 매수보다 방어형 자산과 현금성 자산을 우선한다."
+      "conclusion": "기본은 4등급 중립 상단 기준 보수안이며, 수급 개선 시 5등급 우호적 관찰 기준 조건부 포트폴리오로 전환한다."
     },
     {
       "step": 2,
       "title": "ETF 전략 선택",
-      "summary": "시장 위험이 높은 구간이므로 위험자산 편입을 줄이고 방어형 ETF 모델인 S6를 우선 적용했다.",
+      "summary": "STEP1이 경계 구간이므로 S6 중심 보수안과 주식 일부 편입 조건부안을 동시에 제시했다.",
       "details": [
         "S6 최신 리밸런싱 기준일은 2026-05-22이다.",
         "현금성/단기채 성격 비중은 약 47.0%, 달러/금/인버스/장기채 방어 비중은 약 53.0%이다.",
+        "A안 보수안: 4등급 중립 상단 / 주식 10~20% / 기본 적용",
+        "B안 조건부 공격안: 5등급 우호적 관찰 하단 / 주식 20~35% / 외국인/프로그램 매도 완화 또는 기관·외국인 동시 개선 확인",
         "구성은 단기금리, 달러채권, 금, 인버스, 장기채, 현금으로 분산되어 있다."
       ],
-      "conclusion": "포트폴리오의 중심은 S6 방어 배분으로 두는 것이 합리적이다."
+      "conclusion": "S6를 기본축으로 유지하되 수급 개선 여부에 따라 주식 편입안을 병행 검토한다."
     },
     {
       "step": 3,
@@ -477,9 +962,11 @@
         "E-series 기준일은 2026-05-15이다.",
         "운영 후보 정책은 mode_switch_buffer_70_base이다.",
         "공개 추천 허용 여부는 False이다.",
+        "A안 보수안: 보수안에서는 S6를 우선하고 E-series는 편입 확대 근거로 쓰지 않는다.",
+        "B안 조건부 공격안: 조건부 공격안에서는 E-series가 위험선호 회복을 확인할 때 ETF 노출 조정 참고자료로 쓴다.",
         "따라서 S6 실행 판단을 대체하지 않고 ETF 전략 검증 참고자료로만 사용한다."
       ],
-      "conclusion": "현재 페이지에서는 E-series를 보조 판단 근거로만 표시한다."
+      "conclusion": "E-series는 A안에서는 방어 유지 확인용, B안에서는 ETF 노출 확대 보조 확인용으로 분리해 사용한다."
     },
     {
       "step": 4,
@@ -488,39 +975,76 @@
       "details": [
         "S2/S3/T/I 계열 중복 선정 종목을 우선 점검했다.",
         "현대차, 현대모비스, POSCO홀딩스, SK텔레콤, 대우건설은 핵심 후보군으로 분류했다.",
-        "SK하이닉스, 삼성전자, LG전자, LG, SK스퀘어는 관심은 높지만 추격매수 제한 그룹으로 분류했다."
+        "SK하이닉스, 삼성전자, LG전자, LG, SK스퀘어는 관심은 높지만 추격매수 제한 그룹으로 분류했다.",
+        "A안 보수안: 보류/관찰 8개, 소액/관찰 2개",
+        "B안 조건부 공격안: 조건부 소액검토 5개, 조건부 관찰 3개, 추격 보류 2개"
       ],
-      "conclusion": "주식 후보는 유지하되 오늘 전체 주식 비중은 최대 10~20% 이내로 제한한다."
+      "conclusion": "주식 후보는 유지하되 기본안에서는 제한 비중, 조건부안에서는 수급 개선 종목부터 단계적 편입한다."
     },
     {
       "step": 5,
       "title": "정성 분석과 최신 수급 확인",
       "summary": "정성적 사업 전망과 최신 가격/수급을 함께 확인해 단기 매수 가능성과 위험을 분리했다.",
       "details": [
-        "최신 수급 데이터 상태는 not_loaded, 원천은 None이다.",
+        "최신 수급 데이터 상태는 ok, 원천은 kiwoom_rest_ka10001+kiwoom_rest_ka10059이다.",
         "보류 판단 종목은 6개, 관찰 판단 종목은 4개, 소액 검토 종목은 2개이다.",
         "외국인 매도가 큰 대형주는 모델 선정 여부와 무관하게 추격매수를 제한했다.",
-        "POSCO홀딩스와 SK텔레콤처럼 가격 변동이 작고 수급 부담이 낮은 종목만 소액/관찰 후보로 남겼다."
+        "POSCO홀딩스와 SK텔레콤처럼 가격 변동이 작고 수급 부담이 낮은 종목만 소액/관찰 후보로 남겼다.",
+        "A안 검증: 외국인/프로그램 매도가 지속되면 신규 편입을 보류한다. / 급등 종목은 추격하지 않고 가격 안정 후 재점검한다. / 소액 후보도 종목별 손실 제한 기준을 둔다.",
+        "B안 검증: 외국인 매도 완화 또는 기관·외국인 동시 개선을 확인한다. / KOSDAQ 강세가 후보 종목 수급으로 확산되는지 확인한다. / 환율과 금리 부담이 완화될 때만 주식 비중을 늘린다."
       ],
-      "conclusion": "정성적으로 좋아도 당일 수급과 가격이 불리하면 매수 판단을 보류한다."
+      "conclusion": "정성적으로 좋아도 A안/B안별 수급, 가격, 리스크 조건을 통과해야 실행 후보로 남긴다."
     },
     {
       "step": 6,
       "title": "최종 포트폴리오 판단",
-      "summary": "시장 위험, ETF 모델, 주식 후보, 수급 확인을 종합하면 오늘은 방어형 ETF 중심 포트폴리오가 결론이다.",
+      "summary": "시장 방향성과 확산력은 우호적이나 수급과 리스크가 엇갈려 보수안과 조건부 공격안을 함께 제시하는 것이 결론이다.",
       "details": [
-        "ETF는 S6 방어 배분을 중심으로 한다.",
+        "ETF는 S6 기준 배분을 기본안으로 두고, 주식은 조건부 편입안으로 별도 관리한다.",
         "주식은 0% 고정은 아니지만 신규 편입은 제한적으로만 검토한다.",
         "추격매수 보류 종목은 관심 목록에 남기되 매수 실행 종목으로 표시하지 않는다.",
-        "시장 확산력과 외국인 수급이 개선되면 주식 비중 확대 여부를 다시 판단한다."
+        "시장 확산력과 외국인 수급이 개선되면 주식 비중 확대 여부를 다시 판단한다.",
+        "기본안은 보수안이며 주식 비중은 10~20% 범위다.",
+        "조건부안은 조건부 공격안이며 전환조건은 외국인/프로그램 매도 완화 / 기관 매수 유지 또는 외국인·기관 동시 개선 / 후보 종목의 가격 과열 완화 / 환율/금리 리스크 완화이다."
       ],
-      "conclusion": "최종 결론은 ETF 방어 배분 우선, 주식은 관찰/소액 분할 검토이다."
+      "conclusion": "최종 결론은 보수안을 기본 포트폴리오로 채택하고, 외국인/프로그램 수급 개선 시 조건부 공격안으로 전환하는 것이다."
     }
   ],
+  "final_portfolio_strategy": {
+    "step1_rating": "4등급 중립 상단",
+    "step1_score": 63.0,
+    "default_scenario": {
+      "scenario": "A",
+      "name": "보수안",
+      "basis": "4등급 중립 상단",
+      "etf_policy": "S6_DEFENSIVE_V1 중심 유지",
+      "stock_policy": "주식 후보는 관찰/소액분할 중심",
+      "stock_weight_range_pct": "10~20",
+      "cash_or_defensive_weight": "높게 유지",
+      "activation_condition": "기본 적용"
+    },
+    "conditional_scenario": {
+      "scenario": "B",
+      "name": "조건부 공격안",
+      "basis": "5등급 우호적 관찰 하단",
+      "etf_policy": "S6 유지 + 성장/모멘텀 노출 일부 허용",
+      "stock_policy": "수급 개선 종목부터 단계적 편입",
+      "stock_weight_range_pct": "20~35",
+      "cash_or_defensive_weight": "일부 축소",
+      "activation_condition": "외국인/프로그램 매도 완화 또는 기관·외국인 동시 개선 확인"
+    },
+    "transition_conditions": [
+      "외국인/프로그램 매도 완화",
+      "기관 매수 유지 또는 외국인·기관 동시 개선",
+      "후보 종목의 가격 과열 완화",
+      "환율/금리 리스크 완화"
+    ],
+    "conclusion": "최종 결론은 보수안을 기본 포트폴리오로 채택하고, 외국인/프로그램 수급 개선 시 조건부 공격안으로 전환하는 것이다."
+  },
   "model_concentration_explanation": {
-    "section_title": "왜 S2_PIT_V01, S2, I-STOCK-STRONG-RSI-V01, S3_CORE2 후보가 많이 나왔나",
+    "section_title": "시장 강세 속 대형 우량주 포착과 신중한 접근",
     "placement": "단계별 상세 설명 다음, ETF 전략 섹션 이전",
-    "summary": "오늘 후보 10개 중 가장 많이 등장한 모델은 S2_PIT_V01이며, 후보의 100.0%에 포함됐다. 이는 해당 모델의 신호가 오늘 후보군 형성에 큰 영향을 줬다는 뜻이다.",
+    "summary": "현재 국내 증시는 광범위한 강세 흐름을 보이며 시장 전반의 긍정적인 분위기가 감지됩니다. REDBOT 퀀트 모델들은 이러한 시장 속에서 펀더멘털이 견고한 대형 우량주들을 다수 선별했습니다. 그러나 동시에 외부 불확실성과 변동성 요인이 상존하며, 모델들은 선별된 종목들에 대해 대체로 신중한 의사결정을 내리고 있습니다.",
     "model_roles": [
       {
         "model": "S2_PIT_V01",
@@ -552,16 +1076,16 @@
       }
     ],
     "why_now": [
-      "시장판단이 Neutral Watch이므로 모델 분포는 위험자산 선호와 방어 신호를 함께 확인하는 방식으로 해석한다.",
-      "가격 강도 모델과 펀더멘털 모델이 동시에 많이 등장해, 단순 급등주보다 가격 버팀과 실적 기반이 함께 확인된 종목이 많다.",
-      "후보 10개 중 외국인 순매도가 확인된 종목은 0개, 당일 3% 이상 움직인 종목은 0개라 실행 판단은 보수적으로 제한했다.",
-      "이번 설명은 실제 후보에 많이 등장한 모델(S2_PIT_V01, S2, I-STOCK-STRONG-RSI-V01)을 기준으로 자동 생성됐다."
+      "현재 국내 증시는 코스피와 코스닥 모두 강세 흐름을 보이며 시장 전반의 상승 기조가 뚜렷합니다.",
+      "하지만 이란 평화 협상 관련 뉴스에서 볼 수 있듯이, 외부 변수에 대한 불확실성과 코스피의 높은 변동성도 함께 감지되어 시장의 '주의 편향'이 유효합니다.",
+      "이러한 복합적인 시장 상황 속에서 REDBOT 퀀트 모델들은 펀더멘털 기반의 안정적인 대형 우량주와 더불어 가격 강도를 보이는 종목들을 집중적으로 포착했습니다.",
+      "특히 'S2_PIT_V01'과 'S2' 모델이 다수의 후보 종목을 제시하며, 기업의 내재 가치와 시장 필터를 통한 선별에 중점을 두는 경향을 보입니다."
     ],
     "interpretation": [
-      "많이 등장한 모델은 오늘 후보군을 만든 주된 필터로 해석한다.",
-      "여러 모델에 동시에 선정된 종목은 관심 우선순위가 높지만, 그 자체가 즉시 매수 신호는 아니다.",
-      "현재 실행 판단은 보류 4개, 소액분할검토 1개, 소액/관찰 1개, 관찰 2개, 추격 보류 1개, 추격 보류/관찰 1개로 나뉘며, 모델 선정 이후에도 가격/수급 조건으로 한 번 더 걸렀다.",
-      "시장판단이 개선되면 중복 선정 종목의 편입 우선순위를 다시 높일 수 있다."
+      "이번 후보 종목들은 현대차, 삼성전자, SK하이닉스 등 국내 대표적인 대형주들이 다수를 차지하며, 모델들이 기업의 본질적인 가치와 시장 내 안정성을 높게 평가하고 있음을 시사합니다.",
+      "'I-STOCK-STRONG-RSI-V01' 모델의 참여는 이들 대형 우량주 중 일부가 최근 시장 흐름 속에서도 가격 강도를 유지하거나 재가속 움직임을 보였음을 나타냅니다.",
+      "그럼에도 불구하고 대부분의 종목에 대해 '보류', '관찰', '추격 보류' 등 신중한 의사결정이 내려진 것은, 일부 종목의 단기 급등에 따른 차익 실현 부담이나 외국인 순매도와 같은 수급 불균형, 혹은 전반적인 시장의 변동성에 대한 경계심이 반영된 결과로 보입니다.",
+      "이는 시장의 긍정적인 신호에도 불구하고 개별 종목의 현재 가격 위치와 수급 상황, 그리고 잠재적 리스크를 종합적으로 고려하여 접근해야 함을 강조합니다."
     ],
     "model_group_counts": {
       "I": 5,
@@ -600,10 +1124,10 @@
       }
     ],
     "concentration_ratio_pct": 100.0,
-    "narrative_focus": "candidate_quality",
-    "explanation_fingerprint": "{\"decision_counts\": {\"관찰\": 2, \"보류\": 4, \"소액/관찰\": 1, \"소액분할검토\": 1, \"추격 보류\": 1, \"추격 보류/관찰\": 1}, \"direction_label\": \"강세\", \"large_move_count\": 0, \"market_rating\": \"Neutral Watch\", \"negative_flow_count\": 0, \"top_models\": [[\"S2_PIT_V01\", 10], [\"S2\", 8], [\"I-STOCK-STRONG-RSI-V01\", 5]], \"total\": 10}",
+    "narrative_focus": "market_shift",
+    "explanation_fingerprint": "{\"decision_counts\": {\"관찰\": 2, \"보류\": 4, \"소액/관찰\": 1, \"소액분할검토\": 1, \"추격 보류\": 1, \"추격 보류/관찰\": 1}, \"direction_label\": \"강세\", \"large_move_count\": 2, \"market_rating\": \"4등급 중립 상단\", \"negative_flow_count\": 9, \"top_models\": [[\"S2_PIT_V01\", 10], [\"S2\", 8], [\"I-STOCK-STRONG-RSI-V01\", 5]], \"total\": 10}",
     "previous_context": {
-      "market_rating": "Neutral Watch",
+      "market_rating": "4등급 중립 상단",
       "model_id_counts": {
         "I-STOCK-STRONG-RSI-V01": 5,
         "S2": 8,
@@ -636,8 +1160,8 @@
           "count": 1
         }
       ],
-      "explanation_fingerprint": "{\"decision_counts\": {\"관찰\": 2, \"보류\": 4, \"소액/관찰\": 1, \"소액분할검토\": 1, \"추격 보류\": 1, \"추격 보류/관찰\": 1}, \"direction_label\": \"강한 약세\", \"large_move_count\": 8, \"market_rating\": \"Neutral Watch\", \"negative_flow_count\": 7, \"top_models\": [[\"S2_PIT_V01\", 10], [\"S2\", 8], [\"I-STOCK-STRONG-RSI-V01\", 5]], \"total\": 10}",
-      "narrative_focus": "supply_risk"
+      "explanation_fingerprint": "{\"decision_counts\": {\"관찰\": 2, \"보류\": 4, \"소액/관찰\": 1, \"소액분할검토\": 1, \"추격 보류\": 1, \"추격 보류/관찰\": 1}, \"direction_label\": \"강세\", \"large_move_count\": 2, \"market_rating\": \"4등급 중립 상단\", \"negative_flow_count\": 9, \"top_models\": [[\"S2_PIT_V01\", 10], [\"S2\", 8], [\"I-STOCK-STRONG-RSI-V01\", 5]], \"total\": 10}",
+      "narrative_focus": "price_volatility"
     },
     "overlap_candidates": [
       {
@@ -770,10 +1294,28 @@
         "decision": "관찰"
       }
     ],
-    "conclusion": "S2_PIT_V01, S2, I-STOCK-STRONG-RSI-V01 중심 후보 중 일부는 소액 검토가 가능하지만, 실제 편입은 수급 개선과 가격 안정 확인 뒤 판단한다.",
-    "generation_method": "rule_based_dynamic",
-    "generation_model": null,
-    "generation_status": "fallback:ConnectionError:HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Max retries exceeded with url: /v1beta/models/gemini-2.5-flash:generateContent?key=AIza"
+    "conclusion": "종합적으로, 현재 시장은 광범위한 강세 속에서도 내재된 불확실성과 변동성이 공존하는 양상입니다. 이에 따라 REDBOT 모델들은 펀더멘털이 견고한 대형 우량주를 선별하면서도, 개별 종목의 현재 상황과 시장 리스크를 감안하여 매우 신중한 접근을 권고하고 있습니다.",
+    "generation_method": "gemini",
+    "generation_model": "gemini-2.5-flash",
+    "generation_status": "ok",
+    "gemini_raw": {
+      "section_title": "시장 강세 속 대형 우량주 포착과 신중한 접근",
+      "summary": "현재 국내 증시는 광범위한 강세 흐름을 보이며 시장 전반의 긍정적인 분위기가 감지됩니다. REDBOT 퀀트 모델들은 이러한 시장 속에서 펀더멘털이 견고한 대형 우량주들을 다수 선별했습니다. 그러나 동시에 외부 불확실성과 변동성 요인이 상존하며, 모델들은 선별된 종목들에 대해 대체로 신중한 의사결정을 내리고 있습니다.",
+      "why_now": [
+        "현재 국내 증시는 코스피와 코스닥 모두 강세 흐름을 보이며 시장 전반의 상승 기조가 뚜렷합니다.",
+        "하지만 이란 평화 협상 관련 뉴스에서 볼 수 있듯이, 외부 변수에 대한 불확실성과 코스피의 높은 변동성도 함께 감지되어 시장의 '주의 편향'이 유효합니다.",
+        "이러한 복합적인 시장 상황 속에서 REDBOT 퀀트 모델들은 펀더멘털 기반의 안정적인 대형 우량주와 더불어 가격 강도를 보이는 종목들을 집중적으로 포착했습니다.",
+        "특히 'S2_PIT_V01'과 'S2' 모델이 다수의 후보 종목을 제시하며, 기업의 내재 가치와 시장 필터를 통한 선별에 중점을 두는 경향을 보입니다."
+      ],
+      "interpretation": [
+        "이번 후보 종목들은 현대차, 삼성전자, SK하이닉스 등 국내 대표적인 대형주들이 다수를 차지하며, 모델들이 기업의 본질적인 가치와 시장 내 안정성을 높게 평가하고 있음을 시사합니다.",
+        "'I-STOCK-STRONG-RSI-V01' 모델의 참여는 이들 대형 우량주 중 일부가 최근 시장 흐름 속에서도 가격 강도를 유지하거나 재가속 움직임을 보였음을 나타냅니다.",
+        "그럼에도 불구하고 대부분의 종목에 대해 '보류', '관찰', '추격 보류' 등 신중한 의사결정이 내려진 것은, 일부 종목의 단기 급등에 따른 차익 실현 부담이나 외국인 순매도와 같은 수급 불균형, 혹은 전반적인 시장의 변동성에 대한 경계심이 반영된 결과로 보입니다.",
+        "이는 시장의 긍정적인 신호에도 불구하고 개별 종목의 현재 가격 위치와 수급 상황, 그리고 잠재적 리스크를 종합적으로 고려하여 접근해야 함을 강조합니다."
+      ],
+      "conclusion": "종합적으로, 현재 시장은 광범위한 강세 속에서도 내재된 불확실성과 변동성이 공존하는 양상입니다. 이에 따라 REDBOT 모델들은 펀더멘털이 견고한 대형 우량주를 선별하면서도, 개별 종목의 현재 상황과 시장 리스크를 감안하여 매우 신중한 접근을 권고하고 있습니다.",
+      "narrative_focus": "market_shift"
+    }
   },
   "disclaimer": "본 자료는 Quant 모델 기반 투자정보 정리이며 매수/매도 권유가 아니다."
 }

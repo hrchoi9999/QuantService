@@ -27,6 +27,53 @@
   </div>
 </section>
 
+{% if portfolio.market_risk.step1_v2 %}
+<section class="panel shell-card portfolio-step1-panel">
+  <div class="section-head-row">
+    <div>
+      <span class="eyebrow">STEP1 6등급 평가</span>
+      <h2>{{ portfolio.market_risk.step1_v2.display_rating }}</h2>
+      <p class="lead">총점 {{ portfolio.market_risk.step1_v2.score }}점 · 기준시점 {{ portfolio.market_risk.step1_v2.effective_asof }}</p>
+    </div>
+    <div class="hero-badges compact-meta">
+      <span class="badge neutral">기존 {{ portfolio.market_risk.step1_v2.legacy_rating }}</span>
+      {% if portfolio.market_risk.step1_v2.is_boundary %}
+      <span class="badge warning">{{ portfolio.market_risk.step1_v2.boundary_position or "경계 구간" }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% if portfolio.market_risk.step1_v2.boundary_reason %}
+  <div class="notice-panel warning">{{ portfolio.market_risk.step1_v2.boundary_reason }}</div>
+  {% endif %}
+  <div class="table-wrap compact-table portfolio-step1-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>축</th>
+          <th class="is-numeric-cell">점수</th>
+          <th>주요 근거</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for axis in portfolio.market_risk.step1_v2.axes %}
+        <tr>
+          <td>{{ axis.axis }}</td>
+          <td class="is-numeric-cell">{{ axis.score_label }}</td>
+          <td>
+            <ul class="portfolio-inline-list">
+              {% for reason in axis.reasons %}
+              <li>{{ reason }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+
 {% if portfolio.process_steps %}
 <section class="panel shell-card">
   <h2>단계별 판단</h2>
@@ -175,6 +222,44 @@
       <span>{{ portfolio.etf_strategy.e_series.model_code }} · {{ portfolio.etf_strategy.e_series.as_of_date }}</span>
       <p>{{ portfolio.etf_strategy.e_series.use_policy }}</p>
     </div>
+    {% if portfolio.etf_strategy.portfolio_scenarios %}
+    <div class="portfolio-scenario-grid">
+      {% for scenario in portfolio.etf_strategy.portfolio_scenarios %}
+      <article class="portfolio-scenario-card">
+        <div class="section-head-row compact-head">
+          <div>
+            <span class="eyebrow">{{ scenario.scenario }}안</span>
+            <h3>{{ scenario.name }}</h3>
+          </div>
+          <span class="badge neutral">{{ scenario.basis }}</span>
+        </div>
+        <dl class="portfolio-definition-list">
+          <div><dt>ETF</dt><dd>{{ scenario.etf_policy }}</dd></div>
+          <div><dt>주식</dt><dd>{{ scenario.stock_policy }}</dd></div>
+          <div><dt>주식 비중</dt><dd>{{ scenario.stock_weight_range_pct }}</dd></div>
+          <div><dt>조건</dt><dd>{{ scenario.activation_condition }}</dd></div>
+        </dl>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if portfolio.etf_strategy.e_series_scenario_reference %}
+    <div class="portfolio-reference-note">
+      <strong>E-series 시나리오별 해석</strong>
+      <div class="portfolio-scenario-reference-list">
+        {% for item in portfolio.etf_strategy.e_series_scenario_reference %}
+        <article>
+          <span class="badge {% if item.public_allowed %}positive{% else %}neutral{% endif %}">
+            {{ item.scenario }}안 · {% if item.public_allowed %}공개 가능{% else %}참고 전용{% endif %}
+          </span>
+          <p><strong>{{ item.scenario_name }}</strong> · {{ item.model }} · {{ item.as_of_date }}</p>
+          <p>{{ item.interpretation }}</p>
+          <p class="muted">{{ item.usage }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
   </article>
 
   <article class="panel shell-card">
@@ -191,6 +276,46 @@
     </div>
   </article>
 </section>
+
+{% if portfolio.final_portfolio_strategy %}
+<section class="panel shell-card portfolio-final-strategy">
+  <div class="section-head-row">
+    <div>
+      <span class="eyebrow">STEP6 최종 포트폴리오 전략</span>
+      <h2>{{ portfolio.final_portfolio_strategy.step1_rating }}</h2>
+      <p class="lead">STEP1 점수 {{ portfolio.final_portfolio_strategy.step1_score }}점</p>
+    </div>
+  </div>
+  <div class="portfolio-scenario-grid">
+    <article class="portfolio-scenario-card">
+      <span class="eyebrow">기본안</span>
+      <h3>{{ portfolio.final_portfolio_strategy.default_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.default_scenario.name }}</h3>
+      <p>{{ portfolio.final_portfolio_strategy.default_scenario.stock_policy }}</p>
+      <p class="muted">주식 비중 {{ portfolio.final_portfolio_strategy.default_scenario.stock_weight_range_pct }} · {{ portfolio.final_portfolio_strategy.default_scenario.activation_condition }}</p>
+    </article>
+    <article class="portfolio-scenario-card">
+      <span class="eyebrow">조건부안</span>
+      <h3>{{ portfolio.final_portfolio_strategy.conditional_scenario.scenario }}안 {{ portfolio.final_portfolio_strategy.conditional_scenario.name }}</h3>
+      <p>{{ portfolio.final_portfolio_strategy.conditional_scenario.stock_policy }}</p>
+      <p class="muted">주식 비중 {{ portfolio.final_portfolio_strategy.conditional_scenario.stock_weight_range_pct }} · {{ portfolio.final_portfolio_strategy.conditional_scenario.activation_condition }}</p>
+    </article>
+  </div>
+  {% if portfolio.final_portfolio_strategy.transition_conditions %}
+  <div class="portfolio-reference-note">
+    <strong>전환조건</strong>
+    <ul class="portfolio-inline-list">
+      {% for condition in portfolio.final_portfolio_strategy.transition_conditions %}
+      <li>{{ condition }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <div class="portfolio-step-conclusion">
+    <strong>최종 결론</strong>
+    <span>{{ portfolio.final_portfolio_strategy.conclusion }}</span>
+  </div>
+</section>
+{% endif %}
 
 <section class="panel shell-card">
   <div class="section-head-row">
@@ -212,6 +337,27 @@
   <div class="notice-panel warning">최신 수급 데이터가 확정되지 않았습니다. 주식 후보 판단은 보수적으로 확인해야 합니다.</div>
   {% endif %}
   <p>{{ portfolio.stock_strategy.execution_rule }}</p>
+  {% if portfolio.stock_strategy.scenario_summary %}
+  <div class="portfolio-scenario-grid portfolio-stock-scenario-summary">
+    {% for scenario in portfolio.stock_strategy.scenario_summary %}
+    <article class="portfolio-scenario-card">
+      <div class="section-head-row compact-head">
+        <div>
+          <span class="eyebrow">{{ scenario.scenario }}안</span>
+          <h3>{{ scenario.scenario_name }}</h3>
+        </div>
+        <span class="badge neutral">{{ scenario.basis }}</span>
+      </div>
+      <div class="hero-badges compact-meta">
+        {% for count in scenario.decision_counts %}
+        <span class="badge neutral">{{ count.decision }} {{ count.count }}개</span>
+        {% endfor %}
+      </div>
+      <p class="muted">{{ scenario.interpretation }}</p>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
   <div class="table-wrap compact-table portfolio-table-wrap">
     <table>
       <thead>
@@ -225,6 +371,12 @@
           <th class="is-numeric-cell">외인거래(억원)</th>
           <th class="is-numeric-cell">기관 거래금액(억원)</th>
           <th>판단</th>
+          <th>A안 판단</th>
+          <th>A안 비중</th>
+          <th>A안 조건</th>
+          <th>B안 판단</th>
+          <th>B안 비중</th>
+          <th>B안 조건</th>
         </tr>
       </thead>
       <tbody>
@@ -239,15 +391,44 @@
           <td class="is-numeric-cell">{{ row.foreign_net }}</td>
           <td class="is-numeric-cell">{{ row.institution_net }}</td>
           <td><span class="badge neutral">{{ row.decision }}</span></td>
+          <td><span class="badge neutral">{{ row.scenario_a.decision or "-" }}</span></td>
+          <td>{{ row.scenario_a.max_weight_hint or "-" }}</td>
+          <td>{{ row.scenario_a.activation_condition or "-" }}</td>
+          <td><span class="badge neutral">{{ row.scenario_b.decision or "-" }}</span></td>
+          <td>{{ row.scenario_b.max_weight_hint or "-" }}</td>
+          <td>{{ row.scenario_b.activation_condition or "-" }}</td>
         </tr>
         <tr class="portfolio-candidate-summary-row">
-          <td colspan="9">{{ row.summary }}</td>
+          <td colspan="15">
+            {{ row.summary }}
+            {% if row.scenario_a.reason or row.scenario_b.reason %}
+            <div class="portfolio-candidate-scenario-reason">
+              {% if row.scenario_a.reason %}<span>A안: {{ row.scenario_a.reason }}</span>{% endif %}
+              {% if row.scenario_b.reason %}<span>B안: {{ row.scenario_b.reason }}</span>{% endif %}
+            </div>
+            {% endif %}
+          </td>
         </tr>
         {% else %}
-        <tr><td colspan="9">주식 후보 데이터가 아직 준비되지 않았습니다.</td></tr>
+        <tr><td colspan="15">주식 후보 데이터가 아직 준비되지 않았습니다.</td></tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+  {% if portfolio.stock_strategy.validation_scenarios %}
+  <div class="portfolio-scenario-grid portfolio-validation-grid">
+    {% for scenario in portfolio.stock_strategy.validation_scenarios %}
+    <article class="portfolio-scenario-card">
+      <span class="eyebrow">{{ scenario.scenario }}안 검증 조건</span>
+      <h3>{{ scenario.scenario_name }}</h3>
+      <ul class="portfolio-inline-list">
+        {% for check in scenario.checks %}
+        <li>{{ check }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
 </section>
 {% endblock %}

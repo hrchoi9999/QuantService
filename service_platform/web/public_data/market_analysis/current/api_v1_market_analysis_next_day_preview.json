@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/next-day-preview?market=KR",
   "market": "KR",
-  "asof": "2026-05-23T15:00:00+09:00",
+  "asof": "2026-05-25T20:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,17 +16,17 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-23T15:00:00+09:00",
+    "asof": "2026-05-25T20:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-23T15:00:00+09:00",
-    "reference_session": "2026-05-25",
+    "asof": "2026-05-25T20:00:00+09:00",
+    "reference_session": "2026-05-26",
     "content_mode": "next_day_preview",
     "source_type": "public_next_day_preview",
-    "active_now": false,
+    "active_now": true,
     "active_window": {
       "start": "18:00",
       "end": "08:30",
@@ -34,18 +34,18 @@
     },
     "title": "내일 시장 전망 참고",
     "preview_label": "혼조 출발 가능성",
-    "preview_score": -0.3918,
+    "preview_score": -0.3765,
     "headline_line": "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
     "summary_line": "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
     "supporting_points": [
-      "S&P500 선물이 0.33% 올라 글로벌 위험자산 흐름이 비교적 우호적입니다.",
-      "나스닥100 선물이 0.38% 올라 기술주 선호 흐름이 이어집니다.",
-      "WTI는 0.26% 수준으로 유가 방향이 제한적입니다."
+      "S&P500 선물 흐름은 0.0% 수준으로 방향성이 크지 않습니다.",
+      "나스닥100 선물은 0.0% 수준으로 혼조 흐름입니다.",
+      "달러가 -0.37% 내려 환율 부담은 다소 완화된 모습입니다."
     ],
     "risk_points": [
       "미국 상장 한국 ETF가 -2.35% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다.",
-      "달러가 0.89% 올라 원화 약세 부담이 이어지고 있습니다.",
-      "주요 뉴스에서는 '美 증시, 전쟁 협상 기대감 속 1%↑…韓 조정 만회하나[굿모닝 증시] - 아시아경제' 이슈가 함께 거론되고 있습니다."
+      "주요 뉴스에서는 '美 증시, 전쟁 협상 기대감 속 1%↑…韓 조정 만회하나[굿모닝 증시] - 아시아경제' 이슈가 함께 거론되고 있습니다.",
+      "주요 뉴스에서는 '美·이란 협상 따라 '롤러코스터'…다우, 사상 최고 마감 [뉴욕증시 브리핑] - 블루밍비트' 이슈가 함께 거론되고 있습니다."
     ],
     "overnight_assets": [
       {
@@ -54,7 +54,7 @@
         "asset_group": "korea_futures",
         "change_pct": null,
         "price": null,
-        "source": "kiwoom_rest_fallback_error:JSONDecodeError",
+        "source": "kiwoom_rest_fallback_error:RuntimeError",
         "is_fallback": true
       },
       {
@@ -70,7 +70,7 @@
         "asset_code": "SP500_FUT",
         "asset_name": "S&P500 선물",
         "asset_group": "us_futures",
-        "change_pct": 0.00334851326011254,
+        "change_pct": 0.0,
         "price": 7491.0,
         "source": "yahoo:ES=F",
         "is_fallback": false
@@ -79,7 +79,7 @@
         "asset_code": "NASDAQ100_FUT",
         "asset_name": "나스닥100 선물",
         "asset_group": "us_futures",
-        "change_pct": 0.0037864316701898826,
+        "change_pct": 0.0,
         "price": 29558.75,
         "source": "yahoo:NQ=F",
         "is_fallback": false
@@ -88,8 +88,8 @@
         "asset_code": "USDKRW",
         "asset_name": "USD/KRW",
         "asset_group": "fx",
-        "change_pct": 0.008897765274165303,
-        "price": 1520.53,
+        "change_pct": -0.0036960796564354803,
+        "price": 1514.91,
         "source": "yahoo:KRW=X",
         "is_fallback": false
       },
@@ -97,7 +97,7 @@
         "asset_code": "WTI",
         "asset_name": "WTI 원유",
         "asset_group": "commodity",
-        "change_pct": 0.002594706798131785,
+        "change_pct": 0.0,
         "price": 96.6,
         "source": "yahoo:CL=F",
         "is_fallback": false
@@ -113,17 +113,17 @@
       }
     ],
     "biases": {
-      "overnight_futures_bias": -0.0547,
+      "overnight_futures_bias": -0.0785,
       "korea_signal_alignment": "single_source",
-      "global_risk_bias": -0.9881,
-      "overnight_fx_bias": -0.1068,
-      "next_day_preview_score": -0.3918
+      "global_risk_bias": -1.0,
+      "overnight_fx_bias": 0.0444,
+      "next_day_preview_score": -0.3765
     },
     "market_flow_label": "상승",
-    "market_flow_score": 1.3469,
+    "market_flow_score": 1.3482,
     "market_flow_reference_note": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
     "title_candidates": [
-      "2026-05-25 장초반 전망 참고",
+      "2026-05-26 장초반 전망 참고",
       "내일 시장 전망 참고: 혼조 출발 가능성",
       "야간 자산 흐름 점검: 혼조 출발 가능성"
     ],
@@ -131,14 +131,14 @@
     "caption_lines": [
       "혼조 출발 가능성",
       "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
-      "S&P500 선물이 0.33% 올라 글로벌 위험자산 흐름이 비교적 우호적입니다.",
+      "S&P500 선물 흐름은 0.0% 수준으로 방향성이 크지 않습니다.",
       "미국 상장 한국 ETF가 -2.35% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다.",
       "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
     ],
     "narration_lines": [
       "혼조 출발 가능성",
       "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
-      "S&P500 선물이 0.33% 올라 글로벌 위험자산 흐름이 비교적 우호적입니다.",
+      "S&P500 선물 흐름은 0.0% 수준으로 방향성이 크지 않습니다.",
       "미국 상장 한국 ETF가 -2.35% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다.",
       "현재 퀀트모델 시장 흐름(상승)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
     ],
@@ -149,7 +149,7 @@
       "한국증시",
       "멀티애셋"
     ],
-    "content_hash": "becdcc3d7ea3901fc02f4d0827de719a91d06eb761fe5eef83184ac523d8a85e",
+    "content_hash": "dec3b881aeaec496bc8c51a3858d5656718bad2ba2d9b4e712dbb39a244f028f",
     "material_change_flag": false,
     "freshness": {
       "target_update_interval_minutes": 60,
@@ -191,7 +191,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-23T15:00:00+09:00",
+      "asof": "2026-05-25T20:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     }
