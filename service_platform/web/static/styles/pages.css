@@ -877,6 +877,22 @@
   gap: 8px;
 }
 
+.portfolio-summary-strategy {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.portfolio-summary-strategy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .portfolio-step-grid {
   display: flex;
   gap: 34px;
@@ -1004,7 +1020,7 @@
 }
 
 .portfolio-table-wrap table {
-  min-width: 1180px;
+  min-width: 1080px;
 }
 
 .portfolio-step1-table-wrap table {

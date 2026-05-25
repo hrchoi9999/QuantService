@@ -771,6 +771,13 @@ def _normalize_stock_candidates(
         quote = item.get("live_quote") if isinstance(item.get("live_quote"), dict) else {}
         ticker = _text(item.get("ticker"))
         override = (candidate_overrides_by_ticker or {}).get(ticker) or {}
+        foreign_net_value = _first_present(
+            override.get("foreign_net"), quote.get("foreign_net_억원")
+        )
+        institution_net_value = _first_present(
+            override.get("institution_net"), quote.get("institution_net_억원")
+        )
+        net_flow_value = _sum_optional_numbers(foreign_net_value, institution_net_value)
         selected_models = (
             item.get("selected_models")
             or item.get("model_codes")
@@ -796,15 +803,10 @@ def _normalize_stock_candidates(
                 "change_pct": _pct_points(
                     _first_present(override.get("change_pct"), quote.get("change_pct"))
                 ),
-                "foreign_net": _number(
-                    _first_present(override.get("foreign_net"), quote.get("foreign_net_억원")), 1
-                ),
-                "institution_net": _number(
-                    _first_present(
-                        override.get("institution_net"), quote.get("institution_net_억원")
-                    ),
-                    1,
-                ),
+                "flow_status": _format_flow_status(foreign_net_value, institution_net_value),
+                "net_flow": _number(net_flow_value, 1),
+                "foreign_net": _number(foreign_net_value, 1),
+                "institution_net": _number(institution_net_value, 1),
                 "summary": _text(item.get("qualitative_summary")),
                 "scenario_decisions": scenario_decisions,
                 "scenario_a": scenario_decisions.get("A", {}),
@@ -819,6 +821,39 @@ def _first_present(*values: Any) -> Any:
         if value is not None:
             return value
     return None
+
+
+def _sum_optional_numbers(*values: Any) -> float | None:
+    total = 0.0
+    has_value = False
+    for value in values:
+        if value is None:
+            continue
+        try:
+            total += float(value)
+        except (TypeError, ValueError):
+            continue
+        has_value = True
+    return total if has_value else None
+
+
+def _format_flow_status(foreign_net: Any, institution_net: Any) -> str:
+    foreign = _sum_optional_numbers(foreign_net)
+    institution = _sum_optional_numbers(institution_net)
+    if foreign is None and institution is None:
+        return "-"
+    foreign = foreign or 0.0
+    institution = institution or 0.0
+    net = foreign + institution
+    if foreign > 0 and institution > 0:
+        return "동반 순매수"
+    if foreign < 0 and institution < 0:
+        return "동반 순매도"
+    if net > 0:
+        return "혼합/순매수"
+    if net < 0:
+        return "혼합/순매도"
+    return "중립"
 
 
 def _format_stock_candidate_model_display(

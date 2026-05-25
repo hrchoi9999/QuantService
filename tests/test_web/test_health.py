@@ -7110,6 +7110,10 @@ def test_investment_portfolio_normalizes_portfolio_scenarios(tmp_path: Path) -> 
                         {
                             "ticker": "005930",
                             "name": "삼성전자",
+                            "live_quote": {
+                                "foreign_net_억원": -120.5,
+                                "institution_net_억원": 80.0,
+                            },
                             "scenario_decisions": [
                                 {
                                     "scenario": "A",
@@ -7158,6 +7162,8 @@ def test_investment_portfolio_normalizes_portfolio_scenarios(tmp_path: Path) -> 
         "count": "8",
     }
     candidate = bundle.view["stock_strategy"]["candidates"][0]
+    assert candidate["flow_status"] == "혼합/순매도"
+    assert candidate["net_flow"] == "-40.5"
     assert candidate["scenario_a"]["decision"] == "보류/관찰"
     assert candidate["scenario_b"]["max_weight_hint"] == "1~3%"
     assert bundle.view["stock_strategy"]["validation_scenarios"][0]["checks"] == ["추격하지 않음"]
