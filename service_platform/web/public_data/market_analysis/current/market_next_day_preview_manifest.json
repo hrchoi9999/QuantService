@@ -1,8 +1,8 @@
 {
   "market": "KR",
-  "asof": "2026-05-25T21:00:00+09:00",
-  "generated_at": "2026-05-25T21:05:33+09:00",
-  "reference_session": "2026-05-26",
+  "asof": "2026-05-28T23:00:00+09:00",
+  "generated_at": "2026-05-28T23:05:49+09:00",
+  "reference_session": "2026-05-29",
   "content_modes": [
     "next_day_preview"
   ],
@@ -37,8 +37,8 @@
     "futures_direction_change": true,
     "top_point_change": true
   },
-  "content_hash": "d1614f011859cd1968e39c266b31af0f7158a3450f2fbaed7089a03cac10d954",
-  "material_change_flag": false,
+  "content_hash": "fae77777ff83b57f9619bdaf8ea1789fad53de389254eb8e0172f159384616ed",
+  "material_change_flag": true,
   "notice_block": {
     "title": "주의사항",
     "short_notice": "다음 거래일 장초반 참고 정보입니다.",
@@ -61,7 +61,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T21:00:00+09:00",
+    "asof": "2026-05-28T23:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   }

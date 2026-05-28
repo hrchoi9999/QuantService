@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/next-day-preview/history?market=KR",
   "market": "KR",
-  "asof": "2026-05-25T21:00:00+09:00",
+  "asof": "2026-05-28T23:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T21:00:00+09:00",
+    "asof": "2026-05-28T23:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_next_day_preview_history.v1",
-    "as_of_date": "2026-05-25T21:00:00+09:00",
-    "generated_at": "2026-05-25T21:05:17+09:00",
+    "as_of_date": "2026-05-28T23:00:00+09:00",
+    "generated_at": "2026-05-28T23:05:29+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-25T21:00:00+09:00",
+      "asof": "2026-05-28T23:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -55,3570 +55,6 @@
       "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
     },
     "series": [
-      {
-        "asof": "2026-04-25T21:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-25T22:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-25T23:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T00:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T14:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T15:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T16:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T17:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T18:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T19:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T20:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T21:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T22:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-26T23:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T00:00:00+09:00",
-        "reference_session": "2026-04-27",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.007174354308112196,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.01860102472711067,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002776220422444964,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": -0.015127803860198075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T09:05:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0023280864519267253,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.00197740112994349,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.00037932155630238107,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.018538135593220373,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T09:20:09+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0019806108620868956,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0011663932932385324,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.00031158556410537663,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.019279661016949,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T09:35:06+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.001911115744118952,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.000829232731911822,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0008534735016798578,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01885593220338988,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T09:50:06+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0013899023593592075,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.00015491160925829028,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 4.064159531824707e-05,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.020762711864406702,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T10:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0010076792105354615,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00029159832330960533,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0007992847079223431,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.020444915254237195,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T10:05:07+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0009381840925675178,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00038272279934381537,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0007044543188468033,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.020444915254237195,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T10:20:08+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.00031272803085580225,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0012757426644796066,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0010295870813915586,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.014936440677965956,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T10:35:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 3.474755898391635e-05,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.001612903225806539,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0014495502330117427,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.016843220338983,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T10:50:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0010076792105353505,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.002970657918716979,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0015850222174054185,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.014936440677965956,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T11:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.001633135272247177,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003544742117732813,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0015850222174054185,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01588983050847448,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T11:05:06+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.001528892595295206,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003453617641698603,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0014495502330117427,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01631355932203382,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T11:20:08+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0013204072413912638,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0032349188992162325,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.001991438170586224,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.0153601694915253,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T11:35:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0012161645644392927,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003152906870785399,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0033461580145224268,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.010911016949152641,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T11:50:04+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.00135515480037518,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0031711317659923743,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004470575484989636,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.011334745762711762,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T12:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0012161645644392927,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0030071077091307075,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004707651457678597,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01038135593220324,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T12:20:04+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0010771743285034052,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003061782394751189,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0040777067302482095,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009004237288135597,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T12:35:03+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0011814170054553763,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0032166940040094794,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004355424298254973,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.008262711864406747,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T12:50:03+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0011119218874873216,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003244031346819831,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.003942234745854534,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009004237288135597,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T13:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0012161645644392927,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0033807180608711462,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0038203099599002366,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.008368644067796582,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T13:05:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.001250912123423431,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003453617641698603,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.00388804595209713,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.008368644067796582,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T13:20:08+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0009034365335836014,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.002952433023510004,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004050612333369452,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009745762711864225,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T13:35:05+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.001250912123423431,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0034171678512848747,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.003549365991112996,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009851694915254061,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T13:50:04+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.001250912123423431,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.003644979041370622,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0037932155630214792,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009110169491525433,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0007296987386635756,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.002943320575906627,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0036509699794081696,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.012076271186440612,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:05:14+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0007644462976474919,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0028613085474757938,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0036509699794081696,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.012182203389830448,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:20:03+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0004517182667918007,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.002259887005649608,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0036035547848703997,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01483050847457612,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:31:53+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 6.949511796805474e-05,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0014853289593583785,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0036238755825295232,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01610169491525415,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:35:16+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0002779804718718859,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0010570439219974581,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0029058740652432302,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.015677966101694807,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T14:50:04+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0006602036206956319,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0005923090942228093,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.003034572450417272,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01959745762711851,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T15:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0005559609437436608,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0008018953891015812,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0028042700769479456,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.017161016949152508,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T15:05:06+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0005212133847597444,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.000874794969928816,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002668798092554381,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01737288135593218,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T15:20:06+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0006602036206956319,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00018224895206842007,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.002655250894115002,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01980932203389818,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T15:35:08+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0006602036206956319,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0004920721705850006,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0033461580145224268,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.019173728813559165,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T16:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0007991938566315193,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00018224895206842007,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.003549365991112996,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.017478813559322015,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T17:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0009381840925675178,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.00034627300893019797,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0042470467107401655,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.02425847457627106,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T18:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0007991938566315193,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00017313650446504347,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004429933889671611,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.021927966101694896,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T19:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.00048646582577571706,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.001129943502824915,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0037390267692640755,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.022139830508474567,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T20:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -6.949511796794372e-05,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0015764534353928106,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.004423160290451866,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.010063559322033733,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T21:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0001737377949198038,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0016311281210132922,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0036848379755065608,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.007627118644067732,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": -0.0030071709461024776,
-            "direction_label": "down",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-27T22:00:00+09:00",
-        "reference_session": "2026-04-28",
-        "active_now": true,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.026429377780728958,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0008686889745995741,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0005649717514124575,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0034816299989161026,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.02108050847457621,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.0004640371229700513,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T09:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0014918123785734316,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00171279677848446,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0002238836347847606,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.0040469025630383015,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T09:05:03+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0014918123785734316,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.00171279677848446,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0002238836347847606,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.0040469025630383015,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T09:20:03+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.002185678601165586,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.002396093365645724,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0008141223083081295,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.0010376673238559064,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T09:35:04+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0016652789342215257,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0015214737340791817,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -6.784352569233487e-05,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.003009235239182173,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T09:50:32+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0013877324451845308,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0012754869627011889,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.00040706115415400923,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.007263671266991789,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T10:05:29+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0009020260893699561,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0005921903755397029,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.000508826442692567,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009546539379474916,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T10:50:06+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0016652789342215257,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0013301506896741255,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0002713741027694505,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.005603403548822161,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T11:05:10+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0008673327782402485,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": 0.0002824292560266173,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0002103149296461826,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009650306111860463,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T11:20:11+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0005203996669442823,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.000428199194621115,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.00013568705138466974,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009754072844246009,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T11:35:09+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0006244796003329611,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.00037353546764817835,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0002645897502000505,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.011206807097644544,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T11:50:10+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.00013877324451838646,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0012117126145660961,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -6.784352569233487e-05,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.010791740168101915,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T12:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0002081598667775797,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0012572657203767656,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.000542748205538679,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009857839576631555,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T12:05:07+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0001734665556480941,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.001466810007106245,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0006784352569234597,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01006537304140287,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T12:35:08+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.00045101304468508907,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0009292833585393678,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0009498093596929102,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009546539379474916,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T12:50:09+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0006591729114626688,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0006286328601884383,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0008616127762927084,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.009961606309017323,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T13:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0003816264224256738,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0010112789489987728,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0009362406545544433,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.011414340562415637,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T13:05:16+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0003469331112961882,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0010568320548094423,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0009294563019851543,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.011414340562415637,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T13:35:10+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0006591729114626688,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0004555310581075833,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0012415365201697837,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01131057383003009,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T13:50:11+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0008673327782402485,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.00020954428672947945,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0015400480332161681,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.010791740168101915,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T14:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0006244796003329611,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.000519305406242565,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.001085496411077469,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.011206807097644544,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T14:05:10+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": 0.0006244796003329611,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.000519305406242565,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -0.0008141223083081295,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.01131057383003009,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T14:35:14+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0009714127116291493,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0026238588946994046,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -5.42748205538679e-05,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.015565009857839485,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T16:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "혼조 출발 가능성",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0018387454898695088,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.0039904520690220435,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.00019674622450782664,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.020338279547577054,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T17:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": false,
-        "preview_label": "장초반 경계 흐름",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.0015265056897030282,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.004118000765292229,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": -1.3568705138466974e-05,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.027498184082183075,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006032482598608002,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T18:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": true,
-        "preview_label": "장초반 경계 흐름",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.007597835137385545,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.01384814416646929,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.00013568705138466974,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.039535125038912655,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.008071955719557211,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
-      {
-        "asof": "2026-04-28T22:00:00+09:00",
-        "reference_session": "2026-04-29",
-        "active_now": true,
-        "preview_label": "장초반 경계 흐름",
-        "overnight_assets": [
-          {
-            "asset_code": "KOREA_PROXY_EWY",
-            "change_pct": 0.013974251148346939,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "SP500_FUT",
-            "change_pct": -0.005481543158479041,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "NASDAQ100_FUT",
-            "change_pct": -0.011014740985040405,
-            "direction_label": "down",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "USDKRW",
-            "change_pct": 0.0006038073786618359,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "WTI",
-            "change_pct": 0.03341288782816232,
-            "direction_label": "up",
-            "status_label": "live"
-          },
-          {
-            "asset_code": "US10Y",
-            "change_pct": 0.006688191881918826,
-            "direction_label": "up",
-            "status_label": "live"
-          }
-        ]
-      },
       {
         "asof": "2026-04-28T23:00:00+09:00",
         "reference_session": "2026-04-29",
@@ -25835,6 +22271,1406 @@
             "asset_code": "US10Y",
             "change_pct": -0.0061055385957262676,
             "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-25T22:00:00+09:00",
+        "reference_session": "2026-05-26",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004860147448586871,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-25T23:00:00+09:00",
+        "reference_session": "2026-05-26",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004787804252464611,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T00:00:00+09:00",
+        "reference_session": "2026-05-26",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.005287629971128416,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T10:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0066079295154184425,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.009151266545439185,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.005035525500586613,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.05362318840579705,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T11:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.006374315845681489,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.008567683004186533,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006268042867876744,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.049585921325051685,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T12:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.006240822320117578,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.008567683004186533,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006617365971975042,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.05186335403726694,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T13:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.006641302896809531,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.008872161373535858,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006808505028934486,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.05093167701863344,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T14:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0063075690828995334,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.008119423182644692,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006617365971975042,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.04751552795031044,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T15:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.006107328794553446,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.008263204634837429,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.0072105561487457726,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.04668737060041395,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T16:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0066079295154184425,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.009176639742884962,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.008331026482645942,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.05258799171842654,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T17:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.005172874115605408,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.007070664354886347,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.00884512463584719,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.041097308488612816,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T22:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.02354897543182055,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.007141903617674528,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.012322916226159775,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.00838375449835882,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.041097308488612816,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.01689337428696791,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-26T23:00:00+09:00",
+        "reference_session": "2026-05-27",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.002520896908584369,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.006791693683807942,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.00448049491214908,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.03568005112365524,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T10:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0008624121003051322,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0012635709179178445,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.0014536716826084595,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.009798700607093425,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T11:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0007960727079741048,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.001820539677789501,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.0017590091136584496,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.010757269144743953,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T12:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.001094599973464172,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0023775084376611577,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004347739507344683,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.01640217275535205,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T13:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0002985272654902893,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0009726170881341201,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004015850995333636,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.018319309830652886,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T17:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": false,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0012936181504576982,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0017872878115283708,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.003484829376115939,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.027585472361273844,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T18:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0027862544779089227,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.00409829251666749,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.0056421047041878,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.042390030887208496,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T19:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.003084781743399212,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.004464063045538369,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006073559769802062,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.04270955373309193,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T20:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0032174605280614887,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.005162352237019219,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.005529262610104002,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.038342741506017575,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T21:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.0021228605545973167,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.006733502917851242,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.004938501058724398,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.03418894450953236,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.014260640631855948,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-27T22:00:00+09:00",
+        "reference_session": "2026-05-28",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.10229083118167348,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.002089690858431803,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0063344805227192325,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.006365621660371801,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": -0.05517094472254769,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.005341642555085735,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-28T19:00:00+09:00",
+        "reference_session": "2026-05-29",
+        "active_now": true,
+        "preview_label": "장초반 경계 흐름",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.011761774233740363,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": -0.0019893899204244114,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": -0.004276597691968531,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": 0.0015933227111819548,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.024470004510599663,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.002670821277542923,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-28T20:00:00+09:00",
+        "reference_session": "2026-05-29",
+        "active_now": true,
+        "preview_label": "장초반 경계 흐름",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.011761774233740363,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": -0.0023209549071617763,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": -0.0048090923462214,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": 0.0013933240445063166,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.024470004510599663,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.002670821277542923,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-28T21:00:00+09:00",
+        "reference_session": "2026-05-29",
+        "active_now": true,
+        "preview_label": "장초반 경계 흐름",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.011761774233740363,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": -0.002519893899204262,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": -0.004284917920941211,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": 0.0017666548889674338,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.03157419936851591,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.002670821277542923,
+            "direction_label": "down",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-28T22:00:00+09:00",
+        "reference_session": "2026-05-29",
+        "active_now": true,
+        "preview_label": "장초반 경계 흐름",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.011761774233740363,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": -0.0002984084880636173,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.0001996854953447702,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -8.66660888926285e-05,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.02063599458728005,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.00044632894443208393,
+            "direction_label": "up",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-05-28T23:00:00+09:00",
+        "reference_session": "2026-05-29",
+        "active_now": true,
+        "preview_label": "장초반 경계 흐름",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": -0.0050935498512280075,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": -0.0009946949602122057,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": -0.0025459900656465972,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": 0.00031333124445831473,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.024357239512855067,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": 0.0,
+            "direction_label": "flat",
             "status_label": "live"
           }
         ]

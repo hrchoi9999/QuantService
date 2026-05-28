@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/model-background?market=KR",
   "market": "KR",
-  "asof": "2026-05-25T21:00:00+09:00",
+  "asof": "2026-05-28T23:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,24 +16,24 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-25T21:00:00+09:00",
+    "asof": "2026-05-28T23:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-25T21:00:00+09:00",
+    "asof": "2026-05-28T23:00:00+09:00",
     "title": "모델 해석 백그라운드",
     "description": "현재 시장브리핑을 모델 기준안과 연결해서 읽기 위한 공개 배경 데이터입니다.",
-    "state_label": "상승",
-    "state_score": 1.3482,
-    "briefing_tone": "위험선호 환경",
-    "summary_line": "공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
-    "reference_note": "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
+    "state_label": "중립",
+    "state_score": 0.1666,
+    "briefing_tone": "중립 해석 환경",
+    "summary_line": "추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
+    "reference_note": "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
     "model_background_points": [
-      "공식 지표와 내부 breadth 기준으로 퀀트투자 모델 해석에 우호적인 상승 흐름이 우세합니다.",
-      "상승 흐름이 관찰되지만 퀀트투자 모델 해석을 위해 내부 확산과 변동성 지표를 함께 볼 필요가 있습니다.",
-      "현재 상태 지속 시간은 83.5시간입니다."
+      "추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
+      "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
+      "현재 상태 지속 시간은 4.0시간입니다."
     ],
     "favorable_signals": [
       "코스피 1개월 상승 흐름"
@@ -41,20 +41,20 @@
     "caution_signals": [
       "20일선 위 종목 비율 낮음",
       "60일선 위 종목 비율 낮음",
-      "달러 강세"
+      "코스닥 약세"
     ],
     "top_assets": [
       {
         "asset_group": "KOSPI",
-        "ret_20d": 0.2227789561425393,
-        "strength_score": 1.6818,
+        "ret_20d": 0.270718114565653,
+        "strength_score": 1.7423,
         "strength_rank": 1,
         "strength_label": "강함"
       },
       {
         "asset_group": "USDKRW",
-        "ret_20d": 0.0329340105497391,
-        "strength_score": 0.3232,
+        "ret_20d": 0.03075233388248222,
+        "strength_score": 0.3088,
         "strength_rank": 2,
         "strength_label": "중립"
       }
@@ -62,36 +62,36 @@
     "bottom_assets": [
       {
         "asset_group": "INVERSE",
-        "ret_20d": -0.25384615384615383,
-        "strength_score": -1.7292,
+        "ret_20d": -0.2981843575418994,
+        "strength_score": -1.6561,
         "strength_rank": 6,
         "strength_label": "약함"
       },
       {
         "asset_group": "GOLD",
-        "ret_20d": -0.050414905276342625,
-        "strength_score": -0.2733,
+        "ret_20d": -0.06432287561090966,
+        "strength_score": -0.2591,
         "strength_rank": 5,
         "strength_label": "중립"
       }
     ],
     "state_transition": {
-      "current_state": "상승",
-      "prev_state": "상승",
-      "duration_hours": 83.4517,
-      "transition_count_5d": 3,
-      "transition_count_20d": 9,
-      "stability_score": 0.46
+      "current_state": "중립",
+      "prev_state": "중립",
+      "duration_hours": 4.0,
+      "transition_count_5d": 4,
+      "transition_count_20d": 12,
+      "stability_score": 0.0667
     },
     "latest_timeline_point": {
-      "asof": "2026-05-25T21:00:00+09:00",
-      "state_label": "상승",
-      "state_score": 1.3482,
+      "asof": "2026-05-28T23:00:00+09:00",
+      "state_label": "중립",
+      "state_score": 0.1666,
       "trend_score": 3.0,
-      "breadth_score": 2.0254,
-      "risk_score": -1.9461,
-      "defensive_flow_score": 0.5323,
-      "total_score": 1.3482
+      "breadth_score": -2.1859,
+      "risk_score": -1.7858,
+      "defensive_flow_score": 0.8638,
+      "total_score": 0.1666
     }
   }
 }
