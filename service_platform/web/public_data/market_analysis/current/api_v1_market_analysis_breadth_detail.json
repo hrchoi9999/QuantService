@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/breadth-detail?market=KR",
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,18 +16,18 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-28T23:00:00+09:00",
-    "generated_at": "2026-05-28T23:05:29+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
+    "generated_at": "2026-05-29T00:05:29+09:00",
     "title": "시장 내부 확산 상세",
     "description": "종가 기준 breadth와 최신 장중 breadth를 함께 비교해 시장 내부 체력을 읽는 공개형 데이터 패널입니다.",
     "close_breadth": {
-      "asof": "2026-05-28T23:00:00+09:00",
+      "asof": "2026-05-29T00:00:00+09:00",
       "above_20dma_ratio": 0.28350515463917525,
       "above_60dma_ratio": 0.45618556701030927,
       "adv_dec_ratio": 0.18902439024390244,
@@ -82,7 +82,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-28T23:00:00+09:00",
+      "asof": "2026-05-29T00:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

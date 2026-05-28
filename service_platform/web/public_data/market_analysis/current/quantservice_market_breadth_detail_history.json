@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_breadth_detail_history.v1",
-  "as_of_date": "2026-05-28T23:00:00+09:00",
-  "generated_at": "2026-05-28T23:05:29+09:00",
+  "as_of_date": "2026-05-29T00:00:00+09:00",
+  "generated_at": "2026-05-29T00:05:29+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -10933,6 +10933,17 @@
       "breadth_universe_count": 388,
       "breadth_proxy_flag": 0,
       "breadth_regime_label": "확산 약세"
+    },
+    {
+      "asof": "2026-05-29T00:00:00+09:00",
+      "above_20dma_ratio": 0.28350515463917525,
+      "above_60dma_ratio": 0.45618556701030927,
+      "adv_dec_ratio": 0.18902439024390244,
+      "new_high_count": 16.0,
+      "new_low_count": 11.0,
+      "breadth_universe_count": 388,
+      "breadth_proxy_flag": 0,
+      "breadth_regime_label": "확산 약세"
     }
   ],
   "close_series": [
@@ -21836,6 +21847,17 @@
       "breadth_universe_count": 388,
       "breadth_proxy_flag": 0,
       "breadth_regime_label": "확산 약세"
+    },
+    {
+      "asof": "2026-05-29T00:00:00+09:00",
+      "above_20dma_ratio": 0.28350515463917525,
+      "above_60dma_ratio": 0.45618556701030927,
+      "adv_dec_ratio": 0.18902439024390244,
+      "new_high_count": 16.0,
+      "new_low_count": 11.0,
+      "breadth_universe_count": 388,
+      "breadth_proxy_flag": 0,
+      "breadth_regime_label": "확산 약세"
     }
   ],
   "intraday_series": [
@@ -26128,9 +26150,9 @@
   "intraday_interval": "15m",
   "intraday_lookback_days": 10,
   "summary": {
-    "latest_close_asof": "2026-05-28T23:00:00+09:00",
+    "latest_close_asof": "2026-05-29T00:00:00+09:00",
     "latest_intraday_asof": "2026-05-27T18:00:00+09:00",
-    "close_points": 991,
+    "close_points": 992,
     "intraday_points": 306
   }
 }

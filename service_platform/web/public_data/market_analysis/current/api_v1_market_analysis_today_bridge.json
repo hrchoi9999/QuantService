@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/today-bridge?market=KR",
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "state_label": "중립",
     "state_score": 0.1666,
     "market_tone": "중립 해석 환경",
@@ -85,7 +85,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-28T23:00:00+09:00",
+      "asof": "2026-05-29T00:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -111,7 +111,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-05-28T23:00:00+09:00",
+      "asof": "2026-05-29T00:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -9371,7 +9371,7 @@
                 "value": 0.6635
               },
               {
-                "date": "2026-05-28",
+                "date": "2026-05-29",
                 "value": 0.6635,
                 "point_type": "carry_forward",
                 "carry_forward_from": "2026-05-27",
@@ -18611,7 +18611,7 @@
                 "value": 0.4907
               },
               {
-                "date": "2026-05-28",
+                "date": "2026-05-29",
                 "value": 0.4907,
                 "point_type": "carry_forward",
                 "carry_forward_from": "2026-05-27",
@@ -27826,7 +27826,7 @@
                 "value": 0.353
               },
               {
-                "date": "2026-05-28",
+                "date": "2026-05-29",
                 "value": 0.3007,
                 "point_type": "current_intraday_blend",
                 "source_note": "실행시점 장중 단기값을 반영한 현재 포인트입니다."

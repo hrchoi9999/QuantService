@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/timeline/history?market=KR",
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_timeline_history.v1",
-    "as_of_date": "2026-05-28T23:00:00+09:00",
-    "generated_at": "2026-05-28T23:05:29+09:00",
+    "as_of_date": "2026-05-29T00:00:00+09:00",
+    "generated_at": "2026-05-29T00:05:29+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-28T23:00:00+09:00",
+      "asof": "2026-05-29T00:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -8967,6 +8967,15 @@
       },
       {
         "asof": "2026-05-28T23:00:00+09:00",
+        "total_score": 0.1666,
+        "trend_score": 3.0,
+        "breadth_score": -2.1859,
+        "risk_score": -1.7858,
+        "defensive_flow_score": 0.8638,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-05-29T00:00:00+09:00",
         "total_score": 0.1666,
         "trend_score": 3.0,
         "breadth_score": -2.1859,

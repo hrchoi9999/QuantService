@@ -1,7 +1,7 @@
 {
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
-  "generated_at": "2026-05-28T23:05:29+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
+  "generated_at": "2026-05-29T00:05:29+09:00",
   "title": "KRX 지수 패널",
   "description": "국내 대표 지수의 최근 흐름과 변동성 상태를 한 번에 보는 공개형 시장 데이터 패널입니다.",
   "indices": [
@@ -66,7 +66,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

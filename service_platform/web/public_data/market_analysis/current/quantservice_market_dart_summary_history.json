@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_dart_summary_history.v1",
-  "as_of_date": "2026-05-28T23:00:00+09:00",
-  "generated_at": "2026-05-28T23:05:29+09:00",
+  "as_of_date": "2026-05-29T00:00:00+09:00",
+  "generated_at": "2026-05-29T00:05:29+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1d",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -771,6 +771,25 @@
         {
           "category_label": "리스크 공시",
           "count": 5
+        }
+      ]
+    },
+    {
+      "asof": "2026-05-29T00:00:00+09:00",
+      "reference_date": "20260529",
+      "filing_count_total": 1,
+      "kospi_count": 0,
+      "kosdaq_count": 1,
+      "risk_event_count": 0,
+      "funding_count": 0,
+      "shareholder_count": 0,
+      "earnings_count": 0,
+      "governance_count": 1,
+      "general_count": 0,
+      "type_counts": [
+        {
+          "category_label": "지배구조/의사결정",
+          "count": 1
         }
       ]
     }

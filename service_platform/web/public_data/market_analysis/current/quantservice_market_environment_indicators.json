@@ -1,7 +1,7 @@
 {
   "market": "KR",
-  "asof": "2026-05-29T00:00:09+09:00",
-  "generated_at": "2026-05-29T00:00:10+09:00",
+  "asof": "2026-05-29T00:30:06+09:00",
+  "generated_at": "2026-05-29T00:30:07+09:00",
   "timezone": "Asia/Seoul",
   "title": "시장 환경 지표",
   "description": "국내 시장 원천 데이터, FRED 매크로/금리 데이터, Yahoo 글로벌 시장 데이터를 선 그래프로 확인하는 공개형 시장 환경 지표입니다.",
@@ -39666,11 +39666,11 @@
           "unit": "index",
           "frequency": "daily",
           "start_date": "2000-01-03",
-          "end_date": "2026-05-26",
-          "row_count": 6669,
-          "period_label": "2000-01-03 ~ 2026-05-26",
-          "latest_date": "2026-05-26",
-          "latest_value": 17.01,
+          "end_date": "2026-05-27",
+          "row_count": 6670,
+          "period_label": "2000-01-03 ~ 2026-05-27",
+          "latest_date": "2026-05-27",
+          "latest_value": 16.29,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -42762,6 +42762,10 @@
             {
               "date": "2026-05-26",
               "value": 17.01
+            },
+            {
+              "date": "2026-05-27",
+              "value": 16.29
             }
           ]
         },
@@ -55733,11 +55737,11 @@
           "unit": "percent",
           "frequency": "daily",
           "start_date": "2023-05-15",
-          "end_date": "2026-05-26",
-          "row_count": 795,
-          "period_label": "2023-05-15 ~ 2026-05-26",
-          "latest_date": "2026-05-26",
-          "latest_value": 2.72,
+          "end_date": "2026-05-27",
+          "row_count": 796,
+          "period_label": "2023-05-15 ~ 2026-05-27",
+          "latest_date": "2026-05-27",
+          "latest_value": 2.71,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -58877,6 +58881,10 @@
             {
               "date": "2026-05-26",
               "value": 2.72
+            },
+            {
+              "date": "2026-05-27",
+              "value": 2.71
             }
           ]
         },
@@ -58890,10 +58898,10 @@
           "unit": "percent",
           "frequency": "daily",
           "start_date": "2023-05-15",
-          "end_date": "2026-05-26",
-          "row_count": 794,
-          "period_label": "2023-05-15 ~ 2026-05-26",
-          "latest_date": "2026-05-26",
+          "end_date": "2026-05-27",
+          "row_count": 795,
+          "period_label": "2023-05-15 ~ 2026-05-27",
+          "latest_date": "2026-05-27",
           "latest_value": 0.74,
           "chart_type": "line",
           "default_chart_height_px": 160,
@@ -62030,6 +62038,10 @@
             {
               "date": "2026-05-26",
               "value": 0.74
+            },
+            {
+              "date": "2026-05-27",
+              "value": 0.74
             }
           ]
         },
@@ -62047,7 +62059,7 @@
           "row_count": 317,
           "period_label": "1947-01-01 ~ 2026-01-01",
           "latest_date": "2026-01-01",
-          "latest_value": 31856257.0,
+          "latest_value": 31819464.0,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62094,7 +62106,7 @@
             },
             {
               "date": "2026-01-01",
-              "value": 31856257.0
+              "value": 31819464.0
             }
           ]
         },
@@ -62112,7 +62124,7 @@
           "row_count": 317,
           "period_label": "1947-01-01 ~ 2026-01-01",
           "latest_date": "2026-01-01",
-          "latest_value": 24174527.0,
+          "latest_value": 24152656.0,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62159,7 +62171,7 @@
             },
             {
               "date": "2026-01-01",
-              "value": 24174527.0
+              "value": 24152656.0
             }
           ]
         },
@@ -62177,7 +62189,7 @@
           "row_count": 317,
           "period_label": "1947-01-01 ~ 2026-01-01",
           "latest_date": "2026-01-01",
-          "latest_value": 21683687.0,
+          "latest_value": 21677711.0,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62224,7 +62236,7 @@
             },
             {
               "date": "2026-01-01",
-              "value": 21683687.0
+              "value": 21677711.0
             }
           ]
         },
@@ -62242,7 +62254,7 @@
           "row_count": 317,
           "period_label": "1947-01-01 ~ 2026-01-01",
           "latest_date": "2026-01-01",
-          "latest_value": 16731167.0,
+          "latest_value": 16723347.0,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62289,7 +62301,7 @@
             },
             {
               "date": "2026-01-01",
-              "value": 16731167.0
+              "value": 16723347.0
             }
           ]
         },
@@ -62303,11 +62315,11 @@
           "unit": "millions_usd_annual_rate",
           "frequency": "monthly",
           "start_date": "1959-01-01",
-          "end_date": "2026-03-01",
-          "row_count": 807,
-          "period_label": "1959-01-01 ~ 2026-03-01",
-          "latest_date": "2026-03-01",
-          "latest_value": 26844492.0,
+          "end_date": "2026-04-01",
+          "row_count": 808,
+          "period_label": "1959-01-01 ~ 2026-04-01",
+          "latest_date": "2026-04-01",
+          "latest_value": 26722490.0,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62426,27 +62438,31 @@
             },
             {
               "date": "2025-10-01",
-              "value": 26405659.0
+              "value": 26365140.0
             },
             {
               "date": "2025-11-01",
-              "value": 26494772.0
+              "value": 26426338.0
             },
             {
               "date": "2025-12-01",
-              "value": 26565695.0
+              "value": 26483207.0
             },
             {
               "date": "2026-01-01",
-              "value": 26695100.0
+              "value": 26603406.0
             },
             {
               "date": "2026-02-01",
-              "value": 26695273.0
+              "value": 26590326.0
             },
             {
               "date": "2026-03-01",
-              "value": 26844492.0
+              "value": 26722509.0
+            },
+            {
+              "date": "2026-04-01",
+              "value": 26722490.0
             }
           ]
         },
@@ -62460,11 +62476,11 @@
           "unit": "index",
           "frequency": "monthly",
           "start_date": "1959-01-01",
-          "end_date": "2026-03-01",
-          "row_count": 807,
-          "period_label": "1959-01-01 ~ 2026-03-01",
-          "latest_date": "2026-03-01",
-          "latest_value": 130.344,
+          "end_date": "2026-04-01",
+          "row_count": 808,
+          "period_label": "1959-01-01 ~ 2026-04-01",
+          "latest_date": "2026-04-01",
+          "latest_value": 130.902,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -62595,15 +62611,19 @@
             },
             {
               "date": "2026-01-01",
-              "value": 129.0
+              "value": 129.002
             },
             {
               "date": "2026-02-01",
-              "value": 129.484
+              "value": 129.52
             },
             {
               "date": "2026-03-01",
-              "value": 130.344
+              "value": 130.381
+            },
+            {
+              "date": "2026-04-01",
+              "value": 130.902
             }
           ]
         },
@@ -71197,7 +71217,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 752.9,
+          "latest_value": 753.955,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -74208,22 +74228,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 752.9,
+              "value": 753.955,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:09+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:04+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:SPY",
-              "change_value": 2.439999999999941,
-              "change_pct": 0.0032513391786370693,
+              "change_value": 3.4950000000000045,
+              "change_pct": 0.004657143618580717,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 2.439999999999941,
-          "latest_change_pct": 0.0032513391786370693,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:09+09:00",
+          "latest_change_value": 3.4950000000000045,
+          "latest_change_pct": 0.004657143618580717,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:04+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -74240,7 +74260,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 732.835,
+          "latest_value": 734.74,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -77251,22 +77271,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 732.835,
+              "value": 734.74,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:10+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:07+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:QQQ",
-              "change_value": 3.3910000000000764,
-              "change_pct": 0.004648746168314677,
+              "change_value": 5.296000000000049,
+              "change_pct": 0.0072603243017970165,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 3.3910000000000764,
-          "latest_change_pct": 0.004648746168314677,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:10+09:00",
+          "latest_change_value": 5.296000000000049,
+          "latest_change_pct": 0.0072603243017970165,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:07+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -77283,7 +77303,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 506.565,
+          "latest_value": 506.91,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -80294,22 +80314,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 506.565,
+              "value": 506.91,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:09+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:29:53+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:DIA",
-              "change_value": -0.3149999999999977,
-              "change_pct": -0.0006214488636363535,
+              "change_value": 0.03000000000002956,
+              "change_pct": 5.9185606060774276e-05,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.3149999999999977,
-          "latest_change_pct": -0.0006214488636363535,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:09+09:00",
+          "latest_change_value": 0.03000000000002956,
+          "latest_change_pct": 5.9185606060774276e-05,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:29:53+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -80326,7 +80346,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 290.445,
+          "latest_value": 291.96,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -83337,22 +83357,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 290.445,
+              "value": 291.96,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:09+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:07+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:IWM",
-              "change_value": 0.07499999999998863,
-              "change_pct": 0.0002582911457795767,
+              "change_value": 1.589999999999975,
+              "change_pct": 0.005475772290525871,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.07499999999998863,
-          "latest_change_pct": 0.0002582911457795767,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:09+09:00",
+          "latest_change_value": 1.589999999999975,
+          "latest_change_pct": 0.005475772290525871,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:07+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -83369,7 +83389,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 202.435,
+          "latest_value": 204.615,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -86380,22 +86400,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 202.435,
+              "value": 204.615,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:13+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:11+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:EWY",
-              "change_value": 4.14500000000001,
-              "change_pct": 0.020903726864693217,
+              "change_value": 6.325000000000017,
+              "change_pct": 0.03189772555348247,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 4.14500000000001,
-          "latest_change_pct": 0.020903726864693217,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:13+09:00",
+          "latest_change_value": 6.325000000000017,
+          "latest_change_pct": 0.03189772555348247,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:11+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -86412,7 +86432,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 68.27,
+          "latest_value": 68.58,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -89423,22 +89443,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 68.27,
+              "value": 68.58,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:11+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:08+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:EEM",
-              "change_value": -0.12000000000000455,
-              "change_pct": -0.0017546424915924064,
+              "change_value": 0.18999999999999773,
+              "change_pct": 0.002778183945021162,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.12000000000000455,
-          "latest_change_pct": -0.0017546424915924064,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:11+09:00",
+          "latest_change_value": 0.18999999999999773,
+          "latest_change_pct": 0.002778183945021162,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:08+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -89455,7 +89475,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 157.82,
+          "latest_value": 158.15,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -92466,22 +92486,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 157.82,
+              "value": 158.15,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:07+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:06+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:ACWI",
-              "change_value": 0.18000000000000682,
-              "change_pct": 0.0011418421720374994,
+              "change_value": 0.5100000000000193,
+              "change_pct": 0.0032352194874398776,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.18000000000000682,
-          "latest_change_pct": 0.0011418421720374994,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:07+09:00",
+          "latest_change_value": 0.5100000000000193,
+          "latest_change_pct": 0.0032352194874398776,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:06+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -92498,7 +92518,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 85.59,
+          "latest_value": 85.58,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -95509,22 +95529,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 85.59,
+              "value": 85.58,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:14+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:20+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:TLT",
-              "change_value": 0.29000000000000625,
-              "change_pct": 0.0033997655334114807,
+              "change_value": 0.28000000000000114,
+              "change_pct": 0.0032825322391558664,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.29000000000000625,
-          "latest_change_pct": 0.0033997655334114807,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:14+09:00",
+          "latest_change_value": 0.28000000000000114,
+          "latest_change_pct": 0.0032825322391558664,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:20+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -95541,7 +95561,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 94.505,
+          "latest_value": 94.485,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -98552,22 +98572,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 94.505,
+              "value": 94.485,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:07+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:10+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:IEF",
-              "change_value": 0.18500000000000227,
-              "change_pct": 0.0019614079728584866,
+              "change_value": 0.16500000000000625,
+              "change_pct": 0.0017493638676846501,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.18500000000000227,
-          "latest_change_pct": 0.0019614079728584866,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:07+09:00",
+          "latest_change_value": 0.16500000000000625,
+          "latest_change_pct": 0.0017493638676846501,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:10+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -101597,8 +101617,8 @@
               "date": "2026-05-29",
               "value": 82.26,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:07+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:29:34+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:SHY",
               "change_value": 0.04000000000000625,
@@ -101609,8 +101629,8 @@
           "latest_point_type": "current_global_intraday_quote",
           "latest_change_value": 0.04000000000000625,
           "latest_change_pct": 0.0004864996351252593,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:07+09:00",
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:29:34+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -101627,7 +101647,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 410.25,
+          "latest_value": 411.12,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -104638,22 +104658,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 410.25,
+              "value": 411.12,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:21+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:18+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:GLD",
-              "change_value": 1.759999999999991,
-              "change_pct": 0.004308551004920558,
+              "change_value": 2.6299999999999955,
+              "change_pct": 0.006438346103943893,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 1.759999999999991,
-          "latest_change_pct": 0.004308551004920558,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:21+09:00",
+          "latest_change_value": 2.6299999999999955,
+          "latest_change_pct": 0.006438346103943893,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:18+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -104670,7 +104690,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 131.11,
+          "latest_value": 131.42,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -107681,22 +107701,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 131.11,
+              "value": 131.42,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:22+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:21+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:USO",
-              "change_value": 0.0800000000000125,
-              "change_pct": 0.0006105472029307446,
+              "change_value": 0.38999999999998636,
+              "change_pct": 0.002976417614286797,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.0800000000000125,
-          "latest_change_pct": 0.0006105472029307446,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:22+09:00",
+          "latest_change_value": 0.38999999999998636,
+          "latest_change_pct": 0.002976417614286797,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:21+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -107713,7 +107733,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 27.73,
+          "latest_value": 27.715,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -110724,22 +110744,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 27.73,
+              "value": 27.715,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:16+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:28:53+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:UUP",
-              "change_value": -0.019999999999999574,
-              "change_pct": -0.0007207207207207134,
+              "change_value": -0.03500000000000014,
+              "change_pct": -0.0012612612612612484,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.019999999999999574,
-          "latest_change_pct": -0.0007207207207207134,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:16+09:00",
+          "latest_change_value": -0.03500000000000014,
+          "latest_change_pct": -0.0012612612612612484,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:28:53+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -110756,7 +110776,7 @@
           "row_count": 2366,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 99.039,
+          "latest_value": 99.015,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -113783,23 +113803,23 @@
             },
             {
               "date": "2026-05-29",
-              "value": 99.039,
+              "value": 99.015,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-28T23:50:22+09:00",
-              "us_session_date": "2026-05-28",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:20:30+09:00",
+              "us_session_date": "2026-05-29",
               "source": "Yahoo:DX-Y.NYB",
-              "change_value": -0.1670000000000016,
-              "change_pct": -0.0016833659254480438,
+              "change_value": -0.1910000000000025,
+              "change_pct": -0.0019252867770094273,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.1670000000000016,
-          "latest_change_pct": -0.0016833659254480438,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-28T23:50:22+09:00",
-          "us_session_date": "2026-05-28"
+          "latest_change_value": -0.1910000000000025,
+          "latest_change_pct": -0.0019252867770094273,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:20:30+09:00",
+          "us_session_date": "2026-05-29"
         },
         {
           "series_id": "VIX",
@@ -116836,9 +116856,9 @@
               "date": "2026-05-29",
               "value": 15.99,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-28T23:45:16+09:00",
-              "us_session_date": "2026-05-28",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:15:16+09:00",
+              "us_session_date": "2026-05-29",
               "source": "Yahoo:^VIX",
               "change_value": -0.29999999999999893,
               "change_pct": -0.018416206261510082,
@@ -116848,9 +116868,9 @@
           "latest_point_type": "current_global_intraday_quote",
           "latest_change_value": -0.29999999999999893,
           "latest_change_pct": -0.018416206261510082,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-28T23:45:16+09:00",
-          "us_session_date": "2026-05-28"
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:15:16+09:00",
+          "us_session_date": "2026-05-29"
         },
         {
           "series_id": "HYG",
@@ -116866,7 +116886,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 80.225,
+          "latest_value": 80.245,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -119877,22 +119897,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 80.225,
+              "value": 80.245,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:20+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:24+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:HYG",
-              "change_value": 0.09499999999999886,
-              "change_pct": 0.0011855734431549525,
+              "change_value": 0.1150000000000091,
+              "change_pct": 0.0014351678522401823,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.09499999999999886,
-          "latest_change_pct": 0.0011855734431549525,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:20+09:00",
+          "latest_change_value": 0.1150000000000091,
+          "latest_change_pct": 0.0014351678522401823,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:24+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -119909,7 +119929,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 109.18,
+          "latest_value": 109.19,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -122920,22 +122940,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 109.18,
+              "value": 109.19,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:20+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:20+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:LQD",
-              "change_value": 0.25,
-              "change_pct": 0.0022950518681721377,
+              "change_value": 0.2599999999999909,
+              "change_pct": 0.0023868539428990587,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.25,
-          "latest_change_pct": 0.0022950518681721377,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:20+09:00",
+          "latest_change_value": 0.2599999999999909,
+          "latest_change_pct": 0.0023868539428990587,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:20+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -122952,7 +122972,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 566.55,
+          "latest_value": 572.36,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -125963,22 +125983,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 566.55,
+              "value": 572.36,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:13+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:14+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:SOXX",
-              "change_value": 2.5699999999999363,
-              "change_pct": 0.004556899180821805,
+              "change_value": 8.379999999999995,
+              "change_pct": 0.014858682932018752,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 2.5699999999999363,
-          "latest_change_pct": 0.004556899180821805,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:13+09:00",
+          "latest_change_value": 8.379999999999995,
+          "latest_change_pct": 0.014858682932018752,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:14+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -125995,7 +126015,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 186.29,
+          "latest_value": 187.29,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -129006,22 +129026,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 186.29,
+              "value": 187.29,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:13+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:12+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLK",
-              "change_value": 1.8599999999999852,
-              "change_pct": 0.010085127148511619,
+              "change_value": 2.859999999999985,
+              "change_pct": 0.01550723851867919,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 1.8599999999999852,
-          "latest_change_pct": 0.010085127148511619,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:13+09:00",
+          "latest_change_value": 2.859999999999985,
+          "latest_change_pct": 0.01550723851867919,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:12+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -129038,7 +129058,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 121.52,
+          "latest_value": 121.385,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -132049,22 +132069,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 121.52,
+              "value": 121.385,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:12+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:11+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLY",
-              "change_value": -0.030000000000001137,
-              "change_pct": -0.0002468120115178829,
+              "change_value": -0.16499999999999204,
+              "change_pct": -0.0013574660633483004,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.030000000000001137,
-          "latest_change_pct": -0.0002468120115178829,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:12+09:00",
+          "latest_change_value": -0.16499999999999204,
+          "latest_change_pct": -0.0013574660633483004,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:11+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -132081,7 +132101,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 173.7,
+          "latest_value": 174.22,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -135092,22 +135112,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 173.7,
+              "value": 174.22,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:12+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:08+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLI",
-              "change_value": -0.6000000000000227,
-              "change_pct": -0.003442340791738552,
+              "change_value": -0.0800000000000125,
+              "change_pct": -0.0004589787722318883,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.6000000000000227,
-          "latest_change_pct": -0.003442340791738552,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:12+09:00",
+          "latest_change_value": -0.0800000000000125,
+          "latest_change_pct": -0.0004589787722318883,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:08+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -135124,7 +135144,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 51.285,
+          "latest_value": 51.23,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -138135,22 +138155,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 51.285,
+              "value": 51.23,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:16+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:16+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLF",
-              "change_value": -0.13500000000000512,
-              "change_pct": -0.0026254375729288792,
+              "change_value": -0.19000000000000483,
+              "change_pct": -0.0036950602878258465,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.13500000000000512,
-          "latest_change_pct": -0.0026254375729288792,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:16+09:00",
+          "latest_change_value": -0.19000000000000483,
+          "latest_change_pct": -0.0036950602878258465,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:16+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -138167,7 +138187,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 57.0,
+          "latest_value": 57.17,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -141178,22 +141198,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 57.0,
+              "value": 57.17,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:16+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:15+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLE",
-              "change_value": 0.00999999999999801,
-              "change_pct": 0.00017546938059309625,
+              "change_value": 0.17999999999999972,
+              "change_pct": 0.0031584488506755104,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.00999999999999801,
-          "latest_change_pct": 0.00017546938059309625,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:16+09:00",
+          "latest_change_value": 0.17999999999999972,
+          "latest_change_pct": 0.0031584488506755104,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:15+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -141210,7 +141230,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 150.86,
+          "latest_value": 150.595,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -144221,22 +144241,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 150.86,
+              "value": 150.595,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:16+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:08+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLV",
-              "change_value": 2.0700000000000216,
-              "change_pct": 0.013912225283957413,
+              "change_value": 1.8050000000000068,
+              "change_pct": 0.012131191612339665,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 2.0700000000000216,
-          "latest_change_pct": 0.013912225283957413,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:16+09:00",
+          "latest_change_value": 1.8050000000000068,
+          "latest_change_pct": 0.012131191612339665,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:08+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -144253,7 +144273,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 84.53,
+          "latest_value": 84.45,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -147264,22 +147284,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 84.53,
+              "value": 84.45,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:13+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:16+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLP",
-              "change_value": -0.04999999999999716,
-              "change_pct": -0.0005911563017261257,
+              "change_value": -0.12999999999999545,
+              "change_pct": -0.00153700638448806,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.04999999999999716,
-          "latest_change_pct": -0.0005911563017261257,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:13+09:00",
+          "latest_change_value": -0.12999999999999545,
+          "latest_change_pct": -0.00153700638448806,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:16+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -147296,7 +147316,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 44.845,
+          "latest_value": 44.844,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -150307,22 +150327,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 44.845,
+              "value": 44.844,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:12+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:17+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLU",
-              "change_value": -0.2950000000000017,
-              "change_pct": -0.006535223748338592,
+              "change_value": -0.2959999999999994,
+              "change_pct": -0.006557377049180357,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.2950000000000017,
-          "latest_change_pct": -0.006535223748338592,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:12+09:00",
+          "latest_change_value": -0.2959999999999994,
+          "latest_change_pct": -0.006557377049180357,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:17+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -150339,7 +150359,7 @@
           "row_count": 1995,
           "period_label": "2018-06-19 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 116.59,
+          "latest_value": 116.345,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -153350,22 +153370,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 116.59,
+              "value": 116.345,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:11+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:15+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLC",
-              "change_value": 0.3299999999999983,
-              "change_pct": 0.002838465508343324,
+              "change_value": 0.08499999999999375,
+              "change_pct": 0.0007311199036641458,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.3299999999999983,
-          "latest_change_pct": 0.002838465508343324,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:11+09:00",
+          "latest_change_value": 0.08499999999999375,
+          "latest_change_pct": 0.0007311199036641458,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:15+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -153382,7 +153402,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 51.13,
+          "latest_value": 51.235,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -156393,22 +156413,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 51.13,
+              "value": 51.235,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:15+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:10+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLB",
-              "change_value": -0.04999999999999716,
-              "change_pct": -0.0009769441187963412,
+              "change_value": 0.054999999999999716,
+              "change_pct": 0.0010746385306761308,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": -0.04999999999999716,
-          "latest_change_pct": -0.0009769441187963412,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:15+09:00",
+          "latest_change_value": 0.054999999999999716,
+          "latest_change_pct": 0.0010746385306761308,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:10+09:00",
           "us_session_date": "2026-05-29"
         },
         {
@@ -156425,7 +156445,7 @@
           "row_count": 2362,
           "period_label": "2017-01-03 ~ 2026-05-29",
           "latest_date": "2026-05-29",
-          "latest_value": 44.64,
+          "latest_value": 44.59,
           "chart_type": "line",
           "default_chart_height_px": 160,
           "popup_enabled": true,
@@ -159436,22 +159456,22 @@
             },
             {
               "date": "2026-05-29",
-              "value": 44.64,
+              "value": 44.59,
               "point_type": "current_global_intraday_quote",
-              "quote_asof": "2026-05-29T00:00:09+09:00",
-              "quote_time": "2026-05-29T00:00:08+09:00",
+              "quote_asof": "2026-05-29T00:30:06+09:00",
+              "quote_time": "2026-05-29T00:30:25+09:00",
               "us_session_date": "2026-05-29",
               "source": "Yahoo:XLRE",
-              "change_value": 0.00999999999999801,
-              "change_pct": 0.00022406453058465559,
+              "change_value": -0.03999999999999915,
+              "change_pct": -0.0008962581223391775,
               "source_note": "실행시점 Yahoo 글로벌 현재값을 시장 환경 지표 현재 포인트로 표시합니다."
             }
           ],
           "latest_point_type": "current_global_intraday_quote",
-          "latest_change_value": 0.00999999999999801,
-          "latest_change_pct": 0.00022406453058465559,
-          "quote_asof": "2026-05-29T00:00:09+09:00",
-          "quote_time": "2026-05-29T00:00:08+09:00",
+          "latest_change_value": -0.03999999999999915,
+          "latest_change_pct": -0.0008962581223391775,
+          "quote_asof": "2026-05-29T00:30:06+09:00",
+          "quote_time": "2026-05-29T00:30:25+09:00",
           "us_session_date": "2026-05-29"
         }
       ]
@@ -159474,7 +159494,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-29T00:00:09+09:00",
+    "asof": "2026-05-29T00:30:06+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

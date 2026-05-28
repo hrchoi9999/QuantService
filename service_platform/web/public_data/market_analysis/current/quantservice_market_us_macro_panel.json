@@ -1,18 +1,18 @@
 {
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
-  "generated_at": "2026-05-28T23:05:29+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
+  "generated_at": "2026-05-29T00:05:29+09:00",
   "title": "미국/글로벌 매크로 패널",
   "description": "미국 선물, 금리, 환율, 원유와 미국 상장 한국 ETF를 함께 보여 주는 공개형 글로벌 참고 패널입니다.",
-  "snapshot_asof": "2026-05-28T23:00:00+09:00",
+  "snapshot_asof": "2026-05-29T00:00:00+09:00",
   "assets": [
     {
       "asset_code": "WTI",
       "asset_name": "WTI 원유",
       "asset_group": "commodity",
-      "price": 90.84,
-      "change_value": 2.1599999999999966,
-      "change_pct": 0.024357239512855067,
+      "price": 89.56,
+      "change_value": 0.8799999999999955,
+      "change_pct": 0.009923319801533603,
       "source": "yahoo:CL=F",
       "is_fallback": 0,
       "source_tier": "proxy",
@@ -22,13 +22,13 @@
       "asset_code": "USDKRW",
       "asset_name": "USD/KRW",
       "asset_group": "fx",
-      "price": 1500.48,
-      "change_value": 0.4700000000000273,
-      "change_pct": 0.00031333124445831473,
+      "price": 1494.09,
+      "change_value": -5.920000000000073,
+      "change_pct": -0.0039466403557310015,
       "source": "yahoo:KRW=X",
       "is_fallback": 0,
       "source_tier": "proxy",
-      "direction_label": "up"
+      "direction_label": "down"
     },
     {
       "asset_code": "KOSPI200_NIGHT_FUT",
@@ -46,92 +46,92 @@
       "asset_code": "KOREA_PROXY_EWY",
       "asset_name": "미국 상장 한국 ETF",
       "asset_group": "korea_proxy",
-      "price": 197.28,
-      "change_value": -1.009999999999991,
-      "change_pct": -0.0050935498512280075,
+      "price": 203.71,
+      "change_value": 5.420000000000016,
+      "change_pct": 0.02733370316203554,
       "source": "yahoo:EWY",
       "is_fallback": 0,
       "source_tier": "proxy",
-      "direction_label": "down"
+      "direction_label": "up"
     },
     {
       "asset_code": "US10Y",
       "asset_name": "미국 10년 금리",
       "asset_group": "rates",
-      "price": 4.481,
-      "change_value": 0.0,
-      "change_pct": 0.0,
+      "price": 4.465,
+      "change_value": -0.016000000000000014,
+      "change_pct": -0.0035706315554563384,
       "source": "yahoo:^TNX",
       "is_fallback": 0,
       "source_tier": "proxy",
-      "direction_label": "flat"
+      "direction_label": "down"
     },
     {
       "asset_code": "NASDAQ100_FUT",
       "asset_name": "나스닥100 선물",
       "asset_group": "us_futures",
-      "price": 29970.75,
-      "change_value": -76.5,
-      "change_pct": -0.0025459900656465972,
+      "price": 30173.0,
+      "change_value": 125.75,
+      "change_pct": 0.004185075173268826,
       "source": "yahoo:NQ=F",
       "is_fallback": 0,
       "source_tier": "proxy",
-      "direction_label": "down"
+      "direction_label": "up"
     },
     {
       "asset_code": "SP500_FUT",
       "asset_name": "S&P500 선물",
       "asset_group": "us_futures",
-      "price": 7532.5,
-      "change_value": -7.5,
-      "change_pct": -0.0009946949602122057,
+      "price": 7561.25,
+      "change_value": 21.25,
+      "change_pct": 0.002818302387267879,
       "source": "yahoo:ES=F",
       "is_fallback": 0,
       "source_tier": "proxy",
-      "direction_label": "down"
+      "direction_label": "up"
     }
   ],
   "summary": {
-    "preview_label": "장초반 경계 흐름",
-    "preview_score": -0.4133,
-    "headline_line": "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
+    "preview_label": "혼조 출발 가능성",
+    "preview_score": -0.2986,
+    "headline_line": "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
     "summary_line": "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
     "top_movers": [
+      {
+        "asset_code": "KOREA_PROXY_EWY",
+        "asset_name": "미국 상장 한국 ETF",
+        "asset_group": "korea_proxy",
+        "price": 203.71,
+        "change_value": 5.420000000000016,
+        "change_pct": 0.02733370316203554,
+        "source": "yahoo:EWY",
+        "is_fallback": 0,
+        "source_tier": "proxy",
+        "direction_label": "up"
+      },
       {
         "asset_code": "WTI",
         "asset_name": "WTI 원유",
         "asset_group": "commodity",
-        "price": 90.84,
-        "change_value": 2.1599999999999966,
-        "change_pct": 0.024357239512855067,
+        "price": 89.56,
+        "change_value": 0.8799999999999955,
+        "change_pct": 0.009923319801533603,
         "source": "yahoo:CL=F",
         "is_fallback": 0,
         "source_tier": "proxy",
         "direction_label": "up"
       },
       {
-        "asset_code": "KOREA_PROXY_EWY",
-        "asset_name": "미국 상장 한국 ETF",
-        "asset_group": "korea_proxy",
-        "price": 197.28,
-        "change_value": -1.009999999999991,
-        "change_pct": -0.0050935498512280075,
-        "source": "yahoo:EWY",
-        "is_fallback": 0,
-        "source_tier": "proxy",
-        "direction_label": "down"
-      },
-      {
         "asset_code": "NASDAQ100_FUT",
         "asset_name": "나스닥100 선물",
         "asset_group": "us_futures",
-        "price": 29970.75,
-        "change_value": -76.5,
-        "change_pct": -0.0025459900656465972,
+        "price": 30173.0,
+        "change_value": 125.75,
+        "change_pct": 0.004185075173268826,
         "source": "yahoo:NQ=F",
         "is_fallback": 0,
         "source_tier": "proxy",
-        "direction_label": "down"
+        "direction_label": "up"
       }
     ],
     "all_proxy": false
@@ -148,7 +148,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

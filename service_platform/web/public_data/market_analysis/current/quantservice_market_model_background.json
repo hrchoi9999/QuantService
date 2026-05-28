@@ -1,6 +1,6 @@
 {
   "market": "KR",
-  "asof": "2026-05-28T23:00:00+09:00",
+  "asof": "2026-05-29T00:00:00+09:00",
   "title": "모델 해석 백그라운드",
   "description": "현재 시장브리핑을 모델 기준안과 연결해서 읽기 위한 공개 배경 데이터입니다.",
   "state_label": "중립",
@@ -11,7 +11,7 @@
   "model_background_points": [
     "추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
     "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
-    "현재 상태 지속 시간은 4.0시간입니다."
+    "현재 상태 지속 시간은 5.0시간입니다."
   ],
   "favorable_signals": [
     "코스피 1개월 상승 흐름"
@@ -56,13 +56,13 @@
   "state_transition": {
     "current_state": "중립",
     "prev_state": "중립",
-    "duration_hours": 4.0,
+    "duration_hours": 5.0,
     "transition_count_5d": 4,
     "transition_count_20d": 12,
-    "stability_score": 0.0667
+    "stability_score": 0.0833
   },
   "latest_timeline_point": {
-    "asof": "2026-05-28T23:00:00+09:00",
+    "asof": "2026-05-29T00:00:00+09:00",
     "state_label": "중립",
     "state_score": 0.1666,
     "trend_score": 3.0,
