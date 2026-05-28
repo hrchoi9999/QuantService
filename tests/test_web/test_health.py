@@ -7091,7 +7091,13 @@ def test_investment_portfolio_normalizes_weight_policy_and_selection_date(
                             "portfolio_selection_date": "2026-05-28",
                             "model_selection_date": "2026-05-13",
                             "latest_selection_date": "2026-05-13",
+                            "first_portfolio_selection_date": "2026-05-13",
+                            "first_portfolio_selection_price": 71500,
+                            "final_portfolio_selection_date": "2026-05-28",
+                            "final_portfolio_selection_price": 74400,
+                            "return_from_first_portfolio_selection_pct": 4.0559,
                             "live_quote": {
+                                "price": 74400,
                                 "foreign_net_억원": -120.5,
                                 "institution_net_억원": 80.0,
                             },
@@ -7134,9 +7140,12 @@ def test_investment_portfolio_normalizes_weight_policy_and_selection_date(
         "adjustment_rule": "비중만 조절",
     }
     candidate = bundle.view["stock_strategy"]["candidates"][0]
-    assert candidate["selection_date"] == "2026-05-28"
-    assert candidate["portfolio_selection_date"] == "2026-05-28"
     assert candidate["model_selection_date"] == "2026-05-13"
+    assert candidate["first_portfolio_selection_date"] == "2026-05-13"
+    assert candidate["first_portfolio_selection_price"] == "71,500"
+    assert candidate["final_portfolio_selection_date"] == "2026-05-28"
+    assert candidate["final_portfolio_selection_price"] == "74,400"
+    assert candidate["return_from_first_portfolio_selection_pct"] == "+4.06%"
     assert candidate["flow_status"] == "혼합/순매도"
     assert candidate["net_flow"] == "-40.5"
     assert candidate["foreign_net"] == "-120.5"

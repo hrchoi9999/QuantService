@@ -278,8 +278,11 @@
           <th>코드</th>
           <th>종목명</th>
           <th>모델</th>
-          <th>선정일</th>
-          <th class="is-numeric-cell">최신가</th>
+          <th>최초 포트 선정일</th>
+          <th class="is-numeric-cell">최초 선정가</th>
+          <th>최종 포트 선정일</th>
+          <th class="is-numeric-cell">최종일 주가</th>
+          <th class="is-numeric-cell">등락율</th>
           <th class="is-numeric-cell">당일등락</th>
           <th class="is-numeric-cell">외인거래(억원)</th>
           <th class="is-numeric-cell">기관 거래금액(억원)</th>
@@ -292,15 +295,18 @@
           <td class="notranslate" translate="no">{{ row.ticker }}</td>
           <td>{{ row.name }}</td>
           <td>{{ row.model_names }}</td>
-          <td>{{ row.selection_date }}</td>
-          <td class="is-numeric-cell">{{ row.price }}</td>
+          <td>{{ row.first_portfolio_selection_date }}</td>
+          <td class="is-numeric-cell">{{ row.first_portfolio_selection_price }}</td>
+          <td>{{ row.final_portfolio_selection_date }}</td>
+          <td class="is-numeric-cell">{{ row.final_portfolio_selection_price }}</td>
+          <td class="is-numeric-cell">{{ row.return_from_first_portfolio_selection_pct }}</td>
           <td class="is-numeric-cell">{{ row.change_pct }}</td>
           <td class="is-numeric-cell">{{ row.foreign_net }}</td>
           <td class="is-numeric-cell">{{ row.institution_net }}</td>
           <td><span class="badge neutral">{{ row.decision }}</span></td>
         </tr>
         {% else %}
-        <tr><td colspan="9">주식 후보 데이터가 아직 준비되지 않았습니다.</td></tr>
+        <tr><td colspan="12">주식 후보 데이터가 아직 준비되지 않았습니다.</td></tr>
         {% endfor %}
       </tbody>
     </table>

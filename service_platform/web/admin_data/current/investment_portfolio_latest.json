@@ -1,14 +1,14 @@
 {
   "page": "투자 포트폴리오",
   "as_of_date": "2026-05-28",
-  "generated_at": "2026-05-28T23:43:42.982+09:00",
-  "run_session": "after_close",
+  "generated_at": "2026-05-29T00:21:21.914+09:00",
+  "run_session": "morning",
   "source_thread": "QuantAnalysis",
   "publishing_rule": "redbot.co.kr 반영은 QuantService 작업요청서를 통해서만 수행",
   "market_risk": {
     "rating": "3등급 주의 관찰 하단",
     "asof": "2026-05-27T18:00:00+09:00",
-    "generated_at": "2026-05-28T23:05:29+09:00",
+    "generated_at": "2026-05-29T00:05:29+09:00",
     "direction_label": "약세",
     "direction_score": 1.1523,
     "breadth_score": -2.8011,
@@ -213,11 +213,11 @@
     }
   },
   "market_news_context": {
-    "fetched_at": "2026-05-28T23:05:29+09:00",
+    "fetched_at": "2026-05-29T00:05:29+09:00",
     "caution_bias": true,
     "risk_headlines": [
+      "코스피, 중동발 찬바람에 장중 4%대 급락…변동성 주의보 - 연합뉴스",
       "미국의 대이란 자위적 타격에 국제유가 상승…증시는 혼조세 - VOA 한국어 홈페이지",
-      "뉴욕증시 3대지수 동시 최고치…이란 종전 기대에 유가 급락 - 티제이비",
       "하나증권 \"미국 이란 종전협상 기대감에 국제유가 하락, 항공·에너지주 투심 개선 전망\" - 비즈니스포스트",
       "뉴욕증시 사상 최고치…미·이란 협상 기대에 유가 급락 - 청년일보",
       "코스피, 중동 리스크에 장중 8,000선 이탈…외국인 매도에 약세 마감 - 산경투데이"
@@ -389,7 +389,7 @@
       "status": "ok",
       "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
       "asof_date": "2026-05-28",
-      "fetched_at": "2026-05-28T23:43:16.778+09:00",
+      "fetched_at": "2026-05-29T00:20:50.165+09:00",
       "success_count": 10,
       "error_count": 0,
       "errors": []
@@ -434,7 +434,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "소액분할검토",
         "momentum": {
@@ -471,7 +471,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 225500,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-13",
+        "first_portfolio_selection_rank": 3,
+        "first_portfolio_selection_price": 191400,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 225500,
+        "return_from_first_portfolio_selection_pct": 17.82
       },
       {
         "ticker": "319400",
@@ -510,7 +516,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "소액분할검토",
         "momentum": {
@@ -547,7 +553,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 37450,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-13",
+        "first_portfolio_selection_rank": 5,
+        "first_portfolio_selection_price": 43650,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 37450,
+        "return_from_first_portfolio_selection_pct": -14.2
       },
       {
         "ticker": "034730",
@@ -586,7 +598,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "소액분할검토",
         "momentum": {
@@ -623,7 +635,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 664000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-20",
+        "first_portfolio_selection_rank": 10,
+        "first_portfolio_selection_price": 526000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 664000,
+        "return_from_first_portfolio_selection_pct": 26.24
       },
       {
         "ticker": "086520",
@@ -661,7 +679,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -698,7 +716,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 144700,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-26",
+        "first_portfolio_selection_rank": 2,
+        "first_portfolio_selection_price": 147000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 144700,
+        "return_from_first_portfolio_selection_pct": -1.56
       },
       {
         "ticker": "307950",
@@ -737,7 +761,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -774,7 +798,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 746000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-14",
+        "first_portfolio_selection_rank": 5,
+        "first_portfolio_selection_price": 689000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 746000,
+        "return_from_first_portfolio_selection_pct": 8.27
       },
       {
         "ticker": "000660",
@@ -815,7 +845,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -852,7 +882,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 2289000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-28",
+        "first_portfolio_selection_rank": 6,
+        "first_portfolio_selection_price": 2289000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 2289000,
+        "return_from_first_portfolio_selection_pct": 0.0
       },
       {
         "ticker": "012330",
@@ -893,7 +929,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -930,7 +966,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 686000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-21",
+        "first_portfolio_selection_rank": 8,
+        "first_portfolio_selection_price": 670000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 686000,
+        "return_from_first_portfolio_selection_pct": 2.39
       },
       {
         "ticker": "189300",
@@ -971,7 +1013,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -1008,7 +1050,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 150000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-15",
+        "first_portfolio_selection_rank": 1,
+        "first_portfolio_selection_price": 162000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 150000,
+        "return_from_first_portfolio_selection_pct": -7.41
       },
       {
         "ticker": "126340",
@@ -1048,7 +1096,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "관찰/소액후보",
         "momentum": {
@@ -1085,7 +1133,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 152100,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-22",
+        "first_portfolio_selection_rank": 10,
+        "first_portfolio_selection_price": 169000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 152100,
+        "return_from_first_portfolio_selection_pct": -10.0
       },
       {
         "ticker": "009150",
@@ -1121,7 +1175,7 @@
           "flow_date": "20260528",
           "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
           "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-28T23:43:16.778+09:00"
+          "fetched_at": "2026-05-29T00:20:50.165+09:00"
         },
         "base_decision": "소액분할검토",
         "momentum": {
@@ -1158,7 +1212,13 @@
         },
         "portfolio_selection_date": "2026-05-28",
         "portfolio_selection_price": 1849000,
-        "portfolio_selection_price_date": "2026-05-27"
+        "portfolio_selection_price_date": "2026-05-27",
+        "first_portfolio_selection_date": "2026-05-14",
+        "first_portfolio_selection_rank": 10,
+        "first_portfolio_selection_price": 1024000,
+        "final_portfolio_selection_date": "2026-05-28",
+        "final_portfolio_selection_price": 1849000,
+        "return_from_first_portfolio_selection_pct": 80.57
       }
     ]
   },
@@ -1322,9 +1382,9 @@
     "conclusion": "최종 결론은 상위 10개 종목을 유지하되, 시장등급에 따라 주식/ETF/현금 비중만 조절하는 것이다."
   },
   "model_concentration_explanation": {
-    "section_title": "약세장 속 상대적 강세 종목 탐색: RSI 강도 모델 부각",
+    "section_title": "변동성 높은 약세장, 가격 강도 및 펀더멘털 우량주 선별",
     "placement": "단계별 상세 설명 다음, ETF 전략 섹션 이전",
-    "summary": "전반적인 시장 약세와 외국인 및 프로그램의 순매도 우위 속에서, REDBOT Quant 모델들은 시장 대비 상대적 강도를 보이는 종목들을 집중적으로 선별했습니다. 특히 가격 강도와 재가속 흐름을 중요하게 보는 모델의 비중이 높아졌으며, 일부 후보 종목에서는 기관 순매수가 유입되는 흐름도 관찰됩니다.",
+    "summary": "현재 시장은 전반적인 약세와 높은 변동성을 보이며, 특히 외국인과 프로그램의 대규모 매도세가 지수 전반의 하방 압력을 높였습니다. 이러한 환경 속에서 REDBOT Quant는 시장의 하락 압력에 저항하거나 재가속하는 가격 강도 높은 종목들과 견고한 펀더멘털을 갖춘 우량주들을 복합적으로 선별했습니다. 대부분의 후보 종목은 신중한 분할 접근이나 추가 관찰이 필요한 '소액분할검토' 또는 '관찰/소액후보'로 분류되었습니다.",
     "model_roles": [
       {
         "model": "I-STOCK-STRONG-RSI-V01",
@@ -1356,16 +1416,16 @@
       }
     ],
     "why_now": [
-      "현재 국내 증시는 코스피와 코스닥 모두 약세 흐름을 보이며, 대규모 프로그램 순매도가 지수 전반에 하방 압력을 가하고 있습니다.",
-      "이러한 시장 환경 속에서, REDBOT Quant는 전반적인 하락세에도 불구하고 가격 강도를 유지하거나 재가속 움직임을 보이는 종목들을 우선적으로 탐색하고 있습니다.",
-      "주요 모델 분포 변화는 시장의 전반적인 방향성보다는 개별 종목의 상대적 모멘텀에 초점을 맞추려는 시스템의 전략적 조정을 시사합니다.",
-      "이는 불확실성이 높은 시기에 광범위한 종목 발굴보다는 특정 조건을 만족하는 소수 종목에 대한 관찰 필요성을 반영합니다."
+      "현재 시장은 코스피와 코스닥 모두 약세 흐름을 보이며, 외국인과 프로그램의 대규모 순매도가 지수 전반에 강한 하방 압력과 높은 변동성을 유발하고 있습니다.",
+      "이러한 변동성 높은 약세장 속에서, REDBOT Quant 시스템은 시장의 하락 압력에 상대적으로 잘 버티거나 재가속하는 가격 강도 높은 종목들을 우선적으로 탐색하는 경향을 보입니다.",
+      "'가격 강도/재가속 확인 모델'인 I-STOCK-STRONG-RSI-V01이 가장 많은 후보를 선별한 것은, 어려운 시장 환경 속에서도 개별 종목의 긍정적인 가격 흐름에 주목하고 있음을 시사합니다.",
+      "동시에 '펀더멘털 기반 안정형 주식 모델'인 S2 계열 모델들도 다수의 후보를 제시하며, 단기적인 가격 변동성에도 불구하고 기업의 내재 가치 및 안정성 또한 중요하게 고려하고 있음을 알 수 있습니다."
     ],
     "interpretation": [
-      "이번 실행에서 'I-STOCK-STRONG-RSI-V01' 모델이 가장 많은 후보를 제시하며, 시장의 약세 속에서도 가격 강도와 재가속을 보이는 종목들에 대한 관심이 높아졌음을 보여줍니다.",
-      "후보 종목 중에는 LG전자, SK 등 주요 대형주들이 다수 포함되었는데, 이들 중 일부는 시장의 전반적인 약세에도 불구하고 외국인 또는 기관 투자자들의 순매수가 유입되는 흐름을 보였습니다.",
-      "반면, SK하이닉스와 현대모비스 같은 종목에서는 외국인 순매도 규모가 컸음에도 불구하고 모델의 선택을 받았다는 점은 해당 모델들이 가격 외 다른 요인들 또한 중요하게 고려하고 있음을 시사합니다.",
-      "특히 삼성전기처럼 단기간에 13% 이상 급등한 종목에 대해서는 '추격 금지/관찰' 결정을 내려, 급격한 가격 변동성에 대한 경계심을 나타내고 있습니다."
+      "이번 후보군에는 LG전자, SK하이닉스, 현대모비스와 같이 시장을 대표하는 대형 우량주들이 다수 포함되어 있으며, 이들은 대체로 '가격 강도'와 '펀더멘털' 모델의 교집합에 속합니다.",
+      "특히 SK하이닉스와 현대모비스는 외국인 순매도세 속에서도 모델에 포착되었는데, 이는 단기적인 수급 변동에도 불구하고 해당 기업들의 잠재력이나 기관 투자자들의 매수세가 복합적으로 작용한 결과로 보입니다.",
+      "반면 삼성전기처럼 하루 만에 13% 이상 급등한 종목은 '추격 금지/관찰'로 분류되어, 급격한 가격 변동성 속에서 무리한 추격 매수를 경계하는 시스템의 신중한 접근 방식을 명확히 보여줍니다.",
+      "대부분의 후보 종목이 '소액분할검토' 또는 '관찰/소액후보'로 제시된 것은 현재 시장의 불확실한 상황과 높은 변동성을 반영하여, 신중한 분할 접근 또는 추가적인 관찰이 필요하다는 판단으로 해석됩니다."
     ],
     "model_group_counts": {
       "I": 7,
@@ -1403,7 +1463,7 @@
       }
     ],
     "concentration_ratio_pct": 70.0,
-    "narrative_focus": "model_shift",
+    "narrative_focus": "price_volatility",
     "explanation_fingerprint": "{\"decision_counts\": {\"관찰/소액후보\": 5, \"소액분할검토\": 4, \"추격 금지/관찰\": 1}, \"direction_label\": \"약세\", \"large_move_count\": 3, \"market_rating\": \"3등급 주의 관찰 하단\", \"negative_flow_count\": 4, \"top_models\": [[\"I-STOCK-STRONG-RSI-V01\", 7], [\"S2\", 5], [\"S2_PIT_V01\", 4]], \"total\": 10}",
     "previous_context": {
       "market_rating": "3등급 주의 관찰 하단",
@@ -1561,27 +1621,27 @@
         "decision": "관찰/소액후보"
       }
     ],
-    "conclusion": "현재 시장은 전반적으로 주의가 필요한 약세 흐름을 보이고 있으나, REDBOT Quant는 이러한 환경 속에서 상대적으로 견고한 가격 흐름을 보이는 종목들을 중심으로 후보군을 제시하고 있습니다. 다만, 특정 종목의 단기적인 급등에는 주의하며 신중한 접근이 필요하다는 판단이 함께 제시되었습니다.",
+    "conclusion": "전반적인 시장 약세와 높은 변동성 속에서도 시스템은 가격 강도와 펀더멘털을 겸비한 우량주들을 선별하며 신중한 접근을 제안하고 있습니다.",
     "generation_method": "gemini",
     "generation_model": "gemini-2.5-flash",
     "generation_status": "ok",
     "gemini_raw": {
-      "section_title": "약세장 속 상대적 강세 종목 탐색: RSI 강도 모델 부각",
-      "summary": "전반적인 시장 약세와 외국인 및 프로그램의 순매도 우위 속에서, REDBOT Quant 모델들은 시장 대비 상대적 강도를 보이는 종목들을 집중적으로 선별했습니다. 특히 가격 강도와 재가속 흐름을 중요하게 보는 모델의 비중이 높아졌으며, 일부 후보 종목에서는 기관 순매수가 유입되는 흐름도 관찰됩니다.",
+      "section_title": "변동성 높은 약세장, 가격 강도 및 펀더멘털 우량주 선별",
+      "summary": "현재 시장은 전반적인 약세와 높은 변동성을 보이며, 특히 외국인과 프로그램의 대규모 매도세가 지수 전반의 하방 압력을 높였습니다. 이러한 환경 속에서 REDBOT Quant는 시장의 하락 압력에 저항하거나 재가속하는 가격 강도 높은 종목들과 견고한 펀더멘털을 갖춘 우량주들을 복합적으로 선별했습니다. 대부분의 후보 종목은 신중한 분할 접근이나 추가 관찰이 필요한 '소액분할검토' 또는 '관찰/소액후보'로 분류되었습니다.",
       "why_now": [
-        "현재 국내 증시는 코스피와 코스닥 모두 약세 흐름을 보이며, 대규모 프로그램 순매도가 지수 전반에 하방 압력을 가하고 있습니다.",
-        "이러한 시장 환경 속에서, REDBOT Quant는 전반적인 하락세에도 불구하고 가격 강도를 유지하거나 재가속 움직임을 보이는 종목들을 우선적으로 탐색하고 있습니다.",
-        "주요 모델 분포 변화는 시장의 전반적인 방향성보다는 개별 종목의 상대적 모멘텀에 초점을 맞추려는 시스템의 전략적 조정을 시사합니다.",
-        "이는 불확실성이 높은 시기에 광범위한 종목 발굴보다는 특정 조건을 만족하는 소수 종목에 대한 관찰 필요성을 반영합니다."
+        "현재 시장은 코스피와 코스닥 모두 약세 흐름을 보이며, 외국인과 프로그램의 대규모 순매도가 지수 전반에 강한 하방 압력과 높은 변동성을 유발하고 있습니다.",
+        "이러한 변동성 높은 약세장 속에서, REDBOT Quant 시스템은 시장의 하락 압력에 상대적으로 잘 버티거나 재가속하는 가격 강도 높은 종목들을 우선적으로 탐색하는 경향을 보입니다.",
+        "'가격 강도/재가속 확인 모델'인 I-STOCK-STRONG-RSI-V01이 가장 많은 후보를 선별한 것은, 어려운 시장 환경 속에서도 개별 종목의 긍정적인 가격 흐름에 주목하고 있음을 시사합니다.",
+        "동시에 '펀더멘털 기반 안정형 주식 모델'인 S2 계열 모델들도 다수의 후보를 제시하며, 단기적인 가격 변동성에도 불구하고 기업의 내재 가치 및 안정성 또한 중요하게 고려하고 있음을 알 수 있습니다."
       ],
       "interpretation": [
-        "이번 실행에서 'I-STOCK-STRONG-RSI-V01' 모델이 가장 많은 후보를 제시하며, 시장의 약세 속에서도 가격 강도와 재가속을 보이는 종목들에 대한 관심이 높아졌음을 보여줍니다.",
-        "후보 종목 중에는 LG전자, SK 등 주요 대형주들이 다수 포함되었는데, 이들 중 일부는 시장의 전반적인 약세에도 불구하고 외국인 또는 기관 투자자들의 순매수가 유입되는 흐름을 보였습니다.",
-        "반면, SK하이닉스와 현대모비스 같은 종목에서는 외국인 순매도 규모가 컸음에도 불구하고 모델의 선택을 받았다는 점은 해당 모델들이 가격 외 다른 요인들 또한 중요하게 고려하고 있음을 시사합니다.",
-        "특히 삼성전기처럼 단기간에 13% 이상 급등한 종목에 대해서는 '추격 금지/관찰' 결정을 내려, 급격한 가격 변동성에 대한 경계심을 나타내고 있습니다."
+        "이번 후보군에는 LG전자, SK하이닉스, 현대모비스와 같이 시장을 대표하는 대형 우량주들이 다수 포함되어 있으며, 이들은 대체로 '가격 강도'와 '펀더멘털' 모델의 교집합에 속합니다.",
+        "특히 SK하이닉스와 현대모비스는 외국인 순매도세 속에서도 모델에 포착되었는데, 이는 단기적인 수급 변동에도 불구하고 해당 기업들의 잠재력이나 기관 투자자들의 매수세가 복합적으로 작용한 결과로 보입니다.",
+        "반면 삼성전기처럼 하루 만에 13% 이상 급등한 종목은 '추격 금지/관찰'로 분류되어, 급격한 가격 변동성 속에서 무리한 추격 매수를 경계하는 시스템의 신중한 접근 방식을 명확히 보여줍니다.",
+        "대부분의 후보 종목이 '소액분할검토' 또는 '관찰/소액후보'로 제시된 것은 현재 시장의 불확실한 상황과 높은 변동성을 반영하여, 신중한 분할 접근 또는 추가적인 관찰이 필요하다는 판단으로 해석됩니다."
       ],
-      "conclusion": "현재 시장은 전반적으로 주의가 필요한 약세 흐름을 보이고 있으나, REDBOT Quant는 이러한 환경 속에서 상대적으로 견고한 가격 흐름을 보이는 종목들을 중심으로 후보군을 제시하고 있습니다. 다만, 특정 종목의 단기적인 급등에는 주의하며 신중한 접근이 필요하다는 판단이 함께 제시되었습니다.",
-      "narrative_focus": "model_shift"
+      "conclusion": "전반적인 시장 약세와 높은 변동성 속에서도 시스템은 가격 강도와 펀더멘털을 겸비한 우량주들을 선별하며 신중한 접근을 제안하고 있습니다.",
+      "narrative_focus": "price_volatility"
     }
   },
   "disclaimer": "본 자료는 Quant 모델 기반 투자정보 정리이며 매수/매도 권유가 아니다."

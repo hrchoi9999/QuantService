@@ -360,10 +360,30 @@ def _load_stock_candidate_overrides_from_db(db_path: Path) -> dict[str, dict[str
     try:
         with sqlite3.connect(db_path) as connection:
             connection.row_factory = sqlite3.Row
+            available_columns = _sqlite_table_columns(connection, "portfolio_stock_candidates")
+            select_columns = [
+                "ticker",
+                "model_display",
+                "model_display_codes",
+                "model_ids",
+                "model_groups",
+                "live_price",
+                "live_change_pct",
+                "foreign_net_억원",
+                "institution_net_억원",
+            ]
+            for column in (
+                "first_portfolio_selection_date",
+                "first_portfolio_selection_price",
+                "final_portfolio_selection_date",
+                "final_portfolio_selection_price",
+                "return_from_first_portfolio_selection_pct",
+            ):
+                if column in available_columns:
+                    select_columns.append(column)
             rows = connection.execute(
-                """
-                SELECT ticker, model_display, model_display_codes, model_ids, model_groups,
-                       live_price, live_change_pct, foreign_net_억원, institution_net_억원
+                f"""
+                SELECT {", ".join(select_columns)}
                 FROM portfolio_stock_candidates
                 WHERE run_id = (SELECT MAX(run_id) FROM portfolio_runs)
                 """
@@ -386,6 +406,21 @@ def _load_stock_candidate_overrides_from_db(db_path: Path) -> dict[str, dict[str
                 "change_pct": row["live_change_pct"],
                 "foreign_net": row["foreign_net_억원"],
                 "institution_net": row["institution_net_억원"],
+                "first_portfolio_selection_date": _sqlite_row_value(
+                    row, "first_portfolio_selection_date"
+                ),
+                "first_portfolio_selection_price": _sqlite_row_value(
+                    row, "first_portfolio_selection_price"
+                ),
+                "final_portfolio_selection_date": _sqlite_row_value(
+                    row, "final_portfolio_selection_date"
+                ),
+                "final_portfolio_selection_price": _sqlite_row_value(
+                    row, "final_portfolio_selection_price"
+                ),
+                "return_from_first_portfolio_selection_pct": _sqlite_row_value(
+                    row, "return_from_first_portfolio_selection_pct"
+                ),
             }
     try:
         with sqlite3.connect(db_path) as connection:
@@ -418,6 +453,15 @@ def _load_stock_candidate_overrides_from_db(db_path: Path) -> dict[str, dict[str
             }
         )
     return result
+
+
+def _sqlite_table_columns(connection: sqlite3.Connection, table_name: str) -> set[str]:
+    rows = connection.execute(f"PRAGMA table_info({table_name})").fetchall()
+    return {_text(row["name"], "") for row in rows if _text(row["name"], "")}
+
+
+def _sqlite_row_value(row: sqlite3.Row, key: str) -> Any:
+    return row[key] if key in row.keys() else None
 
 
 def _load_model_explanation_from_db(db_path: Path) -> dict[str, Any]:
@@ -817,13 +861,42 @@ def _normalize_stock_candidates(
                 "name": _text(item.get("name")),
                 "model_names": model_display,
                 "decision": _text(item.get("decision")),
-                "selection_date": _text(
-                    item.get("portfolio_selection_date") or item.get("latest_selection_date")
-                ),
-                "portfolio_selection_date": _text(
-                    item.get("portfolio_selection_date") or item.get("latest_selection_date")
-                ),
                 "model_selection_date": _text(item.get("model_selection_date")),
+                "first_portfolio_selection_date": _text(
+                    _first_present(
+                        override.get("first_portfolio_selection_date"),
+                        item.get("first_portfolio_selection_date"),
+                    )
+                ),
+                "first_portfolio_selection_price": _number(
+                    _first_present(
+                        override.get("first_portfolio_selection_price"),
+                        item.get("first_portfolio_selection_price"),
+                    )
+                ),
+                "final_portfolio_selection_date": _text(
+                    _first_present(
+                        override.get("final_portfolio_selection_date"),
+                        item.get("final_portfolio_selection_date"),
+                        item.get("portfolio_selection_date"),
+                        item.get("latest_selection_date"),
+                    )
+                ),
+                "final_portfolio_selection_price": _number(
+                    _first_present(
+                        override.get("final_portfolio_selection_price"),
+                        item.get("final_portfolio_selection_price"),
+                        item.get("portfolio_selection_price"),
+                        override.get("price"),
+                        quote.get("price"),
+                    )
+                ),
+                "return_from_first_portfolio_selection_pct": _pct_points(
+                    _first_present(
+                        override.get("return_from_first_portfolio_selection_pct"),
+                        item.get("return_from_first_portfolio_selection_pct"),
+                    )
+                ),
                 "price": _number(_first_present(override.get("price"), quote.get("price"))),
                 "change_pct": _pct_points(
                     _first_present(override.get("change_pct"), quote.get("change_pct"))
