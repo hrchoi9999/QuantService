@@ -7045,7 +7045,9 @@ def test_investment_portfolio_can_read_remote_current_json(tmp_path: Path) -> No
     assert bundle.view["etf_strategy"]["selected_model"] == "E-ETF-V01"
 
 
-def test_investment_portfolio_normalizes_portfolio_scenarios(tmp_path: Path) -> None:
+def test_investment_portfolio_normalizes_weight_policy_and_selection_date(
+    tmp_path: Path,
+) -> None:
     payload_path = tmp_path / "investment_portfolio_latest.json"
     payload_path.write_text(
         json.dumps(
@@ -7072,72 +7074,41 @@ def test_investment_portfolio_normalizes_portfolio_scenarios(tmp_path: Path) -> 
                     },
                 },
                 "etf_strategy": {
-                    "portfolio_scenarios": [
-                        {
-                            "scenario": "A",
-                            "name": "보수안",
-                            "basis": "4등급 중립 상단",
-                            "stock_weight_range_pct": "10~20",
-                            "activation_condition": "기본 적용",
-                        }
-                    ],
-                    "e_series_scenario_reference": [
-                        {
-                            "scenario": "B",
-                            "scenario_name": "조건부 공격안",
-                            "e_series_model": "E-ETF-V01",
-                            "public_recommendation_allowed": False,
-                            "usage": "참고자료",
-                        }
-                    ],
+                    "portfolio_weight_policy": {
+                        "logic_version": "portfolio_weight_policy_v1_20260528",
+                        "stock_selection_policy": "상위 10개 유지",
+                        "stock_weight_range_pct": "0~15",
+                        "etf_policy": "S6_DEFENSIVE_V1 중심",
+                        "cash_or_defensive_policy": "현금성/방어 ETF 높게 유지",
+                        "adjustment_rule": "비중만 조절",
+                    },
                 },
                 "stock_strategy": {
-                    "scenario_summary": [
-                        {
-                            "scenario": "A",
-                            "scenario_name": "보수안",
-                            "decision_counts": {"보류/관찰": 8},
-                        }
-                    ],
-                    "validation_scenarios": [
-                        {
-                            "scenario": "A",
-                            "scenario_name": "보수안",
-                            "checks": ["추격하지 않음"],
-                        }
-                    ],
                     "candidates": [
                         {
                             "ticker": "005930",
                             "name": "삼성전자",
+                            "portfolio_selection_date": "2026-05-28",
+                            "model_selection_date": "2026-05-13",
+                            "latest_selection_date": "2026-05-13",
                             "live_quote": {
                                 "foreign_net_억원": -120.5,
                                 "institution_net_억원": 80.0,
                             },
-                            "scenario_decisions": [
-                                {
-                                    "scenario": "A",
-                                    "decision": "보류/관찰",
-                                    "max_weight_hint": "0%",
-                                    "activation_condition": "가격 안정",
-                                },
-                                {
-                                    "scenario": "B",
-                                    "decision": "조건부 소액검토",
-                                    "max_weight_hint": "1~3%",
-                                    "activation_condition": "수급 개선",
-                                },
-                            ],
                         }
                     ],
                 },
                 "final_portfolio_strategy": {
                     "step1_rating": "4등급 중립 상단",
                     "step1_score": 63.0,
-                    "default_scenario": {"scenario": "A", "name": "보수안"},
-                    "conditional_scenario": {"scenario": "B", "name": "조건부 공격안"},
-                    "transition_conditions": ["외국인/프로그램 매도 완화"],
-                    "conclusion": "보수안을 기본으로 둔다.",
+                    "stock_weight_range_pct": "0~15",
+                    "etf_policy": "S6_DEFENSIVE_V1 중심",
+                    "cash_or_defensive_policy": "현금성/방어 ETF 높게 유지",
+                    "weight_policy": {
+                        "stock_selection_policy": "상위 10개 유지",
+                        "adjustment_rule": "비중만 조절",
+                    },
+                    "conclusion": "상위 10개 종목을 유지한다.",
                 },
             },
             ensure_ascii=False,
@@ -7153,25 +7124,31 @@ def test_investment_portfolio_normalizes_portfolio_scenarios(tmp_path: Path) -> 
 
     assert bundle.view["market_risk"]["rating"] == "4등급 중립 상단"
     assert bundle.view["market_risk"]["step1_v2"]["axes"][0]["score_label"] == "18.0/20"
-    assert (
-        bundle.view["etf_strategy"]["portfolio_scenarios"][0]["stock_weight_range_pct"] == "10~20%"
-    )
-    assert bundle.view["etf_strategy"]["e_series_scenario_reference"][0]["public_allowed"] is False
-    assert bundle.view["stock_strategy"]["scenario_summary"][0]["decision_counts"][0] == {
-        "decision": "보류/관찰",
-        "count": "8",
+    assert bundle.view["etf_strategy"]["portfolio_weight_policy"] == {
+        "logic_version": "portfolio_weight_policy_v1_20260528",
+        "basis": "",
+        "stock_selection_policy": "상위 10개 유지",
+        "stock_weight_range_pct": "0~15%",
+        "etf_policy": "S6_DEFENSIVE_V1 중심",
+        "cash_or_defensive_policy": "현금성/방어 ETF 높게 유지",
+        "adjustment_rule": "비중만 조절",
     }
     candidate = bundle.view["stock_strategy"]["candidates"][0]
+    assert candidate["selection_date"] == "2026-05-28"
+    assert candidate["portfolio_selection_date"] == "2026-05-28"
+    assert candidate["model_selection_date"] == "2026-05-13"
     assert candidate["flow_status"] == "혼합/순매도"
     assert candidate["net_flow"] == "-40.5"
     assert candidate["foreign_net"] == "-120.5"
     assert candidate["institution_net"] == "80.0"
-    assert candidate["scenario_a"]["decision"] == "보류/관찰"
-    assert candidate["scenario_b"]["max_weight_hint"] == "1~3%"
-    assert bundle.view["stock_strategy"]["validation_scenarios"][0]["checks"] == ["추격하지 않음"]
-    assert bundle.view["final_portfolio_strategy"]["transition_conditions"] == [
-        "외국인/프로그램 매도 완화"
-    ]
+    assert "scenario_a" not in candidate
+    assert "scenario_b" not in candidate
+    assert bundle.view["final_portfolio_strategy"]["stock_weight_range_pct"] == "0~15%"
+    assert bundle.view["final_portfolio_strategy"]["etf_policy"] == "S6_DEFENSIVE_V1 중심"
+    assert (
+        bundle.view["final_portfolio_strategy"]["cash_or_defensive_policy"]
+        == "현금성/방어 ETF 높게 유지"
+    )
 
 
 def test_investment_portfolio_prefers_stock_candidate_model_display_from_latest_db(

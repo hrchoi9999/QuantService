@@ -200,10 +200,6 @@ def _build_view(
         else {}
     )
     step1_v2 = _normalize_step1_v2(market_risk.get("step1_v2"))
-    scenario_summary = _normalize_scenario_summary(stock_strategy.get("scenario_summary"))
-    validation_scenarios = _normalize_validation_scenarios(
-        stock_strategy.get("validation_scenarios")
-    )
     return {
         "source_path": source_path,
         "as_of_date": _text(payload.get("as_of_date")),
@@ -232,11 +228,8 @@ def _build_view(
                 "public_allowed": bool(e_series.get("public_recommendation_allowed")),
                 "use_policy": _text(e_series.get("use_policy")),
             },
-            "portfolio_scenarios": _normalize_portfolio_scenarios(
-                etf_strategy.get("portfolio_scenarios")
-            ),
-            "e_series_scenario_reference": _normalize_e_series_scenario_reference(
-                etf_strategy.get("e_series_scenario_reference")
+            "portfolio_weight_policy": _normalize_weight_policy(
+                etf_strategy.get("portfolio_weight_policy")
             ),
         },
         "stock_strategy": {
@@ -252,8 +245,6 @@ def _build_view(
                 selected_models_by_ticker or {},
                 candidate_overrides_by_ticker or {},
             ),
-            "scenario_summary": scenario_summary,
-            "validation_scenarios": validation_scenarios,
         },
         "final_portfolio_strategy": _normalize_final_portfolio_strategy(
             payload.get("final_portfolio_strategy")
@@ -545,7 +536,7 @@ def _normalize_step1_v2(value: Any) -> dict[str, Any] | None:
                 "score": _number(item.get("score"), 1),
                 "max_score": _number(item.get("max_score"), 0),
                 "score_label": (
-                    f"{_number(item.get('score'), 1)}/" f"{_number(item.get('max_score'), 0)}"
+                    f"{_number(item.get('score'), 1)}/{_number(item.get('max_score'), 0)}"
                 ),
                 "reasons": _normalize_text_list(item.get("reasons")),
                 "reason_summary": " · ".join(_normalize_text_list(item.get("reasons"))[:2]),
@@ -656,13 +647,41 @@ def _normalize_validation_scenarios(value: Any) -> list[dict[str, Any]]:
 def _normalize_final_portfolio_strategy(value: Any) -> dict[str, Any] | None:
     if not isinstance(value, dict):
         return None
+    weight_policy = _normalize_weight_policy(value.get("weight_policy"))
     return {
         "step1_rating": _text(value.get("step1_rating")),
         "step1_score": _number(value.get("step1_score"), 1),
-        "default_scenario": _normalize_scenario(value.get("default_scenario") or {}),
-        "conditional_scenario": _normalize_scenario(value.get("conditional_scenario") or {}),
-        "transition_conditions": _normalize_text_list(value.get("transition_conditions")),
+        "stock_weight_range_pct": _format_weight_range(
+            value.get("stock_weight_range_pct") or weight_policy.get("stock_weight_range_pct")
+        ),
+        "etf_policy": _text(value.get("etf_policy") or weight_policy.get("etf_policy")),
+        "cash_or_defensive_policy": _text(
+            value.get("cash_or_defensive_policy") or weight_policy.get("cash_or_defensive_policy")
+        ),
+        "weight_policy": weight_policy,
+        "stock_selection_policy": _text(
+            weight_policy.get("stock_selection_policy"),
+            "시장등급과 무관하게 전체 Quant 후보 중 일간 반응성 점수 상위 10개 유지",
+        ),
+        "adjustment_rule": _text(
+            weight_policy.get("adjustment_rule"),
+            "시장등급은 종목 제외가 아니라 주식/ETF/현금 비중 조절에만 사용",
+        ),
         "conclusion": _text(value.get("conclusion")),
+    }
+
+
+def _normalize_weight_policy(value: Any) -> dict[str, str]:
+    if not isinstance(value, dict):
+        return {}
+    return {
+        "logic_version": _text(value.get("logic_version"), ""),
+        "basis": _text(value.get("basis"), ""),
+        "stock_selection_policy": _text(value.get("stock_selection_policy"), ""),
+        "stock_weight_range_pct": _format_weight_range(value.get("stock_weight_range_pct")),
+        "etf_policy": _text(value.get("etf_policy"), ""),
+        "cash_or_defensive_policy": _text(value.get("cash_or_defensive_policy"), ""),
+        "adjustment_rule": _text(value.get("adjustment_rule"), ""),
     }
 
 
@@ -784,7 +803,6 @@ def _normalize_stock_candidates(
             or item.get("model_codes")
             or (selected_models_by_ticker or {}).get(ticker)
         )
-        scenario_decisions = _normalize_scenario_decisions(item.get("scenario_decisions"))
         model_display = override.get("model_display") or _format_stock_candidate_model_display(
             item.get("model_display"),
             item.get("model_display_codes"),
@@ -799,7 +817,13 @@ def _normalize_stock_candidates(
                 "name": _text(item.get("name")),
                 "model_names": model_display,
                 "decision": _text(item.get("decision")),
-                "latest_selection_date": _text(item.get("latest_selection_date")),
+                "selection_date": _text(
+                    item.get("portfolio_selection_date") or item.get("latest_selection_date")
+                ),
+                "portfolio_selection_date": _text(
+                    item.get("portfolio_selection_date") or item.get("latest_selection_date")
+                ),
+                "model_selection_date": _text(item.get("model_selection_date")),
                 "price": _number(_first_present(override.get("price"), quote.get("price"))),
                 "change_pct": _pct_points(
                     _first_present(override.get("change_pct"), quote.get("change_pct"))
@@ -809,9 +833,6 @@ def _normalize_stock_candidates(
                 "foreign_net": _number(foreign_net_value, 1),
                 "institution_net": _number(institution_net_value, 1),
                 "summary": _text(item.get("qualitative_summary")),
-                "scenario_decisions": scenario_decisions,
-                "scenario_a": scenario_decisions.get("A", {}),
-                "scenario_b": scenario_decisions.get("B", {}),
             }
         )
     return rows
