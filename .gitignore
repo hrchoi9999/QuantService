@@ -24,5 +24,6 @@ docs/*
 tests/fixtures/adapters/
 
 .venv_32_backup/
+_deploy_tseries_kor/
 
 service_platform/web/internal_preview/

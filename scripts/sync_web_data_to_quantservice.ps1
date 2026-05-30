@@ -4,7 +4,8 @@ param(
     [string]$QuantAnalysisRoot = "D:\QuantAnalysis",
     [string]$QuantServiceRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path,
     [string]$GcsBucket = "quantservice-489808-market-analysis",
-    [switch]$SkipGcs
+    [switch]$SkipGcs,
+    [switch]$SkipValidation
 )
 
 $ErrorActionPreference = "Stop"
@@ -91,6 +92,13 @@ $copiedPortfolio = Copy-RequiredFile `
 $copiedTseries = Copy-RequiredFile `
     -Source (Join-Path $quantCurrentDir "quantservice_tseries_discovery.json") `
     -Destination (Join-Path $serviceTseriesCurrentDir "quantservice_tseries_discovery.json")
+
+if (-not $SkipValidation) {
+    & "$PSScriptRoot\validate_web_data.ps1" -QuantServiceRoot $QuantServiceRoot
+    if ($LASTEXITCODE -ne 0) {
+        throw "web data validation failed"
+    }
+}
 
 if (-not $SkipGcs) {
     $gcloud = Resolve-Gcloud

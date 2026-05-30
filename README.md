@@ -57,6 +57,18 @@ Run tests:
 .\.venv\Scripts\python -m pytest tests -q
 ```
 
+Run the deploy quality gate:
+
+```powershell
+.\scripts\check_quality.ps1
+```
+
+Validate web handoff data before GCS upload:
+
+```powershell
+.\scripts\validate_web_data.ps1
+```
+
 ## Repository Policy
 
 Private materials are managed outside this repository.
