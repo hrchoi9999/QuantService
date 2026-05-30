@@ -1440,15 +1440,19 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
     date_labels = []
     if unique_dates:
         label_step = 20
+        min_label_gap = 88.0
         label_indexes = set(range(0, len(unique_dates), label_step))
         label_indexes.update({0, len(unique_dates) - 1})
         for label_index in sorted(label_indexes):
-            date_labels.append(
-                {
-                    "x": date_to_x[unique_dates[label_index]],
-                    "label": _format_chart_date_label(unique_dates[label_index]),
-                }
-            )
+            label = {
+                "x": date_to_x[unique_dates[label_index]],
+                "label": _format_chart_date_label(unique_dates[label_index]),
+            }
+            if date_labels and label["x"] - date_labels[-1]["x"] < min_label_gap:
+                if label_index == len(unique_dates) - 1 and len(date_labels) > 1:
+                    date_labels[-1] = label
+                continue
+            date_labels.append(label)
     hover_points = []
     for date_text in unique_dates:
         tooltip = tooltip_by_date.get(date_text) or {}

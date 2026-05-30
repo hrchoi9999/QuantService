@@ -2,12 +2,12 @@ import importlib
 import json
 import sys
 from dataclasses import replace
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from service_platform.billing.lightpay import BILLING_PLAN_PRICES
 from service_platform.shared.config import Settings
-from service_platform.web.app import create_app
+from service_platform.web.app import _build_market_composite_chart_view, create_app
 from service_platform.web.investment_portfolio_api import InvestmentPortfolioApi
 from service_platform.web.market_analysis_api import MarketAnalysisMockApi
 from service_platform.web.trading_sign_api import TradingSignSnapshotApi
@@ -2984,6 +2984,31 @@ def test_market_analysis_pages_and_api_render_handoff_data(tmp_path: Path) -> No
     )
     assert manifest_response.status_code == 200
     assert manifest_response.get_json()["consumer"] == "QuantService"
+
+
+def test_market_composite_chart_date_labels_keep_latest_without_overlap() -> None:
+    base_date = datetime(2026, 1, 1)
+    dates = [(base_date + timedelta(days=index)).date().isoformat() for index in range(130)]
+    chart = {
+        "score_range": {"min": -3, "max": 3},
+        "series": [
+            {
+                "series_id": "short_term_market_condition",
+                "label": "단기",
+                "points": [
+                    {"date": date_text, "value": (index % 7) - 3}
+                    for index, date_text in enumerate(dates)
+                ],
+            }
+        ],
+    }
+
+    view = _build_market_composite_chart_view(chart)
+    labels = view["date_labels"]
+    gaps = [right["x"] - left["x"] for left, right in zip(labels, labels[1:])]
+
+    assert labels[-1]["label"] == dates[-1][5:]
+    assert all(gap >= 88 for gap in gaps)
 
 
 def test_market_analysis_can_read_remote_handoff_json(tmp_path: Path) -> None:
