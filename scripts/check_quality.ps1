@@ -17,6 +17,7 @@ $targets = @(
     "service_platform\web\market_analysis_api.py",
     "service_platform\web\data_provider.py",
     "service_platform\web\user_snapshot_api.py",
+    "service_platform\web\status_routes.py",
     "scripts\validate_web_data.py"
 )
 

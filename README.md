@@ -37,6 +37,7 @@ Install dependencies:
 
 ```powershell
 .\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python -m pip install -r requirements-dev.txt
 ```
 
 Run the web app:
@@ -67,6 +68,12 @@ Validate web handoff data before GCS upload:
 
 ```powershell
 .\scripts\validate_web_data.ps1
+```
+
+Create a verified local repository backup:
+
+```powershell
+.\scripts\backup_quantservice.ps1 -Verify
 ```
 
 ## Repository Policy
