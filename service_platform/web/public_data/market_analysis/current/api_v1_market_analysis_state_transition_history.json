@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/state-transition/history?market=KR",
   "market": "KR",
-  "asof": "2026-05-30T20:00:00+09:00",
+  "asof": "2026-05-30T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-30T20:00:00+09:00",
+    "asof": "2026-05-30T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_state_transition_history.v1",
-    "as_of_date": "2026-05-30T20:00:00+09:00",
-    "generated_at": "2026-05-30T20:22:33+09:00",
+    "as_of_date": "2026-05-30T21:00:00+09:00",
+    "generated_at": "2026-05-30T21:07:22+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-30T20:00:00+09:00",
+      "asof": "2026-05-30T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -9683,6 +9683,16 @@
         "transition_count_5d": 5,
         "transition_count_20d": 13,
         "stability_score": 0.0167,
+        "state_score": 0.3383
+      },
+      {
+        "asof": "2026-05-30T21:00:00+09:00",
+        "current_state": "강보합",
+        "prev_state": "강보합",
+        "state_change_direction": "unchanged",
+        "transition_count_5d": 5,
+        "transition_count_20d": 13,
+        "stability_score": 0.0333,
         "state_score": 0.3383
       }
     ]

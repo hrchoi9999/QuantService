@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/us-macro-panel?market=KR",
   "market": "KR",
-  "asof": "2026-05-30T20:00:00+09:00",
+  "asof": "2026-05-30T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,17 +16,17 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-30T20:00:00+09:00",
+    "asof": "2026-05-30T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-30T20:00:00+09:00",
-    "generated_at": "2026-05-30T20:22:33+09:00",
+    "asof": "2026-05-30T21:00:00+09:00",
+    "generated_at": "2026-05-30T21:07:22+09:00",
     "title": "미국/글로벌 매크로 패널",
     "description": "미국 선물, 금리, 환율, 원유와 미국 상장 한국 ETF를 함께 보여 주는 공개형 글로벌 참고 패널입니다.",
-    "snapshot_asof": "2026-05-30T20:00:00+09:00",
+    "snapshot_asof": "2026-05-30T21:00:00+09:00",
     "assets": [
       {
         "asset_code": "WTI",
@@ -170,7 +170,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-30T20:00:00+09:00",
+      "asof": "2026-05-30T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

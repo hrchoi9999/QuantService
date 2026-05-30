@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_next_day_preview_history.v1",
-  "as_of_date": "2026-05-30T20:00:00+09:00",
-  "generated_at": "2026-05-30T20:22:33+09:00",
+  "as_of_date": "2026-05-30T21:00:00+09:00",
+  "generated_at": "2026-05-30T21:07:22+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-30T20:00:00+09:00",
+    "asof": "2026-05-30T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -23105,6 +23105,56 @@
     },
     {
       "asof": "2026-05-30T20:00:00+09:00",
+      "reference_session": "2026-06-01",
+      "active_now": true,
+      "preview_label": "혼조 출발 가능성",
+      "overnight_assets": [
+        {
+          "asset_code": "KOSPI200_NIGHT_FUT",
+          "change_pct": null,
+          "direction_label": "unavailable",
+          "status_label": "fallback"
+        },
+        {
+          "asset_code": "KOREA_PROXY_EWY",
+          "change_pct": -0.0028099413788090777,
+          "direction_label": "down",
+          "status_label": "live"
+        },
+        {
+          "asset_code": "SP500_FUT",
+          "change_pct": 0.0018465393873445812,
+          "direction_label": "up",
+          "status_label": "live"
+        },
+        {
+          "asset_code": "NASDAQ100_FUT",
+          "change_pct": 0.0032418253208830183,
+          "direction_label": "up",
+          "status_label": "live"
+        },
+        {
+          "asset_code": "USDKRW",
+          "change_pct": 0.008930304795185418,
+          "direction_label": "up",
+          "status_label": "live"
+        },
+        {
+          "asset_code": "WTI",
+          "change_pct": -0.017322834645669416,
+          "direction_label": "down",
+          "status_label": "live"
+        },
+        {
+          "asset_code": "US10Y",
+          "change_pct": -0.00044893378226706915,
+          "direction_label": "down",
+          "status_label": "live"
+        }
+      ]
+    },
+    {
+      "asof": "2026-05-30T21:00:00+09:00",
       "reference_session": "2026-06-01",
       "active_now": true,
       "preview_label": "혼조 출발 가능성",
