@@ -5,6 +5,13 @@ target-version = ["py310"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+exclude = [
+    ".git",
+    ".venv",
+    "data",
+    "service_platform/web/admin_data/current",
+    "service_platform/web/public_data/market_analysis/current",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
@@ -12,3 +19,4 @@ select = ["E", "F", "I"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+addopts = "-q"
