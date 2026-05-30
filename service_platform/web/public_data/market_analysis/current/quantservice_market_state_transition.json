@@ -1,86 +1,86 @@
 {
   "market": "KR",
-  "asof": "2026-05-29T00:00:00+09:00",
+  "asof": "2026-05-30T20:00:00+09:00",
   "title": "상태 전이 요약",
   "description": "현재 상태가 얼마나 이어지고 있는지와 최근 상태 변화 빈도를 요약한 공개 브리핑 데이터입니다.",
   "current": {
-    "current_state": "중립",
-    "prev_state": "중립",
-    "duration_hours": 5.0,
-    "transition_count_5d": 4,
-    "transition_count_20d": 12,
-    "stability_score": 0.0833
+    "current_state": "강보합",
+    "prev_state": "강보합",
+    "duration_hours": 1.0,
+    "transition_count_5d": 5,
+    "transition_count_20d": 13,
+    "stability_score": 0.0167
   },
   "recent_changes": [
     {
-      "asof": "2026-05-29T00:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "중립",
-      "state_change_direction": "unchanged",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-28T23:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "중립",
-      "state_change_direction": "unchanged",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-28T22:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "중립",
-      "state_change_direction": "unchanged",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-28T21:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "중립",
-      "state_change_direction": "unchanged",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-28T20:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "중립",
-      "state_change_direction": "unchanged",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-28T19:00:00+09:00",
-      "state_label": "중립",
-      "prev_state_label": "강보합",
-      "state_change_direction": "weaker",
-      "state_score": 0.1666
-    },
-    {
-      "asof": "2026-05-27T22:00:00+09:00",
+      "asof": "2026-05-30T20:00:00+09:00",
       "state_label": "강보합",
       "prev_state_label": "강보합",
       "state_change_direction": "unchanged",
-      "state_score": 0.9451
+      "state_score": 0.3383
     },
     {
-      "asof": "2026-05-27T21:00:00+09:00",
+      "asof": "2026-05-30T19:00:00+09:00",
       "state_label": "강보합",
-      "prev_state_label": "상승",
+      "prev_state_label": "중립",
+      "state_change_direction": "stronger",
+      "state_score": 0.3383
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "stronger",
+      "state_score": 0.1271
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
+      "state_change_direction": "unchanged",
+      "state_score": 0.1016
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "state_label": "중립",
+      "prev_state_label": "중립",
       "state_change_direction": "weaker",
-      "state_score": 0.9451
-    },
-    {
-      "asof": "2026-05-27T20:00:00+09:00",
-      "state_label": "상승",
-      "prev_state_label": "상승",
-      "state_change_direction": "unchanged",
-      "state_score": 1.4137
-    },
-    {
-      "asof": "2026-05-27T19:00:00+09:00",
-      "state_label": "상승",
-      "prev_state_label": "상승",
-      "state_change_direction": "unchanged",
-      "state_score": 1.4137
+      "state_score": 0.1016
     }
   ]
 }

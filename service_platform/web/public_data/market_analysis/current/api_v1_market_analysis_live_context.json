@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/live-context?market=KR",
   "market": "KR",
-  "asof": "2026-05-29T00:00:00+09:00",
+  "asof": "2026-05-30T20:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,24 +16,24 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-29T00:00:00+09:00",
+    "asof": "2026-05-30T20:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-29T00:00:00+09:00",
+    "asof": "2026-05-30T20:00:00+09:00",
     "title": "장중/야간 참고",
     "description": "종가 기준 시장 흐름과 별도로, 오늘 장중 흐름과 다음 거래일 장초반 참고 신호를 함께 정리한 공개 데이터입니다.",
     "state_intraday_bridge": {
       "enabled": true,
       "medium_term_label": "퀀트모델 시장 흐름",
       "medium_term_description": "최근 추세와 시장 내부 신호를 반영한 퀀트모델 기준 흐름입니다.",
-      "medium_term_state_label": "중립",
-      "medium_term_state_score": 0.1666,
+      "medium_term_state_label": "강보합",
+      "medium_term_state_score": 0.3383,
       "intraday_label": "오늘 장중 흐름",
       "intraday_description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
-      "intraday_state_label": "약세",
+      "intraday_state_label": "소폭 강세",
       "intraday_state_values": [
         "강세",
         "소폭 강세",
@@ -41,31 +41,31 @@
         "약세",
         "강한 약세"
       ],
-      "alignment": "mixed",
-      "display_label": "중립, 오늘 흐름 혼조",
-      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름의 방향이 완전히 같지는 않아 함께 해석할 필요가 있습니다.",
+      "alignment": "aligned",
+      "display_label": "상승 흐름 유지",
+      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름이 모두 상승 쪽으로 같은 방향을 가리킵니다.",
       "basis_lines": [
-        "퀀트모델 시장 흐름 근거: 추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
-        "장중 흐름 근거(최근 거래일 2026-05-27 기준): 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매도 규모도 커서 지수 압박 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다."
+        "퀀트모델 시장 흐름 근거: 지수 흐름은 우호적이지만 퀀트투자 모델 해석을 위해 내부 확산이 더 확인되는지 함께 볼 필요가 있습니다.",
+        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 상대적으로 견조합니다."
       ],
       "intraday": {
-        "asof": "2026-05-27T18:00:00+09:00",
+        "asof": "2026-05-30T18:00:00+09:00",
         "session_status": "live",
-        "direction_label": "약세",
-        "intraday_state_label": "약세",
-        "total_score": -0.3741,
-        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매도 규모도 커서 지수 압박 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
-        "session_date": "2026-05-27",
-        "is_previous_session_reference": true,
-        "reference_label": "최근 거래일 기준 참고",
+        "direction_label": "소폭 강세",
+        "intraday_state_label": "소폭 강세",
+        "total_score": 0.856,
+        "summary_line": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 상대적으로 견조합니다.",
+        "session_date": "2026-05-30",
+        "is_previous_session_reference": false,
+        "reference_label": null,
         "futures": {
           "contract_name": "코스피200 선물",
-          "change_pct": 0.0279,
-          "price": 1302.7
+          "change_pct": 0.0426,
+          "price": 1349.35
         },
         "flow": {
-          "foreigner_net": -4498.0,
-          "program_total_net": -20728.0
+          "foreigner_net": null,
+          "program_total_net": null
         }
       }
     },
@@ -73,24 +73,24 @@
       "enabled": true,
       "label": "오늘 장중 흐름",
       "description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
-      "asof": "2026-05-27T18:00:00+09:00",
-      "direction_label": "약세",
-      "total_score": -0.3741,
-      "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매도 규모도 커서 지수 압박 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
+      "asof": "2026-05-30T18:00:00+09:00",
+      "direction_label": "소폭 강세",
+      "total_score": 0.856,
+      "summary_line": "코스피와 코스닥이 장중 기준으로 강세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 상대적으로 견조합니다.",
       "futures": {
         "contract_name": "코스피200 선물",
-        "change_pct": 0.0279,
-        "price": 1302.7
+        "change_pct": 0.0426,
+        "price": 1349.35
       },
       "flow": {
-        "foreigner_net": -4498.0,
-        "program_total_net": -20728.0
+        "foreigner_net": null,
+        "program_total_net": null
       }
     },
     "next_day_preview": {
       "market": "KR",
-      "asof": "2026-05-29T00:00:00+09:00",
-      "reference_session": "2026-05-29",
+      "asof": "2026-05-30T20:00:00+09:00",
+      "reference_session": "2026-06-01",
       "content_mode": "next_day_preview",
       "source_type": "public_next_day_preview",
       "active_now": true,
@@ -101,16 +101,16 @@
       },
       "title": "내일 시장 전망 참고",
       "preview_label": "혼조 출발 가능성",
-      "preview_score": -0.2986,
+      "preview_score": -0.3598,
       "headline_line": "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
-      "summary_line": "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
+      "summary_line": "현재 퀀트모델 시장 흐름(강보합)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
       "supporting_points": [
-        "S&P500 선물 흐름은 0.28% 수준으로 방향성이 크지 않습니다.",
-        "나스닥100 선물이 0.42% 올라 기술주 선호 흐름이 이어집니다.",
-        "미국 상장 한국 ETF가 2.73% 올라 해외 시장에서도 한국 자산 선호가 비교적 우호적입니다."
+        "S&P500 선물 흐름은 0.18% 수준으로 방향성이 크지 않습니다.",
+        "나스닥100 선물이 0.32% 올라 기술주 선호 흐름이 이어집니다.",
+        "미국 상장 한국 ETF는 -0.28% 수준으로 방향성이 제한적입니다."
       ],
       "risk_points": [
-        "WTI가 0.99% 올라 에너지 가격 변수 부담이 커졌습니다.",
+        "달러가 0.89% 올라 원화 약세 부담이 이어지고 있습니다.",
         "주요 뉴스에서는 '뉴욕증시 프리뷰, 유가 급등·중동 긴장 재고조에 주가 선물 하락...PCE 앞둔 경계심↑ - 뉴스핌' 이슈가 함께 거론되고 있습니다.",
         "주요 뉴스에서는 '종전 낙관론에 글로벌 주식·채권 강세…유가는 100달러 아래로(종합) - 연합뉴스' 이슈가 함께 거론되고 있습니다."
       ],
@@ -128,8 +128,8 @@
           "asset_code": "KOREA_PROXY_EWY",
           "asset_name": "미국 상장 한국 ETF",
           "asset_group": "korea_proxy",
-          "change_pct": 0.02733370316203554,
-          "price": 203.71,
+          "change_pct": -0.0028099413788090777,
+          "price": 205.83,
           "source": "yahoo:EWY",
           "is_fallback": false
         },
@@ -137,8 +137,8 @@
           "asset_code": "SP500_FUT",
           "asset_name": "S&P500 선물",
           "asset_group": "us_futures",
-          "change_pct": 0.002818302387267879,
-          "price": 7561.25,
+          "change_pct": 0.0018465393873445812,
+          "price": 7595.75,
           "source": "yahoo:ES=F",
           "is_fallback": false
         },
@@ -146,8 +146,8 @@
           "asset_code": "NASDAQ100_FUT",
           "asset_name": "나스닥100 선물",
           "asset_group": "us_futures",
-          "change_pct": 0.004185075173268826,
-          "price": 30173.0,
+          "change_pct": 0.0032418253208830183,
+          "price": 30405.25,
           "source": "yahoo:NQ=F",
           "is_fallback": false
         },
@@ -155,8 +155,8 @@
           "asset_code": "USDKRW",
           "asset_name": "USD/KRW",
           "asset_group": "fx",
-          "change_pct": -0.0039466403557310015,
-          "price": 1494.09,
+          "change_pct": 0.008930304795185418,
+          "price": 1507.13,
           "source": "yahoo:KRW=X",
           "is_fallback": false
         },
@@ -164,8 +164,8 @@
           "asset_code": "WTI",
           "asset_name": "WTI 원유",
           "asset_group": "commodity",
-          "change_pct": 0.009923319801533603,
-          "price": 89.56,
+          "change_pct": -0.017322834645669416,
+          "price": 87.36,
           "source": "yahoo:CL=F",
           "is_fallback": false
         },
@@ -173,24 +173,24 @@
           "asset_code": "US10Y",
           "asset_name": "미국 10년 금리",
           "asset_group": "rates",
-          "change_pct": -0.0035706315554563384,
-          "price": 4.465,
+          "change_pct": -0.00044893378226706915,
+          "price": 4.453,
           "source": "yahoo:^TNX",
           "is_fallback": false
         }
       ],
       "biases": {
-        "overnight_futures_bias": 0.1145,
+        "overnight_futures_bias": 0.0076,
         "korea_signal_alignment": "single_source",
-        "global_risk_bias": -1.0274,
-        "overnight_fx_bias": 0.0474,
-        "next_day_preview_score": -0.2986
+        "global_risk_bias": -0.9765,
+        "overnight_fx_bias": -0.1072,
+        "next_day_preview_score": -0.3598
       },
-      "market_flow_label": "중립",
-      "market_flow_score": 0.1666,
-      "market_flow_reference_note": "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
+      "market_flow_label": "강보합",
+      "market_flow_score": 0.3383,
+      "market_flow_reference_note": "지수 흐름은 비교적 우호적이지만 모델 해석을 위해 내부 종목 확산과 위험 지표를 함께 살펴볼 구간입니다.",
       "title_candidates": [
-        "2026-05-29 장초반 전망 참고",
+        "2026-06-01 장초반 전망 참고",
         "내일 시장 전망 참고: 혼조 출발 가능성",
         "야간 자산 흐름 점검: 혼조 출발 가능성"
       ],
@@ -198,16 +198,16 @@
       "caption_lines": [
         "혼조 출발 가능성",
         "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
-        "S&P500 선물 흐름은 0.28% 수준으로 방향성이 크지 않습니다.",
-        "WTI가 0.99% 올라 에너지 가격 변수 부담이 커졌습니다.",
-        "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
+        "S&P500 선물 흐름은 0.18% 수준으로 방향성이 크지 않습니다.",
+        "달러가 0.89% 올라 원화 약세 부담이 이어지고 있습니다.",
+        "현재 퀀트모델 시장 흐름(강보합)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
       ],
       "narration_lines": [
         "혼조 출발 가능성",
         "야간 자산 흐름은 혼조권에 머물러 내일 장초반 방향성은 아직 제한적입니다.",
-        "S&P500 선물 흐름은 0.28% 수준으로 방향성이 크지 않습니다.",
-        "WTI가 0.99% 올라 에너지 가격 변수 부담이 커졌습니다.",
-        "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
+        "S&P500 선물 흐름은 0.18% 수준으로 방향성이 크지 않습니다.",
+        "달러가 0.89% 올라 원화 약세 부담이 이어지고 있습니다.",
+        "현재 퀀트모델 시장 흐름(강보합)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
       ],
       "tags": [
         "시장브리핑",
@@ -216,8 +216,8 @@
         "한국증시",
         "멀티애셋"
       ],
-      "content_hash": "490b079decf1895e5db6c3525546f7318ce189ec4646229327c1928c916efda1",
-      "material_change_flag": true,
+      "content_hash": "bfc6e208fce539b8cfb81d3c8a5cd3bcc4495309e4081693aefd3f57acf1f0a6",
+      "material_change_flag": false,
       "freshness": {
         "target_update_interval_minutes": 60,
         "consumer_warning_after_minutes": 90,
@@ -258,7 +258,7 @@
         "intended_use": "market_briefing_reference",
         "model_version": "market_analysis_p1",
         "calculation_version": "market_analysis_p1_20260324",
-        "asof": "2026-05-29T00:00:00+09:00",
+        "asof": "2026-05-30T20:00:00+09:00",
         "refresh_cycle": "hourly",
         "rebalance_frequency": "not_applicable"
       },
@@ -282,7 +282,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-29T00:00:00+09:00",
+      "asof": "2026-05-30T20:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

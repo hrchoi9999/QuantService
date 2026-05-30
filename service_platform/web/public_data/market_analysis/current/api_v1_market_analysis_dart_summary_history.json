@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/dart-summary/history?market=KR",
   "market": "KR",
-  "asof": "2026-05-29T00:00:00+09:00",
+  "asof": "2026-05-30T20:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-29T00:00:00+09:00",
+    "asof": "2026-05-30T20:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_dart_summary_history.v1",
-    "as_of_date": "2026-05-29T00:00:00+09:00",
-    "generated_at": "2026-05-29T00:05:29+09:00",
+    "as_of_date": "2026-05-30T20:00:00+09:00",
+    "generated_at": "2026-05-30T20:22:33+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1d",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-29T00:00:00+09:00",
+      "asof": "2026-05-30T20:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -55,45 +55,6 @@
       "performance_link_note": "시장상태 정보는 모델 해석을 돕기 위한 참고자료이며, 특정 자산의 매수·매도 또는 비중 확대·축소를 직접 권유하지 않습니다."
     },
     "series": [
-      {
-        "asof": "2026-04-29T22:00:00+09:00",
-        "reference_date": "20260429",
-        "filing_count_total": 600,
-        "kospi_count": 335,
-        "kosdaq_count": 265,
-        "risk_event_count": 12,
-        "funding_count": 56,
-        "shareholder_count": 212,
-        "earnings_count": 22,
-        "governance_count": 34,
-        "general_count": 264,
-        "type_counts": [
-          {
-            "category_label": "일반 공시",
-            "count": 264
-          },
-          {
-            "category_label": "지분/자사주",
-            "count": 212
-          },
-          {
-            "category_label": "자금조달",
-            "count": 56
-          },
-          {
-            "category_label": "지배구조/의사결정",
-            "count": 34
-          },
-          {
-            "category_label": "실적/정기보고",
-            "count": 22
-          },
-          {
-            "category_label": "리스크 공시",
-            "count": 12
-          }
-        ]
-      },
       {
         "asof": "2026-05-02T23:00:00+09:00",
         "reference_date": "20260430",
@@ -797,21 +758,41 @@
         ]
       },
       {
-        "asof": "2026-05-29T00:00:00+09:00",
+        "asof": "2026-05-30T20:00:00+09:00",
         "reference_date": "20260529",
-        "filing_count_total": 1,
-        "kospi_count": 0,
-        "kosdaq_count": 1,
-        "risk_event_count": 0,
-        "funding_count": 0,
-        "shareholder_count": 0,
-        "earnings_count": 0,
-        "governance_count": 1,
-        "general_count": 0,
+        "filing_count_total": 1183,
+        "kospi_count": 812,
+        "kosdaq_count": 371,
+        "risk_event_count": 13,
+        "funding_count": 57,
+        "shareholder_count": 186,
+        "earnings_count": 21,
+        "governance_count": 65,
+        "general_count": 841,
         "type_counts": [
           {
+            "category_label": "일반 공시",
+            "count": 841
+          },
+          {
+            "category_label": "지분/자사주",
+            "count": 186
+          },
+          {
             "category_label": "지배구조/의사결정",
-            "count": 1
+            "count": 65
+          },
+          {
+            "category_label": "자금조달",
+            "count": 57
+          },
+          {
+            "category_label": "실적/정기보고",
+            "count": 21
+          },
+          {
+            "category_label": "리스크 공시",
+            "count": 13
           }
         ]
       }

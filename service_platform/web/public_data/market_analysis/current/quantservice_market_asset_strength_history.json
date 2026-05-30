@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_asset_strength_history.v1",
-  "as_of_date": "2026-05-29T00:00:00+09:00",
-  "generated_at": "2026-05-29T00:05:29+09:00",
+  "as_of_date": "2026-05-30T20:00:00+09:00",
+  "generated_at": "2026-05-30T20:22:33+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-29T00:00:00+09:00",
+    "asof": "2026-05-30T20:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -45726,6 +45726,534 @@
       "asset_group": "INVERSE",
       "strength_score": -1.6561,
       "ret_20d": -0.2981843575418994,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.6788,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4361,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1631,
+      "ret_20d": -0.005906626749737076,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2009,
+      "ret_20d": -0.06432287561090966,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4191,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T18:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.6579,
+      "ret_20d": -0.2981843575418994,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T19:21:50+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T20:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T21:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T22:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-29T23:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7313,
+      "ret_20d": 0.23737765435763025,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.4391,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1348,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2685,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.4502,
+      "ret_20d": -0.09934924972127557,
+      "strength_rank": 5,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T00:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5865,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.8087,
+      "ret_20d": 0.27633260639128165,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.3829,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.102,
+      "ret_20d": -0.009055627425614499,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.2703,
+      "ret_20d": -0.07131537242472263,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.5364,
+      "ret_20d": -0.1158129553924867,
+      "strength_rank": 5,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T18:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.4869,
+      "ret_20d": -0.27474892395982786,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7454,
+      "ret_20d": 0.27633260639128165,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.3711,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1143,
+      "ret_20d": -0.0066343042071197456,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.128,
+      "ret_20d": -0.048668357641090676,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.515,
+      "ret_20d": -0.1158129553924867,
+      "strength_rank": 5,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T19:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5879,
+      "ret_20d": -0.301941049604601,
+      "strength_rank": 6,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "KOSPI",
+      "strength_score": 1.7454,
+      "ret_20d": 0.27633260639128165,
+      "strength_rank": 1,
+      "strength_label": "강함"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "USDKRW",
+      "strength_score": 0.3711,
+      "ret_20d": 0.037910118555279926,
+      "strength_rank": 2,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "BOND",
+      "strength_score": 0.1143,
+      "ret_20d": -0.0066343042071197456,
+      "strength_rank": 3,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "GOLD",
+      "strength_score": -0.128,
+      "ret_20d": -0.048668357641090676,
+      "strength_rank": 4,
+      "strength_label": "중립"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "KOSDAQ",
+      "strength_score": -0.515,
+      "ret_20d": -0.1158129553924867,
+      "strength_rank": 5,
+      "strength_label": "약함"
+    },
+    {
+      "asof": "2026-05-30T20:00:00+09:00",
+      "asset_group": "INVERSE",
+      "strength_score": -1.5879,
+      "ret_20d": -0.301941049604601,
       "strength_rank": 6,
       "strength_label": "약함"
     }

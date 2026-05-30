@@ -1,37 +1,377 @@
 {
   "market": "KR",
-  "asof": "2026-05-29T00:00:00+09:00",
-  "generated_at": "2026-05-29T00:05:29+09:00",
+  "asof": "2026-05-30T20:00:00+09:00",
+  "generated_at": "2026-05-30T20:22:33+09:00",
   "title": "DART 공시 요약",
   "description": "상장사 공시 흐름을 OpenDART 기준으로 요약한 공개형 시장 데이터 패널입니다.",
   "enabled": true,
   "status_label": "정상",
   "availability_reason": null,
   "reference_date": "20260529",
-  "filing_count_total": 1,
+  "filing_count_total": 1183,
   "market_breakdown": {
-    "kospi_count": 0,
-    "kosdaq_count": 1
+    "kospi_count": 812,
+    "kosdaq_count": 371
   },
-  "risk_event_count": 0,
+  "risk_event_count": 13,
   "filing_count_by_type": [
     {
+      "category_label": "일반 공시",
+      "count": 841
+    },
+    {
+      "category_label": "지분/자사주",
+      "count": 186
+    },
+    {
       "category_label": "지배구조/의사결정",
-      "count": 1
+      "count": 65
+    },
+    {
+      "category_label": "자금조달",
+      "count": 57
+    },
+    {
+      "category_label": "실적/정기보고",
+      "count": 21
+    },
+    {
+      "category_label": "리스크 공시",
+      "count": 13
     }
   ],
-  "highlights": [],
-  "recent_filings": [
+  "highlights": [
     {
-      "corp_name": "알엔투테크놀로지",
-      "stock_code": "148250",
-      "report_nm": "[기재정정]주요사항보고서(타법인주식및출자증권양도결정)",
-      "category_label": "지배구조/의사결정",
-      "severity_label": "normal",
-      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260528001044",
-      "rcept_no": "20260528001044",
+      "corp_name": "DB하이텍",
+      "stock_code": "000990",
+      "report_nm": "영업정지(종속회사의주요경영사항)              ",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529801734",
+      "rcept_no": "20260529801734",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "DGI",
+      "stock_code": "099520",
+      "report_nm": "기타시장안내              (상장폐지 관련 이의신청서 접수)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529901382",
+      "rcept_no": "20260529901382",
       "rcept_dt": "20260529",
       "corp_cls": "K"
+    },
+    {
+      "corp_name": "광명전기",
+      "stock_code": "017040",
+      "report_nm": "소송등의판결ㆍ결정              ",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802079",
+      "rcept_no": "20260529802079",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "범양건영",
+      "stock_code": "002410",
+      "report_nm": "[기재정정]회생절차개시결정              ",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529800794",
+      "rcept_no": "20260529800794",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "씨씨에스",
+      "stock_code": "066790",
+      "report_nm": "소송등의제기ㆍ신청(경영권분쟁소송)              (직무대행자선임 가처분)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529901867",
+      "rcept_no": "20260529901867",
+      "rcept_dt": "20260529",
+      "corp_cls": "K"
+    },
+    {
+      "corp_name": "씨씨에스",
+      "stock_code": "066790",
+      "report_nm": "소송등의제기ㆍ신청(경영권분쟁소송)              (주주총회결의 집행금지 가처분)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529901863",
+      "rcept_no": "20260529901863",
+      "rcept_dt": "20260529",
+      "corp_cls": "K"
+    },
+    {
+      "corp_name": "우진비앤지",
+      "stock_code": "018620",
+      "report_nm": "주권매매거래정지              (무상증자)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529900416",
+      "rcept_no": "20260529900416",
+      "rcept_dt": "20260529",
+      "corp_cls": "K"
+    },
+    {
+      "corp_name": "유나이티드",
+      "stock_code": "033270",
+      "report_nm": "소송등의판결ㆍ결정(일정금액이상의청구)              ",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529801833",
+      "rcept_no": "20260529801833",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "이오플로우",
+      "stock_code": "294090",
+      "report_nm": "소송등의판결ㆍ결정              (영업비밀보호법(“DTSA”)에 따른 영업비밀)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529901513",
+      "rcept_no": "20260529901513",
+      "rcept_dt": "20260529",
+      "corp_cls": "K"
+    },
+    {
+      "corp_name": "텔콘RF제약",
+      "stock_code": "200230",
+      "report_nm": "주권매매거래정지              (주식의 병합, 분할 등 전자등록 변경, 말소)",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529901730",
+      "rcept_no": "20260529901730",
+      "rcept_dt": "20260529",
+      "corp_cls": "K"
+    }
+  ],
+  "recent_filings": [
+    {
+      "corp_name": "이수스페셜티케미컬",
+      "stock_code": "457190",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802121",
+      "rcept_no": "20260529802121",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "시프트업",
+      "stock_code": "462870",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802123",
+      "rcept_no": "20260529802123",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "이리츠코크렙",
+      "stock_code": "088260",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802113",
+      "rcept_no": "20260529802113",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "블루산업개발",
+      "stock_code": "006740",
+      "report_nm": "단기차입금증가결정              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802098",
+      "rcept_no": "20260529802098",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "롯데지주",
+      "stock_code": "004990",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802119",
+      "rcept_no": "20260529802119",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "이지스밸류플러스리츠",
+      "stock_code": "334890",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802117",
+      "rcept_no": "20260529802117",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "케이티앤지",
+      "stock_code": "033780",
+      "report_nm": "대규모기업집단현황공시[연1회(동일인용)]",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002361",
+      "rcept_no": "20260529002361",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "농심",
+      "stock_code": "004370",
+      "report_nm": "[기재정정]기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802104",
+      "rcept_no": "20260529802104",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "삼성FN리츠",
+      "stock_code": "448730",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802093",
+      "rcept_no": "20260529802093",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "신영증권",
+      "stock_code": "001720",
+      "report_nm": "증권발행실적보고서",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002344",
+      "rcept_no": "20260529002344",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "한미글로벌",
+      "stock_code": "053690",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802086",
+      "rcept_no": "20260529802086",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "롯데케미칼",
+      "stock_code": "011170",
+      "report_nm": "대규모기업집단현황공시[연1회공시및1/4분기용(개별회사)]",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002343",
+      "rcept_no": "20260529002343",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "롯데쇼핑",
+      "stock_code": "023530",
+      "report_nm": "대규모기업집단현황공시[연1회공시및1/4분기용(개별회사)]",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002340",
+      "rcept_no": "20260529002340",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "케이티앤지",
+      "stock_code": "033780",
+      "report_nm": "[기재정정]대규모기업집단현황공시[연1회공시및1/4분기용(대표회사)]",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002339",
+      "rcept_no": "20260529002339",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "한농화성",
+      "stock_code": "011500",
+      "report_nm": "[기재정정]신규시설투자등              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802065",
+      "rcept_no": "20260529802065",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "한화투자증권",
+      "stock_code": "003530",
+      "report_nm": "증권발행실적보고서",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002330",
+      "rcept_no": "20260529002330",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "일신방직",
+      "stock_code": "003200",
+      "report_nm": "[기재정정]타법인주식및출자증권처분결정              ",
+      "category_label": "지배구조/의사결정",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802090",
+      "rcept_no": "20260529802090",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "SK바이오사이언스",
+      "stock_code": "302440",
+      "report_nm": "기업지배구조보고서공시              ",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802083",
+      "rcept_no": "20260529802083",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "광명전기",
+      "stock_code": "017040",
+      "report_nm": "소송등의판결ㆍ결정              ",
+      "category_label": "리스크 공시",
+      "severity_label": "high",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529802079",
+      "rcept_no": "20260529802079",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
+    },
+    {
+      "corp_name": "신영증권",
+      "stock_code": "001720",
+      "report_nm": "증권발행실적보고서",
+      "category_label": "일반 공시",
+      "severity_label": "normal",
+      "viewer_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260529002326",
+      "rcept_no": "20260529002326",
+      "rcept_dt": "20260529",
+      "corp_cls": "Y"
     }
   ],
   "source": {
@@ -58,7 +398,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-29T00:00:00+09:00",
+    "asof": "2026-05-30T20:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
