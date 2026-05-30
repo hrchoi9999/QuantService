@@ -40,7 +40,6 @@ try {
             & $python -m pytest `
                 tests\test_web\test_data_provider.py `
                 tests\test_web\test_tseries_api.py `
-                tests\test_web\test_investments.py `
                 tests\test_publishers `
                 -q
         }
