@@ -1,5 +1,5 @@
 {
-  "as_of_date": "2026-05-22",
+  "as_of_date": "2026-06-02",
   "changes": [
     {
       "user_model_name": "안정형",
@@ -32,62 +32,62 @@
         {
           "display_name": "KODEX CD금리액티브(합성)",
           "security_code": "459580",
-          "delta_weight": 0.114471,
+          "delta_weight": 0.017869,
           "direction": "increase"
         },
         {
           "display_name": "현금/대기자금",
           "security_code": null,
-          "delta_weight": 0.060735,
+          "delta_weight": 0.012236,
           "direction": "increase"
         },
         {
-          "display_name": "솔브레인홀딩스",
-          "security_code": "036830",
+          "display_name": "현대차",
+          "security_code": "005380",
           "delta_weight": 0.01,
           "direction": "increase"
         },
         {
-          "display_name": "성호전자",
-          "security_code": "043260",
+          "display_name": "현대오토에버",
+          "security_code": "307950",
           "delta_weight": 0.01,
           "direction": "increase"
         },
         {
-          "display_name": "현대바이오",
-          "security_code": "048410",
+          "display_name": "삼성물산",
+          "security_code": "028260",
           "delta_weight": 0.01,
           "direction": "increase"
         }
       ],
       "decrease_items": [
         {
-          "display_name": "KODEX 200",
-          "security_code": "069500",
-          "delta_weight": -0.134373,
-          "direction": "decrease"
-        },
-        {
           "display_name": "파워 고배당저변동성",
           "security_code": "192720",
-          "delta_weight": -0.038088,
+          "delta_weight": -0.022336,
           "direction": "decrease"
         },
         {
-          "display_name": "키움증권",
-          "security_code": "039490",
+          "display_name": "삼천당제약",
+          "security_code": "000250",
           "delta_weight": -0.01,
           "direction": "decrease"
         },
         {
-          "display_name": "유진테크",
-          "security_code": "084370",
+          "display_name": "비에이치아이",
+          "security_code": "083650",
           "delta_weight": -0.01,
           "direction": "decrease"
         },
         {
-          "display_name": "케이엠더블유",
-          "security_code": "032500",
+          "display_name": "제주반도체",
+          "security_code": "080220",
+          "delta_weight": -0.01,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "대주전자재료",
+          "security_code": "078600",
           "delta_weight": -0.01,
           "direction": "decrease"
         }
@@ -104,15 +104,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-22",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
@@ -148,62 +148,62 @@
         {
           "display_name": "KODEX CD금리액티브(합성)",
           "security_code": "459580",
-          "delta_weight": 0.098118,
+          "delta_weight": 0.015316,
           "direction": "increase"
         },
         {
-          "display_name": "현금/대기자금",
-          "security_code": null,
-          "delta_weight": 0.052059,
-          "direction": "increase"
-        },
-        {
-          "display_name": "솔브레인홀딩스",
-          "security_code": "036830",
+          "display_name": "POSCO홀딩스",
+          "security_code": "005490",
           "delta_weight": 0.013333,
           "direction": "increase"
         },
         {
-          "display_name": "성호전자",
-          "security_code": "043260",
+          "display_name": "HD현대중공업",
+          "security_code": "329180",
           "delta_weight": 0.013333,
           "direction": "increase"
         },
         {
-          "display_name": "현대바이오",
-          "security_code": "048410",
+          "display_name": "가온전선",
+          "security_code": "000500",
+          "delta_weight": 0.013333,
+          "direction": "increase"
+        },
+        {
+          "display_name": "HD한국조선해양",
+          "security_code": "009540",
           "delta_weight": 0.013333,
           "direction": "increase"
         }
       ],
       "decrease_items": [
         {
-          "display_name": "KODEX 200",
-          "security_code": "069500",
-          "delta_weight": -0.115176,
-          "direction": "decrease"
-        },
-        {
           "display_name": "파워 고배당저변동성",
           "security_code": "192720",
-          "delta_weight": -0.032647,
+          "delta_weight": -0.019145,
           "direction": "decrease"
         },
         {
-          "display_name": "키움증권",
-          "security_code": "039490",
+          "display_name": "삼천당제약",
+          "security_code": "000250",
           "delta_weight": -0.013333,
           "direction": "decrease"
         },
         {
-          "display_name": "유진테크",
-          "security_code": "084370",
+          "display_name": "비에이치아이",
+          "security_code": "083650",
           "delta_weight": -0.013333,
           "direction": "decrease"
         },
         {
-          "display_name": "케이엠더블유",
-          "security_code": "032500",
+          "display_name": "제주반도체",
+          "security_code": "080220",
+          "delta_weight": -0.013333,
+          "direction": "decrease"
+        },
+        {
+          "display_name": "대주전자재료",
+          "security_code": "078600",
           "delta_weight": -0.013333,
           "direction": "decrease"
         }
@@ -220,15 +220,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-22",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }
@@ -264,63 +264,39 @@
         {
           "display_name": "KODEX CD금리액티브(합성)",
           "security_code": "459580",
-          "delta_weight": 0.081765,
+          "delta_weight": 0.012764,
           "direction": "increase"
         },
         {
           "display_name": "현금/대기자금",
           "security_code": null,
-          "delta_weight": 0.043382,
-          "direction": "increase"
-        },
-        {
-          "display_name": "쏠리드",
-          "security_code": "050890",
-          "delta_weight": 0.025,
-          "direction": "increase"
-        },
-        {
-          "display_name": "DL이앤씨",
-          "security_code": "375500",
-          "delta_weight": 0.025,
-          "direction": "increase"
-        },
-        {
-          "display_name": "RF머트리얼즈",
-          "security_code": "327260",
-          "delta_weight": 0.025,
+          "delta_weight": 0.00874,
           "direction": "increase"
         }
       ],
       "decrease_items": [
         {
-          "display_name": "KODEX 200",
-          "security_code": "069500",
-          "delta_weight": -0.09598,
-          "direction": "decrease"
-        },
-        {
           "display_name": "파워 고배당저변동성",
           "security_code": "192720",
-          "delta_weight": -0.027206,
+          "delta_weight": -0.015954,
           "direction": "decrease"
         },
         {
-          "display_name": "동국제약",
-          "security_code": "086450",
-          "delta_weight": -0.025,
+          "display_name": "PLUS 고배당주",
+          "security_code": "161510",
+          "delta_weight": -0.002775,
           "direction": "decrease"
         },
         {
-          "display_name": "앱클론",
-          "security_code": "174900",
-          "delta_weight": -0.025,
+          "display_name": "KODEX 200",
+          "security_code": "069500",
+          "delta_weight": -0.00185,
           "direction": "decrease"
         },
         {
-          "display_name": "ISC",
-          "security_code": "095340",
-          "delta_weight": -0.025,
+          "display_name": "KODEX 200타겟위클리커버드콜",
+          "security_code": "498400",
+          "delta_weight": -0.000925,
           "direction": "decrease"
         }
       ],
@@ -336,15 +312,15 @@
         "backtest_result": true,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_output",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
         "backtest_start_date": "2023-06-08",
-        "backtest_end_date": "2026-05-22",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
       }

@@ -1,8 +1,8 @@
 {
   "source_name": "handoff:user_model_holdings_history",
   "schema_version": "v1",
-  "as_of_date": "2026-05-22",
-  "generated_at": "2026-05-23T11:42:50",
+  "as_of_date": "2026-06-02",
+  "generated_at": "2026-06-03T21:02:59",
   "scope": "user",
   "timezone": "Asia/Seoul",
   "interval": "1w",
@@ -3976,6 +3976,916 @@
       "rank_no": null,
       "strategy_fit_score": null,
       "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "growth",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.025,
+      "rank_no": 16,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.025,
+      "rank_no": 22,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "growth",
+      "security_code": "376900",
+      "display_name": "로킷헬스케어",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "growth",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "growth",
+      "security_code": "086520",
+      "display_name": "에코프로",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "growth",
+      "security_code": "189300",
+      "display_name": "인텔리안테크",
+      "target_weight": 0.025,
+      "rank_no": 14,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "growth",
+      "security_code": "376900",
+      "display_name": "로킷헬스케어",
+      "target_weight": 0.025,
+      "rank_no": 10,
+      "strategy_fit_score": 0.025,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "000500",
+      "display_name": "가온전선",
+      "target_weight": 0.013333,
+      "rank_no": 7,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "000880",
+      "display_name": "한화",
+      "target_weight": 0.013333,
+      "rank_no": 15,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.013333,
+      "rank_no": 14,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "003490",
+      "display_name": "대한항공",
+      "target_weight": 0.013333,
+      "rank_no": 12,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "003550",
+      "display_name": "LG",
+      "target_weight": 0.013333,
+      "rank_no": 11,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "005290",
+      "display_name": "동진쎄미켐",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "005380",
+      "display_name": "현대차",
+      "target_weight": 0.013333,
+      "rank_no": 10,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "005490",
+      "display_name": "POSCO홀딩스",
+      "target_weight": 0.013333,
+      "rank_no": 9,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "005940",
+      "display_name": "NH투자증권",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "006400",
+      "display_name": "삼성SDI",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "006800",
+      "display_name": "미래에셋증권",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "009540",
+      "display_name": "HD한국조선해양",
+      "target_weight": 0.013333,
+      "rank_no": 18,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "012330",
+      "display_name": "현대모비스",
+      "target_weight": 0.013333,
+      "rank_no": 19,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "028050",
+      "display_name": "삼성E&A",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "028260",
+      "display_name": "삼성물산",
+      "target_weight": 0.013333,
+      "rank_no": 36,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "032830",
+      "display_name": "삼성생명",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "034220",
+      "display_name": "LG디스플레이",
+      "target_weight": 0.013333,
+      "rank_no": 35,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "064400",
+      "display_name": "LG씨엔에스",
+      "target_weight": 0.013333,
+      "rank_no": 33,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.013333,
+      "rank_no": 32,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.013333,
+      "rank_no": 31,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "069500",
+      "display_name": "KODEX 200",
+      "target_weight": 0.056604,
+      "rank_no": 5,
+      "strategy_fit_score": 0.056604,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "083650",
+      "display_name": "비에이치아이",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "161510",
+      "display_name": "PLUS 고배당주",
+      "target_weight": 0.084906,
+      "rank_no": 4,
+      "strategy_fit_score": 0.084906,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "192720",
+      "display_name": "파워 고배당저변동성",
+      "target_weight": 0.113208,
+      "rank_no": 2,
+      "strategy_fit_score": 0.113208,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "267250",
+      "display_name": "HD현대",
+      "target_weight": 0.013333,
+      "rank_no": 29,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "307950",
+      "display_name": "현대오토에버",
+      "target_weight": 0.013333,
+      "rank_no": 24,
+      "strategy_fit_score": 0.013333,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "329180",
+      "display_name": "HD현대중공업",
+      "target_weight": 0.013333,
+      "rank_no": 23,
+      "strategy_fit_score": 0.013333,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "459580",
+      "display_name": "KODEX CD금리액티브(합성)",
+      "target_weight": 0.209434,
+      "rank_no": 1,
+      "strategy_fit_score": 0.209434,
+      "event_type": "weight_increase"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "security_code": "498400",
+      "display_name": "KODEX 200타겟위클리커버드콜",
+      "target_weight": 0.028302,
+      "rank_no": 6,
+      "strategy_fit_score": 0.028302,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "security_code": "069500",
+      "display_name": "KODEX 200",
+      "target_weight": 0.04717,
+      "rank_no": 5,
+      "strategy_fit_score": 0.04717,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "security_code": "161510",
+      "display_name": "PLUS 고배당주",
+      "target_weight": 0.070755,
+      "rank_no": 4,
+      "strategy_fit_score": 0.070755,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "security_code": "192720",
+      "display_name": "파워 고배당저변동성",
+      "target_weight": 0.09434,
+      "rank_no": 2,
+      "strategy_fit_score": 0.09434,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "security_code": "459580",
+      "display_name": "KODEX CD금리액티브(합성)",
+      "target_weight": 0.174528,
+      "rank_no": 1,
+      "strategy_fit_score": 0.174528,
+      "event_type": "weight_increase"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "security_code": "498400",
+      "display_name": "KODEX 200타겟위클리커버드콜",
+      "target_weight": 0.023585,
+      "rank_no": 26,
+      "strategy_fit_score": 0.023585,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "000250",
+      "display_name": "삼천당제약",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "000500",
+      "display_name": "가온전선",
+      "target_weight": 0.01,
+      "rank_no": 7,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "000880",
+      "display_name": "한화",
+      "target_weight": 0.01,
+      "rank_no": 15,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "000990",
+      "display_name": "DB하이텍",
+      "target_weight": 0.01,
+      "rank_no": 14,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "003490",
+      "display_name": "대한항공",
+      "target_weight": 0.01,
+      "rank_no": 12,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "003550",
+      "display_name": "LG",
+      "target_weight": 0.01,
+      "rank_no": 11,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "005290",
+      "display_name": "동진쎄미켐",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "005380",
+      "display_name": "현대차",
+      "target_weight": 0.01,
+      "rank_no": 10,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "005490",
+      "display_name": "POSCO홀딩스",
+      "target_weight": 0.01,
+      "rank_no": 9,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "005940",
+      "display_name": "NH투자증권",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "006400",
+      "display_name": "삼성SDI",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "006800",
+      "display_name": "미래에셋증권",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "009540",
+      "display_name": "HD한국조선해양",
+      "target_weight": 0.01,
+      "rank_no": 18,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "012330",
+      "display_name": "현대모비스",
+      "target_weight": 0.01,
+      "rank_no": 19,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "028050",
+      "display_name": "삼성E&A",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "028260",
+      "display_name": "삼성물산",
+      "target_weight": 0.01,
+      "rank_no": 36,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "032820",
+      "display_name": "우리기술",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "032830",
+      "display_name": "삼성생명",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "034220",
+      "display_name": "LG디스플레이",
+      "target_weight": 0.01,
+      "rank_no": 35,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "036540",
+      "display_name": "SFA반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "036830",
+      "display_name": "솔브레인홀딩스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "039030",
+      "display_name": "이오테크닉스",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "043260",
+      "display_name": "성호전자",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "048410",
+      "display_name": "현대바이오",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "064400",
+      "display_name": "LG씨엔에스",
+      "target_weight": 0.01,
+      "rank_no": 33,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "066570",
+      "display_name": "LG전자",
+      "target_weight": 0.01,
+      "rank_no": 32,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "066970",
+      "display_name": "엘앤에프",
+      "target_weight": 0.01,
+      "rank_no": 31,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "067310",
+      "display_name": "하나마이크론",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "069500",
+      "display_name": "KODEX 200",
+      "target_weight": 0.066038,
+      "rank_no": 5,
+      "strategy_fit_score": 0.066038,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "078600",
+      "display_name": "대주전자재료",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "080220",
+      "display_name": "제주반도체",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "083650",
+      "display_name": "비에이치아이",
+      "target_weight": 0.0,
+      "rank_no": null,
+      "strategy_fit_score": null,
+      "event_type": "exit"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "161510",
+      "display_name": "PLUS 고배당주",
+      "target_weight": 0.099057,
+      "rank_no": 4,
+      "strategy_fit_score": 0.099057,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "192720",
+      "display_name": "파워 고배당저변동성",
+      "target_weight": 0.132075,
+      "rank_no": 2,
+      "strategy_fit_score": 0.132075,
+      "event_type": "decrease"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "267250",
+      "display_name": "HD현대",
+      "target_weight": 0.01,
+      "rank_no": 29,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "307950",
+      "display_name": "현대오토에버",
+      "target_weight": 0.01,
+      "rank_no": 24,
+      "strategy_fit_score": 0.01,
+      "event_type": "re_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "329180",
+      "display_name": "HD현대중공업",
+      "target_weight": 0.01,
+      "rank_no": 23,
+      "strategy_fit_score": 0.01,
+      "event_type": "new_entry"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "459580",
+      "display_name": "KODEX CD금리액티브(합성)",
+      "target_weight": 0.24434,
+      "rank_no": 1,
+      "strategy_fit_score": 0.24434,
+      "event_type": "weight_increase"
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "security_code": "498400",
+      "display_name": "KODEX 200타겟위클리커버드콜",
+      "target_weight": 0.033019,
+      "rank_no": 6,
+      "strategy_fit_score": 0.033019,
+      "event_type": "decrease"
     }
   ]
 }

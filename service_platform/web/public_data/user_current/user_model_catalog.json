@@ -1,5 +1,5 @@
 {
-  "as_of_date": "2026-05-22",
+  "as_of_date": "2026-06-02",
   "models": [
     {
       "user_model_id": "user_1",
@@ -46,15 +46,15 @@
         "backtest_result": false,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_information",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
-        "backtest_start_date": "2026-05-22",
-        "backtest_end_date": "2026-05-22",
+        "backtest_start_date": "2026-06-02",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "Rule-based public model catalog generated from Quant outputs"
       }
@@ -105,15 +105,15 @@
         "backtest_result": false,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_information",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
-        "backtest_start_date": "2026-05-22",
-        "backtest_end_date": "2026-05-22",
+        "backtest_start_date": "2026-06-02",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "Rule-based public model catalog generated from Quant outputs"
       }
@@ -162,15 +162,15 @@
         "backtest_result": false,
         "disclaimer_required": true,
         "data_basis": "rule_based_public_model_information",
-        "model_version": "public-model-2026.05.22",
+        "model_version": "public-model-2026.06.02",
         "calculation_version": "calc-2026-03-24-compliance-v1",
-        "asof_date": "2026-05-22",
+        "asof_date": "2026-06-02",
         "rebalance_frequency": "monthly",
         "fee_bps": 0.0,
         "slippage_bps": 0.0,
         "benchmark_name": "KOSPI200",
-        "backtest_start_date": "2026-05-22",
-        "backtest_end_date": "2026-05-22",
+        "backtest_start_date": "2026-06-02",
+        "backtest_end_date": "2026-06-02",
         "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
         "data_source_summary": "Rule-based public model catalog generated from Quant outputs"
       }

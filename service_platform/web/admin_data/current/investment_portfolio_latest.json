@@ -1,193 +1,108 @@
 {
   "page": "투자 포트폴리오",
-  "as_of_date": "2026-05-28",
-  "generated_at": "2026-05-29T00:21:21.914+09:00",
-  "run_session": "morning",
+  "as_of_date": "2026-06-03",
+  "generated_at": "2026-06-03T21:37:13.407+09:00",
+  "run_session": "after_close",
   "source_thread": "QuantAnalysis",
   "publishing_rule": "redbot.co.kr 반영은 QuantService 작업요청서를 통해서만 수행",
   "market_risk": {
-    "rating": "3등급 주의 관찰 하단",
-    "asof": "2026-05-27T18:00:00+09:00",
-    "generated_at": "2026-05-29T00:05:29+09:00",
+    "rating": "3등급 주의 관찰",
+    "asof": "2026-05-29T19:21:50+09:00",
+    "generated_at": "2026-06-03T21:05:41+09:00",
     "direction_label": "약세",
-    "direction_score": 1.1523,
-    "breadth_score": -2.8011,
-    "risk_score": -1.7907,
-    "total_score": -0.3741,
-    "summary": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매도 규모도 커서 지수 압박 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
+    "direction_score": -0.6454,
+    "breadth_score": -1.4932,
+    "risk_score": 0.3236,
+    "total_score": -0.5727,
+    "summary": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다.",
     "breadth": [
       {
         "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
+        "asof": "2026-06-03T18:00:00+09:00",
+        "session_date": "2026-06-03",
         "universe_code": "KOSDAQ",
-        "advancers": 192,
-        "decliners": 1507,
-        "flat_count": 123,
-        "adv_dec_ratio": 0.12798408488063662,
-        "positive_ratio": 0.10537870472008781,
+        "advancers": 452,
+        "decliners": 1226,
+        "flat_count": 144,
+        "adv_dec_ratio": 0.3691931540342298,
+        "positive_ratio": 0.24807903402854006,
         "source": "naver:sise_market_sum:1:37pages",
         "is_fallback": 0,
-        "created_at": "2026-05-27T18:05:11+09:00"
+        "created_at": "2026-06-03T18:05:10+09:00"
       },
       {
         "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
+        "asof": "2026-06-03T18:00:00+09:00",
+        "session_date": "2026-06-03",
         "universe_code": "KOSPI",
-        "advancers": 722,
-        "decliners": 1614,
-        "flat_count": 128,
-        "adv_dec_ratio": 0.4476780185758514,
-        "positive_ratio": 0.2930194805194805,
+        "advancers": 1009,
+        "decliners": 1347,
+        "flat_count": 110,
+        "adv_dec_ratio": 0.7492581602373887,
+        "positive_ratio": 0.4091646390916464,
         "source": "naver:sise_market_sum:0:50pages",
         "is_fallback": 0,
-        "created_at": "2026-05-27T18:05:11+09:00"
+        "created_at": "2026-06-03T18:05:10+09:00"
       }
     ],
-    "flows": [
-      {
-        "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
-        "signal_code": "FOREIGNER_NET",
-        "signal_name": "외국인 순매수",
-        "metric_value": -4498.0,
-        "metric_unit": "억원",
-        "direction_label": "순매도 우위",
-        "strength_label": "보통",
-        "source": "naver:investorDealTrendTime",
-        "is_fallback": 0,
-        "detail_json": "{\"time\": \"18:04\", \"individual_net\": 4064.0, \"foreigner_net\": -4498.0, \"institution_net\": 1880.0}",
-        "created_at": "2026-05-27T18:05:11+09:00",
-        "detail": {
-          "time": "18:04",
-          "individual_net": 4064.0,
-          "foreigner_net": -4498.0,
-          "institution_net": 1880.0
-        }
-      },
-      {
-        "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
-        "signal_code": "INSTITUTION_NET",
-        "signal_name": "기관계 순매수",
-        "metric_value": 1880.0,
-        "metric_unit": "억원",
-        "direction_label": "순매수 우위",
-        "strength_label": "약함",
-        "source": "naver:investorDealTrendTime",
-        "is_fallback": 0,
-        "detail_json": "{\"time\": \"18:04\", \"individual_net\": 4064.0, \"foreigner_net\": -4498.0, \"institution_net\": 1880.0}",
-        "created_at": "2026-05-27T18:05:11+09:00",
-        "detail": {
-          "time": "18:04",
-          "individual_net": 4064.0,
-          "foreigner_net": -4498.0,
-          "institution_net": 1880.0
-        }
-      },
-      {
-        "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
-        "signal_code": "PROGRAM_NONARB_NET",
-        "signal_name": "프로그램 비차익 순매수",
-        "metric_value": -18826.0,
-        "metric_unit": "억원",
-        "direction_label": "순매도 우위",
-        "strength_label": "강함",
-        "source": "naver:programDealTrendTime",
-        "is_fallback": 0,
-        "detail_json": "{\"time\": \"18:04\", \"arb_net\": -1902.0, \"nonarb_net\": -18826.0, \"total_net\": -20728.0}",
-        "created_at": "2026-05-27T18:05:11+09:00",
-        "detail": {
-          "time": "18:04",
-          "arb_net": -1902.0,
-          "nonarb_net": -18826.0,
-          "total_net": -20728.0
-        }
-      },
-      {
-        "market": "KR",
-        "asof": "2026-05-27T18:00:00+09:00",
-        "session_date": "2026-05-27",
-        "signal_code": "PROGRAM_TOTAL_NET",
-        "signal_name": "프로그램 전체 순매수",
-        "metric_value": -20728.0,
-        "metric_unit": "억원",
-        "direction_label": "순매도 우위",
-        "strength_label": "강함",
-        "source": "naver:programDealTrendTime",
-        "is_fallback": 0,
-        "detail_json": "{\"time\": \"18:04\", \"arb_net\": -1902.0, \"nonarb_net\": -18826.0, \"total_net\": -20728.0}",
-        "created_at": "2026-05-27T18:05:11+09:00",
-        "detail": {
-          "time": "18:04",
-          "arb_net": -1902.0,
-          "nonarb_net": -18826.0,
-          "total_net": -20728.0
-        }
-      }
-    ],
+    "flows": [],
     "action": "약한 경계 구간이다. ETF/현금성 자산을 우선하고 주식 신규 편입은 제한한다.",
     "legacy_rating": "Cautious Watch",
     "step1_v2": {
       "logic_version": "step1_v2_6grade_20260525",
-      "requested_asof_date": "2026-05-28",
-      "effective_date": "2026-05-27",
-      "effective_asof": "2026-05-27T18:00:00+09:00",
+      "requested_asof_date": "2026-06-03",
+      "effective_date": "2026-05-29",
+      "effective_asof": "2026-05-29T19:21:50+09:00",
       "legacy_rating": "Cautious Watch",
-      "legacy_total_score": -0.3741,
-      "legacy_risk_score": -1.7907,
-      "score": 42.6,
+      "legacy_total_score": -0.5727,
+      "legacy_risk_score": 0.3236,
+      "score": 45.7,
       "grade": 3,
       "label": "주의 관찰",
-      "display_rating": "3등급 주의 관찰 하단",
-      "is_boundary": true,
-      "adjacent_grade": 2,
-      "adjacent_label": "위험회피",
-      "boundary_position": "하단 경계",
+      "display_rating": "3등급 주의 관찰",
+      "is_boundary": false,
+      "adjacent_grade": null,
+      "adjacent_label": null,
+      "boundary_position": "중앙",
       "boundary_reason": null,
       "axes": [
         {
           "axis": "시장 방향성",
-          "score": 8.6,
+          "score": 7.7,
           "max_score": 20,
           "reasons": [
-            "KOSPI 2.25%, KOSDAQ -2.41%",
-            "KOSPI 20일 24.27%, KOSDAQ 20일 -0.15%",
-            "선물 2.79%"
+            "KOSPI 3.55%, KOSDAQ -5.15%",
+            "KOSPI 20일 23.74%, KOSDAQ 20일 -9.93%",
+            "선물 4.31%"
           ]
         },
         {
           "axis": "시장 확산력",
-          "score": 4,
+          "score": 3,
           "max_score": 20,
           "reasons": [
-            "상승종목 평균비율 19.92%",
-            "20일선 위 38.76%, 60일선 위 52.97%",
-            "신고가 27, 신저가 0"
+            "상승종목 평균비율 33.98%",
+            "20일선 위 24.42%, 60일선 위 43.96%",
+            "신고가 8, 신저가 14"
           ]
         },
         {
           "axis": "수급",
-          "score": 5,
+          "score": 12,
           "max_score": 20,
           "reasons": [
-            "외국인 -4,498억원, 기관 1,880억원",
-            "프로그램 전체 -20,728억원",
+            "외국인 -10,421억원, 기관 23,688억원",
+            "프로그램 전체 9,513억원",
             "선물 수급은 가격 방향만 참고하고 투자주체별 수급은 추가 데이터가 필요함"
           ]
         },
         {
           "axis": "변동성/리스크",
-          "score": 8,
+          "score": 6,
           "max_score": 20,
           "reasons": [
-            "원달러 당일 -0.58%, 20일 2.54%",
-            "국고3년 20일 변화 0.21%p, 20일 변동성 3.25%",
+            "원달러 당일 0.91%, 20일 3.79%",
+            "국고3년 20일 변화 0.2%p, 20일 변동성 3.26%",
             "글로벌 이벤트/유가/금리 뉴스 경계 신호 존재"
           ]
         },
@@ -196,7 +111,7 @@
           "score": 7,
           "max_score": 10,
           "reasons": [
-            "KOSDAQ -2.41% vs KOSPI 2.25%",
+            "KOSDAQ -5.15% vs KOSPI 3.55%",
             "중소형/성장 위험선호가 회복됐지만 수급 확인이 필요함"
           ]
         },
@@ -205,7 +120,7 @@
           "score": 10,
           "max_score": 10,
           "reasons": [
-            "2026-05-28 휴장/비거래일로 판단해 마지막 거래일 2026-05-27 기준으로 평가",
+            "2026-06-03 휴장/비거래일로 판단해 마지막 거래일 2026-05-29 기준으로 평가",
             "마지막 거래일 외국인/기관/프로그램 수급 데이터 확인"
           ]
         }
@@ -213,20 +128,20 @@
     }
   },
   "market_news_context": {
-    "fetched_at": "2026-05-29T00:05:29+09:00",
+    "fetched_at": "2026-06-03T21:05:41+09:00",
     "caution_bias": true,
     "risk_headlines": [
-      "코스피, 중동발 찬바람에 장중 4%대 급락…변동성 주의보 - 연합뉴스",
-      "미국의 대이란 자위적 타격에 국제유가 상승…증시는 혼조세 - VOA 한국어 홈페이지",
-      "하나증권 \"미국 이란 종전협상 기대감에 국제유가 하락, 항공·에너지주 투심 개선 전망\" - 비즈니스포스트",
-      "뉴욕증시 사상 최고치…미·이란 협상 기대에 유가 급락 - 청년일보",
-      "코스피, 중동 리스크에 장중 8,000선 이탈…외국인 매도에 약세 마감 - 산경투데이"
+      "중동 긴장 고조로 유럽 증시 하락·유가 상승 - Investing.com 한국어",
+      "국제유가, 협상중단 보도에 급등…뉴욕증시는 최고치 경신 - 연합뉴스",
+      "뉴욕증시, AI 낙관론에 사상 최고치…이란 협상 혼선에 국제유가 상승 - 뉴스투데이",
+      "미-이란 충돌에 유가 상승…평화 협상 기대·엔비디아 신형 칩 호재에 증시 강세 - VOA 한국어 홈페이지",
+      "코스피, 577.96 포인트 '출렁' 역대 두번째 변동성…삼전·SK하닉, 외국인·개인 수급 전쟁 - v.daum.net"
     ],
     "snapshot_source": "latest_market_context"
   },
   "etf_strategy": {
     "selected_model": "S6_DEFENSIVE_V1",
-    "reason": "STEP1이 등급 경계 구간이므로 S6 방어 배분을 유지하고, 주식 비중은 포트폴리오 전체에서 제한적으로 조절한다.",
+    "reason": "시장은 완전한 위험 회피 구간은 아니지만 경계 신호가 있어 S6 방어 배분을 유지한다.",
     "portfolio_weight_policy": {
       "logic_version": "portfolio_weight_policy_v1_20260528",
       "basis": "3등급 주의 관찰",
@@ -239,17 +154,17 @@
     "portfolio_scenarios": [],
     "e_series_scenario_reference": [],
     "s6_allocation": {
-      "source_file": "D:\\Quant\\reports\\backtest_etf_allocation\\s6_alloc_weights_20260527_M_20230608_20260527.csv",
-      "rebalance_date": "2026-05-27",
+      "source_file": "D:\\Quant\\reports\\backtest_etf_allocation\\s6_alloc_weights_20260602_M_20230608_20260602.csv",
+      "rebalance_date": "2026-06-02",
       "holdings": [
         {
           "ticker": "453850",
           "name": "ACE 미국30년국채액티브(H)",
           "market": "ETF",
           "role": "bond_long",
-          "weight_pct": 8.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "weight_pct": 3.0,
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         },
         {
           "ticker": "459580",
@@ -257,17 +172,17 @@
           "market": "ETF",
           "role": "bond_short",
           "weight_pct": 32.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         },
         {
           "ticker": "329750",
           "name": "TIGER 미국달러단기채권액티브",
           "market": "ETF",
           "role": "fx_usd",
-          "weight_pct": 20.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "weight_pct": 25.0,
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         },
         {
           "ticker": "411060",
@@ -275,8 +190,8 @@
           "market": "ETF",
           "role": "commodity_gold",
           "weight_pct": 15.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         },
         {
           "ticker": "CASH",
@@ -284,8 +199,8 @@
           "market": "CASH",
           "role": "CASH",
           "weight_pct": 15.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         },
         {
           "ticker": "114800",
@@ -293,13 +208,13 @@
           "market": "ETF",
           "role": "hedge_inverse_kr",
           "weight_pct": 10.0,
-          "rebalance_date": "2026-05-27",
-          "trade_date": "2026-05-27"
+          "rebalance_date": "2026-06-02",
+          "trade_date": "2026-06-02"
         }
       ]
     },
     "e_series_reference": {
-      "as_of_date": "2026-05-15",
+      "as_of_date": "2026-05-29",
       "strategy_model_code": "E-ETF-V01",
       "active_primary_shadow_policy": "mode_switch_buffer_70_base",
       "public_recommendation_allowed": false,
@@ -319,66 +234,64 @@
     "reactivity_summary": {
       "logic_version": "stock_reactivity_v1_20260528",
       "status_counts": {
-        "편입 우선": 4,
-        "소액 관찰": 5,
-        "추격 금지": 1
+        "소액 관찰": 10
       },
       "top_candidates": [
         {
+          "ticker": "000660",
+          "name": "SK하이닉스",
+          "score": 64,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "return_5d_pct": 15.01,
+          "relative_return_5d_pct": 5.64
+        },
+        {
           "ticker": "066570",
           "name": "LG전자",
-          "score": 79,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
-          "return_5d_pct": 22.59,
-          "relative_return_5d_pct": 9.43
+          "score": 64,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "return_5d_pct": 63.88,
+          "relative_return_5d_pct": 54.51
         },
         {
-          "ticker": "319400",
-          "name": "현대무벡스",
-          "score": 79,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
-          "return_5d_pct": 11.99,
-          "relative_return_5d_pct": 7.49
-        },
-        {
-          "ticker": "034730",
-          "name": "SK",
-          "score": 75,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
-          "return_5d_pct": 31.02,
-          "relative_return_5d_pct": 17.86
+          "ticker": "017670",
+          "name": "SK텔레콤",
+          "score": 63,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "return_5d_pct": 22.62,
+          "relative_return_5d_pct": 13.25
         }
       ],
       "weak_candidates": [
         {
-          "ticker": "009150",
-          "name": "삼성전기",
-          "score": 55,
-          "status": "추격 금지",
-          "decision": "추격 금지/관찰",
-          "return_5d_pct": 65.15,
-          "relative_return_5d_pct": 51.99
-        },
-        {
-          "ticker": "126340",
-          "name": "비나텍",
-          "score": 64,
+          "ticker": "012330",
+          "name": "현대모비스",
+          "score": 58,
           "status": "소액 관찰",
           "decision": "관찰/소액후보",
-          "return_5d_pct": 16.55,
-          "relative_return_5d_pct": 12.05
+          "return_5d_pct": 14.31,
+          "relative_return_5d_pct": 4.94
         },
         {
-          "ticker": "189300",
-          "name": "인텔리안테크",
-          "score": 67,
+          "ticker": "307950",
+          "name": "현대오토에버",
+          "score": 60,
           "status": "소액 관찰",
           "decision": "관찰/소액후보",
-          "return_5d_pct": 2.85,
-          "relative_return_5d_pct": -1.65
+          "return_5d_pct": 40.75,
+          "relative_return_5d_pct": 31.38
+        },
+        {
+          "ticker": "028260",
+          "name": "삼성물산",
+          "score": 60,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "return_5d_pct": 18.13,
+          "relative_return_5d_pct": 8.76
         }
       ],
       "interpretation": "주간 모델 후보는 유지하되, 일간 포트폴리오에서는 최근 5거래일 상대강도와 수급으로 우선순위와 실행상태를 매일 재분류한다."
@@ -386,21 +299,23 @@
     "scenario_summary": [],
     "validation_scenarios": [],
     "live_data": {
-      "status": "ok",
-      "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-      "asof_date": "2026-05-28",
-      "fetched_at": "2026-05-29T00:20:50.165+09:00",
-      "success_count": 10,
-      "error_count": 0,
-      "errors": []
+      "status": "not_loaded",
+      "source": null,
+      "asof_date": "2026-06-03",
+      "fetched_at": "2026-06-03T21:37:11.424+09:00",
+      "success_count": 0,
+      "error_count": 1,
+      "errors": [
+        "HTTPSConnectionPool(host='api.kiwoom.com', port=443): Max retries exceeded with url: /oauth2/token (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x05DDCFD0>: Failed to establish a new connection: [WinError 10013] 액세스 권한에 의해 숨겨진 소켓에 액세스를 시도했습니다'))"
+      ]
     },
     "candidates": [
       {
-        "ticker": "066570",
-        "name": "LG전자",
+        "ticker": "000660",
+        "name": "SK하이닉스",
         "group": "high_interest_chase_block",
-        "decision": "소액분할검토",
-        "latest_selection_date": "2026-05-28",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "I",
@@ -418,73 +333,202 @@
         ],
         "model_display": "I-STOCK / S2 / S2_PIT",
         "model_count": 3,
-        "selection_close": 225500,
+        "selection_close": 2360000.0,
+        "model_selection_close": 1976000,
+        "market_cap": 1408299873240000,
+        "return_from_selection_pct": 0,
+        "holding_days": 0,
+        "qualitative_summary": "HBM과 AI 서버 메모리 수혜가 크지만 메모리 사이클, 설비투자, 경쟁 리스크가 높음.",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
+        "momentum": {
+          "price_date": "2026-06-02",
+          "market": "KOSPI",
+          "benchmark_index": "KOSPI",
+          "return_1d_pct": -0.13,
+          "return_5d_pct": 15.01,
+          "return_10d_pct": 28.26,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 5.64,
+          "latest_close": 2360000.0
+        },
+        "reactivity": {
+          "logic_version": "stock_reactivity_v1_20260528",
+          "score": 64,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "components": {
+            "model_score": 20,
+            "relative_strength_score": 30,
+            "price_action_score": 12,
+            "flow_score": 10
+          },
+          "reasons": [
+            "모델 교차 3개",
+            "5일 지수 대비 +5.64%p",
+            "5일 +15.01%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
+            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
+          ],
+          "rank": 1
+        },
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 2360000.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-06-03",
+        "first_portfolio_selection_rank": 1,
+        "first_portfolio_selection_price": 2360000.0,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 2360000.0,
+        "return_from_first_portfolio_selection_pct": 0.0
+      },
+      {
+        "ticker": "066570",
+        "name": "LG전자",
+        "group": "high_interest_chase_block",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
+        "model_selection_date": "2026-05-13",
+        "model_groups": [
+          "I",
+          "S"
+        ],
+        "model_ids": [
+          "I-STOCK-STRONG-RSI-V01",
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_display_codes": [
+          "I-STOCK",
+          "S2",
+          "S2_PIT"
+        ],
+        "model_display": "I-STOCK / S2 / S2_PIT",
+        "model_count": 3,
+        "selection_close": 392500.0,
         "model_selection_close": 191400,
         "market_cap": 31176454471800,
         "return_from_selection_pct": 0,
         "holding_days": 0,
         "qualitative_summary": "가전, TV, 전장, B2B 전환이 강점이나 단기 급등 후 수요 둔화와 차익실현 부담이 큼.",
-        "live_quote": {
-          "price": 225500,
-          "change_pct": -4.04,
-          "foreign_net_억원": 124.9,
-          "institution_net_억원": 78.2,
-          "individual_net_억원": -222.0,
-          "pension_net_억원": -2.0,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "소액분할검토",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSPI",
           "benchmark_index": "KOSPI",
-          "return_1d_pct": -1.88,
-          "return_5d_pct": 22.59,
-          "return_10d_pct": 27.1,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 9.43,
-          "latest_close": 235000.0
+          "return_1d_pct": 3.15,
+          "return_5d_pct": 63.88,
+          "return_10d_pct": 80.88,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 54.51,
+          "latest_close": 392500.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 79,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
+          "score": 64,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
           "components": {
             "model_score": 20,
             "relative_strength_score": 30,
             "price_action_score": 12,
-            "flow_score": 25
+            "flow_score": 10
           },
           "reasons": [
             "모델 교차 3개",
-            "5일 지수 대비 +9.43%p",
-            "5일 +22.59%로 강하지만 과열 확인 필요",
-            "당일 -4.04% 변동성",
-            "외국인/기관 동시 순매수, 합산 203.1억원",
+            "5일 지수 대비 +54.51%p",
+            "5일 +63.88%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
-          "rank": 1
+          "rank": 2
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 225500,
-        "portfolio_selection_price_date": "2026-05-27",
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 392500.0,
+        "portfolio_selection_price_date": "2026-06-02",
         "first_portfolio_selection_date": "2026-05-13",
         "first_portfolio_selection_rank": 3,
         "first_portfolio_selection_price": 191400,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 225500,
-        "return_from_first_portfolio_selection_pct": 17.82
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 392500.0,
+        "return_from_first_portfolio_selection_pct": 105.07
       },
       {
-        "ticker": "319400",
-        "name": "현대무벡스",
+        "ticker": "017670",
+        "name": "SK텔레콤",
+        "group": "core_candidate",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
+        "model_selection_date": "2026-05-13",
+        "model_groups": [
+          "S"
+        ],
+        "model_ids": [
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_display_codes": [
+          "S2",
+          "S2_PIT"
+        ],
+        "model_display": "S2 / S2_PIT",
+        "model_count": 2,
+        "selection_close": 125200.0,
+        "model_selection_close": 105800,
+        "market_cap": 22724787607400,
+        "return_from_selection_pct": 0,
+        "holding_days": 0,
+        "qualitative_summary": "통신 방어주 성격과 AI, 데이터센터, 클라우드 확장이 강점. 요금 규제와 경쟁은 부담.",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
+        "momentum": {
+          "price_date": "2026-06-02",
+          "market": "KOSPI",
+          "benchmark_index": "KOSPI",
+          "return_1d_pct": 11.59,
+          "return_5d_pct": 22.62,
+          "return_10d_pct": 24.58,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 13.25,
+          "latest_close": 125200.0
+        },
+        "reactivity": {
+          "logic_version": "stock_reactivity_v1_20260528",
+          "score": 63,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "components": {
+            "model_score": 19,
+            "relative_strength_score": 30,
+            "price_action_score": 12,
+            "flow_score": 10
+          },
+          "reasons": [
+            "모델 교차 2개",
+            "5일 지수 대비 +13.25%p",
+            "5일 +22.62%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
+            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
+          ],
+          "rank": 3
+        },
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 125200.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-13",
+        "first_portfolio_selection_rank": 2,
+        "first_portfolio_selection_price": 105800,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 125200.0,
+        "return_from_first_portfolio_selection_pct": 18.34
+      },
+      {
+        "ticker": "277810",
+        "name": "레인보우로보틱스",
         "group": "weekly_quant_candidate",
-        "decision": "소액분할검토",
-        "latest_selection_date": "2026-05-28",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "I",
@@ -500,155 +544,61 @@
         ],
         "model_display": "I-STOCK / S3_ACCEL",
         "model_count": 2,
-        "selection_close": 37450,
-        "model_selection_close": 43650,
-        "market_cap": 4861564102350,
+        "selection_close": 763000.0,
+        "model_selection_close": 878000,
+        "market_cap": 17033075324000,
         "return_from_selection_pct": 0,
         "holding_days": 0,
         "qualitative_summary": "",
-        "live_quote": {
-          "price": 37450,
-          "change_pct": 1.49,
-          "foreign_net_억원": 17.0,
-          "institution_net_억원": 2.8,
-          "individual_net_억원": -17.0,
-          "pension_net_억원": 0.0,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "소액분할검토",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSDAQ",
           "benchmark_index": "KOSDAQ",
-          "return_1d_pct": -2.51,
-          "return_5d_pct": 11.99,
-          "return_10d_pct": -13.18,
-          "benchmark_return_5d_pct": 4.5,
-          "relative_return_5d_pct": 7.49,
-          "latest_close": 36900.0
+          "return_1d_pct": -3.3,
+          "return_5d_pct": -1.17,
+          "return_10d_pct": 2.28,
+          "benchmark_return_5d_pct": -12.49,
+          "relative_return_5d_pct": 11.32,
+          "latest_close": 763000.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 79,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
+          "score": 62,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
           "components": {
             "model_score": 16,
             "relative_strength_score": 30,
-            "price_action_score": 16,
-            "flow_score": 25
+            "price_action_score": 14,
+            "flow_score": 10
           },
           "reasons": [
             "모델 교차 2개",
-            "5일 지수 대비 +7.49%p",
-            "5일 +11.99%로 강하지만 과열 확인 필요",
-            "당일 1.49% 안정권",
-            "외국인/기관 동시 순매수, 합산 19.8억원",
+            "5일 지수 대비 +11.32%p",
+            "5일 -1.17%로 안정",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
-          "rank": 2
+          "rank": 4
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 37450,
-        "portfolio_selection_price_date": "2026-05-27",
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 763000.0,
+        "portfolio_selection_price_date": "2026-06-02",
         "first_portfolio_selection_date": "2026-05-13",
-        "first_portfolio_selection_rank": 5,
-        "first_portfolio_selection_price": 43650,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 37450,
-        "return_from_first_portfolio_selection_pct": -14.2
+        "first_portfolio_selection_rank": 4,
+        "first_portfolio_selection_price": 878000,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 763000.0,
+        "return_from_first_portfolio_selection_pct": -13.1
       },
       {
-        "ticker": "034730",
-        "name": "SK",
+        "ticker": "950160",
+        "name": "코오롱티슈진",
         "group": "weekly_quant_candidate",
-        "decision": "소액분할검토",
-        "latest_selection_date": "2026-05-28",
-        "model_selection_date": "2026-05-13",
-        "model_groups": [
-          "I",
-          "S"
-        ],
-        "model_ids": [
-          "I-STOCK-STRONG-RSI-V01",
-          "S2"
-        ],
-        "model_display_codes": [
-          "I-STOCK",
-          "S2"
-        ],
-        "model_display": "I-STOCK / S2",
-        "model_count": 2,
-        "selection_close": 664000,
-        "model_selection_close": 550000,
-        "market_cap": 39876486650000,
-        "return_from_selection_pct": 0,
-        "holding_days": 0,
-        "qualitative_summary": "",
-        "live_quote": {
-          "price": 664000,
-          "change_pct": -2.35,
-          "foreign_net_억원": 59.0,
-          "institution_net_억원": 91.7,
-          "individual_net_억원": -148.4,
-          "pension_net_억원": 4.7,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "소액분할검토",
-        "momentum": {
-          "price_date": "2026-05-27",
-          "market": "KOSPI",
-          "benchmark_index": "KOSPI",
-          "return_1d_pct": 3.66,
-          "return_5d_pct": 31.02,
-          "return_10d_pct": 25.69,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 17.86,
-          "latest_close": 680000.0
-        },
-        "reactivity": {
-          "logic_version": "stock_reactivity_v1_20260528",
-          "score": 75,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
-          "components": {
-            "model_score": 16,
-            "relative_strength_score": 30,
-            "price_action_score": 12,
-            "flow_score": 25
-          },
-          "reasons": [
-            "모델 교차 2개",
-            "5일 지수 대비 +17.86%p",
-            "5일 +31.02%로 강하지만 과열 확인 필요",
-            "당일 -2.35% 변동성",
-            "외국인/기관 동시 순매수, 합산 150.7억원",
-            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
-          ],
-          "rank": 3
-        },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 664000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-20",
-        "first_portfolio_selection_rank": 10,
-        "first_portfolio_selection_price": 526000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 664000,
-        "return_from_first_portfolio_selection_pct": 26.24
-      },
-      {
-        "ticker": "086520",
-        "name": "에코프로",
-        "group": "weekly_quant_candidate",
-        "decision": "소액분할검토",
-        "latest_selection_date": "2026-05-28",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "S"
@@ -663,73 +613,200 @@
         ],
         "model_display": "S3 / S3_CORE2",
         "model_count": 2,
-        "selection_close": 144700,
-        "model_selection_close": 135000,
-        "market_cap": 18329780520000,
+        "selection_close": 108000.0,
+        "model_selection_close": 122800,
+        "market_cap": 10405586940000,
         "return_from_selection_pct": 0,
         "holding_days": 0,
         "qualitative_summary": "",
-        "live_quote": {
-          "price": 144700,
-          "change_pct": 1.26,
-          "foreign_net_억원": -45.9,
-          "institution_net_억원": 69.0,
-          "individual_net_억원": -10.6,
-          "pension_net_억원": 27.4,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
+        "live_quote": null,
         "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSDAQ",
           "benchmark_index": "KOSDAQ",
-          "return_1d_pct": -2.79,
-          "return_5d_pct": 17.52,
-          "return_10d_pct": 2.29,
-          "benchmark_return_5d_pct": 4.5,
-          "relative_return_5d_pct": 13.02,
-          "latest_close": 142900.0
+          "return_1d_pct": 15.26,
+          "return_5d_pct": -1.01,
+          "return_10d_pct": -0.37,
+          "benchmark_return_5d_pct": -12.49,
+          "relative_return_5d_pct": 11.48,
+          "latest_close": 108000.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 72,
-          "status": "편입 우선",
-          "decision": "소액분할검토",
+          "score": 62,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
           "components": {
             "model_score": 16,
             "relative_strength_score": 30,
-            "price_action_score": 16,
-            "flow_score": 18
+            "price_action_score": 14,
+            "flow_score": 10
           },
           "reasons": [
             "모델 교차 2개",
-            "5일 지수 대비 +13.02%p",
-            "5일 +17.52%로 강하지만 과열 확인 필요",
-            "당일 1.26% 안정권",
-            "기관 중심 순수급 우위, 합산 23.1억원",
+            "5일 지수 대비 +11.48%p",
+            "5일 -1.01%로 안정",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
-          "rank": 4
+          "rank": 5
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 144700,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-26",
-        "first_portfolio_selection_rank": 2,
-        "first_portfolio_selection_price": 147000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 144700,
-        "return_from_first_portfolio_selection_pct": -1.56
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 108000.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-06-03",
+        "first_portfolio_selection_rank": 5,
+        "first_portfolio_selection_price": 108000.0,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 108000.0,
+        "return_from_first_portfolio_selection_pct": 0.0
       },
       {
-        "ticker": "307950",
-        "name": "현대오토에버",
+        "ticker": "005930",
+        "name": "삼성전자",
+        "group": "high_interest_chase_block",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
+        "model_selection_date": "2026-05-13",
+        "model_groups": [
+          "I",
+          "S"
+        ],
+        "model_ids": [
+          "I-STOCK-STRONG-RSI-V01",
+          "S2_PIT_V01"
+        ],
+        "model_display_codes": [
+          "I-STOCK",
+          "S2_PIT"
+        ],
+        "model_display": "I-STOCK / S2_PIT",
+        "model_count": 2,
+        "selection_close": 360500.0,
+        "model_selection_close": 284000,
+        "market_cap": 1660343124672000,
+        "return_from_selection_pct": 0,
+        "holding_days": 0,
+        "qualitative_summary": "메모리, 파운드리, 모바일, 가전 포트폴리오가 넓으나 반도체 경쟁과 글로벌 수요가 변수.",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
+        "momentum": {
+          "price_date": "2026-06-02",
+          "market": "KOSPI",
+          "benchmark_index": "KOSPI",
+          "return_1d_pct": 3.3,
+          "return_5d_pct": 20.57,
+          "return_10d_pct": 28.29,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 11.2,
+          "latest_close": 360500.0
+        },
+        "reactivity": {
+          "logic_version": "stock_reactivity_v1_20260528",
+          "score": 60,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "components": {
+            "model_score": 16,
+            "relative_strength_score": 30,
+            "price_action_score": 12,
+            "flow_score": 10
+          },
+          "reasons": [
+            "모델 교차 2개",
+            "5일 지수 대비 +11.2%p",
+            "5일 +20.57%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
+            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
+          ],
+          "rank": 6
+        },
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 360500.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-14",
+        "first_portfolio_selection_rank": 8,
+        "first_portfolio_selection_price": 296000,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 360500.0,
+        "return_from_first_portfolio_selection_pct": 21.79
+      },
+      {
+        "ticker": "011070",
+        "name": "LG이노텍",
         "group": "weekly_quant_candidate",
         "decision": "관찰/소액후보",
-        "latest_selection_date": "2026-05-28",
+        "latest_selection_date": "2026-06-03",
+        "model_selection_date": "2026-05-13",
+        "model_groups": [
+          "S"
+        ],
+        "model_ids": [
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_display_codes": [
+          "S2",
+          "S2_PIT"
+        ],
+        "model_display": "S2 / S2_PIT",
+        "model_count": 2,
+        "selection_close": 1252000.0,
+        "model_selection_close": 753000,
+        "market_cap": 17821331571000,
+        "return_from_selection_pct": 0,
+        "holding_days": 0,
+        "qualitative_summary": "",
+        "live_quote": null,
+        "base_decision": "관찰/소액후보",
+        "momentum": {
+          "price_date": "2026-06-02",
+          "market": "KOSPI",
+          "benchmark_index": "KOSPI",
+          "return_1d_pct": -18.17,
+          "return_5d_pct": 17.23,
+          "return_10d_pct": 64.74,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 7.86,
+          "latest_close": 1252000.0
+        },
+        "reactivity": {
+          "logic_version": "stock_reactivity_v1_20260528",
+          "score": 60,
+          "status": "소액 관찰",
+          "decision": "관찰/소액후보",
+          "components": {
+            "model_score": 16,
+            "relative_strength_score": 30,
+            "price_action_score": 12,
+            "flow_score": 10
+          },
+          "reasons": [
+            "모델 교차 2개",
+            "5일 지수 대비 +7.86%p",
+            "5일 +17.23%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
+            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
+          ],
+          "rank": 7
+        },
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 1252000.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-18",
+        "first_portfolio_selection_rank": 5,
+        "first_portfolio_selection_price": 760000,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 1252000.0,
+        "return_from_first_portfolio_selection_pct": 64.74
+      },
+      {
+        "ticker": "028260",
+        "name": "삼성물산",
+        "group": "weekly_quant_candidate",
+        "decision": "관찰/소액후보",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "I",
@@ -745,73 +822,61 @@
         ],
         "model_display": "I-STOCK / S2",
         "model_count": 2,
-        "selection_close": 746000,
-        "model_selection_close": 699000,
-        "market_cap": 19169363418000,
+        "selection_close": 485500.0,
+        "model_selection_close": 428500,
+        "market_cap": 69489408358500,
         "return_from_selection_pct": 0,
         "holding_days": 0,
         "qualitative_summary": "",
-        "live_quote": {
-          "price": 746000,
-          "change_pct": -2.48,
-          "foreign_net_억원": -30.0,
-          "institution_net_억원": 47.0,
-          "individual_net_억원": -36.7,
-          "pension_net_억원": 3.0,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
+        "live_quote": null,
         "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSPI",
           "benchmark_index": "KOSPI",
-          "return_1d_pct": 19.91,
-          "return_5d_pct": 42.72,
-          "return_10d_pct": 24.39,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 29.56,
-          "latest_close": 765000.0
+          "return_1d_pct": 6.7,
+          "return_5d_pct": 18.13,
+          "return_10d_pct": 21.53,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 8.76,
+          "latest_close": 485500.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 68,
+          "score": 60,
           "status": "소액 관찰",
           "decision": "관찰/소액후보",
           "components": {
             "model_score": 16,
             "relative_strength_score": 30,
             "price_action_score": 12,
-            "flow_score": 18
+            "flow_score": 10
           },
           "reasons": [
             "모델 교차 2개",
-            "5일 지수 대비 +29.56%p",
-            "5일 +42.72%로 강하지만 과열 확인 필요",
-            "당일 -2.48% 변동성",
-            "기관 중심 순수급 우위, 합산 17억원",
+            "5일 지수 대비 +8.76%p",
+            "5일 +18.13%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
-          "rank": 5
+          "rank": 8
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 746000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-14",
-        "first_portfolio_selection_rank": 5,
-        "first_portfolio_selection_price": 689000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 746000,
-        "return_from_first_portfolio_selection_pct": 8.27
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 485500.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-22",
+        "first_portfolio_selection_rank": 8,
+        "first_portfolio_selection_price": 420500,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 485500.0,
+        "return_from_first_portfolio_selection_pct": 15.46
       },
       {
-        "ticker": "000660",
-        "name": "SK하이닉스",
-        "group": "high_interest_chase_block",
+        "ticker": "307950",
+        "name": "현대오토에버",
+        "group": "weekly_quant_candidate",
         "decision": "관찰/소액후보",
-        "latest_selection_date": "2026-05-28",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "I",
@@ -819,83 +884,69 @@
         ],
         "model_ids": [
           "I-STOCK-STRONG-RSI-V01",
-          "S2",
-          "S2_PIT_V01"
+          "S2"
         ],
         "model_display_codes": [
           "I-STOCK",
-          "S2",
-          "S2_PIT"
+          "S2"
         ],
-        "model_display": "I-STOCK / S2 / S2_PIT",
-        "model_count": 3,
-        "selection_close": 2289000,
-        "model_selection_close": 1976000,
-        "market_cap": 1408299873240000,
+        "model_display": "I-STOCK / S2",
+        "model_count": 2,
+        "selection_close": 898000.0,
+        "model_selection_close": 699000,
+        "market_cap": 19169363418000,
         "return_from_selection_pct": 0,
         "holding_days": 0,
-        "qualitative_summary": "HBM과 AI 서버 메모리 수혜가 크지만 메모리 사이클, 설비투자, 경쟁 리스크가 높음.",
-        "live_quote": {
-          "price": 2289000,
-          "change_pct": 2.05,
-          "foreign_net_억원": -17337.2,
-          "institution_net_억원": 513.5,
-          "individual_net_억원": 15969.5,
-          "pension_net_억원": 16.9,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
+        "qualitative_summary": "",
+        "live_quote": null,
         "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSPI",
           "benchmark_index": "KOSPI",
-          "return_1d_pct": 9.31,
-          "return_5d_pct": 28.54,
-          "return_10d_pct": 22.23,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 15.38,
-          "latest_close": 2243000.0
+          "return_1d_pct": -4.26,
+          "return_5d_pct": 40.75,
+          "return_10d_pct": 50.67,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 31.38,
+          "latest_close": 898000.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 68,
+          "score": 60,
           "status": "소액 관찰",
           "decision": "관찰/소액후보",
           "components": {
-            "model_score": 20,
+            "model_score": 16,
             "relative_strength_score": 30,
-            "price_action_score": 16,
+            "price_action_score": 12,
             "flow_score": 10
           },
           "reasons": [
-            "모델 교차 3개",
-            "5일 지수 대비 +15.38%p",
-            "5일 +28.54%로 강하지만 과열 확인 필요",
-            "당일 2.05% 안정권",
-            "수급 혼조, 합산 -16,823.7억원",
+            "모델 교차 2개",
+            "5일 지수 대비 +31.38%p",
+            "5일 +40.75%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
-          "rank": 6
+          "rank": 9
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 2289000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-28",
-        "first_portfolio_selection_rank": 6,
-        "first_portfolio_selection_price": 2289000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 2289000,
-        "return_from_first_portfolio_selection_pct": 0.0
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 898000.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-14",
+        "first_portfolio_selection_rank": 5,
+        "first_portfolio_selection_price": 689000,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 898000.0,
+        "return_from_first_portfolio_selection_pct": 30.33
       },
       {
         "ticker": "012330",
         "name": "현대모비스",
         "group": "core_candidate",
         "decision": "관찰/소액후보",
-        "latest_selection_date": "2026-05-28",
+        "latest_selection_date": "2026-06-03",
         "model_selection_date": "2026-05-13",
         "model_groups": [
           "I",
@@ -913,312 +964,54 @@
         ],
         "model_display": "I-STOCK / S2 / S2_PIT",
         "model_count": 3,
-        "selection_close": 686000,
+        "selection_close": 759000.0,
         "model_selection_close": 649000,
         "market_cap": 58885446367000,
         "return_from_selection_pct": 0,
         "holding_days": 0,
         "qualitative_summary": "모듈, 전동화, 자율주행 부품 경쟁력이 있으나 완성차 업황과 투자비 부담에 민감.",
-        "live_quote": {
-          "price": 686000,
-          "change_pct": -0.29,
-          "foreign_net_억원": -3788.9,
-          "institution_net_억원": 704.7,
-          "individual_net_억원": 2865.2,
-          "pension_net_억원": 339.6,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
+        "live_quote": null,
         "base_decision": "관찰/소액후보",
         "momentum": {
-          "price_date": "2026-05-27",
+          "price_date": "2026-06-02",
           "market": "KOSPI",
           "benchmark_index": "KOSPI",
-          "return_1d_pct": 3.61,
-          "return_5d_pct": 31.05,
-          "return_10d_pct": 25.55,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 17.89,
-          "latest_close": 688000.0
+          "return_1d_pct": -0.26,
+          "return_5d_pct": 14.31,
+          "return_10d_pct": 32.92,
+          "benchmark_return_5d_pct": 9.37,
+          "relative_return_5d_pct": 4.94,
+          "latest_close": 759000.0
         },
         "reactivity": {
           "logic_version": "stock_reactivity_v1_20260528",
-          "score": 68,
+          "score": 58,
           "status": "소액 관찰",
           "decision": "관찰/소액후보",
           "components": {
             "model_score": 20,
-            "relative_strength_score": 30,
-            "price_action_score": 16,
-            "flow_score": 10
-          },
-          "reasons": [
-            "모델 교차 3개",
-            "5일 지수 대비 +17.89%p",
-            "5일 +31.05%로 강하지만 과열 확인 필요",
-            "당일 -0.29% 안정권",
-            "수급 혼조, 합산 -3,084.2억원",
-            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
-          ],
-          "rank": 7
-        },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 686000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-21",
-        "first_portfolio_selection_rank": 8,
-        "first_portfolio_selection_price": 670000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 686000,
-        "return_from_first_portfolio_selection_pct": 2.39
-      },
-      {
-        "ticker": "189300",
-        "name": "인텔리안테크",
-        "group": "weekly_quant_candidate",
-        "decision": "관찰/소액후보",
-        "latest_selection_date": "2026-05-28",
-        "model_selection_date": "2026-05-13",
-        "model_groups": [
-          "I",
-          "S"
-        ],
-        "model_ids": [
-          "I-STOCK-STRONG-RSI-V01",
-          "S3",
-          "S3_CORE2"
-        ],
-        "model_display_codes": [
-          "I-STOCK",
-          "S3",
-          "S3_CORE2"
-        ],
-        "model_display": "I-STOCK / S3 / S3_CORE2",
-        "model_count": 3,
-        "selection_close": 150000,
-        "model_selection_close": 170600,
-        "market_cap": 1831816988200,
-        "return_from_selection_pct": 0,
-        "holding_days": 0,
-        "qualitative_summary": "",
-        "live_quote": {
-          "price": 150000,
-          "change_pct": -0.99,
-          "foreign_net_억원": 5.5,
-          "institution_net_억원": 13.2,
-          "individual_net_억원": -26.0,
-          "pension_net_억원": -13.9,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "관찰/소액후보",
-        "momentum": {
-          "price_date": "2026-05-27",
-          "market": "KOSDAQ",
-          "benchmark_index": "KOSDAQ",
-          "return_1d_pct": -1.43,
-          "return_5d_pct": 2.85,
-          "return_10d_pct": -6.37,
-          "benchmark_return_5d_pct": 4.5,
-          "relative_return_5d_pct": -1.65,
-          "latest_close": 151500.0
-        },
-        "reactivity": {
-          "logic_version": "stock_reactivity_v1_20260528",
-          "score": 67,
-          "status": "소액 관찰",
-          "decision": "관찰/소액후보",
-          "components": {
-            "model_score": 20,
-            "relative_strength_score": 10,
-            "price_action_score": 20,
-            "flow_score": 25
-          },
-          "reasons": [
-            "모델 교차 3개",
-            "5일 지수 대비 -1.65%p",
-            "5일 +2.85%",
-            "당일 -0.99% 안정권",
-            "외국인/기관 동시 순매수, 합산 18.7억원",
-            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
-          ],
-          "rank": 8
-        },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 150000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-15",
-        "first_portfolio_selection_rank": 1,
-        "first_portfolio_selection_price": 162000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 150000,
-        "return_from_first_portfolio_selection_pct": -7.41
-      },
-      {
-        "ticker": "126340",
-        "name": "비나텍",
-        "group": "weekly_quant_candidate",
-        "decision": "관찰/소액후보",
-        "latest_selection_date": "2026-05-28",
-        "model_selection_date": "2026-05-13",
-        "model_groups": [
-          "S"
-        ],
-        "model_ids": [
-          "S3",
-          "S3_ACCEL_V01",
-          "S3_CORE2"
-        ],
-        "model_display_codes": [
-          "S3",
-          "S3_ACCEL",
-          "S3_CORE2"
-        ],
-        "model_display": "S3 / S3_ACCEL / S3_CORE2",
-        "model_count": 3,
-        "selection_close": 152100,
-        "model_selection_close": 166200,
-        "market_cap": 1187254353600,
-        "return_from_selection_pct": 0,
-        "holding_days": 0,
-        "qualitative_summary": "",
-        "live_quote": {
-          "price": 152100,
-          "change_pct": -4.88,
-          "foreign_net_억원": 42.4,
-          "institution_net_억원": -36.6,
-          "individual_net_억원": -6.6,
-          "pension_net_억원": -14.9,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "관찰/소액후보",
-        "momentum": {
-          "price_date": "2026-05-27",
-          "market": "KOSDAQ",
-          "benchmark_index": "KOSDAQ",
-          "return_1d_pct": -5.94,
-          "return_5d_pct": 16.55,
-          "return_10d_pct": -7.57,
-          "benchmark_return_5d_pct": 4.5,
-          "relative_return_5d_pct": 12.05,
-          "latest_close": 159900.0
-        },
-        "reactivity": {
-          "logic_version": "stock_reactivity_v1_20260528",
-          "score": 64,
-          "status": "소액 관찰",
-          "decision": "관찰/소액후보",
-          "components": {
-            "model_score": 20,
-            "relative_strength_score": 30,
+            "relative_strength_score": 24,
             "price_action_score": 12,
             "flow_score": 10
           },
           "reasons": [
             "모델 교차 3개",
-            "5일 지수 대비 +12.05%p",
-            "5일 +16.55%로 강하지만 과열 확인 필요",
-            "당일 -4.88% 변동성",
-            "수급 혼조, 합산 5.8억원",
-            "시장 3등급 이하라 실행 기준을 보수적으로 강화"
-          ],
-          "rank": 9
-        },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 152100,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-22",
-        "first_portfolio_selection_rank": 10,
-        "first_portfolio_selection_price": 169000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 152100,
-        "return_from_first_portfolio_selection_pct": -10.0
-      },
-      {
-        "ticker": "009150",
-        "name": "삼성전기",
-        "group": "weekly_quant_candidate",
-        "decision": "추격 금지/관찰",
-        "latest_selection_date": "2026-05-28",
-        "model_selection_date": "2026-05-13",
-        "model_groups": [
-          "S"
-        ],
-        "model_ids": [
-          "S2_PIT_V01"
-        ],
-        "model_display_codes": [
-          "S2_PIT"
-        ],
-        "model_display": "S2_PIT",
-        "model_count": 1,
-        "selection_close": 1849000,
-        "model_selection_close": 1029000,
-        "market_cap": 76859813184000,
-        "return_from_selection_pct": 0,
-        "holding_days": 0,
-        "qualitative_summary": "",
-        "live_quote": {
-          "price": 1849000,
-          "change_pct": 13.44,
-          "foreign_net_억원": 2402.9,
-          "institution_net_억원": 401.4,
-          "individual_net_억원": -2714.5,
-          "pension_net_억원": -791.2,
-          "flow_date": "20260528",
-          "source": "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
-          "asof_date": "2026-05-28",
-          "fetched_at": "2026-05-29T00:20:50.165+09:00"
-        },
-        "base_decision": "소액분할검토",
-        "momentum": {
-          "price_date": "2026-05-27",
-          "market": "KOSPI",
-          "benchmark_index": "KOSPI",
-          "return_1d_pct": 3.69,
-          "return_5d_pct": 65.15,
-          "return_10d_pct": 70.15,
-          "benchmark_return_5d_pct": 13.16,
-          "relative_return_5d_pct": 51.99,
-          "latest_close": 1630000.0
-        },
-        "reactivity": {
-          "logic_version": "stock_reactivity_v1_20260528",
-          "score": 55,
-          "status": "추격 금지",
-          "decision": "추격 금지/관찰",
-          "components": {
-            "model_score": 12,
-            "relative_strength_score": 30,
-            "price_action_score": 4,
-            "flow_score": 25
-          },
-          "reasons": [
-            "모델 교차 1개",
-            "5일 지수 대비 +51.99%p",
-            "5일 +65.15%로 강하지만 과열 확인 필요",
-            "당일 13.44% 급등, 추격 위험",
-            "외국인/기관 동시 순매수, 합산 2,804.3억원",
+            "5일 지수 대비 +4.94%p",
+            "5일 +14.31%로 강하지만 과열 확인 필요",
+            "수급 혼조, 합산 0억원",
             "시장 3등급 이하라 실행 기준을 보수적으로 강화"
           ],
           "rank": 10
         },
-        "portfolio_selection_date": "2026-05-28",
-        "portfolio_selection_price": 1849000,
-        "portfolio_selection_price_date": "2026-05-27",
-        "first_portfolio_selection_date": "2026-05-14",
-        "first_portfolio_selection_rank": 10,
-        "first_portfolio_selection_price": 1024000,
-        "final_portfolio_selection_date": "2026-05-28",
-        "final_portfolio_selection_price": 1849000,
-        "return_from_first_portfolio_selection_pct": 80.57
+        "portfolio_selection_date": "2026-06-03",
+        "portfolio_selection_price": 759000.0,
+        "portfolio_selection_price_date": "2026-06-02",
+        "first_portfolio_selection_date": "2026-05-21",
+        "first_portfolio_selection_rank": 8,
+        "first_portfolio_selection_price": 670000,
+        "final_portfolio_selection_date": "2026-06-03",
+        "final_portfolio_selection_price": 759000.0,
+        "return_from_first_portfolio_selection_pct": 13.28
       }
     ]
   },
@@ -1226,7 +1019,7 @@
     {
       "step": 1,
       "name": "시장 위험 판단",
-      "result": "3등급 주의 관찰 하단"
+      "result": "3등급 주의 관찰"
     },
     {
       "step": 2,
@@ -1258,59 +1051,55 @@
     {
       "step": 1,
       "title": "시장 위험 판단",
-      "summary": "시장판단은 3등급 주의 관찰 하단이다. 등급 경계 구간이므로 종목은 유지하고 비중만 보수적으로 조절한다.",
+      "summary": "일부 지표가 약해진 경계 구간으로 판단했다. 공격적 비중 확대보다 방어적 확인이 필요하다.",
       "details": [
-        "시장판단은 3등급 주의 관찰 하단이다.",
-        "STEP1 v2 점수는 42.6점, 기준 시점은 2026-05-27T18:00:00+09:00이다.",
+        "시장판단은 3등급 주의 관찰이다.",
+        "STEP1 v2 점수는 45.7점, 기준 시점은 2026-05-29T19:21:50+09:00이다.",
         "기존 판단은 Cautious Watch였다.",
-        "시장 방향성: 8.6/20점",
-        "시장 방향성 근거: KOSPI 2.25%, KOSDAQ -2.41%",
-        "시장 방향성 근거: KOSPI 20일 24.27%, KOSDAQ 20일 -0.15%",
-        "시장 확산력: 4/20점",
-        "시장 확산력 근거: 상승종목 평균비율 19.92%",
-        "시장 확산력 근거: 20일선 위 38.76%, 60일선 위 52.97%",
-        "수급: 5/20점",
-        "수급 근거: 외국인 -4,498억원, 기관 1,880억원",
-        "수급 근거: 프로그램 전체 -20,728억원",
-        "변동성/리스크: 8/20점",
-        "변동성/리스크 근거: 원달러 당일 -0.58%, 20일 2.54%",
-        "변동성/리스크 근거: 국고3년 20일 변화 0.21%p, 20일 변동성 3.25%",
+        "시장 방향성: 7.7/20점",
+        "시장 방향성 근거: KOSPI 3.55%, KOSDAQ -5.15%",
+        "시장 방향성 근거: KOSPI 20일 23.74%, KOSDAQ 20일 -9.93%",
+        "시장 확산력: 3/20점",
+        "시장 확산력 근거: 상승종목 평균비율 33.98%",
+        "시장 확산력 근거: 20일선 위 24.42%, 60일선 위 43.96%",
+        "수급: 12/20점",
+        "수급 근거: 외국인 -10,421억원, 기관 23,688억원",
+        "수급 근거: 프로그램 전체 9,513억원",
+        "변동성/리스크: 6/20점",
+        "변동성/리스크 근거: 원달러 당일 0.91%, 20일 3.79%",
+        "변동성/리스크 근거: 국고3년 20일 변화 0.2%p, 20일 변동성 3.26%",
         "시장 스타일: 7/10점",
-        "시장 스타일 근거: KOSDAQ -2.41% vs KOSPI 2.25%",
+        "시장 스타일 근거: KOSDAQ -5.15% vs KOSPI 3.55%",
         "시장 스타일 근거: 중소형/성장 위험선호가 회복됐지만 수급 확인이 필요함",
         "데이터 신뢰도: 10/10점",
-        "데이터 신뢰도 근거: 2026-05-28 휴장/비거래일로 판단해 마지막 거래일 2026-05-27 기준으로 평가",
+        "데이터 신뢰도 근거: 2026-06-03 휴장/비거래일로 판단해 마지막 거래일 2026-05-29 기준으로 평가",
         "데이터 신뢰도 근거: 마지막 거래일 외국인/기관/프로그램 수급 데이터 확인",
-        "KOSDAQ: 상승 192 / 하락 1507 / 상승비율 10.5%",
-        "KOSPI: 상승 722 / 하락 1614 / 상승비율 29.3%",
-        "외국인 순매수: -4,498억원(순매도 우위)",
-        "기관계 순매수: 1,880억원(순매수 우위)",
-        "프로그램 비차익 순매수: -18,826억원(순매도 우위)",
-        "프로그램 전체 순매수: -20,728억원(순매도 우위)",
+        "KOSDAQ: 상승 452 / 하락 1226 / 상승비율 24.8%",
+        "KOSPI: 상승 1009 / 하락 1347 / 상승비율 40.9%",
         "중동, 유가, 금리, 반도체 변동성 관련 뉴스가 리스크 요인으로 반영됐다."
       ],
-      "conclusion": "기준은 3등급 주의 관찰 하단이며, 수급 개선 여부는 종목 교체가 아니라 주식 비중 조절에 반영한다."
+      "conclusion": "오늘은 주식 신규 편입을 제한하고 방어 배분을 유지한다."
     },
     {
       "step": 2,
       "title": "ETF 전략 선택",
-      "summary": "STEP1이 경계 구간이므로 S6를 방어축으로 유지하고 주식 비중은 제한적으로 조절했다.",
+      "summary": "경계 구간이므로 S6 ETF 배분을 방어축으로 유지했다.",
       "details": [
-        "S6 최신 리밸런싱 기준일은 2026-05-27이다.",
+        "S6 최신 리밸런싱 기준일은 2026-06-02이다.",
         "현금성/단기채 성격 비중은 약 47.0%, 달러/금/인버스/장기채 방어 비중은 약 53.0%이다.",
         "주식 비중 정책: 0~15%",
         "ETF 정책: S6_DEFENSIVE_V1 중심",
         "현금/방어 정책: 현금성/방어 ETF 높게 유지",
         "구성은 단기금리, 달러채권, 금, 인버스, 장기채, 현금으로 분산되어 있다."
       ],
-      "conclusion": "S6를 기본축으로 유지하되 수급 개선 여부는 전체 주식 비중 조절에 반영한다."
+      "conclusion": "S6는 경계 구간에서 변동성을 낮추는 기준 배분으로 해석한다."
     },
     {
       "step": 3,
       "title": "E-series ETF 참고",
       "summary": "E-series는 ETF 전용 AI 전략이지만 현재 공개 추천 단계가 아니라 참고용으로만 반영했다.",
       "details": [
-        "E-series 기준일은 2026-05-15이다.",
+        "E-series 기준일은 2026-05-29이다.",
         "운영 후보 정책은 mode_switch_buffer_70_base이다.",
         "공개 추천 허용 여부는 False이다.",
         "따라서 S6 실행 판단을 대체하지 않고 ETF 전략 검증 참고자료로만 사용한다."
@@ -1325,13 +1114,13 @@
         "전체 후보 101개 중 반응성 점수 상위 10개를 공식 후보로 선정했다.",
         "시장등급은 후보 모델을 제외하는 데 쓰지 않고 주식 총비중과 종목당 비중을 조절하는 데만 사용했다.",
         "최근 5거래일 수익률, KOSPI 대비 초과수익, 당일 등락, 외국인/기관 수급을 종목별 반응성 점수로 반영했다.",
-        "반응성 분포: 편입 우선 4개, 소액 관찰 5개, 추격 금지 1개",
-        "상위 후보 LG전자: 점수 79점 / 편입 우선 / 5일 22.59%",
-        "상위 후보 현대무벡스: 점수 79점 / 편입 우선 / 5일 11.99%",
-        "상위 후보 SK: 점수 75점 / 편입 우선 / 5일 31.02%",
-        "하위 후보 삼성전기: 점수 55점 / 추격 금지 / 5일 65.15%",
-        "하위 후보 비나텍: 점수 64점 / 소액 관찰 / 5일 16.55%",
-        "하위 후보 인텔리안테크: 점수 67점 / 소액 관찰 / 5일 2.85%"
+        "반응성 분포: 소액 관찰 10개",
+        "상위 후보 SK하이닉스: 점수 64점 / 소액 관찰 / 5일 15.01%",
+        "상위 후보 LG전자: 점수 64점 / 소액 관찰 / 5일 63.88%",
+        "상위 후보 SK텔레콤: 점수 63점 / 소액 관찰 / 5일 22.62%",
+        "하위 후보 현대모비스: 점수 58점 / 소액 관찰 / 5일 14.31%",
+        "하위 후보 현대오토에버: 점수 60점 / 소액 관찰 / 5일 40.75%",
+        "하위 후보 삼성물산: 점수 60점 / 소액 관찰 / 5일 18.13%"
       ],
       "conclusion": "주식 후보 상위 10개는 유지하되 전체 주식 비중은 방어적으로 제한한다."
     },
@@ -1340,8 +1129,8 @@
       "title": "정성 분석과 최신 수급 확인",
       "summary": "정성적 사업 전망과 최신 가격/수급을 함께 확인해 단기 매수 가능성과 위험을 분리했다.",
       "details": [
-        "최신 수급 데이터 상태는 ok, 원천은 kiwoom_rest_ka10001+kiwoom_rest_ka10059이다.",
-        "보류 판단 종목은 0개, 관찰 판단 종목은 6개, 소액 검토 종목은 9개이다.",
+        "최신 수급 데이터 상태는 not_loaded, 원천은 None이다.",
+        "보류 판단 종목은 0개, 관찰 판단 종목은 10개, 소액 검토 종목은 10개이다.",
         "외국인/기관 동시 매도, 지수 대비 약세, 당일 급등락 종목은 모델 선정 여부와 무관하게 우선순위를 낮췄다.",
         "시장 등급이 3등급 이하일 때는 같은 종목이라도 소액 검토 기준을 더 엄격하게 적용했다.",
         "종목 선정은 상위 10개로 고정하고, 시장 위험은 편입 비중과 현금/ETF 배분에서 반영한다."
@@ -1351,9 +1140,9 @@
     {
       "step": 6,
       "title": "최종 포트폴리오 판단",
-      "summary": "시장 방향성과 확산력은 우호적이나 수급과 리스크가 엇갈려 종목은 유지하고 주식 비중만 제한적으로 조절하는 것이 결론이다.",
+      "summary": "시장 위험, ETF 모델, 주식 후보, 수급 확인을 종합하면 오늘은 방어형 ETF 중심 포트폴리오가 결론이다.",
       "details": [
-        "ETF는 S6 기준 배분을 유지하고, 주식은 별도 안이 아니라 전체 비중 정책으로 관리한다.",
+        "ETF는 S6 방어 배분을 중심으로 한다.",
         "주식은 0% 고정은 아니지만 신규 편입은 제한적으로만 검토한다.",
         "추격매수 보류 종목은 관심 목록에 남기되 매수 실행 종목으로 표시하지 않는다.",
         "시장 확산력과 외국인 수급이 개선되면 주식 비중 확대 여부를 다시 판단한다.",
@@ -1361,12 +1150,12 @@
         "ETF 정책은 S6_DEFENSIVE_V1 중심이다.",
         "현금/방어 정책은 현금성/방어 ETF 높게 유지이다."
       ],
-      "conclusion": "최종 결론은 상위 10개 종목을 유지하되, 시장등급에 따라 주식/ETF/현금 비중만 조절하는 것이다."
+      "conclusion": "최종 결론은 ETF 방어 배분 우선, 주식은 관찰/소액 분할 검토이다."
     }
   ],
   "final_portfolio_strategy": {
-    "step1_rating": "3등급 주의 관찰 하단",
-    "step1_score": 42.6,
+    "step1_rating": "3등급 주의 관찰",
+    "step1_score": 45.7,
     "weight_policy": {
       "logic_version": "portfolio_weight_policy_v1_20260528",
       "basis": "3등급 주의 관찰",
@@ -1379,12 +1168,12 @@
     "stock_weight_range_pct": "0~15",
     "etf_policy": "S6_DEFENSIVE_V1 중심",
     "cash_or_defensive_policy": "현금성/방어 ETF 높게 유지",
-    "conclusion": "최종 결론은 상위 10개 종목을 유지하되, 시장등급에 따라 주식/ETF/현금 비중만 조절하는 것이다."
+    "conclusion": "최종 결론은 ETF 방어 배분 우선, 주식은 관찰/소액 분할 검토이다."
   },
   "model_concentration_explanation": {
-    "section_title": "변동성 높은 약세장, 가격 강도 및 펀더멘털 우량주 선별",
+    "section_title": "왜 I-STOCK-STRONG-RSI-V01, S2, S2_PIT_V01, S3_ACCEL_V01 후보가 많이 나왔나",
     "placement": "단계별 상세 설명 다음, ETF 전략 섹션 이전",
-    "summary": "현재 시장은 전반적인 약세와 높은 변동성을 보이며, 특히 외국인과 프로그램의 대규모 매도세가 지수 전반의 하방 압력을 높였습니다. 이러한 환경 속에서 REDBOT Quant는 시장의 하락 압력에 저항하거나 재가속하는 가격 강도 높은 종목들과 견고한 펀더멘털을 갖춘 우량주들을 복합적으로 선별했습니다. 대부분의 후보 종목은 신중한 분할 접근이나 추가 관찰이 필요한 '소액분할검토' 또는 '관찰/소액후보'로 분류되었습니다.",
+    "summary": "오늘 후보 10개는 모델 신호보다 실행 필터가 더 중요하다. 가장 많이 등장한 I-STOCK-STRONG-RSI-V01도 최종 매수 신호가 아니라 후보 검증 출발점이다.",
     "model_roles": [
       {
         "model": "I-STOCK-STRONG-RSI-V01",
@@ -1397,35 +1186,36 @@
         "model": "S2",
         "plain_name": "펀더멘털 기반 안정형 주식 모델",
         "description": "품질, 성장, 재무 개선, 시장 게이트를 함께 보며 대형 우량주와 실적 기반 종목이 많이 남는다.",
-        "candidate_count": 5,
-        "candidate_ratio_pct": 50.0
+        "candidate_count": 7,
+        "candidate_ratio_pct": 70.0
       },
       {
         "model": "S2_PIT_V01",
         "plain_name": "시점 정보 기준 강화형 S2",
         "description": "미래정보 누수를 줄이고 해당 시점에 확인 가능한 펀더멘털과 시장 필터로 종목을 다시 걸러낸다.",
-        "candidate_count": 4,
-        "candidate_ratio_pct": 40.0
+        "candidate_count": 6,
+        "candidate_ratio_pct": 60.0
       },
       {
-        "model": "S3",
+        "model": "S3_ACCEL_V01",
         "plain_name": "기타 후보 선별 모델",
         "description": "해당 모델의 세부 성격은 현재 설명 사전에 없으므로 후보 분포와 실제 수급으로 보조 해석한다.",
-        "candidate_count": 3,
-        "candidate_ratio_pct": 30.0
+        "candidate_count": 1,
+        "candidate_ratio_pct": 10.0
       }
     ],
     "why_now": [
-      "현재 시장은 코스피와 코스닥 모두 약세 흐름을 보이며, 외국인과 프로그램의 대규모 순매도가 지수 전반에 강한 하방 압력과 높은 변동성을 유발하고 있습니다.",
-      "이러한 변동성 높은 약세장 속에서, REDBOT Quant 시스템은 시장의 하락 압력에 상대적으로 잘 버티거나 재가속하는 가격 강도 높은 종목들을 우선적으로 탐색하는 경향을 보입니다.",
-      "'가격 강도/재가속 확인 모델'인 I-STOCK-STRONG-RSI-V01이 가장 많은 후보를 선별한 것은, 어려운 시장 환경 속에서도 개별 종목의 긍정적인 가격 흐름에 주목하고 있음을 시사합니다.",
-      "동시에 '펀더멘털 기반 안정형 주식 모델'인 S2 계열 모델들도 다수의 후보를 제시하며, 단기적인 가격 변동성에도 불구하고 기업의 내재 가치 및 안정성 또한 중요하게 고려하고 있음을 알 수 있습니다."
+      "시장판단이 3등급 주의 관찰이므로 모델 분포는 위험자산 선호와 방어 신호를 함께 확인하는 방식으로 해석한다.",
+      "시장 확산력 점수(-1.4932)가 낮아 전체 종목이 함께 오르는 장이 아니며, 일부 강한 종목만 모델을 통과했다.",
+      "가격 강도 모델과 펀더멘털 모델이 동시에 많이 등장해, 단순 급등주보다 가격 버팀과 실적 기반이 함께 확인된 종목이 많다.",
+      "후보 10개 중 외국인 순매도가 확인된 종목은 0개, 당일 3% 이상 움직인 종목은 0개라 실행 판단은 보수적으로 제한했다.",
+      "이번 설명은 실제 후보에 많이 등장한 모델(I-STOCK-STRONG-RSI-V01, S2, S2_PIT_V01)을 기준으로 자동 생성됐다."
     ],
     "interpretation": [
-      "이번 후보군에는 LG전자, SK하이닉스, 현대모비스와 같이 시장을 대표하는 대형 우량주들이 다수 포함되어 있으며, 이들은 대체로 '가격 강도'와 '펀더멘털' 모델의 교집합에 속합니다.",
-      "특히 SK하이닉스와 현대모비스는 외국인 순매도세 속에서도 모델에 포착되었는데, 이는 단기적인 수급 변동에도 불구하고 해당 기업들의 잠재력이나 기관 투자자들의 매수세가 복합적으로 작용한 결과로 보입니다.",
-      "반면 삼성전기처럼 하루 만에 13% 이상 급등한 종목은 '추격 금지/관찰'로 분류되어, 급격한 가격 변동성 속에서 무리한 추격 매수를 경계하는 시스템의 신중한 접근 방식을 명확히 보여줍니다.",
-      "대부분의 후보 종목이 '소액분할검토' 또는 '관찰/소액후보'로 제시된 것은 현재 시장의 불확실한 상황과 높은 변동성을 반영하여, 신중한 분할 접근 또는 추가적인 관찰이 필요하다는 판단으로 해석됩니다."
+      "많이 등장한 모델은 오늘 후보군을 만든 주된 필터로 해석한다.",
+      "여러 모델에 동시에 선정된 종목은 관심 우선순위가 높지만, 그 자체가 즉시 매수 신호는 아니다.",
+      "현재 실행 판단은 관찰/소액후보 10개로 나뉘며, 모델 선정 이후에도 가격/수급 조건으로 한 번 더 걸렀다.",
+      "시장판단이 개선되면 중복 선정 종목의 편입 우선순위를 다시 높일 수 있다."
     ],
     "model_group_counts": {
       "I": 7,
@@ -1433,16 +1223,14 @@
     },
     "model_id_counts": {
       "I-STOCK-STRONG-RSI-V01": 7,
-      "S2": 5,
-      "S2_PIT_V01": 4,
-      "S3_ACCEL_V01": 2,
-      "S3": 3,
-      "S3_CORE2": 3
+      "S2": 7,
+      "S2_PIT_V01": 6,
+      "S3_ACCEL_V01": 1,
+      "S3": 1,
+      "S3_CORE2": 1
     },
     "decision_counts": {
-      "소액분할검토": 4,
-      "관찰/소액후보": 5,
-      "추격 금지/관찰": 1
+      "관찰/소액후보": 10
     },
     "top_models": [
       {
@@ -1451,28 +1239,28 @@
       },
       {
         "model": "S2",
-        "count": 5
+        "count": 7
       },
       {
         "model": "S2_PIT_V01",
-        "count": 4
+        "count": 6
       },
       {
-        "model": "S3",
-        "count": 3
+        "model": "S3_ACCEL_V01",
+        "count": 1
       }
     ],
     "concentration_ratio_pct": 70.0,
-    "narrative_focus": "price_volatility",
-    "explanation_fingerprint": "{\"decision_counts\": {\"관찰/소액후보\": 5, \"소액분할검토\": 4, \"추격 금지/관찰\": 1}, \"direction_label\": \"약세\", \"large_move_count\": 3, \"market_rating\": \"3등급 주의 관찰 하단\", \"negative_flow_count\": 4, \"top_models\": [[\"I-STOCK-STRONG-RSI-V01\", 7], [\"S2\", 5], [\"S2_PIT_V01\", 4]], \"total\": 10}",
+    "narrative_focus": "execution_filter",
+    "explanation_fingerprint": "{\"decision_counts\": {\"관찰/소액후보\": 10}, \"direction_label\": \"약세\", \"large_move_count\": 0, \"market_rating\": \"3등급 주의 관찰\", \"negative_flow_count\": 0, \"top_models\": [[\"I-STOCK-STRONG-RSI-V01\", 7], [\"S2\", 7], [\"S2_PIT_V01\", 6]], \"total\": 10}",
     "previous_context": {
-      "market_rating": "3등급 주의 관찰 하단",
+      "market_rating": "3등급 주의 관찰",
       "model_id_counts": {
-        "I-STOCK-STRONG-RSI-V01": 4,
+        "I-STOCK-STRONG-RSI-V01": 7,
         "S2": 7,
-        "S2_PIT_V01": 7,
-        "S3": 2,
-        "S3_ACCEL_V01": 3,
+        "S2_PIT_V01": 6,
+        "S3_ACCEL_V01": 1,
+        "S3": 1,
         "S3_CORE2": 1
       },
       "decision_counts": {
@@ -1480,26 +1268,40 @@
       },
       "top_models": [
         {
+          "model": "I-STOCK-STRONG-RSI-V01",
+          "count": 7
+        },
+        {
           "model": "S2",
           "count": 7
         },
         {
           "model": "S2_PIT_V01",
-          "count": 7
-        },
-        {
-          "model": "I-STOCK-STRONG-RSI-V01",
-          "count": 4
+          "count": 6
         },
         {
           "model": "S3_ACCEL_V01",
-          "count": 3
+          "count": 1
         }
       ],
-      "explanation_fingerprint": "{\"decision_counts\": {\"관찰/소액후보\": 10}, \"direction_label\": \"약세\", \"large_move_count\": 0, \"market_rating\": \"3등급 주의 관찰 하단\", \"negative_flow_count\": 0, \"top_models\": [[\"S2\", 7], [\"S2_PIT_V01\", 7], [\"I-STOCK-STRONG-RSI-V01\", 4]], \"total\": 10}",
+      "explanation_fingerprint": "{\"decision_counts\": {\"관찰/소액후보\": 10}, \"direction_label\": \"약세\", \"large_move_count\": 0, \"market_rating\": \"3등급 주의 관찰\", \"negative_flow_count\": 0, \"top_models\": [[\"I-STOCK-STRONG-RSI-V01\", 7], [\"S2\", 7], [\"S2_PIT_V01\", 6]], \"total\": 10}",
       "narrative_focus": "model_shift"
     },
     "overlap_candidates": [
+      {
+        "ticker": "000660",
+        "name": "SK하이닉스",
+        "model_ids": [
+          "I-STOCK-STRONG-RSI-V01",
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_groups": [
+          "I",
+          "S"
+        ],
+        "decision": "관찰/소액후보"
+      },
       {
         "ticker": "066570",
         "name": "LG전자",
@@ -1512,11 +1314,23 @@
           "I",
           "S"
         ],
-        "decision": "소액분할검토"
+        "decision": "관찰/소액후보"
       },
       {
-        "ticker": "319400",
-        "name": "현대무벡스",
+        "ticker": "017670",
+        "name": "SK텔레콤",
+        "model_ids": [
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_groups": [
+          "S"
+        ],
+        "decision": "관찰/소액후보"
+      },
+      {
+        "ticker": "277810",
+        "name": "레인보우로보틱스",
         "model_ids": [
           "I-STOCK-STRONG-RSI-V01",
           "S3_ACCEL_V01"
@@ -1525,24 +1339,11 @@
           "I",
           "S"
         ],
-        "decision": "소액분할검토"
+        "decision": "관찰/소액후보"
       },
       {
-        "ticker": "034730",
-        "name": "SK",
-        "model_ids": [
-          "I-STOCK-STRONG-RSI-V01",
-          "S2"
-        ],
-        "model_groups": [
-          "I",
-          "S"
-        ],
-        "decision": "소액분할검토"
-      },
-      {
-        "ticker": "086520",
-        "name": "에코프로",
+        "ticker": "950160",
+        "name": "코오롱티슈진",
         "model_ids": [
           "S3",
           "S3_CORE2"
@@ -1550,11 +1351,36 @@
         "model_groups": [
           "S"
         ],
-        "decision": "소액분할검토"
+        "decision": "관찰/소액후보"
       },
       {
-        "ticker": "307950",
-        "name": "현대오토에버",
+        "ticker": "005930",
+        "name": "삼성전자",
+        "model_ids": [
+          "I-STOCK-STRONG-RSI-V01",
+          "S2_PIT_V01"
+        ],
+        "model_groups": [
+          "I",
+          "S"
+        ],
+        "decision": "관찰/소액후보"
+      },
+      {
+        "ticker": "011070",
+        "name": "LG이노텍",
+        "model_ids": [
+          "S2",
+          "S2_PIT_V01"
+        ],
+        "model_groups": [
+          "S"
+        ],
+        "decision": "관찰/소액후보"
+      },
+      {
+        "ticker": "028260",
+        "name": "삼성물산",
         "model_ids": [
           "I-STOCK-STRONG-RSI-V01",
           "S2"
@@ -1566,12 +1392,11 @@
         "decision": "관찰/소액후보"
       },
       {
-        "ticker": "000660",
-        "name": "SK하이닉스",
+        "ticker": "307950",
+        "name": "현대오토에버",
         "model_ids": [
           "I-STOCK-STRONG-RSI-V01",
-          "S2",
-          "S2_PIT_V01"
+          "S2"
         ],
         "model_groups": [
           "I",
@@ -1592,57 +1417,12 @@
           "S"
         ],
         "decision": "관찰/소액후보"
-      },
-      {
-        "ticker": "189300",
-        "name": "인텔리안테크",
-        "model_ids": [
-          "I-STOCK-STRONG-RSI-V01",
-          "S3",
-          "S3_CORE2"
-        ],
-        "model_groups": [
-          "I",
-          "S"
-        ],
-        "decision": "관찰/소액후보"
-      },
-      {
-        "ticker": "126340",
-        "name": "비나텍",
-        "model_ids": [
-          "S3",
-          "S3_ACCEL_V01",
-          "S3_CORE2"
-        ],
-        "model_groups": [
-          "S"
-        ],
-        "decision": "관찰/소액후보"
       }
     ],
-    "conclusion": "전반적인 시장 약세와 높은 변동성 속에서도 시스템은 가격 강도와 펀더멘털을 겸비한 우량주들을 선별하며 신중한 접근을 제안하고 있습니다.",
-    "generation_method": "gemini",
-    "generation_model": "gemini-2.5-flash",
-    "generation_status": "ok",
-    "gemini_raw": {
-      "section_title": "변동성 높은 약세장, 가격 강도 및 펀더멘털 우량주 선별",
-      "summary": "현재 시장은 전반적인 약세와 높은 변동성을 보이며, 특히 외국인과 프로그램의 대규모 매도세가 지수 전반의 하방 압력을 높였습니다. 이러한 환경 속에서 REDBOT Quant는 시장의 하락 압력에 저항하거나 재가속하는 가격 강도 높은 종목들과 견고한 펀더멘털을 갖춘 우량주들을 복합적으로 선별했습니다. 대부분의 후보 종목은 신중한 분할 접근이나 추가 관찰이 필요한 '소액분할검토' 또는 '관찰/소액후보'로 분류되었습니다.",
-      "why_now": [
-        "현재 시장은 코스피와 코스닥 모두 약세 흐름을 보이며, 외국인과 프로그램의 대규모 순매도가 지수 전반에 강한 하방 압력과 높은 변동성을 유발하고 있습니다.",
-        "이러한 변동성 높은 약세장 속에서, REDBOT Quant 시스템은 시장의 하락 압력에 상대적으로 잘 버티거나 재가속하는 가격 강도 높은 종목들을 우선적으로 탐색하는 경향을 보입니다.",
-        "'가격 강도/재가속 확인 모델'인 I-STOCK-STRONG-RSI-V01이 가장 많은 후보를 선별한 것은, 어려운 시장 환경 속에서도 개별 종목의 긍정적인 가격 흐름에 주목하고 있음을 시사합니다.",
-        "동시에 '펀더멘털 기반 안정형 주식 모델'인 S2 계열 모델들도 다수의 후보를 제시하며, 단기적인 가격 변동성에도 불구하고 기업의 내재 가치 및 안정성 또한 중요하게 고려하고 있음을 알 수 있습니다."
-      ],
-      "interpretation": [
-        "이번 후보군에는 LG전자, SK하이닉스, 현대모비스와 같이 시장을 대표하는 대형 우량주들이 다수 포함되어 있으며, 이들은 대체로 '가격 강도'와 '펀더멘털' 모델의 교집합에 속합니다.",
-        "특히 SK하이닉스와 현대모비스는 외국인 순매도세 속에서도 모델에 포착되었는데, 이는 단기적인 수급 변동에도 불구하고 해당 기업들의 잠재력이나 기관 투자자들의 매수세가 복합적으로 작용한 결과로 보입니다.",
-        "반면 삼성전기처럼 하루 만에 13% 이상 급등한 종목은 '추격 금지/관찰'로 분류되어, 급격한 가격 변동성 속에서 무리한 추격 매수를 경계하는 시스템의 신중한 접근 방식을 명확히 보여줍니다.",
-        "대부분의 후보 종목이 '소액분할검토' 또는 '관찰/소액후보'로 제시된 것은 현재 시장의 불확실한 상황과 높은 변동성을 반영하여, 신중한 분할 접근 또는 추가적인 관찰이 필요하다는 판단으로 해석됩니다."
-      ],
-      "conclusion": "전반적인 시장 약세와 높은 변동성 속에서도 시스템은 가격 강도와 펀더멘털을 겸비한 우량주들을 선별하며 신중한 접근을 제안하고 있습니다.",
-      "narrative_focus": "price_volatility"
-    }
+    "conclusion": "I-STOCK-STRONG-RSI-V01, S2, S2_PIT_V01 중심 후보 분포를 참고하되, 최종 포트폴리오는 시장위험, ETF 전략, 종목별 수급을 함께 반영해 결정한다.",
+    "generation_method": "rule_based_dynamic",
+    "generation_model": null,
+    "generation_status": "fallback:ConnectionError:HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Max retries exceeded with url: /v1beta/models/gemini-2.5-flash:generateContent?key=AIza"
   },
   "disclaimer": "본 자료는 Quant 모델 기반 투자정보 정리이며 매수/매도 권유가 아니다."
 }

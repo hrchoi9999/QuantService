@@ -1,111 +1,12 @@
 {
   "source_name": "handoff:user_model_performance_history",
   "schema_version": "v1",
-  "as_of_date": "2026-05-22",
-  "generated_at": "2026-05-23T11:42:50",
+  "as_of_date": "2026-06-02",
+  "generated_at": "2026-06-03T21:02:59",
   "scope": "user",
   "timezone": "Asia/Seoul",
   "interval": "1w",
   "series": [
-    {
-      "asof_date": "2026-04-06",
-      "service_profile": "balanced",
-      "cagr": 0.54128,
-      "trailing_3m": 0.149174,
-      "trailing_6m": 0.286704,
-      "trailing_1y": 0.56288,
-      "mdd_1y": -0.138625,
-      "sharpe_1y": 2.466762,
-      "itd_return": 0.930246
-    },
-    {
-      "asof_date": "2026-04-06",
-      "service_profile": "growth",
-      "cagr": 1.11458,
-      "trailing_3m": 0.182931,
-      "trailing_6m": 0.569239,
-      "trailing_1y": 1.16614,
-      "mdd_1y": -0.147519,
-      "sharpe_1y": 3.412599,
-      "itd_return": 2.626852
-    },
-    {
-      "asof_date": "2026-04-06",
-      "service_profile": "stable",
-      "cagr": 0.493474,
-      "trailing_3m": 0.137096,
-      "trailing_6m": 0.263225,
-      "trailing_1y": 0.51287,
-      "mdd_1y": -0.126583,
-      "sharpe_1y": 2.505229,
-      "itd_return": 0.851156
-    },
-    {
-      "asof_date": "2026-04-08",
-      "service_profile": "balanced",
-      "cagr": 0.645894,
-      "trailing_3m": 0.1918,
-      "trailing_6m": 0.36856,
-      "trailing_1y": 0.672489,
-      "mdd_1y": -0.138625,
-      "sharpe_1y": 2.746316,
-      "itd_return": 1.040911
-    },
-    {
-      "asof_date": "2026-04-08",
-      "service_profile": "growth",
-      "cagr": 1.216079,
-      "trailing_3m": 0.227158,
-      "trailing_6m": 0.619161,
-      "trailing_1y": 1.27354,
-      "mdd_1y": -0.147519,
-      "sharpe_1y": 3.578778,
-      "itd_return": 2.779637
-    },
-    {
-      "asof_date": "2026-04-08",
-      "service_profile": "stable",
-      "cagr": 0.588182,
-      "trailing_3m": 0.178858,
-      "trailing_6m": 0.338924,
-      "trailing_1y": 0.611993,
-      "mdd_1y": -0.126583,
-      "sharpe_1y": 2.783731,
-      "itd_return": 0.951944
-    },
-    {
-      "asof_date": "2026-04-10",
-      "service_profile": "balanced",
-      "cagr": 0.710955,
-      "trailing_3m": 0.198003,
-      "trailing_6m": 0.375626,
-      "trailing_1y": 0.73566,
-      "mdd_1y": -0.138625,
-      "sharpe_1y": 2.95322,
-      "itd_return": 1.058253
-    },
-    {
-      "asof_date": "2026-04-10",
-      "service_profile": "growth",
-      "cagr": 1.272432,
-      "trailing_3m": 0.218491,
-      "trailing_6m": 0.577699,
-      "trailing_1y": 1.322775,
-      "mdd_1y": -0.147519,
-      "sharpe_1y": 3.71062,
-      "itd_return": 2.745887
-    },
-    {
-      "asof_date": "2026-04-10",
-      "service_profile": "stable",
-      "cagr": 0.648555,
-      "trailing_3m": 0.186182,
-      "trailing_6m": 0.347135,
-      "trailing_1y": 0.670702,
-      "mdd_1y": -0.126583,
-      "sharpe_1y": 2.990315,
-      "itd_return": 0.967508
-    },
     {
       "asof_date": "2026-04-14",
       "service_profile": "balanced",
@@ -831,6 +732,171 @@
       "mdd_1y": -0.125949,
       "sharpe_1y": 3.724243,
       "itd_return": 1.291321
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "balanced",
+      "cagr": 0.978929,
+      "trailing_3m": 0.208779,
+      "trailing_6m": 0.429685,
+      "trailing_1y": 1.045671,
+      "mdd_1y": -0.137767,
+      "sharpe_1y": 3.7108,
+      "itd_return": 1.39175
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "growth",
+      "cagr": 1.439772,
+      "trailing_3m": 0.200296,
+      "trailing_6m": 0.643591,
+      "trailing_1y": 1.547847,
+      "mdd_1y": -0.149097,
+      "sharpe_1y": 4.050481,
+      "itd_return": 3.202131
+    },
+    {
+      "asof_date": "2026-05-26",
+      "service_profile": "stable",
+      "cagr": 0.868793,
+      "trailing_3m": 0.189703,
+      "trailing_6m": 0.392053,
+      "trailing_1y": 0.926452,
+      "mdd_1y": -0.125949,
+      "sharpe_1y": 3.752767,
+      "itd_return": 1.256094
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "balanced",
+      "cagr": 0.952211,
+      "trailing_3m": 0.195697,
+      "trailing_6m": 0.412153,
+      "trailing_1y": 1.01672,
+      "mdd_1y": -0.137767,
+      "sharpe_1y": 3.646331,
+      "itd_return": 1.367596
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "growth",
+      "cagr": 1.380834,
+      "trailing_3m": 0.181364,
+      "trailing_6m": 0.611106,
+      "trailing_1y": 1.483345,
+      "mdd_1y": -0.149097,
+      "sharpe_1y": 3.927161,
+      "itd_return": 3.101661
+    },
+    {
+      "asof_date": "2026-05-27",
+      "service_profile": "stable",
+      "cagr": 0.847753,
+      "trailing_3m": 0.177934,
+      "trailing_6m": 0.377552,
+      "trailing_1y": 0.903715,
+      "mdd_1y": -0.125949,
+      "sharpe_1y": 3.691389,
+      "itd_return": 1.236627
+    },
+    {
+      "asof_date": "2026-05-28",
+      "service_profile": "balanced",
+      "cagr": 0.946458,
+      "trailing_3m": 0.162534,
+      "trailing_6m": 0.442162,
+      "trailing_1y": 1.003169,
+      "mdd_1y": -0.137767,
+      "sharpe_1y": 3.604842,
+      "itd_return": 1.385543
+    },
+    {
+      "asof_date": "2026-05-28",
+      "service_profile": "growth",
+      "cagr": 1.275902,
+      "trailing_3m": 0.098424,
+      "trailing_6m": 0.55626,
+      "trailing_1y": 1.358057,
+      "mdd_1y": -0.148993,
+      "sharpe_1y": 3.684751,
+      "itd_return": 2.97334
+    },
+    {
+      "asof_date": "2026-05-28",
+      "service_profile": "stable",
+      "cagr": 0.838968,
+      "trailing_3m": 0.14809,
+      "trailing_6m": 0.401647,
+      "trailing_1y": 0.887917,
+      "mdd_1y": -0.125949,
+      "sharpe_1y": 3.647704,
+      "itd_return": 1.246128
+    },
+    {
+      "asof_date": "2026-05-29",
+      "service_profile": "balanced",
+      "cagr": 0.969406,
+      "trailing_3m": 0.178937,
+      "trailing_6m": 0.458152,
+      "trailing_1y": 1.02781,
+      "mdd_1y": -0.137767,
+      "sharpe_1y": 3.66924,
+      "itd_return": 1.445068
+    },
+    {
+      "asof_date": "2026-05-29",
+      "service_profile": "growth",
+      "cagr": 1.232609,
+      "trailing_3m": 0.082748,
+      "trailing_6m": 0.516508,
+      "trailing_1y": 1.311287,
+      "mdd_1y": -0.148993,
+      "sharpe_1y": 3.62106,
+      "itd_return": 2.927427
+    },
+    {
+      "asof_date": "2026-05-29",
+      "service_profile": "stable",
+      "cagr": 0.858721,
+      "trailing_3m": 0.160063,
+      "trailing_6m": 0.415697,
+      "trailing_1y": 0.909076,
+      "mdd_1y": -0.125949,
+      "sharpe_1y": 3.70499,
+      "itd_return": 1.293763
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "balanced",
+      "cagr": 0.989463,
+      "trailing_3m": 0.188106,
+      "trailing_6m": 0.513001,
+      "trailing_1y": 1.057091,
+      "mdd_1y": -0.137767,
+      "sharpe_1y": 3.674548,
+      "itd_return": 1.458025
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "growth",
+      "cagr": 1.15171,
+      "trailing_3m": 0.044452,
+      "trailing_6m": 0.510687,
+      "trailing_1y": 1.233346,
+      "mdd_1y": -0.148993,
+      "sharpe_1y": 3.429672,
+      "itd_return": 2.91433
+    },
+    {
+      "asof_date": "2026-06-02",
+      "service_profile": "stable",
+      "cagr": 0.8767,
+      "trailing_3m": 0.170931,
+      "trailing_6m": 0.464132,
+      "trailing_1y": 0.935,
+      "mdd_1y": -0.125949,
+      "sharpe_1y": 3.71728,
+      "itd_return": 1.309757
     }
   ]
 }

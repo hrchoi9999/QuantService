@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/breadth-detail?market=KR",
   "market": "KR",
-  "asof": "2026-05-30T21:00:00+09:00",
+  "asof": "2026-06-03T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,49 +16,49 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-05-30T21:00:00+09:00",
+    "asof": "2026-06-03T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-05-30T21:00:00+09:00",
-    "generated_at": "2026-05-30T21:07:22+09:00",
+    "asof": "2026-06-03T22:00:00+09:00",
+    "generated_at": "2026-06-03T22:05:21+09:00",
     "title": "시장 내부 확산 상세",
     "description": "종가 기준 breadth와 최신 장중 breadth를 함께 비교해 시장 내부 체력을 읽는 공개형 데이터 패널입니다.",
     "close_breadth": {
-      "asof": "2026-05-30T21:00:00+09:00",
-      "above_20dma_ratio": 0.23195876288659795,
-      "above_60dma_ratio": 0.40463917525773196,
-      "adv_dec_ratio": 0.4828897338403042,
-      "new_high_count": 20.0,
-      "new_low_count": 11.0,
-      "breadth_universe_count": 388,
+      "asof": "2026-06-03T22:00:00+09:00",
+      "above_20dma_ratio": 0.2210796915167095,
+      "above_60dma_ratio": 0.35732647814910024,
+      "adv_dec_ratio": 0.42700729927007297,
+      "new_high_count": 14.0,
+      "new_low_count": 22.0,
+      "breadth_universe_count": 389,
       "breadth_proxy_flag": false,
       "breadth_regime_label": "확산 약세"
     },
     "intraday_breadth": {
-      "asof": "2026-05-30T18:00:00+09:00",
+      "asof": "2026-06-03T18:00:00+09:00",
       "available": true,
       "rows": [
         {
           "universe_code": "KOSDAQ",
-          "advancers": 309,
-          "decliners": 1392,
-          "flat_count": 121,
-          "adv_dec_ratio": 0.22254127781765973,
-          "positive_ratio": 0.16959385290889134,
+          "advancers": 452,
+          "decliners": 1226,
+          "flat_count": 144,
+          "adv_dec_ratio": 0.3691931540342298,
+          "positive_ratio": 0.24807903402854006,
           "source": "naver:sise_market_sum:1:37pages",
           "is_fallback": 0,
           "source_tier": "proxy"
         },
         {
           "universe_code": "KOSPI",
-          "advancers": 1256,
-          "decliners": 1092,
-          "flat_count": 115,
-          "adv_dec_ratio": 1.1500457456541628,
-          "positive_ratio": 0.5099472188388144,
+          "advancers": 1009,
+          "decliners": 1347,
+          "flat_count": 110,
+          "adv_dec_ratio": 0.7492581602373887,
+          "positive_ratio": 0.4091646390916464,
           "source": "naver:sise_market_sum:0:50pages",
           "is_fallback": 0,
           "source_tier": "proxy"
@@ -67,7 +67,7 @@
     },
     "summary": {
       "close_regime_label": "확산 약세",
-      "intraday_positive_universe_count": 1,
+      "intraday_positive_universe_count": 0,
       "uses_proxy": true
     },
     "compliance_meta": {
@@ -82,7 +82,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-05-30T21:00:00+09:00",
+      "asof": "2026-06-03T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },

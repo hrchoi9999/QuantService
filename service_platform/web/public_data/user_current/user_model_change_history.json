@@ -1,14 +1,19 @@
 {
   "source_name": "handoff:user_model_change_history",
   "schema_version": "v1",
-  "as_of_date": "2026-05-22",
-  "generated_at": "2026-05-23T11:42:41",
+  "as_of_date": "2026-06-02",
+  "generated_at": "2026-06-03T21:02:41",
   "profiles": [
     "stable",
     "balanced",
     "growth"
   ],
   "available_dates": [
+    "2026-06-02",
+    "2026-05-29",
+    "2026-05-28",
+    "2026-05-27",
+    "2026-05-26",
     "2026-05-22",
     "2026-05-21",
     "2026-05-20",
@@ -30,12 +35,1790 @@
     "2026-04-21",
     "2026-04-17",
     "2026-04-16",
-    "2026-04-14",
-    "2026-04-10",
-    "2026-04-08",
-    "2026-04-06"
+    "2026-04-14"
   ],
   "weekly": [
+    {
+      "period_type": "weekly",
+      "period_key": "2026-06-02",
+      "as_of_date": "2026-06-02",
+      "models": [
+        {
+          "as_of_date": "2026-06-02",
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "안정형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "안정형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "안정형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "안정형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.017869,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.012236,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대차",
+              "security_code": "005380",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대오토에버",
+              "security_code": "307950",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "삼성물산",
+              "security_code": "028260",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.022336,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "삼천당제약",
+              "security_code": "000250",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "비에이치아이",
+              "security_code": "083650",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "제주반도체",
+              "security_code": "080220",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "대주전자재료",
+              "security_code": "078600",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-06-02",
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "균형형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "균형형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "균형형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "균형형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.015316,
+              "direction": "increase"
+            },
+            {
+              "display_name": "POSCO홀딩스",
+              "security_code": "005490",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "HD현대중공업",
+              "security_code": "329180",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "가온전선",
+              "security_code": "000500",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "HD한국조선해양",
+              "security_code": "009540",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.019145,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "삼천당제약",
+              "security_code": "000250",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "비에이치아이",
+              "security_code": "083650",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "제주반도체",
+              "security_code": "080220",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "대주전자재료",
+              "security_code": "078600",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-06-02",
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "성장형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "성장형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "성장형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "성장형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.012764,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.00874,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.015954,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "PLUS 고배당주",
+              "security_code": "161510",
+              "delta_weight": -0.002775,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.00185,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "KODEX 200타겟위클리커버드콜",
+              "security_code": "498400",
+              "delta_weight": -0.000925,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
+    {
+      "period_type": "weekly",
+      "period_key": "2026-05-29",
+      "as_of_date": "2026-05-29",
+      "models": [
+        {
+          "as_of_date": "2026-05-29",
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "안정형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "안정형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "안정형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "안정형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.114471,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.060735,
+              "direction": "increase"
+            },
+            {
+              "display_name": "삼성E&A",
+              "security_code": "028050",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "HD현대마린솔루션",
+              "security_code": "443060",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "에이피알",
+              "security_code": "278470",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.134373,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.038088,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "한국금융지주",
+              "security_code": "071050",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "한국항공우주",
+              "security_code": "047810",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.29",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-29",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-29",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-29",
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "균형형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "균형형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "균형형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "균형형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.098118,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.052059,
+              "direction": "increase"
+            },
+            {
+              "display_name": "삼성E&A",
+              "security_code": "028050",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "HD현대마린솔루션",
+              "security_code": "443060",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "에이피알",
+              "security_code": "278470",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.115176,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.032647,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "한국금융지주",
+              "security_code": "071050",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "한국항공우주",
+              "security_code": "047810",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.29",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-29",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-29",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-29",
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "성장형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "성장형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "성장형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "성장형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.081765,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.043382,
+              "direction": "increase"
+            },
+            {
+              "display_name": "대우건설",
+              "security_code": "047040",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "DL이앤씨",
+              "security_code": "375500",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "RF머트리얼즈",
+              "security_code": "327260",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.09598,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.027206,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "동국제약",
+              "security_code": "086450",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "앱클론",
+              "security_code": "174900",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "에이치브이엠",
+              "security_code": "295310",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.29",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-29",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-29",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
+    {
+      "period_type": "weekly",
+      "period_key": "2026-05-28",
+      "as_of_date": "2026-05-28",
+      "models": [
+        {
+          "as_of_date": "2026-05-28",
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "안정형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "안정형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "안정형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "안정형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.114471,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.060735,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.134373,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.038088,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.28",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-28",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-28",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-28",
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "균형형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "균형형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "균형형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "균형형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.098118,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.052059,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.115176,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.032647,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.28",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-28",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-28",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-28",
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "성장형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "성장형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "성장형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "성장형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.081765,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.043382,
+              "direction": "increase"
+            },
+            {
+              "display_name": "대우건설",
+              "security_code": "047040",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "DL이앤씨",
+              "security_code": "375500",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "RF머트리얼즈",
+              "security_code": "327260",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.09598,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.027206,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "동국제약",
+              "security_code": "086450",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "앱클론",
+              "security_code": "174900",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "에이치브이엠",
+              "security_code": "295310",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.28",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-28",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-28",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
+    {
+      "period_type": "weekly",
+      "period_key": "2026-05-27",
+      "as_of_date": "2026-05-27",
+      "models": [
+        {
+          "as_of_date": "2026-05-27",
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "안정형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "안정형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "안정형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "안정형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.114471,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.060735,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.134373,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.038088,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.27",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-27",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-27",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-27",
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "균형형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "균형형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "균형형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "균형형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.098118,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.052059,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.115176,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.032647,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.27",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-27",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-27",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-27",
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "성장형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "성장형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "성장형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "성장형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.081765,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.043382,
+              "direction": "increase"
+            },
+            {
+              "display_name": "쏠리드",
+              "security_code": "050890",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "DL이앤씨",
+              "security_code": "375500",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "RF머트리얼즈",
+              "security_code": "327260",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.09598,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.027206,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "동국제약",
+              "security_code": "086450",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "앱클론",
+              "security_code": "174900",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "ISC",
+              "security_code": "095340",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.27",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-27",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-27",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
+    {
+      "period_type": "weekly",
+      "period_key": "2026-05-26",
+      "as_of_date": "2026-05-26",
+      "models": [
+        {
+          "as_of_date": "2026-05-26",
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "안정형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
+            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "안정형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "안정형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "안정형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.114471,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.060735,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.01,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.134373,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.038088,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.01,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.26",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-26",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-26",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-26",
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "균형형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
+            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "균형형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "균형형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "균형형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.098118,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.052059,
+              "direction": "increase"
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "성호전자",
+              "security_code": "043260",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "delta_weight": 0.013333,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.115176,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.032647,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "delta_weight": -0.013333,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.26",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-26",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-26",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "as_of_date": "2026-05-26",
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "model_metadata": {
+            "model_display_name": "성장형 퀀트투자 모델",
+            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_public_type": "공개 기준 기반 퀀트투자 모델",
+            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
+            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
+            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
+            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
+            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+            "performance_subject_name": "성장형 퀀트투자 모델",
+            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
+            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
+            "change_subject_name": "성장형 퀀트투자 모델",
+            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
+          },
+          "quant_model_name": "성장형 퀀트투자 모델",
+          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
+          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "delta_weight": 0.081765,
+              "direction": "increase"
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "delta_weight": 0.043382,
+              "direction": "increase"
+            },
+            {
+              "display_name": "대우건설",
+              "security_code": "047040",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "DL이앤씨",
+              "security_code": "375500",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            },
+            {
+              "display_name": "RF머트리얼즈",
+              "security_code": "327260",
+              "delta_weight": 0.025,
+              "direction": "increase"
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "delta_weight": -0.09598,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "delta_weight": -0.027206,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "에이치브이엠",
+              "security_code": "295310",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "ISC",
+              "security_code": "095340",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            },
+            {
+              "display_name": "동국제약",
+              "security_code": "086450",
+              "delta_weight": -0.025,
+              "direction": "decrease"
+            }
+          ],
+          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.05.26",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-05-26",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-05-26",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
     {
       "period_type": "weekly",
       "period_key": "2026-05-22",
@@ -7965,1097 +9748,402 @@
           }
         }
       ]
-    },
-    {
-      "period_type": "weekly",
-      "period_key": "2026-04-10",
-      "as_of_date": "2026-04-10",
-      "models": [
-        {
-          "as_of_date": "2026-04-10",
-          "user_model_name": "안정형",
-          "service_profile": "stable",
-          "change_type": "rebalanced",
-          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "안정형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
-            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "안정형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "안정형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "안정형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "안정형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.134373,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.038088,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.114471,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.060735,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.10",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-10",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-10",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-10",
-          "user_model_name": "균형형",
-          "service_profile": "balanced",
-          "change_type": "rebalanced",
-          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "균형형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
-            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "균형형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "균형형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "균형형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "균형형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.115176,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.032647,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.098118,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.052059,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.10",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-10",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-10",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-10",
-          "user_model_name": "성장형",
-          "service_profile": "growth",
-          "change_type": "rebalanced",
-          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "성장형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
-            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "성장형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "성장형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "성장형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "성장형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.09598,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.027206,
-              "direction": "increase"
-            },
-            {
-              "display_name": "에스티큐브",
-              "security_code": "052020",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "로킷헬스케어",
-              "security_code": "376900",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "동국제약",
-              "security_code": "086450",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.081765,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.043382,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "원익홀딩스",
-              "security_code": "030530",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "씨어스테크놀로지",
-              "security_code": "458870",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "에스피지",
-              "security_code": "058610",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.10",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-10",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-10",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        }
-      ]
-    },
-    {
-      "period_type": "weekly",
-      "period_key": "2026-04-08",
-      "as_of_date": "2026-04-08",
-      "models": [
-        {
-          "as_of_date": "2026-04-08",
-          "user_model_name": "안정형",
-          "service_profile": "stable",
-          "change_type": "rebalanced",
-          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "안정형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
-            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "안정형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "안정형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "안정형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "안정형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.134373,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.038088,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.114471,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.060735,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.08",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-08",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-08",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-08",
-          "user_model_name": "균형형",
-          "service_profile": "balanced",
-          "change_type": "rebalanced",
-          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "균형형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
-            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "균형형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "균형형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "균형형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "균형형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.115176,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.032647,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.098118,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.052059,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.08",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-08",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-08",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-08",
-          "user_model_name": "성장형",
-          "service_profile": "growth",
-          "change_type": "rebalanced",
-          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "성장형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
-            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "성장형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "성장형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "성장형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "성장형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.09598,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.027206,
-              "direction": "increase"
-            },
-            {
-              "display_name": "에스티큐브",
-              "security_code": "052020",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "로킷헬스케어",
-              "security_code": "376900",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "동국제약",
-              "security_code": "086450",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.081765,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.043382,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "원익홀딩스",
-              "security_code": "030530",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "씨어스테크놀로지",
-              "security_code": "458870",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "에스피지",
-              "security_code": "058610",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.08",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-08",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-08",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        }
-      ]
-    },
-    {
-      "period_type": "weekly",
-      "period_key": "2026-04-06",
-      "as_of_date": "2026-04-06",
-      "models": [
-        {
-          "as_of_date": "2026-04-06",
-          "user_model_name": "안정형",
-          "service_profile": "stable",
-          "change_type": "rebalanced",
-          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "안정형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "방어자산과 현금성 비중을 함께 활용하는 구조를 참고하려는 이용자",
-            "model_role_desc": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "안정형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "안정형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "안정형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "변동성 완화와 자산 방어를 우선하는 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "안정형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.134373,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.038088,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.01,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.114471,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.060735,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.01,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.06",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-06",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-06",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-06",
-          "user_model_name": "균형형",
-          "service_profile": "balanced",
-          "change_type": "rebalanced",
-          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "균형형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "주식과 ETF를 함께 활용한 균형 구성을 참고하려는 이용자",
-            "model_role_desc": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "균형형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "균형형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "균형형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "수익성과 안정성의 균형을 목표로 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "균형형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.115176,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.032647,
-              "direction": "increase"
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "delta_weight": 0.013333,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.098118,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.052059,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "delta_weight": -0.013333,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.06",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-06",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-06",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        },
-        {
-          "as_of_date": "2026-04-06",
-          "user_model_name": "성장형",
-          "service_profile": "growth",
-          "change_type": "rebalanced",
-          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-          "model_metadata": {
-            "model_display_name": "성장형 퀀트투자 모델",
-            "model_family_name": "멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_public_type": "공개 기준 기반 퀀트투자 모델",
-            "model_brief_type": "주간 브리핑용 퀀트투자 모델",
-            "model_portfolio_type": "모델 포트폴리오를 산출하는 퀀트투자 모델",
-            "model_one_line_desc": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
-            "model_scope_desc": "개별 맞춤형이 아닌 동일 기준의 공개형 모델 정보입니다.",
-            "model_profile_desc": "성장 지향 자산 구성과 추세 민감도를 참고하려는 이용자",
-            "model_role_desc": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-            "performance_subject_name": "성장형 퀀트투자 모델",
-            "performance_subject_type": "공개 기준 기반 퀀트투자 모델의 백테스트 성과",
-            "portfolio_generation_basis": "모델 포트폴리오를 산출하는 퀀트투자 모델 규칙 적용 결과",
-            "change_subject_name": "성장형 퀀트투자 모델",
-            "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-            "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다."
-          },
-          "quant_model_name": "성장형 퀀트투자 모델",
-          "model_definition_line": "공개 기준 기반 퀀트투자 모델",
-          "model_definition_detail": "추세와 모멘텀을 적극 반영해 성장 지향 모델 포트폴리오를 산출합니다.",
-          "change_subject_name": "성장형 퀀트투자 모델",
-          "change_basis_desc": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
-          "increase_items": [
-            {
-              "display_name": "KODEX 200",
-              "security_code": "069500",
-              "delta_weight": 0.09598,
-              "direction": "increase"
-            },
-            {
-              "display_name": "파워 고배당저변동성",
-              "security_code": "192720",
-              "delta_weight": 0.027206,
-              "direction": "increase"
-            },
-            {
-              "display_name": "에스티큐브",
-              "security_code": "052020",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "로킷헬스케어",
-              "security_code": "376900",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            },
-            {
-              "display_name": "동국제약",
-              "security_code": "086450",
-              "delta_weight": 0.026316,
-              "direction": "increase"
-            }
-          ],
-          "decrease_items": [
-            {
-              "display_name": "KODEX CD금리액티브(합성)",
-              "security_code": "459580",
-              "delta_weight": -0.081765,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "현금/대기자금",
-              "security_code": null,
-              "delta_weight": -0.043382,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "원익홀딩스",
-              "security_code": "030530",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "씨어스테크놀로지",
-              "security_code": "458870",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            },
-            {
-              "display_name": "에스피지",
-              "security_code": "058610",
-              "delta_weight": -0.025,
-              "direction": "decrease"
-            }
-          ],
-          "reason_text": "주간 기준일 기준으로 모델 포트폴리오 산출 결과가 변경되었습니다.",
-          "compliance_metadata": {
-            "content_class": "service_public_backtest",
-            "public_same_for_all_users": true,
-            "non_personalized": true,
-            "is_personalized_advice": false,
-            "is_one_to_one_advisory": false,
-            "is_actual_trade_instruction": false,
-            "actual_investment_result": false,
-            "backtest_result": true,
-            "disclaimer_required": true,
-            "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.04.06",
-            "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-04-06",
-            "rebalance_frequency": "monthly",
-            "fee_bps": 0.0,
-            "slippage_bps": 0.0,
-            "benchmark_name": "KOSPI200",
-            "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-04-06",
-            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
-            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
-          }
-        }
-      ]
     }
   ],
   "monthly": [
     {
       "period_type": "monthly",
+      "period_key": "2026-06",
+      "start_date": "2026-06-02",
+      "end_date": "2026-06-02",
+      "source_dates": [
+        "2026-06-02"
+      ],
+      "models": [
+        {
+          "user_model_name": "안정형",
+          "service_profile": "stable",
+          "change_type": "rebalanced",
+          "source_dates": [
+            "2026-06-02"
+          ],
+          "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "change_subject_name": "안정형 퀀트투자 모델",
+          "change_basis_desc": "해당 월에 생성된 공개 모델 변경 내역을 월 단위로 집계했습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "direction": "increase",
+              "latest_delta_weight": 0.017869,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "삼성물산",
+              "security_code": "028260",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "direction": "increase",
+              "latest_delta_weight": 0.012236,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "현대오토에버",
+              "security_code": "307950",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "현대차",
+              "security_code": "005380",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "대주전자재료",
+              "security_code": "078600",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "비에이치아이",
+              "security_code": "083650",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "삼천당제약",
+              "security_code": "000250",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "제주반도체",
+              "security_code": "080220",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "direction": "decrease",
+              "latest_delta_weight": -0.022336,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "user_model_name": "균형형",
+          "service_profile": "balanced",
+          "change_type": "rebalanced",
+          "source_dates": [
+            "2026-06-02"
+          ],
+          "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
+          "change_subject_name": "균형형 퀀트투자 모델",
+          "change_basis_desc": "해당 월에 생성된 공개 모델 변경 내역을 월 단위로 집계했습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "HD한국조선해양",
+              "security_code": "009540",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "HD현대중공업",
+              "security_code": "329180",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "direction": "increase",
+              "latest_delta_weight": 0.015316,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "POSCO홀딩스",
+              "security_code": "005490",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "가온전선",
+              "security_code": "000500",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "대주전자재료",
+              "security_code": "078600",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "비에이치아이",
+              "security_code": "083650",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "삼천당제약",
+              "security_code": "000250",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "제주반도체",
+              "security_code": "080220",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "direction": "decrease",
+              "latest_delta_weight": -0.019145,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        },
+        {
+          "user_model_name": "성장형",
+          "service_profile": "growth",
+          "change_type": "rebalanced",
+          "source_dates": [
+            "2026-06-02"
+          ],
+          "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
+          "change_subject_name": "성장형 퀀트투자 모델",
+          "change_basis_desc": "해당 월에 생성된 공개 모델 변경 내역을 월 단위로 집계했습니다.",
+          "change_reason_desc": "시장 상태와 공개 규칙 변화에 따라 퀀트투자 모델의 자산 비중이 조정되었습니다.",
+          "increase_items": [
+            {
+              "display_name": "KODEX CD금리액티브(합성)",
+              "security_code": "459580",
+              "direction": "increase",
+              "latest_delta_weight": 0.012764,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "현금/대기자금",
+              "security_code": null,
+              "direction": "increase",
+              "latest_delta_weight": 0.00874,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "decrease_items": [
+            {
+              "display_name": "KODEX 200",
+              "security_code": "069500",
+              "direction": "decrease",
+              "latest_delta_weight": -0.00185,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "KODEX 200타겟위클리커버드콜",
+              "security_code": "498400",
+              "direction": "decrease",
+              "latest_delta_weight": -0.000925,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "PLUS 고배당주",
+              "security_code": "161510",
+              "direction": "decrease",
+              "latest_delta_weight": -0.002775,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "파워 고배당저변동성",
+              "security_code": "192720",
+              "direction": "decrease",
+              "latest_delta_weight": -0.015954,
+              "source_dates": [
+                "2026-06-02"
+              ],
+              "occurrence_count": 1
+            }
+          ],
+          "compliance_metadata": {
+            "content_class": "service_public_backtest",
+            "public_same_for_all_users": true,
+            "non_personalized": true,
+            "is_personalized_advice": false,
+            "is_one_to_one_advisory": false,
+            "is_actual_trade_instruction": false,
+            "actual_investment_result": false,
+            "backtest_result": true,
+            "disclaimer_required": true,
+            "data_basis": "rule_based_public_model_output",
+            "model_version": "public-model-2026.06.02",
+            "calculation_version": "calc-2026-03-24-compliance-v1",
+            "asof_date": "2026-06-02",
+            "rebalance_frequency": "monthly",
+            "fee_bps": 0.0,
+            "slippage_bps": 0.0,
+            "benchmark_name": "KOSPI200",
+            "backtest_start_date": "2023-06-08",
+            "backtest_end_date": "2026-06-02",
+            "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
+            "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
+          }
+        }
+      ]
+    },
+    {
+      "period_type": "monthly",
       "period_key": "2026-05",
       "start_date": "2026-05-04",
-      "end_date": "2026-05-22",
+      "end_date": "2026-05-29",
       "source_dates": [
         "2026-05-04",
         "2026-05-06",
@@ -9070,7 +10158,11 @@
         "2026-05-19",
         "2026-05-20",
         "2026-05-21",
-        "2026-05-22"
+        "2026-05-22",
+        "2026-05-26",
+        "2026-05-27",
+        "2026-05-28",
+        "2026-05-29"
       ],
       "models": [
         {
@@ -9091,7 +10183,11 @@
             "2026-05-19",
             "2026-05-20",
             "2026-05-21",
-            "2026-05-22"
+            "2026-05-22",
+            "2026-05-26",
+            "2026-05-27",
+            "2026-05-28",
+            "2026-05-29"
           ],
           "summary": "방어자산과 현금성 비중을 함께 활용하는 멀티애셋 데이터 기반 퀀트투자 모델",
           "change_subject_name": "안정형 퀀트투자 모델",
@@ -9117,9 +10213,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "현금/대기자금",
@@ -9140,9 +10240,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "성호전자",
@@ -9159,9 +10263,45 @@
                 "2026-05-18",
                 "2026-05-19",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 13
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-05-15",
+                "2026-05-18",
+                "2026-05-19",
+                "2026-05-21",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 8
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-05-06",
+                "2026-05-12",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
             },
             {
               "display_name": "SFA반도체",
@@ -9178,31 +10318,16 @@
               "occurrence_count": 5
             },
             {
-              "display_name": "현대바이오",
-              "security_code": "048410",
+              "display_name": "HD현대마린솔루션",
+              "security_code": "443060",
               "direction": "increase",
               "latest_delta_weight": 0.01,
               "source_dates": [
-                "2026-05-15",
-                "2026-05-18",
-                "2026-05-19",
-                "2026-05-21",
-                "2026-05-22"
+                "2026-05-11",
+                "2026-05-20",
+                "2026-05-29"
               ],
-              "occurrence_count": 5
-            },
-            {
-              "display_name": "솔브레인홀딩스",
-              "security_code": "036830",
-              "direction": "increase",
-              "latest_delta_weight": 0.01,
-              "source_dates": [
-                "2026-05-06",
-                "2026-05-12",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
+              "occurrence_count": 3
             },
             {
               "display_name": "HD현대일렉트릭",
@@ -9229,17 +10354,6 @@
               "occurrence_count": 3
             },
             {
-              "display_name": "HD현대마린솔루션",
-              "security_code": "443060",
-              "direction": "increase",
-              "latest_delta_weight": 0.01,
-              "source_dates": [
-                "2026-05-11",
-                "2026-05-20"
-              ],
-              "occurrence_count": 2
-            },
-            {
               "display_name": "KODEX 200타겟위클리커버드콜",
               "security_code": "498400",
               "direction": "increase",
@@ -9258,6 +10372,17 @@
               "source_dates": [
                 "2026-05-04",
                 "2026-05-07"
+              ],
+              "occurrence_count": 2
+            },
+            {
+              "display_name": "에이피알",
+              "security_code": "278470",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-05-11",
+                "2026-05-29"
               ],
               "occurrence_count": 2
             },
@@ -9303,12 +10428,12 @@
               "occurrence_count": 1
             },
             {
-              "display_name": "에이피알",
-              "security_code": "278470",
+              "display_name": "삼성E&A",
+              "security_code": "028050",
               "direction": "increase",
               "latest_delta_weight": 0.01,
               "source_dates": [
-                "2026-05-11"
+                "2026-05-29"
               ],
               "occurrence_count": 1
             }
@@ -9333,9 +10458,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -9354,9 +10483,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 12
+              "occurrence_count": 16
             },
             {
               "display_name": "한국금융지주",
@@ -9373,9 +10506,10 @@
                 "2026-05-15",
                 "2026-05-19",
                 "2026-05-20",
-                "2026-05-21"
+                "2026-05-21",
+                "2026-05-29"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 11
             },
             {
               "display_name": "한국항공우주",
@@ -9392,9 +10526,60 @@
                 "2026-05-15",
                 "2026-05-19",
                 "2026-05-20",
-                "2026-05-21"
+                "2026-05-21",
+                "2026-05-29"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 11
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-05-15",
+                "2026-05-18",
+                "2026-05-19",
+                "2026-05-21",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
+              ],
+              "occurrence_count": 9
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-05-08",
+                "2026-05-11",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-05-04",
+                "2026-05-07",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
             },
             {
               "display_name": "대우건설",
@@ -9409,46 +10594,6 @@
                 "2026-05-20"
               ],
               "occurrence_count": 5
-            },
-            {
-              "display_name": "케이엠더블유",
-              "security_code": "032500",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-05-15",
-                "2026-05-18",
-                "2026-05-19",
-                "2026-05-21",
-                "2026-05-22"
-              ],
-              "occurrence_count": 5
-            },
-            {
-              "display_name": "유진테크",
-              "security_code": "084370",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-05-08",
-                "2026-05-11",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "키움증권",
-              "security_code": "039490",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-05-04",
-                "2026-05-07",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
             },
             {
               "display_name": "삼천당제약",
@@ -9513,15 +10658,15 @@
             "backtest_result": true,
             "disclaimer_required": true,
             "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.05.22",
+            "model_version": "public-model-2026.05.29",
             "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-05-22",
+            "asof_date": "2026-05-29",
             "rebalance_frequency": "monthly",
             "fee_bps": 0.0,
             "slippage_bps": 0.0,
             "benchmark_name": "KOSPI200",
             "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-05-22",
+            "backtest_end_date": "2026-05-29",
             "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
             "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
           }
@@ -9544,7 +10689,11 @@
             "2026-05-19",
             "2026-05-20",
             "2026-05-21",
-            "2026-05-22"
+            "2026-05-22",
+            "2026-05-26",
+            "2026-05-27",
+            "2026-05-28",
+            "2026-05-29"
           ],
           "summary": "주식과 ETF를 함께 사용하는 공개 기준 기반 퀀트투자 모델",
           "change_subject_name": "균형형 퀀트투자 모델",
@@ -9570,9 +10719,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "현금/대기자금",
@@ -9593,9 +10746,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "성호전자",
@@ -9612,9 +10769,45 @@
                 "2026-05-18",
                 "2026-05-19",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 13
+            },
+            {
+              "display_name": "현대바이오",
+              "security_code": "048410",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-05-15",
+                "2026-05-18",
+                "2026-05-19",
+                "2026-05-21",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 8
+            },
+            {
+              "display_name": "솔브레인홀딩스",
+              "security_code": "036830",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-05-06",
+                "2026-05-12",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
             },
             {
               "display_name": "SFA반도체",
@@ -9631,31 +10824,16 @@
               "occurrence_count": 5
             },
             {
-              "display_name": "현대바이오",
-              "security_code": "048410",
+              "display_name": "HD현대마린솔루션",
+              "security_code": "443060",
               "direction": "increase",
               "latest_delta_weight": 0.013333,
               "source_dates": [
-                "2026-05-15",
-                "2026-05-18",
-                "2026-05-19",
-                "2026-05-21",
-                "2026-05-22"
+                "2026-05-11",
+                "2026-05-20",
+                "2026-05-29"
               ],
-              "occurrence_count": 5
-            },
-            {
-              "display_name": "솔브레인홀딩스",
-              "security_code": "036830",
-              "direction": "increase",
-              "latest_delta_weight": 0.013333,
-              "source_dates": [
-                "2026-05-06",
-                "2026-05-12",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
+              "occurrence_count": 3
             },
             {
               "display_name": "HD현대일렉트릭",
@@ -9682,17 +10860,6 @@
               "occurrence_count": 3
             },
             {
-              "display_name": "HD현대마린솔루션",
-              "security_code": "443060",
-              "direction": "increase",
-              "latest_delta_weight": 0.013333,
-              "source_dates": [
-                "2026-05-11",
-                "2026-05-20"
-              ],
-              "occurrence_count": 2
-            },
-            {
               "display_name": "KODEX 200타겟위클리커버드콜",
               "security_code": "498400",
               "direction": "increase",
@@ -9711,6 +10878,17 @@
               "source_dates": [
                 "2026-05-04",
                 "2026-05-07"
+              ],
+              "occurrence_count": 2
+            },
+            {
+              "display_name": "에이피알",
+              "security_code": "278470",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-05-11",
+                "2026-05-29"
               ],
               "occurrence_count": 2
             },
@@ -9756,12 +10934,12 @@
               "occurrence_count": 1
             },
             {
-              "display_name": "에이피알",
-              "security_code": "278470",
+              "display_name": "삼성E&A",
+              "security_code": "028050",
               "direction": "increase",
               "latest_delta_weight": 0.013333,
               "source_dates": [
-                "2026-05-11"
+                "2026-05-29"
               ],
               "occurrence_count": 1
             }
@@ -9786,9 +10964,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -9807,9 +10989,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 12
+              "occurrence_count": 16
             },
             {
               "display_name": "한국금융지주",
@@ -9826,9 +11012,10 @@
                 "2026-05-15",
                 "2026-05-19",
                 "2026-05-20",
-                "2026-05-21"
+                "2026-05-21",
+                "2026-05-29"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 11
             },
             {
               "display_name": "한국항공우주",
@@ -9845,9 +11032,60 @@
                 "2026-05-15",
                 "2026-05-19",
                 "2026-05-20",
-                "2026-05-21"
+                "2026-05-21",
+                "2026-05-29"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 11
+            },
+            {
+              "display_name": "케이엠더블유",
+              "security_code": "032500",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-05-15",
+                "2026-05-18",
+                "2026-05-19",
+                "2026-05-21",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
+              ],
+              "occurrence_count": 9
+            },
+            {
+              "display_name": "유진테크",
+              "security_code": "084370",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-05-08",
+                "2026-05-11",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
+            },
+            {
+              "display_name": "키움증권",
+              "security_code": "039490",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-05-04",
+                "2026-05-07",
+                "2026-05-18",
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28"
+              ],
+              "occurrence_count": 7
             },
             {
               "display_name": "대우건설",
@@ -9862,46 +11100,6 @@
                 "2026-05-20"
               ],
               "occurrence_count": 5
-            },
-            {
-              "display_name": "케이엠더블유",
-              "security_code": "032500",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-05-15",
-                "2026-05-18",
-                "2026-05-19",
-                "2026-05-21",
-                "2026-05-22"
-              ],
-              "occurrence_count": 5
-            },
-            {
-              "display_name": "유진테크",
-              "security_code": "084370",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-05-08",
-                "2026-05-11",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "키움증권",
-              "security_code": "039490",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-05-04",
-                "2026-05-07",
-                "2026-05-18",
-                "2026-05-22"
-              ],
-              "occurrence_count": 4
             },
             {
               "display_name": "삼천당제약",
@@ -9966,15 +11164,15 @@
             "backtest_result": true,
             "disclaimer_required": true,
             "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.05.22",
+            "model_version": "public-model-2026.05.29",
             "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-05-22",
+            "asof_date": "2026-05-29",
             "rebalance_frequency": "monthly",
             "fee_bps": 0.0,
             "slippage_bps": 0.0,
             "benchmark_name": "KOSPI200",
             "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-05-22",
+            "backtest_end_date": "2026-05-29",
             "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
             "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
           }
@@ -9997,7 +11195,11 @@
             "2026-05-19",
             "2026-05-20",
             "2026-05-21",
-            "2026-05-22"
+            "2026-05-22",
+            "2026-05-26",
+            "2026-05-27",
+            "2026-05-28",
+            "2026-05-29"
           ],
           "summary": "추세와 모멘텀 데이터를 적극 반영하는 멀티애셋 데이터 기반 퀀트투자 모델",
           "change_subject_name": "성장형 퀀트투자 모델",
@@ -10023,9 +11225,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "현금/대기자금",
@@ -10046,9 +11252,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
+              "occurrence_count": 18
             },
             {
               "display_name": "DL이앤씨",
@@ -10066,9 +11276,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 15
             },
             {
               "display_name": "RF머트리얼즈",
@@ -10085,9 +11299,13 @@
                 "2026-05-18",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 10
+              "occurrence_count": 14
             },
             {
               "display_name": "쏠리드",
@@ -10102,9 +11320,24 @@
                 "2026-05-13",
                 "2026-05-14",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-27"
               ],
-              "occurrence_count": 8
+              "occurrence_count": 9
+            },
+            {
+              "display_name": "대우건설",
+              "security_code": "047040",
+              "direction": "increase",
+              "latest_delta_weight": 0.025,
+              "source_dates": [
+                "2026-05-18",
+                "2026-05-20",
+                "2026-05-26",
+                "2026-05-28",
+                "2026-05-29"
+              ],
+              "occurrence_count": 5
             },
             {
               "display_name": "PLUS 고배당주",
@@ -10114,17 +11347,6 @@
               "source_dates": [
                 "2026-05-04",
                 "2026-05-07"
-              ],
-              "occurrence_count": 2
-            },
-            {
-              "display_name": "대우건설",
-              "security_code": "047040",
-              "direction": "increase",
-              "latest_delta_weight": 0.025,
-              "source_dates": [
-                "2026-05-18",
-                "2026-05-20"
               ],
               "occurrence_count": 2
             },
@@ -10201,30 +11423,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 14
-            },
-            {
-              "display_name": "앱클론",
-              "security_code": "174900",
-              "direction": "decrease",
-              "latest_delta_weight": -0.025,
-              "source_dates": [
-                "2026-05-06",
-                "2026-05-08",
-                "2026-05-11",
-                "2026-05-12",
-                "2026-05-13",
-                "2026-05-14",
-                "2026-05-15",
-                "2026-05-18",
-                "2026-05-19",
-                "2026-05-20",
-                "2026-05-21",
-                "2026-05-22"
-              ],
-              "occurrence_count": 12
+              "occurrence_count": 18
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -10243,9 +11448,13 @@
                 "2026-05-19",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 12
+              "occurrence_count": 16
             },
             {
               "display_name": "동국제약",
@@ -10263,9 +11472,37 @@
                 "2026-05-14",
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 15
+            },
+            {
+              "display_name": "앱클론",
+              "security_code": "174900",
+              "direction": "decrease",
+              "latest_delta_weight": -0.025,
+              "source_dates": [
+                "2026-05-06",
+                "2026-05-08",
+                "2026-05-11",
+                "2026-05-12",
+                "2026-05-13",
+                "2026-05-14",
+                "2026-05-15",
+                "2026-05-18",
+                "2026-05-19",
+                "2026-05-20",
+                "2026-05-21",
+                "2026-05-22",
+                "2026-05-27",
+                "2026-05-28",
+                "2026-05-29"
+              ],
+              "occurrence_count": 15
             },
             {
               "display_name": "ISC",
@@ -10280,9 +11517,23 @@
                 "2026-05-13",
                 "2026-05-14",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-26",
+                "2026-05-27"
               ],
-              "occurrence_count": 8
+              "occurrence_count": 10
+            },
+            {
+              "display_name": "에이치브이엠",
+              "security_code": "295310",
+              "direction": "decrease",
+              "latest_delta_weight": -0.025,
+              "source_dates": [
+                "2026-05-26",
+                "2026-05-28",
+                "2026-05-29"
+              ],
+              "occurrence_count": 3
             },
             {
               "display_name": "PLUS 고배당주",
@@ -10390,15 +11641,15 @@
             "backtest_result": true,
             "disclaimer_required": true,
             "data_basis": "rule_based_public_model_output",
-            "model_version": "public-model-2026.05.22",
+            "model_version": "public-model-2026.05.29",
             "calculation_version": "calc-2026-03-24-compliance-v1",
-            "asof_date": "2026-05-22",
+            "asof_date": "2026-05-29",
             "rebalance_frequency": "monthly",
             "fee_bps": 0.0,
             "slippage_bps": 0.0,
             "benchmark_name": "KOSPI200",
             "backtest_start_date": "2023-06-08",
-            "backtest_end_date": "2026-05-22",
+            "backtest_end_date": "2026-05-29",
             "universe_definition": "KR stocks + KR ETFs used by public rule-based models",
             "data_source_summary": "KRX daily prices, KR ETF daily prices, internal fundamentals views, rule-based monthly rebalance outputs"
           }
@@ -10408,12 +11659,9 @@
     {
       "period_type": "monthly",
       "period_key": "2026-04",
-      "start_date": "2026-04-06",
+      "start_date": "2026-04-14",
       "end_date": "2026-04-29",
       "source_dates": [
-        "2026-04-06",
-        "2026-04-08",
-        "2026-04-10",
         "2026-04-14",
         "2026-04-16",
         "2026-04-17",
@@ -10429,9 +11677,6 @@
           "service_profile": "stable",
           "change_type": "rebalanced",
           "source_dates": [
-            "2026-04-06",
-            "2026-04-08",
-            "2026-04-10",
             "2026-04-14",
             "2026-04-16",
             "2026-04-17",
@@ -10452,9 +11697,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.134373,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10464,7 +11706,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -10472,9 +11714,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.038088,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10484,7 +11723,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "삼천당제약",
@@ -10518,32 +11757,6 @@
               "occurrence_count": 6
             },
             {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "direction": "increase",
-              "latest_delta_weight": 0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "direction": "increase",
-              "latest_delta_weight": 0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
               "display_name": "삼성SDI",
               "security_code": "006400",
               "direction": "increase",
@@ -10553,19 +11766,6 @@
                 "2026-04-22",
                 "2026-04-27",
                 "2026-04-29"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "direction": "increase",
-              "latest_delta_weight": 0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
               ],
               "occurrence_count": 4
             },
@@ -10582,12 +11782,42 @@
               "occurrence_count": 3
             },
             {
+              "display_name": "HD현대",
+              "security_code": "267250",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "NH투자증권",
+              "security_code": "005940",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
               "display_name": "SFA반도체",
               "security_code": "036540",
               "direction": "increase",
               "latest_delta_weight": 0.01,
               "source_dates": [
                 "2026-04-21"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "한화에어로스페이스",
+              "security_code": "012450",
+              "direction": "increase",
+              "latest_delta_weight": 0.01,
+              "source_dates": [
+                "2026-04-14"
               ],
               "occurrence_count": 1
             }
@@ -10599,9 +11829,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.114471,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10611,7 +11838,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "현금/대기자금",
@@ -10619,9 +11846,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.060735,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10631,22 +11855,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14",
-                "2026-04-16",
-                "2026-04-17"
-              ],
-              "occurrence_count": 6
+              "occurrence_count": 8
             },
             {
               "display_name": "삼성물산",
@@ -10663,32 +11872,6 @@
               "occurrence_count": 5
             },
             {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "direction": "decrease",
-              "latest_delta_weight": -0.01,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
               "display_name": "LG전자",
               "security_code": "066570",
               "direction": "decrease",
@@ -10697,6 +11880,18 @@
                 "2026-04-22",
                 "2026-04-27",
                 "2026-04-29"
+              ],
+              "occurrence_count": 3
+            },
+            {
+              "display_name": "두산로보틱스",
+              "security_code": "454910",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-04-14",
+                "2026-04-16",
+                "2026-04-17"
               ],
               "occurrence_count": 3
             },
@@ -10755,6 +11950,26 @@
                 "2026-04-23"
               ],
               "occurrence_count": 2
+            },
+            {
+              "display_name": "KCC",
+              "security_code": "002380",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "포스코DX",
+              "security_code": "022100",
+              "direction": "decrease",
+              "latest_delta_weight": -0.01,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
             }
           ],
           "compliance_metadata": {
@@ -10786,9 +12001,6 @@
           "service_profile": "balanced",
           "change_type": "rebalanced",
           "source_dates": [
-            "2026-04-06",
-            "2026-04-08",
-            "2026-04-10",
             "2026-04-14",
             "2026-04-16",
             "2026-04-17",
@@ -10809,9 +12021,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.115176,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10821,7 +12030,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -10829,9 +12038,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.032647,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10841,7 +12047,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "삼천당제약",
@@ -10875,32 +12081,6 @@
               "occurrence_count": 6
             },
             {
-              "display_name": "HD현대",
-              "security_code": "267250",
-              "direction": "increase",
-              "latest_delta_weight": 0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "NH투자증권",
-              "security_code": "005940",
-              "direction": "increase",
-              "latest_delta_weight": 0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
               "display_name": "삼성SDI",
               "security_code": "006400",
               "direction": "increase",
@@ -10910,19 +12090,6 @@
                 "2026-04-22",
                 "2026-04-27",
                 "2026-04-29"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "한화에어로스페이스",
-              "security_code": "012450",
-              "direction": "increase",
-              "latest_delta_weight": 0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
               ],
               "occurrence_count": 4
             },
@@ -10939,12 +12106,42 @@
               "occurrence_count": 3
             },
             {
+              "display_name": "HD현대",
+              "security_code": "267250",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "NH투자증권",
+              "security_code": "005940",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
               "display_name": "SFA반도체",
               "security_code": "036540",
               "direction": "increase",
               "latest_delta_weight": 0.013333,
               "source_dates": [
                 "2026-04-21"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "한화에어로스페이스",
+              "security_code": "012450",
+              "direction": "increase",
+              "latest_delta_weight": 0.013333,
+              "source_dates": [
+                "2026-04-14"
               ],
               "occurrence_count": 1
             }
@@ -10956,9 +12153,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.098118,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10968,7 +12162,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "현금/대기자금",
@@ -10976,9 +12170,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.052059,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -10988,22 +12179,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
-            },
-            {
-              "display_name": "두산로보틱스",
-              "security_code": "454910",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14",
-                "2026-04-16",
-                "2026-04-17"
-              ],
-              "occurrence_count": 6
+              "occurrence_count": 8
             },
             {
               "display_name": "삼성물산",
@@ -11020,32 +12196,6 @@
               "occurrence_count": 5
             },
             {
-              "display_name": "KCC",
-              "security_code": "002380",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
-              "display_name": "포스코DX",
-              "security_code": "022100",
-              "direction": "decrease",
-              "latest_delta_weight": -0.013333,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14"
-              ],
-              "occurrence_count": 4
-            },
-            {
               "display_name": "LG전자",
               "security_code": "066570",
               "direction": "decrease",
@@ -11054,6 +12204,18 @@
                 "2026-04-22",
                 "2026-04-27",
                 "2026-04-29"
+              ],
+              "occurrence_count": 3
+            },
+            {
+              "display_name": "두산로보틱스",
+              "security_code": "454910",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-04-14",
+                "2026-04-16",
+                "2026-04-17"
               ],
               "occurrence_count": 3
             },
@@ -11112,6 +12274,26 @@
                 "2026-04-23"
               ],
               "occurrence_count": 2
+            },
+            {
+              "display_name": "KCC",
+              "security_code": "002380",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
+            },
+            {
+              "display_name": "포스코DX",
+              "security_code": "022100",
+              "direction": "decrease",
+              "latest_delta_weight": -0.013333,
+              "source_dates": [
+                "2026-04-14"
+              ],
+              "occurrence_count": 1
             }
           ],
           "compliance_metadata": {
@@ -11143,9 +12325,6 @@
           "service_profile": "growth",
           "change_type": "rebalanced",
           "source_dates": [
-            "2026-04-06",
-            "2026-04-08",
-            "2026-04-10",
             "2026-04-14",
             "2026-04-16",
             "2026-04-17",
@@ -11166,9 +12345,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.09598,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11178,7 +12354,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "동국제약",
@@ -11186,9 +12362,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.026316,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11198,7 +12371,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "에스티큐브",
@@ -11206,9 +12379,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.026316,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11218,7 +12388,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "파워 고배당저변동성",
@@ -11226,9 +12396,6 @@
               "direction": "increase",
               "latest_delta_weight": 0.027206,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11238,22 +12405,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
-            },
-            {
-              "display_name": "로킷헬스케어",
-              "security_code": "376900",
-              "direction": "increase",
-              "latest_delta_weight": 0.026316,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14",
-                "2026-04-16",
-                "2026-04-17"
-              ],
-              "occurrence_count": 6
+              "occurrence_count": 8
             },
             {
               "display_name": "휴온스글로벌",
@@ -11268,6 +12420,18 @@
                 "2026-04-29"
               ],
               "occurrence_count": 5
+            },
+            {
+              "display_name": "로킷헬스케어",
+              "security_code": "376900",
+              "direction": "increase",
+              "latest_delta_weight": 0.026316,
+              "source_dates": [
+                "2026-04-14",
+                "2026-04-16",
+                "2026-04-17"
+              ],
+              "occurrence_count": 3
             }
           ],
           "decrease_items": [
@@ -11277,9 +12441,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.081765,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11289,7 +12450,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "에스피지",
@@ -11297,9 +12458,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.025,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11309,7 +12467,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "원익홀딩스",
@@ -11317,9 +12475,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.025,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11329,7 +12484,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
+              "occurrence_count": 8
             },
             {
               "display_name": "현금/대기자금",
@@ -11337,9 +12492,6 @@
               "direction": "decrease",
               "latest_delta_weight": -0.043382,
               "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
                 "2026-04-14",
                 "2026-04-16",
                 "2026-04-17",
@@ -11349,22 +12501,7 @@
                 "2026-04-27",
                 "2026-04-29"
               ],
-              "occurrence_count": 11
-            },
-            {
-              "display_name": "씨어스",
-              "security_code": "458870",
-              "direction": "decrease",
-              "latest_delta_weight": -0.025,
-              "source_dates": [
-                "2026-04-06",
-                "2026-04-08",
-                "2026-04-10",
-                "2026-04-14",
-                "2026-04-16",
-                "2026-04-17"
-              ],
-              "occurrence_count": 6
+              "occurrence_count": 8
             },
             {
               "display_name": "클로봇",
@@ -11379,6 +12516,18 @@
                 "2026-04-29"
               ],
               "occurrence_count": 5
+            },
+            {
+              "display_name": "씨어스",
+              "security_code": "458870",
+              "direction": "decrease",
+              "latest_delta_weight": -0.025,
+              "source_dates": [
+                "2026-04-14",
+                "2026-04-16",
+                "2026-04-17"
+              ],
+              "occurrence_count": 3
             }
           ],
           "compliance_metadata": {

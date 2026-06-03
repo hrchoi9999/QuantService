@@ -107,6 +107,11 @@ if (-not $SkipGcs) {
         throw "failed to activate gcloud configuration: quantservice"
     }
 
+    Upload-GcsFile `
+        -GcloudPath $gcloud `
+        -Source $copiedPortfolio.FullName `
+        -Target "gs://$GcsBucket/admin/current/investment_portfolio_latest.json"
+
     foreach ($file in $copiedUser) {
         if ($file.Name -ne "quantservice_tseries_discovery.json") {
             Upload-GcsFile -GcloudPath $gcloud -Source $file.FullName -Target "gs://$GcsBucket/$($file.Name)"
@@ -126,10 +131,6 @@ if (-not $SkipGcs) {
         }
         Upload-GcsFile -GcloudPath $gcloud -Source $file.FullName -Target "gs://$GcsBucket/$prefix/$($file.Name)"
     }
-    Upload-GcsFile `
-        -GcloudPath $gcloud `
-        -Source $copiedPortfolio.FullName `
-        -Target "gs://$GcsBucket/admin/current/investment_portfolio_latest.json"
 }
 
 [pscustomobject]@{
