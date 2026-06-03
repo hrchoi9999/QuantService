@@ -5,10 +5,15 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import pytest
+
 from service_platform.billing.lightpay import BILLING_PLAN_PRICES
 from service_platform.shared.config import Settings
 from service_platform.web.app import _build_market_composite_chart_view, create_app
-from service_platform.web.investment_portfolio_api import InvestmentPortfolioApi
+from service_platform.web.investment_portfolio_api import (
+    InvestmentPortfolioApi,
+    InvestmentPortfolioLoadError,
+)
 from service_platform.web.market_analysis_api import MarketAnalysisMockApi
 from service_platform.web.trading_sign_api import TradingSignSnapshotApi
 
@@ -7068,6 +7073,90 @@ def test_investment_portfolio_can_read_remote_current_json(tmp_path: Path) -> No
     assert bundle.source_path.endswith("/admin/current/investment_portfolio_latest.json")
     assert bundle.view["as_of_date"] == "2026-05-22"
     assert bundle.view["etf_strategy"]["selected_model"] == "E-ETF-V01"
+
+
+def test_investment_portfolio_url_overrides_snapshot_base(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    explicit_dir = tmp_path / "explicit" / "admin" / "current"
+    explicit_dir.mkdir(parents=True)
+    (explicit_dir / "investment_portfolio_latest.json").write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-06-03",
+                "generated_at": "2026-06-03T21:37:13+09:00",
+                "market_risk": {},
+                "etf_strategy": {"selected_model": "E-ETF-V01"},
+                "stock_strategy": {"candidates": []},
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    snapshot_dir = tmp_path / "snapshot" / "admin" / "current"
+    snapshot_dir.mkdir(parents=True)
+    (snapshot_dir / "investment_portfolio_latest.json").write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-05-29",
+                "generated_at": "2026-05-30T20:23:17+09:00",
+                "market_risk": {},
+                "etf_strategy": {"selected_model": "OLD"},
+                "stock_strategy": {"candidates": []},
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv(
+        "INVESTMENT_PORTFOLIO_URL",
+        explicit_dir.parent.as_uri() + "/current/investment_portfolio_latest.json",
+    )
+    settings = replace(
+        build_settings(tmp_path),
+        snapshot_gcs_base_url=(tmp_path / "snapshot").as_uri(),
+    )
+
+    bundle = InvestmentPortfolioApi(
+        primary_path=tmp_path / "missing-primary.json",
+        fallback_path=tmp_path / "missing-fallback.json",
+        db_path=tmp_path / "missing.db",
+        settings=settings,
+    ).load_bundle()
+
+    assert bundle.view["as_of_date"] == "2026-06-03"
+    assert bundle.view["etf_strategy"]["selected_model"] == "E-ETF-V01"
+
+
+def test_investment_portfolio_production_blocks_stale_local_fallback(tmp_path: Path) -> None:
+    fallback_path = tmp_path / "investment_portfolio_latest.json"
+    fallback_path.write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-05-29",
+                "generated_at": "2026-05-30T20:23:17+09:00",
+                "market_risk": {},
+                "etf_strategy": {"selected_model": "OLD"},
+                "stock_strategy": {"candidates": []},
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    settings = replace(
+        build_settings(tmp_path),
+        app_env="production",
+        snapshot_gcs_base_url=(tmp_path / "missing-remote").as_uri(),
+    )
+
+    with pytest.raises(InvestmentPortfolioLoadError):
+        InvestmentPortfolioApi(
+            primary_path=tmp_path / "missing-primary.json",
+            fallback_path=fallback_path,
+            db_path=tmp_path / "missing.db",
+            settings=settings,
+        ).load_bundle()
 
 
 def test_investment_portfolio_normalizes_weight_policy_and_selection_date(

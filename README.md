@@ -70,6 +70,13 @@ Validate web handoff data before GCS upload:
 .\scripts\validate_web_data.ps1
 ```
 
+Investment portfolio production source:
+
+```powershell
+INVESTMENT_PORTFOLIO_URL=https://storage.googleapis.com/quantservice-489808-market-analysis/admin/current/investment_portfolio_latest.json
+INVESTMENT_PORTFOLIO_ALLOW_LOCAL_FALLBACK=false
+```
+
 Create a verified local repository backup:
 
 ```powershell

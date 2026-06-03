@@ -63,6 +63,7 @@ class InvestmentPortfolioApi:
                 f"{settings.snapshot_gcs_base_url.rstrip('/')}"
                 "/admin/current/investment_portfolio_latest.json"
             )
+        self.allow_local_fallback = _allow_local_fallback(settings)
 
     def load_bundle(self) -> InvestmentPortfolioBundle:
         payload: dict[str, Any] | None = None
@@ -72,6 +73,8 @@ class InvestmentPortfolioApi:
                 payload = self._load_remote_payload()
                 source_path = self.remote_url
             except InvestmentPortfolioLoadError:
+                if not self.allow_local_fallback:
+                    raise
                 payload = None
         if payload is None:
             path = self.primary_path if self.primary_path.exists() else self.fallback_path
@@ -118,6 +121,15 @@ class InvestmentPortfolioApi:
         if not isinstance(payload, dict):
             raise InvestmentPortfolioLoadError("investment portfolio payload root must be object")
         return payload
+
+
+def _allow_local_fallback(settings: Settings | None) -> bool:
+    raw_value = os.getenv("INVESTMENT_PORTFOLIO_ALLOW_LOCAL_FALLBACK")
+    if raw_value is not None:
+        return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+    if settings is not None and settings.app_env == "production":
+        return False
+    return True
 
 
 def _with_cache_buster(url: str) -> str:

@@ -10,6 +10,8 @@ param(
     [string]$SnapshotGcsBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis",
     [string]$MarketAnalysisSource = "remote",
     [string]$MarketAnalysisBaseUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/market_analysis/current",
+    [string]$InvestmentPortfolioUrl = "https://storage.googleapis.com/quantservice-489808-market-analysis/admin/current/investment_portfolio_latest.json",
+    [bool]$InvestmentPortfolioAllowLocalFallback = $false,
     [string]$InvestmentStorageSource = "gcs",
     [string]$InvestmentGcsBucket = "quantservice-489808-private-investments",
     [string]$InvestmentGcsPrefix = "investment_status",
@@ -67,6 +69,7 @@ $serviceAccount = "$projectNumber-compute@developer.gserviceaccount.com"
 $tmpFile = Join-Path $env:TEMP ("cloudrun-{0}.yaml" -f ([guid]::NewGuid().ToString()))
 $billingEnabledValue = $BillingEnabled.ToString().ToLowerInvariant()
 $uiRedesignEnabledValue = $UiRedesignEnabled.ToString().ToLowerInvariant()
+$investmentPortfolioAllowLocalFallbackValue = $InvestmentPortfolioAllowLocalFallback.ToString().ToLowerInvariant()
 
 @"
 apiVersion: serving.knative.dev/v1
@@ -106,6 +109,10 @@ spec:
           value: $MarketAnalysisSource
         - name: MARKET_ANALYSIS_BASE_URL
           value: $MarketAnalysisBaseUrl
+        - name: INVESTMENT_PORTFOLIO_URL
+          value: $InvestmentPortfolioUrl
+        - name: INVESTMENT_PORTFOLIO_ALLOW_LOCAL_FALLBACK
+          value: '$investmentPortfolioAllowLocalFallbackValue'
         - name: INVESTMENT_STORAGE_SOURCE
           value: $InvestmentStorageSource
         - name: INVESTMENT_GCS_BUCKET
