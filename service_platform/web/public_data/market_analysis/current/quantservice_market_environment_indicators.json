@@ -1,7 +1,7 @@
 {
   "market": "KR",
-  "asof": "2026-06-03T22:30:05+09:00",
-  "generated_at": "2026-06-03T22:30:15+09:00",
+  "asof": "2026-06-03T23:00:00+09:00",
+  "generated_at": "2026-06-03T23:05:36+09:00",
   "timezone": "Asia/Seoul",
   "title": "시장 환경 지표",
   "description": "국내 시장 원천 데이터, FRED 매크로/금리 데이터, Yahoo 글로벌 시장 데이터를 선 그래프로 확인하는 공개형 시장 환경 지표입니다.",
@@ -159514,7 +159514,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T22:30:05+09:00",
+    "asof": "2026-06-03T23:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

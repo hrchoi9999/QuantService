@@ -1,6 +1,6 @@
 {
   "market": "KR",
-  "asof": "2026-06-03T22:00:00+09:00",
+  "asof": "2026-06-03T23:00:00+09:00",
   "title": "장중/야간 참고",
   "description": "종가 기준 시장 흐름과 별도로, 오늘 장중 흐름과 다음 거래일 장초반 참고 신호를 함께 정리한 공개 데이터입니다.",
   "state_intraday_bridge": {
@@ -67,7 +67,7 @@
   },
   "next_day_preview": {
     "market": "KR",
-    "asof": "2026-06-03T22:00:00+09:00",
+    "asof": "2026-06-03T23:00:00+09:00",
     "reference_session": "2026-06-04",
     "content_mode": "next_day_preview",
     "source_type": "public_next_day_preview",
@@ -79,16 +79,16 @@
     },
     "title": "내일 시장 전망 참고",
     "preview_label": "장초반 경계 흐름",
-    "preview_score": -0.4503,
+    "preview_score": -0.4538,
     "headline_line": "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
     "summary_line": "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다.",
     "supporting_points": [
       "야간 자산 움직임은 대체로 혼조권에 머물러 한쪽 방향을 강하게 시사하진 않습니다."
     ],
     "risk_points": [
-      "S&P500 선물 흐름은 -0.24% 수준으로 방향성이 크지 않습니다.",
-      "나스닥100 선물은 -0.0% 수준으로 혼조 흐름입니다.",
-      "미국 상장 한국 ETF가 -1.0% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다."
+      "S&P500 선물이 -0.47% 내려 글로벌 위험자산 흐름이 부담으로 읽힙니다.",
+      "나스닥100 선물이 -0.43% 내려 성장주 심리가 다소 위축된 모습입니다.",
+      "미국 상장 한국 ETF가 -2.11% 내려 해외 시장에서 보는 한국 자산 심리는 다소 부담스럽습니다."
     ],
     "overnight_assets": [
       {
@@ -104,8 +104,8 @@
         "asset_code": "KOREA_PROXY_EWY",
         "asset_name": "미국 상장 한국 ETF",
         "asset_group": "korea_proxy",
-        "change_pct": -0.010013844023996299,
-        "price": 214.53,
+        "change_pct": -0.021115927842259796,
+        "price": 210.0,
         "source": "yahoo:EWY",
         "is_fallback": false
       },
@@ -113,8 +113,8 @@
         "asset_code": "SP500_FUT",
         "asset_name": "S&P500 선물",
         "asset_group": "us_futures",
-        "change_pct": -0.0024266273159534446,
-        "price": 7605.25,
+        "change_pct": -0.004722085587801295,
+        "price": 7587.75,
         "source": "yahoo:ES=F",
         "is_fallback": false
       },
@@ -122,8 +122,8 @@
         "asset_code": "NASDAQ100_FUT",
         "asset_name": "나스닥100 선물",
         "asset_group": "us_futures",
-        "change_pct": -4.069970940412393e-05,
-        "price": 30711.5,
+        "change_pct": -0.00430602925495116,
+        "price": 30580.5,
         "source": "yahoo:NQ=F",
         "is_fallback": false
       },
@@ -131,8 +131,8 @@
         "asset_code": "USDKRW",
         "asset_name": "USD/KRW",
         "asset_group": "fx",
-        "change_pct": 0.007393434946346478,
-        "price": 1527.42,
+        "change_pct": 0.007221954742417047,
+        "price": 1527.16,
         "source": "yahoo:KRW=X",
         "is_fallback": false
       },
@@ -140,8 +140,8 @@
         "asset_code": "WTI",
         "asset_name": "WTI 원유",
         "asset_group": "commodity",
-        "change_pct": 0.02666382252559729,
-        "price": 96.26,
+        "change_pct": 0.010025597269624598,
+        "price": 94.7,
         "source": "yahoo:CL=F",
         "is_fallback": false
       },
@@ -156,11 +156,11 @@
       }
     ],
     "biases": {
-      "overnight_futures_bias": -0.0416,
+      "overnight_futures_bias": -0.1005,
       "korea_signal_alignment": "single_source",
-      "global_risk_bias": -1.1825,
-      "overnight_fx_bias": -0.0887,
-      "next_day_preview_score": -0.4503
+      "global_risk_bias": -1.118,
+      "overnight_fx_bias": -0.0867,
+      "next_day_preview_score": -0.4538
     },
     "market_flow_label": "중립",
     "market_flow_score": 0.1695,
@@ -175,14 +175,14 @@
       "장초반 경계 흐름",
       "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
       "야간 자산 움직임은 대체로 혼조권에 머물러 한쪽 방향을 강하게 시사하진 않습니다.",
-      "S&P500 선물 흐름은 -0.24% 수준으로 방향성이 크지 않습니다.",
+      "S&P500 선물이 -0.47% 내려 글로벌 위험자산 흐름이 부담으로 읽힙니다.",
       "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
     ],
     "narration_lines": [
       "장초반 경계 흐름",
       "야간 흐름은 내일 장초반에 다소 경계적인 출발 가능성을 시사합니다.",
       "야간 자산 움직임은 대체로 혼조권에 머물러 한쪽 방향을 강하게 시사하진 않습니다.",
-      "S&P500 선물 흐름은 -0.24% 수준으로 방향성이 크지 않습니다.",
+      "S&P500 선물이 -0.47% 내려 글로벌 위험자산 흐름이 부담으로 읽힙니다.",
       "현재 퀀트모델 시장 흐름(중립)과는 별도로, 장초반 수급과 환율을 함께 확인할 필요가 있습니다."
     ],
     "tags": [
@@ -192,7 +192,7 @@
       "한국증시",
       "멀티애셋"
     ],
-    "content_hash": "0b111fcc8502177e0022ccff2d5fd0738f775808ecb8fc8937ce9f255a81126c",
+    "content_hash": "df132296a79d4d17df50d6567875b313a8baa928f9112d670b9683fa68b038ca",
     "material_change_flag": true,
     "freshness": {
       "target_update_interval_minutes": 60,
@@ -234,7 +234,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-06-03T22:00:00+09:00",
+      "asof": "2026-06-03T23:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -258,7 +258,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T22:00:00+09:00",
+    "asof": "2026-06-03T23:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
