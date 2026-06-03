@@ -85,7 +85,7 @@ class TSeriesOperationalApi:
         with self._lock:
             now = time.monotonic()
             if not force_refresh and self._cached_overview and now < self._cache_expires_at:
-                return deepcopy(self._cached_overview)
+                return self._cached_overview
 
             try:
                 overview = self._load_overview_with_fallbacks()
@@ -102,7 +102,7 @@ class TSeriesOperationalApi:
                     return fallback
                 raise
 
-            self._cached_overview = deepcopy(overview)
+            self._cached_overview = overview
             self._cache_expires_at = now + self.cache_ttl_seconds
             self._last_errors = list(overview.errors)
             return overview

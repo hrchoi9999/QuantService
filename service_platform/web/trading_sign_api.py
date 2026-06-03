@@ -85,7 +85,7 @@ class TradingSignSnapshotApi:
         with self._lock:
             now = time.monotonic()
             if not force_refresh and self._cached_bundle and now < self._cache_expires_at:
-                return deepcopy(self._cached_bundle)
+                return self._cached_bundle
 
             try:
                 bundle = self._load_bundle_with_fallbacks()
@@ -101,7 +101,7 @@ class TradingSignSnapshotApi:
                     return stale_bundle
                 raise
 
-            self._cached_bundle = deepcopy(bundle)
+            self._cached_bundle = bundle
             self._cache_expires_at = now + self.cache_ttl_seconds
             self._last_errors = list(bundle.errors)
             return bundle

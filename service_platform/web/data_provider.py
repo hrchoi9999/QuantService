@@ -87,13 +87,13 @@ class SnapshotDataProvider:
         with self._lock:
             now = time.monotonic()
             if not force_refresh and self._cached_bundle and now < self._cache_expires_at:
-                return deepcopy(self._cached_bundle)
+                return self._cached_bundle
 
             errors: list[str] = []
             for loader in self._iter_loaders():
                 try:
                     bundle = loader()
-                    self._cached_bundle = deepcopy(bundle)
+                    self._cached_bundle = bundle
                     self._cache_expires_at = now + self.cache_ttl_seconds
                     self._last_errors = []
                     return bundle

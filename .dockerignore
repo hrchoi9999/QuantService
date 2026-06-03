@@ -11,3 +11,5 @@ quant_models/
 tests/
 docs/
 data/
+service_platform/web/public_data/
+service_platform/web/admin_data/current/
