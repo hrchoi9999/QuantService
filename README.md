@@ -70,6 +70,14 @@ Validate web handoff data before GCS upload:
 .\scripts\validate_web_data.ps1
 ```
 
+Refresh local fallback web data from Quant, QuantMarket, and QuantAnalysis:
+
+```powershell
+.\scripts\sync_web_data_to_quantservice.ps1
+```
+
+This local sync is for backup and recovery. Source threads publish their current web JSON directly to GCS, and production reads the GCS current objects. Use `-PublishToGcs` only for explicit recovery publishing from QS.
+
 Investment portfolio production source:
 
 ```powershell

@@ -4,12 +4,14 @@ param(
     [string]$QuantAnalysisRoot = "D:\QuantAnalysis",
     [string]$QuantServiceRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path,
     [string]$GcsBucket = "quantservice-489808-market-analysis",
+    [switch]$PublishToGcs,
     [switch]$SkipGcs,
     [switch]$SkipValidation
 )
 
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
+$gcsUpload = [bool]$PublishToGcs -and -not [bool]$SkipGcs
 
 function Ensure-Directory {
     param([Parameter(Mandatory = $true)][string]$Path)
@@ -100,7 +102,7 @@ if (-not $SkipValidation) {
     }
 }
 
-if (-not $SkipGcs) {
+if ($gcsUpload) {
     $gcloud = Resolve-Gcloud
     & $gcloud config configurations activate quantservice | Out-Null
     if ($LASTEXITCODE -ne 0) {
@@ -139,6 +141,7 @@ if (-not $SkipGcs) {
     QuantMarketFiles = $copiedMarket.Count
     TSeriesFile = $copiedTseries.FullName
     PortfolioFile = $copiedPortfolio.FullName
-    GcsUpload = -not $SkipGcs
+    GcsUpload = $gcsUpload
+    Mode = if ($gcsUpload) { "recovery-gcs-publish" } else { "local-fallback-refresh" }
     SyncedAt = (Get-Date).ToString("s")
 } | ConvertTo-Json -Depth 3
