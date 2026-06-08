@@ -1510,7 +1510,10 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                 "is_first_january_date": is_first_january_date,
             }
             if date_labels and label["x"] - date_labels[-1]["x"] < min_label_gap:
-                if label_index == len(unique_dates) - 1 and len(date_labels) > 1:
+                if (
+                    (is_first_january_date or label_index == len(unique_dates) - 1)
+                    and len(date_labels) > 1
+                ):
                     date_labels[-1] = label
                 continue
             date_labels.append(label)

@@ -3017,6 +3017,33 @@ def test_market_composite_chart_date_labels_keep_latest_without_overlap() -> Non
     assert all(gap >= 88 for gap in gaps)
 
 
+def test_market_composite_chart_keeps_every_january_year_label() -> None:
+    base_date = datetime(2020, 12, 1)
+    dates = [(base_date + timedelta(days=index)).date().isoformat() for index in range(1550)]
+    chart = {
+        "score_range": {"min": -3, "max": 3},
+        "series": [
+            {
+                "series_id": "short_term_market_condition",
+                "label": "단기",
+                "points": [
+                    {"date": date_text, "value": (index % 7) - 3}
+                    for index, date_text in enumerate(dates)
+                ],
+            }
+        ],
+    }
+
+    view = _build_market_composite_chart_view(chart)
+    year_labels = [
+        label["label"][:4]
+        for label in view["date_labels"]
+        if label.get("is_first_january_date")
+    ]
+
+    assert year_labels == ["2021", "2022", "2023", "2024", "2025"]
+
+
 def test_market_composite_chart_marks_next_day_signal_test() -> None:
     chart = {
         "score_range": {"min": -3, "max": 3},
