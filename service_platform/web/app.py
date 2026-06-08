@@ -1358,8 +1358,6 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             x_position = date_to_x[date_text]
             point_role = str(raw_point.get("point_role") or "").strip()
             is_next_day_signal_test = point_role == "next_day_signal_test"
-            display_label = str(raw_point.get("display_label") or "").strip()
-            preview_label = str(raw_point.get("preview_label") or "").strip()
             points.append(
                 {
                     "x": x_position,
@@ -1378,14 +1376,7 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             )
             state_label = _market_score_state_label(score_value)
             if is_next_day_signal_test:
-                test_label = display_label or "익일 신호 테스트"
-                preview_text = f" · {preview_label}" if preview_label else ""
-                official_text = (
-                    "정식 점수 미반영"
-                    if raw_point.get("official_score_impact") is False
-                    else "정식 반영 여부 확인 필요"
-                )
-                state_label = f"{test_label}{preview_text} · 검증 전 실험값 · {official_text}"
+                state_label = ""
             tooltip_by_date[date_text]["items"].append(
                 {
                     "label": raw_series["label"],

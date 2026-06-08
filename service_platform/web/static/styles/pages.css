@@ -3287,15 +3287,6 @@ body {
   background: transparent;
 }
 
-.market-state-composite-legend .market-state-composite-next-day-test-item {
-  border-style: dashed;
-  color: #64748b;
-}
-
-.market-state-composite-legend .market-state-composite-next-day-test-item i {
-  background: #94a3b8;
-}
-
 .market-state-composite-legend strong,
 .market-state-composite-latest-row em {
   color: var(--series-color, var(--ink));

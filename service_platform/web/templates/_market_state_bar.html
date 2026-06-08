@@ -81,11 +81,6 @@
           <i></i>{{ reference.label }} <strong>기준 {{ reference.latest.value }}</strong>
         </span>
         {% endfor %}
-        {% if composite.chart.has_next_day_signal_test %}
-        <span class="market-state-composite-next-day-test-item">
-          <i></i>익일 신호 테스트 <strong>정식 점수 미반영</strong>
-        </span>
-        {% endif %}
       </div>
       {% if composite.score_bands %}
       <div class="market-state-composite-scale">

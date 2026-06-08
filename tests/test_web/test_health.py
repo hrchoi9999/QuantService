@@ -3079,9 +3079,7 @@ def test_market_composite_chart_marks_next_day_signal_test() -> None:
     assert labels[-1]["sublabel"] == "익일 테스트"
     assert labels[-1]["tone"] == "muted"
     assert labels[-1]["is_next_day_signal_test"] is True
-    assert "익일 금융환경 테스트" in next_day_hover["state"]
-    assert "검증 전 실험값" in next_day_hover["state"]
-    assert "정식 점수 미반영" in next_day_hover["state"]
+    assert next_day_hover["state"] == ""
 
 
 def test_market_analysis_can_read_remote_handoff_json(tmp_path: Path) -> None:
