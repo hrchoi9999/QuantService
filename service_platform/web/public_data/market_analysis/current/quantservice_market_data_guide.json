@@ -1,6 +1,6 @@
 {
   "market": "KR",
-  "asof": "2026-06-03T23:00:00+09:00",
+  "asof": "2026-06-08T21:00:00+09:00",
   "title": "데이터 해설",
   "description": "시장 분석 화면에서 쓰이는 지표 의미와 데이터 출처 계층을 설명합니다.",
   "state_score_guide": {
@@ -216,7 +216,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T23:00:00+09:00",
+    "asof": "2026-06-08T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },

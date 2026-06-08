@@ -1,24 +1,24 @@
 {
   "market": "KR",
-  "asof": "2026-06-03T23:00:00+09:00",
+  "asof": "2026-06-08T21:00:00+09:00",
   "hero": {
     "title": "시장 브리핑",
     "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
     "subtitle": "퀀트투자 모델 해석에 필요한 시장 상태를 같은 기준으로 정리합니다.",
-    "state_label": "중립",
-    "state_score": 0.1695,
-    "summary_line": "추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
-    "change_vs_prev": "중립 -> 중립",
-    "reference_note": "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
+    "state_label": "약보합",
+    "state_score": -0.6463,
+    "summary_line": "지수 방어력은 남아 있지만 모델 해석상 내부 확산은 약한 편으로 읽힙니다.",
+    "change_vs_prev": "약보합 -> 약보합",
+    "reference_note": "지수 방어력보다 내부 약화 신호가 더 두드러지는지 모델 해석 기준으로 점검이 필요한 구간입니다.",
     "state_intraday_bridge": {
       "enabled": true,
       "medium_term_label": "퀀트모델 시장 흐름",
       "medium_term_description": "최근 추세와 시장 내부 신호를 반영한 퀀트모델 기준 흐름입니다.",
-      "medium_term_state_label": "중립",
-      "medium_term_state_score": 0.1695,
+      "medium_term_state_label": "약보합",
+      "medium_term_state_score": -0.6463,
       "intraday_label": "오늘 장중 흐름",
       "intraday_description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
-      "intraday_state_label": "약세",
+      "intraday_state_label": "강한 약세",
       "intraday_state_values": [
         "강세",
         "소폭 강세",
@@ -26,31 +26,31 @@
         "약세",
         "강한 약세"
       ],
-      "alignment": "mixed",
-      "display_label": "중립, 오늘 흐름 혼조",
-      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름의 방향이 완전히 같지는 않아 함께 해석할 필요가 있습니다.",
+      "alignment": "aligned",
+      "display_label": "하락 흐름 유지",
+      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름이 모두 약세 쪽으로 같은 방향을 가리킵니다.",
       "basis_lines": [
-        "퀀트모델 시장 흐름 근거: 추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
-        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다."
+        "퀀트모델 시장 흐름 근거: 지수 방어력은 남아 있지만 모델 해석상 내부 확산은 약한 편으로 읽힙니다.",
+        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다."
       ],
       "intraday": {
-        "asof": "2026-06-03T18:00:00+09:00",
+        "asof": "2026-06-08T18:49:33+09:00",
         "session_status": "live",
-        "direction_label": "약세",
-        "intraday_state_label": "약세",
-        "total_score": -0.5727,
-        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다.",
-        "session_date": "2026-06-03",
+        "direction_label": "강한 약세",
+        "intraday_state_label": "강한 약세",
+        "total_score": -3.0,
+        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
+        "session_date": "2026-06-08",
         "is_previous_session_reference": false,
         "reference_label": null,
         "futures": {
           "contract_name": "코스피200 선물",
-          "change_pct": -0.0028000000000000004,
-          "price": 1413.75
+          "change_pct": -0.0924,
+          "price": 1178.25
         },
         "flow": {
-          "foreigner_net": null,
-          "program_total_net": null
+          "foreigner_net": -2644.0,
+          "program_total_net": 6776.0
         }
       }
     },
@@ -67,7 +67,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-06-03T23:00:00+09:00",
+      "asof": "2026-06-08T21:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -108,26 +108,26 @@
             "description": "글로벌 위험선호와 금리·달러·원자재 부담을 합친 환경 점수입니다.",
             "source_field_priority": null,
             "excluded_from_main_chart": null,
-            "latest_value": -0.1402,
-            "latest_gauge_value": 47.7,
-            "latest_tone": "neutral",
+            "latest_value": -1.2602,
+            "latest_gauge_value": 29.0,
+            "latest_tone": "bad",
             "latest_visual": {
-              "score": -0.1402,
-              "position_pct": 47.7,
+              "score": -1.2602,
+              "position_pct": 29.0,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
               "neutral_max": 0.3,
               "band": {
-                "label": "중립",
-                "level": 4,
-                "tone": "neutral",
-                "color": "#94a3b8",
-                "range_text": "-0.3 ~ +0.3",
-                "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+                "label": "나쁨",
+                "level": 2,
+                "tone": "bad",
+                "color": "#2563eb",
+                "range_text": "-2.0 ~ -1.0",
+                "plain_text": "부담이 우세한 구간입니다."
               },
-              "display_text": "-0.14점, 중립",
-              "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "display_text": "-1.26점, 나쁨",
+              "explain_text": "부담이 우세한 구간입니다."
             },
             "points": [
               {
@@ -564,7 +564,7 @@
               },
               {
                 "date": "2017-06-13",
-                "value": 0.5369
+                "value": 0.5368
               },
               {
                 "date": "2017-06-14",
@@ -904,7 +904,7 @@
               },
               {
                 "date": "2017-10-19",
-                "value": -0.0019
+                "value": -0.0018
               },
               {
                 "date": "2017-10-20",
@@ -1344,7 +1344,7 @@
               },
               {
                 "date": "2018-03-30",
-                "value": -0.5432
+                "value": -0.5433
               },
               {
                 "date": "2018-04-02",
@@ -1996,7 +1996,7 @@
               },
               {
                 "date": "2018-11-29",
-                "value": 0.5837
+                "value": 0.5836
               },
               {
                 "date": "2018-11-30",
@@ -2956,7 +2956,7 @@
               },
               {
                 "date": "2019-11-21",
-                "value": 0.7125
+                "value": 0.7124
               },
               {
                 "date": "2019-11-22",
@@ -3248,7 +3248,7 @@
               },
               {
                 "date": "2020-03-10",
-                "value": -0.3051
+                "value": -0.3052
               },
               {
                 "date": "2020-03-11",
@@ -4140,7 +4140,7 @@
               },
               {
                 "date": "2021-02-02",
-                "value": 0.5292
+                "value": 0.5291
               },
               {
                 "date": "2021-02-03",
@@ -4176,7 +4176,7 @@
               },
               {
                 "date": "2021-02-17",
-                "value": 0.4028
+                "value": 0.4027
               },
               {
                 "date": "2021-02-18",
@@ -4784,7 +4784,7 @@
               },
               {
                 "date": "2021-09-28",
-                "value": -0.8801
+                "value": -0.8802
               },
               {
                 "date": "2021-09-29",
@@ -5888,7 +5888,7 @@
               },
               {
                 "date": "2022-11-10",
-                "value": -0.1639
+                "value": -0.164
               },
               {
                 "date": "2022-11-11",
@@ -6452,7 +6452,7 @@
               },
               {
                 "date": "2023-06-07",
-                "value": 1.0223
+                "value": 1.0224
               },
               {
                 "date": "2023-06-08",
@@ -6868,7 +6868,7 @@
               },
               {
                 "date": "2023-11-08",
-                "value": 0.1502
+                "value": 0.1501
               },
               {
                 "date": "2023-11-09",
@@ -6904,7 +6904,7 @@
               },
               {
                 "date": "2023-11-21",
-                "value": 1.2332
+                "value": 1.2331
               },
               {
                 "date": "2023-11-22",
@@ -6976,7 +6976,7 @@
               },
               {
                 "date": "2023-12-15",
-                "value": 1.3699
+                "value": 1.37
               },
               {
                 "date": "2023-12-18",
@@ -7228,7 +7228,7 @@
               },
               {
                 "date": "2024-03-21",
-                "value": 0.6437
+                "value": 0.6438
               },
               {
                 "date": "2024-03-22",
@@ -9328,27 +9328,54 @@
               },
               {
                 "date": "2026-05-28",
-                "value": 1.112
+                "value": 1.2005
               },
               {
                 "date": "2026-05-29",
-                "value": 1.1513
+                "value": 1.2331
               },
               {
                 "date": "2026-06-01",
-                "value": -0.2635
+                "value": -0.1395
               },
               {
                 "date": "2026-06-02",
-                "value": 1.0287
+                "value": 1.0517
               },
               {
-                "date": "2026-06-03",
-                "value": -0.1402,
+                "date": "2026-06-04",
+                "value": 0.8637
+              },
+              {
+                "date": "2026-06-05",
+                "value": 0.9011
+              },
+              {
+                "date": "2026-06-08",
+                "value": -1.2602,
                 "point_type": "current_intraday_environment",
                 "source_note": "실행시점 장중 지수·환율·선물·리스크를 반영한 금융환경 현재 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.5914,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 금융환경 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 금융환경 테스트",
+              "score": -0.5914,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           },
           {
             "series_id": "medium_term_model_outlook",
@@ -9363,12 +9390,12 @@
             "excluded_from_main_chart": [
               "calibrated_forecast_score"
             ],
-            "latest_value": 0.2159,
-            "latest_gauge_value": 53.6,
+            "latest_value": 0.0198,
+            "latest_gauge_value": 50.3,
             "latest_tone": "neutral",
             "latest_visual": {
-              "score": 0.2159,
-              "position_pct": 53.6,
+              "score": 0.0198,
+              "position_pct": 50.3,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
@@ -9381,7 +9408,7 @@
                 "range_text": "-0.3 ~ +0.3",
                 "plain_text": "뚜렷한 우위가 없는 중립권입니다."
               },
-              "display_text": "0.22점, 중립",
+              "display_text": "0.02점, 중립",
               "explain_text": "뚜렷한 우위가 없는 중립권입니다."
             },
             "points": [
@@ -10655,7 +10682,7 @@
               },
               {
                 "date": "2018-04-19",
-                "value": -0.4177
+                "value": -0.4178
               },
               {
                 "date": "2018-04-20",
@@ -15907,7 +15934,7 @@
               },
               {
                 "date": "2023-08-17",
-                "value": -0.7753
+                "value": -0.7752
               },
               {
                 "date": "2023-08-18",
@@ -16123,7 +16150,7 @@
               },
               {
                 "date": "2023-11-08",
-                "value": -0.7265
+                "value": -0.7266
               },
               {
                 "date": "2023-11-09",
@@ -18583,28 +18610,55 @@
               },
               {
                 "date": "2026-05-28",
-                "value": 0.4101
+                "value": 0.4212
               },
               {
                 "date": "2026-05-29",
-                "value": 0.4128
+                "value": 0.4227
               },
               {
                 "date": "2026-06-01",
-                "value": 0.2947
+                "value": 0.3076
               },
               {
                 "date": "2026-06-02",
-                "value": 0.2159
+                "value": 0.2188
               },
               {
-                "date": "2026-06-03",
-                "value": 0.2159,
+                "date": "2026-06-04",
+                "value": 0.3672
+              },
+              {
+                "date": "2026-06-05",
+                "value": 0.0198
+              },
+              {
+                "date": "2026-06-08",
+                "value": 0.0198,
                 "point_type": "carry_forward",
-                "carry_forward_from": "2026-06-02",
+                "carry_forward_from": "2026-06-05",
                 "source_note": "일별 확정 mart 최신값을 현재 기준일에 이월 표시한 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.4975,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 종합 신호 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 종합 신호 테스트",
+              "score": -0.4975,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           },
           {
             "series_id": "short_term_market_condition",
@@ -18614,26 +18668,26 @@
             "description": "최근 수급·선물·상태 변화와 오늘 장중 흐름을 반영한 단기 점수입니다.",
             "source_field_priority": null,
             "excluded_from_main_chart": null,
-            "latest_value": -0.4177,
-            "latest_gauge_value": 43.0,
-            "latest_tone": "weak_bad",
+            "latest_value": -2.7432,
+            "latest_gauge_value": 4.3,
+            "latest_tone": "bad",
             "latest_visual": {
-              "score": -0.4177,
-              "position_pct": 43.0,
+              "score": -2.7432,
+              "position_pct": 4.3,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
               "neutral_max": 0.3,
               "band": {
-                "label": "다소 나쁨",
-                "level": 3,
-                "tone": "weak_bad",
-                "color": "#60a5fa",
-                "range_text": "-1.0 ~ -0.3",
-                "plain_text": "주의가 필요한 약세 구간입니다."
+                "label": "매우 나쁨",
+                "level": 1,
+                "tone": "strong_bad",
+                "color": "#1e3a8a",
+                "range_text": "-3.0 ~ -2.0",
+                "plain_text": "강한 경계 구간입니다."
               },
-              "display_text": "-0.42점, 다소 나쁨",
-              "explain_text": "주의가 필요한 약세 구간입니다."
+              "display_text": "-2.74점, 매우 나쁨",
+              "explain_text": "강한 경계 구간입니다."
             },
             "points": [
               {
@@ -27822,19 +27876,46 @@
               },
               {
                 "date": "2026-06-01",
-                "value": -0.6177
+                "value": -0.6176
               },
               {
                 "date": "2026-06-02",
-                "value": -0.9962
+                "value": -0.9961
               },
               {
-                "date": "2026-06-03",
-                "value": -0.4177,
+                "date": "2026-06-04",
+                "value": -0.4072
+              },
+              {
+                "date": "2026-06-05",
+                "value": -0.4954
+              },
+              {
+                "date": "2026-06-08",
+                "value": -2.7432,
                 "point_type": "current_intraday_blend",
                 "source_note": "실행시점 장중 단기값을 반영한 현재 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.4039,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 단기상황 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 단기상황 테스트",
+              "score": -0.4039,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           }
         ],
         "reference_indices": [
@@ -27845,13 +27926,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-02",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 434.3926,
-            "latest_close": 8801.49,
-            "latest_change_value": 13.11,
-            "latest_change_pct": 0.001492,
+            "latest_date": "2026-06-08",
+            "latest_value": 369.3889,
+            "latest_close": 7484.41,
+            "latest_change_value": -676.18,
+            "latest_change_pct": -0.082859,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KS11",
             "description": "KOSPI 실제 종가를 2017-01-02=100으로 환산한 기준선입니다.",
             "points": [
@@ -39536,14 +39617,24 @@
                 "raw_close": 8801.4902
               },
               {
-                "date": "2026-06-03",
-                "value": 434.3926,
-                "raw_close": 8801.49,
-                "change_value": 13.11,
-                "change_pct": 0.001492,
+                "date": "2026-06-04",
+                "value": 426.3933,
+                "raw_close": 8639.4102
+              },
+              {
+                "date": "2026-06-05",
+                "value": 402.7614,
+                "raw_close": 8160.5898
+              },
+              {
+                "date": "2026-06-08",
+                "value": 369.3889,
+                "raw_close": 7484.41,
+                "change_value": -676.18,
+                "change_pct": -0.082859,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KS11",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -39556,13 +39647,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-02",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 162.3363,
-            "latest_close": 1026.03,
-            "latest_change_value": -24.0,
-            "latest_change_pct": -0.022856,
+            "latest_date": "2026-06-08",
+            "latest_value": 144.1982,
+            "latest_close": 911.39,
+            "latest_change_value": -91.05,
+            "latest_change_pct": -0.090828,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KQ11",
             "description": "KOSDAQ 실제 종가를 2017-01-02=100으로 환산한 기준선입니다.",
             "points": [
@@ -51242,14 +51333,24 @@
                 "raw_close": 1026.03
               },
               {
-                "date": "2026-06-03",
-                "value": 162.3363,
-                "raw_close": 1026.03,
-                "change_value": -24.0,
-                "change_pct": -0.022856,
+                "date": "2026-06-04",
+                "value": 166.086,
+                "raw_close": 1049.73
+              },
+              {
+                "date": "2026-06-05",
+                "value": 158.6039,
+                "raw_close": 1002.44
+              },
+              {
+                "date": "2026-06-08",
+                "value": 144.1982,
+                "raw_close": 911.39,
+                "change_value": -91.05,
+                "change_pct": -0.090828,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KQ11",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -51262,13 +51363,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-03",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 535.1295,
-            "latest_close": 1407.23,
-            "latest_change_value": 7.32,
-            "latest_change_pct": 0.005229,
+            "latest_date": "2026-06-08",
+            "latest_value": 451.2074,
+            "latest_close": 1186.54,
+            "latest_change_value": -110.48,
+            "latest_change_pct": -0.08518,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KS200",
             "description": "KOSPI200 실제 종가를 2017-01-03=100으로 환산한 기준선입니다.",
             "points": [
@@ -62938,14 +63039,24 @@
                 "raw_close": 1407.23
               },
               {
-                "date": "2026-06-03",
-                "value": 535.1295,
-                "raw_close": 1407.23,
-                "change_value": 7.32,
-                "change_pct": 0.005229,
+                "date": "2026-06-04",
+                "value": 524.6074,
+                "raw_close": 1379.5601
+              },
+              {
+                "date": "2026-06-05",
+                "value": 493.2198,
+                "raw_close": 1297.02
+              },
+              {
+                "date": "2026-06-08",
+                "value": 451.2074,
+                "raw_close": 1186.54,
+                "change_value": -110.48,
+                "change_pct": -0.08518,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KS200",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -62964,6 +63075,21 @@
           "show_current_reference_index_point": true,
           "carry_forward_daily_axes_to_current_date": true,
           "avoid_three_separate_bar_charts": true
+        },
+        "next_day_signal_test": {
+          "enabled": true,
+          "reference_session": "2026-06-09",
+          "date_label": "2026-06-09 익일",
+          "date_tone": "muted",
+          "attached_axis_series": [
+            "financial_environment",
+            "medium_term_model_outlook",
+            "short_term_market_condition"
+          ],
+          "summary_score": -0.4975,
+          "environment_score": -0.5914,
+          "short_term_score": -0.4039,
+          "official_score_impact": false
         }
       },
       "key_indicators": {
@@ -62975,29 +63101,29 @@
             "items": [
               {
                 "label": "환경 종합점수",
-                "value": -0.1402,
+                "value": -1.2602,
                 "unit": "score",
-                "tone": "neutral"
+                "tone": "bad"
               },
               {
                 "label": "환경 점수 위치",
-                "value": "중립",
+                "value": "나쁨",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "bad"
               },
               {
                 "label": "기회 점수",
-                "value": 1.1042,
+                "value": 1.0236,
                 "unit": "score"
               },
               {
                 "label": "리스크 부담",
-                "value": 0.1078,
+                "value": 0.1749,
                 "unit": "score"
               },
               {
                 "label": "VIX",
-                "value": 16.05,
+                "value": 15.4,
                 "unit": "pt"
               },
               {
@@ -63012,12 +63138,12 @@
               },
               {
                 "label": "WTI",
-                "value": 97.63,
+                "value": 95.96,
                 "unit": "USD"
               },
               {
                 "label": "하이일드 스프레드",
-                "value": 2.72,
+                "value": 2.74,
                 "unit": "%p"
               }
             ]
@@ -63028,44 +63154,44 @@
             "items": [
               {
                 "label": "7단계 시장상태",
-                "value": "중립",
+                "value": "약보합",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "weak_bad"
               },
               {
                 "label": "시장상태 점수",
-                "value": 0.1695,
+                "value": -0.6463,
                 "unit": "score"
               },
               {
                 "label": "시장상태 위치",
-                "value": "중립",
+                "value": "다소 나쁨",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "weak_bad"
               },
               {
                 "label": "ALL 20거래일 전망 참고값",
-                "value": 4.05,
+                "value": 2.93,
                 "unit": "%"
               },
               {
                 "label": "KOSPI 20거래일 전망 참고값",
-                "value": 2.67,
+                "value": 1.59,
                 "unit": "%"
               },
               {
                 "label": "KOSDAQ 20거래일 전망 참고값",
-                "value": 8.71,
+                "value": 6.82,
                 "unit": "%"
               },
               {
                 "label": "전망 신뢰도",
-                "value": 0.75,
+                "value": 0.727,
                 "unit": "score"
               },
               {
                 "label": "시장 변동성",
-                "value": 0.418,
+                "value": 0.47,
                 "unit": "score"
               },
               {
@@ -63081,49 +63207,49 @@
             "items": [
               {
                 "label": "단기 종합점수",
-                "value": -0.4177,
+                "value": -2.7432,
                 "unit": "score",
-                "tone": "weak_bad"
+                "tone": "bad"
               },
               {
                 "label": "단기 점수 위치",
-                "value": "다소 나쁨",
+                "value": "매우 나쁨",
                 "unit": "label",
-                "tone": "weak_bad"
+                "tone": "bad"
               },
               {
                 "label": "코스피 1주일",
-                "value": 9.37,
+                "value": -0.3,
                 "unit": "%"
               },
               {
                 "label": "코스닥 1주일",
-                "value": -12.49,
+                "value": -9.23,
                 "unit": "%"
               },
               {
                 "label": "오늘 장중 상태",
-                "value": "약세",
+                "value": "강한 약세",
                 "unit": "label"
               },
               {
                 "label": "선물 변화율",
-                "value": -0.28,
+                "value": -9.24,
                 "unit": "%"
               },
               {
                 "label": "외국인 순매수",
-                "value": null,
+                "value": -2644.0,
                 "unit": "억원"
               },
               {
                 "label": "프로그램 순매수",
-                "value": null,
+                "value": 6776.0,
                 "unit": "억원"
               },
               {
                 "label": "20일선 위 종목",
-                "value": 22.11,
+                "value": 9.49,
                 "unit": "%"
               }
             ]
@@ -63132,12 +63258,12 @@
       },
       "investment_considerations": [
         {
-          "label": "환경은 혼재",
-          "body": "기회와 리스크가 엇갈릴 때는 한 방향 결론보다 지표 변화 방향을 함께 봅니다.",
-          "tone": "neutral",
+          "label": "환경 리스크 확인",
+          "body": "금리·달러·원자재 부담이 기회 요인보다 우세하면 공격적인 해석보다 위험 점검을 우선합니다.",
+          "tone": "warning",
           "basis": [
-            "VIX 16.05",
-            "미국 10년 4.47%"
+            "환경점수 -1.2602",
+            "리스크 부담 0.1749"
           ]
         },
         {
@@ -63145,8 +63271,8 @@
           "body": "중립권에서는 종목 확산, 변동성, 수급이 다음 방향을 정하는 핵심 확인 지표입니다.",
           "tone": "neutral",
           "basis": [
-            "7단계 중립",
-            "시장상태 점수 0.1695"
+            "7단계 약보합",
+            "시장상태 점수 -0.6463"
           ]
         },
         {
@@ -63154,8 +63280,8 @@
           "body": "중기 전망과 별개로 최근 1주일과 오늘 수급이 약하면 진입·추격 판단은 보수적으로 봅니다.",
           "tone": "warning",
           "basis": [
-            "단기점수 -0.4177",
-            "장중상태 약세"
+            "단기점수 -2.7432",
+            "장중상태 강한 약세"
           ]
         }
       ],
@@ -63165,48 +63291,48 @@
           "title": "금융시장 환경",
           "subtitle": "기회와 리스크",
           "graph_type": "dual_gauge",
-          "score": -0.1402,
-          "gauge_value": 47.7,
+          "score": -1.2602,
+          "gauge_value": 29.0,
           "score_visual": {
-            "score": -0.1402,
-            "position_pct": 47.7,
+            "score": -1.2602,
+            "position_pct": 29.0,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "중립",
-              "level": 4,
-              "tone": "neutral",
-              "color": "#94a3b8",
-              "range_text": "-0.3 ~ +0.3",
-              "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "label": "나쁨",
+              "level": 2,
+              "tone": "bad",
+              "color": "#2563eb",
+              "range_text": "-2.0 ~ -1.0",
+              "plain_text": "부담이 우세한 구간입니다."
             },
-            "display_text": "-0.14점, 중립",
-            "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+            "display_text": "-1.26점, 나쁨",
+            "explain_text": "부담이 우세한 구간입니다."
           },
-          "status_label": "혼재",
-          "tone": "neutral",
-          "opportunity_score": 1.1042,
-          "risk_pressure_score": 0.1078,
-          "daily_score": 1.0287,
+          "status_label": "리스크 우위",
+          "tone": "bad",
+          "opportunity_score": 1.0236,
+          "risk_pressure_score": 0.1749,
+          "daily_score": 0.9011,
           "today": {
-            "asof": "2026-06-03T18:00:00+09:00",
-            "score": -0.1402,
-            "index_avg_score": -0.1076,
-            "futures_score": -0.0504,
-            "fx_score": -0.7265,
-            "risk_score": 0.3236,
-            "usdk_rw_change_pct": 0.009082,
-            "kospi_change_pct": 0.001492,
-            "direction_label": "약세",
-            "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다.",
+            "asof": "2026-06-08T18:49:33+09:00",
+            "score": -1.2602,
+            "index_avg_score": -1.7258,
+            "futures_score": -1.6632,
+            "fx_score": 1.3482,
+            "risk_score": -3.0,
+            "usdk_rw_change_pct": -0.016852,
+            "kospi_change_pct": -0.082859,
+            "direction_label": "강한 약세",
+            "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
             "source": "market_intraday_index_snapshot + market_intraday_fx_snapshot + market_intraday_futures_snapshot + market_intraday_state"
           },
           "key_numbers": [
             {
               "label": "VIX",
-              "value": 16.05,
+              "value": 15.4,
               "unit": "pt"
             },
             {
@@ -63221,45 +63347,45 @@
             },
             {
               "label": "WTI",
-              "value": 97.63,
+              "value": 95.96,
               "unit": "USD"
             }
           ],
           "basis": [
-            "위험선호 점수 1.1",
-            "매크로/금리/원자재 부담 0.11",
+            "위험선호 점수 1.02",
+            "매크로/금리/원자재 부담 0.17",
             "커버리지 medium"
           ],
           "source": "market_model_input_daily_current.csv",
-          "source_asof_date": "2026-06-02"
+          "source_asof_date": "2026-06-05"
         },
         {
           "axis_id": "medium_term_model_outlook",
           "title": "퀀트모델 시장 전망",
           "subtitle": "1~6개월 흐름",
           "graph_type": "seven_step_bar",
-          "state_label": "중립",
-          "score": 0.1695,
-          "gauge_value": 52.8,
+          "state_label": "약보합",
+          "score": -0.6463,
+          "gauge_value": 39.2,
           "score_visual": {
-            "score": 0.1695,
-            "position_pct": 52.8,
+            "score": -0.6463,
+            "position_pct": 39.2,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "중립",
-              "level": 4,
-              "tone": "neutral",
-              "color": "#94a3b8",
-              "range_text": "-0.3 ~ +0.3",
-              "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "label": "다소 나쁨",
+              "level": 3,
+              "tone": "weak_bad",
+              "color": "#60a5fa",
+              "range_text": "-1.0 ~ -0.3",
+              "plain_text": "주의가 필요한 약세 구간입니다."
             },
-            "display_text": "0.17점, 중립",
-            "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+            "display_text": "-0.65점, 다소 나쁨",
+            "explain_text": "주의가 필요한 약세 구간입니다."
           },
-          "tone": "neutral",
+          "tone": "weak_bad",
           "scale": [
             {
               "label": "강하락",
@@ -63307,53 +63433,53 @@
           "components": [
             {
               "label": "추세",
-              "score": 3.0,
-              "gauge_value": 100.0
+              "score": 2.4572,
+              "gauge_value": 91.0
             },
             {
               "label": "확산",
-              "score": -2.2635,
-              "gauge_value": 12.3
+              "score": -3.0,
+              "gauge_value": 0.0
             },
             {
               "label": "변동성",
-              "score": -1.8094,
-              "gauge_value": 19.8
+              "score": -3.0,
+              "gauge_value": 0.0
             },
             {
               "label": "방어자산",
-              "score": 1.0695,
-              "gauge_value": 67.8
+              "score": -0.0422,
+              "gauge_value": 49.3
             }
           ],
           "forecast_20d": [
             {
               "market_scope": "ALL",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 4.05,
-              "forecast_score": 0.4588,
+              "predicted_forward_return_pct": 2.93,
+              "forecast_score": 0.2823,
               "forecast_label": "mild_bullish",
-              "confidence_score": 0.75
+              "confidence_score": 0.727
             },
             {
               "market_scope": "KOSPI",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 2.67,
-              "forecast_score": 0.2247,
-              "forecast_label": "mild_bullish",
-              "confidence_score": 0.719
+              "predicted_forward_return_pct": 1.59,
+              "forecast_score": 0.0534,
+              "forecast_label": "neutral",
+              "confidence_score": 0.696
             },
             {
               "market_scope": "KOSDAQ",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 8.71,
-              "forecast_score": 0.9936,
+              "predicted_forward_return_pct": 6.82,
+              "forecast_score": 0.7512,
               "forecast_label": "bullish",
-              "confidence_score": 0.822
+              "confidence_score": 0.789
             }
           ],
           "basis": [
-            "7단계 현재값: 중립(0.1695)",
+            "7단계 현재값: 약보합(-0.6463)",
             "추세, 확산, 변동성, 방어자산 선호를 종합한 중기 모델 판단입니다."
           ],
           "source": "market_component_scores + market_forecast_ai_calibrated_daily_current.csv"
@@ -63363,57 +63489,57 @@
           "title": "단기 시장 상황",
           "subtitle": "최근 1주일 + 오늘",
           "graph_type": "linear_gauge",
-          "score": -0.4177,
-          "gauge_value": 43.0,
+          "score": -2.7432,
+          "gauge_value": 4.3,
           "score_visual": {
-            "score": -0.4177,
-            "position_pct": 43.0,
+            "score": -2.7432,
+            "position_pct": 4.3,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "다소 나쁨",
-              "level": 3,
-              "tone": "weak_bad",
-              "color": "#60a5fa",
-              "range_text": "-1.0 ~ -0.3",
-              "plain_text": "주의가 필요한 약세 구간입니다."
+              "label": "매우 나쁨",
+              "level": 1,
+              "tone": "strong_bad",
+              "color": "#1e3a8a",
+              "range_text": "-3.0 ~ -2.0",
+              "plain_text": "강한 경계 구간입니다."
             },
-            "display_text": "-0.42점, 다소 나쁨",
-            "explain_text": "주의가 필요한 약세 구간입니다."
+            "display_text": "-2.74점, 매우 나쁨",
+            "explain_text": "강한 경계 구간입니다."
           },
           "status_label": "단기 약세",
-          "tone": "weak_bad",
+          "tone": "bad",
           "weekly": {
-            "kospi_5d_ret_pct": 9.37,
-            "kosdaq_5d_ret_pct": -12.49,
-            "kospi_1d_ret_pct": 0.15
+            "kospi_5d_ret_pct": -0.3,
+            "kosdaq_5d_ret_pct": -9.23,
+            "kospi_1d_ret_pct": -5.54
           },
           "today": {
             "enabled": true,
             "session_status": "live",
-            "intraday_state_label": "약세",
-            "intraday_score": -0.5727,
-            "close_score": -0.9897,
-            "futures_change_pct": -0.28,
-            "foreigner_net": null,
-            "program_total_net": null
+            "intraday_state_label": "강한 약세",
+            "intraday_score": -3.0,
+            "close_score": -3.0,
+            "futures_change_pct": -9.24,
+            "foreigner_net": -2644.0,
+            "program_total_net": 6776.0
           },
           "basis": [
-            "코스피 1주일 9.37%",
-            "코스닥 1주일 -12.49%",
-            "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다."
+            "코스피 1주일 -0.3%",
+            "코스닥 1주일 -9.23%",
+            "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다."
           ],
           "source": "market_features_hourly + market_intraday_state"
         }
       ],
       "summary": {
-        "environment": "혼재",
-        "medium_term": "중립",
+        "environment": "리스크 우위",
+        "medium_term": "약보합",
         "short_term": "단기 약세",
-        "one_line": "환경은 혼재, 중기 모델은 중립, 단기는 단기 약세로 나누어 해석합니다.",
-        "visual_line": "금융시장 환경은 -0.14점, 중립, 퀀트모델 시장전망은 0.22점, 중립, 단기 시장상황은 -0.42점, 다소 나쁨입니다."
+        "one_line": "환경은 리스크 우위, 중기 모델은 약보합, 단기는 단기 약세로 나누어 해석합니다.",
+        "visual_line": "금융시장 환경은 -1.26점, 나쁨, 퀀트모델 시장전망은 0.02점, 중립, 단기 시장상황은 -2.74점, 매우 나쁨입니다."
       },
       "score_scale_guide": {
         "min": -3.0,
@@ -63468,8 +63594,20 @@
       "interpretation_rules": [
         "금융시장 환경은 기회/리스크 배경이며, 모델 상태를 직접 덮어쓰지 않습니다.",
         "퀀트모델 시장 전망은 기존 7단계 시장분석을 유지합니다.",
-        "단기 시장 상황은 최근 1주일과 오늘 장중 흐름을 보여 주는 참고 레이어입니다."
-      ]
+        "단기 시장 상황은 최근 1주일과 오늘 장중 흐름을 보여 주는 참고 레이어입니다.",
+        "익일 신호 테스트는 야간/장외 스트레스 참고값이며 정식 3축 점수에는 반영하지 않습니다."
+      ],
+      "next_day_signal_test": {
+        "enabled": true,
+        "label": "익일 신호 테스트",
+        "reference_session": "2026-06-09",
+        "preview_label": "장초반 경계 흐름",
+        "preview_score": -0.4975,
+        "environment_score": -0.5914,
+        "short_term_score": -0.4039,
+        "official_score_impact": false,
+        "experiment_status": "validation_required"
+      }
     }
   },
   "top_signals": [
@@ -63478,18 +63616,18 @@
   ],
   "today_bridge": {
     "tone_label": "브리핑 톤",
-    "market_tone": "중립 해석 환경",
-    "reference_text": "방향성 우위가 뚜렷하지 않아 모델 해석상 추세와 방어 신호를 함께 관찰할 필요가 있습니다.",
-    "state_label": "중립",
+    "market_tone": "방어 우위 환경",
+    "reference_text": "지수 방어력보다 내부 약화 신호가 더 두드러지는지 모델 해석 기준으로 점검이 필요한 구간입니다.",
+    "state_label": "약보합",
     "state_intraday_bridge": {
       "enabled": true,
       "medium_term_label": "퀀트모델 시장 흐름",
       "medium_term_description": "최근 추세와 시장 내부 신호를 반영한 퀀트모델 기준 흐름입니다.",
-      "medium_term_state_label": "중립",
-      "medium_term_state_score": 0.1695,
+      "medium_term_state_label": "약보합",
+      "medium_term_state_score": -0.6463,
       "intraday_label": "오늘 장중 흐름",
       "intraday_description": "당일 지수, breadth, 선물, 수급을 반영한 장중 흐름 참고값입니다.",
-      "intraday_state_label": "약세",
+      "intraday_state_label": "강한 약세",
       "intraday_state_values": [
         "강세",
         "소폭 강세",
@@ -63497,31 +63635,31 @@
         "약세",
         "강한 약세"
       ],
-      "alignment": "mixed",
-      "display_label": "중립, 오늘 흐름 혼조",
-      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름의 방향이 완전히 같지는 않아 함께 해석할 필요가 있습니다.",
+      "alignment": "aligned",
+      "display_label": "하락 흐름 유지",
+      "bridge_text": "퀀트모델 시장 흐름과 오늘 장중 흐름이 모두 약세 쪽으로 같은 방향을 가리킵니다.",
       "basis_lines": [
-        "퀀트모델 시장 흐름 근거: 추세와 방어심리가 엇갈려 모델 해석상 뚜렷한 우세 방향은 아직 제한적입니다.",
-        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다."
+        "퀀트모델 시장 흐름 근거: 지수 방어력은 남아 있지만 모델 해석상 내부 확산은 약한 편으로 읽힙니다.",
+        "장중 흐름 근거: 코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다."
       ],
       "intraday": {
-        "asof": "2026-06-03T18:00:00+09:00",
+        "asof": "2026-06-08T18:49:33+09:00",
         "session_status": "live",
-        "direction_label": "약세",
-        "intraday_state_label": "약세",
-        "total_score": -0.5727,
-        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다.",
-        "session_date": "2026-06-03",
+        "direction_label": "강한 약세",
+        "intraday_state_label": "강한 약세",
+        "total_score": -3.0,
+        "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
+        "session_date": "2026-06-08",
         "is_previous_session_reference": false,
         "reference_label": null,
         "futures": {
           "contract_name": "코스피200 선물",
-          "change_pct": -0.0028000000000000004,
-          "price": 1413.75
+          "change_pct": -0.0924,
+          "price": 1178.25
         },
         "flow": {
-          "foreigner_net": null,
-          "program_total_net": null
+          "foreigner_net": -2644.0,
+          "program_total_net": 6776.0
         }
       }
     },
@@ -63538,7 +63676,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-06-03T23:00:00+09:00",
+      "asof": "2026-06-08T21:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -63579,26 +63717,26 @@
             "description": "글로벌 위험선호와 금리·달러·원자재 부담을 합친 환경 점수입니다.",
             "source_field_priority": null,
             "excluded_from_main_chart": null,
-            "latest_value": -0.1402,
-            "latest_gauge_value": 47.7,
-            "latest_tone": "neutral",
+            "latest_value": -1.2602,
+            "latest_gauge_value": 29.0,
+            "latest_tone": "bad",
             "latest_visual": {
-              "score": -0.1402,
-              "position_pct": 47.7,
+              "score": -1.2602,
+              "position_pct": 29.0,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
               "neutral_max": 0.3,
               "band": {
-                "label": "중립",
-                "level": 4,
-                "tone": "neutral",
-                "color": "#94a3b8",
-                "range_text": "-0.3 ~ +0.3",
-                "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+                "label": "나쁨",
+                "level": 2,
+                "tone": "bad",
+                "color": "#2563eb",
+                "range_text": "-2.0 ~ -1.0",
+                "plain_text": "부담이 우세한 구간입니다."
               },
-              "display_text": "-0.14점, 중립",
-              "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "display_text": "-1.26점, 나쁨",
+              "explain_text": "부담이 우세한 구간입니다."
             },
             "points": [
               {
@@ -64035,7 +64173,7 @@
               },
               {
                 "date": "2017-06-13",
-                "value": 0.5369
+                "value": 0.5368
               },
               {
                 "date": "2017-06-14",
@@ -64375,7 +64513,7 @@
               },
               {
                 "date": "2017-10-19",
-                "value": -0.0019
+                "value": -0.0018
               },
               {
                 "date": "2017-10-20",
@@ -64815,7 +64953,7 @@
               },
               {
                 "date": "2018-03-30",
-                "value": -0.5432
+                "value": -0.5433
               },
               {
                 "date": "2018-04-02",
@@ -65467,7 +65605,7 @@
               },
               {
                 "date": "2018-11-29",
-                "value": 0.5837
+                "value": 0.5836
               },
               {
                 "date": "2018-11-30",
@@ -66427,7 +66565,7 @@
               },
               {
                 "date": "2019-11-21",
-                "value": 0.7125
+                "value": 0.7124
               },
               {
                 "date": "2019-11-22",
@@ -66719,7 +66857,7 @@
               },
               {
                 "date": "2020-03-10",
-                "value": -0.3051
+                "value": -0.3052
               },
               {
                 "date": "2020-03-11",
@@ -67611,7 +67749,7 @@
               },
               {
                 "date": "2021-02-02",
-                "value": 0.5292
+                "value": 0.5291
               },
               {
                 "date": "2021-02-03",
@@ -67647,7 +67785,7 @@
               },
               {
                 "date": "2021-02-17",
-                "value": 0.4028
+                "value": 0.4027
               },
               {
                 "date": "2021-02-18",
@@ -68255,7 +68393,7 @@
               },
               {
                 "date": "2021-09-28",
-                "value": -0.8801
+                "value": -0.8802
               },
               {
                 "date": "2021-09-29",
@@ -69359,7 +69497,7 @@
               },
               {
                 "date": "2022-11-10",
-                "value": -0.1639
+                "value": -0.164
               },
               {
                 "date": "2022-11-11",
@@ -69923,7 +70061,7 @@
               },
               {
                 "date": "2023-06-07",
-                "value": 1.0223
+                "value": 1.0224
               },
               {
                 "date": "2023-06-08",
@@ -70339,7 +70477,7 @@
               },
               {
                 "date": "2023-11-08",
-                "value": 0.1502
+                "value": 0.1501
               },
               {
                 "date": "2023-11-09",
@@ -70375,7 +70513,7 @@
               },
               {
                 "date": "2023-11-21",
-                "value": 1.2332
+                "value": 1.2331
               },
               {
                 "date": "2023-11-22",
@@ -70447,7 +70585,7 @@
               },
               {
                 "date": "2023-12-15",
-                "value": 1.3699
+                "value": 1.37
               },
               {
                 "date": "2023-12-18",
@@ -70699,7 +70837,7 @@
               },
               {
                 "date": "2024-03-21",
-                "value": 0.6437
+                "value": 0.6438
               },
               {
                 "date": "2024-03-22",
@@ -72799,27 +72937,54 @@
               },
               {
                 "date": "2026-05-28",
-                "value": 1.112
+                "value": 1.2005
               },
               {
                 "date": "2026-05-29",
-                "value": 1.1513
+                "value": 1.2331
               },
               {
                 "date": "2026-06-01",
-                "value": -0.2635
+                "value": -0.1395
               },
               {
                 "date": "2026-06-02",
-                "value": 1.0287
+                "value": 1.0517
               },
               {
-                "date": "2026-06-03",
-                "value": -0.1402,
+                "date": "2026-06-04",
+                "value": 0.8637
+              },
+              {
+                "date": "2026-06-05",
+                "value": 0.9011
+              },
+              {
+                "date": "2026-06-08",
+                "value": -1.2602,
                 "point_type": "current_intraday_environment",
                 "source_note": "실행시점 장중 지수·환율·선물·리스크를 반영한 금융환경 현재 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.5914,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 금융환경 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 금융환경 테스트",
+              "score": -0.5914,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           },
           {
             "series_id": "medium_term_model_outlook",
@@ -72834,12 +72999,12 @@
             "excluded_from_main_chart": [
               "calibrated_forecast_score"
             ],
-            "latest_value": 0.2159,
-            "latest_gauge_value": 53.6,
+            "latest_value": 0.0198,
+            "latest_gauge_value": 50.3,
             "latest_tone": "neutral",
             "latest_visual": {
-              "score": 0.2159,
-              "position_pct": 53.6,
+              "score": 0.0198,
+              "position_pct": 50.3,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
@@ -72852,7 +73017,7 @@
                 "range_text": "-0.3 ~ +0.3",
                 "plain_text": "뚜렷한 우위가 없는 중립권입니다."
               },
-              "display_text": "0.22점, 중립",
+              "display_text": "0.02점, 중립",
               "explain_text": "뚜렷한 우위가 없는 중립권입니다."
             },
             "points": [
@@ -74126,7 +74291,7 @@
               },
               {
                 "date": "2018-04-19",
-                "value": -0.4177
+                "value": -0.4178
               },
               {
                 "date": "2018-04-20",
@@ -79378,7 +79543,7 @@
               },
               {
                 "date": "2023-08-17",
-                "value": -0.7753
+                "value": -0.7752
               },
               {
                 "date": "2023-08-18",
@@ -79594,7 +79759,7 @@
               },
               {
                 "date": "2023-11-08",
-                "value": -0.7265
+                "value": -0.7266
               },
               {
                 "date": "2023-11-09",
@@ -82054,28 +82219,55 @@
               },
               {
                 "date": "2026-05-28",
-                "value": 0.4101
+                "value": 0.4212
               },
               {
                 "date": "2026-05-29",
-                "value": 0.4128
+                "value": 0.4227
               },
               {
                 "date": "2026-06-01",
-                "value": 0.2947
+                "value": 0.3076
               },
               {
                 "date": "2026-06-02",
-                "value": 0.2159
+                "value": 0.2188
               },
               {
-                "date": "2026-06-03",
-                "value": 0.2159,
+                "date": "2026-06-04",
+                "value": 0.3672
+              },
+              {
+                "date": "2026-06-05",
+                "value": 0.0198
+              },
+              {
+                "date": "2026-06-08",
+                "value": 0.0198,
                 "point_type": "carry_forward",
-                "carry_forward_from": "2026-06-02",
+                "carry_forward_from": "2026-06-05",
                 "source_note": "일별 확정 mart 최신값을 현재 기준일에 이월 표시한 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.4975,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 종합 신호 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 종합 신호 테스트",
+              "score": -0.4975,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           },
           {
             "series_id": "short_term_market_condition",
@@ -82085,26 +82277,26 @@
             "description": "최근 수급·선물·상태 변화와 오늘 장중 흐름을 반영한 단기 점수입니다.",
             "source_field_priority": null,
             "excluded_from_main_chart": null,
-            "latest_value": -0.4177,
-            "latest_gauge_value": 43.0,
-            "latest_tone": "weak_bad",
+            "latest_value": -2.7432,
+            "latest_gauge_value": 4.3,
+            "latest_tone": "bad",
             "latest_visual": {
-              "score": -0.4177,
-              "position_pct": 43.0,
+              "score": -2.7432,
+              "position_pct": 4.3,
               "scale_min": -3.0,
               "scale_max": 3.0,
               "neutral_min": -0.3,
               "neutral_max": 0.3,
               "band": {
-                "label": "다소 나쁨",
-                "level": 3,
-                "tone": "weak_bad",
-                "color": "#60a5fa",
-                "range_text": "-1.0 ~ -0.3",
-                "plain_text": "주의가 필요한 약세 구간입니다."
+                "label": "매우 나쁨",
+                "level": 1,
+                "tone": "strong_bad",
+                "color": "#1e3a8a",
+                "range_text": "-3.0 ~ -2.0",
+                "plain_text": "강한 경계 구간입니다."
               },
-              "display_text": "-0.42점, 다소 나쁨",
-              "explain_text": "주의가 필요한 약세 구간입니다."
+              "display_text": "-2.74점, 매우 나쁨",
+              "explain_text": "강한 경계 구간입니다."
             },
             "points": [
               {
@@ -91293,19 +91485,46 @@
               },
               {
                 "date": "2026-06-01",
-                "value": -0.6177
+                "value": -0.6176
               },
               {
                 "date": "2026-06-02",
-                "value": -0.9962
+                "value": -0.9961
               },
               {
-                "date": "2026-06-03",
-                "value": -0.4177,
+                "date": "2026-06-04",
+                "value": -0.4072
+              },
+              {
+                "date": "2026-06-05",
+                "value": -0.4954
+              },
+              {
+                "date": "2026-06-08",
+                "value": -2.7432,
                 "point_type": "current_intraday_blend",
                 "source_note": "실행시점 장중 단기값을 반영한 현재 포인트입니다."
+              },
+              {
+                "date": "2026-06-09",
+                "value": -0.4039,
+                "label": "익일",
+                "point_role": "next_day_signal_test",
+                "display_label": "익일 단기상황 테스트",
+                "preview_label": "장초반 경계 흐름",
+                "official_score_impact": false,
+                "experiment_status": "validation_required",
+                "date_tone": "muted"
               }
-            ]
+            ],
+            "next_day_signal_test": {
+              "enabled": true,
+              "reference_session": "2026-06-09",
+              "label": "익일 단기상황 테스트",
+              "score": -0.4039,
+              "preview_label": "장초반 경계 흐름",
+              "official_score_impact": false
+            }
           }
         ],
         "reference_indices": [
@@ -91316,13 +91535,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-02",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 434.3926,
-            "latest_close": 8801.49,
-            "latest_change_value": 13.11,
-            "latest_change_pct": 0.001492,
+            "latest_date": "2026-06-08",
+            "latest_value": 369.3889,
+            "latest_close": 7484.41,
+            "latest_change_value": -676.18,
+            "latest_change_pct": -0.082859,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KS11",
             "description": "KOSPI 실제 종가를 2017-01-02=100으로 환산한 기준선입니다.",
             "points": [
@@ -103007,14 +103226,24 @@
                 "raw_close": 8801.4902
               },
               {
-                "date": "2026-06-03",
-                "value": 434.3926,
-                "raw_close": 8801.49,
-                "change_value": 13.11,
-                "change_pct": 0.001492,
+                "date": "2026-06-04",
+                "value": 426.3933,
+                "raw_close": 8639.4102
+              },
+              {
+                "date": "2026-06-05",
+                "value": 402.7614,
+                "raw_close": 8160.5898
+              },
+              {
+                "date": "2026-06-08",
+                "value": 369.3889,
+                "raw_close": 7484.41,
+                "change_value": -676.18,
+                "change_pct": -0.082859,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KS11",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -103027,13 +103256,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-02",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 162.3363,
-            "latest_close": 1026.03,
-            "latest_change_value": -24.0,
-            "latest_change_pct": -0.022856,
+            "latest_date": "2026-06-08",
+            "latest_value": 144.1982,
+            "latest_close": 911.39,
+            "latest_change_value": -91.05,
+            "latest_change_pct": -0.090828,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KQ11",
             "description": "KOSDAQ 실제 종가를 2017-01-02=100으로 환산한 기준선입니다.",
             "points": [
@@ -114713,14 +114942,24 @@
                 "raw_close": 1026.03
               },
               {
-                "date": "2026-06-03",
-                "value": 162.3363,
-                "raw_close": 1026.03,
-                "change_value": -24.0,
-                "change_pct": -0.022856,
+                "date": "2026-06-04",
+                "value": 166.086,
+                "raw_close": 1049.73
+              },
+              {
+                "date": "2026-06-05",
+                "value": 158.6039,
+                "raw_close": 1002.44
+              },
+              {
+                "date": "2026-06-08",
+                "value": 144.1982,
+                "raw_close": 911.39,
+                "change_value": -91.05,
+                "change_pct": -0.090828,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KQ11",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -114733,13 +114972,13 @@
             "unit": "indexed_100",
             "base_date": "2017-01-03",
             "base_value": 100.0,
-            "latest_date": "2026-06-03",
-            "latest_value": 535.1295,
-            "latest_close": 1407.23,
-            "latest_change_value": 7.32,
-            "latest_change_pct": 0.005229,
+            "latest_date": "2026-06-08",
+            "latest_value": 451.2074,
+            "latest_close": 1186.54,
+            "latest_change_value": -110.48,
+            "latest_change_pct": -0.08518,
             "latest_point_type": "current_intraday_quote",
-            "quote_asof": "2026-06-03T18:00:00+09:00",
+            "quote_asof": "2026-06-08T18:49:33+09:00",
             "source": "yahoo:^KS200",
             "description": "KOSPI200 실제 종가를 2017-01-03=100으로 환산한 기준선입니다.",
             "points": [
@@ -126409,14 +126648,24 @@
                 "raw_close": 1407.23
               },
               {
-                "date": "2026-06-03",
-                "value": 535.1295,
-                "raw_close": 1407.23,
-                "change_value": 7.32,
-                "change_pct": 0.005229,
+                "date": "2026-06-04",
+                "value": 524.6074,
+                "raw_close": 1379.5601
+              },
+              {
+                "date": "2026-06-05",
+                "value": 493.2198,
+                "raw_close": 1297.02
+              },
+              {
+                "date": "2026-06-08",
+                "value": 451.2074,
+                "raw_close": 1186.54,
+                "change_value": -110.48,
+                "change_pct": -0.08518,
                 "point_type": "current_intraday_quote",
                 "source": "yahoo:^KS200",
-                "quote_asof": "2026-06-03T18:00:00+09:00",
+                "quote_asof": "2026-06-08T18:49:33+09:00",
                 "is_fallback": false,
                 "source_note": "실행시점 장중 지수값을 기준지수 선의 현재 포인트로 표시합니다."
               }
@@ -126435,6 +126684,21 @@
           "show_current_reference_index_point": true,
           "carry_forward_daily_axes_to_current_date": true,
           "avoid_three_separate_bar_charts": true
+        },
+        "next_day_signal_test": {
+          "enabled": true,
+          "reference_session": "2026-06-09",
+          "date_label": "2026-06-09 익일",
+          "date_tone": "muted",
+          "attached_axis_series": [
+            "financial_environment",
+            "medium_term_model_outlook",
+            "short_term_market_condition"
+          ],
+          "summary_score": -0.4975,
+          "environment_score": -0.5914,
+          "short_term_score": -0.4039,
+          "official_score_impact": false
         }
       },
       "key_indicators": {
@@ -126446,29 +126710,29 @@
             "items": [
               {
                 "label": "환경 종합점수",
-                "value": -0.1402,
+                "value": -1.2602,
                 "unit": "score",
-                "tone": "neutral"
+                "tone": "bad"
               },
               {
                 "label": "환경 점수 위치",
-                "value": "중립",
+                "value": "나쁨",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "bad"
               },
               {
                 "label": "기회 점수",
-                "value": 1.1042,
+                "value": 1.0236,
                 "unit": "score"
               },
               {
                 "label": "리스크 부담",
-                "value": 0.1078,
+                "value": 0.1749,
                 "unit": "score"
               },
               {
                 "label": "VIX",
-                "value": 16.05,
+                "value": 15.4,
                 "unit": "pt"
               },
               {
@@ -126483,12 +126747,12 @@
               },
               {
                 "label": "WTI",
-                "value": 97.63,
+                "value": 95.96,
                 "unit": "USD"
               },
               {
                 "label": "하이일드 스프레드",
-                "value": 2.72,
+                "value": 2.74,
                 "unit": "%p"
               }
             ]
@@ -126499,44 +126763,44 @@
             "items": [
               {
                 "label": "7단계 시장상태",
-                "value": "중립",
+                "value": "약보합",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "weak_bad"
               },
               {
                 "label": "시장상태 점수",
-                "value": 0.1695,
+                "value": -0.6463,
                 "unit": "score"
               },
               {
                 "label": "시장상태 위치",
-                "value": "중립",
+                "value": "다소 나쁨",
                 "unit": "label",
-                "tone": "neutral"
+                "tone": "weak_bad"
               },
               {
                 "label": "ALL 20거래일 전망 참고값",
-                "value": 4.05,
+                "value": 2.93,
                 "unit": "%"
               },
               {
                 "label": "KOSPI 20거래일 전망 참고값",
-                "value": 2.67,
+                "value": 1.59,
                 "unit": "%"
               },
               {
                 "label": "KOSDAQ 20거래일 전망 참고값",
-                "value": 8.71,
+                "value": 6.82,
                 "unit": "%"
               },
               {
                 "label": "전망 신뢰도",
-                "value": 0.75,
+                "value": 0.727,
                 "unit": "score"
               },
               {
                 "label": "시장 변동성",
-                "value": 0.418,
+                "value": 0.47,
                 "unit": "score"
               },
               {
@@ -126552,49 +126816,49 @@
             "items": [
               {
                 "label": "단기 종합점수",
-                "value": -0.4177,
+                "value": -2.7432,
                 "unit": "score",
-                "tone": "weak_bad"
+                "tone": "bad"
               },
               {
                 "label": "단기 점수 위치",
-                "value": "다소 나쁨",
+                "value": "매우 나쁨",
                 "unit": "label",
-                "tone": "weak_bad"
+                "tone": "bad"
               },
               {
                 "label": "코스피 1주일",
-                "value": 9.37,
+                "value": -0.3,
                 "unit": "%"
               },
               {
                 "label": "코스닥 1주일",
-                "value": -12.49,
+                "value": -9.23,
                 "unit": "%"
               },
               {
                 "label": "오늘 장중 상태",
-                "value": "약세",
+                "value": "강한 약세",
                 "unit": "label"
               },
               {
                 "label": "선물 변화율",
-                "value": -0.28,
+                "value": -9.24,
                 "unit": "%"
               },
               {
                 "label": "외국인 순매수",
-                "value": null,
+                "value": -2644.0,
                 "unit": "억원"
               },
               {
                 "label": "프로그램 순매수",
-                "value": null,
+                "value": 6776.0,
                 "unit": "억원"
               },
               {
                 "label": "20일선 위 종목",
-                "value": 22.11,
+                "value": 9.49,
                 "unit": "%"
               }
             ]
@@ -126603,12 +126867,12 @@
       },
       "investment_considerations": [
         {
-          "label": "환경은 혼재",
-          "body": "기회와 리스크가 엇갈릴 때는 한 방향 결론보다 지표 변화 방향을 함께 봅니다.",
-          "tone": "neutral",
+          "label": "환경 리스크 확인",
+          "body": "금리·달러·원자재 부담이 기회 요인보다 우세하면 공격적인 해석보다 위험 점검을 우선합니다.",
+          "tone": "warning",
           "basis": [
-            "VIX 16.05",
-            "미국 10년 4.47%"
+            "환경점수 -1.2602",
+            "리스크 부담 0.1749"
           ]
         },
         {
@@ -126616,8 +126880,8 @@
           "body": "중립권에서는 종목 확산, 변동성, 수급이 다음 방향을 정하는 핵심 확인 지표입니다.",
           "tone": "neutral",
           "basis": [
-            "7단계 중립",
-            "시장상태 점수 0.1695"
+            "7단계 약보합",
+            "시장상태 점수 -0.6463"
           ]
         },
         {
@@ -126625,8 +126889,8 @@
           "body": "중기 전망과 별개로 최근 1주일과 오늘 수급이 약하면 진입·추격 판단은 보수적으로 봅니다.",
           "tone": "warning",
           "basis": [
-            "단기점수 -0.4177",
-            "장중상태 약세"
+            "단기점수 -2.7432",
+            "장중상태 강한 약세"
           ]
         }
       ],
@@ -126636,48 +126900,48 @@
           "title": "금융시장 환경",
           "subtitle": "기회와 리스크",
           "graph_type": "dual_gauge",
-          "score": -0.1402,
-          "gauge_value": 47.7,
+          "score": -1.2602,
+          "gauge_value": 29.0,
           "score_visual": {
-            "score": -0.1402,
-            "position_pct": 47.7,
+            "score": -1.2602,
+            "position_pct": 29.0,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "중립",
-              "level": 4,
-              "tone": "neutral",
-              "color": "#94a3b8",
-              "range_text": "-0.3 ~ +0.3",
-              "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "label": "나쁨",
+              "level": 2,
+              "tone": "bad",
+              "color": "#2563eb",
+              "range_text": "-2.0 ~ -1.0",
+              "plain_text": "부담이 우세한 구간입니다."
             },
-            "display_text": "-0.14점, 중립",
-            "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+            "display_text": "-1.26점, 나쁨",
+            "explain_text": "부담이 우세한 구간입니다."
           },
-          "status_label": "혼재",
-          "tone": "neutral",
-          "opportunity_score": 1.1042,
-          "risk_pressure_score": 0.1078,
-          "daily_score": 1.0287,
+          "status_label": "리스크 우위",
+          "tone": "bad",
+          "opportunity_score": 1.0236,
+          "risk_pressure_score": 0.1749,
+          "daily_score": 0.9011,
           "today": {
-            "asof": "2026-06-03T18:00:00+09:00",
-            "score": -0.1402,
-            "index_avg_score": -0.1076,
-            "futures_score": -0.0504,
-            "fx_score": -0.7265,
-            "risk_score": 0.3236,
-            "usdk_rw_change_pct": 0.009082,
-            "kospi_change_pct": 0.001492,
-            "direction_label": "약세",
-            "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다.",
+            "asof": "2026-06-08T18:49:33+09:00",
+            "score": -1.2602,
+            "index_avg_score": -1.7258,
+            "futures_score": -1.6632,
+            "fx_score": 1.3482,
+            "risk_score": -3.0,
+            "usdk_rw_change_pct": -0.016852,
+            "kospi_change_pct": -0.082859,
+            "direction_label": "강한 약세",
+            "summary_line": "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다.",
             "source": "market_intraday_index_snapshot + market_intraday_fx_snapshot + market_intraday_futures_snapshot + market_intraday_state"
           },
           "key_numbers": [
             {
               "label": "VIX",
-              "value": 16.05,
+              "value": 15.4,
               "unit": "pt"
             },
             {
@@ -126692,45 +126956,45 @@
             },
             {
               "label": "WTI",
-              "value": 97.63,
+              "value": 95.96,
               "unit": "USD"
             }
           ],
           "basis": [
-            "위험선호 점수 1.1",
-            "매크로/금리/원자재 부담 0.11",
+            "위험선호 점수 1.02",
+            "매크로/금리/원자재 부담 0.17",
             "커버리지 medium"
           ],
           "source": "market_model_input_daily_current.csv",
-          "source_asof_date": "2026-06-02"
+          "source_asof_date": "2026-06-05"
         },
         {
           "axis_id": "medium_term_model_outlook",
           "title": "퀀트모델 시장 전망",
           "subtitle": "1~6개월 흐름",
           "graph_type": "seven_step_bar",
-          "state_label": "중립",
-          "score": 0.1695,
-          "gauge_value": 52.8,
+          "state_label": "약보합",
+          "score": -0.6463,
+          "gauge_value": 39.2,
           "score_visual": {
-            "score": 0.1695,
-            "position_pct": 52.8,
+            "score": -0.6463,
+            "position_pct": 39.2,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "중립",
-              "level": 4,
-              "tone": "neutral",
-              "color": "#94a3b8",
-              "range_text": "-0.3 ~ +0.3",
-              "plain_text": "뚜렷한 우위가 없는 중립권입니다."
+              "label": "다소 나쁨",
+              "level": 3,
+              "tone": "weak_bad",
+              "color": "#60a5fa",
+              "range_text": "-1.0 ~ -0.3",
+              "plain_text": "주의가 필요한 약세 구간입니다."
             },
-            "display_text": "0.17점, 중립",
-            "explain_text": "뚜렷한 우위가 없는 중립권입니다."
+            "display_text": "-0.65점, 다소 나쁨",
+            "explain_text": "주의가 필요한 약세 구간입니다."
           },
-          "tone": "neutral",
+          "tone": "weak_bad",
           "scale": [
             {
               "label": "강하락",
@@ -126778,53 +127042,53 @@
           "components": [
             {
               "label": "추세",
-              "score": 3.0,
-              "gauge_value": 100.0
+              "score": 2.4572,
+              "gauge_value": 91.0
             },
             {
               "label": "확산",
-              "score": -2.2635,
-              "gauge_value": 12.3
+              "score": -3.0,
+              "gauge_value": 0.0
             },
             {
               "label": "변동성",
-              "score": -1.8094,
-              "gauge_value": 19.8
+              "score": -3.0,
+              "gauge_value": 0.0
             },
             {
               "label": "방어자산",
-              "score": 1.0695,
-              "gauge_value": 67.8
+              "score": -0.0422,
+              "gauge_value": 49.3
             }
           ],
           "forecast_20d": [
             {
               "market_scope": "ALL",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 4.05,
-              "forecast_score": 0.4588,
+              "predicted_forward_return_pct": 2.93,
+              "forecast_score": 0.2823,
               "forecast_label": "mild_bullish",
-              "confidence_score": 0.75
+              "confidence_score": 0.727
             },
             {
               "market_scope": "KOSPI",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 2.67,
-              "forecast_score": 0.2247,
-              "forecast_label": "mild_bullish",
-              "confidence_score": 0.719
+              "predicted_forward_return_pct": 1.59,
+              "forecast_score": 0.0534,
+              "forecast_label": "neutral",
+              "confidence_score": 0.696
             },
             {
               "market_scope": "KOSDAQ",
               "forecast_horizon": "20d",
-              "predicted_forward_return_pct": 8.71,
-              "forecast_score": 0.9936,
+              "predicted_forward_return_pct": 6.82,
+              "forecast_score": 0.7512,
               "forecast_label": "bullish",
-              "confidence_score": 0.822
+              "confidence_score": 0.789
             }
           ],
           "basis": [
-            "7단계 현재값: 중립(0.1695)",
+            "7단계 현재값: 약보합(-0.6463)",
             "추세, 확산, 변동성, 방어자산 선호를 종합한 중기 모델 판단입니다."
           ],
           "source": "market_component_scores + market_forecast_ai_calibrated_daily_current.csv"
@@ -126834,57 +127098,57 @@
           "title": "단기 시장 상황",
           "subtitle": "최근 1주일 + 오늘",
           "graph_type": "linear_gauge",
-          "score": -0.4177,
-          "gauge_value": 43.0,
+          "score": -2.7432,
+          "gauge_value": 4.3,
           "score_visual": {
-            "score": -0.4177,
-            "position_pct": 43.0,
+            "score": -2.7432,
+            "position_pct": 4.3,
             "scale_min": -3.0,
             "scale_max": 3.0,
             "neutral_min": -0.3,
             "neutral_max": 0.3,
             "band": {
-              "label": "다소 나쁨",
-              "level": 3,
-              "tone": "weak_bad",
-              "color": "#60a5fa",
-              "range_text": "-1.0 ~ -0.3",
-              "plain_text": "주의가 필요한 약세 구간입니다."
+              "label": "매우 나쁨",
+              "level": 1,
+              "tone": "strong_bad",
+              "color": "#1e3a8a",
+              "range_text": "-3.0 ~ -2.0",
+              "plain_text": "강한 경계 구간입니다."
             },
-            "display_text": "-0.42점, 다소 나쁨",
-            "explain_text": "주의가 필요한 약세 구간입니다."
+            "display_text": "-2.74점, 매우 나쁨",
+            "explain_text": "강한 경계 구간입니다."
           },
           "status_label": "단기 약세",
-          "tone": "weak_bad",
+          "tone": "bad",
           "weekly": {
-            "kospi_5d_ret_pct": 9.37,
-            "kosdaq_5d_ret_pct": -12.49,
-            "kospi_1d_ret_pct": 0.15
+            "kospi_5d_ret_pct": -0.3,
+            "kosdaq_5d_ret_pct": -9.23,
+            "kospi_1d_ret_pct": -5.54
           },
           "today": {
             "enabled": true,
             "session_status": "live",
-            "intraday_state_label": "약세",
-            "intraday_score": -0.5727,
-            "close_score": -0.9897,
-            "futures_change_pct": -0.28,
-            "foreigner_net": null,
-            "program_total_net": null
+            "intraday_state_label": "강한 약세",
+            "intraday_score": -3.0,
+            "close_score": -3.0,
+            "futures_change_pct": -9.24,
+            "foreigner_net": -2644.0,
+            "program_total_net": 6776.0
           },
           "basis": [
-            "코스피 1주일 9.37%",
-            "코스닥 1주일 -12.49%",
-            "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러 강세가 함께 나타나고 있습니다. 선물은 코스피200보다 더 약하게 움직입니다."
+            "코스피 1주일 -0.3%",
+            "코스닥 1주일 -9.23%",
+            "코스피와 코스닥이 장중 기준으로 약세 흐름을 보입니다. 원달러는 비교적 안정된 흐름입니다. 선물은 코스피200보다 더 약하게 움직입니다. 프로그램과 주요 투자주체 흐름은 순매도 우위입니다. 프로그램 순매수 규모가 커서 지수 보강 신호가 동반됩니다. 장중 변동성은 경계가 필요한 수준입니다."
           ],
           "source": "market_features_hourly + market_intraday_state"
         }
       ],
       "summary": {
-        "environment": "혼재",
-        "medium_term": "중립",
+        "environment": "리스크 우위",
+        "medium_term": "약보합",
         "short_term": "단기 약세",
-        "one_line": "환경은 혼재, 중기 모델은 중립, 단기는 단기 약세로 나누어 해석합니다.",
-        "visual_line": "금융시장 환경은 -0.14점, 중립, 퀀트모델 시장전망은 0.22점, 중립, 단기 시장상황은 -0.42점, 다소 나쁨입니다."
+        "one_line": "환경은 리스크 우위, 중기 모델은 약보합, 단기는 단기 약세로 나누어 해석합니다.",
+        "visual_line": "금융시장 환경은 -1.26점, 나쁨, 퀀트모델 시장전망은 0.02점, 중립, 단기 시장상황은 -2.74점, 매우 나쁨입니다."
       },
       "score_scale_guide": {
         "min": -3.0,
@@ -126939,8 +127203,20 @@
       "interpretation_rules": [
         "금융시장 환경은 기회/리스크 배경이며, 모델 상태를 직접 덮어쓰지 않습니다.",
         "퀀트모델 시장 전망은 기존 7단계 시장분석을 유지합니다.",
-        "단기 시장 상황은 최근 1주일과 오늘 장중 흐름을 보여 주는 참고 레이어입니다."
-      ]
+        "단기 시장 상황은 최근 1주일과 오늘 장중 흐름을 보여 주는 참고 레이어입니다.",
+        "익일 신호 테스트는 야간/장외 스트레스 참고값이며 정식 3축 점수에는 반영하지 않습니다."
+      ],
+      "next_day_signal_test": {
+        "enabled": true,
+        "label": "익일 신호 테스트",
+        "reference_session": "2026-06-09",
+        "preview_label": "장초반 경계 흐름",
+        "preview_score": -0.4975,
+        "environment_score": -0.5914,
+        "short_term_score": -0.4039,
+        "official_score_impact": false,
+        "experiment_status": "validation_required"
+      }
     }
   },
   "compliance_meta": {
@@ -126955,7 +127231,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T23:00:00+09:00",
+    "asof": "2026-06-08T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -126972,7 +127248,7 @@
     {
       "key": "trend",
       "label": "시장 추세 점검",
-      "score": 3.0,
+      "score": 2.4572,
       "summary": "코스피와 코스닥의 중기 수익률 흐름이 모두 우호적입니다.",
       "description": "시장 추세 점검은 코스피·코스닥의 최근 흐름이 퀀트투자 모델 해석에 우호적인지 보여 주는 지표입니다.",
       "status_badge": {
@@ -126984,7 +127260,7 @@
     {
       "key": "breadth",
       "label": "시장 확산 점검",
-      "score": -2.2635,
+      "score": -3.0,
       "summary": "지수 대비 내부 종목 확산은 약한 편입니다.",
       "description": "시장 확산 점검은 일부 대형주만 오르는지, 많은 종목이 함께 움직이는지를 통해 모델 해석의 내부 체력을 보여 줍니다.",
       "status_badge": {
@@ -126996,7 +127272,7 @@
     {
       "key": "risk",
       "label": "시장 변동성 점검",
-      "score": -1.8094,
+      "score": -3.0,
       "summary": "최근 변동성과 낙폭이 커져 방어적 해석이 필요합니다.",
       "description": "시장 변동성 점검은 최근 변동성과 낙폭을 반영해 모델 해석 시 경계 수준을 보여 주는 지표입니다.",
       "status_badge": {
@@ -127008,13 +127284,13 @@
     {
       "key": "defensive_flow",
       "label": "방어자산 선호 점검",
-      "score": 1.0695,
-      "summary": "방어 ETF 상대강도가 높지 않아 주식 선호가 상대적으로 유지됩니다.",
+      "score": -0.0422,
+      "summary": "방어자산 선호도는 중립권입니다.",
       "description": "방어자산 선호 점검은 달러·채권·금 같은 안전자산 선호가 모델 포트폴리오 해석 배경에 어떤 영향을 주는지 보여 줍니다.",
       "status_badge": {
-        "label": "좋음",
-        "tone": "good",
-        "reason": "방어자산 쏠림이 강하지 않습니다."
+        "label": "보통",
+        "tone": "neutral",
+        "reason": "방어 심리는 중립권입니다."
       }
     }
   ],

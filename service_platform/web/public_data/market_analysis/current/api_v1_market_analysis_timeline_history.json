@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/timeline/history?market=KR",
   "market": "KR",
-  "asof": "2026-06-03T23:00:00+09:00",
+  "asof": "2026-06-08T21:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T23:00:00+09:00",
+    "asof": "2026-06-08T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_timeline_history.v1",
-    "as_of_date": "2026-06-03T23:00:00+09:00",
-    "generated_at": "2026-06-03T23:05:36+09:00",
+    "as_of_date": "2026-06-08T21:00:00+09:00",
+    "generated_at": "2026-06-08T21:18:02+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-06-03T23:00:00+09:00",
+      "asof": "2026-06-08T21:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -9333,6 +9333,159 @@
         "risk_score": -1.8094,
         "defensive_flow_score": 1.0695,
         "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-04T19:00:00+09:00",
+        "total_score": 0.1465,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -1.8094,
+        "defensive_flow_score": 0.9161,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-04T20:00:00+09:00",
+        "total_score": 0.1465,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -1.8094,
+        "defensive_flow_score": 0.9161,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-05T20:00:00+09:00",
+        "total_score": 0.0225,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -2.3068,
+        "defensive_flow_score": 0.7527,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-05T21:00:00+09:00",
+        "total_score": 0.0225,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -2.3068,
+        "defensive_flow_score": 0.7527,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-05T22:00:00+09:00",
+        "total_score": 0.0225,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -2.3068,
+        "defensive_flow_score": 0.7527,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-05T23:00:00+09:00",
+        "total_score": 0.0225,
+        "trend_score": 3.0,
+        "breadth_score": -2.2635,
+        "risk_score": -2.3068,
+        "defensive_flow_score": 0.7527,
+        "state_label": "중립"
+      },
+      {
+        "asof": "2026-06-06T18:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-06T19:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-06T20:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-06T21:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-06T22:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-06T23:00:00+09:00",
+        "total_score": -0.6056,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": 0.2293,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-08T18:00:00+09:00",
+        "total_score": -0.6463,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.0422,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-08T18:49:33+09:00",
+        "total_score": -0.6463,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.0422,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-08T19:00:00+09:00",
+        "total_score": -0.6463,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.0422,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-08T20:00:00+09:00",
+        "total_score": -0.6463,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.0422,
+        "state_label": "약보합"
+      },
+      {
+        "asof": "2026-06-08T21:00:00+09:00",
+        "total_score": -0.6463,
+        "trend_score": 2.4572,
+        "breadth_score": -3.0,
+        "risk_score": -3.0,
+        "defensive_flow_score": -0.0422,
+        "state_label": "약보합"
       }
     ]
   }

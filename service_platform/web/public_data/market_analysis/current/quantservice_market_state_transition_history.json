@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_state_transition_history.v1",
-  "as_of_date": "2026-06-03T23:00:00+09:00",
-  "generated_at": "2026-06-03T23:05:36+09:00",
+  "as_of_date": "2026-06-08T21:00:00+09:00",
+  "generated_at": "2026-06-08T21:18:02+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T23:00:00+09:00",
+    "asof": "2026-06-08T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -9942,6 +9942,176 @@
       "transition_count_20d": 12,
       "stability_score": 0.05,
       "state_score": 0.1695
+    },
+    {
+      "asof": "2026-06-04T19:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "weaker",
+      "transition_count_5d": 1,
+      "transition_count_20d": 12,
+      "stability_score": 0.3833,
+      "state_score": 0.1465
+    },
+    {
+      "asof": "2026-06-04T20:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": 0.1465
+    },
+    {
+      "asof": "2026-06-05T20:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "weaker",
+      "transition_count_5d": 1,
+      "transition_count_20d": 11,
+      "stability_score": 0.4,
+      "state_score": 0.0225
+    },
+    {
+      "asof": "2026-06-05T21:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 11,
+      "stability_score": 0.4,
+      "state_score": 0.0225
+    },
+    {
+      "asof": "2026-06-05T22:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 11,
+      "stability_score": 0.4,
+      "state_score": 0.0225
+    },
+    {
+      "asof": "2026-06-05T23:00:00+09:00",
+      "current_state": "중립",
+      "prev_state": "중립",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 11,
+      "stability_score": 0.4,
+      "state_score": 0.0225
+    },
+    {
+      "asof": "2026-06-06T18:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "중립",
+      "state_change_direction": "weaker",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.0,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-06T19:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.0167,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-06T20:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.0333,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-06T21:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.05,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-06T22:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.0667,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-06T23:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.0833,
+      "state_score": -0.6056
+    },
+    {
+      "asof": "2026-06-08T18:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "weaker",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": -0.6463
+    },
+    {
+      "asof": "2026-06-08T18:49:33+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": -0.6463
+    },
+    {
+      "asof": "2026-06-08T19:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 2,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": -0.6463
+    },
+    {
+      "asof": "2026-06-08T20:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": -0.6463
+    },
+    {
+      "asof": "2026-06-08T21:00:00+09:00",
+      "current_state": "약보합",
+      "prev_state": "약보합",
+      "state_change_direction": "unchanged",
+      "transition_count_5d": 1,
+      "transition_count_20d": 12,
+      "stability_score": 0.4,
+      "state_score": -0.6463
     }
   ]
 }

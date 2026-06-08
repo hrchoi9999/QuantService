@@ -1,8 +1,8 @@
 {
   "market": "KR",
-  "asof": "2026-06-03T23:00:00+09:00",
-  "generated_at": "2026-06-03T23:06:27+09:00",
-  "reference_session": "2026-06-04",
+  "asof": "2026-06-08T21:00:00+09:00",
+  "generated_at": "2026-06-08T21:18:22+09:00",
+  "reference_session": "2026-06-09",
   "content_modes": [
     "next_day_preview"
   ],
@@ -37,17 +37,17 @@
     "futures_direction_change": true,
     "top_point_change": true
   },
-  "content_hash": "df132296a79d4d17df50d6567875b313a8baa928f9112d670b9683fa68b038ca",
+  "content_hash": "d6c3ba9596fcfc67b6a992c5ecfd3c4e9cc4891d1007c6433a668dd7fca7ac66",
   "material_change_flag": true,
   "notice_block": {
     "title": "주의사항",
-    "short_notice": "다음 거래일 장초반 참고 정보입니다.",
+    "short_notice": "익일 신호 테스트용 참고 정보입니다.",
     "body": [
       "본 정보는 공개된 기준에 따라 산출된 시장 브리핑용 참고 정보입니다.",
       "특정 이용자의 투자목적, 재산상황, 투자경험 또는 위험선호를 반영한 개별 자문이 아닙니다.",
       "투자판단은 이용자 본인의 책임이며, 자산가격 변동에 따라 원금손실이 발생할 수 있습니다."
     ],
-    "preview_only": "야간 자산 흐름을 참고해 만든 공개형 참고 정보이며, 개별 투자자문이 아닙니다."
+    "preview_only": "야간/장외 자산 흐름을 참고해 만든 검증 전 실험값이며, 정식 시장 현황판 점수나 개별 투자자문이 아닙니다."
   },
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -61,7 +61,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-03T23:00:00+09:00",
+    "asof": "2026-06-08T21:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   }
