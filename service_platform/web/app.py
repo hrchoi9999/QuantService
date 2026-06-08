@@ -1375,8 +1375,6 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                 }
             )
             state_label = _market_score_state_label(score_value)
-            if is_next_day_signal_test:
-                state_label = ""
             tooltip_by_date[date_text]["items"].append(
                 {
                     "label": raw_series["label"],

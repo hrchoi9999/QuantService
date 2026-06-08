@@ -3079,7 +3079,7 @@ def test_market_composite_chart_marks_next_day_signal_test() -> None:
     assert labels[-1]["sublabel"] == "익일 테스트"
     assert labels[-1]["tone"] == "muted"
     assert labels[-1]["is_next_day_signal_test"] is True
-    assert next_day_hover["state"] == ""
+    assert next_day_hover["state"] == "다소 나쁨"
 
 
 def test_market_analysis_can_read_remote_handoff_json(tmp_path: Path) -> None:
