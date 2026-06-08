@@ -3012,6 +3012,7 @@ def test_market_composite_chart_date_labels_keep_latest_without_overlap() -> Non
     labels = view["date_labels"]
     gaps = [right["x"] - left["x"] for left, right in zip(labels, labels[1:])]
 
+    assert labels[0]["label"] == dates[0]
     assert labels[-1]["label"] == dates[-1][5:]
     assert all(gap >= 88 for gap in gaps)
 
@@ -3047,7 +3048,8 @@ def test_market_composite_chart_marks_next_day_signal_test() -> None:
 
     assert view["has_next_day_signal_test"] is True
     assert latest_point["is_next_day_signal_test"] is True
-    assert labels[-1]["label"] == "06-08 -> 06-09 익일 테스트"
+    assert labels[-1]["label"] == "06-09"
+    assert labels[-1]["sublabel"] == "익일 테스트"
     assert labels[-1]["tone"] == "muted"
     assert labels[-1]["is_next_day_signal_test"] is True
     assert "익일 금융환경 테스트" in next_day_hover["state"]

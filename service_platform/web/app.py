@@ -421,6 +421,15 @@ def _format_chart_date_label(value: Any) -> str:
     return text
 
 
+def _format_chart_year_date_label(value: Any) -> str:
+    text = str(value or "").strip()
+    if len(text) == 8 and text.isdigit():
+        return f"{text[:4]}-{text[4:6]}-{text[6:8]}"
+    if len(text) >= 10 and text[4] == "-" and text[7] == "-":
+        return text[:10]
+    return text
+
+
 def _format_percent(value: float | int | None) -> str:
     if value is None:
         return "-"
@@ -1466,22 +1475,39 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
         min_label_gap = 88.0
         label_indexes = set(range(0, len(unique_dates), label_step))
         label_indexes.update({0, len(unique_dates) - 1})
+        for index, date_text in enumerate(unique_dates):
+            if len(date_text) >= 7 and date_text[5:7] == "01":
+                previous_date_text = unique_dates[index - 1] if index > 0 else ""
+                if not previous_date_text or previous_date_text[:4] != date_text[:4]:
+                    label_indexes.add(index)
         for label_index in sorted(label_indexes):
             date_text = unique_dates[label_index]
             is_next_day_signal_test = date_text in next_day_signal_test_dates
-            label_text = _format_chart_date_label(date_text)
-            label_tone = "muted" if is_next_day_signal_test else ""
-            if is_next_day_signal_test and label_index > 0:
-                previous_date_text = unique_dates[label_index - 1]
-                label_text = (
-                    f"{_format_chart_date_label(previous_date_text)}"
-                    f" -> {_format_chart_date_label(date_text)} 익일 테스트"
+            is_first_january_date = (
+                len(date_text) >= 7
+                and date_text[5:7] == "01"
+                and (
+                    label_index == 0
+                    or unique_dates[label_index - 1][:4] != date_text[:4]
                 )
+            )
+            label_text = (
+                _format_chart_year_date_label(date_text)
+                if is_first_january_date
+                else _format_chart_date_label(date_text)
+            )
+            label_tone = "muted" if is_next_day_signal_test else ""
+            sublabel = ""
+            if is_next_day_signal_test and label_index > 0:
+                label_text = _format_chart_date_label(date_text)
+                sublabel = "익일 테스트"
             label = {
                 "x": date_to_x[date_text],
                 "label": label_text,
+                "sublabel": sublabel,
                 "tone": label_tone,
                 "is_next_day_signal_test": is_next_day_signal_test,
+                "is_first_january_date": is_first_january_date,
             }
             if date_labels and label["x"] - date_labels[-1]["x"] < min_label_gap:
                 if label_index == len(unique_dates) - 1 and len(date_labels) > 1:

@@ -64,7 +64,7 @@
             <span
               class="{% if item.tone %}market-state-composite-x-label--{{ item.tone }}{% endif %}{% if item.is_next_day_signal_test %} market-state-composite-x-label--next-day-test{% endif %}"
               style="left: {{ item.x / composite.chart.scroll_width * 100 }}%;"
-            >{{ item.label }}</span>
+            >{{ item.label }}{% if item.sublabel %}<em>{{ item.sublabel }}</em>{% endif %}</span>
             {% endfor %}
           </div>
           <div class="market-state-composite-tooltip" hidden></div>

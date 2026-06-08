@@ -3137,17 +3137,21 @@ body {
 
 .market-state-composite-x-axis {
   position: relative;
-  height: 22px;
+  height: 34px;
   margin: 4px 0 0;
 }
 
 .market-state-composite-x-axis span {
   position: absolute;
   top: 0;
+  display: inline-grid;
+  gap: 1px;
   transform: translateX(-50%);
   color: var(--muted-strong);
   font-size: 0.78rem;
   font-weight: 800;
+  line-height: 1.08;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -3164,6 +3168,13 @@ body {
 }
 
 .market-state-composite-x-axis .market-state-composite-x-label--next-day-test {
+  font-weight: 900;
+}
+
+.market-state-composite-x-axis span em {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-style: normal;
   font-weight: 900;
 }
 
