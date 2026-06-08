@@ -1222,6 +1222,7 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
     raw_series_rows: list[dict[str, Any]] = []
     raw_reference_rows: list[dict[str, Any]] = []
     all_dates: list[str] = []
+    next_day_signal_test_dates: set[str] = set()
     for raw_series in chart.get("series") or []:
         if not isinstance(raw_series, dict):
             continue
@@ -1233,6 +1234,8 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             date_text = str(raw_point.get("date") or "").strip()
             if not date_text:
                 continue
+            if str(raw_point.get("point_role") or "").strip() == "next_day_signal_test":
+                next_day_signal_test_dates.add(date_text)
             point_by_date[date_text] = raw_point
             all_dates.append(date_text)
         raw_series_rows.append(
@@ -1281,6 +1284,8 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             date_text = str(raw_point.get("date") or "").strip()
             if not date_text:
                 continue
+            if str(raw_point.get("point_role") or "").strip() == "next_day_signal_test":
+                next_day_signal_test_dates.add(date_text)
             point_by_date[date_text] = raw_point
             all_dates.append(date_text)
         raw_reference_rows.append(
@@ -1342,6 +1347,10 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                 continue
             score_value = raw_point.get("value")
             x_position = date_to_x[date_text]
+            point_role = str(raw_point.get("point_role") or "").strip()
+            is_next_day_signal_test = point_role == "next_day_signal_test"
+            display_label = str(raw_point.get("display_label") or "").strip()
+            preview_label = str(raw_point.get("preview_label") or "").strip()
             points.append(
                 {
                     "x": x_position,
@@ -1353,14 +1362,27 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                     ),
                     "date": date_text,
                     "value": _format_market_metric(score_value),
+                    "point_role": point_role,
+                    "date_tone": str(raw_point.get("date_tone") or "").strip(),
+                    "is_next_day_signal_test": is_next_day_signal_test,
                 }
             )
+            state_label = _market_score_state_label(score_value)
+            if is_next_day_signal_test:
+                test_label = display_label or "익일 신호 테스트"
+                preview_text = f" · {preview_label}" if preview_label else ""
+                official_text = (
+                    "정식 점수 미반영"
+                    if raw_point.get("official_score_impact") is False
+                    else "정식 반영 여부 확인 필요"
+                )
+                state_label = f"{test_label}{preview_text} · 검증 전 실험값 · {official_text}"
             tooltip_by_date[date_text]["items"].append(
                 {
                     "label": raw_series["label"],
                     "color": raw_series["color"],
                     "value": _format_market_metric(score_value),
-                    "state": _market_score_state_label(score_value),
+                    "state": state_label,
                 }
             )
         if not points:
@@ -1445,9 +1467,21 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
         label_indexes = set(range(0, len(unique_dates), label_step))
         label_indexes.update({0, len(unique_dates) - 1})
         for label_index in sorted(label_indexes):
+            date_text = unique_dates[label_index]
+            is_next_day_signal_test = date_text in next_day_signal_test_dates
+            label_text = _format_chart_date_label(date_text)
+            label_tone = "muted" if is_next_day_signal_test else ""
+            if is_next_day_signal_test and label_index > 0:
+                previous_date_text = unique_dates[label_index - 1]
+                label_text = (
+                    f"{_format_chart_date_label(previous_date_text)}"
+                    f" -> {_format_chart_date_label(date_text)} 익일 테스트"
+                )
             label = {
-                "x": date_to_x[unique_dates[label_index]],
-                "label": _format_chart_date_label(unique_dates[label_index]),
+                "x": date_to_x[date_text],
+                "label": label_text,
+                "tone": label_tone,
+                "is_next_day_signal_test": is_next_day_signal_test,
             }
             if date_labels and label["x"] - date_labels[-1]["x"] < min_label_gap:
                 if label_index == len(unique_dates) - 1 and len(date_labels) > 1:
@@ -1505,6 +1539,7 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
         "date_labels": date_labels,
         "hover_points": hover_points,
         "y_ticks": y_ticks,
+        "has_next_day_signal_test": bool(next_day_signal_test_dates),
     }
 
 

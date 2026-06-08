@@ -3016,6 +3016,45 @@ def test_market_composite_chart_date_labels_keep_latest_without_overlap() -> Non
     assert all(gap >= 88 for gap in gaps)
 
 
+def test_market_composite_chart_marks_next_day_signal_test() -> None:
+    chart = {
+        "score_range": {"min": -3, "max": 3},
+        "series": [
+            {
+                "series_id": "financial_environment",
+                "label": "금융환경",
+                "color": "#2563eb",
+                "points": [
+                    {"date": "2026-06-08", "value": -0.2},
+                    {
+                        "date": "2026-06-09",
+                        "value": -0.62,
+                        "point_role": "next_day_signal_test",
+                        "display_label": "익일 금융환경 테스트",
+                        "preview_label": "장초반 경계 흐름",
+                        "official_score_impact": False,
+                        "date_tone": "muted",
+                    },
+                ],
+            }
+        ],
+    }
+
+    view = _build_market_composite_chart_view(chart)
+    latest_point = view["series"][0]["points"][-1]
+    labels = view["date_labels"]
+    next_day_hover = view["hover_points"][-1]["tooltip"]["items"][0]
+
+    assert view["has_next_day_signal_test"] is True
+    assert latest_point["is_next_day_signal_test"] is True
+    assert labels[-1]["label"] == "06-08 -> 06-09 익일 테스트"
+    assert labels[-1]["tone"] == "muted"
+    assert labels[-1]["is_next_day_signal_test"] is True
+    assert "익일 금융환경 테스트" in next_day_hover["state"]
+    assert "검증 전 실험값" in next_day_hover["state"]
+    assert "정식 점수 미반영" in next_day_hover["state"]
+
+
 def test_market_analysis_can_read_remote_handoff_json(tmp_path: Path) -> None:
     settings = build_settings(tmp_path)
     seed_user_snapshot(settings.user_snapshot_dir)

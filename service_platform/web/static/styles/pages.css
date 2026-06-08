@@ -3159,6 +3159,14 @@ body {
   transform: translateX(-100%);
 }
 
+.market-state-composite-x-axis .market-state-composite-x-label--muted {
+  color: #64748b;
+}
+
+.market-state-composite-x-axis .market-state-composite-x-label--next-day-test {
+  font-weight: 900;
+}
+
 .market-state-composite-hover-zone {
   fill: transparent;
   cursor: crosshair;
@@ -3266,6 +3274,15 @@ body {
   border-top: 1.2px solid var(--series-color, var(--ink-soft));
   border-radius: 0;
   background: transparent;
+}
+
+.market-state-composite-legend .market-state-composite-next-day-test-item {
+  border-style: dashed;
+  color: #64748b;
+}
+
+.market-state-composite-legend .market-state-composite-next-day-test-item i {
+  background: #94a3b8;
 }
 
 .market-state-composite-legend strong,
