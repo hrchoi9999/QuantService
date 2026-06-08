@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/next-day-preview/history?market=KR",
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,15 +16,15 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "source_name": "QuantMarket",
     "schema_version": "market_next_day_preview_history.v1",
-    "as_of_date": "2026-06-08T21:00:00+09:00",
-    "generated_at": "2026-06-08T21:18:02+09:00",
+    "as_of_date": "2026-06-08T22:00:00+09:00",
+    "generated_at": "2026-06-08T22:39:24+09:00",
     "market": "KR",
     "timezone": "Asia/Seoul",
     "interval": "1h",
@@ -41,7 +41,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -19305,6 +19305,56 @@
             "asset_code": "US10Y",
             "change_pct": 0.013178467723922171,
             "direction_label": "up",
+            "status_label": "live"
+          }
+        ]
+      },
+      {
+        "asof": "2026-06-08T22:00:00+09:00",
+        "reference_session": "2026-06-09",
+        "active_now": true,
+        "preview_label": "혼조 출발 가능성",
+        "overnight_assets": [
+          {
+            "asset_code": "KOSPI200_NIGHT_FUT",
+            "change_pct": null,
+            "direction_label": "unavailable",
+            "status_label": "fallback"
+          },
+          {
+            "asset_code": "KOREA_PROXY_EWY",
+            "change_pct": 0.06269551318643685,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "SP500_FUT",
+            "change_pct": 0.007702182284980763,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "NASDAQ100_FUT",
+            "change_pct": 0.017268702737154085,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "USDKRW",
+            "change_pct": -0.020919401606322552,
+            "direction_label": "down",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "WTI",
+            "change_pct": 0.0072895957587806315,
+            "direction_label": "up",
+            "status_label": "live"
+          },
+          {
+            "asset_code": "US10Y",
+            "change_pct": -0.0022046515296748614,
+            "direction_label": "down",
             "status_label": "live"
           }
         ]

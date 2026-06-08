@@ -1,10 +1,10 @@
 {
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "title": "상태 타임라인",
   "description": "최근 시장상태와 핵심 점수 흐름을 시간순으로 정리한 공개 브리핑 데이터입니다.",
   "current_state": {
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "state_label": "약보합",
     "state_score": -0.6463,
     "trend_score": 2.4572,
@@ -15,16 +15,6 @@
   },
   "trend_direction": "unchanged",
   "points": [
-    {
-      "asof": "2026-06-03T17:00:00+09:00",
-      "state_label": "강보합",
-      "state_score": 0.3969,
-      "trend_score": 3.0,
-      "breadth_score": -1.548,
-      "risk_score": -1.8094,
-      "defensive_flow_score": 1.1543,
-      "total_score": 0.3969
-    },
     {
       "asof": "2026-06-03T18:00:00+09:00",
       "state_label": "강보합",
@@ -247,6 +237,16 @@
     },
     {
       "asof": "2026-06-08T21:00:00+09:00",
+      "state_label": "약보합",
+      "state_score": -0.6463,
+      "trend_score": 2.4572,
+      "breadth_score": -3.0,
+      "risk_score": -3.0,
+      "defensive_flow_score": -0.0422,
+      "total_score": -0.6463
+    },
+    {
+      "asof": "2026-06-08T22:00:00+09:00",
       "state_label": "약보합",
       "state_score": -0.6463,
       "trend_score": 2.4572,

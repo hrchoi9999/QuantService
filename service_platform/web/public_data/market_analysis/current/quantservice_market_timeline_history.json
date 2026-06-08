@@ -1,8 +1,8 @@
 {
   "source_name": "QuantMarket",
   "schema_version": "market_timeline_history.v1",
-  "as_of_date": "2026-06-08T21:00:00+09:00",
-  "generated_at": "2026-06-08T21:18:02+09:00",
+  "as_of_date": "2026-06-08T22:00:00+09:00",
+  "generated_at": "2026-06-08T22:39:24+09:00",
   "market": "KR",
   "timezone": "Asia/Seoul",
   "interval": "1h",
@@ -19,7 +19,7 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
@@ -9458,6 +9458,15 @@
     },
     {
       "asof": "2026-06-08T21:00:00+09:00",
+      "total_score": -0.6463,
+      "trend_score": 2.4572,
+      "breadth_score": -3.0,
+      "risk_score": -3.0,
+      "defensive_flow_score": -0.0422,
+      "state_label": "약보합"
+    },
+    {
+      "asof": "2026-06-08T22:00:00+09:00",
       "total_score": -0.6463,
       "trend_score": 2.4572,
       "breadth_score": -3.0,

@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/summary?market=KR",
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "state_label": "약보합",
     "state_score": -0.6463,
     "summary_line": "지수 방어력은 남아 있지만 모델 해석상 내부 확산은 약한 편으로 읽힙니다.",
@@ -90,7 +90,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
@@ -116,7 +116,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -9407,11 +9407,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.5914,
+                "value": -0.5288,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 금융환경 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -9421,8 +9421,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 금융환경 테스트",
-              "score": -0.5914,
-              "preview_label": "장초반 경계 흐름",
+              "score": -0.5288,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           },
@@ -18690,11 +18690,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.4975,
+                "value": -0.1504,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 종합 신호 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -18704,8 +18704,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 종합 신호 테스트",
-              "score": -0.4975,
-              "preview_label": "장초반 경계 흐름",
+              "score": -0.1504,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           },
@@ -27947,11 +27947,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.4039,
+                "value": 0.2922,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 단기상황 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -27961,8 +27961,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 단기상황 테스트",
-              "score": -0.4039,
-              "preview_label": "장초반 경계 흐름",
+              "score": 0.2922,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           }
@@ -63135,9 +63135,9 @@
             "medium_term_model_outlook",
             "short_term_market_condition"
           ],
-          "summary_score": -0.4975,
-          "environment_score": -0.5914,
-          "short_term_score": -0.4039,
+          "summary_score": -0.1504,
+          "environment_score": -0.5288,
+          "short_term_score": 0.2922,
           "official_score_impact": false
         }
       },
@@ -63650,10 +63650,10 @@
         "enabled": true,
         "label": "익일 신호 테스트",
         "reference_session": "2026-06-09",
-        "preview_label": "장초반 경계 흐름",
-        "preview_score": -0.4975,
-        "environment_score": -0.5914,
-        "short_term_score": -0.4039,
+        "preview_label": "혼조 출발 가능성",
+        "preview_score": -0.1504,
+        "environment_score": -0.5288,
+        "short_term_score": 0.2922,
         "official_score_impact": false,
         "experiment_status": "validation_required"
       }

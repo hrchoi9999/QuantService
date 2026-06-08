@@ -1,17 +1,24 @@
 {
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "title": "상태 전이 요약",
   "description": "현재 상태가 얼마나 이어지고 있는지와 최근 상태 변화 빈도를 요약한 공개 브리핑 데이터입니다.",
   "current": {
     "current_state": "약보합",
     "prev_state": "약보합",
-    "duration_hours": 51.0,
+    "duration_hours": 52.0,
     "transition_count_5d": 1,
     "transition_count_20d": 12,
     "stability_score": 0.4
   },
   "recent_changes": [
+    {
+      "asof": "2026-06-08T22:00:00+09:00",
+      "state_label": "약보합",
+      "prev_state_label": "약보합",
+      "state_change_direction": "unchanged",
+      "state_score": -0.6463
+    },
     {
       "asof": "2026-06-08T21:00:00+09:00",
       "state_label": "약보합",
@@ -70,13 +77,6 @@
     },
     {
       "asof": "2026-06-06T20:00:00+09:00",
-      "state_label": "약보합",
-      "prev_state_label": "약보합",
-      "state_change_direction": "unchanged",
-      "state_score": -0.6056
-    },
-    {
-      "asof": "2026-06-06T19:00:00+09:00",
       "state_label": "약보합",
       "prev_state_label": "약보합",
       "state_change_direction": "unchanged",

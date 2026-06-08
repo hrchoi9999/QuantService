@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/model-background?market=KR",
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "title": "모델 해석 백그라운드",
     "description": "현재 시장브리핑을 모델 기준안과 연결해서 읽기 위한 공개 배경 데이터입니다.",
     "state_label": "약보합",
@@ -33,7 +33,7 @@
     "model_background_points": [
       "지수 방어력은 남아 있지만 모델 해석상 내부 확산은 약한 편으로 읽힙니다.",
       "지수 방어력보다 내부 약화 신호가 더 두드러지는지 모델 해석 기준으로 점검이 필요한 구간입니다.",
-      "현재 상태 지속 시간은 51.0시간입니다."
+      "현재 상태 지속 시간은 52.0시간입니다."
     ],
     "favorable_signals": [
       "코스피 1개월 상승 흐름"
@@ -78,13 +78,13 @@
     "state_transition": {
       "current_state": "약보합",
       "prev_state": "약보합",
-      "duration_hours": 51.0,
+      "duration_hours": 52.0,
       "transition_count_5d": 1,
       "transition_count_20d": 12,
       "stability_score": 0.4
     },
     "latest_timeline_point": {
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "state_label": "약보합",
       "state_score": -0.6463,
       "trend_score": 2.4572,

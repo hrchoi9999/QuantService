@@ -2,7 +2,7 @@
   "api_version": "v1",
   "endpoint": "/api/v1/market-analysis/page?market=KR",
   "market": "KR",
-  "asof": "2026-06-08T21:00:00+09:00",
+  "asof": "2026-06-08T22:00:00+09:00",
   "generated_by": "QuantMarket",
   "compliance_meta": {
     "public_same_for_all_users": true,
@@ -16,13 +16,13 @@
     "intended_use": "market_briefing_reference",
     "model_version": "market_analysis_p1",
     "calculation_version": "market_analysis_p1_20260324",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "refresh_cycle": "hourly",
     "rebalance_frequency": "not_applicable"
   },
   "data": {
     "market": "KR",
-    "asof": "2026-06-08T21:00:00+09:00",
+    "asof": "2026-06-08T22:00:00+09:00",
     "page_meta": {
       "service_definition": "다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보 서비스",
       "page_title": "시장 브리핑",
@@ -93,7 +93,7 @@
         "avoid_three_separate_bar_charts": true
       },
       "market": "KR",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "composite_chart": {
         "graph_type": "multi_line",
         "title": "시장 흐름 3축 추이",
@@ -9384,11 +9384,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.5914,
+                "value": -0.5288,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 금융환경 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -9398,8 +9398,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 금융환경 테스트",
-              "score": -0.5914,
-              "preview_label": "장초반 경계 흐름",
+              "score": -0.5288,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           },
@@ -18667,11 +18667,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.4975,
+                "value": -0.1504,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 종합 신호 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -18681,8 +18681,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 종합 신호 테스트",
-              "score": -0.4975,
-              "preview_label": "장초반 경계 흐름",
+              "score": -0.1504,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           },
@@ -27924,11 +27924,11 @@
               },
               {
                 "date": "2026-06-09",
-                "value": -0.4039,
+                "value": 0.2922,
                 "label": "익일",
                 "point_role": "next_day_signal_test",
                 "display_label": "익일 단기상황 테스트",
-                "preview_label": "장초반 경계 흐름",
+                "preview_label": "혼조 출발 가능성",
                 "official_score_impact": false,
                 "experiment_status": "validation_required",
                 "date_tone": "muted"
@@ -27938,8 +27938,8 @@
               "enabled": true,
               "reference_session": "2026-06-09",
               "label": "익일 단기상황 테스트",
-              "score": -0.4039,
-              "preview_label": "장초반 경계 흐름",
+              "score": 0.2922,
+              "preview_label": "혼조 출발 가능성",
               "official_score_impact": false
             }
           }
@@ -63112,9 +63112,9 @@
             "medium_term_model_outlook",
             "short_term_market_condition"
           ],
-          "summary_score": -0.4975,
-          "environment_score": -0.5914,
-          "short_term_score": -0.4039,
+          "summary_score": -0.1504,
+          "environment_score": -0.5288,
+          "short_term_score": 0.2922,
           "official_score_impact": false
         }
       },
@@ -63627,10 +63627,10 @@
         "enabled": true,
         "label": "익일 신호 테스트",
         "reference_session": "2026-06-09",
-        "preview_label": "장초반 경계 흐름",
-        "preview_score": -0.4975,
-        "environment_score": -0.5914,
-        "short_term_score": -0.4039,
+        "preview_label": "혼조 출발 가능성",
+        "preview_score": -0.1504,
+        "environment_score": -0.5288,
+        "short_term_score": 0.2922,
         "official_score_impact": false,
         "experiment_status": "validation_required"
       }
@@ -63638,7 +63638,7 @@
     "ai_briefs": {
       "enabled": true,
       "market": "KR",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "layout": "single_market_mood_block",
       "title": "시장 분위기 참고",
       "compliance_meta": {
@@ -63653,21 +63653,21 @@
           "label": "제미나이",
           "theme_label": "시장 분위기",
           "viewpoint": {
-            "key": "breadth_vol",
-            "label": "종목 확산과 변동성 체감"
+            "key": "futures_flow",
+            "label": "선물과 수급의 방향성"
           },
           "enabled": true,
-          "generated_at": "2026-06-08T21:18:02+09:00",
+          "generated_at": "2026-06-08T22:39:24+09:00",
           "source": "gemini:gemini-2.5-flash",
           "summary_lines": [
-            "긍정: 코스피 1개월 상승 흐름이 지속되어 중기적인 시장의 지지력이 유지되고 있습니다.",
+            "긍정: 코스피 1개월 상승 흐름이 지속되어 시장의 중기적인 지지력이 아직은 유지됩니다.",
             "긍정: 프로그램 순매수가 6,776억 원으로 대규모 유입되어 지수 방어에 긍정적으로 기여합니다.",
-            "긍정: 원달러 환율이 비교적 안정된 흐름을 보이며 대외 리스크 확대 우려가 제한적입니다.",
-            "긍정: 퀀트모델 시장 흐름과 장중 약세 흐름이 동일한 방향이나, 추가 급락을 유발하는 신호는 관찰되지 않습니다.",
-            "리스크: 코스피와 코스닥이 장중 강한 약세 흐름을 보여 시장 전반의 하방 압력이 커지고 있습니다.",
-            "리스크: 외국인 순매도가 2,644억 원으로 주요 투자 주체의 매도 우위가 뚜렷하게 나타납니다.",
-            "리스크: 20일선 및 60일선 위 종목 비율이 모두 낮아 상승 모멘텀이 시장 전반으로 확산되지 못합니다.",
-            "리스크: 코스피200 선물이 -0.0924% 하락하여 지수보다 더 약하게 움직이며 하방 압력을 가중합니다."
+            "긍정: 원달러 환율이 비교적 안정된 흐름을 보여 대외 리스크 확대 우려가 제한적입니다.",
+            "긍정: 퀀트모델 시장 흐름과 장중 약세 흐름이 일치하지만, 급락을 유발하는 신호는 아직 없습니다.",
+            "리스크: 코스피와 코스닥이 장중 강한 약세를 보이며 시장 전반의 하방 압력이 커지는 중입니다.",
+            "리스크: 외국인 순매도가 2,644억 원으로 주요 투자 주체의 매도 우위가 뚜렷하게 관찰됩니다.",
+            "리스크: 20일선 및 60일선 위 종목 비율이 낮아 상승 모멘텀이 시장 전반으로 확산되지 못합니다.",
+            "리스크: 코스피200 선물이 -0.0924% 하락하여 지수보다 약세로 움직이며 하방 압력을 가중합니다."
           ]
         }
       ]
@@ -64053,7 +64053,7 @@
       "intended_use": "market_briefing_reference",
       "model_version": "market_analysis_p1",
       "calculation_version": "market_analysis_p1_20260324",
-      "asof": "2026-06-08T21:00:00+09:00",
+      "asof": "2026-06-08T22:00:00+09:00",
       "refresh_cycle": "hourly",
       "rebalance_frequency": "not_applicable"
     },
