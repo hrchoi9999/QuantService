@@ -124,6 +124,13 @@ QUANT_INTERNAL_VALIDATION_HISTORY_PATH = Path(
 )
 
 
+def _allow_local_fallback(settings: Settings) -> bool:
+    raw_value = os.getenv("INTERNAL_MODELS_ALLOW_LOCAL_FALLBACK")
+    if raw_value is not None:
+        return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+    return settings.app_env != "production"
+
+
 def _safe_float(value: Any) -> float | None:
     if isinstance(value, bool):
         return None
@@ -193,6 +200,7 @@ class InternalModelsBundle:
 class InternalModelsApi:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
+        self._allow_local_fallback = _allow_local_fallback(settings)
         configured_path = os.getenv("ADMIN_NEW_ENTRY_TRACKER_PATH", "").strip()
         self._explicit_path = Path(configured_path or str(DEFAULT_ADMIN_TRACKER_PATH))
         configured_url = os.getenv("ADMIN_NEW_ENTRY_TRACKER_URL", "").strip()
@@ -356,6 +364,8 @@ class InternalModelsApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote tracker load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (
             self._explicit_path,
             DEFAULT_ADMIN_TRACKER_PATH,
@@ -382,6 +392,8 @@ class InternalModelsApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote ai overlay shadow load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (
             self._explicit_overlay_path,
             DEFAULT_AI_OVERLAY_SHADOW_PATH,
@@ -408,6 +420,8 @@ class InternalModelsApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote e-series etf load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (
             self._explicit_e_series_path,
             DEFAULT_E_SERIES_ETF_PATH,
@@ -438,6 +452,8 @@ class InternalModelsApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote internal validation current load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (
             self._explicit_validation_current_path,
             DEFAULT_INTERNAL_VALIDATION_CURRENT_PATH,
@@ -468,6 +484,8 @@ class InternalModelsApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote internal validation history load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (
             self._explicit_validation_history_path,
             DEFAULT_INTERNAL_VALIDATION_HISTORY_PATH,

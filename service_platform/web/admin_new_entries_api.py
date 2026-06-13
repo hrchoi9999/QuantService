@@ -83,6 +83,13 @@ DEFAULT_TSERIES_DISCOVERY_PATH = (
 )
 
 
+def _allow_local_fallback(settings: Settings) -> bool:
+    raw_value = os.getenv("ADMIN_NEW_ENTRIES_ALLOW_LOCAL_FALLBACK")
+    if raw_value is not None:
+        return raw_value.strip().lower() in {"1", "true", "yes", "on"}
+    return settings.app_env != "production"
+
+
 def _safe_parse_date(value: Any) -> date | None:
     text = str(value or "").strip()
     if not text:
@@ -154,6 +161,7 @@ class AdminNewEntriesResult:
 class AdminNewEntriesApi:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
+        self._allow_local_fallback = _allow_local_fallback(settings)
         self._explicit_path = Path(
             os.getenv("ADMIN_NEW_ENTRY_TRACKER_PATH", "").strip() or str(DEFAULT_TRACKER_PATH)
         )
@@ -360,6 +368,8 @@ class AdminNewEntriesApi:
                     return json.loads(response.read().decode("utf-8-sig")), errors
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"remote tracker load failed: {exc}")
+                if not self._allow_local_fallback:
+                    return {}, errors
         for candidate in (self._explicit_path, DEFAULT_TRACKER_PATH, QUANT_TRACKER_PATH):
             if not candidate.exists():
                 continue

@@ -10,6 +10,8 @@ import pytest
 from service_platform.billing.lightpay import BILLING_PLAN_PRICES
 from service_platform.shared.config import Settings
 from service_platform.web.app import _build_market_composite_chart_view, create_app
+from service_platform.web.admin_new_entries_api import AdminNewEntriesApi
+from service_platform.web.internal_models_api import InternalModelsApi
 from service_platform.web.investment_portfolio_api import (
     InvestmentPortfolioApi,
     InvestmentPortfolioLoadError,
@@ -6863,6 +6865,25 @@ def test_admin_internal_models_api_returns_models(tmp_path: Path, monkeypatch) -
     ]
 
 
+def test_admin_internal_models_production_blocks_stale_local_tracker_fallback(
+    tmp_path: Path, monkeypatch
+) -> None:
+    tracker_path = tmp_path / "admin_new_entry_tracker.json"
+    seed_admin_new_entry_tracker_payload(tracker_path)
+    monkeypatch.setenv("ADMIN_NEW_ENTRY_TRACKER_PATH", str(tracker_path))
+    settings = replace(
+        build_settings(tmp_path, trial_mode=False),
+        app_env="production",
+        snapshot_gcs_base_url=(tmp_path / "missing-remote").as_uri(),
+    )
+
+    bundle = InternalModelsApi(settings).load_bundle()
+
+    assert bundle.models == []
+    assert bundle.errors
+    assert "remote tracker load failed" in bundle.errors[0]
+
+
 def test_admin_internal_models_uses_tseries_discovery_performance_basis(
     tmp_path: Path, monkeypatch
 ) -> None:
@@ -7046,6 +7067,30 @@ def test_admin_new_entries_api_prefers_tracker_over_tseries_rolling(
     assert payload["source_name"] == "handoff:admin_new_entry_tracker"
     assert payload["rows"]
     assert payload["rows"][0]["ticker"] == "999999"
+
+
+def test_admin_new_entries_production_blocks_stale_local_tracker_fallback(
+    tmp_path: Path, monkeypatch
+) -> None:
+    tracker_path = tmp_path / "admin_new_entry_tracker.json"
+    seed_admin_new_entry_tracker_payload(tracker_path)
+    monkeypatch.setenv("ADMIN_NEW_ENTRY_TRACKER_PATH", str(tracker_path))
+    settings = replace(
+        build_settings(tmp_path, trial_mode=False),
+        app_env="production",
+        snapshot_gcs_base_url=(tmp_path / "missing-remote").as_uri(),
+    )
+
+    result = AdminNewEntriesApi(settings).get_payload(
+        scope="internal",
+        event_type="new_entry",
+        period="all",
+        model="S2",
+    )
+
+    assert result.rows == []
+    assert result.errors
+    assert "remote tracker load failed" in result.errors[0]
 
 
 def test_ops_viewer_email_receives_ops_and_admin_access_on_login(tmp_path: Path) -> None:
