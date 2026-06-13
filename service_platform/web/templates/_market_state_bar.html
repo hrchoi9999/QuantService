@@ -53,6 +53,9 @@
             <polyline points="{{ series.polyline }}" fill="none" stroke="{{ series.color }}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
             <circle cx="{{ series.latest.x }}" cy="{{ series.latest.y }}" r="5.5" fill="{{ series.color }}"></circle>
             <text x="{{ series.latest.x - 8 }}" y="{{ series.latest.y - 10 }}" fill="{{ series.color }}" text-anchor="end">{{ series.latest.display_text }}</text>
+            {% for preview in series.preview_points %}
+            <circle cx="{{ preview.x }}" cy="{{ preview.y }}" r="5.5" fill="{{ series.color }}"></circle>
+            {% endfor %}
             {% endfor %}
             {% for item in composite.chart.hover_points %}
             <rect x="{{ item.x - (item.width / 2) }}" y="0" width="{{ item.width }}" height="{{ composite.chart.height }}" class="market-state-composite-hover-zone" data-tooltip='{{ item.tooltip | tojson }}'></rect>

@@ -1232,12 +1232,40 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
     raw_reference_rows: list[dict[str, Any]] = []
     all_dates: list[str] = []
     next_day_signal_test_dates: set[str] = set()
+    chart_preview_points_by_series: dict[str, list[dict[str, Any]]] = {}
+    for raw_preview_point in chart.get("preview_points") or []:
+        if not isinstance(raw_preview_point, dict):
+            continue
+        series_id = str(raw_preview_point.get("series_id") or "").strip()
+        if not series_id:
+            continue
+        chart_preview_points_by_series.setdefault(series_id, []).append(raw_preview_point)
     for raw_series in chart.get("series") or []:
         if not isinstance(raw_series, dict):
             continue
+        series_id = str(raw_series.get("series_id") or "").strip()
         raw_points = [p for p in (raw_series.get("points") or []) if isinstance(p, dict)]
         if not raw_points:
             continue
+        preview_points = [
+            p for p in (raw_series.get("preview_points") or []) if isinstance(p, dict)
+        ]
+        preview_point_keys = {
+            (
+                str(p.get("date") or "").strip(),
+                str(p.get("point_role") or "").strip(),
+            )
+            for p in preview_points
+        }
+        for chart_preview_point in chart_preview_points_by_series.get(series_id, []):
+            key = (
+                str(chart_preview_point.get("date") or "").strip(),
+                str(chart_preview_point.get("point_role") or "").strip(),
+            )
+            if key in preview_point_keys:
+                continue
+            preview_points.append(chart_preview_point)
+            preview_point_keys.add(key)
         point_by_date = {}
         for raw_point in raw_points:
             date_text = str(raw_point.get("date") or "").strip()
@@ -1247,9 +1275,15 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                 next_day_signal_test_dates.add(date_text)
             point_by_date[date_text] = raw_point
             all_dates.append(date_text)
+        for raw_preview_point in preview_points:
+            date_text = str(raw_preview_point.get("date") or "").strip()
+            if not date_text:
+                continue
+            if str(raw_preview_point.get("point_role") or "").strip() == "next_day_signal_test":
+                next_day_signal_test_dates.add(date_text)
         raw_series_rows.append(
             {
-                "series_id": str(raw_series.get("series_id") or "").strip(),
+                "series_id": series_id,
                 "label": str(raw_series.get("label") or "시장 지표").strip(),
                 "color": str(raw_series.get("color") or "#64748b").strip(),
                 "description": str(raw_series.get("description") or "").strip(),
@@ -1259,6 +1293,7 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                     else {}
                 ),
                 "point_by_date": point_by_date,
+                "preview_points": preview_points,
             }
         )
     for raw_reference in chart.get("reference_indices") or []:
@@ -1348,6 +1383,8 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
         date_text: {"date": date_text, "label": _format_chart_date_label(date_text), "items": []}
         for date_text in unique_dates
     }
+    preview_x = round(width + (chart_right_padding / 2), 1)
+    preview_tooltip_by_date: dict[str, dict[str, Any]] = {}
     for raw_series in raw_series_rows:
         points = []
         for date_text in unique_dates:
@@ -1385,6 +1422,46 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             )
         if not points:
             continue
+        preview_points = []
+        for raw_preview_point in raw_series["preview_points"]:
+            date_text = str(raw_preview_point.get("date") or "").strip()
+            if not date_text:
+                continue
+            score_value = raw_preview_point.get("value")
+            point_role = str(raw_preview_point.get("point_role") or "").strip()
+            is_next_day_signal_test = point_role == "next_day_signal_test"
+            preview_points.append(
+                {
+                    "x": preview_x,
+                    "y": _composite_chart_y(
+                        score_value,
+                        chart_height=height,
+                        score_min=score_min,
+                        score_max=score_max,
+                    ),
+                    "date": date_text,
+                    "value": _format_market_metric(score_value),
+                    "point_role": point_role,
+                    "is_next_day_signal_test": is_next_day_signal_test,
+                }
+            )
+            state_label = _market_score_state_label(score_value)
+            preview_tooltip = preview_tooltip_by_date.setdefault(
+                date_text,
+                {
+                    "date": date_text,
+                    "label": _format_chart_date_label(date_text),
+                    "items": [],
+                },
+            )
+            preview_tooltip["items"].append(
+                {
+                    "label": raw_series["label"],
+                    "color": raw_series["color"],
+                    "value": _format_market_metric(score_value),
+                    "state": state_label,
+                }
+            )
         latest = raw_series["latest_visual"]
         latest_point = points[-1]
         latest_position = _market_gauge_percent(latest.get("position_pct"))
@@ -1395,6 +1472,7 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
                 "color": raw_series["color"],
                 "description": raw_series["description"],
                 "points": points,
+                "preview_points": preview_points,
                 "polyline": " ".join(f"{p['x']},{p['y']}" for p in points),
                 "latest": {
                     "x": latest_point["x"],
@@ -1515,6 +1593,17 @@ def _build_market_composite_chart_view(chart: dict[str, Any]) -> dict[str, Any]:
             {
                 "x": date_to_x[date_text],
                 "width": max(6, round(width / max(len(unique_dates), 1), 1)),
+                "height": height,
+                "tooltip": tooltip,
+            }
+        )
+    for tooltip in preview_tooltip_by_date.values():
+        if not tooltip.get("items"):
+            continue
+        hover_points.append(
+            {
+                "x": preview_x,
+                "width": max(24, round(chart_right_padding * 0.55, 1)),
                 "height": height,
                 "tooltip": tooltip,
             }

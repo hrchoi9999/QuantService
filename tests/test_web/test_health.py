@@ -3046,7 +3046,7 @@ def test_market_composite_chart_keeps_every_january_year_label() -> None:
     assert year_labels == ["2021", "2022", "2023", "2024", "2025"]
 
 
-def test_market_composite_chart_marks_next_day_signal_test() -> None:
+def test_market_composite_chart_overlays_next_day_preview_without_axis_shift() -> None:
     chart = {
         "score_range": {"min": -3, "max": 3},
         "series": [
@@ -3056,6 +3056,8 @@ def test_market_composite_chart_marks_next_day_signal_test() -> None:
                 "color": "#2563eb",
                 "points": [
                     {"date": "2026-06-08", "value": -0.2},
+                ],
+                "preview_points": [
                     {
                         "date": "2026-06-09",
                         "value": -0.62,
@@ -3068,19 +3070,35 @@ def test_market_composite_chart_marks_next_day_signal_test() -> None:
                 ],
             }
         ],
+        "preview_points": [
+            {
+                "series_id": "financial_environment",
+                "date": "2026-06-09",
+                "value": -0.62,
+                "point_role": "next_day_signal_test",
+            }
+        ],
     }
 
     view = _build_market_composite_chart_view(chart)
-    latest_point = view["series"][0]["points"][-1]
+    series = view["series"][0]
+    latest_point = series["points"][-1]
+    preview_point = series["preview_points"][0]
     labels = view["date_labels"]
     next_day_hover = view["hover_points"][-1]["tooltip"]["items"][0]
 
     assert view["has_next_day_signal_test"] is True
-    assert latest_point["is_next_day_signal_test"] is True
-    assert labels[-1]["label"] == "06-09"
-    assert labels[-1]["sublabel"] == "익일 테스트"
-    assert labels[-1]["tone"] == "muted"
-    assert labels[-1]["is_next_day_signal_test"] is True
+    assert latest_point["date"] == "2026-06-08"
+    assert latest_point["is_next_day_signal_test"] is False
+    assert preview_point["date"] == "2026-06-09"
+    assert preview_point["is_next_day_signal_test"] is True
+    assert preview_point["x"] > view["content_width"]
+    assert len(series["preview_points"]) == 1
+    assert labels[-1]["label"] == "06-08"
+    assert all(label["label"] != "06-09" for label in labels)
+    assert labels[-1]["sublabel"] == ""
+    assert labels[-1]["tone"] == ""
+    assert labels[-1]["is_next_day_signal_test"] is False
     assert next_day_hover["state"] == "다소 나쁨"
 
 
