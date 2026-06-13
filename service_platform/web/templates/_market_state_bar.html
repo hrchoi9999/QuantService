@@ -61,6 +61,7 @@
             <rect x="{{ item.x - (item.width / 2) }}" y="0" width="{{ item.width }}" height="{{ composite.chart.height }}" class="market-state-composite-hover-zone" data-tooltip='{{ item.tooltip | tojson }}'></rect>
             <line x1="{{ item.x }}" x2="{{ item.x }}" y1="0" y2="{{ item.height }}" class="market-state-composite-hover-line"></line>
             {% endfor %}
+            <line x1="0" x2="{{ composite.chart.scroll_width }}" y1="0" y2="0" class="market-state-composite-hover-x-line" data-market-composite-hover-x-line></line>
           </svg>
           <div class="market-state-composite-x-axis" style="width: {{ composite.chart.scroll_width }}px;">
             {% for item in composite.chart.date_labels %}
@@ -100,13 +101,27 @@
     (() => {
       document.querySelectorAll("[data-market-composite-scroll]").forEach((scroller) => {
         const tooltip = scroller.querySelector(".market-state-composite-tooltip");
+        const chart = scroller.querySelector(".market-state-composite-chart");
+        const xGuide = scroller.querySelector("[data-market-composite-hover-x-line]");
         if (!tooltip) return;
         scroller.scrollLeft = scroller.scrollWidth;
         scroller.addEventListener("mousemove", (event) => {
           const target = event.target.closest("[data-tooltip]");
           if (!target || !scroller.contains(target)) {
             tooltip.hidden = true;
+            if (xGuide) xGuide.classList.remove("is-visible");
             return;
+          }
+          if (chart && xGuide) {
+            const chartBounds = chart.getBoundingClientRect();
+            const viewBoxHeight = chart.viewBox.baseVal.height || chartBounds.height;
+            const pointerY = Math.max(0, Math.min(
+              viewBoxHeight,
+              ((event.clientY - chartBounds.top) / Math.max(chartBounds.height, 1)) * viewBoxHeight
+            ));
+            xGuide.setAttribute("y1", pointerY.toFixed(1));
+            xGuide.setAttribute("y2", pointerY.toFixed(1));
+            xGuide.classList.add("is-visible");
           }
           const data = JSON.parse(target.dataset.tooltip || "{}");
           tooltip.innerHTML = [
@@ -129,6 +144,7 @@
         });
         scroller.addEventListener("mouseleave", () => {
           tooltip.hidden = true;
+          if (xGuide) xGuide.classList.remove("is-visible");
         });
       });
     })();

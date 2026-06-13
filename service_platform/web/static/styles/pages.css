@@ -3190,8 +3190,19 @@ body {
   pointer-events: none;
 }
 
+.market-state-composite-hover-x-line {
+  opacity: 0;
+  stroke: #2563eb;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
 .market-state-composite-hover-zone:hover + .market-state-composite-hover-line,
 .market-state-composite-hover-zone:focus + .market-state-composite-hover-line {
+  opacity: 0.78;
+}
+
+.market-state-composite-hover-x-line.is-visible {
   opacity: 0.78;
 }
 
