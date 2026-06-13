@@ -3191,9 +3191,12 @@ body {
 }
 
 .market-state-composite-hover-x-line {
-  opacity: 0;
-  stroke: #2563eb;
-  stroke-width: 1;
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  height: 1px;
+  background: #2563eb;
+  opacity: 0.78;
   pointer-events: none;
 }
 
@@ -3202,8 +3205,8 @@ body {
   opacity: 0.78;
 }
 
-.market-state-composite-hover-x-line.is-visible {
-  opacity: 0.78;
+.market-state-composite-hover-x-line[hidden] {
+  display: none;
 }
 
 .market-state-composite-tooltip {
