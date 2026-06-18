@@ -3,13 +3,30 @@
  */
 
 body[data-ui-redesign="1"] {
-  --rb-bg: #f6f8fc;
+  --rb-bg: #f7f9fb;
   --rb-surface: #ffffff;
-  --rb-surface-2: #f3f6fb;
-  --rb-border: #d8e0ec;
-  --rb-text: #1f2a3a;
-  --rb-muted: #5b6578;
-  --rb-brand-accent: #e84b4b; /* keep redbot red family as accent */
+  --rb-surface-2: #f2f4f6;
+  --rb-surface-glass: rgba(255, 255, 255, 0.82);
+  --rb-border: #e2e8f0;
+  --rb-border-soft: #e5e7eb;
+  --rb-text: #111827;
+  --rb-muted: #4b5563;
+  --rb-muted-2: #9ca3af;
+  --rb-brand-accent: #bc0100;
+  --rb-brand-strong: #8f0100;
+  --rb-positive: #10b981;
+  --rb-negative: #ef4444;
+  --rb-warning: #f59e0b;
+  --rb-preview: #8b5cf6;
+  --rb-chart-blue: #3b82f6;
+  --rb-chart-green: #10b981;
+  --rb-radius-sm: 4px;
+  --rb-radius: 8px;
+  --rb-radius-lg: 12px;
+  --rb-shadow-sm: 0 4px 20px rgba(15, 23, 42, 0.05);
+  --rb-shadow-md: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --rb-font-body: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --rb-font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 body[data-ui-redesign="1"][data-theme="dark"] {
@@ -23,8 +40,11 @@ body[data-ui-redesign="1"][data-theme="dark"] {
 }
 
 body[data-ui-redesign="1"] {
-  background: var(--rb-bg);
+  background:
+    radial-gradient(circle at top left, rgba(188, 1, 0, 0.07), transparent 24%),
+    linear-gradient(180deg, #f7f9fb 0%, #eef2f7 100%);
   color: var(--rb-text);
+  font-family: var(--rb-font-body);
 }
 
 body[data-ui-redesign="1"] .page-shell {
@@ -50,9 +70,52 @@ body[data-ui-redesign="1"] .ui-redesign-preview-ribbon strong {
 }
 
 body[data-ui-redesign="1"] .site-header {
-  border-radius: 8px;
+  position: sticky;
+  top: 10px;
+  z-index: 20;
+  border-radius: var(--rb-radius-lg);
   border: 1px solid var(--rb-border);
-  background: color-mix(in srgb, var(--rb-surface) 94%, #f7fbff) !important;
+  background: var(--rb-surface-glass) !important;
+  box-shadow: var(--rb-shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+body[data-ui-redesign="1"] .brand-logo {
+  width: 82px;
+  height: 82px;
+}
+
+body[data-ui-redesign="1"] .brand-copy {
+  max-width: 250px;
+  color: var(--rb-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+body[data-ui-redesign="1"] .site-nav {
+  gap: 8px;
+}
+
+body[data-ui-redesign="1"] .site-nav a,
+body[data-ui-redesign="1"] .theme-toggle-button {
+  min-height: 36px;
+  padding: 9px 11px;
+  border: 1px solid transparent;
+  border-radius: var(--rb-radius);
+  color: var(--rb-muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+}
+
+body[data-ui-redesign="1"] .site-nav a:hover,
+body[data-ui-redesign="1"] .site-nav a:focus-visible,
+body[data-ui-redesign="1"] .theme-toggle-button:hover,
+body[data-ui-redesign="1"] .theme-toggle-button:focus-visible {
+  border-color: rgba(188, 1, 0, 0.16);
+  background: rgba(188, 1, 0, 0.06);
+  color: var(--rb-brand-accent);
 }
 
 body[data-ui-redesign="1"] .redesign-preview-board {
@@ -2711,6 +2774,273 @@ body[data-ui-redesign="1"] .rb-metric {
 
 body[data-ui-redesign="1"] .rb-metric strong {
   font-size: 24px;
+}
+
+/* Stitch RedBot Quant Terminal application pass, 2026-06-18. */
+body[data-ui-redesign="1"] .content-shell.public-content-shell {
+  width: min(100%, 1240px);
+  padding-inline: 20px;
+}
+
+body[data-ui-redesign="1"] .rb-dashboard {
+  max-width: 1200px;
+  gap: 20px;
+}
+
+body[data-ui-redesign="1"] .rb-dashboard__hero--compact,
+body[data-ui-redesign="1"] .rb-page-head,
+body[data-ui-redesign="1"] .hero-panel,
+body[data-ui-redesign="1"] .hero-card {
+  border: 1px solid var(--rb-border);
+  border-radius: var(--rb-radius-lg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(242, 244, 246, 0.84));
+  box-shadow: var(--rb-shadow-sm);
+}
+
+body[data-ui-redesign="1"] .rb-dashboard__hero--compact {
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+  padding: 24px;
+}
+
+body[data-ui-redesign="1"] .rb-kicker,
+body[data-ui-redesign="1"] .eyebrow,
+body[data-ui-redesign="1"] .label,
+body[data-ui-redesign="1"] .rb-section-head p,
+body[data-ui-redesign="1"] .rb-page-head p {
+  letter-spacing: 0;
+}
+
+body[data-ui-redesign="1"] .rb-kicker,
+body[data-ui-redesign="1"] .eyebrow,
+body[data-ui-redesign="1"] .rb-situation-card span,
+body[data-ui-redesign="1"] .rb-model-card dt,
+body[data-ui-redesign="1"] .rb-index-table span {
+  color: var(--rb-muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body[data-ui-redesign="1"] .rb-dashboard h1,
+body[data-ui-redesign="1"] .hero-panel h1,
+body[data-ui-redesign="1"] .hero-card h1 {
+  color: var(--rb-text);
+  font-size: clamp(30px, 3vw, 42px) !important;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+body[data-ui-redesign="1"] .rb-dashboard__hero--compact p,
+body[data-ui-redesign="1"] .rb-page-head p,
+body[data-ui-redesign="1"] .hero-panel .lead,
+body[data-ui-redesign="1"] .hero-card .lead {
+  color: var(--rb-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+body[data-ui-redesign="1"] .rb-card,
+body[data-ui-redesign="1"] .rb-panel,
+body[data-ui-redesign="1"] .rb-panel-flat,
+body[data-ui-redesign="1"] .rb-situation-card,
+body[data-ui-redesign="1"] .rb-model-card,
+body[data-ui-redesign="1"] .rb-metric,
+body[data-ui-redesign="1"] .panel,
+body[data-ui-redesign="1"] .content-card,
+body[data-ui-redesign="1"] .feature-card,
+body[data-ui-redesign="1"] .metric-card,
+body[data-ui-redesign="1"] .sub-panel,
+body[data-ui-redesign="1"] .info-card {
+  border: 1px solid var(--rb-border);
+  border-radius: var(--rb-radius-lg);
+  background: var(--rb-surface);
+  box-shadow: var(--rb-shadow-sm);
+}
+
+body[data-ui-redesign="1"] .rb-card:hover,
+body[data-ui-redesign="1"] .rb-model-card:hover,
+body[data-ui-redesign="1"] .feature-card:hover,
+body[data-ui-redesign="1"] .content-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--rb-shadow-md);
+}
+
+body[data-ui-redesign="1"] .rb-situation-card--primary,
+body[data-ui-redesign="1"] .portfolio-risk-card,
+body[data-ui-redesign="1"] .market-state-composite .market-state-composite-latest-row span:first-child {
+  border-color: rgba(188, 1, 0, 0.32);
+  background: linear-gradient(135deg, var(--rb-brand-accent), var(--rb-brand-strong));
+  color: #fff;
+}
+
+body[data-ui-redesign="1"] .rb-situation-card--primary span,
+body[data-ui-redesign="1"] .rb-situation-card--primary small,
+body[data-ui-redesign="1"] .portfolio-risk-card .label,
+body[data-ui-redesign="1"] .portfolio-risk-card p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+body[data-ui-redesign="1"] .rb-situation-card strong,
+body[data-ui-redesign="1"] .rb-model-card dd,
+body[data-ui-redesign="1"] .rb-metric strong,
+body[data-ui-redesign="1"] .rb-index-table strong,
+body[data-ui-redesign="1"] .portfolio-risk-card strong,
+body[data-ui-redesign="1"] .portfolio-step-conclusion span,
+body[data-ui-redesign="1"] table td:nth-child(n + 3) {
+  font-family: var(--rb-font-mono);
+}
+
+body[data-ui-redesign="1"] .rb-model-card__top span,
+body[data-ui-redesign="1"] .badge,
+body[data-ui-redesign="1"] .status-chip,
+body[data-ui-redesign="1"] .segment-pill {
+  border-radius: 999px;
+}
+
+body[data-ui-redesign="1"] .rb-action-row a:first-child,
+body[data-ui-redesign="1"] .primary-button,
+body[data-ui-redesign="1"] button[type="submit"] {
+  border-color: var(--rb-brand-accent);
+  background: var(--rb-brand-accent);
+  color: #fff;
+}
+
+body[data-ui-redesign="1"] .rb-action-row a,
+body[data-ui-redesign="1"] .secondary-button,
+body[data-ui-redesign="1"] .rb-section-head a {
+  border-radius: var(--rb-radius);
+  font-weight: 900;
+}
+
+body[data-ui-redesign="1"] .market-state-composite-chart-card,
+body[data-ui-redesign="1"] .market-state-composite-side,
+body[data-ui-redesign="1"] .market-state-composite-consideration {
+  border-color: var(--rb-border);
+  border-radius: var(--rb-radius-lg);
+  background: #fff;
+}
+
+body[data-ui-redesign="1"] .market-state-composite-chart-scroll {
+  border-radius: var(--rb-radius);
+  background: #fff;
+}
+
+body[data-ui-redesign="1"] .market-state-composite-tooltip {
+  border-color: rgba(15, 23, 42, 0.14);
+  border-radius: var(--rb-radius);
+  box-shadow: var(--rb-shadow-md);
+  backdrop-filter: blur(8px);
+}
+
+body[data-ui-redesign="1"] .rb-table-wrap,
+body[data-ui-redesign="1"] .table-wrap,
+body[data-ui-redesign="1"] .portfolio-table-wrap {
+  border: 1px solid var(--rb-border);
+  border-radius: var(--rb-radius-lg);
+  background: #fff;
+}
+
+body[data-ui-redesign="1"] table th {
+  background: var(--rb-surface-2);
+  color: var(--rb-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+body[data-ui-redesign="1"] table td {
+  color: var(--rb-text);
+  font-size: 13px;
+}
+
+body[data-ui-redesign="1"] .portfolio-step-grid,
+body[data-ui-redesign="1"] .portfolio-step-detail-grid,
+body[data-ui-redesign="1"] .investment-portfolio-grid,
+body[data-ui-redesign="1"] .portfolio-step1-axis-grid {
+  gap: 12px;
+}
+
+body[data-ui-redesign="1"] .portfolio-step-card,
+body[data-ui-redesign="1"] .portfolio-step-detail-card,
+body[data-ui-redesign="1"] .portfolio-step1-axis-card,
+body[data-ui-redesign="1"] .portfolio-scenario-card,
+body[data-ui-redesign="1"] .portfolio-final-strategy {
+  border-color: var(--rb-border);
+  border-radius: var(--rb-radius-lg);
+  background: #fff;
+}
+
+@media (max-width: 768px) {
+  body[data-ui-redesign="1"] .content-shell.public-content-shell {
+    padding-inline: 14px;
+  }
+
+  body[data-ui-redesign="1"] .site-header.public-header {
+    top: 0;
+    border-radius: 0 0 var(--rb-radius-lg) var(--rb-radius-lg);
+  }
+
+  body[data-ui-redesign="1"] .brand-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  body[data-ui-redesign="1"] .site-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  body[data-ui-redesign="1"] .site-nav a,
+  body[data-ui-redesign="1"] .theme-toggle-button {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  body[data-ui-redesign="1"] .rb-dashboard__hero--compact,
+  body[data-ui-redesign="1"] .rb-page-head,
+  body[data-ui-redesign="1"] .hero-panel,
+  body[data-ui-redesign="1"] .hero-card {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  body[data-ui-redesign="1"] .rb-dashboard h1,
+  body[data-ui-redesign="1"] .hero-panel h1,
+  body[data-ui-redesign="1"] .hero-card h1 {
+    font-size: 28px !important;
+  }
+
+  body[data-ui-redesign="1"] .rb-situation-grid,
+  body[data-ui-redesign="1"] .rb-model-card-grid,
+  body[data-ui-redesign="1"] .rb-metric-group-grid,
+  body[data-ui-redesign="1"] .rb-chart-grid,
+  body[data-ui-redesign="1"] .portfolio-step-grid,
+  body[data-ui-redesign="1"] .portfolio-step-detail-grid,
+  body[data-ui-redesign="1"] .investment-portfolio-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 420px) {
+  body[data-ui-redesign="1"] .brand-copy {
+    display: none;
+  }
+
+  body[data-ui-redesign="1"] .rb-panel,
+  body[data-ui-redesign="1"] .panel,
+  body[data-ui-redesign="1"] .content-card {
+    padding: 14px;
+  }
+
+  body[data-ui-redesign="1"] .rb-dashboard h1,
+  body[data-ui-redesign="1"] .hero-panel h1,
+  body[data-ui-redesign="1"] .hero-card h1 {
+    font-size: 25px !important;
+  }
 }
 
 @media (max-width: 1100px) {
