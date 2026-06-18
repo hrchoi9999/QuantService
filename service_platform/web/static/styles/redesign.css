@@ -2921,9 +2921,19 @@ body[data-ui-redesign="1"] .market-state-composite-consideration {
   background: #fff;
 }
 
+body[data-ui-redesign="1"] .market-state-composite-chart-card,
+body[data-ui-redesign="1"] .market-state-composite-chart-wrap {
+  max-width: 100%;
+  overflow: hidden;
+}
+
 body[data-ui-redesign="1"] .market-state-composite-chart-scroll {
+  max-width: 100%;
   border-radius: var(--rb-radius);
   background: #fff;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
 }
 
 body[data-ui-redesign="1"] .market-state-composite-tooltip {
