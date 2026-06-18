@@ -6,6 +6,8 @@
 
 redbot.co.kr의 현행 QuantService 웹서비스를 `stitch_redbot_modern_redesign.zip` 시안의 방향성으로 개편하려고 합니다. QS는 Flask/Jinja 기반 서버 렌더링 웹서비스이며, 실제 투자/시장/포트폴리오 데이터가 동적으로 렌더링됩니다. 따라서 Stitch에는 단일 정적 HTML이 아니라 QS가 실제 서비스에 안전하게 이식할 수 있는 디자인 산출물을 요청합니다.
 
+기존 기능, 라우팅, 데이터 구조는 유지하지만 기존 UI 스타일은 유지 대상이 아닙니다. 이번 개편은 Stitch 신규 디자인 시스템을 redbot.co.kr 전체에 적용하는 전면 디자인 개편을 목표로 합니다.
+
 ## 현재 Stitch 시안 참고
 
 제공 파일:
