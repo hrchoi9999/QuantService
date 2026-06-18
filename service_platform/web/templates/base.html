@@ -6,7 +6,7 @@
   <title>{{ service_name }} | {{ page_title }}</title>
   <meta name="description" content="REDBOT은 다양한 시장 데이터 기반의 상황별 퀀트투자 모델 정보와 시장 브리핑, 변경내역을 제공합니다.">
   {% if page_robots %}<meta name="robots" content="{{ page_robots }}">{% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='site.css', v='redesign-20260618-01' if ui_redesign_enabled else None) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css', v='redesign-20260618-02' if ui_redesign_enabled else None) }}">
 </head>
 <body
   data-ui-redesign="{{ '1' if ui_redesign_enabled else '0' }}"
@@ -84,7 +84,7 @@
     </footer>
   </div>
   {% if ui_redesign_enabled %}
-      <script src="{{ url_for('static', filename='redesign.js', v='redesign-20260618-01') }}" defer></script>
+      <script src="{{ url_for('static', filename='redesign.js', v='redesign-20260618-02') }}" defer></script>
   {% endif %}
 </body>
 </html>
