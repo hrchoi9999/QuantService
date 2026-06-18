@@ -4877,7 +4877,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             "access_context": access_context,
             "can_access_ops_viewer": ops_viewer_access,
             "can_access_admin": bool(access_context.is_admin),
-            "ui_redesign_enabled": bool(settings.ui_redesign_enabled),
+            "ui_redesign_enabled": False,
             "ui_theme_default": str(settings.ui_theme_default or "light"),
             "status_messages": STATUS_MESSAGES,
             "billing_enabled": settings.billing_enabled,
