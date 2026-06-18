@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedBot Quant Terminal - Models</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">R</span><span class="brand-copy"><strong>RedBot</strong><small>Quant Terminal</small></span></a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="./index.html">Dashboard</a>
+      <a href="./markets.html">Markets</a>
+      <a class="is-active" href="./models.html">Models</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a href="./reports.html">Reports</a>
+    </nav>
+    <div class="toolbar"><div class="terminal-search">Search models...</div><button class="icon-button" type="button">!</button><button class="invest-button" type="button">Invest Now</button></div>
+  </header>
+
+  <main class="terminal-page">
+    <section class="page-title-row">
+      <div>
+        <span class="terminal-label">Quant Model Command</span>
+        <h1>퀀트모델 신호판</h1>
+      </div>
+      <div class="time-chip">Updated 20:40 KST</div>
+    </section>
+
+    <section class="model-grid">
+      <article class="panel red-panel model-score">
+        <span class="terminal-label">Master Score</span>
+        <strong>81.6</strong>
+        <h2>Risk-On Confirmed</h2>
+        <p>중장기 모델과 단기 가격 모멘텀이 동시 개선되었습니다.</p>
+      </article>
+      <article class="panel model-card">
+        <span class="terminal-label">Momentum</span>
+        <h2>추세 추종</h2>
+        <div class="mini-chart"><i style="height: 42%"></i><i style="height: 54%"></i><i style="height: 48%"></i><i style="height: 70%"></i><i style="height: 78%"></i><i style="height: 86%"></i></div>
+        <div class="metric-row"><strong>Strong</strong><span class="gain-chip">+9.4</span></div>
+      </article>
+      <article class="panel model-card">
+        <span class="terminal-label">Value</span>
+        <h2>밸류 팩터</h2>
+        <div class="mini-chart"><i style="height: 66%"></i><i style="height: 58%"></i><i style="height: 62%"></i><i style="height: 60%"></i><i style="height: 64%"></i><i style="height: 69%"></i></div>
+        <div class="metric-row"><strong>Neutral</strong><span class="status-chip">Stable</span></div>
+      </article>
+      <article class="panel model-card">
+        <span class="terminal-label">Quality</span>
+        <h2>퀄리티 팩터</h2>
+        <div class="mini-chart"><i style="height: 35%"></i><i style="height: 45%"></i><i style="height: 48%"></i><i style="height: 56%"></i><i style="height: 74%"></i><i style="height: 82%"></i></div>
+        <div class="metric-row"><strong>Improving</strong><span class="gain-chip">+6.2</span></div>
+      </article>
+    </section>
+
+    <section class="wide-grid">
+      <article class="panel">
+        <div class="section-head"><div><span class="terminal-label">Model Ensemble</span><h2>모델별 판단</h2></div><a class="terminal-link" href="./reports.html">Audit Log</a></div>
+        <table class="data-table">
+          <thead><tr><th>Model</th><th>Score</th><th>Signal</th><th>Confidence</th><th>Change</th></tr></thead>
+          <tbody>
+            <tr><td>Regime Classifier</td><td>86.4</td><td>Risk-On</td><td>High</td><td class="pos">+3.1</td></tr>
+            <tr><td>ETF Allocation</td><td>73.8</td><td>Balanced</td><td>Medium</td><td class="pos">+1.7</td></tr>
+            <tr><td>Stock Candidate</td><td>68.2</td><td>Selective</td><td>Medium</td><td class="neg">-0.5</td></tr>
+            <tr><td>Macro Guard</td><td>79.5</td><td>Open</td><td>High</td><td class="pos">+2.4</td></tr>
+          </tbody>
+        </table>
+      </article>
+      <article class="panel">
+        <div class="section-head tight"><div><span class="terminal-label">Decision Notes</span><h2>모델 해석</h2></div></div>
+        <div class="note-list">
+          <p><b>1</b> 주식 후보군은 수급과 실적 모멘텀이 함께 확인되는 종목으로 압축합니다.</p>
+          <p><b>2</b> ETF 모델은 공격 비중을 유지하지만 현금성 자산을 최소 15% 남깁니다.</p>
+          <p><b>3</b> 매크로 가드가 위험 전환되면 종목 수를 먼저 줄이고 ETF를 후행 조정합니다.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

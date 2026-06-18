@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedBot Quant Terminal - Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">R</span><span class="brand-copy"><strong>RedBot</strong><small>Quant Terminal</small></span></a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="./index.html">Dashboard</a>
+      <a href="./markets.html">Markets</a>
+      <a href="./models.html">Models</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a class="is-active" href="./reports.html">Reports</a>
+    </nav>
+    <div class="toolbar"><div class="terminal-search">Search reports...</div><button class="icon-button" type="button">!</button><button class="invest-button" type="button">Invest Now</button></div>
+  </header>
+
+  <main class="terminal-page">
+    <section class="page-title-row">
+      <div>
+        <span class="terminal-label">Research Desk</span>
+        <h1>분석 리포트</h1>
+      </div>
+      <div class="time-chip">Archive · 2026</div>
+    </section>
+
+    <section class="report-grid">
+      <article class="panel report-card red-accent">
+        <span class="terminal-label">Daily Brief</span>
+        <h2>시장 브리핑 리포트</h2>
+        <p>3축 시장 현황, 익일 테스트 신호, 수급 변화를 한 화면에서 점검합니다.</p>
+        <div class="metric-row"><strong>20:40</strong><a class="terminal-link" href="./index.html">Open</a></div>
+      </article>
+      <article class="panel report-card">
+        <span class="terminal-label">Market Analysis</span>
+        <h2>마켓 분석 리포트</h2>
+        <p>거시환경, 폭, 수급, 리스크 신호를 기관 터미널 형식으로 정리합니다.</p>
+        <div class="metric-row"><strong>84.2</strong><a class="terminal-link" href="./markets.html">Open</a></div>
+      </article>
+      <article class="panel report-card">
+        <span class="terminal-label">Model Audit</span>
+        <h2>퀀트모델 검증</h2>
+        <p>모델별 점수, 신뢰도, 전일 대비 변화를 추적합니다.</p>
+        <div class="metric-row"><strong>4 Models</strong><a class="terminal-link" href="./models.html">Open</a></div>
+      </article>
+      <article class="panel report-card">
+        <span class="terminal-label">Portfolio</span>
+        <h2>포트폴리오 실행안</h2>
+        <p>최종 전략, 후보 종목, 비중 구조와 리밸런싱 메모를 확인합니다.</p>
+        <div class="metric-row"><strong>Final</strong><a class="terminal-link" href="./portfolio.html">Open</a></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><span class="terminal-label">Publication Queue</span><h2>발행 대기열</h2></div><span class="status-chip">Static Test</span></div>
+      <table class="data-table">
+        <thead><tr><th>Report</th><th>Source</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead>
+        <tbody>
+          <tr><td>Market Briefing</td><td>QuantMarket</td><td>Current</td><td>QS</td><td>20:40</td></tr>
+          <tr><td>Portfolio Strategy</td><td>QuantAnalysis</td><td>Current</td><td>QS</td><td>20:25</td></tr>
+          <tr><td>Quant Models</td><td>Quant</td><td>Current</td><td>QS</td><td>19:50</td></tr>
+          <tr><td>Risk Disclosure</td><td>Admin</td><td>Stable</td><td>QS</td><td>09:00</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

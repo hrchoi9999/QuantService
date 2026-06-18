@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedBot Quant Terminal - Markets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">R</span><span class="brand-copy"><strong>RedBot</strong><small>Quant Terminal</small></span></a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="./index.html">Dashboard</a>
+      <a class="is-active" href="./markets.html">Markets</a>
+      <a href="./models.html">Models</a>
+      <a href="./portfolio.html">Portfolio</a>
+      <a href="./reports.html">Reports</a>
+    </nav>
+    <div class="toolbar"><div class="terminal-search">Search markets...</div><button class="icon-button" type="button">!</button><button class="invest-button" type="button">Invest Now</button></div>
+  </header>
+
+  <main class="terminal-page">
+    <section class="market-hero">
+      <article class="panel red-panel wide-alert">
+        <span class="terminal-label">Market Verdict</span>
+        <h1>MARKET VERDICT: BULLISH AGGRESSIVE</h1>
+        <p>시장 전반의 리스크 프리미엄이 낮아졌고, 수급과 모멘텀이 같은 방향으로 정렬되어 있습니다.</p>
+        <div class="hero-signal-grid">
+          <div><span>Risk Budget</span><strong>82%</strong></div>
+          <div><span>Signal Sync</span><strong>3/3</strong></div>
+          <div><span>Next Test</span><strong>09:00</strong></div>
+        </div>
+      </article>
+      <div class="stat-tiles">
+        <article class="panel stat-tile"><span>Composite</span><strong>84.2</strong><small class="pos">+1.4</small></article>
+        <article class="panel stat-tile"><span>Volatility</span><strong>Low</strong><small>12.8</small></article>
+        <article class="panel stat-tile"><span>Liquidity</span><strong>High</strong><small class="pos">+8.7%</small></article>
+      </div>
+    </section>
+
+    <section class="market-grid">
+      <aside class="panel category-list">
+        <a class="is-active" href="#summary"><span>Market Summary</span><b>01</b></a>
+        <a href="#flows"><span>Investor Flows</span><b>02</b></a>
+        <a href="#macro"><span>Macro Panel</span><b>03</b></a>
+        <a href="#breadth"><span>Breadth Detail</span><b>04</b></a>
+        <a href="#risk"><span>Risk Signals</span><b>05</b></a>
+      </aside>
+
+      <div class="content-stack">
+        <section class="indicator-grid" id="summary">
+          <article class="panel indicator-card"><span class="terminal-label">Index</span><strong>2,842.11</strong><p>KOSPI trend score remains above the expansion line.</p></article>
+          <article class="panel indicator-card"><span class="terminal-label">Breadth</span><strong>63.8%</strong><p>상승 종목 비율이 3거래일 연속 개선되었습니다.</p></article>
+          <article class="panel indicator-card"><span class="terminal-label">Signal</span><strong>Good</strong><p>익일 테스트 신호는 개장 전까지 별도 표기됩니다.</p></article>
+        </section>
+
+        <section class="panel" id="flows">
+          <div class="section-head"><div><span class="terminal-label">Investor Flow Matrix</span><h2>수급 데이터</h2></div><time>Live snapshot</time></div>
+          <table class="data-table">
+            <thead><tr><th>Group</th><th>Net Buy</th><th>Trend</th><th>Pressure</th><th>Read</th></tr></thead>
+            <tbody>
+              <tr><td>Foreign</td><td class="pos">+342.8B</td><td>3D Up</td><td>Strong</td><td>주도 업종 집중</td></tr>
+              <tr><td>Institution</td><td class="pos">+88.1B</td><td>Flat</td><td>Neutral</td><td>방어적 매수</td></tr>
+              <tr><td>Retail</td><td class="neg">-205.4B</td><td>Down</td><td>Light</td><td>차익 실현</td></tr>
+              <tr><td>Program</td><td class="pos">+51.2B</td><td>Up</td><td>Medium</td><td>베이시스 안정</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="two-col">
+          <article class="panel" id="macro">
+            <div class="section-head tight"><div><span class="terminal-label">Macro</span><h2>금융환경</h2></div></div>
+            <dl class="compact-list">
+              <div><dt>USDKRW</dt><dd>1,378.4</dd></div>
+              <div><dt>US 10Y</dt><dd>4.18%</dd></div>
+              <div><dt>VIX</dt><dd>13.2</dd></div>
+              <div><dt>Oil</dt><dd>77.6</dd></div>
+            </dl>
+          </article>
+          <article class="panel" id="risk">
+            <div class="section-head tight"><div><span class="terminal-label">Predictive Analysis</span><h2>익일 리스크</h2></div></div>
+            <p class="analysis-copy">개장 전 9시까지는 익일 테스트 신호가 별도 구간으로 표시됩니다. 테스트 신호는 확정 데이터가 아니며, 장중 데이터가 들어오면 실거래일 신호로 교체됩니다.</p>
+            <div class="metric-row"><strong>Test Day</strong><span class="status-chip">Pre-open</span></div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
