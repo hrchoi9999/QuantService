@@ -5271,6 +5271,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             render_template(
                 "market_analysis.html",
                 page_title=page_view.get("page_title", "시장 브리핑"),
+                ui_redesign_enabled=True,
                 market_page_view=page_view,
                 market_timeline_view=timeline_view,
                 market_asset_strength_view=asset_strength_view,
