@@ -5307,26 +5307,6 @@ def create_app(settings: Settings | None = None) -> Flask:
             mimetype="text/html",
         )
 
-    @app.get("/stitch-preview")
-    def stitch_preview_index() -> Response:
-        record_page_view("/stitch-preview")
-        return Response(render_template("stitch_preview/index.html"), mimetype="text/html")
-
-    @app.get("/stitch-preview/<page>")
-    def stitch_preview_page(page: str) -> Response:
-        preview_templates = {
-            "market": "stitch_preview/market.html",
-            "today": "stitch_preview/today.html",
-            "models": "stitch_preview/models.html",
-            "portfolio": "stitch_preview/portfolio.html",
-            "mobile": "stitch_preview/mobile.html",
-        }
-        template_name = preview_templates.get(page)
-        if template_name is None:
-            abort(404)
-        record_page_view(f"/stitch-preview/{page}")
-        return Response(render_template(template_name), mimetype="text/html")
-
     @app.route("/login", methods=["GET", "POST"])
     def login() -> Response:
         next_url = _safe_next_url(request.values.get("next"))

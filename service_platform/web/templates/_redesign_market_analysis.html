@@ -1,0 +1,159 @@
+<section class="rb-dashboard rb-dashboard--market">
+  <header class="rb-page-head">
+    <div>
+      <h1>{{ market_page_view.page_title }}</h1>
+      <p>시장 상태를 세 층으로 나눠 봅니다. 중기 흐름, 오늘 흐름, 내일 참고는 서로 다른 판단 레이어입니다.</p>
+    </div>
+    <div class="rb-page-meta">
+      <span>기준일</span>
+      <strong>{{ market_page_view.as_of_date or '-' }}</strong>
+      <small>{{ market_page_view.generated_at | fmt_datetime if market_page_view.generated_at else '-' }}</small>
+    </div>
+  </header>
+
+  <section class="rb-situation-grid rb-situation-grid--market" aria-label="시장 핵심 판단">
+    <article class="rb-card rb-situation-card rb-situation-card--primary">
+      <span>현재 판단</span>
+      <strong>{{ market_state_bridge_view.display_label or market_state_bridge_view.medium_term_bar.label or '-' }}</strong>
+      <small>{{ market_state_bridge_view.bridge_text or '퀀트모델 시장 흐름 기준입니다.' }}</small>
+    </article>
+    <article class="rb-card rb-situation-card">
+      <span>오늘 흐름</span>
+      <strong>{{ market_state_bridge_view.intraday_bar.label if market_state_bridge_view.intraday_bar else '전일 기준 참고' }}</strong>
+      <small>{{ market_state_bridge_view.intraday_description or '장중 흐름은 참고용 보조 정보입니다.' }}</small>
+    </article>
+    <article class="rb-card rb-situation-card">
+      <span>내일 참고</span>
+      <strong>{{ market_next_day_preview_view.preview_label or '대기' }}</strong>
+      <small>{{ market_next_day_preview_view.headline_line or market_next_day_preview_view.compact_asset_line or '활성 시간대에 보조 카드가 표시됩니다.' }}</small>
+    </article>
+  </section>
+
+  <section class="rb-market-state-grid">
+    <article class="rb-card rb-panel market-state-composite-shell">
+      {% set market_state_bridge_view = market_state_bridge_view %}
+      {% set variant = "full" %}
+      {% include "_market_state_bar.html" %}
+    </article>
+
+    {% if market_next_day_preview_view.show_market_analysis %}
+    <article class="rb-card rb-panel">
+      <div class="rb-section-head">
+        <div>
+          <h2>내일 시장 전망</h2>
+          <p>확정 전망이 아니라 장초반 확인용 보조 정보입니다.</p>
+        </div>
+      </div>
+      {% set variant = "market_redesign" %}
+      {% include "_market_next_day_preview.html" %}
+    </article>
+    {% endif %}
+  </section>
+
+  {% if market_page_view.ai_briefs.enabled %}
+  <section class="rb-card rb-panel rb-ai-section">
+    <div class="rb-section-head">
+      <div>
+        <h2 class="rb-ai-title">
+          {% if market_page_view.ai_briefs.has_gemini %}
+          <img src="{{ url_for('static', filename='ai_logos/gemini.svg') }}" alt="Gemini">
+          {% endif %}
+          시장 분위기
+        </h2>
+        <p>긍정 요인과 리스크 요인을 같은 무게로 나눠 봅니다.</p>
+      </div>
+    </div>
+    <div class="rb-ai-card-grid">
+      {% for card in market_page_view.ai_briefs.cards %}
+      {% if card.split_enabled %}
+      <article class="rb-ai-card rb-ai-card--positive">
+        <h3>긍정적 요인</h3>
+        <ul>
+          {% for line in card.positive_lines %}
+          <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      <article class="rb-ai-card rb-ai-card--risk">
+        <h3>리스크 요인</h3>
+        <ul>
+          {% for line in card.risk_lines %}
+          <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% else %}
+      <article class="rb-ai-card">
+        <h3>{{ card.full_title or card.label }}</h3>
+        <ul>
+          {% for line in card.summary_lines %}
+          <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if market_timeline_view.enabled or market_asset_strength_view.enabled %}
+  <section class="rb-chart-grid">
+    {% if market_timeline_view.enabled %}
+    <article class="rb-card rb-panel">
+      <div class="rb-section-head">
+        <div>
+          <h2>지수 / 추세</h2>
+          <p>상태점수 추이</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell rb-chart-shell"
+        data-rb-chart="line"
+        data-rb-chart-series='{{ market_timeline_view.chart_series | tojson }}'
+      ></div>
+    </article>
+    {% endif %}
+    {% if market_asset_strength_view.enabled %}
+    <article class="rb-card rb-panel">
+      <div class="rb-section-head">
+        <div>
+          <h2>자산군 상대강도</h2>
+          <p>점수가 높을수록 최근 흐름이 상대적으로 강합니다.</p>
+        </div>
+      </div>
+      <div
+        class="market-chart-shell rb-chart-shell"
+        data-rb-chart="bar"
+        data-rb-chart-series='{{ market_asset_strength_view.chart_bars | tojson }}'
+      ></div>
+      <div class="rb-chart-caption">
+        {% for row in market_asset_strength_view.chart_bars[:4] %}
+        <span>{{ row.label }} {{ row.score | round(2) }}</span>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="rb-metric-group-grid">
+    {% for group in market_page_view.metric_groups %}
+    <article class="rb-card rb-panel">
+      <div class="rb-section-head">
+        <div>
+          <h2>{{ group.title }}</h2>
+        </div>
+      </div>
+      <div class="rb-index-table">
+        {% for item in group["items"][:6] %}
+        <div>
+          <span>{{ item.label }}</span>
+          <strong>{{ item.display }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+</section>
