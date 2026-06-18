@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedBot Quant Terminal - Market Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html" aria-label="RedBot Quant Terminal">
+      <span class="brand-mark">↗</span>
+      <span class="brand-text">
+        <strong>RedBot</strong>
+        <span>Quant Terminal</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="is-active" href="./index.html">▦ Market Briefing</a>
+      <a href="./index.html">▣ Market Analysis</a>
+      <a href="./index.html">⌁ Indicators</a>
+      <a href="./index.html">⌁ Quant Models</a>
+      <a href="./index.html">♟ Community</a>
+    </nav>
+    <div class="toolbar">
+      <div class="search" aria-label="검색">⌕</div>
+      <button class="icon-button" type="button" aria-label="알림">♢</button>
+      <button class="icon-button" type="button" aria-label="도움말">?</button>
+      <a class="login-link" href="./index.html">Login</a>
+      <button class="register-button" type="button">Register</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="page-head">
+      <div class="page-title">
+        <h1>시장 브리핑</h1>
+        <p>2024년 11월 14일 실시간 퀀트 데이터 리포트</p>
+      </div>
+      <div class="actions">
+        <button class="action-button" type="button">⇩ PDF 다운로드</button>
+        <button class="action-button" type="button">↗ 공유하기</button>
+      </div>
+    </section>
+
+    <section class="dashboard-grid" aria-label="시장 브리핑 대시보드">
+      <aside class="stack">
+        <article class="verdict-card">
+          <span class="eyebrow">Current Verdict</span>
+          <h2>상승 흐름 유지</h2>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="strategy-line">◎ Active Strategy: Long</div>
+        </article>
+
+        <article class="card timeline-card">
+          <h3 class="section-title">◷ 오늘 흐름</h3>
+          <ul class="timeline">
+            <li><i></i><div><span class="time">09:15 AM</span><p>외국인 순매수 전환 확인</p></div></li>
+            <li><i></i><div><span class="time">11:30 AM</span><p>섹터 로테이션: 반도체 강세</p></div></li>
+            <li><i></i><div><span class="time">02:45 PM</span><p>장마감 전 단기 차익 실현</p></div></li>
+          </ul>
+        </article>
+
+        <article class="card note-card">
+          <h3 class="section-title">⌁ 내일 참고</h3>
+          <p>금리 결정 회의 결과에 따른 채권 금리 변동성에 유의하십시오. 성장주 위주의 포트폴리오 유지를 추천합니다.</p>
+        </article>
+      </aside>
+
+      <section class="card main-panel">
+        <div class="panel-head">
+          <div>
+            <h2>시장 현황판</h2>
+            <p>3대 핵심 지표 추이 분석</p>
+          </div>
+          <div class="legend">
+            <span><i style="background: var(--blue);"></i>금융환경</span>
+            <span><i style="background: var(--primary);"></i>퀀트모델</span>
+            <span><i style="background: var(--warning);"></i>단기상황</span>
+          </div>
+        </div>
+        <div class="chart-box" role="img" aria-label="시장 현황판 3축 라인 차트">
+          <svg viewBox="0 0 620 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 30H600M20 80H600M20 130H600M20 180H600M20 230H600" stroke="#e8edf2" />
+            <path d="M20 145C85 130 130 138 180 150C238 164 282 155 330 147C400 135 420 103 465 75C506 52 552 47 600 54" stroke="#1f77ff" stroke-width="3" />
+            <path d="M20 184C80 172 128 155 178 132C228 110 268 72 322 64C382 56 424 78 470 100C514 121 552 132 600 126" stroke="#d00000" stroke-width="3" />
+            <path d="M20 215C90 205 142 196 190 178C245 158 284 142 336 143C392 144 428 154 466 180C510 209 552 218 600 214" stroke="#f97316" stroke-width="3" />
+            <text x="20" y="246" fill="#64748b" font-family="JetBrains Mono" font-size="12">06-01</text>
+            <text x="290" y="246" fill="#64748b" font-family="JetBrains Mono" font-size="12">06-10</text>
+            <text x="552" y="246" fill="#64748b" font-family="JetBrains Mono" font-size="12">06-18</text>
+          </svg>
+        </div>
+        <div class="summary-row">
+          <div class="summary-item"><span>종합 지수</span><strong style="color: var(--primary);">84.2</strong><small style="color: var(--positive);">▲ 1.4%</small></div>
+          <div class="summary-item"><span>시장 강도</span><strong>강함</strong><small>안정적</small></div>
+          <div class="summary-item"><span>변동성</span><strong>낮음</strong><small style="color: var(--negative);">▼ 0.8%</small></div>
+        </div>
+      </section>
+
+      <aside class="stack side-column">
+        <article class="card side-card">
+          <h3>금융시장 환경 <span>♜</span></h3>
+          <dl>
+            <div class="metric-line"><dt>환율 (USDKRW)</dt><dd>1,340.2</dd></div>
+            <div class="metric-line"><dt>국채 10년물</dt><dd>3.65%</dd></div>
+            <div class="metric-line"><dt>공포 탐욕 지수</dt><dd style="color: var(--positive);">72 (Greed)</dd></div>
+          </dl>
+        </article>
+        <article class="card side-card">
+          <h3>퀀트모델 전망 <span>↗</span></h3>
+          <dl>
+            <div class="metric-line"><dt>일일 상승 확률</dt><dd>68.5%</dd></div>
+            <div class="metric-line"><dt>추세 추종 강도</dt><dd style="color: var(--primary);">Very Strong</dd></div>
+            <div class="metric-line"><dt>모델 일치도</dt><dd>92%</dd></div>
+          </dl>
+        </article>
+        <article class="card side-card">
+          <h3>단기 시장상황 <span>◴</span></h3>
+          <dl>
+            <div class="metric-line"><dt>과매수 여부</dt><dd>중립 (RSI: 62)</dd></div>
+            <div class="metric-line"><dt>기관 수급 지수</dt><dd>Positive</dd></div>
+            <div class="metric-line"><dt>거래량 동향</dt><dd>증가세</dd></div>
+          </dl>
+        </article>
+      </aside>
+    </section>
+
+    <section class="considerations">
+      <h2 class="section-heading">투자 고려 사항</h2>
+      <div class="factor-grid">
+        <article class="card factor-card factor-card--positive">
+          <h3>⊕ 긍정적 요인</h3>
+          <ul>
+            <li>주요 대형주 실적 서프라이즈로 인한 지수 견인력 확보</li>
+            <li>인플레이션 완화 데이터 발표에 따른 금리 하락 안정세</li>
+            <li>외국인 투자자의 반도체 섹터 집중 매수 지속</li>
+          </ul>
+        </article>
+        <article class="card factor-card factor-card--risk">
+          <h3>△ 리스크 요인</h3>
+          <ul>
+            <li>지정학적 긴장 고조에 따른 국제 유가 급등 가능성</li>
+            <li>기술적 지표상의 단기 과열로 인한 일시적 조정 우려</li>
+            <li>특정 섹터 내 높은 변동성 및 수급 불균형</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="outlook">
+      <div>
+        <h2>내일 시장 상세 전망</h2>
+        <p>RedBot 퀀트 엔진은 내일 시장을 <strong style="color: var(--primary);">전강후강(前强後强)</strong>의 견조한 흐름으로 예측합니다. 시초가 갭상승 이후 매물 소화 과정을 거쳐 종가 고가 형태의 캔들을 형성할 가능성이 74.2%로 산출되었습니다.</p>
+        <div class="tags">
+          <span class="tag">#주도섹터:AI/HBM</span>
+          <span class="tag">#추천비중:85%</span>
+          <span class="tag">#목표지수:2,650pt</span>
+        </div>
+      </div>
+      <div class="session-grid">
+        <article class="session"><span>Morning Session</span><strong>적극적 선제 매수</strong><p>낙폭 과대주 중심의 바닥 잡기 전략</p></article>
+        <article class="session"><span>Afternoon Session</span><strong>수익 실현 및 교체</strong><p>상승 탄력 둔화 종목의 비중 축소</p></article>
+        <article class="session"><span>Closing Strategy</span><strong>오버나이트 유지</strong><p>핵심 주도주 위주의 물량 홀딩 권장</p></article>
+        <article class="session"><span>Risk Check</span><strong>손절가 엄격 준수</strong><p>개별 종목별 5~7% 하락 시 기계적 대응</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><strong>RedBot</strong><br>© 2024 RedBot Quantitative Technologies. All rights reserved.</div>
+      <nav class="footer-links" aria-label="footer links">
+        <a href="./index.html">Terms of Service</a>
+        <a href="./index.html">Privacy Policy</a>
+        <a href="./index.html">Risk Disclosure</a>
+        <a href="./index.html">API Documentation</a>
+        <a href="./index.html">Contact Support</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
