@@ -7843,3 +7843,25 @@ def test_cardnews_files_are_internal_only(tmp_path: Path) -> None:
 
     assert index_response.status_code == 404
     assert static_image_response.status_code == 404
+
+
+def test_stitch_preview_pages_are_isolated_and_served(tmp_path: Path) -> None:
+    settings = build_settings(tmp_path)
+    app = create_app(settings)
+    client = app.test_client()
+    preview_paths = [
+        "/stitch-preview",
+        "/stitch-preview/market",
+        "/stitch-preview/today",
+        "/stitch-preview/models",
+        "/stitch-preview/portfolio",
+        "/stitch-preview/mobile",
+    ]
+
+    for path in preview_paths:
+        response = client.get(path)
+
+        assert response.status_code == 200
+        assert "Pretendard" in response.get_data(as_text=True)
+
+    assert client.get("/stitch-preview/unknown").status_code == 404

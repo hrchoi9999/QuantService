@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REDBOT Stitch Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f9fb;
+      --surface: #fff;
+      --line: #e2e8f0;
+      --text: #111827;
+      --muted: #64748b;
+      --red: #bc0100;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+    main {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.2;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    a {
+      display: grid;
+      min-height: 150px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+    }
+    a:hover {
+      border-color: color-mix(in srgb, var(--red) 45%, var(--line));
+    }
+    strong {
+      font-size: 20px;
+    }
+    span {
+      align-self: end;
+      color: var(--red);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .notice {
+      margin-top: 24px;
+      padding: 14px 16px;
+      border: 1px solid #ffd6d6;
+      border-radius: 10px;
+      background: #fff7f7;
+      color: #7f1d1d;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>REDBOT Stitch Preview</h1>
+    <p>정식 운영 화면과 분리된 Stitch 원본 디자인 검수 경로입니다. 이 페이지들은 아직 QS 실데이터 연동/템플릿 이식 전의 디자인 확인용입니다.</p>
+    <section class="grid" aria-label="Stitch preview pages">
+      <a href="/stitch-preview/market"><strong>시장 브리핑</strong><span>pc_1</span></a>
+      <a href="/stitch-preview/today"><strong>오늘의 퀀트</strong><span>pc_2</span></a>
+      <a href="/stitch-preview/models"><strong>Quant Models</strong><span>pc_3</span></a>
+      <a href="/stitch-preview/portfolio"><strong>투자 포트폴리오</strong><span>pc_4</span></a>
+      <a href="/stitch-preview/mobile"><strong>모바일형 포트폴리오</strong><span>mobile</span></a>
+    </section>
+    <p class="notice">사용자 최종 컨펌 전까지 이 디자인은 redbot.co.kr 정식 화면으로 배포하지 않습니다.</p>
+  </main>
+</body>
+</html>

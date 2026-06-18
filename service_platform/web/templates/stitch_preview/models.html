@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RedBot Quant | Quant Models</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e0e3e5",
+                    "neutral-accent": "#64748B",
+                    "surface-container": "#eceef0",
+                    "on-primary-fixed-variant": "#930100",
+                    "surface-border": "#E2E8F0",
+                    "secondary-fixed": "#dae2fc",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-low": "#f2f4f6",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "on-primary-fixed": "#410000",
+                    "primary-container": "#bc0100",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "negative": "#EF4444",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#e6bdb6",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "on-secondary-fixed-variant": "#3e465b",
+                    "surface": "#f7f9fb",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f7f9fb",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#ffb4a8",
+                    "tertiary": "#384559",
+                    "positive": "#10B981",
+                    "on-primary-container": "#ffc8c0",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-fixed": "#0d1c2e",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#d5e3fd",
+                    "warning": "#fb923c",
+                    "on-primary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "background": "#f7f9fb",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#d7dff9",
+                    "secondary": "#565e74",
+                    "tertiary-container": "#4f5d72",
+                    "on-secondary-fixed": "#131b2e",
+                    "outline": "#916f69",
+                    "surface-tint": "#bf0602",
+                    "on-tertiary-container": "#c7d6ef",
+                    "surface-container-highest": "#e0e3e5",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#d8dadc",
+                    "on-surface": "#191c1e",
+                    "primary-fixed": "#ffdad4",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#5d3f3b",
+                    "primary-fixed-dim": "#ffb4a8",
+                    "primary": "#8f0100"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "40px",
+                    "gutter": "20px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "label-xs-caps": ["Pretendard"],
+                    "body-md": ["Pretendard"],
+                    "headline-md": ["Pretendard"],
+                    "headline-lg": ["Pretendard"],
+                    "body-lg": ["Pretendard"],
+                    "body-sm": ["Pretendard"],
+                    "label-mono": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "label-xs-caps": ["10px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.02em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.8); border: 1px solid #E2E8F0; }
+        .data-table-row:hover { background-color: #f2f4f6; transform: translateY(-1px); transition: all 0.2s ease; }
+        .status-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 z-50 w-full bg-surface-container-lowest dark:bg-inverse-surface border-b border-surface-border dark:border-neutral-accent h-16">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-md font-black text-primary dark:text-inverse-primary tracking-tighter">RedBot Quant</span>
+<div class="hidden md:flex items-center gap-md">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-primary transition-colors text-label-mono font-label-mono" href="#">Dashboard</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-primary transition-colors text-label-mono font-label-mono" href="#">Markets</a>
+<a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary text-label-mono font-label-mono py-1" href="#">Models</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-primary transition-colors text-label-mono font-label-mono" href="#">Portfolio</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-primary transition-colors text-label-mono font-label-mono" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-accent text-[20px]">search</span>
+<input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-sm w-64 focus:ring-1 focus:ring-primary" placeholder="Search models..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-secondary hover:bg-surface-container-low p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-secondary hover:bg-surface-container-low p-2 rounded-full transition-colors">account_circle</button>
+<button class="bg-primary text-on-primary px-md py-2 text-label-mono font-label-mono font-bold active:scale-95 transition-transform">Invest Now</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-xl px-gutter max-w-container-max mx-auto">
+<header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-background">Quant Models</h1>
+<p class="text-body-md text-secondary mt-1">Institutional-grade algorithmic strategies for high-conviction trading.</p>
+</div>
+<div class="flex gap-sm">
+<div class="flex items-center gap-xs bg-surface-container-lowest border border-surface-border px-sm py-1">
+<span class="material-symbols-outlined text-[18px] text-positive" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="text-label-mono font-label-mono text-on-surface">Engine: Online</span>
+</div>
+<div class="flex items-center gap-xs bg-surface-container-lowest border border-surface-border px-sm py-1">
+<span class="text-label-mono font-label-mono text-secondary">Updated: 2m ago</span>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-start">
+<!-- Sidebar Filters -->
+<aside class="md:col-span-3 space-y-md sticky top-24">
+<div class="bg-surface-container-lowest border border-surface-border p-md">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-[18px] font-bold">Filters</h3>
+<button class="text-label-mono font-label-mono text-primary hover:underline">Reset All</button>
+</div>
+<!-- Strategy Type -->
+<div class="mb-lg">
+<label class="text-label-xs-caps font-label-xs-caps text-neutral-accent block mb-sm">STRATEGY TYPE</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="rounded-none border-surface-border text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-body-sm group-hover:text-primary transition-colors">Trend Following</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded-none border-surface-border text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-body-sm group-hover:text-primary transition-colors">Mean Reversion</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="rounded-none border-surface-border text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-body-sm group-hover:text-primary transition-colors">Arbitrage</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded-none border-surface-border text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="text-body-sm group-hover:text-primary transition-colors">Sentiment AI</span>
+</label>
+</div>
+</div>
+<!-- Risk Level -->
+<div class="mb-lg">
+<label class="text-label-xs-caps font-label-xs-caps text-neutral-accent block mb-sm">RISK PROFILE</label>
+<div class="grid grid-cols-1 gap-2">
+<button class="w-full text-left px-3 py-2 text-body-sm border border-primary bg-primary-container/10 text-primary font-bold">Conservative</button>
+<button class="w-full text-left px-3 py-2 text-body-sm border border-surface-border hover:border-primary transition-colors">Moderate</button>
+<button class="w-full text-left px-3 py-2 text-body-sm border border-surface-border hover:border-primary transition-colors">Aggressive</button>
+</div>
+</div>
+<!-- Asset Class -->
+<div>
+<label class="text-label-xs-caps font-label-xs-caps text-neutral-accent block mb-sm">ASSET CLASS</label>
+<select class="w-full border-surface-border bg-surface-container-low text-body-sm focus:ring-primary focus:border-primary rounded-none">
+<option>All Assets</option>
+<option>Crypto-Currency</option>
+<option>Global Equities</option>
+<option>Forex / Majors</option>
+<option>Commodities</option>
+</select>
+</div>
+</div>
+<div class="bg-primary p-md text-on-primary">
+<h4 class="font-headline-md text-[16px] mb-2">Alpha Signal Alert</h4>
+<p class="text-body-sm opacity-90 mb-md">3 models have reached optimal reentry conditions in the last hour.</p>
+<button class="w-full bg-on-primary text-primary py-2 text-label-mono font-label-mono font-bold active:scale-95 transition-all">View Signals</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<section class="md:col-span-9">
+<!-- Market Context / Bento Summary -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md mb-lg">
+<div class="glass-card p-md shadow-sm">
+<div class="text-label-xs-caps font-label-xs-caps text-neutral-accent mb-1">AVERAGE YTD RETURN</div>
+<div class="text-headline-md font-bold text-positive">+24.82%</div>
+<div class="h-12 w-full mt-2">
+<div class="w-full h-full bg-positive/5 rounded-sm relative overflow-hidden">
+<div class="absolute inset-0 flex items-end">
+<div class="w-1/6 h-2/3 bg-positive/20 mx-[1px]"></div>
+<div class="w-1/6 h-1/2 bg-positive/20 mx-[1px]"></div>
+<div class="w-1/6 h-3/4 bg-positive/20 mx-[1px]"></div>
+<div class="w-1/6 h-4/5 bg-positive/20 mx-[1px]"></div>
+<div class="w-1/6 h-full bg-positive/30 mx-[1px]"></div>
+<div class="w-1/6 h-5/6 bg-positive/40 mx-[1px]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card p-md shadow-sm">
+<div class="text-label-xs-caps font-label-xs-caps text-neutral-accent mb-1">MAX DRAWDOWN PEAK</div>
+<div class="text-headline-md font-bold text-negative">-12.4%</div>
+<div class="text-body-sm text-secondary mt-1">Portfolio aggregate limit</div>
+</div>
+<div class="glass-card p-md shadow-sm">
+<div class="text-label-xs-caps font-label-xs-caps text-neutral-accent mb-1">BEST PERFORMER</div>
+<div class="text-headline-md font-bold">Aura-9 Prime</div>
+<div class="text-body-sm text-positive mt-1">+8.4% this month</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest border border-surface-border overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-border">
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase">Model Name</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">1M Ret</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">3M Ret</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">YTD Ret</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">MDD</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">Sharpe</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase text-right">Vol</th>
+<th class="px-md py-4 text-label-mono font-label-mono text-neutral-accent uppercase"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-border">
+<!-- Row 1 -->
+<tr class="data-table-row transition-all">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">bolt</span>
+</div>
+<div>
+<div class="font-bold text-body-md">Aura-9 Prime</div>
+<div class="text-label-mono font-label-mono text-xs text-neutral-accent">Trend Following / Crypto</div>
+</div>
+</div>
+</td>
+<td class="px-md py-4 text-right font-label-mono text-positive font-bold">+8.42%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+12.1%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+34.8%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-6.2%</td>
+<td class="px-md py-4 text-right font-label-mono">2.84</td>
+<td class="px-md py-4 text-right font-label-mono text-secondary">12.1%</td>
+<td class="px-md py-4 text-right">
+<button class="border border-surface-border px-3 py-1 text-label-mono font-label-mono hover:bg-primary hover:text-on-primary hover:border-primary transition-all active:scale-95">Details</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="data-table-row transition-all">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">analytics</span>
+</div>
+<div>
+<div class="font-bold text-body-md">Neural Alpha V2</div>
+<div class="text-label-mono font-label-mono text-xs text-neutral-accent">Sentiment AI / Equities</div>
+</div>
+</div>
+</td>
+<td class="px-md py-4 text-right font-label-mono text-positive font-bold">+3.15%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-1.4%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+18.2%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-8.9%</td>
+<td class="px-md py-4 text-right font-label-mono">1.92</td>
+<td class="px-md py-4 text-right font-label-mono text-secondary">15.4%</td>
+<td class="px-md py-4 text-right">
+<button class="border border-surface-border px-3 py-1 text-label-mono font-label-mono hover:bg-primary hover:text-on-primary hover:border-primary transition-all active:scale-95">Details</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="data-table-row transition-all">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">balance</span>
+</div>
+<div>
+<div class="font-bold text-body-md">StatArb Core</div>
+<div class="text-label-mono font-label-mono text-xs text-neutral-accent">Arbitrage / Forex</div>
+</div>
+</div>
+</td>
+<td class="px-md py-4 text-right font-label-mono text-negative font-bold">-0.82%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+2.1%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+6.4%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-2.1%</td>
+<td class="px-md py-4 text-right font-label-mono">3.12</td>
+<td class="px-md py-4 text-right font-label-mono text-secondary">4.2%</td>
+<td class="px-md py-4 text-right">
+<button class="border border-surface-border px-3 py-1 text-label-mono font-label-mono hover:bg-primary hover:text-on-primary hover:border-primary transition-all active:scale-95">Details</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="data-table-row transition-all">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-neutral-accent flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">monitoring</span>
+</div>
+<div>
+<div class="font-bold text-body-md">Ghost Scalper</div>
+<div class="text-label-mono font-label-mono text-xs text-neutral-accent">Mean Reversion / Futures</div>
+</div>
+</div>
+</td>
+<td class="px-md py-4 text-right font-label-mono text-positive font-bold">+12.40%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+24.5%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+41.2%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-14.2%</td>
+<td class="px-md py-4 text-right font-label-mono">2.05</td>
+<td class="px-md py-4 text-right font-label-mono text-secondary">22.8%</td>
+<td class="px-md py-4 text-right">
+<button class="border border-surface-border px-3 py-1 text-label-mono font-label-mono hover:bg-primary hover:text-on-primary hover:border-primary transition-all active:scale-95">Details</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="data-table-row transition-all">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-on-primary-fixed-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">psychology</span>
+</div>
+<div>
+<div class="font-bold text-body-md">Macro Sentinel</div>
+<div class="text-label-mono font-label-mono text-xs text-neutral-accent">Multi-Asset / Global</div>
+</div>
+</div>
+</td>
+<td class="px-md py-4 text-right font-label-mono text-positive font-bold">+1.22%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+4.8%</td>
+<td class="px-md py-4 text-right font-label-mono text-positive">+12.5%</td>
+<td class="px-md py-4 text-right font-label-mono text-negative">-4.5%</td>
+<td class="px-md py-4 text-right font-label-mono">1.75</td>
+<td class="px-md py-4 text-right font-label-mono text-secondary">8.4%</td>
+<td class="px-md py-4 text-right">
+<button class="border border-surface-border px-3 py-1 text-label-mono font-label-mono hover:bg-primary hover:text-on-primary hover:border-primary transition-all active:scale-95">Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md flex items-center justify-between border-t border-surface-border bg-surface-container-lowest">
+<div class="text-body-sm text-secondary">Showing 5 of 24 active models</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-surface-border hover:bg-surface-container-low transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center border border-surface-border hover:bg-surface-container-low transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center border border-surface-border hover:bg-surface-container-low transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center border border-surface-border hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Atmospheric Highlight Card -->
+<div class="mt-xl relative h-64 overflow-hidden group">
+
+<div class="absolute inset-0 bg-gradient-to-r from-on-background to-transparent flex items-center px-xl">
+<div class="max-w-md">
+<h2 class="text-headline-lg font-headline-lg text-white mb-sm">Custom Algorithm Building</h2>
+<p class="text-body-md text-white/80 mb-md">Need a tailored solution? Our quantitative engineers can bake your logic into our high-speed execution engine.</p>
+<button class="bg-primary text-on-primary px-lg py-3 font-bold text-label-mono font-label-mono group-hover:px-xl transition-all">Speak to an Engineer</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-on-background border-t border-surface-border dark:border-neutral-accent">
+<div class="w-full py-xl px-gutter max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start gap-md">
+<div class="space-y-md max-w-sm">
+<span class="text-body-lg font-headline-md font-bold text-on-surface dark:text-surface-bright">RedBot Quant</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant dark:text-surface-variant leading-relaxed">
+                    © 2024 RedBot Quant. All rights reserved. High-risk quantitative trading involves significant risk of loss. Past performance is not indicative of future results.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row gap-xl">
+<div class="flex flex-col gap-2">
+<span class="text-label-xs-caps font-label-xs-caps text-neutral-accent mb-2">PLATFORM</span>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-on-surface transition-colors text-label-mono font-label-mono" href="#">Methodology</a>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-on-surface transition-colors text-label-mono font-label-mono" href="#">Risk Disclosure</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-label-xs-caps font-label-xs-caps text-neutral-accent mb-2">LEGAL</span>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-on-surface transition-colors text-label-mono font-label-mono" href="#">Terms of Service</a>
+<a class="text-on-tertiary-fixed-variant dark:text-tertiary-fixed-dim hover:text-on-surface transition-colors text-label-mono font-label-mono" href="#">Privacy Policy</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for sorting logic visualization
+        document.querySelectorAll('th').forEach(header => {
+            header.addEventListener('click', () => {
+                const icon = header.querySelector('.sort-icon') || document.createElement('span');
+                icon.className = 'material-symbols-outlined text-[14px] align-middle ml-1 sort-icon';
+                icon.innerText = icon.innerText === 'arrow_drop_up' ? 'arrow_drop_down' : 'arrow_drop_up';
+                if(!header.contains(icon)) header.appendChild(icon);
+            });
+        });
+
+        // Toggle focus state for custom search
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>
+

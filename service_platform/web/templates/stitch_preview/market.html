@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RedBot Quant Terminal - Market Briefing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#131b2e",
+                        "primary-fixed": "#ffdad4",
+                        "on-surface-variant": "#603e39",
+                        "surface-border": "#E2E8F0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fdfcff",
+                        "tertiary": "#4f5d72",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#ebbbb4",
+                        "surface": "#f7f9fb",
+                        "surface-container-highest": "#e0e3e5",
+                        "neutral-accent": "#64748B",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "on-primary-container": "#fffbff",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed": "#d5e3fd",
+                        "outline": "#956d67",
+                        "primary-container": "#eb0000",
+                        "tertiary-container": "#67758c",
+                        "surface-bright": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary": "#bc0100",
+                        "secondary": "#565e74",
+                        "surface-tint": "#c00100",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-container": "#5c647a",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "secondary-container": "#dae2fd",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-primary-fixed-variant": "#930100",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "positive": "#10B981",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-surface": "#191c1e",
+                        "secondary-fixed": "#dae2fd",
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#410000",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary": "#ffffff",
+                        "negative": "#EF4444",
+                        "inverse-primary": "#ffb4a8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "xl": "40px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "container-max": "1200px",
+                        "lg": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Pretendard"],
+                        "headline-md": ["Pretendard"],
+                        "body-lg": ["Pretendard"],
+                        "body-md": ["Pretendard"],
+                        "body-sm": ["Pretendard"],
+                        "label-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            color: #191c1e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .animate-pulse-slow {
+            animation: subtle-pulse 3s infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-0 h-16 bg-white/80 backdrop-blur-md border-b border-surface-border flex items-center px-lg z-50">
+<div class="flex items-center gap-2 mr-xl shrink-0">
+<img alt="RedBot Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLt146ceUhtVlJznIwqAaIHOuKNb4TY8m75wuXeFmUxRxhrA_-ek4Wep-DdfL0c1sj8Xfr4PkqawTt54MQ7tzBQCLTvmW3vxYjTUfSvpBKoMuEFVSZ2HuQ2_SzZGmQWdfrsV6NNVanSNFOaq46MR95gXHoMEAln-f77dvPEaXbH0rhYlb_H7jou5pn7p1hHpvltMN2iWYG-mJsGfTUn-8Hy5J6hrpxTx6AVXCEhasfIjyjLn3bRJBr6m59aQ"/>
+<div class="hidden sm:block">
+<h1 class="text-lg font-bold text-primary leading-none">RedBot</h1>
+<p class="text-[10px] text-neutral-accent uppercase tracking-widest font-bold leading-none">Quant Terminal</p>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-1 h-full">
+<a class="flex items-center gap-2 px-md h-full text-primary font-bold border-b-2 border-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-sm whitespace-nowrap">Market Briefing</span>
+</a>
+<a class="flex items-center gap-2 px-md h-full text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-body-md text-sm whitespace-nowrap">Market Analysis</span>
+</a>
+<a class="flex items-center gap-2 px-md h-full text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">legend_toggle</span>
+<span class="font-body-md text-sm whitespace-nowrap">Indicators</span>
+</a>
+<a class="flex items-center gap-2 px-md h-full text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">query_stats</span>
+<span class="font-body-md text-sm whitespace-nowrap">Quant Models</span>
+</a>
+<a class="flex items-center gap-2 px-md h-full text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="font-body-md text-sm whitespace-nowrap">Community</span>
+</a>
+</nav>
+<div class="flex-1 flex justify-center px-lg">
+<div class="relative w-full max-w-sm hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-accent text-lg">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-1.5 text-sm focus:ring-1 focus:ring-primary" placeholder="Search markets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 shrink-0">
+<div class="hidden sm:flex items-center gap-4">
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-[22px]">notifications</button>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-[22px]">help_outline</button>
+<div class="h-6 w-px bg-surface-border mx-1"></div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-sm font-bold text-primary hover:bg-primary/5 rounded-lg transition-all active:scale-95">Login</button>
+<button class="px-4 py-1.5 text-sm font-bold bg-primary text-on-primary rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95">Register</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col pt-16">
+<!-- Dashboard Canvas -->
+<div class="p-lg max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-lg gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg">시장 브리핑</h2>
+<p class="text-neutral-accent font-body-md mt-1">2024년 11월 14일 실시간 퀀트 데이터 리포트</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-surface-border rounded-lg text-sm font-medium hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-lg">download</span> PDF 다운로드
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-surface-border rounded-lg text-sm font-medium hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-lg">share</span> 공유하기
+                    </button>
+</div>
+</div>
+<!-- Three Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+<!-- Left Column: Verdict & Flows -->
+<div class="lg:col-span-3 flex flex-col gap-lg">
+<!-- Market Verdict Card -->
+<div class="bg-primary text-white rounded-xl p-lg shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 opacity-10 p-4">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<span class="text-xs font-bold bg-white/20 px-2 py-1 rounded mb-4 inline-block uppercase tracking-wider">Current Verdict</span>
+<h3 class="text-2xl font-bold mb-2">상승 흐름 유지</h3>
+<p class="text-white/80 text-sm leading-relaxed">
+                            강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.
+                        </p>
+<div class="mt-6 flex items-center gap-2">
+<span class="material-symbols-outlined animate-pulse-slow">check_circle</span>
+<span class="text-sm font-bold uppercase tracking-tight">Active Strategy: Long</span>
+</div>
+</div>
+<!-- Today's Flow -->
+<div class="bg-white border border-surface-border rounded-xl p-lg">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<h4 class="font-bold text-lg">오늘 흐름</h4>
+</div>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<div class="w-1 bg-primary rounded-full"></div>
+<div>
+<p class="text-xs font-label-mono text-neutral-accent uppercase">09:15 AM</p>
+<p class="text-sm font-medium">외국인 순매수 전환 확인</p>
+</div>
+</li>
+<li class="flex gap-3">
+<div class="w-1 bg-primary rounded-full"></div>
+<div>
+<p class="text-xs font-label-mono text-neutral-accent uppercase">11:30 AM</p>
+<p class="text-sm font-medium">섹터 로테이션: 반도체 강세</p>
+</div>
+</li>
+<li class="flex gap-3 opacity-50">
+<div class="w-1 bg-surface-border rounded-full"></div>
+<div>
+<p class="text-xs font-label-mono text-neutral-accent uppercase">02:45 PM</p>
+<p class="text-sm font-medium">장마감 전 단기 차익 실현</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Tomorrow's Forecast Brief -->
+<div class="bg-surface-container-low border border-surface-border rounded-xl p-lg">
+<h4 class="font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">next_plan</span> 내일 참고
+                        </h4>
+<p class="text-sm text-secondary leading-relaxed">
+                            금리 결정 회의 결과에 따른 채권 금리 변동성에 유의하십시오. 성장주 위주의 포트폴리오 유지를 추천합니다.
+                        </p>
+</div>
+</div>
+<!-- Middle Column: Market Status Board (Chart) -->
+<div class="lg:col-span-6 flex flex-col gap-lg">
+<div class="bg-white border border-surface-border rounded-xl p-lg shadow-sm h-full">
+<div class="flex flex-col sm:flex-row justify-between items-start mb-6 gap-4">
+<div>
+<h4 class="font-bold text-lg">시장 현황판</h4>
+<p class="text-sm text-neutral-accent">3대 핵심 지표 추이 분석</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-blue-500"></span>
+<span class="text-xs font-medium">금융환경</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium">퀀트모델</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-orange-400"></span>
+<span class="text-xs font-medium">단기상황</span>
+</div>
+</div>
+</div>
+<!-- Visual Representation of Chart -->
+<div class="relative h-64 w-full bg-surface-container-lowest rounded-lg border border-surface-border overflow-hidden p-4">
+<!-- Background Grid -->
+<div class="absolute inset-0 flex flex-col justify-between opacity-5 p-4 pointer-events-none">
+<div class="h-px w-full bg-on-surface"></div>
+<div class="h-px w-full bg-on-surface"></div>
+<div class="h-px w-full bg-on-surface"></div>
+<div class="h-px w-full bg-on-surface"></div>
+<div class="h-px w-full bg-on-surface"></div>
+</div>
+<!-- Mock Data Lines -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none">
+<path class="drop-shadow-sm" d="M0,80 Q100,60 200,90 T400,40 T600,70" fill="none" stroke="#3b82f6" stroke-width="2.5"></path>
+<path class="drop-shadow-sm" d="M0,120 Q100,100 200,50 T400,60 T600,20" fill="none" stroke="#bc0100" stroke-width="3"></path>
+<path class="drop-shadow-sm" d="M0,150 Q100,140 200,110 T400,130 T600,100" fill="none" stroke="#fb923c" stroke-width="2"></path>
+</svg>
+</div>
+<div class="grid grid-cols-3 gap-lg mt-lg pt-lg border-t border-surface-border">
+<div class="text-center">
+<p class="text-xs text-neutral-accent mb-1 font-medium">종합 점수</p>
+<p class="text-2xl font-bold font-label-mono text-primary">84.2</p>
+<p class="text-[10px] text-positive font-bold mt-1">▲ 1.4%</p>
+</div>
+<div class="text-center">
+<p class="text-xs text-neutral-accent mb-1 font-medium">시장 강도</p>
+<p class="text-2xl font-bold font-label-mono text-on-surface">강함</p>
+<p class="text-[10px] text-neutral-accent font-bold mt-1">안정적</p>
+</div>
+<div class="text-center">
+<p class="text-xs text-neutral-accent mb-1 font-medium">변동성</p>
+<p class="text-2xl font-bold font-label-mono text-on-surface">낮음</p>
+<p class="text-[10px] text-negative font-bold mt-1">▼ 0.8%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Detailed Data -->
+<div class="lg:col-span-3 flex flex-col gap-lg">
+<!-- Group 1: Financial Env -->
+<div class="bg-white border border-surface-border rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface px-md py-2 border-b border-surface-border flex justify-between items-center">
+<span class="text-xs font-bold text-neutral-accent">금융시장 환경</span>
+<span class="material-symbols-outlined text-sm text-blue-500" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div class="p-md space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">환율 (USDKRW)</span>
+<span class="text-sm font-label-mono font-bold">1,340.2</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">국채 10년물</span>
+<span class="text-sm font-label-mono font-bold">3.65%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">공포 탐욕 지수</span>
+<span class="text-sm font-label-mono font-bold text-positive">72 (Greed)</span>
+</div>
+</div>
+</div>
+<!-- Group 2: Quant Model -->
+<div class="bg-white border border-surface-border rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface px-md py-2 border-b border-surface-border flex justify-between items-center">
+<span class="text-xs font-bold text-neutral-accent">퀀트모델 전망</span>
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+</div>
+<div class="p-md space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">익일 상승 확률</span>
+<span class="text-sm font-label-mono font-bold">68.5%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">추세 추종 강도</span>
+<span class="text-sm font-label-mono font-bold text-primary">Very Strong</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">모델 일치도</span>
+<span class="text-sm font-label-mono font-bold">92%</span>
+</div>
+</div>
+</div>
+<!-- Group 3: Short-term -->
+<div class="bg-white border border-surface-border rounded-xl overflow-hidden shadow-sm">
+<div class="bg-surface px-md py-2 border-b border-surface-border flex justify-between items-center">
+<span class="text-xs font-bold text-neutral-accent">단기 시장상황</span>
+<span class="material-symbols-outlined text-sm text-orange-400" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<div class="p-md space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">과매수 여부</span>
+<span class="text-sm font-label-mono font-bold">중립 (RSI: 62)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">기관 수급 지수</span>
+<span class="text-sm font-label-mono font-bold">Positive</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">거래량 동향</span>
+<span class="text-sm font-label-mono font-bold">증가세</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Investment Considerations Section -->
+<div class="mt-xl">
+<div class="flex items-center gap-3 mb-md">
+<span class="h-8 w-1 bg-primary rounded-full"></span>
+<h3 class="font-headline-md text-headline-md">투자 고려 사항</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Positive Factors -->
+<div class="bg-white border border-surface-border rounded-xl p-lg flex flex-col gap-4 group hover:border-positive/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-positive/10 rounded-lg text-positive">
+<span class="material-symbols-outlined block">add_circle</span>
+</div>
+<h4 class="font-bold text-lg">긍정적 요인</h4>
+</div>
+<ul class="space-y-3">
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-positive mt-1">•</span> 주요 대형주 실적 서프라이즈로 인한 지수 견인력 확보
+                            </li>
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-positive mt-1">•</span> 인플레이션 완화 데이터 발표에 따른 금리 하락 안정세
+                            </li>
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-positive mt-1">•</span> 외국인 투자자의 반도체 섹터 집중 매수 지속
+                            </li>
+</ul>
+</div>
+<!-- Risk Factors -->
+<div class="bg-white border border-surface-border rounded-xl p-lg flex flex-col gap-4 group hover:border-negative/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-negative/10 rounded-lg text-negative">
+<span class="material-symbols-outlined block">warning</span>
+</div>
+<h4 class="font-bold text-lg">리스크 요인</h4>
+</div>
+<ul class="space-y-3">
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-negative mt-1">•</span> 지정학적 긴장 고조에 따른 국제 유가 급등 가능성
+                            </li>
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-negative mt-1">•</span> 기술적 지표상의 단기 과열로 인한 일시적 조정 우려
+                            </li>
+<li class="flex items-start gap-2 text-sm text-on-surface-variant">
+<span class="text-negative mt-1">•</span> 특정 섹터(2차전지 등) 내 높은 변동성 및 수급 불균형
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Detailed Tomorrow Forecast Section -->
+<section class="mt-xl mb-xl">
+<div class="bg-surface-container border border-surface-border rounded-2xl p-xl flex flex-col md:flex-row items-center gap-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-5 pointer-events-none"></div>
+<div class="md:w-1/2 relative z-10">
+<h3 class="font-headline-lg text-headline-lg mb-4">내일 시장 상세 전망</h3>
+<p class="text-body-lg text-secondary leading-relaxed mb-6">
+                            RedBot 퀀트 엔진은 내일 시장을 <span class="text-primary font-bold">전강후강(前強後強)</span>의 견조한 흐름으로 예측합니다. 시초가 갭상승 이후 매물 소화 과정을 거쳐 종가 고가 형태의 캔들을 형성할 가능성이 74.2%로 산출되었습니다.
+                        </p>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 bg-white rounded-full text-sm font-bold shadow-sm border border-surface-border">#주도섹터:AI/HBM</span>
+<span class="px-4 py-2 bg-white rounded-full text-sm font-bold shadow-sm border border-surface-border">#추천비중:85%</span>
+<span class="px-4 py-2 bg-white rounded-full text-sm font-bold shadow-sm border border-surface-border">#목표지수:2,650pt</span>
+</div>
+</div>
+<div class="md:w-1/2 w-full grid grid-cols-1 sm:grid-cols-2 gap-md relative z-10">
+<div class="bg-white/60 backdrop-blur-sm p-lg rounded-xl border border-white/40">
+<p class="text-xs font-label-mono text-neutral-accent uppercase mb-2">Morning Session</p>
+<p class="text-sm font-bold">적극적 선제 매수</p>
+<p class="text-xs text-secondary mt-1">낙폭 과대주 중심의 바닥 잡기 전략</p>
+</div>
+<div class="bg-white/60 backdrop-blur-sm p-lg rounded-xl border border-white/40">
+<p class="text-xs font-label-mono text-neutral-accent uppercase mb-2">Afternoon Session</p>
+<p class="text-sm font-bold">수익 실현 및 교체</p>
+<p class="text-xs text-secondary mt-1">상승 탄력 둔화 종목의 비중 축소</p>
+</div>
+<div class="bg-white/60 backdrop-blur-sm p-lg rounded-xl border border-white/40">
+<p class="text-xs font-label-mono text-neutral-accent uppercase mb-2">Closing Strategy</p>
+<p class="text-sm font-bold">오버나이트 유지</p>
+<p class="text-xs text-secondary mt-1">핵심 주도주 위주의 물량 홀딩 권장</p>
+</div>
+<div class="bg-white/60 backdrop-blur-sm p-lg rounded-xl border border-white/40">
+<p class="text-xs font-label-mono text-neutral-accent uppercase mb-2">Risk Check</p>
+<p class="text-sm font-bold">손절가 엄격 준수</p>
+<p class="text-xs text-secondary mt-1">개별 종목별 5~7% 하락 시 기계적 대응</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="w-full py-lg mt-auto bg-surface-container-lowest border-t border-surface-border">
+<div class="max-w-container-max mx-auto px-lg flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex flex-col items-center md:items-start">
+<h5 class="font-headline-md text-primary font-bold">RedBot</h5>
+<p class="font-body-sm text-body-sm text-neutral-accent">© 2024 RedBot Quantitative Technologies. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-body-sm text-body-sm text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Risk Disclosure</a>
+<a class="font-body-sm text-body-sm text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">API Documentation</a>
+<a class="font-body-sm text-body-sm text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.bg-white.border').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'transform 0.2s ease-out, box-shadow 0.2s ease-out';
+                card.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body></html>
+
