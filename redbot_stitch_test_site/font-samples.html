@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedBot Font Samples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/static/woff2/SUIT.css">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans/packages/wanted-sans/fonts/webfonts/static/complete/WantedSans.min.css">
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --card: #fff;
+      --line: #e2e8f0;
+      --text: #191c1e;
+      --muted: #64748b;
+      --red: #8f0100;
+      --red2: #bc0100;
+      --green: #10b981;
+      --orange: #fb923c;
+      --mono: "JetBrains Mono", Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .brand {
+      color: var(--red);
+      font-size: 24px;
+      font-weight: 900;
+    }
+    .nav {
+      display: flex;
+      gap: 28px;
+      color: #334155;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    main {
+      width: min(100%, 1240px);
+      margin: 0 auto;
+      padding: 34px 24px 56px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .alert {
+      padding: 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--red2), var(--red));
+      color: #fff;
+      box-shadow: 0 18px 34px rgba(143, 1, 0, 0.2);
+    }
+    .alert span,
+    .label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 12px 0 8px;
+      font-size: 34px;
+      line-height: 1.2;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .alert p {
+      color: rgba(255, 255, 255, 0.86);
+      font-weight: 600;
+    }
+    .decision {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .decision strong {
+      display: block;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 30px;
+      color: var(--green);
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+    .sample {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr) 310px;
+      gap: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .font-name h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .font-name p {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .copy h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+    .copy p {
+      font-size: 16px;
+      color: #334155;
+    }
+    .metrics {
+      display: grid;
+      gap: 8px;
+    }
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 42px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #f2f4f6;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .metric strong {
+      font-family: var(--mono);
+      font-size: 15px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .chip {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(143, 1, 0, 0.08);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .pretendard { font-family: Pretendard, "Noto Sans KR", sans-serif; }
+    .suit { font-family: SUIT, "Noto Sans KR", sans-serif; }
+    .noto { font-family: "Noto Sans KR", sans-serif; }
+    .plex { font-family: "IBM Plex Sans KR", sans-serif; }
+    .wanted { font-family: "Wanted Sans", Pretendard, sans-serif; }
+    .recommend {
+      border-color: rgba(143, 1, 0, 0.35);
+      box-shadow: 0 10px 28px rgba(143, 1, 0, 0.08);
+    }
+    .recommend .font-name h2::after {
+      content: " 추천";
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 900;
+    }
+    @media (max-width: 960px) {
+      .hero,
+      .sample {
+        grid-template-columns: 1fr;
+      }
+      .topbar {
+        padding-inline: 18px;
+      }
+      .nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">RedBot Quant</div>
+    <nav class="nav" aria-label="sample navigation">
+      <span>Dashboard</span>
+      <span>Markets</span>
+      <span>Models</span>
+      <span>Portfolio</span>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="alert">
+        <span>Font Selection Lab</span>
+        <h1>기관형 트레이딩 터미널에 맞는 한글 UI 폰트 비교</h1>
+        <p>강한 레드, 촘촘한 데이터 카드, 숫자 중심 화면에서 제목·본문·라벨의 안정성과 전문성을 비교합니다.</p>
+      </div>
+      <aside class="decision">
+        <span class="label">Current Recommendation</span>
+        <strong>Pretendard</strong>
+        <p>가독성, 화면 밀도, 숫자/한글 혼합 UI의 균형이 가장 안정적입니다.</p>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="sample recommend pretendard">
+        <div class="font-name">
+          <h2>Pretendard</h2>
+          <p>현대 SaaS/핀테크에 가장 무난하고 균형 잡힌 선택.</p>
+        </div>
+        <div class="copy">
+          <h3>MARKET VERDICT: 상승 흐름 유지</h3>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="chips"><span class="chip">HIGH CONVICTION</span><span class="chip">STABLE-BULL</span></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>종합 지수</span><strong>84.2 ▲ 1.4%</strong></div>
+          <div class="metric"><span>일일 상승 확률</span><strong>68.5%</strong></div>
+          <div class="metric"><span>모델 일치도</span><strong>92%</strong></div>
+        </div>
+      </article>
+
+      <article class="sample suit">
+        <div class="font-name">
+          <h2>SUIT</h2>
+          <p>조금 더 단단하고 기술 서비스 느낌이 강함.</p>
+        </div>
+        <div class="copy">
+          <h3>MARKET VERDICT: 상승 흐름 유지</h3>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="chips"><span class="chip">HIGH CONVICTION</span><span class="chip">STABLE-BULL</span></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>종합 지수</span><strong>84.2 ▲ 1.4%</strong></div>
+          <div class="metric"><span>일일 상승 확률</span><strong>68.5%</strong></div>
+          <div class="metric"><span>모델 일치도</span><strong>92%</strong></div>
+        </div>
+      </article>
+
+      <article class="sample noto">
+        <div class="font-name">
+          <h2>Noto Sans KR</h2>
+          <p>안정적이지만 조금 범용적이고 개성이 약함.</p>
+        </div>
+        <div class="copy">
+          <h3>MARKET VERDICT: 상승 흐름 유지</h3>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="chips"><span class="chip">HIGH CONVICTION</span><span class="chip">STABLE-BULL</span></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>종합 지수</span><strong>84.2 ▲ 1.4%</strong></div>
+          <div class="metric"><span>일일 상승 확률</span><strong>68.5%</strong></div>
+          <div class="metric"><span>모델 일치도</span><strong>92%</strong></div>
+        </div>
+      </article>
+
+      <article class="sample plex">
+        <div class="font-name">
+          <h2>IBM Plex Sans KR</h2>
+          <p>전문적이고 기술 문서 느낌이 좋지만 UI에서는 다소 딱딱함.</p>
+        </div>
+        <div class="copy">
+          <h3>MARKET VERDICT: 상승 흐름 유지</h3>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="chips"><span class="chip">HIGH CONVICTION</span><span class="chip">STABLE-BULL</span></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>종합 지수</span><strong>84.2 ▲ 1.4%</strong></div>
+          <div class="metric"><span>일일 상승 확률</span><strong>68.5%</strong></div>
+          <div class="metric"><span>모델 일치도</span><strong>92%</strong></div>
+        </div>
+      </article>
+
+      <article class="sample wanted">
+        <div class="font-name">
+          <h2>Wanted Sans</h2>
+          <p>젊고 선명하지만 금융 터미널보다는 프로덕트 앱 느낌.</p>
+        </div>
+        <div class="copy">
+          <h3>MARKET VERDICT: 상승 흐름 유지</h3>
+          <p>강한 매수세가 지속되며 주요 저항선을 돌파했습니다. 리스크 관리를 동반한 공격적 비중 확대를 권장합니다.</p>
+          <div class="chips"><span class="chip">HIGH CONVICTION</span><span class="chip">STABLE-BULL</span></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>종합 지수</span><strong>84.2 ▲ 1.4%</strong></div>
+          <div class="metric"><span>일일 상승 확률</span><strong>68.5%</strong></div>
+          <div class="metric"><span>모델 일치도</span><strong>92%</strong></div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
