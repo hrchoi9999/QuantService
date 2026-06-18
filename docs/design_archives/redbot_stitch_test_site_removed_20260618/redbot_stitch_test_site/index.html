@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REDBOT Quant Terminal - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html" aria-label="REDBOT Quant">
+      <span class="brand-mark">R</span>
+      <span class="brand-copy"><strong>REDBOT</strong><small>Quant Terminal</small></span>
+    </a>
+    <nav class="nav service-nav" aria-label="주요 메뉴">
+      <a class="is-active" href="./index.html">시장 브리핑</a>
+      <a href="./markets.html">시장 분석</a>
+      <a href="./environment.html">시장 환경 지표</a>
+      <a href="./models.html">전략별 퀀트모델</a>
+      <a href="./changes.html">변경내역</a>
+      <a href="./discovery.html">상승종목 발굴</a>
+      <a href="./new-entries.html">신규 편입 종목</a>
+      <a href="./portfolio.html">투자 포트폴리오</a>
+      <a href="./investments.html">투자 현황</a>
+    </nav>
+    <div class="toolbar">
+      <div class="terminal-search">Search markets...</div>
+      <button class="icon-button" type="button" aria-label="알림">!</button>
+      <span class="account-chip">hrchoi@koreasc.com</span>
+      <button class="invest-button" type="button">Invest Now</button>
+    </div>
+  </header>
+
+  <main class="terminal-page">
+    <section class="terminal-layout">
+      <aside class="panel red-panel hero-verdict">
+        <span class="terminal-label">Market Verdict</span>
+        <strong>78°</strong>
+        <h1>Stable-Bull</h1>
+        <p>금융환경, 퀀트모델, 단기수급이 모두 위험선 위에 있습니다. 공격 비중은 유지하되 변동성 확대 구간만 감시합니다.</p>
+        <div class="heatbar"><i style="width: 78%"></i></div>
+        <dl class="compact-list inverse">
+          <div><dt>Exposure</dt><dd>82%</dd></div>
+          <div><dt>Risk Mode</dt><dd>Controlled</dd></div>
+          <div><dt>Signal Sync</dt><dd>3/3</dd></div>
+        </dl>
+      </aside>
+
+      <section class="panel market-brief">
+        <div class="section-head">
+          <div>
+            <span class="terminal-label">Live Market Briefing</span>
+            <h2>시장 브리핑</h2>
+          </div>
+          <time>2026-06-18 20:40 KST</time>
+        </div>
+        <div class="chart-frame">
+          <svg viewBox="0 0 760 260" role="img" aria-label="3축 시장 현황 그래프">
+            <path class="grid" d="M40 30H735M40 85H735M40 140H735M40 195H735M40 250H735"/>
+            <path class="line blue" d="M42 180C88 150 124 156 168 130C218 100 260 118 310 90C360 62 410 72 458 96C512 123 545 105 595 76C642 48 690 58 735 42"/>
+            <path class="line red" d="M42 206C96 190 132 166 176 162C226 158 256 118 306 116C360 114 402 84 454 92C512 102 548 138 596 128C648 118 692 94 735 88"/>
+            <path class="line green" d="M42 226C92 210 136 218 178 196C230 170 270 186 318 158C374 126 418 142 462 132C516 120 552 145 600 132C654 116 694 118 735 108"/>
+            <g class="axis">
+              <text x="40" y="256">06-03</text>
+              <text x="250" y="256">06-10</text>
+              <text x="485" y="256">06-17</text>
+              <text x="680" y="256">06-19 TEST</text>
+            </g>
+          </svg>
+        </div>
+        <div class="legend-row">
+          <span><i class="dot blue-bg"></i>금융환경 1.08</span>
+          <span><i class="dot red-bg"></i>퀀트모델 0.82</span>
+          <span><i class="dot green-bg"></i>단기수급 0.64</span>
+          <span class="next-test">익일 테스트 데이</span>
+        </div>
+      </section>
+
+      <aside class="panel news-panel">
+        <div class="section-head tight">
+          <div>
+            <span class="terminal-label">Market News</span>
+            <h2>핵심 뉴스</h2>
+          </div>
+        </div>
+        <article class="news-item">
+          <span>Macro</span>
+          <h3>미국 금리 경로 완화 기대 유지</h3>
+          <p>장기금리 하락과 달러 안정이 위험자산 선호를 지지합니다.</p>
+        </article>
+        <article class="news-item">
+          <span>Flow</span>
+          <h3>외국인 반도체 순매수 확대</h3>
+          <p>기관 매물은 제한적이며 수급 충돌 강도는 낮습니다.</p>
+        </article>
+        <article class="news-item">
+          <span>Risk</span>
+          <h3>단기 과열 지표는 중립권</h3>
+          <p>추격매수보다 리밸런싱 중심 대응이 유리합니다.</p>
+        </article>
+      </aside>
+    </section>
+
+    <section class="strategy-grid">
+      <article class="panel strategy-card">
+        <span class="terminal-label">Strategy 01</span>
+        <h2>Core Equity</h2>
+        <p>주도 업종 중심으로 비중 유지. 약세 전환 전까지 현 포지션을 방어합니다.</p>
+        <div class="metric-row"><strong>+12.8%</strong><span class="gain-chip">Active</span></div>
+      </article>
+      <article class="panel strategy-card">
+        <span class="terminal-label">Strategy 02</span>
+        <h2>ETF Rotation</h2>
+        <p>지수 ETF, 반도체 ETF, 현금성 자산을 3단계로 분산합니다.</p>
+        <div class="metric-row"><strong>64%</strong><span class="status-chip">Balanced</span></div>
+      </article>
+      <article class="panel strategy-card">
+        <span class="terminal-label">Strategy 03</span>
+        <h2>Risk Guard</h2>
+        <p>익일 테스트 신호가 급락하면 포지션을 단계적으로 축소합니다.</p>
+        <div class="metric-row"><strong>-4.0%</strong><span class="risk-chip">Stop</span></div>
+      </article>
+    </section>
+
+    <section class="wide-grid">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <span class="terminal-label">Active Portfolio</span>
+            <h2>실행 포트폴리오</h2>
+          </div>
+          <a class="terminal-link" href="./portfolio.html">View Portfolio</a>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Asset</th><th>Weight</th><th>Signal</th><th>Flow</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>KODEX 200</td><td>28%</td><td>Buy</td><td class="pos">+1.8B</td><td>Hold</td></tr>
+            <tr><td>TIGER Semiconductor</td><td>22%</td><td>Strong</td><td class="pos">+2.4B</td><td>Add</td></tr>
+            <tr><td>Cash Reserve</td><td>18%</td><td>Neutral</td><td>0.0B</td><td>Wait</td></tr>
+            <tr><td>Defensive Basket</td><td>12%</td><td>Guard</td><td class="neg">-0.3B</td><td>Trim</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <div class="section-head tight">
+          <div>
+            <span class="terminal-label">Performance</span>
+            <h2>성과 추적</h2>
+          </div>
+        </div>
+        <div class="performance-list">
+          <div class="perf-line"><div><span>1D Return</span><b>+0.86%</b></div><i style="width: 54%"></i></div>
+          <div class="perf-line"><div><span>1M Return</span><b>+5.42%</b></div><i style="width: 72%"></i></div>
+          <div class="perf-line"><div><span>Max Drawdown</span><b>-2.18%</b></div><i style="width: 32%"></i></div>
+          <div class="perf-line"><div><span>Win Rate</span><b>68.4%</b></div><i style="width: 68%"></i></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel section-spacer">
+      <div class="section-head">
+        <div><span class="terminal-label">Briefing Detail</span><h2>시장 브리핑 상세 구성</h2></div>
+        <span class="status-chip">Full page content</span>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-tile"><span>Layer 01</span><strong>시장 상태</strong><p>중기 상태점수와 3축 그래프를 기준으로 현재 국면을 먼저 판정합니다.</p></div>
+        <div class="detail-tile"><span>Layer 02</span><strong>오늘 흐름</strong><p>수급, 시장 폭, 섹터 강도를 이용해 당일 해석을 분리합니다.</p></div>
+        <div class="detail-tile"><span>Layer 03</span><strong>내일 참고</strong><p>개장 전 9시까지 익일 테스트 신호를 별도 상태로 표시합니다.</p></div>
+        <div class="detail-tile"><span>Layer 04</span><strong>모델 연결</strong><p>전략별 퀀트모델과 포트폴리오 판단으로 이어지는 참고 신호를 제공합니다.</p></div>
+      </div>
+    </section>
+
+    <section class="wide-grid">
+      <article class="panel">
+        <div class="section-head tight"><div><span class="terminal-label">Update Timeline</span><h2>데이터 업데이트 흐름</h2></div></div>
+        <div class="timeline-list">
+          <div class="timeline-row"><time>08:50</time><div><b>익일 테스트 신호 확인</b><p>QuantMarket current 데이터 기준으로 개장 전 신호를 노출합니다.</p></div><span>Pre-open</span></div>
+          <div class="timeline-row"><time>15:40</time><div><b>장마감 데이터 반영</b><p>시장 상태, 수급, 섹터 강도, 모델 배경 데이터를 갱신합니다.</p></div><span>Close</span></div>
+          <div class="timeline-row"><time>20:40</time><div><b>웹 브리핑 확정</b><p>웹사이트에서 조회할 최종 사용자용 브리핑 화면을 고정합니다.</p></div><span>Published</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <div class="section-head tight"><div><span class="terminal-label">Service Map</span><h2>다음 확인 화면</h2></div></div>
+        <div class="note-list">
+          <p><b>1</b> 시장 분석에서 세부 지표와 DART/폭/상대강도 데이터를 확인합니다.</p>
+          <p><b>2</b> 전략별 퀀트모델에서 모델별 해석과 성과 지표를 점검합니다.</p>
+          <p><b>3</b> 투자 포트폴리오에서 최종 비중과 보유 후보 결정을 확인합니다.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="terminal-footer">
+    <strong>REDBOT Quant</strong>
+    <span>Parallel redesign test site · No production deployment</span>
+    <nav aria-label="하단 메뉴">
+      <a href="./markets.html">시장 분석</a>
+      <a href="./models.html">전략별 퀀트모델</a>
+      <a href="./portfolio.html">투자 포트폴리오</a>
+      <a href="./investments.html">투자 현황</a>
+    </nav>
+  </footer>
+</body>
+</html>
