@@ -15,8 +15,13 @@ This directory is intentionally separate from the current `redbot.co.kr` Flask/Q
 
 - `index.html`: dashboard and market briefing
 - `markets.html`: market analysis
+- `environment.html`: market environment indicators
 - `models.html`: quant model command view
+- `changes.html`: model change history
+- `discovery.html`: trading sign discovery
+- `new-entries.html`: new entry tracker
 - `portfolio.html`: portfolio strategy view
+- `investments.html`: user investment status view
 - `reports.html`: report/archive view
 - `font-samples.html`: Korean font comparison reference
 

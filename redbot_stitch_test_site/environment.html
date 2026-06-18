@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REDBOT Quant Terminal - Market Environment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="brand-mark">R</span><span class="brand-copy"><strong>REDBOT</strong><small>Quant Terminal</small></span></a>
+    <nav class="nav service-nav" aria-label="주요 메뉴">
+      <a href="./index.html">시장 브리핑</a><a href="./markets.html">시장 분석</a><a class="is-active" href="./environment.html">시장 환경 지표</a><a href="./models.html">전략별 퀀트모델</a><a href="./changes.html">변경내역</a><a href="./discovery.html">상승종목 발굴</a><a href="./new-entries.html">신규 편입 종목</a><a href="./portfolio.html">투자 포트폴리오</a><a href="./investments.html">투자 현황</a>
+    </nav>
+    <div class="toolbar"><div class="terminal-search">Search indicators...</div><button class="icon-button" type="button">!</button><span class="account-chip">hrchoi@koreasc.com</span><button class="invest-button" type="button">Invest Now</button></div>
+  </header>
+
+  <main class="terminal-page">
+    <section class="page-title-row">
+      <div><span class="terminal-label">Market Environment Indicators</span><h1>시장 환경 지표</h1></div>
+      <div class="time-chip">Macro snapshot</div>
+    </section>
+    <section class="indicator-grid">
+      <article class="panel indicator-card"><span class="terminal-label">USD/KRW</span><strong>1,378.4</strong><p>환율은 위험자산에 중립적입니다. 급등 위험은 제한적입니다.</p></article>
+      <article class="panel indicator-card"><span class="terminal-label">US 10Y</span><strong>4.18%</strong><p>장기금리는 하락 압력으로 성장주 밸류 부담을 낮춥니다.</p></article>
+      <article class="panel indicator-card"><span class="terminal-label">VIX</span><strong>13.2</strong><p>변동성 지표는 안정권이며 포지션 유지가 가능한 구간입니다.</p></article>
+    </section>
+    <section class="wide-grid">
+      <article class="panel curve-card">
+        <div class="section-head"><div><span class="terminal-label">Environment Trend</span><h2>금융환경 추이</h2></div><span class="gain-chip">Supportive</span></div>
+        <svg viewBox="0 0 760 280" role="img" aria-label="시장 환경 지표 추이">
+          <path class="grid" d="M36 36H728M36 92H728M36 148H728M36 204H728M36 260H728"/>
+          <path class="line blue" d="M36 210C110 190 150 156 220 166C290 176 336 120 410 112C486 104 530 136 596 104C650 78 692 82 728 70"/>
+          <path class="line red" d="M36 160C104 170 164 146 224 132C290 118 344 126 412 104C486 80 530 96 598 88C650 82 696 66 728 58"/>
+          <g class="axis"><text x="36" y="276">Apr</text><text x="250" y="276">May</text><text x="510" y="276">Jun</text></g>
+        </svg>
+      </article>
+      <article class="panel">
+        <div class="section-head tight"><div><span class="terminal-label">Risk Map</span><h2>지표 해석</h2></div></div>
+        <div class="note-list">
+          <p><b>1</b> 환율과 금리 조합은 주식 비중 축소 신호가 아닙니다.</p>
+          <p><b>2</b> 원자재와 달러가 동시에 급등하면 방어 모드로 전환합니다.</p>
+          <p><b>3</b> VIX 안정은 단기 매수세 유지 가능성을 높입니다.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer class="terminal-footer"><strong>REDBOT Quant</strong><span>Parallel redesign test site · No production deployment</span><nav><a href="./index.html">시장 브리핑</a><a href="./markets.html">시장 분석</a><a href="./models.html">전략별 퀀트모델</a><a href="./portfolio.html">투자 포트폴리오</a></nav></footer>
+</body>
+</html>
