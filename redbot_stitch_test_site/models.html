@@ -85,6 +85,24 @@
         </div>
       </article>
     </section>
+
+    <section class="panel section-spacer">
+      <div class="section-head"><div><span class="terminal-label">Model Performance</span><h2>전략별 모델 성과</h2></div><span class="status-chip">Backtest linked</span></div>
+      <table class="data-table">
+        <thead><tr><th>전략</th><th>CAGR</th><th>MDD</th><th>Sharpe</th><th>최근 상태</th><th>운영 판단</th></tr></thead>
+        <tbody>
+          <tr><td>안정형</td><td class="pos">8.4%</td><td>-6.1%</td><td>1.12</td><td>방어 안정</td><td>유지</td></tr>
+          <tr><td>성장형</td><td class="pos">14.8%</td><td>-12.4%</td><td>1.36</td><td>모멘텀 개선</td><td>비중 확대</td></tr>
+          <tr><td>균형형</td><td class="pos">10.2%</td><td>-8.7%</td><td>1.21</td><td>정상</td><td>유지</td></tr>
+          <tr><td>자동형</td><td class="pos">11.6%</td><td>-9.3%</td><td>1.28</td><td>리스크 온</td><td>조건부 확대</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="report-grid">
+      <article class="panel report-card"><span class="terminal-label">Validation</span><h2>모델 검증 항목</h2><p>데이터 최신성, 입력 파일 누락, 성과 지표 계산, 후보 종목 수를 매일 검증합니다.</p><div class="metric-row"><strong>PASS</strong><span class="gain-chip">4 checks</span></div></article>
+      <article class="panel report-card red-accent"><span class="terminal-label">Scenario</span><h2>시장 시나리오 연결</h2><p>시장 등급은 종목 제외 기준이 아니라 주식/ETF/현금 비중 조절 기준으로 사용합니다.</p><div class="metric-row"><strong>6단계</strong><span class="status-chip">STEP1</span></div></article>
+    </section>
   </main>
 
   <footer class="terminal-footer">
