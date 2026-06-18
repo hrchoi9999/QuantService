@@ -3441,7 +3441,7 @@ body[data-ui-redesign="1"] .site-header.public-header {
   padding: 0 24px;
   border-width: 0 0 1px;
   border-color: var(--rb-border);
-  border-radius: 0;
+  border-radius: 0 !important;
   background: rgba(255, 255, 255, 0.92) !important;
   box-shadow: none !important;
 }
