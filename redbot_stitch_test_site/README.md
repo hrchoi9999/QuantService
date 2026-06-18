@@ -1,4 +1,4 @@
-# RedBot Stitch Test Site
+# REDBOT Stitch Test Site
 
 Standalone redesign test site for the institutional/trading terminal direction from the Stitch v2 design files.
 

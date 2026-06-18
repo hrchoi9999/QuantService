@@ -82,8 +82,9 @@ button {
 .brand-copy strong {
   display: block;
   color: var(--red-dark);
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 900;
+  letter-spacing: 0.02em;
   line-height: 1;
 }
 
@@ -892,6 +893,37 @@ button {
   border-top: 5px solid var(--red);
 }
 
+.terminal-footer {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  padding: 26px 24px 40px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.terminal-footer strong {
+  color: var(--red-dark);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.terminal-footer nav {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.terminal-footer a {
+  color: var(--muted-strong);
+}
+
 @media (max-width: 1120px) {
   .topbar {
     flex-wrap: wrap;
@@ -970,5 +1002,16 @@ button {
 
   .panel:has(.data-table) {
     overflow-x: auto;
+  }
+
+  .terminal-footer {
+    display: grid;
+    gap: 12px;
+    padding-inline: 14px;
+  }
+
+  .terminal-footer nav {
+    flex-wrap: wrap;
+    margin-left: 0;
   }
 }
