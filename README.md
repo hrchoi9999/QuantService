@@ -85,7 +85,8 @@ INVESTMENT_PORTFOLIO_URL=https://storage.googleapis.com/quantservice-489808-mark
 INVESTMENT_PORTFOLIO_ALLOW_LOCAL_FALLBACK=false
 ```
 
-Create a verified local repository backup:
+Create a verified local repository backup. QS-Master owns this operation, and only the latest
+backup set is retained:
 
 ```powershell
 .\scripts\backup_quantservice.ps1 -Verify

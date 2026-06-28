@@ -39,7 +39,7 @@
   - 권장:
     - `D:\QunatBackup\QuantService\run_quantservice_backup.cmd`
   - 직접 실행:
-    - `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\QunatBackup\QuantService\backup_quantservice.ps1" -SourcePath "D:\QuantService" -BackupRoot "D:\QunatBackup\QuantService" -KeepLatest 14`
+    - `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\QunatBackup\QuantService\backup_quantservice.ps1" -SourcePath "D:\QuantService" -BackupRoot "D:\QunatBackup\QuantService" -KeepLatest 1 -Verify`
 - 작업 디렉터리: `D:\QuantService`
 - 사용하는 Python/venv/도구:
   - Python 불필요
@@ -111,8 +111,9 @@
   - `latest_backup.txt`의 `git_head`가 `D:\QuantService` 현재 HEAD 또는 허용된 최신 커밋과 일치
   - 최신 ZIP 파일 존재 및 size > 1MB
 - 보존 기간:
-  - `KeepLatest=14`
-  - 최신 14개 ZIP 유지
+  - `KeepLatest=1`
+  - 최신 ZIP 1개와 해당 `.sha256` 1개만 유지
+  - 이전 `QuantService_*.zip`과 해당 `.sha256`은 백업 성공 후 삭제
 - 후속 소비 쓰레드:
   - QuantOpsScheduler
   - QuantService
@@ -218,7 +219,7 @@ QuantOpsScheduler에서 다음을 완료한 뒤 QuantService 쓰레드에 고지
   - 수동 승인 후 실행 대상
 - runtime snapshot 백업 스크립트:
   - `D:\QuantService\scripts\backup_runtime.ps1`
-  - 현재 통합 자동실행 대상 아님
+  - 폐지됨. QuantService 백업은 저장소 전체 백업 스크립트만 사용
 - current JSON 생성:
   - Quant/QuantMarket 담당
   - QuantService는 웹 fallback/current 파일을 보관하거나 표시함

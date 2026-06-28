@@ -1,22 +1,22 @@
 # QS Active Work Registry
 
-| 영역 | 대표 쓰레드 | 현재 상태 | 최근 메모 |
+| 영역 | Active agent | 현재 상태 | 최근 메모 |
 |---|---|---|---|
-| 공개 웹 | QS-Public-Web | 완료 | T-series Discovery 공개 반영 완료 (`df90823`, `f746aae`) |
-| 관리자 preview | QS-Admin-Preview | 활성 | analytics p1~p5, market briefing lab 운영 검토 가능 |
-| 인증/플랫폼 | QS-Platform-Auth | 유지보수 | 관리자 로그인, bootstrap, CSRF/권한 보강 반영 완료 |
-| Quant 연동 | QS-Quant-Handoff | 활성 | 모델 copy/compliance/weekly model 관련 upstream 필드 반영 중 |
-| QM 연동 | QS-QM-Handoff | 활성 | public market briefing optional payload, admin lab payload 연동 중 |
-| 배포/운영 | QS-Deploy-Ops | 활성 | Cloud Run/GCS remote handoff 운영 유지, Cloud Build bucket asia 전환 완료 |
+| 공개 웹 / admin / auth | QS-Web-Platform Agent | 활성 | `QS-Public-Web`, `QS-Admin-Preview`, `QS-Platform-Auth` 병합 운영 |
+| Quant / QM handoff | QS-Handoff Agent | 활성 | `QS-Quant-Handoff`, `QS-QM-Handoff` 병합 운영 |
+| 배포/운영 | QS-Deploy-Ops Agent | 활성 | Cloud Run/GCS remote handoff 운영 유지, Cloud Build bucket asia 전환 완료 |
+| 총괄 / release gate | QS-Master | 활성 | 요청 분류, owner/reviewer agent 지정, 공개 반영 판단 |
 
-현재 대화 쓰레드:
+현재 대화 역할:
 
-- `QS-Public-Web`
+- `QS-Master`
 
 운영 메모:
 
-- 새 요청은 먼저 `QS-Master` 기준으로 대표 쓰레드를 정한 뒤 처리합니다.
-- 공개와 admin preview가 동시에 걸리는 요청은 `QS-Master`가 릴리즈 게이트를 주관합니다.
+- 새 요청은 먼저 `QS-Master/WORK_INTAKE.md` 기준으로 active agent에 배정합니다.
+- 공개와 admin preview가 동시에 걸리는 요청은 `QS-Web-Platform Agent`가 owner, `QS-Master`가 release gate를 담당합니다.
+- Quant/QM 산출물 계약과 공개 UI가 동시에 걸리면 `QS-Handoff Agent`가 owner, `QS-Web-Platform Agent`가 reviewer입니다.
+- 배포가 필요한 작업은 구현 agent 완료 후 `QS-Deploy-Ops Agent`에 넘깁니다.
 
 ## 2026-03-26
 

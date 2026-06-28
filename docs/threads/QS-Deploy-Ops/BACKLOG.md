@@ -14,7 +14,7 @@
   - asia bucket 전환 전후 추세 비교
 - HSTS 운영 유지 모니터링
   - `https://redbot.co.kr`
-  - `https://quantservice-web-452568862306.asia-northeast3.run.app`
+  - `https://quantservice-web-h5flovxxuq-du.a.run.app`
   - `Strict-Transport-Security: max-age=2592000` 유지 여부 확인
 - LB 고정비 절감 후보로 `bluebot-http-forwarding-rule` 제거 가능성 유지
   - `http://redbot.co.kr` 직접 유입 영향 검토
