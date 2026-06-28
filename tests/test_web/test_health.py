@@ -6546,7 +6546,7 @@ def test_admin_new_entries_api_includes_weekly_rankings(tmp_path: Path, monkeypa
     assert payload["weekly_rankings"][0]["score_basis"] == "stage_blend"
 
 
-def test_admin_new_entries_api_supports_i_series_internal_model(
+def test_admin_new_entries_api_excludes_retired_internal_model(
     tmp_path: Path, monkeypatch
 ) -> None:
     settings = build_settings(tmp_path, trial_mode=False)
@@ -6574,14 +6574,17 @@ def test_admin_new_entries_api_supports_i_series_internal_model(
 
     assert response.status_code == 200
     payload = response.get_json()
-    assert payload["model"] == "I-STOCK-STRONG-RSI-V01"
-    assert payload["rows"]
-    assert payload["rows"][0]["score"] == 125.0
-    assert payload["rows"][0]["score_basis"] == "i_raw_score"
-    assert payload["rows"][0]["score_display_mode"] == "number"
+    assert payload["model"] == ""
+    assert "I-STOCK-STRONG-RSI-V01" not in {
+        row["model_code"] for row in payload["summary"]
+    }
+    assert "I-STOCK-STRONG-RSI-V01" not in {row["model_code"] for row in payload["rows"]}
+    assert "I-STOCK-STRONG-RSI-V01" not in {
+        row["model_code"] for row in payload["weekly_rankings"]
+    }
     actual_live = payload["actual_live_performance"]
     assert actual_live["metric_basis"] == "actual_market_price_forward_return_since_live_start"
-    assert actual_live["total_count"] == 4
+    assert actual_live["total_count"] == 3
     stable_live = next(row for row in actual_live["rows"] if row["model_code"] == "stable")
     assert stable_live["model_label"] == "안정형"
     one_month_metric = next(metric for metric in stable_live["metrics"] if metric["key"] == "1m")
@@ -6591,13 +6594,9 @@ def test_admin_new_entries_api_supports_i_series_internal_model(
     assert one_month_metric["sharpe_sample_count"] == 1
     assert "6m" not in {metric["key"] for metric in stable_live["metrics"]}
     assert "1y" not in {metric["key"] for metric in stable_live["metrics"]}
-    i_live = next(
-        row for row in actual_live["rows"] if row["model_code"] == "I-STOCK-STRONG-RSI-V01"
-    )
-    assert i_live["scope"] == "internal"
-    assert i_live["live_event_count"] == 0
-    assert i_live["metrics"][0]["avg_return"] is None
-    assert i_live["metrics"][0]["has_sample"] is False
+    assert "I-STOCK-STRONG-RSI-V01" not in {
+        row["model_code"] for row in actual_live["rows"]
+    }
 
 
 def test_admin_new_entries_page_renders_weekly_rankings_table(tmp_path: Path, monkeypatch) -> None:
@@ -6816,8 +6815,8 @@ def test_admin_internal_models_requires_admin_and_renders_page(tmp_path: Path, m
     body = response.get_data(as_text=True)
     assert "내부용 모델" in body
     assert "S2" in body
-    assert "I-series Strong RSI" in body
-    assert "강한 RSI와 초기 상승 탄력" in body
+    assert "I-series Strong RSI" not in body
+    assert "강한 RSI와 초기 상승 탄력" not in body
     assert "T-STOCK-V01" in body
     assert "internal-summary-metrics" in body
     assert "1Y SHARPE" in body
@@ -6856,31 +6855,9 @@ def test_admin_internal_models_api_returns_models(tmp_path: Path, monkeypatch) -
     assert payload["as_of_date"] == "2026-04-14"
     model_codes = {row["model_code"] for row in payload["models"]}
     assert "S2" in model_codes
-    assert "I-STOCK-STRONG-RSI-V01" in model_codes
+    assert "I-STOCK-STRONG-RSI-V01" not in model_codes
+    assert "S2_PIT_V01" not in model_codes
     assert "T-STOCK-V01" in model_codes
-    i_model = next(
-        row for row in payload["models"] if row["model_code"] == "I-STOCK-STRONG-RSI-V01"
-    )
-    assert i_model["display_name"] == "I-series Strong RSI"
-    assert round(i_model["performance"]["cagr_proxy"], 6) == 0.42
-    assert round(i_model["performance"]["mdd"], 6) == -0.12
-    assert round(i_model["performance"]["sharpe"], 6) == 1.8
-    assert i_model["performance_basis"] == "i_series_shadow"
-    assert i_model["holdings"][0]["rank_no"] == 1
-    assert i_model["holdings"][0]["score"] == 125.0
-    assert i_model["holdings"][0]["score_basis"] == "i_raw_score"
-    assert i_model["holdings"][0]["score_display_mode"] == "number"
-    assert i_model["holdings"][0]["universe_rank_no"] == 1
-    assert i_model["holdings"][0]["display_score"] == 125.0
-    assert [row["period"] for row in i_model["period_view"]["supporting"][:7]] == [
-        "1W",
-        "2W",
-        "1M",
-        "3M",
-        "6M",
-        "1Y",
-        "ITD",
-    ]
 
 
 def test_admin_internal_models_production_blocks_stale_local_tracker_fallback(

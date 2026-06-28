@@ -17,12 +17,16 @@ INTERNAL_SCOPE_MODELS = (
     "S2",
     "S3",
     "S3_CORE2",
+    "S3_ACCEL_V01",
     "S4",
     "S5",
     "S6",
-    "S2_PIT_V01",
-    "S3_ACCEL_V01",
-    "I-STOCK-STRONG-RSI-V01",
+)
+RETIRED_INTERNAL_SCOPE_MODELS = frozenset(
+    {
+        "S2_PIT_V01",
+        "I-STOCK-STRONG-RSI-V01",
+    }
 )
 TSERIES_SCOPE_MODELS = ("T-STOCK-V01", "T-ETF-V01")
 SCOPE_KEY_MAP = {
@@ -335,6 +339,9 @@ class AdminNewEntriesApi:
         if selected_event_type == "new_or_re_entry":
             return normalized_row_event in {"new_entry", "re_entry"}
         return normalized_row_event == selected_event_type
+
+    def _is_retired_internal_model(self, model_code: str) -> bool:
+        return str(model_code or "").strip().upper() in RETIRED_INTERNAL_SCOPE_MODELS
 
     def _normalize_model(self, scope: str, model: str | None) -> str:
         candidate = str(model or "").strip()
@@ -652,6 +659,8 @@ class AdminNewEntriesApi:
             if not self._event_type_matches(event_type, str(row.get("event_type") or "")):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             if model and row_model != model:
                 continue
             filtered.append(dict(row))
@@ -681,6 +690,8 @@ class AdminNewEntriesApi:
             if not self._event_type_matches(event_type, str(row.get("event_type") or "")):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             if model and row_model != model:
                 continue
             event_day = _safe_parse_date(row.get("event_date") or row.get("week_end"))
@@ -777,6 +788,8 @@ class AdminNewEntriesApi:
             if not isinstance(row, dict):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             ticker = str(row.get("security_code") or row.get("ticker") or "-").strip() or "-"
             week_end = str(row.get("week_end") or row.get("snapshot_date") or "")
             score = _safe_float(row.get("score"))
@@ -806,6 +819,8 @@ class AdminNewEntriesApi:
             if not isinstance(row, dict):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             live_start = _safe_parse_date(row.get("live_start_date"))
             if row_model and live_start:
                 lookup[row_model] = live_start
@@ -823,6 +838,8 @@ class AdminNewEntriesApi:
             if not isinstance(row, dict):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             event_day = _safe_parse_date(row.get("event_date") or row.get("week_end"))
             live_start = live_start_lookup.get(row_model)
             if live_start and event_day and event_day < live_start:
@@ -894,6 +911,8 @@ class AdminNewEntriesApi:
             if not isinstance(row, dict):
                 continue
             row_model = self._extract_row_model(scope, row)
+            if scope == "internal" and self._is_retired_internal_model(row_model):
+                continue
             if model and row_model != model:
                 continue
             week_end = str(row.get("week_end") or row.get("snapshot_date") or "-")
@@ -997,6 +1016,8 @@ class AdminNewEntriesApi:
                 if not isinstance(row, dict):
                     continue
                 row_model = self._extract_row_model(row_scope, row)
+                if row_scope == "internal" and self._is_retired_internal_model(row_model):
+                    continue
                 if model and row_model != model:
                     continue
                 metrics = row.get("metrics") or {}

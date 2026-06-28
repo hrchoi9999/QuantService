@@ -15,15 +15,19 @@ INTERNAL_ADMIN_MODEL_CODES = (
     "S2",
     "S3",
     "S3_CORE2",
+    "S3_ACCEL_V01",
     "S4",
     "S5",
     "S6",
-    "S2_PIT_V01",
-    "S3_ACCEL_V01",
-    "I-STOCK-STRONG-RSI-V01",
     "T-STOCK-V01",
     "T-ETF-V01",
     "E-ETF-V01",
+)
+RETIRED_INTERNAL_MODEL_CODES = frozenset(
+    {
+        "S2_PIT_V01",
+        "I-STOCK-STRONG-RSI-V01",
+    }
 )
 
 INTERNAL_MODEL_DISPLAY_NAMES = {
@@ -159,6 +163,14 @@ def _safe_int(value: Any) -> int | None:
         return int(text)
     except ValueError:
         return None
+
+
+def _normalize_model_code(value: Any) -> str:
+    return str(value or "").strip().upper()
+
+
+def _is_retired_internal_model(value: Any) -> bool:
+    return _normalize_model_code(value) in RETIRED_INTERNAL_MODEL_CODES
 
 
 def _fmt_period_from_key(period_key: str) -> str:
@@ -518,18 +530,30 @@ class InternalModelsApi:
     ) -> list[dict[str, Any]]:
         overlay_by_model = overlay_by_model or {}
         e_series_payload = e_series_payload or {}
-        internal_rows = payload.get("internal_models") or []
+        internal_rows = [
+            row
+            for row in payload.get("internal_models") or []
+            if isinstance(row, dict) and not _is_retired_internal_model(row.get("model_code"))
+        ]
         tseries_rows = payload.get("tseries_models") or []
-        internal_rankings = (payload.get("weekly_rankings") or {}).get("internal_models") or []
+        internal_rankings = [
+            row
+            for row in (payload.get("weekly_rankings") or {}).get("internal_models") or []
+            if isinstance(row, dict) and not _is_retired_internal_model(row.get("model_code"))
+        ]
         tseries_rankings = (payload.get("weekly_rankings") or {}).get("tseries_models") or []
         performance_summary = payload.get("model_performance_summary") or {}
-        internal_performance_rows = performance_summary.get("internal_models") or []
+        internal_performance_rows = [
+            row
+            for row in performance_summary.get("internal_models") or []
+            if isinstance(row, dict) and not _is_retired_internal_model(row.get("model_code"))
+        ]
         tseries_performance_rows = performance_summary.get("tseries_models") or []
         perf_by_code: dict[str, dict[str, Any]] = {}
         for row in [*internal_performance_rows, *tseries_performance_rows]:
             if not isinstance(row, dict):
                 continue
-            code = str(row.get("model_code") or "").strip().upper()
+            code = _normalize_model_code(row.get("model_code"))
             if not code:
                 continue
             perf_by_code[code] = row
@@ -549,8 +573,8 @@ class InternalModelsApi:
             for row in rows:
                 if not isinstance(row, dict):
                     continue
-                code = str(row.get("model_code") or "").strip().upper()
-                if not code or code in known_codes:
+                code = _normalize_model_code(row.get("model_code"))
+                if not code or code in known_codes or _is_retired_internal_model(code):
                     continue
                 discovered_codes.add(code)
         model_codes.extend(sorted(discovered_codes))
@@ -563,13 +587,13 @@ class InternalModelsApi:
                     row
                     for row in tseries_rows
                     if isinstance(row, dict)
-                    and str(row.get("model_code") or "").strip().upper() == model_code
+                    and _normalize_model_code(row.get("model_code")) == model_code
                 ]
                 ranking_rows = [
                     row
                     for row in tseries_rankings
                     if isinstance(row, dict)
-                    and str(row.get("model_code") or "").strip().upper() == model_code
+                    and _normalize_model_code(row.get("model_code")) == model_code
                 ]
             else:
                 scope = "internal"
@@ -577,13 +601,13 @@ class InternalModelsApi:
                     row
                     for row in internal_rows
                     if isinstance(row, dict)
-                    and str(row.get("model_code") or "").strip().upper() == model_code
+                    and _normalize_model_code(row.get("model_code")) == model_code
                 ]
                 ranking_rows = [
                     row
                     for row in internal_rankings
                     if isinstance(row, dict)
-                    and str(row.get("model_code") or "").strip().upper() == model_code
+                    and _normalize_model_code(row.get("model_code")) == model_code
                 ]
             model_views.append(
                 self._build_model_view(
@@ -612,6 +636,8 @@ class InternalModelsApi:
             if not isinstance(note, dict):
                 continue
             model_id = str(note.get("model_id") or "").strip().upper()
+            if _is_retired_internal_model(model_id):
+                continue
             text = str(note.get("text") or "").strip()
             if model_id and text:
                 notes_by_model.setdefault(model_id, []).append(text)
@@ -620,7 +646,7 @@ class InternalModelsApi:
             if not isinstance(row, dict):
                 continue
             model_id = str(row.get("model_id") or "").strip().upper()
-            if not model_id:
+            if not model_id or _is_retired_internal_model(model_id):
                 continue
             normalized = self._normalize_ai_overlay_summary_row(row)
             normalized["notes"] = notes_by_model.get(model_id, [])
@@ -648,6 +674,7 @@ class InternalModelsApi:
                 self._normalize_ai_overlay_summary_row(row)
                 for row in payload.get("model_summary") or []
                 if isinstance(row, dict)
+                and not _is_retired_internal_model(row.get("model_id"))
             ],
         }
 
@@ -699,6 +726,8 @@ class InternalModelsApi:
                 continue
             normalized = self._normalize_validation_model(row)
             code = str(normalized.get("model_code") or "").strip().upper()
+            if _is_retired_internal_model(code):
+                continue
             normalized["history"] = history_by_model.get(code, [])[:8]
             models.append(normalized)
 
@@ -709,6 +738,22 @@ class InternalModelsApi:
                 str(item.get("model_code") or ""),
             )
         )
+        summary = dict(current_payload.get("summary") or {})
+        summary["model_count"] = len(models)
+        if "active_model_count" in summary:
+            summary["active_model_count"] = len(models)
+        review_state_counts: dict[str, int] = {}
+        for item in models:
+            state = str(item.get("review_state") or "unknown")
+            review_state_counts[state] = review_state_counts.get(state, 0) + 1
+        if review_state_counts:
+            summary["by_review_state"] = review_state_counts
+        summary["action_required_count"] = sum(
+            1
+            for item in models
+            if str(item.get("review_state") or "").upper() == "ACTION_REQUIRED"
+        )
+
         return {
             "enabled": True,
             "source_name": str(current_payload.get("source_name") or ""),
@@ -718,7 +763,7 @@ class InternalModelsApi:
             "review_schedule": current_payload.get("review_schedule") or {},
             "decision_policy": current_payload.get("decision_policy") or {},
             "metric_definitions": current_payload.get("metric_definitions") or {},
-            "summary": current_payload.get("summary") or {},
+            "summary": summary,
             "models": models,
             "history_summary": history_payload.get("summary") or {},
         }
