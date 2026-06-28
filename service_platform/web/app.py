@@ -172,6 +172,13 @@ TRADING_SIGN_STATE_TONE_BY_LABEL = {
     "매도": "sell",
     "매수 대기": "wait",
 }
+TRADING_SIGN_PUBLIC_STATE_LABEL_BY_LABEL = {
+    "매수": "진입 관찰",
+    "보유": "유지 관찰",
+    "주의": "주의 관찰",
+    "매도": "제외 관찰",
+    "매수 대기": "대기 관찰",
+}
 TRADING_SIGN_STATE_SORT_ORDER = {
     "매수": 0,
     "보유": 1,
@@ -179,7 +186,7 @@ TRADING_SIGN_STATE_SORT_ORDER = {
     "매도": 3,
     "매수 대기": 4,
 }
-TRADING_SIGN_BLOCK_TITLE = "매매 신호(전일 종가 기준)"
+TRADING_SIGN_BLOCK_TITLE = "일간 관찰 신호(전일 종가 기준)"
 AUTO_ADMIN_EMAILS = {"hrchoi@koreascf.com"}
 AUTO_OPS_VIEWER_EMAILS = {"hrchoi@koreascf.com"}
 # Ops viewer only accounts (admin 권한 자동 회수가 필요한 계정만 명시)
@@ -796,7 +803,12 @@ def _build_trading_sign_section_view(
                 "ticker": str(row.get("ticker") or "").strip(),
                 "security_name": str(row.get("security_name") or "-").strip() or "-",
                 "current_state": str(row.get("current_state") or "-").strip() or "-",
-                "reason_summary": str(row.get("reason_summary") or "-").strip() or "-",
+                "current_state_display": _public_trading_sign_text(
+                    str(row.get("current_state") or "-").strip() or "-"
+                ),
+                "reason_summary": _public_trading_sign_text(
+                    str(row.get("reason_summary") or "-").strip() or "-"
+                ),
                 "latest_state_change_date": str(row.get("latest_state_change_date") or "-").strip()
                 or "-",
             }
@@ -812,10 +824,30 @@ def _build_trading_sign_section_view(
         return None
     return {
         "section_key": str(section.get("section_key") or "").strip(),
-        "title": str(section.get("title") or "일간 신호").strip(),
+        "title": _public_trading_sign_text(str(section.get("title") or "일간 신호").strip()),
         "record_count": int(section.get("record_count") or len(signals)),
         "signals": signals,
     }
+
+
+def _public_trading_sign_text(value: str) -> str:
+    text = str(value or "").strip()
+    replacements = (
+        ("추천 종목 신호", "관찰 종목 신호"),
+        ("매수 대기", "대기 관찰"),
+        ("매수·매도", "진입·제외"),
+        ("매수/매도", "진입/제외"),
+        ("매수", "진입"),
+        ("매도", "제외"),
+        ("추천", "안내"),
+        ("권유", "안내"),
+        ("개인 맞춤", "개별화"),
+        ("적합", "부합"),
+        ("유리", "상대적으로 나음"),
+    )
+    for source, target in replacements:
+        text = text.replace(source, target)
+    return text
 
 
 def _build_trading_sign_view(
@@ -855,6 +887,9 @@ def _build_trading_sign_view(
         state_chips.append(
             {
                 "state": state,
+                "state_display": TRADING_SIGN_PUBLIC_STATE_LABEL_BY_LABEL.get(
+                    state, _public_trading_sign_text(state)
+                ),
                 "count": int(chip.get("count") or 0),
                 "tone": TRADING_SIGN_STATE_TONE_BY_LABEL.get(state, "wait"),
             }
@@ -901,8 +936,8 @@ def _build_trading_sign_view(
         "show_fallback": False,
         # Keep the public title stable even if upstream snapshot text lags behind.
         "title": TRADING_SIGN_BLOCK_TITLE,
-        "description": str(ui_block.get("description") or "").strip(),
-        "disclaimer": str(ui_block.get("disclaimer") or "").strip(),
+        "description": _public_trading_sign_text(str(ui_block.get("description") or "").strip()),
+        "disclaimer": _public_trading_sign_text(str(ui_block.get("disclaimer") or "").strip()),
         "signal_date": str(ui_block.get("signal_date") or "").strip(),
         "data_asof_date": str(ui_block.get("data_asof_date") or "").strip(),
         "generated_at": str(
@@ -4990,6 +5025,7 @@ def create_app(settings: Settings | None = None) -> Flask:
             return ({"status": "error", "message": "snapshot unavailable"}, 503)
         return (jsonify(bundle.performance_summary), 200)
 
+    @app.get("/api/v1/changes/latest")
     @app.get("/api/v1/changes/recent")
     def api_changes_recent() -> tuple[dict[str, object], int]:
         bundle = load_user_bundle_or_error()
@@ -5989,7 +6025,6 @@ def create_app(settings: Settings | None = None) -> Flask:
 
     @app.get("/discovery")
     def discovery() -> Response | tuple[str, int]:
-        require_ops_viewer_access()
         try:
             overview = tseries_api.load_overview(force_refresh=False)
         except TSeriesLoadError:

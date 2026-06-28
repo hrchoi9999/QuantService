@@ -217,6 +217,9 @@ def _build_view(
         "as_of_date": _text(payload.get("as_of_date")),
         "generated_at": _text(payload.get("generated_at")),
         "source_thread": _text(payload.get("source_thread"), "QuantAnalysis"),
+        "title_allocation_card": _normalize_title_allocation_card(
+            payload.get("title_allocation_card") or payload.get("target_allocation")
+        ),
         "market_risk": {
             "rating": step1_v2["display_rating"] if step1_v2 else _text(market_risk.get("rating")),
             "direction_label": _text(market_risk.get("direction_label")),
@@ -269,6 +272,56 @@ def _build_view(
             "본 자료는 매수/매도 권유가 아닌 참고용 정보입니다.",
         ),
     }
+
+
+def _normalize_title_allocation_card(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        return None
+    raw_cards = value.get("cards") or []
+    if not isinstance(raw_cards, list):
+        return None
+    cards: list[dict[str, str]] = []
+    for item in raw_cards:
+        if not isinstance(item, dict):
+            continue
+        label = _text(item.get("label"), "")
+        if not label:
+            continue
+        cards.append(
+            {
+                "label": label,
+                "target_pct": _pct_display(item.get("target_pct")),
+                "range_pct": _pct_range_display(item.get("range_pct")),
+                "description": _text(item.get("description"), ""),
+            }
+        )
+    if not cards:
+        return None
+    return {
+        "title": _text(value.get("title"), "주식 / ETF / 현금 비중"),
+        "summary": _text(value.get("summary"), ""),
+        "stance": _text(value.get("stance"), ""),
+        "action": _text(value.get("action"), ""),
+        "cards": cards,
+    }
+
+
+def _pct_display(value: Any) -> str:
+    if value is None:
+        return "-"
+    text = str(value).strip()
+    if not text:
+        return "-"
+    return text if text.endswith("%") else f"{text}%"
+
+
+def _pct_range_display(value: Any) -> str:
+    if value is None:
+        return "-"
+    text = str(value).strip()
+    if not text:
+        return "-"
+    return text if text.endswith("%") else f"{text}%"
 
 
 def _load_portfolio_run_context_from_db(db_path: Path) -> dict[str, Any]:
@@ -464,6 +517,111 @@ def _load_stock_candidate_overrides_from_db(db_path: Path) -> dict[str, dict[str
                 "source": row["source"],
             }
         )
+    return result
+
+
+def enrich_portfolio_payload_with_db_live(
+    payload: dict[str, Any], db_path: Path = QUANT_ANALYSIS_DB_PATH
+) -> dict[str, Any]:
+    """Fill missing stock live_quote blocks from the latest successful DB snapshot."""
+    if not db_path.exists():
+        return {"status": "skipped", "reason": "db_missing", "updated_candidates": 0}
+    stock_strategy = payload.get("stock_strategy")
+    if not isinstance(stock_strategy, dict):
+        return {"status": "skipped", "reason": "stock_strategy_missing", "updated_candidates": 0}
+    candidates = stock_strategy.get("candidates")
+    if not isinstance(candidates, list):
+        return {"status": "skipped", "reason": "candidates_missing", "updated_candidates": 0}
+
+    live_by_ticker = _load_latest_stock_live_quotes_from_db(db_path)
+    if not live_by_ticker:
+        return {"status": "skipped", "reason": "live_snapshot_missing", "updated_candidates": 0}
+
+    updated = 0
+    used_asof_dates: set[str] = set()
+    used_fetched_at: set[str] = set()
+    used_sources: set[str] = set()
+    for candidate in candidates:
+        if not isinstance(candidate, dict):
+            continue
+        ticker = _text(candidate.get("ticker"), "")
+        quote = live_by_ticker.get(ticker)
+        if not quote:
+            continue
+        current_quote = (
+            candidate.get("live_quote") if isinstance(candidate.get("live_quote"), dict) else {}
+        )
+        if _live_quote_is_complete(current_quote):
+            continue
+        candidate["live_quote"] = quote
+        updated += 1
+        if quote.get("asof_date"):
+            used_asof_dates.add(str(quote["asof_date"]))
+        if quote.get("fetched_at"):
+            used_fetched_at.add(str(quote["fetched_at"]))
+        if quote.get("source"):
+            used_sources.add(str(quote["source"]))
+
+    if updated:
+        stock_strategy["live_data"] = {
+            "status": "snapshot_confirmed",
+            "source": " + ".join(sorted(used_sources)) or "db_latest_success_snapshot",
+            "asof_date": max(used_asof_dates) if used_asof_dates else None,
+            "fetched_at": max(used_fetched_at) if used_fetched_at else None,
+            "success_count": updated,
+            "error_count": 0,
+            "errors": [],
+        }
+    return {
+        "status": "updated" if updated else "unchanged",
+        "updated_candidates": updated,
+    }
+
+
+def _live_quote_is_complete(quote: dict[str, Any]) -> bool:
+    return (
+        quote.get("price") is not None
+        and quote.get("change_pct") is not None
+        and quote.get("foreign_net_억원") is not None
+        and quote.get("institution_net_억원") is not None
+    )
+
+
+def _load_latest_stock_live_quotes_from_db(db_path: Path) -> dict[str, dict[str, Any]]:
+    try:
+        with sqlite3.connect(db_path) as connection:
+            connection.row_factory = sqlite3.Row
+            rows = connection.execute(
+                """
+                SELECT ticker, live_price, live_change_pct, foreign_net_억원,
+                       institution_net_억원, individual_net_억원, pension_net_억원,
+                       as_of_date, fetched_at, source
+                FROM v_portfolio_stock_live_latest
+                WHERE live_price IS NOT NULL
+                  AND live_change_pct IS NOT NULL
+                  AND foreign_net_억원 IS NOT NULL
+                  AND institution_net_억원 IS NOT NULL
+                """
+            ).fetchall()
+    except sqlite3.Error:
+        return {}
+    result: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        ticker = _text(row["ticker"], "")
+        if not ticker:
+            continue
+        result[ticker] = {
+            "price": row["live_price"],
+            "change_pct": row["live_change_pct"],
+            "foreign_net_억원": row["foreign_net_억원"],
+            "institution_net_억원": row["institution_net_억원"],
+            "individual_net_억원": row["individual_net_억원"],
+            "pension_net_억원": row["pension_net_억원"],
+            "source": row["source"],
+            "asof_date": row["as_of_date"],
+            "fetched_at": row["fetched_at"],
+            "is_fallback_from_latest_success": True,
+        }
     return result
 
 
@@ -920,7 +1078,19 @@ def _normalize_stock_candidates(
                 "summary": _text(item.get("qualitative_summary")),
             }
         )
-    return rows
+    return sorted(
+        rows,
+        key=lambda row: (
+            _missing_sort_key(row["first_portfolio_selection_date"]),
+            row["first_portfolio_selection_date"],
+            row["ticker"],
+        ),
+    )
+
+
+def _missing_sort_key(value: Any) -> int:
+    text = _text(value, "")
+    return 0 if text and text != "-" else 1
 
 
 def _first_present(*values: Any) -> Any:

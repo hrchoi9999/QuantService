@@ -16,7 +16,6 @@
     <div class="stack-actions hero-actions">
       <a class="primary-button" href="{{ url_for('today') }}">전략별 퀀트모델 보기</a>
       <a class="secondary-button" href="{{ url_for('market_analysis') }}">시장 브리핑 보기</a>
-      <a class="secondary-button" href="{{ url_for('performance') }}">모델 성과 설명 보기</a>
     </div>
     {% if status_snapshot.state == 'stale' %}
     <div class="warning-banner">최신 스냅샷 반영이 다소 지연되고 있습니다. 직전 정상 데이터를 기준으로 화면을 제공하고 있습니다.</div>

@@ -226,7 +226,7 @@
                       순위 {{ item.rank_no }} ·
                       {% endif %}
                       {% if item.strategy_fit_score is not none %}
-                      전략 적합도 {{ item.strategy_fit_score | fmt_percent }}
+                      전략 부합도 {{ item.strategy_fit_score | fmt_percent }}
                       {% elif item.rank_no is none %}
                       -
                       {% endif %}
@@ -256,7 +256,7 @@
                   <th>자산군</th>
                   <th>종목명</th>
                   <th>순위</th>
-                  <th>전략 적합도</th>
+                  <th>전략 부합도</th>
                   <th>목표 비중</th>
                   <th>역할</th>
                 </tr>

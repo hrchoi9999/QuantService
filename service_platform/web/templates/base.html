@@ -26,8 +26,8 @@
         <a href="{{ url_for('market_environment_indicators') }}">시장 환경 지표</a>
         <a href="{{ url_for('today') }}">전략별 퀀트모델</a>
         <a href="{{ url_for('changes') }}">변경내역</a>
-        {% if current_user and can_access_ops_viewer %}
         <a href="{{ url_for('discovery') }}">상승종목 발굴</a>
+        {% if current_user and can_access_ops_viewer %}
         <a href="{{ url_for('new_entries') }}">신규 편입 종목</a>
         <a href="{{ url_for('investment_portfolio') }}">투자 포트폴리오</a>
         {% endif %}
@@ -77,9 +77,7 @@
         <a href="{{ url_for('market_analysis_data') }}">시장 분석</a>
         <a href="{{ url_for('market_environment_indicators') }}">시장 환경 지표</a>
         <a href="{{ url_for('today') }}">전략별 퀀트모델</a>
-        {% if current_user and can_access_ops_viewer %}
         <a href="{{ url_for('discovery') }}">상승종목 발굴</a>
-        {% endif %}
       </div>
     </footer>
   </div>

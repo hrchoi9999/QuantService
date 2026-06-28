@@ -2,15 +2,37 @@
 
 {% block content %}
 <section class="hero-panel shell-card investment-portfolio-hero">
-  <div>
+  <div class="investment-portfolio-hero-copy">
     <span class="eyebrow">운영자 전용</span>
     <h1>투자 포트폴리오</h1>
+    <div class="hero-badges compact-meta">
+      <span class="badge neutral">기준일 {{ portfolio.as_of_date }}</span>
+      <span class="badge neutral">생성 {{ portfolio.generated_at }}</span>
+      <span class="badge neutral">{{ portfolio.source_thread }}</span>
+    </div>
     <p class="lead">QuantAnalysis가 생성한 일일 포트폴리오 판단 데이터를 요약합니다.</p>
   </div>
-  <div class="hero-badges compact-meta">
-    <span class="badge neutral">기준일 {{ portfolio.as_of_date }}</span>
-    <span class="badge neutral">생성 {{ portfolio.generated_at }}</span>
-    <span class="badge neutral">{{ portfolio.source_thread }}</span>
+  <div class="investment-portfolio-hero-side">
+    {% if portfolio.title_allocation_card %}
+    <div class="portfolio-title-allocation">
+      <div class="portfolio-title-allocation-head">
+        <span>{{ portfolio.title_allocation_card.title }}</span>
+        <strong>{{ portfolio.title_allocation_card.stance }}</strong>
+      </div>
+      <div class="portfolio-title-allocation-grid">
+        {% for card in portfolio.title_allocation_card.cards %}
+        <div class="portfolio-title-allocation-item">
+          <span>{{ card.label }}</span>
+          <strong>{{ card.target_pct }}</strong>
+          <small>{{ card.range_pct }}</small>
+        </div>
+        {% endfor %}
+      </div>
+      {% if portfolio.title_allocation_card.summary %}
+      <p>{{ portfolio.title_allocation_card.summary }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
   </div>
 </section>
 

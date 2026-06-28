@@ -581,12 +581,13 @@ def test_tseries_public_page_renders_and_handles_empty_bucket(tmp_path: Path) ->
     seed_tseries_discovery_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
 
     response = client.get("/discovery")
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
+    assert client.get("/new-entries").status_code == 404
+    assert client.get("/investment-portfolio").status_code == 404
     assert "상승종목 발굴" in body
     assert "전이형 발굴 모델" in body
     assert "T-STOCK-V01" in body
@@ -620,17 +621,18 @@ def test_tseries_public_page_renders_trading_sign_block_when_available(tmp_path:
     seed_tseries_discovery_trading_sign_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
 
     response = client.get("/discovery")
     body = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert body.count("매매 신호(전일 종가 기준)") >= 2
+    assert body.count("일간 관찰 신호(전일 종가 기준)") >= 2
     assert (
-        "추천 종목 신호" in body
+        "관찰 종목 신호" in body
         or "상승종목 발굴 일간 신호 데이터가 아직 준비되지 않았습니다." in body
     )
+    assert "추천 종목 신호" not in body
+    assert "매수 대기" not in body
     assert "대우건설" in body
 
 
@@ -639,7 +641,6 @@ def test_tseries_public_page_hides_missing_trading_sign_sections_gracefully(tmp_
     seed_tseries_discovery_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
 
     body = client.get("/discovery").get_data(as_text=True)
 
@@ -666,7 +667,6 @@ def test_tseries_public_page_hides_missing_rolling_watchlist_gracefully(tmp_path
 
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
     body = client.get("/discovery").get_data(as_text=True)
 
     assert "상승종목 발굴 rolling watchlist 데이터가 아직 준비되지 않았습니다." in body
@@ -680,7 +680,6 @@ def test_home_renders_tseries_teaser_when_available(tmp_path: Path) -> None:
     seed_tseries_discovery_payload(settings.public_data_dir)
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
 
     response = client.get("/")
     body = response.get_data(as_text=True)
@@ -840,7 +839,6 @@ def test_tseries_api_returns_503_when_payload_is_missing(tmp_path: Path) -> None
     settings = build_settings(tmp_path)
     app = create_app(settings)
     client = app.test_client()
-    login_ops_viewer(client, app)
 
     list_response = client.get("/api/v1/discovery/t-series")
     page_response = client.get("/discovery")

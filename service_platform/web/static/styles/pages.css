@@ -842,7 +842,111 @@
 }
 
 .investment-portfolio-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(480px, 1.18fr);
+  align-items: start;
+  gap: 32px;
+}
+
+.investment-portfolio-hero-copy,
+.investment-portfolio-hero-side {
+  min-width: 0;
+}
+
+.investment-portfolio-hero-copy {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 10px 0 10px 14px;
+}
+
+.investment-portfolio-hero-copy h1,
+.investment-portfolio-hero-copy p {
+  margin: 0;
+}
+
+.investment-portfolio-hero-copy .compact-meta {
+  margin-top: 2px;
+}
+
+.investment-portfolio-hero-side {
+  display: grid;
+  justify-items: stretch;
+  gap: 16px;
+}
+
+.portfolio-title-allocation {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.portfolio-title-allocation-head {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.portfolio-title-allocation-head span,
+.portfolio-title-allocation-head strong {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.portfolio-title-allocation-head span {
+  color: var(--ink-soft);
+}
+
+.portfolio-title-allocation-head strong {
+  color: var(--ink-strong);
+}
+
+.portfolio-title-allocation p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.portfolio-title-allocation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  overflow: hidden;
+}
+
+.portfolio-title-allocation-item {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 16px 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.portfolio-title-allocation-item span {
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.portfolio-title-allocation-item strong {
+  color: var(--ink-strong);
+  font-size: 30px;
+  line-height: 1.05;
+}
+
+.portfolio-title-allocation-item small {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .portfolio-risk-card {
@@ -1454,9 +1558,18 @@
   .portfolio-step-detail-grid,
   .portfolio-model-role-grid,
   .portfolio-scenario-grid,
+  .portfolio-title-allocation-grid,
   .portfolio-market-overview,
   .portfolio-step1-axis-grid {
     grid-template-columns: 1fr;
+  }
+
+  .investment-portfolio-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .investment-portfolio-hero-side {
+    justify-items: stretch;
   }
 
   .internal-model-summary {

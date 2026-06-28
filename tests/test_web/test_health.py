@@ -1,5 +1,6 @@
 import importlib
 import json
+import sqlite3
 import sys
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
@@ -15,6 +16,7 @@ from service_platform.web.internal_models_api import InternalModelsApi
 from service_platform.web.investment_portfolio_api import (
     InvestmentPortfolioApi,
     InvestmentPortfolioLoadError,
+    enrich_portfolio_payload_with_db_live,
 )
 from service_platform.web.market_analysis_api import MarketAnalysisMockApi
 from service_platform.web.trading_sign_api import TradingSignSnapshotApi
@@ -2268,6 +2270,7 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     legacy_profile_response = client.get("/api/v1/recommendation/stable")
     performance_response = client.get("/api/v1/performance/summary")
     performance_alias_response = client.get("/api/v1/model-performance/summary")
+    changes_latest_response = client.get("/api/v1/changes/latest")
     changes_response = client.get("/api/v1/changes/recent")
     manifest_response = client.get("/api/v1/publish-status")
     manifest_alias_response = client.get("/api/v1/manifest")
@@ -2301,7 +2304,9 @@ def test_mock_api_routes_return_snapshot_payloads(tmp_path: Path) -> None:
     assert all(
         model["service_profile"] != "auto" for model in performance_response.get_json()["models"]
     )
+    assert changes_latest_response.status_code == 200
     assert changes_response.status_code == 200
+    assert changes_latest_response.get_json() == changes_response.get_json()
     assert changes_response.get_json()["changes"][0]["service_profile"] == "stable"
     assert changes_response.get_json()["changes"][0]["change_type"] == "rebalanced"
     assert (
@@ -3643,8 +3648,10 @@ def test_today_page_renders_trading_sign_block_per_model(tmp_path: Path) -> None
 
     body = client.get("/today").get_data(as_text=True)
 
-    assert "매매 신호(전일 종가 기준)" in body
-    assert "추천 종목 신호" in body or "일간 신호 데이터가 아직 준비되지 않았습니다." in body
+    assert "일간 관찰 신호(전일 종가 기준)" in body
+    assert "관찰 종목 신호" in body or "일간 신호 데이터가 아직 준비되지 않았습니다." in body
+    assert "추천 종목 신호" not in body
+    assert "매수 대기" not in body
     assert "삼성전자" in body
 
 
@@ -3720,7 +3727,7 @@ def test_today_page_keeps_trading_sign_block_when_snapshot_is_stale(tmp_path: Pa
 
     body = client.get("/today").get_data(as_text=True)
 
-    assert "매매 신호(전일 종가 기준)" in body
+    assert "일간 관찰 신호(전일 종가 기준)" in body
     assert "일간 신호 데이터 업데이트가 지연되어 최근 기준 스냅샷을 표시합니다." in body
     assert "삼성전자" in body
 
@@ -3735,7 +3742,8 @@ def test_today_page_renders_allocation_rank_and_strategy_fit(tmp_path: Path) -> 
     body = client.get("/today").get_data(as_text=True)
 
     assert "순위" in body
-    assert "전략 적합도" in body
+    assert "전략 부합도" in body
+    assert "전략 적합도" not in body
     assert "target_weight_proxy" in body
 
 
@@ -7380,6 +7388,65 @@ def test_investment_portfolio_normalizes_weight_policy_and_selection_date(
     )
 
 
+def test_investment_portfolio_renders_title_allocation_cards(tmp_path: Path) -> None:
+    payload_path = tmp_path / "investment_portfolio_latest.json"
+    payload_path.write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-06-21",
+                "generated_at": "2026-06-21T18:30:57.421+09:00",
+                "market_risk": {},
+                "etf_strategy": {},
+                "stock_strategy": {"candidates": []},
+                "title_allocation_card": {
+                    "title": "주식 / ETF / 현금 비중",
+                    "stance": "보수 운용",
+                    "summary": "권장 기본값은 주식 10%, ETF 76.5%, 현금 13.5%다.",
+                    "action": "주식은 소액만 열어두고 ETF 방어 배분을 중심으로 운용한다.",
+                    "cards": [
+                        {
+                            "label": "주식",
+                            "target_pct": 10,
+                            "range_pct": "0~15",
+                            "description": "상위 후보 중 수급 확인 종목만 소액/분할",
+                        },
+                        {
+                            "label": "ETF",
+                            "target_pct": 76.5,
+                            "range_pct": "72.2~85",
+                            "description": "S6 방어 배분의 비현금 ETF",
+                        },
+                        {
+                            "label": "현금",
+                            "target_pct": 13.5,
+                            "range_pct": "12.8~15",
+                            "description": "S6 CASH를 전체 포트폴리오 기준으로 환산",
+                        },
+                    ],
+                },
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = InvestmentPortfolioApi(
+        primary_path=payload_path,
+        fallback_path=payload_path,
+        db_path=tmp_path / "missing.db",
+    ).load_bundle()
+
+    allocation = bundle.view["title_allocation_card"]
+    assert allocation["summary"] == "권장 기본값은 주식 10%, ETF 76.5%, 현금 13.5%다."
+    assert [card["label"] for card in allocation["cards"]] == ["주식", "ETF", "현금"]
+    assert [card["target_pct"] for card in allocation["cards"]] == ["10%", "76.5%", "13.5%"]
+    assert [card["range_pct"] for card in allocation["cards"]] == [
+        "0~15%",
+        "72.2~85%",
+        "12.8~15%",
+    ]
+
+
 def test_investment_portfolio_prefers_stock_candidate_model_display_from_latest_db(
     tmp_path: Path,
 ) -> None:
@@ -7542,6 +7609,126 @@ def test_investment_portfolio_prefers_stock_candidate_model_display_from_latest_
     assert bundle.view["stock_strategy"]["live_status"] == "ok"
     assert bundle.view["stock_strategy"]["live_source"] == "kiwoom_intraday_refresh"
     assert bundle.view["stock_strategy"]["live_fetched_at"] == "2026-05-21T14:58:38+09:00"
+
+
+def test_investment_portfolio_payload_enrichment_uses_latest_success_live_snapshot(
+    tmp_path: Path,
+) -> None:
+    db_path = tmp_path / "analysis.db"
+    payload = {
+        "as_of_date": "2026-06-21",
+        "stock_strategy": {
+            "live_data": {
+                "status": "not_loaded",
+                "asof_date": "2026-06-21",
+            },
+            "candidates": [
+                {
+                    "ticker": "005930",
+                    "name": "삼성전자",
+                    "live_quote": None,
+                }
+            ],
+        },
+    }
+
+    with sqlite3.connect(db_path) as connection:
+        connection.execute(
+            """
+            CREATE TABLE v_portfolio_stock_live_latest (
+                ticker TEXT,
+                live_price REAL,
+                live_change_pct REAL,
+                foreign_net_억원 REAL,
+                institution_net_억원 REAL,
+                individual_net_억원 REAL,
+                pension_net_억원 REAL,
+                as_of_date TEXT,
+                fetched_at TEXT,
+                source TEXT
+            )
+            """
+        )
+        connection.execute(
+            """
+            INSERT INTO v_portfolio_stock_live_latest (
+                ticker, live_price, live_change_pct, foreign_net_억원,
+                institution_net_억원, individual_net_억원, pension_net_억원,
+                as_of_date, fetched_at, source
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "005930",
+                71000,
+                1.25,
+                120.5,
+                -80.0,
+                -40.5,
+                10.0,
+                "2026-06-19",
+                "2026-06-19T15:30:00+09:00",
+                "kiwoom_rest_ka10001+kiwoom_rest_ka10059",
+            ),
+        )
+
+    result = enrich_portfolio_payload_with_db_live(payload, db_path)
+
+    quote = payload["stock_strategy"]["candidates"][0]["live_quote"]
+    assert result["status"] == "updated"
+    assert result["updated_candidates"] == 1
+    assert quote["price"] == 71000
+    assert quote["change_pct"] == 1.25
+    assert quote["foreign_net_억원"] == 120.5
+    assert quote["institution_net_억원"] == -80.0
+    assert quote["asof_date"] == "2026-06-19"
+    assert payload["stock_strategy"]["live_data"]["status"] == "snapshot_confirmed"
+    assert payload["stock_strategy"]["live_data"]["asof_date"] == "2026-06-19"
+
+
+def test_investment_portfolio_stock_candidates_sort_by_first_portfolio_date(
+    tmp_path: Path,
+) -> None:
+    payload_path = tmp_path / "investment_portfolio_latest.json"
+    payload_path.write_text(
+        json.dumps(
+            {
+                "as_of_date": "2026-06-21",
+                "generated_at": "2026-06-21T18:40:00+09:00",
+                "market_risk": {},
+                "etf_strategy": {},
+                "stock_strategy": {
+                    "candidates": [
+                        {
+                            "ticker": "000003",
+                            "name": "신규후보",
+                            "first_portfolio_selection_date": "2026-06-21",
+                        },
+                        {
+                            "ticker": "000001",
+                            "name": "오래된후보",
+                            "first_portfolio_selection_date": "2026-05-13",
+                        },
+                        {
+                            "ticker": "000002",
+                            "name": "날짜없음",
+                        },
+                    ]
+                },
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    bundle = InvestmentPortfolioApi(
+        primary_path=payload_path,
+        fallback_path=payload_path,
+        db_path=tmp_path / "missing.db",
+    ).load_bundle()
+
+    candidates = bundle.view["stock_strategy"]["candidates"]
+    assert [row["ticker"] for row in candidates] == ["000001", "000003", "000002"]
 
 
 def test_user_snapshot_can_read_remote_current_json(tmp_path: Path) -> None:

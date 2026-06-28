@@ -2,7 +2,7 @@
 <article class="shell-card content-card strategy-signal-panel">
   <div class="section-heading tight-head trading-sign-head">
     <div>
-      <h3>{{ trading_sign.title or '매매 신호(전일 종가 기준)' }}</h3>
+      <h3>{{ trading_sign.title or '일간 관찰 신호(전일 종가 기준)' }}</h3>
       {% if trading_sign.description %}
       <p class="muted small">{{ trading_sign.description }}</p>
       {% endif %}
@@ -27,7 +27,7 @@
   {% if trading_sign.state_chips %}
   <div class="trading-sign-chip-row">
     {% for chip in trading_sign.state_chips %}
-    <span class="trading-sign-chip trading-sign-chip--{{ chip.tone }}">{{ chip.state }} {{ chip.count }}</span>
+    <span class="trading-sign-chip trading-sign-chip--{{ chip.tone }}">{{ chip.state_display }} {{ chip.count }}</span>
     {% endfor %}
   </div>
   {% endif %}
@@ -60,7 +60,7 @@
                 <p class="muted small">{{ row.ticker }}</p>
                 {% endif %}
               </td>
-              <td><span class="trading-sign-chip trading-sign-chip--{{ {'매수':'buy','보유':'hold','주의':'caution','매도':'sell','매수 대기':'wait'}.get(row.current_state,'wait') }} trading-sign-chip--inline">{{ row.current_state }}</span></td>
+              <td><span class="trading-sign-chip trading-sign-chip--{{ {'매수':'buy','보유':'hold','주의':'caution','매도':'sell','매수 대기':'wait'}.get(row.current_state,'wait') }} trading-sign-chip--inline">{{ row.current_state_display }}</span></td>
               <td>{{ row.reason_summary }}</td>
               <td>{{ row.latest_state_change_date }}</td>
             </tr>

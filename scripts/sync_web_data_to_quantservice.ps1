@@ -61,6 +61,18 @@ function Resolve-Gcloud {
     throw "gcloud not found"
 }
 
+function Resolve-Python {
+    $venvPython = Join-Path $QuantServiceRoot ".venv\Scripts\python.exe"
+    if (Test-Path -LiteralPath $venvPython) {
+        return $venvPython
+    }
+    $command = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -ne $command) {
+        return $command.Source
+    }
+    throw "python not found"
+}
+
 function Upload-GcsFile {
     param(
         [Parameter(Mandatory = $true)][string]$GcloudPath,
@@ -91,6 +103,13 @@ $copiedMarket = Copy-JsonDirectory -SourceDir $marketHandoffDir -DestinationDir 
 $copiedPortfolio = Copy-RequiredFile `
     -Source $portfolioSource `
     -Destination (Join-Path $servicePortfolioCurrentDir "investment_portfolio_latest.json")
+$python = Resolve-Python
+& $python "$PSScriptRoot\enrich_investment_portfolio_live.py" `
+    --portfolio-json $copiedPortfolio.FullName `
+    --db-path (Join-Path $QuantAnalysisRoot "analysis.db") | Out-Host
+if ($LASTEXITCODE -ne 0) {
+    throw "investment portfolio live enrichment failed"
+}
 $copiedTseries = Copy-RequiredFile `
     -Source (Join-Path $quantCurrentDir "quantservice_tseries_discovery.json") `
     -Destination (Join-Path $serviceTseriesCurrentDir "quantservice_tseries_discovery.json")
