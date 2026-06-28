@@ -1,7 +1,7 @@
 param(
     [string]$SourcePath = "D:\QuantService",
     [string]$BackupRoot = "D:\QuantBackup\QuantService",
-    [int]$KeepLatest = 14,
+    [int]$KeepLatest = 1,
     [switch]$Verify
 )
 
@@ -40,6 +40,11 @@ Assert-PathInside -Path $stagingPath -Root $BackupRoot
 Assert-PathInside -Path $zipPath -Root $BackupRoot
 
 Write-Log "Backup started. source=$SourcePath keep_latest=$KeepLatest verify=$Verify"
+
+if ($KeepLatest -ne 1) {
+    Write-Log "KeepLatest override ignored. requested=$KeepLatest enforced=1"
+    $KeepLatest = 1
+}
 
 if (Test-Path -LiteralPath $stagingPath) {
     Remove-Item -Recurse -Force -LiteralPath $stagingPath
